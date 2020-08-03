@@ -1,0 +1,62 @@
+<script type="text/javascript" src="../SiteAssets/js/datepicker1.js"></script>
+<script type="text/javascript" src="../SiteAssets/js/datepicker2.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Css/datepicker.css" />
+<script>
+	//ppmprod.bcone.com
+    var Start= new Date();
+    var Email="";
+    //$("#txtcrstartdate").datepicker("setDate", today);
+    $(function () {
+        $("#txtcrstartdate").datepicker();
+    });
+    var End= new Date();
+    //$("#txtcrEnddate").datepicker("setDate", today);
+    $(function () {
+        $("#txtcrEnddate").datepicker();
+    });
+    $(document).ready(function(){
+        getUser();
+        $("#btnsubmit").click(function(){
+            var StartDate=$("#txtcrstartdate").val();
+            var EndDate = $("#txtcrEnddate").val();
+            var finalurl = "";
+           // finalurl = document.getElementById("rptTimesheet").src = "https://ppmdev.bcone.com//ReportComplince.aspx?Login=" + Email + "&Start=" + StartDate + "&End=" + EndDate + "";
+	 finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//ReportComplince.aspx?Login=" + Email + "&Start=" + StartDate + "&End=" + EndDate + "";           
+            
+            return false;
+        });
+
+    })
+
+
+    function getUser() {
+        var userid = _spPageContextInfo.userId;
+        //alert(userid);
+
+        var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        var requestHeaders = { "accept": "application/json;odata=verbose" };
+        $.ajax({
+            url: requestUri,
+            contentType: "application/json;odata=verbose",
+            headers: requestHeaders,
+            success: onSuccess,
+            error: onError
+        }); function onSuccess(data, request) {
+            debugger;
+            var loginName = data.d.Title;
+            Email=data.d.Email
+            //alert(Email);
+        } function onError(error) {
+            alert("Error on retrieving current user.");
+        }
+    }
+
+
+</script>
+<table width="100%">
+<tr>
+<td>Start</td><td><input type="text" id="txtcrstartdate" class="txtbox" style="width: 50%;"></td>
+<td>End</td><td><input type="text" id="txtcrEnddate" class="txtbox" style="width: 50%;"></td></tr>
+<tr><td colspan="4"><input type="Submit" Value="Clickme!" id="btnsubmit"/></td></tr>
+<tr><td colspan="4">
+<iframe id="rptTimesheet" height="600" width="100%" ></iframe></td></tr>

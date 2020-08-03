@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+	<script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div class="breadcrumb-new">
+  <ul>
+    <li> <a href="../default.aspx">Home</a> </li>
+    <li> <a style="cursor:default;text-decoration:none; color: #272727;">View Profile</a> </li>
+    <li> <a style="cursor:default;text-decoration:none; color: #272727;">User</a> </li>
+  </ul>
+  <div class="clearfix"></div>
+</div>
+<!-----------Breadcrumb End---------->
+<div class="contain-div ">
+<div class="form-horizontal">
+<div class="col-sm-1" style="width:150px;padding-left:0">
+	<div class="user">
+    		<i class="fa fa-user" aria-hidden="true"></i>
+    </div>
+  </div> 
+  <table style="width:920px">
+  		<tr>
+        	<td width="20%"><b>Name</b></td>
+            <td><span id="tblName"></span></td>
+            <td width="20%"><b>Designation</b></td>
+            <td><span id="tblDesignation"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Employee ID</b></td>
+            <td><span id="tblEmployeeId"></span></td>
+            <td><b>Base Location</b></td>
+            <td><span id="tblBaseLocation"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Contact Number</b></td>
+            <td><span id="tblContactNumber"></span></td>
+            <td><b>Email ID</b></td>
+            <td><span id="tblEmailId"></span></td>
+        </tr>	
+  </table>
+  
+ <table style=""> 
+ 		<tr>
+ 			<th colspan="6" style="background:#00b0f0;color:#fff"><b>User Detalis</b> </th>
+  		</tr>
+        <tr>
+        	<td width="15%"><b>Role Band</b></td>
+            <td></td>
+            <td width="15%"><b>Base Location</b></td>
+            <td></td>
+            <td width="15%"><b>Entity</b></td>
+            <td></td>
+        </tr>
+        <tr>
+        	<td><b>Joining Date</b></td>
+            <td></td>
+            <td><b>Total Exp.</b></td>
+            <td></td>
+             <td><b>Highest Qual</b></td>
+              <td></td>
+        </tr>
+        <tr>
+        	<td><b>Certification Name</b></td>
+            <td></td>
+            <td><b>Certification Number</b></td>
+            <td></td>
+            <td><b>Certification Issued Date</b></td>
+              <td></td>
+        </tr>
+        <tr>
+        	<td><b>Certification Expiration Date</b></td>
+            <td></td>
+            <td><b>Training Name</b></td>
+            <td></td>
+            <td><b>Training Description</b></td>
+              <td></td>
+        </tr>
+        <tr>
+        	<td><b>Training Type</b></td>
+            <td></td>
+            <td><b>Training Duration</b></td>
+            <td></td>
+            <td><b>Training Completion Date</b></td>
+              <td></td>
+        </tr>	
+  </table> 
+  <br>
+  <table style=""> 
+ 		<tr>
+ 			<th colspan="6" style="background:#00b0f0;color:#fff"><b>Passport Deatils</b> </th>
+  		</tr>
+        <tr>
+        	<td width="5%"><b>Sno.</b></td>
+            <td width="15%"><b>Passport Country</b></td>
+            <td width="15%"><b>Passport Type</b></td>
+            <td width="10%"><b>Passport Issue Date</b></td>
+            <td width="10%"><b>Passport Expiration Date</b></td>
+            
+        </tr>
+        <tr>
+        	<td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+             <td></td>
+             
+        </tr>
+        	
+  </table>
+  <br>
+   <table id="UserVisa" class="display" style="table-layout: fixed; width: 100%">
+        </table>
+  <table style=""> 
+ 		<tr>
+ 			<th colspan="6" style="background:#00b0f0;color:#fff"><b>Passport Deatils</b> </th>
+  		</tr>
+        <tr>
+        	<td width="5%"><b>Sno.</b></td>
+            <td width="15%"><b>Visa Country</b></td>
+            <td width="15%"><b>Visa Type</b></td>
+            <td width="10%"><b>Visa Issue Date</b></td>
+            <td width="10%"><b>Visa Expiration Date</b></td>            
+        </tr>
+        <tr>
+        	<td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+             <td></td>
+             
+        </tr>
+        	
+  </table>  
+           
+  <div class="clearfix"></div>
+  </div>    
+  
+  
+</div>
+
+ <script>
+        var serviceUrl = "https://ppmdev.bcone.com/";
+        var EmployeeID = "";
+        var Email = "";
+        var imgurl = "";
+        var employeeNm = "";
+
+        $(document).ready(function () {
+
+            $.getJSON(_spPageContextInfo.webServerRelativeUrl + "/_api/web/currentuser")
+            .done(function (data) {
+                Email = data.Email;
+                imgurl = "https://outlook.office365.com/owa/service.svc/s/GetPersonaPhoto?email=" + Email + "&UA=0&size=HR64x64&sc=1500543524856";
+                $("#userImg").attr("src", imgurl);
+            });
+
+
+            var Parameters = getURLParameters("employeeID;employeename");
+            if (Parameters == "No Parameters Found") {
+                Parameters = getURLParameters("employeeid;employeename");
+            }
+
+            EmployeeID = Parameters[0]; //'1000000';
+            employeeNm = Parameters[1];    //'Executive PPM';
+            $("#liEmployeeName").text(employeeNm);
+            getResourceData()
+        });
+
+
+
+        function getResourceData() {
+			
+			destroyjs('#UserVisa');
+			var table_header = "<thead><tr>";
+            table_header = table_header + "<th style='width:7%'>Sno.</th>"
+            table_header = table_header + "<th style='width:10%'>Visa Country</th>"
+            table_header = table_header + "<th style='width:20%'>Visa Type</th>"
+            table_header = table_header + "<th style='width:9%'>Visa Issue Date</th>"
+            table_header = table_header + "<th style='width:8%'>Visa Expiration Date</th>"
+            table_header = table_header + "</tr></thead>";
+
+            table_header = table_header + "<tfoot><tr>";
+            table_header = table_header + "<th></th>"
+            table_header = table_header + "<th></th>"
+            table_header = table_header + "<th></th>"
+            table_header = table_header + "<th></th>"
+            table_header = table_header + "<th></th>"
+            table_header = table_header + " </tr></tfoot>";
+			
+            var url = serviceUrl + "_api/WorkdayResourceMaster('" + EmployeeID + "')";
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                data: {
+                    "EmployeeID": EmployeeID,
+                },
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function (data) {
+                    $('#tblName').val(employeeNm);
+                    $('#tblEmployeeId').val(data.d.results[0].EmployeeID);
+                    $('#tblDesignation').val(data.d.results[0].Designation);
+                    $('#tblBaseLocation').val(data.d.results[0].Location);
+					$('#tblContactNumber').val(data.d.results[0].Phone_Number);
+					$('#tblEmailId').val(data.d.results[0].Work_Email);
+					var RRFLIHTML = "<tbody>";
+					var i;
+					for (i=1;i<10;i++)
+					{
+					if(data.d.results[0].Visa1_country != "")
+					{
+					//var country = data.d.results[0].Visa+i+'_country';
+					var country = 'Visa'+i+'_country';
+					var cr = data.d.results[0]."'"+country+"'";
+					//RRFLIHTML = RRFLIHTML + "<tr id=" + i + "><td>"+data.d.results[0].Visa+i+_country+"</td><td>"+data.d.results[0].Visa+i+_Type+"</td><td>"+data.d.results[0].Visa+i+_IssuedDate+"</td><td>"+data.d.results[0].Visa+i+_ExpirationDate+"</td><td>"++"</td></tr>"
+					//RRFLIHTML = RRFLIHTML + "<tr id=" + i + "><td>"+data.d.results[0].country+"</td><td>"+data.d.results[0]."Visa"+i+"_Type"+"</td><td>"+data.d.results[0]."Visa"+i+"_IssuedDate"+"</td><td>"+data.d.results[0]."Visa"+i+"_ExpirationDate"+"</td></tr>"
+					}
+					else
+					{
+					break;
+					}
+					}
+                },
+                error: function (error) {
+                    result = 'error';
+                    console.log(JSON.stringify(error));
+                }
+
+            });
+
+        }
+		
+		
+		//Code to destroy jquery datatable 
+    function destroyjs(tableid) {
+        if ($.fn.dataTable.isDataTable(tableid)) {
+            $(tableid).DataTable({
+                "filter": false,
+                "destroy": true
+            });
+            $(tableid).DataTable().destroy();
+            //clear_tbody();
+            $(tableid).html("");
+            $(tableid + " tbody tr").remove();
+        }
+
+    }
+	 function getURLParameters(paramName) {
+            paramName = paramName.split(';');
+            var sURL = window.document.URL.toString();  //https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/ResourceProjectInformation.aspx?employeeID=null&employeename=Amit%20Agrawal
+            if (sURL.indexOf("?") > 0) {
+                var arrParams = sURL.split("?");
+                var arrURLParams = arrParams[1].split("&");
+                var arrParamNames = new Array(arrURLParams.length);
+                var arrParamValues = [];
+
+                var i = 0;
+                for (i = 0; i < arrURLParams.length; i++) {
+                    var sParam = arrURLParams[i].split("=");
+                    if (sParam[0] == paramName[i]) {
+                        if (sParam[1].indexOf('#') > 0) {
+                            var parameter = sParam[1].split('#');
+                            parameter = parameter[0];
+                            arrParamValues.push(unescape(parameter));
+                        } else {
+                            arrParamValues.push(unescape(sParam[1]));
+                        }
+                    }
+                }
+                return arrParamValues;
+
+            }
+        }
+</script>
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

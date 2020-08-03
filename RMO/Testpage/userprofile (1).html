@@ -1,0 +1,630 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> -->
+<!-- <title>RMO</title> -->
+<!-- <link rel="stylesheet" href="css/style.css"> -->
+<!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" href="css/dataTables.bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" href="css/font-awesome.css"> -->
+
+
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="Font Awesome, the iconic font and CSS framework">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/sumoselect.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/jquery.mCustomScrollbar.css">
+
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+    <script src="../_layouts/15/callout.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.sumoselect.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script>
+</head>
+<style>
+table {
+    width:100%;
+}
+table,  table .table_B  th,  table .table_B  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+table .table_B  th,  table .table_B  td {
+    padding: 5px;
+    text-align: left;
+}
+</style>
+<body>
+<div class="breadcrumb-new">
+  <ul>
+    <li> <a href="https://bristleconeonline.sharepoint.com/sites/ppmuat/default.aspx">Home</a> </li>
+    <li> <a style="cursor:default;text-decoration:none; color: #272727;">View Profile</a> </li>
+    <li> <a style="cursor:default;text-decoration:none; color: #272727;"><span id="Emp_name"> </span>User</a> </li>
+  </ul>
+  <div class="clearfix"></div>
+</div>
+<!-----------Breadcrumb End---------->
+<div class="contain-div ">
+<div class="form-horizontal">
+<div class="col-sm-1" style="width:150px;padding-left:0">
+	<div class="user" id="userImg">
+    		<!-- <i class="fa fa-user" aria-hidden="true"></i> -->
+    </div>
+  </div> 
+  <table style="width:920px">
+  		<tr>
+        	<td width="20%"><b>Name</b></td>
+            <td><span id="Name"></span></td>
+            <td width="20%"><b>Designation</b></td>
+            <td><span id="Designation"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Employe ID</b></td>
+            <td><span id ="Employee_ID"></span></td>
+            <td><b>Base Location</b></td>
+            <td><span id ="Base_Location"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Contact Number</b></td>
+            <td><span id ="Contact_Number"></span></td>
+            <td><b>Email ID</b></td>
+            <td><span id ="Email_ID"></span></td>
+        </tr>	
+  </table>
+  
+ <table class="table_B" style=""> 
+ 		<tr>
+ 			<th colspan="6" style="background:#00b0f0;color:#fff"><b>User Detalis</b> </th>
+  		</tr>
+        <tr>
+        	<td width="15%"><b>Role Band</b></td>
+            <td><span id="Role_Band"></span></td>
+            <td width="15%"><b>Base Location</b></td>
+            <td><span id="Base_Loc"></span></td>
+            <td width="15%"><b>Entity</b></td>
+            <td><span id="Entity"></span></td>
+        </tr>
+        <tr>
+			<td><b>Joining Date</b></td>
+			<td><span id="Joining_Date"></span></td>
+			<td><b>Total Exp.</b></td>
+			<td><span id="Total_Exp"></span></td>
+			<td><b>Highest Qual</b></td>
+			<td><span id="Highest_Qual"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Certification Name</b></td>
+            <td><span id="Certification_Name"></span></td>
+            <td><b>Certification Number</b></td>
+            <td><span id="Certification_Num"></span></td>
+            <td><b>Certification Issued Date</b></td>
+              <td><span id="Certification_Issue_Date"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Certification Expiration Date</b></td>
+            <td><span id="Certification_Expi_Date"></span></td>
+            <td><b>Training Name</b></td>
+            <td><span id="Training_Name"></span></td>
+            <td><b>Training Description</b></td>
+              <td><span id="Training_Description"></span></td>
+        </tr>
+        <tr>
+        	<td><b>Training Type</b></td>
+            <td><span id="Training_Type"></span></td>
+            <td><b>Training Duration</b></td>
+            <td><span id="Training_Duration"></span></td>
+            <td><b>Training Completion Date</b></td>
+            <td><span id="Training_Completion_Date"></span></td>
+        </tr>	
+  </table> 
+  <br>
+<!-- <table id="TablePassport" style="" > -->
+
+<!-- </table> -->
+
+  <table class="table_B" style="" > 
+ 		<tr>
+ 			<th colspan="6" style="background:#00b0f0;color:#fff"><b>Passport Deatils</b> </th>
+  		</tr>
+        <tr>
+        	<td width="5%"><b>Sno.</b></td>
+            <td width="15%"><b>Passport Country</b></td>
+            <td width="15%"><b>Passport Type</b></td>
+            <td width="10%"><b>Passport Issue Date</b></td>
+            <td width="10%"><b>Passport Expiration Date</b></td>
+            
+        </tr>
+        <tr id="Passport1">
+			<td><span id="Passport_1_Sno">1</span></td>
+			<td><span id="Passport_1_country"></span></td>
+			<td><span id="Passport_1_type"></span></td>
+			<td><span id="Passport_1_IssueDate"></span></td>
+			<td><span id="Passport_1_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Passport2">
+			<td><span id="Passport_2_Sno">2</span></td>
+			<td><span id="Passport_2_country"></span></td>
+			<td><span id="Passport_2_type"></span></td>
+			<td><span id="Passport_2_IssueDate"></span></td>
+			<td><span id="Passport_2_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Passport3">
+			<td><span id="Passport_3_Sno">3</span></td>
+			<td><span id="Passport_3_country"></span></td>
+			<td><span id="Passport_3_type"></span></td>
+			<td><span id="Passport_3_IssueDate"></span></td>
+			<td><span id="Passport_3_ExpirationDate"></span></td>
+        </tr>
+		
+  </table>
+  <br>
+  <table class="table_B" style=""> 
+ 		<tr>
+ 			<th colspan="6" style="background:#00b0f0;color:#fff"><b>Visa Deatils</b> </th>
+  		</tr>
+        <tr>
+        	<td width="5%"><b>Sno.</b></td>
+            <td width="15%"><b>Visa Country</b></td>
+            <td width="15%"><b>Visa Type</b></td>
+            <td width="10%"><b>Visa Issue Date</b></td>
+            <td width="10%"><b>Visa Expiration Date</b></td>
+            
+        </tr>
+        <tr id="Visa1">
+			<td><span id="Visa_1_Sno"></span></td>
+			<td><span id="Visa1_country"></span></td>
+			<td><span id="Visa1_Type"></span></td>
+			<td><span id="Visa1_IssuedDate"></span></td>
+			<td><span id="Visa1_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa2">
+			<td><span id="Visa_2_Sno"></span></td>
+			<td><span id="Visa2_country"></span></td>
+			<td><span id="Visa2_Type"></span></td>
+			<td><span id="Visa2_IssuedDate"></span></td>
+			<td><span id="Visa2_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa3">
+			<td><span id="Visa_3_Sno"></span></td>
+			<td><span id="Visa3_country"></span></td>
+			<td><span id="Visa3_Type"></span></td>
+			<td><span id="Visa3_IssuedDate"></span></td>
+			<td><span id="Visa3_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa4">
+			<td><span id="Visa_4_Sno"></span></td>
+			<td><span id="Visa4_country"></span></td>
+			<td><span id="Visa4_Type"></span></td>
+			<td><span id="Visa4_IssuedDate"></span></td>
+			<td><span id="Visa4_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa5">
+			<td><span id="Visa_5_Sno"></span></td>
+			<td><span id="Visa5_country"></span></td>
+			<td><span id="Visa5_Type"></span></td>
+			<td><span id="Visa5_IssuedDate"></span></td>
+			<td><span id="Visa5_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa6">
+			<td><span id="Visa_6_Sno"></span></td>
+			<td><span id="Visa6_country"></span></td>
+			<td><span id="Visa6_Type"></span></td>
+			<td><span id="Visa6_IssuedDate"></span></td>
+			<td><span id="Visa6_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa7">
+			<td><span id="Visa_7_Sno"></span></td>
+			<td><span id="Visa7_country"></span></td>
+			<td><span id="Visa7_Type"></span></td>
+			<td><span id="Visa7_IssuedDate"></span></td>
+			<td><span id="Visa7_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa8">
+			<td><span id="Visa_8_Sno"></span></td>
+			<td><span id="Visa8_country"></span></td>
+			<td><span id="Visa8_Type"></span></td>
+			<td><span id="Visa8_IssuedDate"></span></td>
+			<td><span id="Visa8_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa9">
+			<td><span id="Visa_9_Sno"></span></td>
+			<td><span id="Visa9_country"></span></td>
+			<td><span id="Visa9_Type"></span></td>
+			<td><span id="Visa9_IssuedDate"></span></td>
+			<td><span id="Visa9_ExpirationDate"></span></td>
+        </tr>
+		<tr id="Visa10">
+			<td><span id="Visa_10_Sno">1</span></td>
+			<td><span id="Visa10_country"></span></td>
+			<td><span id="Visa10_Type"></span></td>
+			<td><span id="Visa10_IssuedDate"></span></td>
+			<td><span id="Visa10_ExpirationDate"></span></td>
+        </tr>
+        	
+  </table>  
+           
+  <div class="clearfix"></div>
+  </div>    
+  
+  
+</div>
+ <script>
+        var serviceUrl = "https://ppmdev.bcone.com/";
+        var EmployeeID = "";
+        var Email = "";
+        var imgurl = "";
+        var employeeNm = "";
+		var PassportCount=0;
+		var VisaCount=0;
+		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		
+        $(document).ready(function () 
+		{
+			
+
+			//EmployeeID = "10254";
+			EmployeeID = "10254";
+            getResourceData();
+        });
+
+        function getResourceData() 
+		{
+            var url = serviceUrl + "_api/WorkdayResourceMaster('" + EmployeeID + "')";
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                data: {
+                    "EmployeeID": EmployeeID,
+                },
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function (data) 
+				{
+					var result = data.d.results;
+					$('#Name').text(result[0].First_Name +" "+result[0].Middle_Name+" "+result[0].Lat_Name);
+					$('#Designation').text(result[0].Designation);
+					$('#Employee_ID').text(result[0].EmployeeID);
+					$('#Base_Location').text(result[0].Location);
+					$('#Contact_Number').text(result[0].Phone_Number);
+					$('#Email_ID').text(result[0].Work_Email);
+					$('#Role_Band').text(result[0].Role_Band);
+					$('#Base_Loc').text(result[0].Location);
+					$('#Entity').text(result[0].Entity);
+					var HireDate=DateFomat(result[0].HireDate);
+					$('#Joining_Date').text(HireDate);
+					
+					$('#Total_Exp').text(result[0].Total_Exp);
+					$('#Highest_Qual').text("");
+					$('#Certification_Name').text(result[0].Certification_Name);
+					$('#Certification_Num').text(result[0].Certification_Number);
+					var Certification_Issue_Date=DateFomat(result[0].Certification_Issued_Date);
+					$('#Certification_Issue_Date').text(Certification_Issue_Date);
+					var Certification_Expi_Date=DateFomat(result[0].Certification_Expiration_Date);
+					$('#Certification_Expi_Date').text(Certification_Expi_Date);
+					$('#Training_Name').text(result[0].Training_Name);
+					$('#Training_Description').text(result[0].Training_Description);
+					$('#Training_Type').text(result[0].Training_Type);
+					$('#Training_Duration').text(result[0].Training_Duration);
+					var Training_Completion_Date=DateFomat(result[0].Training_Completion_Date);
+					$('#Training_Completion_Date').text(Training_Completion_Date);
+					
+					if(result[0].Passport_1_country != undefined)
+					{
+						if(result[0].Passport_1_country =="")
+						{
+							$("#Passport1").hide();
+						}
+						else
+						{
+							++PassportCount;
+							$('#Passport_1_Sno').text(PassportCount);
+							$('#Passport_1_country').text(result[0].Passport_1_country);
+							$('#Passport_1_type').text(result[0].Passport_1_type);
+							var Passport_1_IssueDate=DateFomat(result[0].Passport_1_IssueDate);
+							$('#Passport_1_IssueDate').text(Passport_1_IssueDate);
+							var Passport_1_ExpirationDate=DateFomat(result[0].Passport_1_ExpirationDate);
+							$('#Passport_1_ExpirationDate').text(Passport_1_ExpirationDate);
+						}
+					}else{
+						$("#Passport1").hide();
+					}
+					if(result[0].Passport_2_country != undefined)
+					{
+						if(result[0].Passport_2_country =="")
+						{
+							$("#Passport2").hide();
+						}
+						else
+						{
+							++PassportCount;
+							$('#Passport_2_Sno').text(PassportCount);
+							$('#Passport_2_country').text(result[0].Passport_2_country);
+							$('#Passport_2_type').text(result[0].Passport_2_type);
+							var Passport_2_IssueDate=DateFomat(result[0].Passport_2_IssueDate);
+							$('#Passport_2_IssueDate').text(Passport_2_IssueDate);
+							var Passport_2_ExpirationDate=DateFomat(result[0].Passport_2_ExpirationDate);
+							$('#Passport_2_ExpirationDate').text(Passport_2_ExpirationDate);
+						}
+					}else{
+						$("#Passport2").hide();
+					}
+					
+					if(result[0].Passport_3_country != undefined)
+					{
+						if(result[0].Passport_3_country =="")
+						{
+							$("#Passport3").hide();
+						}
+						else
+						{
+							++PassportCount;
+							$('#Passport_3_Sno').text(PassportCount);
+							$('#Passport_3_country').text(result[0].Passport_3_country);
+							$('#Passport_3_type').text(result[0].Passport_2_type);
+							var Passport_3_IssueDate=DateFomat(result[0].Passport_3_IssueDate);
+							$('#Passport_3_IssueDate').text(Passport_3_IssueDate);
+							var Passport_3_ExpirationDate=DateFomat(result[0].Passport_3_ExpirationDate);
+							$('#Passport_3_ExpirationDate').text(Passport_3_ExpirationDate);
+						}
+					}else{
+						$("#Passport3").hide();
+					}
+					
+					if(result[0].Visa1_country != undefined)
+					{
+						if(result[0].Visa1_country =="")
+						{
+							$("#Visa1").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_1_Sno').text(VisaCount);
+							$('#Visa1_country').text(result[0].Visa1_country);
+							$('#Visa1_Type').text(result[0].Visa1_Type);
+							var Visa1_IssuedDate=DateFomat(result[0].Visa1_IssuedDate);
+							$('#Visa1_IssuedDate').text(Visa1_IssuedDate);
+							var Visa1_ExpirationDate=DateFomat(result[0].Visa1_ExpirationDate);
+							$('#Visa1_ExpirationDate').text(Visa1_ExpirationDate);
+						}
+					}else{
+						$("#Visa1").hide();
+					}
+					
+					if(result[0].Visa2_country != undefined)
+					{
+						if(result[0].Visa2_country =="")
+						{
+							$("#Visa2").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_2_Sno').text(VisaCount);
+							$('#Visa2_country').text(result[0].Visa2_country);
+							$('#Visa2_Type').text(result[0].Visa2_Type);
+							var Visa2_IssuedDate=DateFomat(result[0].Visa2_IssuedDate);
+							$('#Visa2_IssuedDate').text(Visa2_IssuedDate);
+							var Visa2_ExpirationDate=DateFomat(result[0].Visa2_ExpirationDate);
+							$('#Visa2_ExpirationDate').text(Visa2_ExpirationDate);
+						}
+					}else{
+						$("#Visa2").hide();
+					}
+					if(result[0].Visa3_country != undefined)
+					{
+						if(result[0].Visa3_country =="")
+						{
+							$("#Visa3").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_3_Sno').text(VisaCount);
+							$('#Visa3_country').text(result[0].Visa3_country);
+							$('#Visa3_Type').text(result[0].Visa3_Type);
+							var Visa3_IssuedDate=DateFomat(result[0].Visa3_IssuedDate);
+							$('#Visa3_IssuedDate').text(Visa3_IssuedDate);
+							var Visa3_ExpirationDate=DateFomat(result[0].Visa3_ExpirationDate);
+							$('#Visa3_ExpirationDate').text(Visa3_ExpirationDate);
+						}
+					}else{
+						$("#Visa3").hide();
+					}
+					
+					if(result[0].Visa4_country != undefined)
+					{
+						if(result[0].Visa4_country =="")
+						{
+							$("#Visa4").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_4_Sno').text(VisaCount);
+							$('#Visa4_country').text(result[0].Visa4_country);
+							$('#Visa4_Type').text(result[0].Visa4_Type);
+							var Visa4_IssuedDate=DateFomat(result[0].Visa4_IssuedDate);
+							$('#Visa4_IssuedDate').text(Visa4_IssuedDate);
+							var Visa4_ExpirationDate=DateFomat(result[0].Visa4_ExpirationDate);
+							$('#Visa4_ExpirationDate').text(Visa4_ExpirationDate);
+						}
+					}else{
+						$("#Visa4").hide();
+					}
+					
+					if(result[0].Visa5_country != undefined)
+					{
+						if(result[0].Visa5_country =="")
+						{
+							$("#Visa5").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_5_Sno').text(VisaCount);
+							$('#Visa5_country').text(result[0].Visa5_country);
+							$('#Visa5_Type').text(result[0].Visa5_Type);
+							var Visa5_IssuedDate=DateFomat(result[0].Visa5_IssuedDate);
+							$('#Visa5_IssuedDate').text(Visa5_IssuedDate);
+							var Visa5_ExpirationDate=DateFomat(result[0].Visa5_ExpirationDate);
+							$('#Visa5_ExpirationDate').text(Visa5_ExpirationDate);
+						}
+					}else{
+						$("#Visa5").hide();
+					}
+					
+					if(result[0].Visa6_country != undefined)
+					{
+						if(result[0].Visa6_country =="")
+						{
+							$("#Visa6").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_6_Sno').text(VisaCount);
+							$('#Visa6_country').text(result[0].Visa6_country);
+							$('#Visa6_Type').text(result[0].Visa6_Type);
+							var Visa6_IssuedDate=DateFomat(result[0].Visa6_IssuedDate);
+							$('#Visa6_IssuedDate').text(Visa6_IssuedDate);
+							var Visa6_ExpirationDate=DateFomat(result[0].Visa6_ExpirationDate);
+							$('#Visa6_ExpirationDate').text(Visa6_ExpirationDate);
+						}
+					}else{
+						$("#Visa6").hide();
+					}
+					if(result[0].Visa7_country != undefined)
+					{
+						if(result[0].Visa7_country =="")
+						{
+							$("#Visa7").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_7_Sno').text(VisaCount);
+							$('#Visa7_country').text(result[0].Visa7_country);
+							$('#Visa7_Type').text(result[0].Visa7_Type);
+							var Visa7_IssuedDate=DateFomat(result[0].Visa7_IssuedDate);
+							$('#Visa1_IssuedDate').text(Visa7_IssuedDate);
+							var Visa7_ExpirationDate=DateFomat(result[0].Visa7_ExpirationDate);
+							$('#Visa7_ExpirationDate').text(Visa7_ExpirationDate);
+						}
+					}else{
+						$("#Visa7").hide();
+					}
+					
+					if(result[0].Visa8_country != undefined)
+					{
+						if(result[0].Visa8_country =="")
+						{
+							$("#Visa8").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_8_Sno').text(VisaCount);
+							$('#Visa8_country').text(result[0].Visa8_country);
+							$('#Visa8_Type').text(result[0].Visa8_Type);
+							var Visa8_IssuedDate=DateFomat(result[0].Visa8_IssuedDate);
+							$('#Visa8_IssuedDate').text(Visa8_IssuedDate);
+							var Visa8_ExpirationDate=DateFomat(result[0].Visa8_ExpirationDate);
+							$('#Visa8_ExpirationDate').text(Visa8_ExpirationDate);
+						}
+					}else{
+						$("#Visa8").hide();
+					}
+					if(result[0].Visa9_country != undefined)
+					{
+						if(result[0].Visa9_country =="")
+						{
+							$("#Visa9").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_9_Sno').text(VisaCount);
+							$('#Visa9_country').text(result[0].Visa9_country);
+							$('#Visa9_Type').text(result[0].Visa9_Type);
+							var Visa9_IssuedDate=DateFomat(result[0].Visa9_IssuedDate);
+							$('#Visa9_IssuedDate').text(Visa9_IssuedDate);
+							var Visa9_ExpirationDate=DateFomat(result[0].Visa9_ExpirationDate);
+							$('#Visa9_ExpirationDate').text(Visa9_ExpirationDate);
+						}
+					}else{
+						$("#Visa9").hide();
+					}
+					if(result[0].Visa10_country != undefined)
+					{
+						if(result[0].Visa10_country =="")
+						{
+							$("#Visa10").hide();
+						}
+						else
+						{
+							++VisaCount;
+							$('#Visa_10_Sno').text(VisaCount);
+							$('#Visa10_country').text(result[0].Visa10_country);
+							$('#Visa10_Type').text(result[0].Visa10_Type);
+							var Visa10_IssuedDate=DateFomat(result[0].Visa10_IssuedDate);
+							$('#Visa10_IssuedDate').text(Visa10_IssuedDate);
+							var Visa10_ExpirationDate=DateFomat(result[0].Visa10_ExpirationDate);
+							$('#Visa10_ExpirationDate').text(Visa10_ExpirationDate);
+						}
+					}else{
+						$("#Visa10").hide();
+					}
+					
+					
+					
+                },
+                error: function (error) {
+                    result = 'error';
+                    console.log(JSON.stringify(error));
+                }
+
+            });
+
+        }
+		
+		function DateFomat(Dates)
+		{
+			var Date_VAlue="";
+			var Return_DAte=new Date(Dates);
+			if(Return_DAte=="Invalid Date")
+			{
+				Date_VAlue="";
+			}
+			else
+			{
+				Date_VAlue = (("0" + Return_DAte.getDate()).slice(-2)+  "-" + monthNames[Return_DAte.getMonth()] +"-" + Return_DAte.getFullYear());
+			}
+			return Date_VAlue;
+		}
+
+</script>
+
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

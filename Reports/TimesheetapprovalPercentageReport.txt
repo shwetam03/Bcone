@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <!--<script type="text/javascript" src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/BconeExpenseJs/jquery.min.js"></script>-->
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/sumoselect1.css">
+    <script type="text/javascript" src="../SiteAssets/js/jquery.sumoselect.js"></script>
+    <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css">
+    <style>
+        .SumoSelect {
+            width: 100% !important;
+        }
+	#s4-ribbonrow{display:none}
+#sideNavBox,#SearchBox,.ms-breadcrumb-box{display:none}
+#contentBox{margin-right:0px !important;margin-left:0px !important;}
+    </style>
+    <script type="text/javascript">
+        var date = new Date();
+        var selectedFromYear, selectedFromMonth, selectedToYear, selectedToMonth, CountryName, selectedMissingMonth, selectedMissingYear, selectedDelayMonth, selectedDelayYear;
+        $(document).ready(function () {
+            $("#reporttype").hide();
+
+            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 2, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.test = $('.testsel').SumoSelect({ okCancelInMulti: true, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.testSelAll = $('.testSelAll').SumoSelect({ okCancelInMulti: true, selectAll: true });
+            window.testSelAlld = $('.SlectBox-grp').SumoSelect({ okCancelInMulti: true, selectAll: true });
+
+            window.testSelAll2 = $('.testSelAll2').SumoSelect({ csvDispCount: 2, search: true, searchText: 'Enter here.' });
+
+
+            window.Search = $('.search-box').SumoSelect({ csvDispCount: 2, search: true, searchText: 'Enter here.', selectAll: true });
+            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 2, selectAll: true, search: true, searchText: 'Enter here.', okCancelInMulti: true });
+            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 2, selectAll: true, search: false, searchText: 'Enter here.', up: true });
+
+            window.groups_eg_g = $('.groups_eg_g').SumoSelect({ selectAll: true, search: true });
+
+        });
+        function getFormate(Date) {
+
+            var year = Date.getFullYear();
+            var month = Date.getMonth();
+
+            var day = Date.getDate();
+            return parseInt(month) + 1 + "/" + day + "/" + year;
+        }
+    </script>
+
+
+
+    <style type="text/css">
+        body {
+            font-family: Verdana,Arial,sans-serif !important;
+            color: #444;
+            font-size: 13px;
+        }
+
+        p, div, ul, li {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .txt {
+            display: inline-block;
+            position: relative;
+            outline: none;
+            width: 160px;
+            height: 24px;
+            border-radius: 2px;
+            border: 1px solid #CCC;
+        }
+
+        input[type=text] {
+            color: #555 !important;
+        }
+
+        .combo {
+            /* width: 100%;
+            height: 28px;
+            border-radius: 2px;
+            border: 1px solid #CCC;*/
+        }
+
+        #s4-titlerow {
+            height: 40px !important;
+        }
+
+        #myModal .modal-body table tr td .form-control {
+            outline: none;
+            width: 100%;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 5px !important;
+        }
+
+        .form-table {
+            width: 100%;
+        }
+
+            .form-table tr td {
+                padding: 5px;
+                /*width: 25%;*/
+            }
+
+        .form-control {
+            border-radius: 0px;
+            border-color: #ccc !important;
+        }
+
+        .SumoSelect {
+            border-radius: 0px;
+            border-color: #ccc !important;
+        }
+
+            .SumoSelect > .CaptionCont {
+                border-radius: 0px;
+                border-color: #ccc !important;
+            }
+
+            .SumoSelect > .optWrapper > .options li.opt label {
+                font-weight: normal;
+            }
+
+            .SumoSelect .select-all {
+                padding: 6px 0 4px 35px;
+                height: auto;
+            }
+
+                .SumoSelect .select-all label {
+                    font-weight: normal;
+                }
+
+        .ui-datepicker-calendar thead tr th {
+            background: #00b0f0;
+            color: #fff;
+        }
+
+        .SumoSelect > .CaptionCont > span.placeholder {
+            font-style: normal;
+        }
+
+        table.ms-core-tableNoSpace {
+            display: table !important;
+            width: 100%;
+        }
+
+        .right-icon {
+            cursor: pointer !important;
+        }
+
+        img.ui-datepicker-trigger {
+            position: absolute;
+            top: 27px;
+            right: 8px;
+            z-index: 9;
+            cursor: pointer !important;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .SelectBox {
+            padding: 6px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-table" id="tblTimesheetDump" style="display: none">
+        <div class="container-fluid">
+            <div class="breadcrumb-main">
+                <div class="container-fluid">
+                    <ul>
+                        <li>
+                            <a href="https://bristleconeonline.sharepoint.com/sites/PWA/default.aspx">Home</a>
+                        </li>
+                        <li>Timesheet Approval Report
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="form-table" id="Div1">
+                <div style="float: left; margin-right: 10px;">
+                  
+
+                    <select id="reporttype" style="width: 100% !important;"  name="somename" class="selectbox4" onclick="console.log($(this).val())" onchange="changeReportType()">
+                        
+                        <option value="No">Timesheet Dump</option>
+                        <option value="Yes">Utilization Report</option>
+                        <option value="TimeSheetMissing">TimeSheet Missing</option>
+                        <option value="TimeSheetDelay" selected>Timesheet Delay</option>
+                        <option value="TimeSheetConsolidated">TimeSheet Missing/Consolidated</option>
+                    </select>
+                </div>
+                <div style="width: 19%; display: none; position: relative; margin-right: 10px; float: left" id="TimesheetMissingMonth1">
+                    Month<br>
+                    <input type="text" id="TimesheetMissingMonth" class="form-control">
+                    <!-- <span class="right-icon">
+                            <i class="fa fa-calendar" id="i1" style="cursor: pointer;"></i>
+                        </span> -->
+                </div>
+
+                <div style="width: 19%;  position: relative; margin-right: 10px; float: left" id="TimesheetDelaygMonth1">
+                    Month<br>
+                    <input type="text" id="TimesheetDelaygMonth" class="form-control">
+                    <!-- <span class="right-icon">
+                            <i class="fa fa-calendar" id="i1" style="cursor: pointer;"></i>
+                        </span> -->
+                </div>
+            </div>
+           
+            <div style="width: 19%; display: none; position: relative; margin-right: 10px; float: left" id="DeligateFromDate1">
+                TS From Date
+                        <br>
+                <input type="text" id="DeligateFromDate" class="form-control">
+                <!-- <span class="right-icon">
+                            <i class="fa fa-calendar" id="iconcalender" style="cursor: pointer;"></i>
+                        </span> -->
+            </div>
+            <div style="width: 19%; position: relative; display: none; margin-right: 10px; float: left" id="DeligateToDate1">
+                TS To Date
+                        <br>
+                <input type="text" id="DeligateToDate" class="form-control">
+                <!-- <span class="right-icon">
+                            <i class="fa fa-calendar" id="i1" style="cursor: pointer;"></i>
+                        </span> -->
+            </div>
+            <div style="width: 19%; display: none; position: relative; margin-right: 10px; float: left" id="selCountry1">
+                Country Legal   
+                        <br>
+                <select id="selCountry" multiple="multiple" class="search-box" style="width: 100% !important;">
+                </select>
+            </div>
+            <div style="width: 19%; display: none; position: relative; margin-right: 10px; float: left" id="selStatus1">
+                TS Status
+                        <br>
+                <select id="selStatus" multiple="multiple" class="search-box" style="width: 100% !important;">
+                    <option selected>OPEN</option>
+                    <option selected>SUBMITTED</option>
+                    <option selected>APPROVED</option>
+                    <option selected>REJECTED</option>
+                </select>
+            </div>
+
+            <div style="width: 19%; float: left; margin-right: 10px;" id="sel_Periods" >
+                    Periods
+                    <br>
+
+                    <select id="ddlSelectePeriods" style="width: 100% !important;" name="somename"  onclick="console.log($(this).val())" class="form-control">
+                        
+                       
+                    </select>
+                </div>
+
+
+            <br />
+            <div class="clear"></div>
+            <span>&nbsp;</span><br>
+            <!-- <input type="button" value="Generate"  name="btnGenrate"/>    -->
+            <a href="javascript:void(0)" class="blue-btn" name="btnGenrate"><i class="fa fa-sticky-note"></i>Generate Report</a>
+            <!-- <input type="button" value="Clear"  name="btnClear"/> -->
+            <a href="javascript:void(0)" class="blue-btn" name="btnClear"><i class="fa fa-remove"></i>Clear</a><br>
+            <span id="" style="color: red"></span>
+
+            <div id="errMessage" class="alert-main" style="display: none;">
+                <div class="black-bg" id="backcolor">
+                    <div class="popup-main">
+                        <div class="popup-heading"><span id="Alert_msg">Please Select At-least One Expense To Reset</span></div>
+                        <div class="pop-mid">
+                            <p id="submitValue"></p>
+                            <input type="Button" class="divnewbtn" value="OK" id="ok_click1" onclick="close_div('')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="loader" style="display: none;"></div>
+
+           
+            <iframe id="rptTimesheet" height="900px" width="100%"></iframe>
+        </div>
+
+    </div>
+
+    <script>
+        var url = "";
+        var requestData;
+
+
+        var Email = "";
+
+        function getUser() {
+            var userid = _spPageContextInfo.userId;
+            var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+            var requestHeaders = { "accept": "application/json;odata=verbose" };
+            $.ajax({
+                url: requestUri,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            }); function onSuccess(data, request) {
+
+                var loginName = data.d.Title;
+                Email = data.d.Email
+                $('#login_name_contain').html(loginName)
+                //alert(Email);
+            } function onError(error) {
+                alert("Error on retrieving current user.");
+            }
+        }
+        $(function () {
+            $('.selectbox4').SumoSelect();
+            getUser();
+            bindProjectData();
+
+
+            var date = new Date();
+            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+            $("#DeligateFromDate").datepicker({
+                dateFormat: 'dd-M-y',
+                changeMonth: true,
+                buttonImage: "../SiteAssets/BconeExpenseImg/calendar.png",
+                showOn: "both",
+                buttonImageOnly: true,
+                changeYear: true,
+                onSelect: function (selected) {
+                    $("#DeligateToDate").datepicker("option", "minDate", selected);
+                    var date = $(this).datepicker('getDate'),
+                      day = date.getDate(),
+                     month = date.getMonth() + 1,
+                     year = date.getFullYear();
+                    selectedFromYear = month + '/' + day + '/' + year;
+                }
+            }).datepicker('setDate', firstDay);
+
+            $("#DeligateToDate").datepicker({
+                //dateFormat: 'yy-mm-dd',
+                dateFormat: 'dd-M-y',
+                buttonImage: "../SiteAssets/BconeExpenseImg/calendar.png",
+                showOn: "both",
+                buttonImageOnly: true,
+                changeMonth: true,
+                changeYear: true,
+                onSelect: function (selected) {
+                    $("#DeligateFromDate").datepicker("option", "maxDate", selected)
+                    var date = $(this).datepicker('getDate'),
+                    day = date.getDate(),
+                   month = date.getMonth() + 1,
+                   year = date.getFullYear();
+                    selectedToYear = month + '/' + day + '/' + year;
+                }
+            }).datepicker('setDate', lastDay);
+
+
+
+            $("#TimesheetMissingMonth").datepicker({
+                dateFormat: 'M-y',
+                changeMonth: true,
+                buttonImage: "../SiteAssets/BconeExpenseImg/calendar.png",
+                showOn: "both",
+                buttonImageOnly: true,
+                changeYear: true,
+                onSelect: function (selected) {
+                    //$("#DeligateToDate").datepicker("option", "minDate", selected);
+                    var array = selected.split("-");
+                    var months = {
+                        'Jan': '1',
+                        'Feb': '2',
+                        'Mar': '3',
+                        'Apr': '4',
+                        'May': '5',
+                        'Jun': '6',
+                        'Jul': '7',
+                        'Aug': '8',
+                        'Sep': '9',
+                        'Oct': '10',
+                        'Nov': '11',
+                        'Dec': '12'
+                    }
+
+
+                    var date = $(this).datepicker('getDate'),
+                      day = date.getDate(),
+                     month = date.getMonth() + 1,
+                     year = date.getFullYear();
+                    // selectedMissingMonth = month + '/' + year;
+                    selectedMissingMonth = month;
+                    selectedMissingYear = year;
+                }
+            }).datepicker('setDate', firstDay);;
+
+
+            selectedToYear = getFormate(lastDay)
+            selectedFromYear = getFormate(firstDay)
+
+
+            $("#TimesheetDelaygMonth").datepicker({
+                dateFormat: 'M-y',
+                changeMonth: true,
+                buttonImage: "../SiteAssets/BconeExpenseImg/calendar.png",
+                showOn: "both",
+                buttonImageOnly: true,
+                changeYear: true,
+                onSelect: function (selected) {
+                    //$("#DeligateToDate").datepicker("option", "minDate", selected);
+
+                    var array = selected.split("-");
+                    var months = {
+                        'Jan': '1',
+                        'Feb': '2',
+                        'Mar': '3',
+                        'Apr': '4',
+                        'May': '5',
+                        'Jun': '6',
+                        'Jul': '7',
+                        'Aug': '8',
+                        'Sep': '9',
+                        'Oct': '10',
+                        'Nov': '11',
+                        'Dec': '12'
+                    }
+
+                    var monthNumber = months[array[0]];
+
+                    var date = $(this).datepicker('getDate'),
+                      day = date.getDate(),
+                     month = date.getMonth() + 1,
+                     year = date.getFullYear();
+                    // selectedMissingMonth = month + '/' + year;
+                    selectedDelayMonth = month;
+                    selectedDelayYear = year;
+
+
+                    bindPeriods(year, monthNumber, day);
+
+
+                }
+            }).datepicker('setDate', firstDay);;
+
+            bindPeriods($('.ui-datepicker-year').val(), parseFloat($('.ui-datepicker-month').val()) + 1, 1);
+
+        });
+
+        function bindPeriods(year, month, day) {
+
+
+            var url = "https://ppmprod.bcone.com/api/bconeReport/GetAllPeriodByMonth";
+
+            requestData = {
+                "Date": year + "-" + month + "-" + day,
+                //"UserID": Email
+            };
+
+            $('#ddlSelectePeriods')
+                  .find('option')
+                     .remove()
+                      .end()
+                        .append('<option value="Select" selected>Select</option>');
+
+
+
+            $.ajax({
+                url: url,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                data: requestData,
+                // contentType: "application/json; charset=utf-8",
+                // url: "Dashboard.aspx/getChartData",
+                success: function (res) {
+                    //  alert(res + " dfg")
+                    var a = res;
+                    var len = res.Data.length;
+                    for (var i = 0; i < len ; i++) {
+                        $('#ddlSelectePeriods').append('<option  value="' + res.Data[i].PeriodId + '">' + res.Data[i].PeriodName + '</option>')
+                    }
+                    return false;
+                    //$('#selCountry')[0].sumo.enable(); // Enable the SUMO SELECT 
+                    //$('#selCountry')[0].sumo.reload();
+                }
+
+            });
+        }
+
+
+        window.onload = getUser();
+        function bindProjectData() {
+
+            var NewElementCollection;
+
+
+
+            url = "https://ppmprod.bcone.com/api/bconeReport/GetCountryLeagleName";
+            //url = "http://localhost:6851/api/bconeReport/GetCountryLeagleName";
+
+
+
+            //var requestedData1 = getRequestToData(NewElementCollection);
+            // var email=getuser()
+            //var ID = "";
+            //requestData = {
+            //    "ID": requestedData1.ID,
+            //    "UserID": Email
+            //};
+
+
+
+            $.ajax({
+                url: url,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                // data: requestData,
+                // contentType: "application/json; charset=utf-8",
+                // url: "Dashboard.aspx/getChartData",
+                success: function (res) {
+                    //  alert(res + " dfg")
+                    var a = res;
+                    var len = res.Country.length;
+                    for (var i = 0; i < len ; i++) {
+                        $('#selCountry').append('<option selected value="' + res.Country[i].CountryLegal + '">' + res.Country[i].CountryLegal + '</option>')
+                    }
+                    $('#selCountry')[0].sumo.enable(); // Enable the SUMO SELECT 
+                    $('#selCountry')[0].sumo.reload();
+                }
+
+            });
+        }
+
+        $('[name="btnGenrate"]').click(function () {
+
+            var reporttype = $("#reporttype option:selected").val();
+
+            if (reporttype == "Select") {
+                $('#Alert_msg').html("Please Select Report Type");
+                $("#errMessage").css("display", "block");
+                return false;
+            }
+            else {
+
+                if (reporttype == "TimeSheetMissing") {
+
+                    var len = $('#selCountry :selected').length
+
+                    if ($('#TimesheetMissingMonth').val() == "" || $('#TimesheetMissingMonth').val() == "") {
+                        $('#Alert_msg').html("Please Select Month");
+                        $("#errMessage").css("display", "block");
+                        return false;
+                    }
+                    else if (len <= 0) {
+                        $('#Alert_msg').html("Please Select Country");
+                        $("#errMessage").css("display", "block");
+                        return false;
+                    }
+
+
+                    $('.loader').css("display", "block")
+                    var finalurl = "";
+                    getUser();
+                    var selCountry = $('#selCountry :selected');
+                    var seprator = ',', CountryName = '', status = '';
+                    selCountry.each(function (index, item) {
+                        CountryName += seprator + $(item).val();
+                    });
+
+                    CountryName = CountryName + ",";
+
+
+                    finalurl = "";
+                    var month = parseInt($('.ui-datepicker-month').val()) + 1;
+
+                    finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//TimeSheetMissing.aspx?login=" + Email + "&month=" + month + "&year=" + $('.ui-datepicker-year').val() + "&CountryLegal=" + CountryName;
+                    //finalurl = document.getElementById("rptTimesheet").src = "http://localhost:6851/TimesheetDump.aspx?StartDate=" + selectedFromYear + "&EndDate=" + selectedToYear + "&CountryLegal=" + CountryName + "&ReportStatus=" + status + "&Login=Ravi"// + Email;
+                    //finalurl = document.getElementById("rptTimesheet").src = "https://ppmdev.bcone.com//test.aspx";
+                    $('.loader').css("display", "none")
+
+
+
+                }
+                else if (reporttype == "TimeSheetDelay" || reporttype == "TimeSheetConsolidated") {
+                    var Period = $('#ddlSelectePeriods').val();
+                    if (Period == "Select") {
+
+                        $('#Alert_msg').html("Please Select Period");
+                        $("#errMessage").css("display", "block");
+                        return false;
+                    }
+                    else if (reporttype == "TimeSheetDelay") {
+                        finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//TimesheetApprovalPercent.aspx?login=" + Email + "&PeriodUID=" + Period;
+                        return false;
+                    }
+                    else if (reporttype == "TimeSheetConsolidated") {
+                        finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//TimesheetApprovalPercent.aspx?login=" + Email + "&PeriodUID=" + Period;
+                        return false;
+
+                    }
+                }
+                else if (reporttype == "TimeSheetConsolidated") {
+                    $('#TimeSheetConsolidated').css("display", "block");
+                    return false;
+                }
+                else {
+                    var len = $('#selCountry :selected').length
+                    var len1 = $('#selStatus :selected').length;
+                    if ($('#DeligateFromDate').val() == "" || $('#DeligateToDate').val() == "") {
+                        $('#Alert_msg').html("Please Select Date");
+                        $("#errMessage").css("display", "block");
+                        return false;
+                    }
+                    else if (len <= 0) {
+                        $('#Alert_msg').html("Please Select Country");
+                        $("#errMessage").css("display", "block");
+                        return false;
+                    }
+                    else if (len1 <= 0) {
+                        $('#Alert_msg').html("Please Select TS Status");
+                        $("#errMessage").css("display", "block");
+                        return false;
+                    }
+                    else {
+                        $("#errMessage").css("display", "none");
+
+                    }
+                    $('.loader').css("display", "block")
+                    var finalurl = "";
+                    getUser();
+                    var selCountry = $('#selCountry :selected');
+                    var seprator = ',', CountryName = '', status = '';
+                    selCountry.each(function (index, item) {
+                        CountryName += seprator + $(item).val();
+                    });
+
+                    CountryName = CountryName + ",";
+
+                    var selStatus = $('#selStatus :selected');
+                    selStatus.each(function (index, item) {
+                        status += seprator + $(item).val();
+                    });
+                    status = status + ",";
+
+                    finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//TimesheetDump.aspx?StartDate=" + selectedFromYear + "&EndDate=" + selectedToYear + "&CountryLegal=" + CountryName + "&ReportStatus=" + status + "&Login=" + Email + "&reporttype=" + $("#reporttype option:selected").val();;
+                    //finalurl = document.getElementById("rptTimesheet").src = "http://localhost:6851/TimesheetDump.aspx?StartDate=" + selectedFromYear + "&EndDate=" + selectedToYear + "&CountryLegal=" + CountryName + "&ReportStatus=" + status + "&Login=Ravi"// + Email;
+                    //finalurl = document.getElementById("rptTimesheet").src = "https://ppmdev.bcone.com//test.aspx";
+                    $('.loader').css("display", "none")
+
+                    return false;
+                }
+            }
+        });
+
+        function abc() {
+            alert();
+        }
+        $('[name=\'btnClear\']').click(function () {
+
+            //$('#selCountry')[0].sumo.unSelectAll();
+            //$('#selStatus')[0].sumo.unSelectAll();
+            //$('input[type="text"]').val('');
+            //$("#selStatus").val('All')
+            $('#reporttype').val('Select');
+
+            $('#reporttype')[0].sumo.enable(); // Enable the SUMO SELECT 
+            $('#reporttype')[0].sumo.reload();
+
+            hideshow("clear");
+            $('#errMessage').html('');
+
+            $('#rptTimesheet').attr('src', '');
+
+        });
+
+        setTimeout(function () {
+            $('#tblTimesheetDump').css("display", "table");
+            /*$('img.ui-datepicker-trigger').addClass('right-icon');*/
+        }, 1000);
+        function close_div() {
+            $("#errMessage").css("display", "none");
+        }
+
+        function changeReportType() {
+            $('#TimeSheetConsolidated').css("display", "none");
+            $('#rptTimesheet').attr('src', '');
+            var reporttype = $("#reporttype option:selected").val();
+            if (reporttype == "Select") {
+                $('#Alert_msg').html("Please Select Report Type");
+                $("#errMessage").css("display", "block");
+                return false;
+            }
+            else if (reporttype == "TimeSheetMissing") {
+                hideshow(reporttype);
+
+            }
+            else {
+                hideshow(reporttype);
+            }
+        }
+
+        function hideshow(reporttype) {
+
+            if (reporttype == "TimeSheetMissing") {
+
+                $('#selCountry1,#TimesheetMissingMonth1').css("display", "block");
+                $('#DeligateToDate1,#DeligateFromDate1,#selStatus1,#sel_Periods,#TimesheetDelaygMonth1').css("display", "none");
+
+            }
+            else if (reporttype == "TimeSheetDelay" || reporttype == "TimeSheetConsolidated") {
+                $('#selCountry1,#TimesheetMissingMonth1,#DeligateToDate1,#DeligateFromDate1,#selStatus1').css("display", "none");
+                $('#sel_Periods,#TimesheetDelaygMonth1').css("display", "block");
+            }
+
+            else if (reporttype == "clear") {
+                $('#selCountry1,#TimesheetMissingMonth1,#DeligateToDate1,#DeligateFromDate1,#selStatus1').css("display", "none");
+
+            }
+            else {
+                $('#selCountry1,#DeligateToDate1,#DeligateFromDate1,#selStatus1').css("display", "block");
+                $('#TimesheetMissingMonth1,#sel_Periods,#TimesheetDelaygMonth1').css("display", "none");
+
+            }
+        }
+$(document).ready(function() {
+        document.title = 'Timesheet Approval Report';
+    });
+    </script>
+</body>
+</html>

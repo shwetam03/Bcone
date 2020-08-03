@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript">
+    $.widget.bridge('uitooltip', $.ui.tooltip);
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<style>
+    #s4-ribbonrow
+    {
+        display: none;
+    }
+
+    #siteIcon
+    {
+        position: relative;
+        border-right: 0px !important;
+        line-height: -1;
+        height: auto;
+        margin: 0;
+        padding-right: 20px;
+    }
+
+    #s4-titlerow
+    {
+        height: 50px !important;
+    }
+
+    #siteIcon::after
+    {
+        display: none;
+    }
+
+    #log
+    {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #log td, #log th
+        {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+
+    #sideNavBox
+    {
+        Display: none !important;
+        width: 0px !important;
+        margin: 0px !important;
+    }
+
+    #contentBox
+    {
+        margin-left: 0px !important;
+    }
+
+    .static
+    {
+        Display: none !important;
+    }
+
+    #DeltaPlaceHolderPageTitleInTitleArea
+    {
+        Display: none !important;
+    }
+
+    #RibbonContainer
+    {
+        Display: none !important;
+    }
+
+    #ctl00_PlaceHolderSearchArea_ctl01_SmallSearchInputBox1_csr
+    {
+        Display: none !important;
+    }
+
+
+
+    #DeltaTopNavigation
+    {
+        display: none;
+    }
+
+    .mid-top .top-btns
+    {
+        margin-right: 10px;
+    }
+
+    .tooltip
+    {
+        width: 200px !important;
+        word-wrap: break-word !important;
+    }
+</style>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+<div class="container-fluid">
+    <div class="breadcrumb-main">
+        <div class="container-fluid">
+            <ul>
+                <li>
+                    <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" onclick="URLGetTimesheetSummary();">Client Partner Approval</a>
+                </li>
+                <li>Approval History
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="mid-main">
+    <div class="mid-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    
+                </div>
+                <div class="col-md-6">
+                    <div>
+
+                        <ul class="top-btns" style="margin-right: 10px;">
+                            <li>
+                                <a href="javascript:void(0)" id="allCurrentData" onclick="createstatusSummaryTable('All')">
+                                    <i class="fa fa-flag-o"></i>All Records
+									<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="javascript:void(0)" id="btnAppovedCount" onclick="createstatusSummaryTable('Approved')">
+                                    <i class="fa fa-check"></i>Approved
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnRejectCount" onclick="createstatusSummaryTable('Rejected')">
+                                    <i class="fa fa-ban"></i>Rejected
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mid-block">
+        <div class="container-fluid">
+            <!--<table class="table-bordered table-new" id="approverPeriodSummary" style="table-layout: auto !important; width:100%; display:none;">
+                <thead>
+                    <tr>
+						<th class="action">Action</th>
+                        <th class="projectName">File Name</th>
+                        <th class="clsPrjtName">Project Name</th>
+                        <th class="ResourceName">Project Manager</th>
+                        <th class="Total">Updated By</th>
+						<th class="submittedDate">Submitted <br> Date</th>
+						<th class="clsApproveReject">Approved Date</th>
+						<th class="hidesAP clsStatus">Status</th>
+						
+                    </tr>
+                </thead>
+				<tfoot>
+					<tr>
+						<th></th>
+                        <th>File Name</th>
+                        <th>Project Name</th>
+                        <th>Project Manager</th>
+                        <th>Updated By</th>
+						<th>Submitted Date</th>
+						<th class="clsApproveReject">Approved Date</th>
+						<th  class="hidesAP">Status</th>
+						
+                    </tr>
+				</tfoot>
+                <tbody id="tblPeriodBody">
+                </tbody>
+            </table>-->
+
+
+
+            <table id="StatusWiseSummary" class="table-bordered table-new" style="table-layout: auto !important; display: none;">
+                <thead>
+                    <tr>
+
+                        <th class="clsOperation">Action</th>
+                        <th>S.No</th>
+                        <th>Period</th>
+                        <th>File Name</th>
+                        <th>Project Name</th>
+                        <!-- <th>Created Date</th>-->
+                        <th class="clsSubmitted">Submitted By</th>
+                        <th class="clsSubmitted">Submitted On</th>
+                        <th>Status</th>
+                        <th class="clsApproved">Approved On</th>
+                        <th class="clsApproved">Approved By</th>
+                        <th class="clsApproved">Pending</th>
+                        <th class="clsRejected">Rejected On</th>
+                        <th class="clsRejected">Rejected By</th>
+                        <th class="clsRejected">Comment</th>
+
+                        <th>Log</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="clsOperation"></th>   
+                        <th></th>
+                        <th>Period</th>
+                        <th>File Name</th>
+                        <th>Project Name</th>
+                       <!-- <th>Created Date</th>-->
+                        <th class="clsSubmitted">Submitted By</th>
+                        <th class="clsSubmitted">Submitted On</th>                       
+                        <th>Status</th>
+                        <th class="clsApproved">Approved On</th>
+                        <th class="clsApproved">Approved By</th>
+                        <th class="clsApproved">Pending</th>
+                        <th class="clsRejected">Rejected On</th>
+                        <th class="clsRejected">Rejected By</th>
+                        <th class="clsRejected">Comment</th>
+                     
+                        <th>Log</th>
+
+                    </tr>
+
+                </tfoot>
+                <tbody id="tblStatusWiseSummary">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="black-bg alert-main" style="display: none;" id="OKPopup">
+    <div class="popup-main">
+        <div class="popup-heading"><span id="okPopupMsg"></span></div>
+        <div class="pop-mid">
+            <input type="hidden" id="isPagerefresh"></span>
+			<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />
+        </div>
+    </div>
+</div>
+
+<div class="black-bg alert-main" id="yesNoPopup" style="display: none;">
+    <div class="popup-main">
+        <div class="popup-heading" style="margin-bottom: 15px;"><span id="yesNoPopupMsg"></span></div>
+        <label id="TillDateOfOpen" hidden><font style="margin-left: -28px;">Till Date :</font></label>
+        <input type="text" id="TxtTillData" hidden placeholder="Till Date" style="width: 120px" readonly />
+        </br><label id="Fillerror" style="text-align: center; font-weight: normal;"><font color="red" style="margin-left: 27px;">Select Till Date</font></label>
+        <div class="pop-mid">
+            <input type="Button" class="divnewbtn" id="btnYes" value="YES" />
+            <input type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')" value="NO" />
+        </div>
+    </div>
+</div>
+<span id="loading-image"></span>
+<!-- Log Pop up -->
+<div class="allcommentdiv">
+    <div class="allcommentdiv-heading" style="background: rgb(51,122,183);">
+        <span id="LogResource"></span>
+    </div>
+    <div class="allcommentdiv-mid">
+        <h3><span id="LogId"></span></h3>
+        <div class="vertical-scoll">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 150px; background: #00b0f0 !important;">Date</th>
+                        <th style="width: 100px; background: #00b0f0 !important;">Action By</th>
+                        <th style="width: 80px; background: #00b0f0 !important;">Action</th>
+                        <th style="background: #00b0f0 !important;">Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="bindlog">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="allcommentdiv-foot">
+        <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="divLogTable" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width: 100%; text-align: center">
+            <div class="modal-header" style="background-color: #0072c6; padding: 7px !important;">
+                <h4 class="modal-title" id="LogHeader" style="color: white;text-align: left;margin-left: 10px;">LOG</h4>
+            </div>
+            <div class="modal-footer" style="text-align: center">
+                <table id="log">
+                    <tr style="background-color: #00b0f0">
+                        <th>Date</th>
+                        <th>Actor</th>
+                        <th>Action</th>
+                        <th>Comment</th>
+                    </tr>
+                    <tbody id="tblLogRow">
+                    </tbody>
+
+
+                </table>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white; margin-top: 10px;">OK</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Log Pop up -->
+<script>
+    var APILink = "https://ppmprod.bcone.com";
+    var PageLink = "https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/";
+
+    var summaryTable = "";
+    var GetPeriodsUrls = "";
+    monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    $(document).ready(function () {
+
+        GetCPShiftAllowanceData();
+        createstatusSummaryTable("All");
+
+        $('.top-btns li').click(function () {
+            $(this).addClass('green-btn').siblings().removeClass('green-btn');
+        });
+
+        $("#allCurrentData").parent('li').addClass('green-btn');
+    });
+
+    function hideshow(status,table) {
+
+        if (status == "All") {
+            //$('.clsRejected').hide();
+            //$('.clsApproved').hide();
+            //$('.clsSubmitted').show();
+            //$('.clsOperation').hide();
+
+            table.column(0).visible(false); //clsOperation               
+            table.column(5).visible(true); //clsSubmited          
+            table.column(6).visible(true);//clsSubmited
+            table.column(8).visible(false);//clsApproved
+            table.column(9).visible(false);//clsApproved
+            table.column(10).visible(false);//clsApproved
+            table.column(11).visible(false);//clsRejected
+            table.column(12).visible(false);//clsRejected
+            table.column(13).visible(false);//clsRejected
+        }
+        else if (status == "Pending") {
+            //$('.clsRejected').hide();
+            //$('.clsApproved').hide();
+            //$('.clsSubmitted').hide();
+            //$('.clsOperation').hide();
+
+            table.column(0).visible(false); //clsOperation               
+            table.column(5).visible(false); //clsSubmited          
+            table.column(6).visible(false);//clsSubmited
+            table.column(8).visible(false);//clsApproved
+            table.column(9).visible(false);//clsApproved
+            table.column(10).visible(false);//clsApproved
+            table.column(11).visible(false);//clsRejected
+            table.column(12).visible(false);//clsRejected
+            table.column(13).visible(false);//clsRejected
+        }
+        else if (status == "Rejected") {
+            //$('.clsRejected').show();
+            //$('.clsApproved').hide();
+            //$('.clsSubmitted').hide();
+            //$('.clsOperation').hide();
+
+            table.column(0).visible(false); //clsOperation               
+            table.column(5).visible(false); //clsSubmited          
+            table.column(6).visible(false);//clsSubmited
+            table.column(8).visible(false);//clsApproved
+            table.column(9).visible(false);//clsApproved
+            table.column(10).visible(false);//clsApproved
+            table.column(11).visible(true);//clsRejected
+            table.column(12).visible(true);//clsRejected
+            table.column(13).visible(true);//clsRejected
+        }
+        else if (status == "Approved") {
+            //$('.clsRejected').hide();
+            //$('.clsApproved').show();
+            //$('.clsSubmitted').hide();
+            //$('.clsOperation').hide();
+            table.column(0).visible(false); //clsOperation               
+            table.column(5).visible(false); //clsSubmited          
+            table.column(6).visible(false);//clsSubmited
+            table.column(8).visible(true);//clsApproved
+            table.column(9).visible(true);//clsApproved
+            table.column(10).visible(true);//clsApproved
+            table.column(11).visible(false);//clsRejected
+            table.column(12).visible(false);//clsRejected
+            table.column(13).visible(false);//clsRejected
+        }
+
+    }
+    CurrentGuid = GetCurrentUserGUID();
+    GetPeriodsUrls = GetPeriods();
+    var username = sessionStorage.getItem("CurrentUsername");
+    if (username == "" || username == undefined) {
+        $("#login_name_contain").text("");
+    }
+    else {
+        $("#login_name_contain").text(username);
+    }
+
+
+    $(document).ready(function () {
+       // $('#loading-image').show();
+        $("#TxtStartData").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function (selected) {
+                $("#TxtEndDate").datepicker("option", "minDate", selected)
+
+            }
+        });
+        $("#TxtEndDate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function (selected) {
+
+                $("#TxtStartData").datepicker("option", "maxDate", selected)
+
+            }
+        });
+
+        $('#tableFilter').trigger('change');
+
+
+    });
+
+    function createstatusSummaryTable(Status) {
+
+        $("#StatusWiseSummary").dataTable().fnDestroy();
+
+        $("#StatusWiseSummary").css("display", "");
+        
+        $(".viewSA").show();
+        $("#tblStatusWiseSummary").text("");
+        var innerHtml = "";
+
+        CurrentGuid = GetCurrentUserGUID("1");
+        //Ravi
+        var url = APILink+"/api/rmo/GetCPAllowanceDataByStatus";
+        $.ajax({
+            url: url,
+            data: { "ResourceUID": CurrentGuid, "Status": Status },
+            async: false,
+            type: "POST",
+            dataType: "json",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (res) {
+
+                if (res.Allowance.length > 0) {
+                    for (var i = 0; i < res.Allowance.length; i++) {
+                        //
+                        innerHtml += "<tr ><td class='clsOperation'></td><td> " + parseInt(i + 1) + " </td><td><a href=\"javascript:void(0)\" onclick='callDetailsPage(" + res.Allowance[i]["ShiftMasterID"] + ")'>" + res.Allowance[i]["Period"] + "</a></td><td> " + res.Allowance[i]["CustomData3"] + " </td><td class='.projectname' >" + res.Allowance[i]["ProjectName"] + "</td><td class='clsSubmitted' >" + res.Allowance[i]["Action"] + "</td><td class='clsSubmitted' >" + res.Allowance[i]["SubmitedOn"] + "</td><td>" + res.Allowance[i]["CP_Status"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedOn"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedBy"] + "</td><td class=\"clsApproved\">" + res.Allowance[i]["Pending"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedOn"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedBy"] + "</td><td class='clsRejected'>" + res.Allowance[i]["CPComment"] + "</td><td style='text-align: center;' onclick=createlogTable(" + res.Allowance[i]["ShiftMasterID"] + ")><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></td></tr>";
+                    }
+
+                }
+
+            },
+            error: function (error) {
+                console.log(JSON.stringify(error));
+            }
+        });
+
+        
+
+        $("#tblStatusWiseSummary").append(innerHtml);
+        
+        statussummary_dataTableLoad(Status);
+        $('#loading-image').hide();
+
+    }
+
+    function callDetailsPage(ShiftMasterID) {
+        localStorage.setItem("ShiftMasterID", ShiftMasterID);
+        //document.cookie = "ShiftMasterID=" + ShiftMasterID;
+        window.open(_spPageContextInfo.webAbsoluteUrl + "/SitePages/ProjectsDetails.aspx");
+    }
+
+    function statussummary_dataTableLoad(status) {
+        var table = $('#StatusWiseSummary').DataTable({
+            "JQueryUI": true,
+            "autoWidth": false,
+            "bAutoWidth": true,
+
+            fixedColumns: true,
+            //"bSortable": false,
+            //"bSort" : false,
+            "aaSorting": [],
+            "columnDefs": [{
+                "defaultContent": "-",
+                "targets": "_all",
+
+            }
+            ]//,
+            //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+
+        });
+
+        $('#StatusWiseSummary tfoot th').each(function () {
+            var title = $('#StatusWiseSummary thead th').eq($(this).index()).text();
+
+            //console.log(title)
+            if (title != "Action" && title != "Log") {
+                $(this).html('<input type="text" placeholder="Search" />');
+            }
+            else {	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+            }
+        });
+
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .columns.adjust().draw();
+                    //.draw();			
+                }
+            });
+        });
+
+
+        //$("th.clsAction").css("width", "70px");
+        //$("th.clsTotalHours").css("width", "100px");
+        //$("th.submittedDate").css("width", "140px");
+        //$("th.clsStatus").css("width", "205px");
+        //$("th.clsApproveRejct").css("width", "140px");
+        //$("th.clsUserComment").css("width", "200px");
+        //$("th.clsCpapprover").css("width", "150px");
+        //$("th.clsHrapprover").css("width", "150px");
+        //$("th.pendingBy").css("width", "150px");
+        //$("th.clsApprovedBy").css("width", "150px");
+        //$("th.clsApproveName").css("width", "150px");
+        //$("th.clsApproveComment").css("width", "200px");
+        //$("th.projectName").css("width", "300px");
+        //$("th.clsLog").css("width", "50px");
+
+        hideshow(status,table);
+    }
+
+        function createlogTable(ShiftMasterID) {
+        // alert(ShiftMasterID);
+        debugger
+        var innerHtml = "";
+
+        CurrentGuid = GetCurrentUserGUID("1");
+        //Ravi
+        var url = APILink+"/api/rmo/GetShiftMasterLog";
+        $.ajax({
+            url: url,
+            data: { "ResourceUID": CurrentGuid, "ShiftMasterID": ShiftMasterID },
+            async: false,
+            type: "POST",
+            dataType: "json",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (res) {
+                debugger
+                if (res.Allowance.length > 0) {
+                    for (var i = 0; i < res.Allowance.length; i++) {
+
+                        innerHtml += '<tr id="#LogRow"><td>' + res.Allowance[i]["UpdatedDate"] + '</td><td>' + res.Allowance[i]["ResourceName"] + '</td><td>' + res.Allowance[i]["Fullstatus"] + '</td><td>' + res.Allowance[i]["Comment"] + '</td> </tr>';
+                        $('#LogHeader').html("Log : " + res.Allowance[i]["ProjectName"]);
+                    }
+                }
+
+
+            },
+
+            error: function (error) {
+                console.log(JSON.stringify(error));
+            }
+        });
+
+        $("#tblLogRow").html(innerHtml);
+        $('#divLogTable').modal("show");
+        $('#loading-image').hide();
+
+    }
+
+    function GetCPShiftAllowanceData() {
+        debugger
+        $.ajax({
+            //Ravi
+            url: APILink+"/api/rmo/GetCPShiftAllowanceCountByUserID",
+            type: "POST",
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            async: false,
+            data: {
+                "Status": "",
+                "ResourceUID": CurrentGuid
+            },
+            success: function (data) {
+               
+                var btnAllRecords = 0,
+                    btnAppovedCount = 0,
+                    btnRejectCount = 0;
+
+                if (data.Allowance.length > 0) {
+                    for (var i = 0; i < data.Allowance.length; i++) {
+                        //        alert(data.Allowance[i].Status)
+                        if (data.Allowance[i].Status.trim() == "Approved") {
+
+                            btnAppovedCount = parseInt(data.Allowance[i].StatusCount);
+
+                        }
+                        if (data.Allowance[i].Status.trim() == "Rejected") {
+                            btnRejectCount = parseInt(data.Allowance[i].StatusCount);
+                        }
+                        //if (data.Allowance[i].Status.trim() == "Pending") {
+                        //    btnRejectCount = parseInt(data.Allowance[i].StatusCount);
+                        //}
+                        //if (data.Allowance[i].Status.trim() == "Next Month") {
+                        //    btnRejectCount = parseInt(data.Allowance[i].StatusCount);
+                        //}
+                        btnAllRecords += parseInt(data.Allowance[i].StatusCount);
+                    }
+
+
+                }
+                $("#allCurrentData span").text(parseInt(btnAllRecords));
+                $("#btnAppovedCount span").text(parseInt(btnAppovedCount));
+                $("#btnRejectCount span").text(parseInt(btnRejectCount));
+
+            },
+            error: function (data) {
+
+                $('#loading-image').hide();
+            }
+        });
+    }
+
+</script>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

@@ -1,0 +1,64 @@
+
+ <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/sumoselect.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/jquery.mCustomScrollbar.css">
+
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+    <script src="../_layouts/15/callout.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.sumoselect.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../SiteAssets/RMO/js/SearchResource.js"></script>
+<script>
+//function getActiveByResourceWiseProjectAllocation(projectCode, resourceID) {
+$(document).ready(function () {
+   var ProjectCode = "123456TEST";
+   var EmployeeID = "88888";
+    //var ProjectCode = "CR_7Test 123";
+    //var EmployeeID = "8449";
+    url = "https://ppmprod.bcone.com/_api/ProjectWiseResourceAllocation?$filter=AllocatedProjectCode eq'" + ProjectCode + "' and EmployeeID eq'" + EmployeeID + "'and Active eq 1&$top=1&$orderby=created_date%20desc";
+
+
+    $.ajax({
+        url: url,
+        method: "GET",
+        async: false,
+        headers: { "Accept": "application/json; odata=verbose" },
+        success: function (data) {
+            if (data.d.results.length > 0) {
+                var activeflag = data.d.results[0].Active;
+                var ResAllo_UID = data.d.results[0].ResAllo_UID;
+                //ResAllo_UID = "2b5c09e8-014b-4514-9441-9ad6cca74b2c";
+                if (activeflag == "1" || activeflag == 1) {
+                    var serviceurl = "https://ppmprod.bcone.com/api/bcone/Update_AllocationData";
+                   // requestData = { "ResAllo_UID": "" }; //"{\"PrimarySkills\":\"" + value.PrimarySkill + "\",\"SecondarySkills\":\"" + value.SecondarySkill + "\",\"RoleBand\":\"" + value.RoleBand + "\"}";
+                    $.ajax({
+                        url: serviceurl,
+                        method: "POST",
+                        async: false,
+                        data: { "ResAllo_UID": ResAllo_UID },
+                        headers:
+                        {
+                            "Accept": "application/json;odata=verbose"
+                        },
+                        success: function (data) {
+                            alert('success');
+                        },
+                        error: function (error) {
+                        alert(JSON.stringify(error));
+                    }
+                    });
+                }
+            }
+        }
+    });
+	});
+   // return 1;
+//}
+</script>

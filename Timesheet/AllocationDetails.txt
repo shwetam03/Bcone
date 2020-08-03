@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Project Allocation Details</title>
+	<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+
+	<script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+	<script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+	<link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" />
+	<link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+	<script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+	<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+
+	<!-- <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" /> -->
+   	<style>
+		
+#DeltaTopNavigation{	
+    display: none;
+
+}
+		tr.otherstyle {background-color: #c4d0d7; color:#fbfbfb;}
+		.table-new thead tr th {padding: 5px;background: #00b0f0;color: #fff;}	
+	
+	</style>
+</head>
+<body>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+	<div class="container-fluid">
+		<div class="breadcrumb-main">
+			<div class="container-fluid">
+				<ul>
+					<li>
+						 <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a> 
+					</li>
+					<li>Project Allocation Details
+					</li>
+					<li><span id="resName"></span> ( <span id="resEmpId"></span> | <span id="resCountryLegal"></span> )
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container-fluid" id="tblLong">
+		<div class="" id="jqxgrid_container1">
+			<table id="tblAllcationDetails" class="display example table table-bordered table-new" cellspacing="0">
+			</table>
+		</div>
+	</div>
+
+	
+	<div id="alertmain" class="alert-main" style="display: none">
+		<div class="black-bg" id="backcolor">
+			<div class="popup-main">
+				<div class="popup-heading"><span id="Alert_msg"></span></div>
+				<div class="pop-mid">
+					<p id="submitValue"></p>
+					<input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh" ></span>
+			<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+		</div>			
+	</div>
+</div>
+	<span id="loading-image"></span>
+</body>
+</html>
+<script>
+
+function closeaddinfo()
+{
+	$('.addition-info-block').animate({ width: 'toggle'});
+};
+
+function cleardataAllocation() 
+{
+	$('#jqxgrid_container1').empty();
+	$("#jqxgrid_container1").append("<table id='tblAllcationDetails' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+}
+
+</script>
+<script>
+var resUID ="";
+$(document).ready(function()
+{
+	disableRightClick();
+	//GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+	$("#login_name_contain").text("");
+	}
+	else
+	{
+	$("#login_name_contain").text(username);
+	}
+	resUID =  GetCurrentUserGUID("1");
+	$('#resName').text(username);
+	GetData();
+});
+
+
+function GetData()
+{	
+		$('#loading-image').show();
+		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		cleardataAllocation();
+		var GetAllocationDetailsUrl =GetResourceAllocationUri();// "https://ppmprod.bcone.com/api/Timesheet/GetResourceAllocation";
+		$.ajax
+		({
+			url:GetAllocationDetailsUrl,
+			method: "POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			data: {
+					//"ResourceUID":"0B91FA2E-80F2-E611-80D2-00155D004C1A"
+					"ResourceUID":resUID
+					},
+
+			success: function (data) 
+			{
+				
+				var table_header="";
+				table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+				table_header=table_header +"<th style='width:10%'>Employee ID</th>";
+				table_header=table_header +"<th style='width:10%'>Project Code</th>";
+				table_header=table_header +"<th style='width:30%'>Project Name</th>";
+				table_header=table_header +"<th style='width:10%'>Start Date</th>";
+				table_header=table_header +"<th style='width:10%'>Finish Date</th>";	
+				table_header=table_header +"<th style='width:10%'>Allocation %</th>";				
+				table_header=table_header +"</tr></thead>";
+				
+				//footer menu	
+				table_header=table_header +"<tfoot><tr>";
+				table_header=table_header +"<th >Employee ID</th>";
+				table_header=table_header +"<th >AllocatedProjectCode</th>";
+				table_header=table_header +"<th >ProjectName</th>";
+				table_header=table_header +"<th >Start Date</th>";
+				table_header=table_header +"<th>Finish Date</th>";	
+				table_header=table_header +"<th >Allocation %</th>";
+							
+				table_header=table_header +"</tr></tfoot>";
+
+				table_element="";
+				var  table_body="";
+				table_body="<tbody>"; 
+				
+				if(data.Data.length == 0)
+				{
+					
+				}
+				else
+				{
+					$('#resEmpId').text(data.Data[0].EmployeeID);
+					$('#resCountryLegal').text(data.Data[0].CountryLegal);
+					var status = "";
+					for (var i = 0; i < data.Data.length; i++) 
+					{					
+						table_body += "<tr>";	
+						table_body += "<td>"+data.Data[i].EmployeeID+"</td>";
+						table_body += "<td>"+data.Data[i].AllocatedProjectCode+"</td>";
+						table_body += "<td>"+data.Data[i].ProjectName+"</td>";
+						var crtdates = new Date(data.Data[i].Startdatetime);
+						if (crtdates=="Invalid Date" )
+						{
+							var CreatedDate ="";
+						//	table_body += "<td>"+CreatedDate+"</td>";
+						}
+						else
+						{
+							var CreatedDate = ("0" + crtdates.getDate()).slice(-2)+  "-" + monthNames[crtdates.getMonth()] +"-" + crtdates.getFullYear();
+						//	table_body += "<td>"+CreatedDate+"</td>";
+						}
+						//var CreatedDate = ("0" + crtdates.getDate()).slice(-2)+  "-" + monthNames[crtdates.getMonth()] +"-" + crtdates.getFullYear();
+						table_body += "<td>"+CreatedDate+"</td>";
+						
+						var endate = new Date(data.Data[i].Finishdatetime);
+						if(endate=="Invalid Date")
+						{
+							var ENDdDate="";
+						}
+						else
+						{
+							var ENDdDate = ("0" + endate.getDate()).slice(-2)+  "-" + monthNames[endate.getMonth()] +"-" + endate.getFullYear();
+						}
+						
+						//var endate = new Date(data.Data[i].Finishdatetime);
+						//var ENDdDate = ("0" + endate.getDate()).slice(-2)+  "-" + monthNames[endate.getMonth()] +"-" + endate.getFullYear();
+						table_body += "<td>"+ENDdDate+"</td>";	
+						
+						table_body += "<td>"+Math.round(data.Data[i].ResourceMaxUnits)+"</td>";						
+						table_body += "</tr>";	
+					}
+				}
+				table_body=table_body+"/<tbody>";
+				table_element=table_header+table_body;
+				$('#tblAllcationDetails').html(table_element);
+				AllocationDatatableBind();
+				$('#loading-image').hide();
+			},
+			error: function (data)
+			{
+				alert("failed");
+				$('#loading-image').hide();
+			}
+		});
+	}
+
+function AllocationDatatableBind()
+{
+	$('#tblAllcationDetails').DataTable
+	( {
+		"order": []
+	} );
+	var ExpenceDataTableElementtblLongLeave = $('#tblAllcationDetails').DataTable();
+	$('#tblAllcationDetails tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  
+	ExpenceDataTableElementtblLongLeave.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	if($('.dataTables_empty').text()=='No data available in table')
+	$('#tblAllcationDetails tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+
+</script>

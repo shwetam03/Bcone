@@ -1,0 +1,756 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+	<link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css">
+	
+</head>
+<style>
+    #divRejectBody table {
+        width: 100%;
+    }
+    .noreleaseComment {
+    color:#ccc;
+    cursor:not-allowed;
+    
+    }
+	<!-- #resourceProjectForm_wrapper { -->
+		<!-- margin-top: 15px !important; -->
+	<!-- } -->
+</style>
+<body>
+   
+    <div class="breadcrumb-new">
+        <ul>
+            <li><a href="../default.aspx">Home</a> </li>
+            <li><a style="cursor: default; text-decoration: none; color: #272727;">Project Details</a> </li>
+            <li id="status"></li>
+            
+        </ul>
+
+        <div class="clearfix"></div>
+    </div>
+    <!-----------Breadcrumb End---------->
+    <div class="contain-div">
+
+        <div class="clearfix"></div>
+        <div>
+            <div id="divRecordNotfound" style="display:none">Record Not Found !!</div>
+            <div id="divAllrecordShow">
+            <ul id="tableFilter">
+              <li><b>Project Details</b> &nbsp;
+			<label class="radio-inline"><input type='radio' name='DllGetData' value='Active_data' checked="checked" > Active </label>
+			<label class="radio-inline"><input type='radio' name='DllGetData' value='All_data' > All </label>
+			<label class="radio-inline"><input type='radio' name='DllGetData' value='Inactive_data' > InActive </label>
+			</li>
+			</ul>
+			<br/>
+            <table id="resourceProjectForm">
+            </table>
+            <div>
+                <ul>
+                    <li><b>Resource Proposal History</b></li>
+                </ul>
+                <table id="tblRefusalProjects"></table>
+            </div>
+                </div>
+            
+        </div>
+    </div>
+	 <div class="popup-bg">
+        <div class="popup">
+            <div class="popup-head">
+                <div class="panel-head pull-left">
+                    <h4 class="clssPopupHead"></h4>
+                </div>
+                <div class="right-pol">
+                    <div class="p-close">x</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-boday">
+                <div id="divReleaseComment" style="display:none;width: 600px">
+                     <label>Comments</label><br />
+                    <p id="ReleaseComment"></p>
+                </div>
+                <div id="divRefusalComment" style="display:none;width: 600px">
+                    
+                    <p id="RefusalComment"></p>
+                </div>
+                  </div>
+        </div>
+    </div>
+
+	 <div class="loader"></div>
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+	<script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+   <!-- Export to excel js file start -->
+	<script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/jszip.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/pdfmake.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/vfs_fonts.js"></script> 
+	<script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+
+
+    <script>
+        var flag = "0";
+        var roleband = "";
+        var employeeID = "";
+        $(document).ready(function () {
+            $('.pupup-close').on('click', function () {
+                $('.popup-bg').hide();
+            });
+            $('.p-close').on('click', function () {
+                $('.popup-bg').hide();
+            });
+            $('.T-close').on('click', function () {
+                $('.Toppopup-bg').hide();
+            });
+
+            var Parameters = getURLParameters("employeeID;employeename");
+            if (Parameters == "No Parameters Found") {
+                Parameters = getURLParameters("projuid");
+            }
+
+            //  var employeeID = Parameters[0];// '1000000';
+            employeeID = Parameters[0];// '1000000';
+            var employeeNm = Parameters[1];    //'Executive PPM'; 
+            document.getElementById('status').innerHTML = employeeNm;
+            if (employeeID != "" && employeeID != "null") {
+                //$('#DllGetData').trigger('change');
+				  
+                showProjectInformation(employeeID);
+            }
+            else {
+                document.getElementById('divAllrecordShow').style.display = 'none';
+                document.getElementById('divRecordNotfound').style.display = 'block';
+                $('.loader').hide();
+            }
+        });
+	
+       $('input[type=radio][name=DllGetData]').change( function() {
+              $(".loader").css("display", "block");
+            showProjectInformation(employeeID);
+        });
+        function showProjectInformation(EmployeeId) {
+		          	 	
+            if ($.fn.dataTable.isDataTable('#resourceProjectForm')) { //tblRefusalProjects
+                destroyjs('#resourceProjectForm');
+            }
+            var projectTbl_header = "";
+            var projecttable_element = "";
+            projectTbl_header = "<thead><tr>";
+            //table binding for resources data
+            projectTbl_header = projectTbl_header + "<th>Com<br/>ment</th>"
+            projectTbl_header = projectTbl_header + "<th >Project Code</th>"
+            projectTbl_header = projectTbl_header + "<th>Project Name</th>"
+            projectTbl_header = projectTbl_header + "<th>Project Manager</th>"
+            projectTbl_header = projectTbl_header + "<th>Skill Worked</th>"
+            projectTbl_header = projectTbl_header + "<th>Loca<br/>tion</th>"
+            projectTbl_header = projectTbl_header + "<th>Role Band</th>"
+            projectTbl_header = projectTbl_header + "<th>Alloc<br/>ation%</th>"
+            projectTbl_header = projectTbl_header + "<th>Start Date</th>"
+            projectTbl_header = projectTbl_header + "<th>End Date</th>"
+            projectTbl_header = projectTbl_header + "<th>Fulfillment Type</th>"
+            projectTbl_header = projectTbl_header + "<th>Active Type</th>"
+            projectTbl_header = projectTbl_header + "<th>Created On</th>"
+            projectTbl_header = projectTbl_header + "<th>Requested By</th>"
+            projectTbl_header = projectTbl_header + "<th>RMO Approver</th>"
+            projectTbl_header = projectTbl_header + "<th>Internal ID</th>"
+            projectTbl_header = projectTbl_header + "</tr></thead>";
+
+            //footer menu
+            projectTbl_header = projectTbl_header + "<tfoot><tr>";
+            projectTbl_header = projectTbl_header + "<th >Comment</th>"
+            projectTbl_header = projectTbl_header + "<th ></th>"
+            projectTbl_header = projectTbl_header + "<th ></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + "<th></th>"
+            projectTbl_header = projectTbl_header + " </tr></tfoot>";
+            <!-- url = getRolebandworkdayresourcemasterusinfempid(EmployeeId); -->
+            <!-- $.ajax({ -->
+                <!-- url: url, -->
+                <!-- method: "GET", -->
+                <!-- async: false, -->
+                <!-- headers: { "Accept": "application/json; odata=verbose" }, -->
+                <!-- success: function (data) { -->
+                    <!-- if (data.d.results.length > 0) { -->
+                        <!-- roleband = data.d.results[0].Role_Band; -->
+                    <!-- } -->
+                <!-- } -->
+            <!-- }); -->
+            //Call Rest API to Get Data from ProjectWiseResourceAllocation
+			    <!-- $('input[type=radio][name=DllGetData]').click( function(){ -->
+				 
+                  <!-- $('.loader').show();				   -->
+                
+				 <!-- }) ; -->
+				  <!-- $('input[type=radio][name="DllGetData"]').click (function(){ -->
+				    <!-- $(".loader").css("display", "block");	 -->
+				  
+				     <!-- }); -->
+					<!-- $('input[type=radio][name="DllGetData"]').click (function() { -->
+                       <!-- <!-- alert($(this).val()); --> -->
+					   <!-- $(".loader").css("display", "block"); -->
+                     <!-- }); -->
+					
+					
+            if ($("input[name='DllGetData']:checked").val() == "Active_data") {
+		         $(".loader").css("display", "block"); 
+			        <!-- location.reload(true); -->
+               // url = getPWAURl() + "_api/ProjectWiseResourceAllocation?$filter=Active eq 1 and EmployeeID eq '" + EmployeeId + "' and (Flag eq'New' or Flag eq'new' or Flag eq'Internal' or Flag eq'Extension' or Flag eq 'Early Release')&$orderby=created_date%20desc";
+                
+				//changed by manohar internalID desc
+				url = getPWAURl() + "_api/ProjectDetailsPage?$filter=Active eq 1 and EmployeeID eq '" + EmployeeId + "' and (Flag eq'New' or Flag eq'new' or Flag eq'Internal' or Flag eq'Extension' or Flag eq 'Early Release')&$orderby=InternalID%20desc";
+            }
+            else if ($("input[name='DllGetData']:checked").val() == "All_data") {
+			$(".loader").css("display", "block"); 
+			 <!-- location.reload(true); -->
+			   <!-- $(".loader").css("display", "block"); -->
+			    url = getProjectWiseResourceAllocationDetail(EmployeeId);
+                <!-- url = getProjectWiseResourceAllocationDetailsofAllocatedResource(EmployeeId); -->
+            }
+            else if ($("input[name='DllGetData']:checked").val() == "Inactive_data") {
+			$(".loader").css("display", "block"); 
+			
+			 <!-- location.reload(true); -->
+			     <!-- $(".loader").css("display", "block"); -->
+                //url = getPWAURl() + "_api/ProjectWiseResourceAllocation?$filter=Active eq 0 and EmployeeID eq '" + EmployeeId + "' and (Flag eq'New' or Flag eq'new' or Flag eq'Internal' or Flag eq'Extension' or Flag eq 'Early Release')&$orderby=created_date%20desc";
+                //changed by manohar internalID desc
+				url = getPWAURl() + "_api/ProjectDetailsPage?$filter=Active eq 0 and EmployeeID eq '" + EmployeeId + "' and (Flag eq'New' or Flag eq'new' or Flag eq'Internal' or Flag eq'Extension' or Flag eq 'Early Release')&$orderby=InternalID%20desc";
+            }
+			
+            var details = "";
+			<!-- $(".loader").show(); -->
+                $.ajax({
+				 
+                url: url,
+				
+                method: "GET",
+                async: false,
+                  headers: { "Accept": "application/json; odata=verbose" },
+				 
+                success: function (data) {
+                  
+                    var ProjectLIHTML = "<tbody>";
+                    $.each(data.d.results, function (key, value) {
+                        var EmpID = "";
+                        var EmpName = "";
+                        var ProjectCode = "";
+                        var ProjectName = "";
+                        var Location = "";
+                        var skill = "";
+                        var roleBand = "";
+                        var billability = "";
+                        var allocationPercent = "";
+                        var srtDate = "";
+                        var endDate = "";
+                        var projectmanager = "";
+                        var PrimarySkill = "";
+                        var Flag = "";
+                        var internalID = "";
+                        var data = "";
+                        var activeVal = "";
+                        var createdBy = "";
+                        var createdOn = "";
+						var modifiedBy="";
+                        if (value.AllocatedProjectCode != null) {
+                            var ProjectCode = value.AllocatedProjectCode;
+                            <!-- data = findProjectwiseProjectManager(ProjectCode); -->
+                            <!-- projectmanager = data != "" ? data.split(';')[0] : ""; -->
+                            <!-- ProjectName = data != "" ? data.split(';')[1] : ""; -->
+							 ProjectName = value.ProjectName; 
+							 projectmanager=value.Reporting_Manager; 
+                        }
+                        //if (value.ProjectName != null) {
+                        //    ProjectName = value.ProjectName;
+
+                        //}
+                        if (value.PrimarySkills != null && value.PrimarySkills != "null") {
+                            PrimarySkill = value.PrimarySkills;
+                        }
+                        <!-- if (value.ProjectLocation != null) { -->
+                            <!-- Location = value.ProjectLocation; -->
+                        <!-- } -->
+						if (value.AllocationBaseLocation != null) {
+                            Location = value.AllocationBaseLocation;
+                        }
+                        if (value.Allocation != null) {
+                            var allocationPercent = value.Allocation;
+                        }
+                        if (value.Startdatetime != null) {
+                            srtDate = convert_date_DDMMYYYY(value.Startdatetime);
+                        }
+                        if (value.Finishdatetime != null) {
+                            endDate = convert_date_DDMMYYYY(value.Finishdatetime);
+                        }
+                        if (value.ResourceFullName != null) {
+                            EmpName = value.ResourceFullName;
+                        }
+                        if (value.EmployeeID != null) {
+                            EmpID = value.EmployeeID;
+                        }
+                        if (value.Flag != null) {
+                            Flag = value.Flag;
+                        }
+                        if (value.InternalID != null) {
+                            internalID = value.InternalID;
+                        }
+						if (value.AllocationRoleBand != null) {
+                            roleband = value.AllocationRoleBand;
+                        }
+                        if (value.Active == 1) {
+                            activeVal = "Active";
+                        }
+                        else {
+                            activeVal = "Inactive";
+                        }
+                        if (value.created_date != null) {
+                            createdOn = convert_date_DDMMYYYY(value.created_date);
+                        }
+                        if (value.RA_created_by != null && value.RA_created_by != "null") {
+                            createdBy = value.RA_created_by;
+							createdBy=createdBy.split('@')[0]
+							createdBy=createdBy.replace('.',' ')
+                            <!-- createdBy = getResourceInfo(createdBy); -->
+                        }
+						if (value.RA_Modify_By != null && value.RA_Modify_By != "null") {
+                            modifiedBy = value.RA_Modify_By;
+							modifiedBy=modifiedBy.split('@')[0]
+							modifiedBy=modifiedBy.replace('.',' ')
+                            <!-- modifiedBy = getResourceInfo(modifiedBy); -->
+                        }
+						
+						
+						 if(value.Flag== "Early Release" ){ 
+						  
+                        var commentData = getCommentofreleaseResource(ProjectName, EmployeeId, internalID);
+						
+                        var commentId = "";
+                        if (commentData == "") {
+                            commentId = 'noreleaseComment';
+                        } else {
+                            commentId = "releaseComment"
+                        }
+					 } 
+						 else{ 
+						
+						 commentId = 'noreleaseComment';
+						} 
+						
+						
+						if(value.InternalID !=null && value.InternalID !=undefined && value.InternalID !="")
+						{
+						var internalid=value.InternalID;
+						}
+                        ProjectLIHTML = ProjectLIHTML + "<tr><td><span id='" + commentData + "' class='glyphicon glyphicon-comment " + commentId + "' aria-hidden='true' title='Comment' onclick='showComment(this)'></span></td><td>" + ProjectCode + "</td><td>" + ProjectName + "</td><td>" + projectmanager + "</td><td>" + PrimarySkill + "</td><td>" + Location + "</td><td>" + roleband + "</td><td>" + allocationPercent + "</td><td>" + srtDate + "</td><td>" + endDate + "</td><td>" + Flag + "</td><td>" + activeVal + "</td><td>" + createdOn + "</td><td>" + createdBy + "</td><td>" + modifiedBy + "</td><td>" + internalid + "</td></tr>";
+                    });
+
+                    ProjectLIHTML += "</tbody>";
+                    projecttable_element = projectTbl_header + ProjectLIHTML;
+                    $("#resourceProjectForm").append(projecttable_element);
+                       
+                },
+				 error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                  },
+				 complete: function(){
+				 setTimeout(function () {
+                 $('.loader').hide();
+                   }, 6000);
+                
+                }
+
+            });
+			 <!-- }) ;  -->
+
+                // pankaj singh download excel with resource name 
+
+                 var k = window.location.href;
+            var username=k.split('?')[1].split('&')[1].split('=')[1].replace(/%20/g," ") + " - Resource Project Information";
+
+            $('#resourceProjectForm').DataTable({
+                "dom": 'Rlfrtip',
+                "iDisplayLength": 5,
+                "lengthMenu": [[5, 15, 35, -1], [5, 15, 35, "All"]],
+                "dom": 'lBfrtip',
+                buttons: [
+                  {
+                      extend: 'excelHtml5',
+                      exportOptions: {
+                          columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,14,15]
+                      },
+                      title: username
+                  },
+                ],
+            });
+
+            $('#resourceProjectForm tfoot th').each(function () {
+                var title = $(this).text();
+                if (title != 'Comment') {
+                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                } else {
+                    $(this).html('');
+                }
+            });
+
+            // DataTable
+            var table = $('#resourceProjectForm').DataTable();
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+
+
+            if ($.fn.dataTable.isDataTable('#tblRefusalProjects')) { //tblRefusalProjects
+                destroyjs('#tblRefusalProjects');
+            }
+            var refusalTbl_header = "";
+            var refusaltable_element = "";
+            refusalTbl_header = "<thead><tr>";
+            //table binding for resources data
+            refusalTbl_header = refusalTbl_header + "<th >Comment</th>"
+            refusalTbl_header = refusalTbl_header + "<th >Project Code</th>"
+            refusalTbl_header = refusalTbl_header + "<th>Project Name</th>"
+            refusalTbl_header = refusalTbl_header + "<th>Skill Worked</th>"
+            refusalTbl_header = refusalTbl_header + "<th>Location</th>"
+            refusalTbl_header = refusalTbl_header + "<th>Reason for Rejection</th>"
+            refusalTbl_header = refusalTbl_header + "<th>Rejected By</th>"
+
+            refusalTbl_header = refusalTbl_header + "</tr></thead>";
+
+            //footer menu
+            refusalTbl_header = refusalTbl_header + "<tfoot><tr>";
+            refusalTbl_header = refusalTbl_header + "<th >Comment</th>"
+            refusalTbl_header = refusalTbl_header + "<th ></th>"
+            refusalTbl_header = refusalTbl_header + "<th></th>"
+            refusalTbl_header = refusalTbl_header + "<th></th>"
+            refusalTbl_header = refusalTbl_header + "<th></th>"
+            refusalTbl_header = refusalTbl_header + "<th></th>"
+            refusalTbl_header = refusalTbl_header + "<th></th>"
+
+            refusalTbl_header = refusalTbl_header + " </tr></tfoot>";
+            //Call Rest API to Get Data from project Server
+            url = "../_api/web/lists/getbytitle('RMOAssignmentRefusal')/items?$filter=EmployeeID eq '" + EmployeeId + "'&$Top=30";
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+                    var RefusalLIHTML = "<tbody>";
+
+                    $.each(data.d.results, function (key, value) {
+
+                        var Projectid = "";
+                        var ProjectName = "";
+                        var Location = "";
+                        var skill = "";
+                        var RejectionReason = "";
+                        var RejectedBy = "";
+                        var comments = "";
+                        var commentId = "";
+
+                        if (value.ProjectCode != null) {
+                            Projectid = value.ProjectCode;
+                        }
+                        if (value.ProjectName != null) {
+                            ProjectName = value.ProjectName;
+                        }
+                        if (value.SkillWorked != null) {
+                            skill = value.SkillWorked;
+                        }
+                        if (value.Location != null) {
+                            Location = value.Location;
+                        }
+                        if (value.RejectionReason != null) {
+                            RejectionReason = value.RejectionReason;
+                        }
+                        if (value.RejectedBy != null) {
+                            RejectedBy = value.RejectedBy;
+                        }
+                        if (value.Comment != null && value.Comment != undefined && value.comment != "") {
+                            comments = value.Comment;
+                            commentId = "releaseComment"
+                        } else {
+                            commentId = 'noreleaseComment';
+                        }
+
+                        var Date = convert_date_DDMMYYYY(value.Created);
+                        var Time = value.Created.split('T')[1];
+                        var FinalTime = Time.split('Z')[0];
+                        var commentdetails = RejectedBy + ";" + comments + ";" + Date + ";" + Time + ";" + FinalTime + ";";
+                        RefusalLIHTML = RefusalLIHTML + "<tr><td><span id='" + commentdetails + "' class='glyphicon glyphicon-comment " + commentId + "' aria-hidden='true' title='Comment' onclick='showComment(this)'></span></td><td>" + Projectid + "</td><td>" + ProjectName + "</td><td>" + skill + "</td><td>" + Location + "</td><td>" + RejectionReason + "</td><td>" + RejectedBy + "</td></tr>"
+                    });
+                    RefusalLIHTML += "</tbody>";
+                    refusaltable_element = refusalTbl_header + RefusalLIHTML;
+                    $("#tblRefusalProjects").append(refusaltable_element);
+                }
+
+            });
+
+            $('#tblRefusalProjects').DataTable({
+                "dom": 'Rlfrtip',
+                "iDisplayLength": 5,
+                "lengthMenu": [[5, 15, 35, -1], [5, 15, 35, "All"]],
+              
+            });
+
+            $('#tblRefusalProjects tfoot th').each(function () {
+                var title = $(this).text();
+                if (title != 'Comment') {
+                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                } else {
+                    $(this).html('');
+                }
+            });
+
+            // DataTable
+            var table = $('#tblRefusalProjects').DataTable();
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+            //$('.loader').hide();
+
+
+
+        }
+
+        function destroyjs(tableid) {
+            if ($.fn.dataTable.isDataTable(tableid)) {
+                $(tableid).DataTable({
+                    "filter": false,
+                    "destroy": true
+                });
+                $(tableid).DataTable().destroy();
+                //clear_tbody();
+                $(tableid).html("");
+                $(tableid + " tbody tr").remove();
+            }
+
+        }
+        function clear_tbody() {
+            $("#resourceProjectForm").html("");
+            $("#resourceProjectForm tbody tr").remove();
+        }
+        //code to get project details
+        function findprojectAllocationDetails(EmployeeID) {
+            url = getDetailsProjectwiseresourceAllocationUsingPnameEmpid(projectname, EmployeeID);
+            var details = "";
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        var allocationPercent = data.d.results[0].Allocation;
+                        var srtDate = convert_date_DDMMYYYY(data.d.results[0].Startdatetime);
+                        var endDate = convert_date_DDMMYYYY(data.d.results[0].Finishdatetime);
+                        var location = data.d.results[0].ProjectLocation;
+                        var ProjectCode = data.d.results[0].AllocatedProjectCode;
+                        details = allocationPercent + ";" + srtDate + ";" + endDate + ";" + location + ";" + ProjectCode;
+                    }
+                }
+            });
+            return details;
+        }
+        //code to formet date
+        function convert_date_DDMMYYYY(date_to_convert) {
+            var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            var MonthName = GetMonthName(arr_dateonly[1]);
+            converted_date = arr_dateonly[2] + "-" + MonthName + "-" + arr_dateonly[0];
+            return converted_date;
+        }
+        function getFormatDate(date) {
+            if (date != null && date != "") {
+                var year = date.toString().substring(0, 4);
+                var month = GetMonthName(date.toString().substring(4, 6));
+                var date = date.toString().substring(6, 8);
+                var formatDate = date + '-' + month + '-' + year;
+                return formatDate;
+            }
+        }
+        function GetMonthName(monthNumber) {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[monthNumber - 1];
+        }
+        //-- Function to get the Value from URL based on ParamName(Parameter Name) --
+        function getURLParameters(paramName) {
+            paramName = paramName.split(';');
+            var sURL = window.document.URL.toString();  //https://bristleconeonline.sharepoint.com/sites/ppmppmuat/SitePages/ResourceProjectInformation.aspx?employeeID=null&employeename=Amit%20Agrawal
+            if (sURL.indexOf("?") > 0) {
+                var arrParams = sURL.split("?");
+                var arrURLParams = arrParams[1].split("&");
+                var arrParamNames = new Array(arrURLParams.length);
+                var arrParamValues = [];
+
+                var i = 0;
+                for (i = 0; i < arrURLParams.length; i++) {
+                    var sParam = arrURLParams[i].split("=");
+                    if (sParam[0] == paramName[i]) {
+                        if (sParam[1].indexOf('#') > 0) {
+                            var parameter = sParam[1].split('#');
+                            parameter = parameter[0];
+                            arrParamValues.push(unescape(parameter));
+                        } else {
+                            arrParamValues.push(unescape(sParam[1]));
+                        }
+                    }
+                }
+                return arrParamValues;
+
+            }
+        }
+        function findProjectwiseProjectManager(ProjectCode) {
+            var ProjectManagerName = "";
+            var projectName = "";
+            var ProjectData = "";
+            url = getProjectOwnerusingProjectCode(ProjectCode);
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        ProjectManagerName = data.d.results[0].ProjectOwnerName;
+                        projectName = data.d.results[0].ProjectName;
+                        ProjectData = ProjectManagerName + ";" + projectName;
+                    }
+                }
+            });
+            return ProjectData;
+        }
+        function getCommentofreleaseResource(ProjectName, EmployeeId, internalID) {
+            if (ProjectName.indexOf('&') >= 0) {
+                ProjectName = ProjectName.replace('&', '%26');
+            }
+            url = "../_api/web/lists/getbytitle('ResourceAllocationDetails')/items?$select=ReasonForRelease,ProjectEndFeedBack,Author/Title,Created&$expand=Author&$filter=EmployeeID eq '" + EmployeeId + "'and NewInsertedInternalIDVal eq'" + internalID + "'&$Top=1";
+            var commentdetails = "";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function (key, value) {
+                            var comments = value.ReasonForRelease;
+                            if (comments != null && comments != "" && comments != undefined && comments != "null") {
+                                var RejectedBy = value.Author.Title
+                                var Date = convert_date_DDMMYYYY(value.Created);
+                                var Time = value.Created.split('T')[1];
+                                var FinalTime = Time.split('Z')[0];
+                                var ProjectFeedBack = value.ProjectEndFeedBack;
+                                commentdetails = RejectedBy + ";" + comments + ";" + Date + ";" + Time + ";" + FinalTime + ";" + ProjectFeedBack;
+                            }
+                        });
+                    }
+
+                }
+            });
+            return commentdetails;
+        }
+        function showComment(event) {
+            if (event.id != "") {
+                var commentedBy = event.id.split(';')[0];
+                var comment = event.id.split(';')[1];
+                var Date = event.id.split(';')[2];
+                var Time = event.id.split(';')[3];
+                var FinalTime = event.id.split(';')[4];
+                var Feedback = event.id.split(';')[5];
+                $('.clssPopupHead').text('Comment :');
+                document.getElementById('divReleaseComment').style.display = 'none';
+                document.getElementById('divRefusalComment').style.display = 'block';
+                $("#RefusalComment").empty();
+                var logDeatils = '<div class="user-comments removedata"><div class="com-user-text" style="text-align:center"><label class="pull-left"><b><u>' + commentedBy + ' | ' + Date + ' - ' + FinalTime + '</u></b></label></div><br/>';
+                if (Feedback != "" && Feedback != undefined && Feedback != null && Feedback != "null") {
+                    logDeatils += '<div class="clearfix"></div><div class="com-user-text"><i>' + comment + '</i></div><hr/></div><div class="com-user-text" style="text-align:center"><label class="pull-left"><b><u>' + commentedBy + ' | Project End Feedback</u></b></label></div><br/><div class="clearfix"></div><div class="com-user-text"><i>' + Feedback + '</i></div><hr/></div>';
+                } else {
+                    logDeatils += '<div class="clearfix"></div><div class="com-user-text"><i>' + comment + '</i></div><hr/></div>';
+                }
+
+                $("#RefusalComment").append(logDeatils);
+                $('.popup-bg').show();
+            }
+        }
+        function getResourceInfo(email) {
+            var url = getResourceInfoByEmailID(email);
+            var Name = "";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        Name = data.d.results[0].ResourceName;
+
+                    }
+                }
+            });
+            return Name;
+        }
+    </script>
+	
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

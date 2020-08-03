@@ -1,0 +1,1196 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <style>
+    .SumoSelect {         width: 100% !important;     }
+    .SumoSelect>.CaptionCont {         border-radius: 0px;         border-color: #ccc !important;     }
+    .SumoSelect>.optWrapper>.options li.opt label {         font-weight: normal;     }
+    .SumoSelect .select-all {         padding: 6px 0 4px 35px;         height: auto;     }
+    .SumoSelect .select-all label {         font-weight: normal;     }
+    .SumoSelect>.CaptionCont>span.placeholder {         font-style: normal;     }
+	select[multiple],     select[size] {         height: 30px !important     }
+    .optWrapper>.options li label {         text-align: left !important     }
+    .CaptionCont>span {         text-align: left !important     }
+	.mandatory1 {     color: #ff0000; }
+    </style>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="loader"> <img src="../SiteAssets/RMO/images/loader1.gif" style='display:none' /> </div>
+    <div class="breadcrumb-new">
+        <ul>
+            <li> <a href="../default.aspx">Home</a> </li>
+            <li> <a style="cursor:default;text-decoration:none; color: #272727;">Skill Matrix</a> </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!-----------Breadcrumb End---------->
+    <div class="contain-div"> 
+		<span id="btnAddNew" class="btn-a show-popup">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true">
+			</span>
+			<span>Update Skills</span>
+		</span>
+		<span id="btnAddNewItem" class="btn-a show-popup">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true">
+			</span>
+			<span>Add New Skills</span>
+		</span>
+        <table id="example" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Skill Family – L1</th>
+                    <th>Skill Group – L2</th>
+                    <th>Skill Stream – L3</th>
+                    <th>Skill Details – L4</th>
+                    <th>Skill Type</th>
+                    <th>Strategicness</th>
+                    <th>Availability</th>
+                    <th>Practice</th>
+                    <th>Sub-Practice</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th>Skill Family – L1</th>
+                    <th>Skill Group – L2</th>
+                    <th>Skill Stream – L3</th>
+                    <th>Skill Details – L4</th>
+                    <th>Skill Type</th>
+                    <th>Strategicness</th>
+                    <th>Availability</th>
+                    <th>Practice</th>
+                    <th>Sub-Practice</th>
+                </tr>
+            </tfoot>
+            <tbody> </tbody>
+        </table>
+    </div>
+    <!-----------------------------
+            POPUP START
+    ------------------------------>
+    <div class="popup-bg">
+        <div class="popup">
+            <div class="popup-head">
+                <div class="panel-head left-pol">
+                    <h4><span id="nameChange">Update Skills</span></h4>
+                </div>
+                <div class="right-pol">
+                    <div class="p-close">x</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-boday">
+			<div id="update_add_new">
+                <div class="continer">
+                    <div class="col-sm-6">
+						<label class="spnText">Skill Family – L1</label><br />  
+						<select id="ddlSkillFamily" class="form-control Search_family">
+							<!-- <option value="Select">Select</option> -->
+						</select> 
+						<span class="ErrorMsg mandatory" id="ErrSkillFamily"></span>
+					</div>
+					
+                    <div class="col-sm-6"> 
+						<label class="spnText">Skill Group – L2</label><br /> 
+						<select id="ddlSkillGroup" class="form-control Search_Group">
+							<!-- <option value="Select">Select</option> -->
+						</select> 
+						<span class="ErrorMsg mandatory" id="ErrSkillGroup"></span> </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="continer">
+                    <div class="col-sm-6"> <label class="spnText">Skill Stream – L3</label><br /> 
+						<select id="ddlSkillStream" class="form-control Search_stream">
+							<!-- <option value="Select">Select</option> -->
+						</select> <span class="ErrorMsg mandatory" id="ErrSkillStream"></span>
+					</div>
+                    <div class="col-sm-6"> <label class="spnText">Skill Details – L4</label><br /> 
+						<select id="ddlSkillDetails" class="form-control Search_Details">
+							<!-- <option value="Select">Select</option> -->
+						</select> 
+						<span class="ErrorMsg mandatory" id="ErrSkillDetails"></span>
+					</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="continer">
+                    <div class="col-sm-6"> <label class="spnText">Skill Type</label><br /> 
+						<select id="ddlSillType" class="form-control Search_type">
+							<!-- <option value="Select">Select</option> -->
+						</select> 
+						<span class="ErrorMsg mandatory" id="ErrSkillType"></span> 
+					</div>
+                    <div class="col-sm-6"> <label class="spnText">Strategicness</label><br /> 
+						<select id="ddlStrategy" class="form-control Search_strategy">
+							<!-- <option value="Select">Select</option> -->
+						</select> <span class="ErrorMsg mandatory" id="ErrStrategicness"></span> 
+					</div>
+                    <div class="clear"></div>
+                </div>
+				
+                <div class="continer">
+                    <div class="col-sm-6"> <label class="spnText">Availability </label><br /> 
+						<select id="ddlAvailable" class="form-control Search_Availability">
+							<!-- <option value="Select">Select</option> -->
+						</select> 
+						<span class="ErrorMsg mandatory" id="ErrAvailability"></span> 
+					</div>
+                    <div class="col-sm-6"> <label class="spnText">Sub-Practice</label>&nbsp;<span class="mandatory1">*</span><br /> 
+						<select id="ddlSubPractice" class="form-control Search_subPracrtice">
+							<!-- <option value="Select">Select</option> -->
+						</select> 
+						<span class="ErrorMsg mandatory" id="ErrPractice"></span> 
+					</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="continer">
+                    <div class="col-sm-6"> <label class="spnText">Practice</label><br />
+						<input type="text" id="txtPractice" class="form-control" readonly="true" value="" /> 
+						<span class="ErrorMsg mandatory" id="ErrPractice"></span>
+                        <!-- <input type="text" class="form-control" id="txtRemarks" /> -->
+					</div>
+                    <div class="col-sm-6" style="padding-top:18px"> 
+						<input type="button" class="btn btn-primary" id="btnOk" value="OK" onclick="Validate()" />
+						<input type="button" class="btn btn-default" id="" value="CANCEL" onclick="CancelBtn()"/>
+                        <!-- <button class="btn btn-default">Cancel</button>  -->
+					</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+			</div>
+				<div id ="Insert_add_new">
+				<div class="popup-boday">
+					<div class="continer">
+						<div class="col-sm-6">
+							<!-- <label class="spnText">Skill Family</label>&nbsp;<span class="mandatory1">*</span><br />  -->
+							<label class="spnText">Skill Family – L1</label><br /> 
+							<input type="text" id="Add_family" class="form-control" style="width: 350px !important" >
+							<span class="ErrorMsg mandatory" id="ErrSkillFamily1"></span>
+						</div>
+						
+						<div class="col-sm-6"> 
+							<!-- <label class="spnText">Skill Group</label>&nbsp;<span class="mandatory1">*</span><br />  -->
+							<label class="spnText">Skill Group – L2</label><br /> 
+							<input type="text" id="Add_Group" class="form-control" style="width: 350px !important" >
+							<span class="ErrorMsg mandatory" id="ErrSkillGroup1"></span> </div>
+						<div class="clear"></div>
+					</div>
+					<div class="continer">
+						<div class="col-sm-6"> 
+							<!-- <label class="spnText">Skill Stream</label>&nbsp;<span class="mandatory1">*</span><br />  -->
+							<label class="spnText">Skill Stream – L3</label><br /> 
+							<input type="text" id="Add_Stream" class="form-control" style="width: 350px !important" >
+							<span class="ErrorMsg mandatory" id="ErrSkillStream1"></span>
+						</div>
+						<div class="col-sm-6"> 
+							<!-- <label class="spnText">Skill Details</label>&nbsp;<span class="mandatory1">*</span><br />  -->
+							<label class="spnText">Skill Details – L4</label><br /> 
+							<input type="text" id="Add_Details" class="form-control" style="width: 350px !important" >
+							<span class="ErrorMsg mandatory" id="ErrSkillDetails1"></span>
+						</div>
+						<div class="clear"></div>
+					</div>
+					
+					<div class="continer">
+						<div class="col-sm-6"> 
+							<label class="spnText">Skill Type</label><br /> 
+							<!-- <input type="text" id="Add_Type" class="form-control" style="width: 350px !important" > -->
+							<select id="Add_Type" class="form-control "></select>
+							<span class="ErrorMsg mandatory" id="ErrSkillType1"></span> 
+						</div>
+						<div class="col-sm-6"> 
+							<label class="spnText">Strategicness</label><br /> 
+							<!-- <input type="text" id="Add_Strategicness" class="form-control" style="width: 350px !important" > -->
+							<select id="Add_Strategicness" class="form-control ">
+							</select>
+							<span class="ErrorMsg mandatory" id="ErrStrategicness1"></span> 
+						</div>
+						<div class="clear"></div>
+					</div>
+					
+					<div class="continer">
+						<div class="col-sm-6"> 
+							<label class="spnText">Availability </label><br /> 
+							<select id="Add_Availability" class="form-control "></select>
+							<span class="ErrorMsg mandatory" id="ErrAvailability1"></span> 
+						</div>
+						<div class="col-sm-6"> 
+							<label class="spnText">Sub-Practice</label>&nbsp;<span class="mandatory1">*</span><br /> 
+							
+							<select id="Add_SubPractice"  class="form-control Search_Add_SubPractice">
+								<option value="Select">Select</option>
+							</select>
+							<span class="ErrorMsg mandatory" id="ErrPractice1"></span> 
+						</div>
+						<div class="clear"></div>
+					</div>
+					
+					<div class="continer">
+						<div class="col-sm-6"> <label class="spnText">Practice</label><br />
+							<input type="text" id="Add_Practice" class="form-control"  readonly="true"  style="width: 350px !important" /> 
+							<span class="ErrorMsg mandatory" id="ErrPractice11"></span>
+							<!-- <input type="text" class="form-control" id="txtRemarks" /> -->
+						</div>
+						<div class="col-sm-6" style="padding-top:18px"> 
+							<input type="button" class="btn btn-primary" id="btnOk" value="OK" onclick="ValidateNewInsertItem()" />
+							<input type="button" class="btn btn-default" id="" value="CANCEL" onclick="CancelBtn()"/>
+							<!-- <button class="btn btn-default">Cancel</button>  -->
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>	
+				
+            </div>
+        </div>
+    </div>
+	
+	<!--And New Item-->
+
+	
+	
+    <script src="../SiteAssets/RMO/js/jquery-1.11.1.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/buttons/1.4.0/js/dataTables.buttons.min.js"></script> -->
+    <!-- Export to excel js file start -->
+    <script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jszip.min.js"></script>
+    <script src="../SiteAssets/RMO/js/pdfmake.min.js"></script>
+    <script src="../SiteAssets/RMO/js/vfs_fonts.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+    <!-- Export to excel js file end  -->
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/ReleaseExtensionConfig.js"></script>
+    <!-- <script src="../SiteAssets/RMO/js/SkillMatrixJs.js"></script> -->
+	<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+	<script>
+		var endpoint = GetSkills(1); // "/_api/Skills";
+		var functionality = "";
+		var CurRowId = "";
+		var result = result || [];
+		var LoginUserID=_spPageContextInfo.userId;
+		var SkillmatrixUser="";
+		$(document).ready(function() 
+		{
+			var RmoGroupurl = "../_api/Web/GetUserById('"+LoginUserID+"')/Groups?$select=Id,Title&$filter=Title eq '_RMO'";
+            var RmoRoleCount = resultset(RmoGroupurl);
+			if(RmoRoleCount.length>0)
+			{
+			$("#example").show();
+				var skillmartrixGroupurl = "../_api/Web/GetUserById('"+LoginUserID+"')/Groups?$select=Id,Title&$filter=Title eq 'Skill Matrix'";
+				var SkillmatrixRoleCount = resultset(skillmartrixGroupurl);
+				if(SkillmatrixRoleCount.length > 0)
+				{
+					SkillmatrixUser="1";
+					$('#btnAddNew').show();
+					$('#btnAddNewItem').show();
+				}
+				else
+				{
+					SkillmatrixUser="";
+					$('#btnAddNew').hide();
+					$('#btnAddNewItem').hide();
+				}
+					$('.contain-div').show();
+					$('#txtPractice')[0].value = "";
+					$('.loader').show();
+					setTimeout(function() 
+					{
+						result = [];
+						BindSkills();
+					}, 100);
+					$('#btnAddNew').on('click', function() 
+					{
+						$('.popup-bg').show();
+						ClearErrMsg();
+						$('#nameChange').text("Update Skills");
+						$('#update_add_new').show();
+						$('#Insert_add_new').hide();
+						$('#ddlSkillFamily').empty();
+						$('#ddlSkillGroup').empty();
+						$('#ddlSkillStream').empty();
+						$('#ddlSkillDetails').empty();
+						$('#ddlSillType').empty();
+						$('#ddlStrategy').empty();
+						$('#ddlAvailable').empty();
+						$('#txtPractice').empty();
+						$('#txtRemarks').empty();
+						$('#ddlSubPractice').empty();
+						$('.mandatory').empty();
+						$('#ErrPractice').text("");
+						functionality = 'Insert';
+						GetRowData();
+					});
+					
+					$('#btnAddNewItem').on('click', function() 
+					{
+						$('.popup-bg').show();
+						ClearErrMsg();
+						$('#nameChange').text("Add New Skills");
+						$('#update_add_new').hide();
+						$('#Insert_add_new').show();
+						$('#Add_family').val("");
+						$('#Add_Group').val("");
+						$('#Add_Stream').val("");
+						$('#Add_Details').val("");
+						$('#Add_Type').empty();
+						$('#Add_Strategicness').empty();
+						$('#Add_Availability').empty();
+						$('#Add_Practice').val("");
+						//functionality = 'Insert';
+						$('#Add_SubPractice').empty();
+						
+						GetRowDataForSubPractice();
+					});
+					
+					$('.p-close').on('click', function() 
+					{
+						$('.popup-bg').css("display", "none");
+					});
+					$('#ddlSubPractice').on('change', function() 
+					{
+						$('.mandatory').empty();
+						$('#ErrPractice1').text("");
+						var SelectedSubPracticeVal = $('#ddlSubPractice option:selected').val();
+						GetSkills('', 1);
+						SelectedSubPracticeVal = SelectedSubPracticeVal.replace(/&/g, "\%26");
+						if(SelectedSubPracticeVal.indexOf('+') >= 0)
+						{
+							var symbols = {	
+								'+': '%2B'
+							};
+							SelectedSubPracticeVal = SelectedSubPracticeVal.replace(/([+])/g, function (m) { return symbols[m]; });
+						}
+						var url = GetSubPracticeVal(SelectedSubPracticeVal); //"/_api/Skills?$filter=Sub_Practice+eq'"+SelectedSubPracticeVal+"'";
+						$.ajax
+						({
+							url: url,
+							async: false,
+							method: "GET",
+							headers: {
+								"Accept": "application/json; odata=verbose",
+								"Content-Type": "application/json; odata=verbose"
+							},
+							success: function(data) {
+								var data = data.d.results;
+								//for (var i = 0; i < data.length; i++) {
+								$('#txtPractice').empty();
+								if (data[0].Practice != null) 
+								{
+									$('#txtPractice').val(data[0].Practice);
+								}
+							},
+							error: function(error) {
+								//result = 'error';
+							}
+						});
+					});
+					
+					$('#Add_SubPractice').on('change', function() 
+					{
+						$('.mandatory').empty();
+						$('#ErrPractice').text("");
+						var SelectedSubPracticeVals = $('#Add_SubPractice option:selected').val();
+						SelectedSubPracticeVals = SelectedSubPracticeVals.replace(/&/g, "\%26");
+						if(SelectedSubPracticeVals.indexOf('+') >= 0)
+						{
+							var symbols = {	
+								'+': '%2B'
+							};
+							SelectedSubPracticeVals = SelectedSubPracticeVals.replace(/([+])/g, function (m) { return symbols[m]; });
+						}
+						GetSkills('', 1);
+						var url = GetSubPracticeVal(SelectedSubPracticeVals); //"/_api/Skills?$filter=Sub_Practice+eq'"+SelectedSubPracticeVal+"'";
+						$.ajax
+						({
+							url: url,
+							async: false,
+							method: "GET",
+							headers: {
+								"Accept": "application/json; odata=verbose",
+								"Content-Type": "application/json; odata=verbose"
+							},
+							success: function(data) {
+								var data = data.d.results;
+								$('#Add_Practice').empty();
+								if (data[0].Practice != null) 
+								{
+									$('#Add_Practice').val(data[0].Practice);
+								}
+							},
+							error: function(error) {
+								//result = 'error';
+							}
+						});
+					});
+				
+				}
+				else
+				{
+				$("#btnAddNew").hide();
+				$("#btnAddNewItem").hide();
+					$("#example").hide();
+					alert('Access denided to this page');
+					location.href="../default.aspx";
+				}
+		});
+
+		function BindSkills() 
+		{		
+			$.ajax
+			({
+				url: endpoint,
+				async: false,
+				method: "GET",
+				headers: {
+					"Accept": "application/json; odata=verbose",
+					"Content-Type": "application/json; odata=verbose"
+				},
+				success: function(data) 
+				{
+					result = result.concat(data.d.results);
+					if (data.d.__next) 
+					{
+						endpoint = data.d.__next;
+						BindSkills();
+					}
+					//result = data.d.results;
+					$('#example > tbody').empty();
+					for (var i = 0; i < result.length; i++) 
+					{
+						var row = "";
+						if((result[i].Sub_Practice=="Bristlecone Labs-Analytics") ||(result[i].Sub_Practice=="Bristlecone Labs-Advanced Analytics") || (result[i].Sub_Practice=="SAP-SE") || (result[i].Sub_Practice=="Bristlecone Labs-BC/RPA/CUI") || (result[i].Sub_Practice=="Global Practices-DiSC-Logistics Execution") || (result[i].Sub_Practice=="Bristlecone Labs-Engineering/Labs") || (result[i].Sub_Practice=="Bristlecone Labs-IoE") || (result[i].Sub_Practice=="Bristlecone Labs") || (result[i].Sub_Practice=="SAP-Technical"))
+						{
+							//not binding which is closed sub pratice
+							//row = "<tr id=" + result[i].UID + "><td><span title='EDIT' class='glyphicon glyphicon-pencil  btnedit' aria-hidden='true' onclick='showPopUp(this)'></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span title='DELETE' class='glyphicon glyphicon-trash btndelete' aria-hidden='true' onclick='DeleteItem(this)'></span></td><td>" + (result[i].Skill_Family == null ? '' : result[i].Skill_Family) + "</td><td>" + (result[i].Skill_Group == null ? '' : result[i].Skill_Group) + "</td><td>" + (result[i].Skill_Stream == null ? '' : result[i].Skill_Stream) + "</td><td>" + (result[i].Skill_Details == null ? '' : result[i].Skill_Details) + "</td><td>" + (result[i].Skill_Type == null ? '' : result[i].Skill_Type) + "</td><td>" + (result[i].Strategicness == null ? '' : result[i].Strategicness) + "</td><td>" + (result[i].Availability == null ? '' : result[i].Availability) + "</td><td>" + (result[i].Practice == null ? '' : result[i].Practice) + "</td><td>" + (result[i].Sub_Practice == null ? '' : result[i].Sub_Practice) + "</td></tr>";
+						}
+						else
+						{  
+						if(result[i].Practice == 'ISV')
+						{
+						
+						}
+						else{
+							if(SkillmatrixUser=="1")
+							{
+								row = "<tr id=" + result[i].UID + "><td><span title='EDIT' class='glyphicon glyphicon-pencil  btnedit' aria-hidden='true' onclick='showPopUp(this)'></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span title='DELETE' class='glyphicon glyphicon-trash btndelete' aria-hidden='true' onclick='DeleteItem(this)'></span></td><td>" + (result[i].Skill_Family == null ? '' : result[i].Skill_Family) + "</td><td>" + (result[i].Skill_Group == null ? '' : result[i].Skill_Group) + "</td><td>" + (result[i].Skill_Stream == null ? '' : result[i].Skill_Stream) + "</td><td>" + (result[i].Skill_Details == null ? '' : result[i].Skill_Details) + "</td><td>" + (result[i].Skill_Type == null ? '' : result[i].Skill_Type) + "</td><td>" + (result[i].Strategicness == null ? '' : result[i].Strategicness) + "</td><td>" + (result[i].Availability == null ? '' : result[i].Availability) + "</td><td>" + (result[i].Practice == null ? '' : result[i].Practice == "ISV" ? '' : result[i].Practice) + "</td><td>" + (result[i].Sub_Practice == null ? '' : result[i].Sub_Practice == "ISV-SAP" ? '' : result[i].Sub_Practice == "ISV-Others" ? '' : result[i].Sub_Practice == "ISV Management" ? '' : result[i].Sub_Practice) + "</td></tr>";
+							}
+							else if(SkillmatrixUser=="")
+							{
+								row = "<tr id=" + result[i].UID + "><td></td><td>" + (result[i].Skill_Family == null ? '' : result[i].Skill_Family) + "</td><td>" + (result[i].Skill_Group == null ? '' : result[i].Skill_Group) + "</td><td>" + (result[i].Skill_Stream == null ? '' : result[i].Skill_Stream) + "</td><td>" + (result[i].Skill_Details == null ? '' : result[i].Skill_Details) + "</td><td>" + (result[i].Skill_Type == null ? '' : result[i].Skill_Type) + "</td><td>" + (result[i].Strategicness == null ? '' : result[i].Strategicness) + "</td><td>" + (result[i].Availability == null ? '' : result[i].Availability) + "</td><td>" + (result[i].Practice == null ? ''  : result[i].Practice == "ISV" ? ''  : result[i].Practice) + "</td><td>" + (result[i].Sub_Practice == null ? '' : result[i].Sub_Practice == "ISV-SAP" ? '' : result[i].Sub_Practice == "ISV-Others" ? '' : result[i].Sub_Practice == "ISV Management" ? '' : result[i].Sub_Practice) + "</td></tr>";
+							}
+						}
+						}
+						$('#example > tbody').append(row);
+					}
+					$('#example tfoot th').each(function() 
+					{
+						var title = $(this).text();
+						if (title != "") {
+							$(this).html('<input type="text"/>'); // placeholder="Search" 
+						}
+					});
+					$('#example').dataTable({
+						"dom": 'Rlfrtip',
+						"lengthMenu": [5, 10, 15, 20, 25, 30],
+						"pageLength": 10,
+						"destroy": 'true',
+						"dom": 'lBfrtip',
+						buttons: [{
+							extend: 'excelHtml5',
+							exportOptions: {
+								columns: ':visible'
+							}
+						}, {
+							extend: 'print',
+							exportOptions: {
+								columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+							}
+						}, ],
+					});
+					var table = $('#example').DataTable();
+					//Apply the search
+					table.columns().every(function() {
+						var that = this;
+						$('input', this.footer()).on('keyup change', function() {
+							if (that.search() !== this.value) {
+								that.search(this.value).draw();
+							}
+						});
+					});
+					$(".buttons-excel,.buttons-print").find('span').empty();
+					$(".buttons-excel").find('span').addClass('fa').addClass('fa-file-excel-o');
+					$(".buttons-print").find('span').addClass('fa').addClass('fa-print');
+					$(".buttons-excel").find('span').attr('title', 'Export to Excel');
+					$(".buttons-print").find('span').attr('title', 'Print');
+				},
+				error: function(error) {
+					//result = 'error';
+				}
+			});
+			$('.loader').hide();
+		}
+
+		function showPopUp(id) 
+		{
+			$('.popup-bg').show();
+			// alert('edit func call');
+			ClearErrMsg();
+			$('#update_add_new').show();
+			$('#Insert_add_new').hide();
+			$('#ddlSkillFamily').empty();
+			$('#ddlSkillGroup').empty();
+			$('#ddlSkillStream').empty();
+			$('#ddlSkillDetails').empty();
+			$('#ddlSillType').empty();
+			$('#ddlStrategy').empty();
+			$('#ddlAvailable').empty();
+			$('#txtPractice').empty();
+			$('#txtRemarks').empty();
+			$('#ddlSubPractice').empty();
+			functionality = 'Update';
+			$('#nameChange').text("Update");
+			CurRowId = id.parentNode.parentNode.id;
+			GetRowData();
+		}
+
+		function DeleteItem(id) 
+		{
+			var CurRowId = id.parentNode.parentNode.id;
+			// alert("delete item function");
+			var url = GetorSetSkillsByRowId(CurRowId); // "/_api/Skills(guid'" + CurRowId + "')";
+			if (confirm("Are you sure to delete the item?")) {
+				$.ajax
+				({
+					url: url,
+					async: false,
+					method: "DELETE",
+					data: {
+						"UID": CurRowId
+					},
+					headers: {
+						"Accept": "application/json;odata=verbose"
+					},
+					success: function(data) {
+						alert('Skills Deleted successfully');
+						//window.location.reload();
+					},
+					error: function(error) {
+						//result = 'error';
+						console.log(JSON.stringify(error));
+					}
+				});
+				$('.loader').show();
+				setTimeout(function() {
+					Reloadjs();
+					result = [];
+					BindSkills();
+				}, 100);
+			}
+		}
+
+		function GetRowData() 
+		{
+			var Url = GetNewDistinctDataUrl();   //var Url = "/api/Distinct/DistinctSkill";
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Skill_Family\"}", '#ddlSkillFamily', 0);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Skill_Group\"}", '#ddlSkillGroup', 1);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Skill_Stream\"}", '#ddlSkillStream', 2);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Skill_Details\"}", '#ddlSkillDetails', 3);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Skill_Type\"}", '#ddlSillType', 4);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Strategicness\"}", '#ddlStrategy', 5);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Availability\"}", '#ddlAvailable', 6);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Sub_Practice\"}", '#ddlSubPractice', 7);
+			if (functionality == 'Update') 
+			{
+				BindSkillsData();
+			}
+		}
+		
+		function GetRowDataForSubPractice()
+		{
+			var Url = GetNewDistinctDataUrl();   //var Url = "/api/Distinct/DistinctSkill";
+
+			BinddropdownAddSubPratice("" + Url + "", "{\"ColumnName\":\"Sub_Practice\"}", '#Add_SubPractice',0);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Skill_Type\"}", '#Add_Type', 1);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Strategicness\"}", '#Add_Strategicness', 2);
+			Binddropdown("" + Url + "", "{\"ColumnName\":\"Availability\"}", '#Add_Availability', 3);
+		}
+		
+		function BinddropdownAddSubPratice(urls, requestDatas, dropdownid,countfor)
+		{
+			$.ajax
+			({
+				url: urls,
+				async: false,
+				data: requestDatas,
+				type: "POST",
+				dataType: "json",
+				headers: {
+					"content-Type": "application/json"
+				},
+				success: function(data) 
+				{
+					var data = data.Data;
+					if(data.length>0)
+					{
+						data.sort();
+					}
+					if (countfor == 0) //Sub_Practice
+					{
+						//var subpractice_Array=[];
+						for (var i = 0; i < data.length; i++) 
+						{
+							if (data[i] != null) 
+							{
+								if((data[i]=="Bristlecone Labs-Analytics") || (data[i]=="Bristlecone Labs-Advanced Analytics") || (data[i]=="SAP-SE") || (data[i]=="Bristlecone Labs-BC/RPA/CUI") || (data[i]=="Global Practices-DiSC-Logistics Execution") || (data[i]=="Bristlecone Labs-Engineering/Labs") || (data[i]=="Bristlecone Labs-IoE") || (data[i]=="Bristlecone Labs") || (data[i]=="SAP-Technical"))
+								{
+									//not binding closed sub practice
+									//subpractice_Array.push(data[i]);
+								}
+								else
+								{
+									$(dropdownid).append("<option style='color: #420101;' value=\"" + data[i] + "\">" + data[i] + "</option>");
+								}
+							}
+						}
+					}
+					else if (countfor == 1) //Skill_Type
+					{
+						if (data[i] != null) {
+							$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+						}
+					}
+					else if (countfor == 2) //Strategicness
+					{
+						if (data[i] != null) {
+							$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+						}
+					} 
+					else if (countfor == 3) //Availability
+					{
+						if (data[i] != null) {
+							$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+						}
+					} 
+						
+					$("#Add_SubPractice").val("null");
+					$('#Add_Practice')[0].value = "";
+				},
+				error: function(error) 
+				{
+					console.log(JSON.stringify(error));
+				}
+			});
+		}
+
+		function Binddropdown(url, requestData, dropdownid, count)
+		{
+			$.ajax
+			({
+				url: url,
+				async: false,
+				data: requestData,
+				type: "POST",
+				dataType: "json",
+				headers: {
+					"content-Type": "application/json"
+				},
+				success: function(data) 
+				{
+					var data = data.Data;
+					var subpractice_ArraySS=[];
+					for (var i = 0; i < data.length; i++) 
+					{
+						// Skill_FamilyData.push(data[i].Skill_Family);
+						if (count == 0) //Skill_family
+						{
+							if (data[i] != null) 
+							{
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						} 
+						else if (count == 1) //Skill_Group
+						{
+							if (data[i] != null)
+							{
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						} 
+						else if (count == 2) //Skill_Stream
+						{
+							if (data[i] != null) {
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						} 
+						else if (count == 3) //Skill_Details
+						{
+							if (data[i] != null) {
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						} 
+						else if (count == 4) //Skill_Type
+						{
+							if (data[i] != null) {
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						}
+						else if (count == 5) //Strategicness
+						{
+							if (data[i] != null) {
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						} 
+						else if (count == 6) //Availability
+						{
+							if (data[i] != null) {
+								$(dropdownid).append("<option value=\"" + data[i] + "\">" + data[i] + "</option>");
+							}
+						} 
+						else if (count == 7) //Sub_Practice
+						{
+							if (data[i] != null) 
+							{
+								if((data[i]=="Bristlecone Labs-Analytics") ||(data[i]=="Bristlecone Labs-Advanced Analytics") || (data[i]=="SAP-SE") || (data[i]=="Bristlecone Labs-BC/RPA/CUI") || (data[i]=="Global Practices-DiSC-Logistics Execution") || (data[i]=="Bristlecone Labs-Engineering/Labs") || (data[i]=="Bristlecone Labs-IoE") || (data[i]=="Bristlecone Labs") || (data[i]=="SAP-Technical"))
+								{
+									//not binding closed sub practice
+									//subpractice_ArraySS.push(data[i]);
+								}
+								else
+								{
+									$(dropdownid).append("<option style='color: #420101;' value=\"" + data[i] + "\">" + data[i] + "</option>");
+								}
+							}
+						}
+					}
+					/*if(subpractice_ArraySS.length>0)
+					{
+						$('#ddlSubPractice').append("<optgroup calss='optgroup' label='CLOSED Sub-Practice edit'>");
+						for(var i=0;i<subpractice_ArraySS.length;i++)
+						{
+							//$(dropdownid).append($('<option style="display:none"></option style="color:lightgray;">').val(subpractice_Array[i]).html(subpractice_Array[i]).attr("disabled","disabled"));
+							$('#ddlSubPractice').append($('<option style="color:lightgray;"></option >').val(subpractice_ArraySS[i]).html(subpractice_ArraySS[i]).attr("disabled","disabled"));
+						}
+						$('#ddlSubPractice').append("</optgroup>");
+						
+					}*/
+					$("#ddlSkillFamily").val("null");
+					$("#ddlSkillGroup").val("null");
+					$("#ddlSkillStream").val("null");
+					$("#ddlSkillDetails").val("null");
+					$("#ddlSillType").val("null");
+					$("#ddlStrategy").val("null");
+					$("#ddlAvailable").val("null");
+					$("#ddlSubPractice").val("null");
+					//$("#txtPractice").val("null");
+					$('#txtPractice')[0].value = "";
+				},
+				error: function(error) 
+				{
+					console.log(JSON.stringify(error));
+				}
+			});
+		}
+
+		function Validate() 
+		{
+			/*if ($('#ddlSkillFamily').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrSkillFamily').text("Please Select Skill Family");
+				return false;
+			}
+			if ($('#ddlSkillGroup').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrSkillGroup').text("Please Select Skill Group");
+				return false;
+			}
+			if ($('#ddlSkillStream').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrSkillStream').text("Please Select Skill Stream");
+				return false;
+			}
+			if ($('#ddlSkillDetails').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrSkillDetails').text("Please Select Skill Details");
+				return false;
+			}
+			if ($('#ddlSillType').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrSkillType').text("Please Select Skill Type");
+				return false;
+			}
+			if ($('#ddlStrategy').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrStrategicness').text("Please Select Strategy");
+				return false;
+			}
+			if ($('#ddlAvailable').val() == null) {
+				$('.mandatory').empty();
+				$('#ErrAvailability').text("Please Select Available");
+				return false;
+			}*/
+			if (($('#ddlSubPractice option:selected').val() == "") || ($('#ddlSubPractice option:selected').val() == "null") || ($('#ddlSubPractice option:selected').val() == null) || ($('#ddlSubPractice option:selected').val() == "null") || ($('#ddlSubPractice option:selected').val() == undefined) || ($('#ddlSubPractice option:selected').val() == "undefined"))
+			{
+				$('.mandatory').empty();
+				$('#ErrPractice').text("Please Select Sub-Practice");
+				return false;
+			} 
+			else if (functionality == 'Insert') 
+			{
+				InsertSkillsData();
+				$('.loader').show();
+				setTimeout(function() {
+					Reloadjs();
+					result = [];
+					BindSkills();
+				}, 1000);
+				//window.location.reload();
+			}
+			else if (functionality == 'Update') 
+			{
+				UpdateSkillsData();
+				$('.loader').show();
+				setTimeout(function() {
+					Reloadjs();
+					result = [];
+					BindSkills();
+				}, 1000);
+				//window.location.reload();
+			}
+			
+		}
+
+		function InsertSkillsData() 
+		{
+			$('.ErrorMsg').empty();
+			var SkillFamilyValue = $('#ddlSkillFamily option:selected').text();
+			var SkillGroupValue = $('#ddlSkillGroup option:selected').text();
+			var SkillStreamValue = $('#ddlSkillStream option:selected').text();
+			var SkillDetailsValue = $('#ddlSkillDetails option:selected').text();
+			var SkillTypeValue = $('#ddlSillType option:selected').text();
+			var StrategicnessValue = $('#ddlStrategy option:selected').text();
+			var AvailabilityValue = $('#ddlAvailable option:selected').text();
+			var PracticeValue = $('#txtPractice')[0].value;
+			var SubPracticeValue = $('#ddlSubPractice option:selected').text();
+			$.ajax({
+				url: endpoint,
+				async: false,
+				method: "POST",
+				data: {
+					"Skill_Family": SkillFamilyValue,
+					"Skill_Group": SkillGroupValue,
+					"Skill_Stream": SkillStreamValue,
+					"Skill_Details": SkillDetailsValue,
+					"Skill_Type": SkillTypeValue,
+					"Strategicness": StrategicnessValue,
+					"Availability": AvailabilityValue,
+					"Practice": PracticeValue,
+					"Sub_Practice": SubPracticeValue
+				},
+				headers: {
+					"Accept": "application/json;odata=verbose",
+				},
+				success: function(data) {
+					alert('Skill updated successfully');
+				},
+				error: function(error) {
+					//result = 'error';
+					console.log(JSON.stringify(error));
+				}
+			});
+			$('.popup-bg').hide();
+			$('.loader').show();
+			setTimeout(function() {
+				Reloadjs();
+				result = [];
+				BindSkills();
+			}, 100);
+		}
+
+		function BindSkillsData() 
+		{
+			var CurSkillFamilyValue = $("#" + CurRowId + "")[0].cells[1].innerText;
+			var CurSkillGroupValue = $("#" + CurRowId + "")[0].cells[2].innerText;
+			var CurSkillStreamValue = $("#" + CurRowId + "")[0].cells[3].innerText;
+			var CurSkillDetailsValue = $("#" + CurRowId + "")[0].cells[4].innerText;
+			var CurSkillTypeValue = $("#" + CurRowId + "")[0].cells[5].innerText;
+			var CurStrategicnessValue = $("#" + CurRowId + "")[0].cells[6].innerText;
+			var CurAvailabilityValue = $("#" + CurRowId + "")[0].cells[7].innerText;
+			var CurPracticeValue = $("#" + CurRowId + "")[0].cells[8].innerText;
+			var CurSubPracticeValue = $("#" + CurRowId + "")[0].cells[9].innerText;
+			$("#ddlSkillFamily").val(CurSkillFamilyValue);
+			$("#ddlSkillGroup").val(CurSkillGroupValue);
+			$("#ddlSkillStream").val(CurSkillStreamValue);
+			$("#ddlSkillDetails").val(CurSkillDetailsValue);
+			$("#ddlSillType").val(CurSkillTypeValue);
+			$("#ddlStrategy").val(CurStrategicnessValue);
+			$("#ddlAvailable").val(CurAvailabilityValue);
+			$("#txtPractice").val(CurPracticeValue);
+			$("#ddlSubPractice").val(CurSubPracticeValue);
+		}
+
+		function UpdateSkillsData() 
+		{
+			$('.ErrorMsg').empty();
+			var url = GetorSetSkillsByRowId(CurRowId); //"/_api/Skills(guid'" + CurRowId + "')";
+			var SkillFamilyValue = $('#ddlSkillFamily option:selected').text();
+			var SkillGroupValue = $('#ddlSkillGroup option:selected').text();
+			var SkillStreamValue = $('#ddlSkillStream option:selected').text();
+			var SkillDetailsValue = $('#ddlSkillDetails option:selected').text();
+			var SkillTypeValue = $('#ddlSillType option:selected').text();
+			var StrategicnessValue = $('#ddlStrategy option:selected').text();
+			var AvailabilityValue = $('#ddlAvailable option:selected').text();
+			var PracticeValue = $('#txtPractice')[0].value;
+			var SubPracticeValue = $('#ddlSubPractice option:selected').val();
+			$.ajax({
+				url: url,
+				async: false,
+				method: "PUT",
+				data: {
+					"Skill_Family": SkillFamilyValue,
+					"Skill_Group": SkillGroupValue,
+					"Skill_Stream": SkillStreamValue,
+					"Skill_Details": SkillDetailsValue,
+					"Skill_Type": SkillTypeValue,
+					"Strategicness": StrategicnessValue,
+					"Availability": AvailabilityValue,
+					"Practice": PracticeValue,
+					"Sub_Practice": SubPracticeValue,
+					"UID": CurRowId
+				},
+				headers: {
+					"Accept": "application/json;odata=verbose"
+				},
+				success: function(data) {
+					alert('Skill updated successfully');
+				},
+				error: function(error) {
+					//result = 'error';
+					console.log(JSON.stringify(error));
+				}
+			});
+			$('.popup-bg').hide();
+			$('.loader').show();
+			setTimeout(function() {
+				Reloadjs();
+				result = [];
+				BindSkills();
+			}, 100);
+		}
+
+		function ClearErrMsg()
+		 {
+			$('.mandatory').empty();
+		}
+
+		function Reloadjs()
+		 {
+			if ($.fn.dataTable.isDataTable('#example')) {
+				destroyjs('#example');
+			}
+			//Code to destroy jquery datatable 
+			function destroyjs(tableid) {
+				if ($.fn.dataTable.isDataTable(tableid)) {
+					$(tableid).DataTable({
+						"filter": false,
+						"destroy": true
+					});
+					$(tableid).DataTable().destroy();
+					//clear_tbody();
+					//$(tableid).html("");
+					$(tableid + " tbody tr").remove();
+				}
+			}
+		}
+		//function to export the html table to excel
+		function Exporttoexcel() 
+		{
+			var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
+			var textRange;
+			var j = 0;
+			tab = document.getElementById('tblPayrollExcel'); // id of table
+			for (j = 0; j < tab.rows.length; j++) {
+				tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+				//tab_text=tab_text+"</tr>";
+			}
+			tab_text = tab_text + "</table>";
+			var ua = window.navigator.userAgent;
+			var msie = ua.indexOf("MSIE ");
+			if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer
+			{
+				txtArea1.document.open("txt/html", "replace");
+				txtArea1.document.write(tab_text);
+				txtArea1.document.close();
+				txtArea1.focus();
+				sa = txtArea1.document.execCommand("SaveAs", true, "PayrollReport.xls");
+			} else //other browser not tested on IE 11
+				sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+			return (sa);
+		}
+		
+		function CancelBtn()
+		{
+			$('.popup-bg').hide();
+		}
+		
+		function ValidateNewInsertItem() 
+		{
+			/*if ($('#Add_family').val() == "")
+			{
+				$('.mandatory').empty();
+				$('#ErrSkillFamily1').text("Please Enter Skill Family");
+				return false;
+			}
+			if ($('#Add_Group').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrSkillGroup1').text("Please Enter Skill Group");
+				return false;
+			}
+			if ($('#Add_Stream').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrSkillStream1').text("Please Enter Skill Stream");
+				return false;
+			}
+			if ($('#Add_Details').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrSkillDetails1').text("Please Enter Skill Details");
+				return false;
+			}
+			if ($('#Add_Type').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrSkillType1').text("Please Enter Skill Type");
+				return false;
+			}
+			if ($('#Add_Strategicness').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrStrategicness1').text("Please Enter Strategy");
+				return false;
+			}
+			if ($('#Add_Availability').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrAvailability1').text("Please Enter Available");
+				return false;
+			}*/
+			if (($('#Add_SubPractice option:selected').val() == "") || ($('#Add_SubPractice option:selected').val() == "null") || ($('#Add_SubPractice option:selected').val() == null ) || ($('#Add_SubPractice option:selected').val() == "undefined") || ($('#Add_SubPractice option:selected').val() == undefined )) 
+			{
+				$('.mandatory').empty();
+				$('#ErrPractice1').text("Please Select Sub-Practice");
+				return false;
+			} 
+			/*if ($('#Add_Practice').val() == "") {
+				$('.mandatory').empty();
+				$('#ErrPractice11').text("Please Enter Practice");
+				return false;
+			} */
+			else 
+			{
+				InsertNewSkillsData();
+				$('.loader').show();
+				setTimeout(function() {
+					Reloadjs();
+					result =[];
+					BindSkills();
+				}, 1000);
+				//window.location.reload();
+			}
+			
+		}
+		
+		function InsertNewSkillsData() 
+		{
+			$('.ErrorMsg').empty();
+			var New_Add_family = $('#Add_family').val().trim();
+			var New_Add_Group = $('#Add_Group').val().trim();
+			var New_Add_Stream = $('#Add_Stream').val().trim();
+			var New_Add_Details = $('#Add_Details').val().trim();
+			var New_Add_Type = $('#Add_Type option:selected').val();
+			var New_Add_Strategicness = $('#Add_Strategicness option:selected').val();
+			var New_Add_Availability = $('#Add_Availability option:selected').val();
+			//var New_Add_SubPractice = $('#Add_SubPractice').val().trim();
+			var New_Add_SubPractice = $('#Add_SubPractice option:selected').val();
+			var New_Add_Practice = $('#Add_Practice').val();
+			$.ajax({
+				url: endpoint,
+				async: false,
+				method: "POST",
+				data: {
+					"Skill_Family": New_Add_family,
+					"Skill_Group": New_Add_Group,
+					"Skill_Stream": New_Add_Stream,
+					"Skill_Details": New_Add_Details,
+					"Skill_Type": New_Add_Type,
+					"Strategicness": New_Add_Strategicness,
+					"Availability": New_Add_Availability,
+					"Practice": New_Add_Practice,
+					"Sub_Practice": New_Add_SubPractice
+				},
+				headers: {
+					"Accept": "application/json;odata=verbose",
+				},
+				success: function(data) {
+					alert('Skill added successfully');
+				},
+				error: function(error) {
+					//result = 'error';
+					console.log(JSON.stringify(error));
+				}
+			});
+			$('.popup-bg').hide();
+			$('.loader').show();
+			setTimeout(function() {
+				Reloadjs();
+				result = [];
+				BindSkills();
+			}, 100);
+		}
+		function resultset(Url) 
+		{
+			var result;
+			$.ajax({
+				url: Url,
+				async: false,
+				method: "GET",
+				headers: {
+					"Accept": "application/json; odata=verbose",
+					"Content-Type": "application/json; odata=verbose"
+				},
+				success: function (data) {
+					result = data.d.results;
+				},
+				error: function (error) {
+					result = 'error';
+				}
+			});
+			return result;
+		}
+	</script>
+</body>
+
+</html><html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

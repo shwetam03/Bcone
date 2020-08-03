@@ -1,0 +1,1991 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Approver Page</title>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript">
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+      $.widget.bridge('uibutton', $.ui.button);
+</script>
+ <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css"> 
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css"> 
+
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+
+<style type="text/css">
+#DeltaTopNavigation{	
+    display: none;
+
+}
+	.planed-checkbox {
+		margin-top: 0px;
+	}
+	.viewTSNote{	display:none;	}
+	.third-block {
+		margin: -10px 0 !important;
+		width: 98% !important;
+		float: right;
+	}
+	.openallcomment{
+		color:#d2d2d2;
+	}
+	.big-textbox{
+		width: 30%;
+		margin-bottom: 15px;
+		border: 1px solid #e6eba0;
+		outline: 0;
+		background-color: #fafeca;
+		padding: 5px;
+		height: 80px;
+	}
+	.tooltip{
+		width:200px !important;
+		word-wrap: break-word !important;
+	}
+	.projectWiseCheckBox{}
+	.resourceWiseCheckBox{}
+	.projectId{}
+	.TimeSheetUID{}
+	.resourceUID{}
+
+	#accordion{ width:98%;float:right}
+	#accordion input[type="checkbox"]{position: absolute;left:1%;margin-top:10px }
+	#accordion h4> input[type="checkbox"]{position: absolute;left:2%; }
+	#accordion h4:nth-child(1) input[type="checkbox"]{position: relative;left:-7px; }
+	.accordion1 a.accordion-toggle{ width:98% !important}
+	#accordion a.accordion-toggle{width:100%;}
+	.panel-default{ margin-bottom: 10px !important;}
+	div.accordion-toggle{ float:none !important }
+</style>
+</head>
+<body>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+	<div class="container-fluid">
+	    <div class="breadcrumb-main">
+	    	<div class="container-fluid">
+	            <ul>
+	                <li>
+	                    <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+	                </li>
+	                <li>
+	                    Timesheet Approval
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+    </div>
+    <div class="mid-main">
+    	<div class="mid-top">
+            <div class="container-fluid" id="pageHeader" style="display:none">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="pull-left" id="DDtabularOrWeekView" style="margin-right:5px;">
+                            <option value="tabular">Tabular View</option>  
+							<option value="week">Week View</option>								                          							
+                        </select>
+						
+						<ul class="top-btns pull-left btnAllAppRej" style="display:inline-block" >
+							<li class="green-btn">
+								<a href="javascript:void(0)" id="btnapproveselected" onclick="openApprovedPopup()" >  APPROVE SELECTED </a>
+							</li>
+							<!--  -->
+							<li class="red-btn" style="display:none">
+								<a href="javascript:void(0)" >REJECT SELECTED</a>
+							</li>							
+							<!-- onclick="openRejectPopup()" -->
+						</ul>
+						<ul style="display:inline-block;padding-left:20px;">
+							<li class="History-btn" style="background: none; padding: 4px 8px 4px 8px;display:none;"><a id="all" class="" style="cursor: pointer;padding: 0;"><i class="fa fa-plus"></i> <span>Expand All</span></a></li>							
+						</ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <ul class="top-btns">
+								<li class="planed-checkbox CheckSummary" style="display:none">
+									<input type="checkbox" id="hideShowSummaryColumn" />
+									<span>Summary Task</span>
+								</li>
+								<li class="planed-checkbox CheckZero" style="display:none">
+									<input type="checkbox" id="showZeroActualHrs" />
+									<span>Zero Actual Hours</span>
+								</li>
+								<li class="planed-checkbox CheckPlan" style="display:none">
+									<input type="checkbox" id="onPlannedClick" />
+									<span>Planned</span>
+								</li>
+                                <li class="green-btn">
+                                    <a style="cursor:default;" href="javascript:void(0)" id="pendingCount">PENDING APPROVAL
+                                    	<span class="highlight_no">0</span>
+									</a>
+                                </li>
+                                <li class="History-btn">
+                                    <!-- <a href="TimesheetApprovalHistory.aspx">APPROVAL HISTORY -->
+                                    	<!-- <span class="highlight_no">0</span> -->
+										
+                                   <!-- </a> -->
+									<a href="TimesheetApprovalHistory.aspx" id="historyCount"><i class="fa fa-history"></i> APPROVAL HISTORY
+                                    <!--  <span class="highlight_no">0</span> -->
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mid-block">
+        	<div class="container-fluid">
+				<div class="alert alert-warning viewTSNote" style="padding: 2px; margin-bottom: 10px; margin-top: 5px; background-color: rgba(251, 185, 0, 0.8); color: black !important; border-radius: 0px !important; border-color: rgb(177, 165, 101) !important;">
+				<strong> <i class="fa fa-exclamation-circle"></i> </strong>Note: You can also Approve / Reject timesheet for closed period.</div>
+        
+				<div id="weekviewSelectAll" style="margin-bottom: 10px;display:none">
+					<input type="checkbox" id="AllProjectCheck">
+					<span style="margin-left: 10px;display: inline-block;vertical-align: sub;">Select All</span>
+				</div>
+				<div id="TabularViewSelectAll" style="margin-bottom: 10px;display:none">
+					<input type="checkbox" id="selectAllCheckTabularView" />
+					<span style="margin-left: 10px;display: inline-block;vertical-align: sub;">Select All</span>
+				</div>
+				<div id="tabularView">
+					<table class="table-bordered table-new" id="mytable" style="table-layout: fixed; width:100%;display:none;">
+						<thead id="tableHead">
+							<tr>
+								<th class="checkboxAppRej">Action</th>
+								<th>Timesheet Name</th>
+								<th>Project Name</th>
+								<th>Resource Name</th>
+								<th>Total Hours</th>
+								<th>Billable Hours</th>
+								<th>Non Billable Hours</th>
+								<th>Submitted Date</th>
+								<th>User Comments</th>
+								<!-- <th>Approver1 Comments</th> -->
+								<!-- <th>Approver2 Comments</th> -->
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th class="checkboxAppRej"></th>
+								<th>Timesheet Name</th>
+								<th>Project Name</th>
+								<th>Resource Name</th>
+								<th>Total Hours</th>
+								<th>Billable Hours</th>
+								<th>Non Billable Hours</th>
+								<th>Submitted Date</th>
+								<th>User Comments</th>
+								<!-- <th>Approver1 Comments</th> -->
+								<!-- <th>Approver2 Comments</th> -->
+							</tr>
+						</tfoot>
+						<tbody id="tblPeriodBody">						
+						</tbody>
+					</table>
+				</div>
+				
+				<div id="WeekView">
+				</div>
+            </div>
+        </div>
+
+    </div>
+		
+	<div class="black-bg alert-main" id="yesNoPopup" style="display:none;">
+		<div class="popup-main">
+			<div class="popup-heading"><span id="yesNoPopupMsg"></span></div>
+			<textarea rows="4" cols="40" class="maxlengthValidation" style="margin-top: 10px;margin-bottom:0px;" id="yesNoPopupComent"  onkeydown="return alpha(event)" hidden ></textarea>
+			<span id="rejectValidationMsg" style="text-align: left;width: 96%;display: inline-block;color: #b3b3b3 !important;" class="highlight-text CLSmaxTextAreaValidationMsg"></span>
+			<!-- <div class='highlight-text specialCharacterValidation' style='color:#f00;display:none;float: left;    margin-left: 10px;'>Specail character is not allowed.</div> -->
+			<label class="specialCharacterValidation" style="text-align: left;display:none;width: 96%;" ><font color="red">Special character in comments are not allowed.</font></label>
+			<label id="Fillerror" ><font color="red">Please Enter The Comment.</font></label>
+			<div class="pop-mid">
+				<a href="javascript:void(0)" class="divnewbtn" id="btnYes" > YES </a>
+				<a href="javascript:void(0)" type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')"  >NO</a>
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+		<div class="popup-main">
+			<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+			<div class="pop-mid">
+				<input type="hidden" id="isPagerefresh"></span>
+				<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+			</div>			
+		</div>
+	</div>
+	
+	<div class="addition-info-block">
+        <div class="addition-info-block-heading">
+            Additional Information
+        </div>
+        <div class="addition-info-block-mid">
+            <div class="add-info-top-check">
+                <!-- <input type="checkbox" /> -->
+                <!-- <span>Select if this information is related to Incident task.</span> -->
+                <!-- <div class="clearfix"></div> -->
+            </div>
+            <label>Incident Number</label>
+            <input type="text"  id="txtIncidentNumber"  placeholder="" disabled />
+
+            <label>Comment</label>
+            <textarea placeholder="" id="txtComment" disabled></textarea>
+
+            <div class="add-info-btns">
+                <input type="Button" class="divnewbtn" value="OK" onclick="closeaddinfo()" />
+                <!-- <input type="Button" class="divnewbtn" value="Cancel" onclick="closeaddinfo()" /> -->
+            </div>
+        </div>
+    </div>
+	<div class="allcommentdiv">
+	<div class="allcommentdiv-heading">
+		Comment Summary
+	</div>
+	<div class="allcommentdiv-mid" id="commentSummary">		
+	</div>
+	<div class="allcommentdiv-foot">
+		<a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+	</div>
+</div>
+	
+	<span id="loading-image"></span>
+</body>
+</html>
+
+<script>
+	function openaddinfo(){
+		$('.addition-info-block').animate({ width: 'toggle'});
+
+	}
+	function closeaddinfo(){
+		$('.addition-info-block').animate({ width: 'toggle'});
+	};
+
+</script>
+<script>
+	function checkbox(){
+		if($("#checkboxId").is(':checked')){
+			//alert('checked')
+			//$( "#planed-table tbody tr:even" ).css( "background-color", "#bbbbff" );
+			$( "#planed-table tbody tr:even td:nth-child(1)" ).attr( "rowspan", "2" );
+			$( "#planed-table tbody tr:even td:nth-child(2)" ).attr( "rowspan", "2" );
+			$( "#planed-table tbody tr:even td:nth-child(3)" ).attr( "rowspan", "2" );
+			$( "#planed-table tbody tr:odd" ).addClass( "hide-td" );
+			
+				//$("#planed-table").append("<tr><td style='text-align:center;'>Planned</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+			
+		} else {
+			//alert('no checked')
+			$( "#planed-table tbody tr:even" ).css( "background-color", "#" );
+			$( "#planed-table tbody tr td:nth-child(1)" ).attr( "rowspan", "" );
+			$( "#planed-table tbody tr td:nth-child(2)" ).attr( "rowspan", "" );
+			$( "#planed-table tbody tr td:nth-child(3)" ).attr( "rowspan", "" );
+			$( "#planed-table tbody tr:odd" ).removeClass( "hide-td" );
+		}
+}
+</script>
+<style>
+	.hide-td td:nth-child(1) {
+		display: none;
+	}
+
+	.hide-td td:nth-child(2) {
+		display: none;
+	}
+
+	.hide-td td:nth-child(3) {
+		display: none;
+	}
+	.checkbox-heading div.accordion-toggle{
+		width: 98.5% !important;
+    	float: right;
+	}
+	.accordion3 .panel-heading div.accordion-toggle a[aria-expanded="false"]:before{
+		color:#333 !important;
+	}
+	.accordion3 .panel-heading div.accordion-toggle a[aria-expanded="true"]:before{
+		color:#333 !important;
+	}
+	.accordion3 .panel-heading div.accordion-toggle .right-ul-summary li{
+		border-color:#fff !important;
+	}
+</style>
+
+<script>
+var summaryTable = "";
+$(document).ready(function(){
+	//disableRightClick();
+	setInterval(function(){ 
+		$("[data-toggle='tooltip']").tooltip(); 
+		$('[data-toggle="tooltip"]').tooltip(); 
+	}, 100);
+ });
+
+monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];   
+GetTimesheetApproverSummaryUrl = GetTimesheetApproverSummary(); 
+$(document).ready(function () {
+	//$('#loading-image').show();
+//	$('.top-btns li').click(function(){
+		//$(this).addClass('green-btn').siblings().removeClass('green-btn');
+	//});
+	//$(".btnAppRej").remove();
+	CurrentGuid = GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	
+	GetTimesheetApproverSummaryUrl = GetTimesheetApproverSummary(); 
+	$("#DDtabularOrWeekView").on
+	("change",function()
+					{	$("#pageHeader").hide();
+						$("#weekviewSelectAll").hide();
+						$("#TabularViewSelectAll").hide();
+						$(".viewTSNote").hide();
+						if($("#DDtabularOrWeekView").val() == "tabular")
+						{	//$("#mytable").hide();
+							$("#all").parents("li").hide();
+							$("#WeekView").hide();
+							$("#weekviewSelectAll").hide();
+							bindDataToTableTabularView();							
+							$("#tabularView").show();							
+							$('#showZeroActualHrs').parents('li').hide();
+							$('#onPlannedClick').parents('li').hide();	
+							$('#hideShowSummaryColumn').parents('li').hide();	
+							
+						}
+						else
+						{ 	$("#all").parents("li").show();
+							$("#tabularView").hide();
+							bindDataToTableWeekView();							
+							$("#WeekView").show();	
+							
+							$('#showZeroActualHrs').parents('li').show();
+							$('#onPlannedClick').parents('li').show();
+							$('#hideShowSummaryColumn').parents('li').show();	
+							
+							$('#hideShowSummaryColumn').prop("checked",false)
+							$('#showZeroActualHrs').prop("checked",false)
+							$('#onPlannedClick').prop("checked",false)
+						}
+						
+					}
+	);
+	
+	$('.top-btns li').click(function () {
+	//	$(this).addClass('green-btn').siblings().removeClass('green-btn');			
+		$('#Fillerror').hide();		
+	});
+	if(queryString.DDView == "week"){
+		$('#DDtabularOrWeekView').val('week');
+	}
+	$('#DDtabularOrWeekView').trigger('change');
+	
+});
+
+
+function bindDataToTableTabularView()
+{	$("#btnapproveselected").parent('li').addClass('blue-btn');
+	$("#btnapproveselected").parent('li').removeClass('green-btn');
+	$('#loading-image').show();
+	//$('.btnAppRej').hide();
+	var CurrentRESGuid = GetCurrentUserGUID();
+	var GetTimesheetSummaryURLs = GetTimesheetSummary();
+	
+	$("#mytable").dataTable().fnDestroy();
+	$("#mytable").hide();
+	$("#tblPeriodBody").text("");
+	
+	$.ajax
+	({		
+		url:GetTimesheetSummaryURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		//data: { "ResourceUID":"467B2620-D6B2-E611-BEF9-E50A825364A1" },
+		data: { "ResourceUID": CurrentRESGuid},
+		success: function (data) 
+		{	
+			if(data.error != undefined)
+			{	openOKpopup(popUpMessage.ServerError); 
+				$("#mytable").hide();$("#tabularView").text("");
+				//$("#tabularView").append("<h2 style='text-align: center;'>"+popUpMessage.NoDataPresentTimesheet+"</h2>");
+				$('.btnAllAppRej').remove();
+				$('#loading-image').hide();  
+				$('#pendingCount span').text("");	
+				$("#TabularViewSelectAll").hide();
+				return false;
+			}
+			var sum=0;
+			var  historySum =0;
+			var innerHtml = "";
+			if(data.Data.length == 0)
+			{	$("#mytable").hide();$("#tabularView").text("");
+				$("#tabularView").append("<h2 style='text-align: center;'>"+popUpMessage.NoDataPresentTimesheet+"</h2>");
+				$('.btnAllAppRej').remove();
+				$("#TabularViewSelectAll").hide();
+			}
+			else
+			{
+				for (var i = 0; i < data.Data.length; i++) 
+				{	
+					if(((data.Data[i].Flag) == 2) || (data.Data[i].Flag) == 3)
+					 {
+					  historySum = historySum + 1;
+					  $('#historyCount span').text(historySum); 
+					 }
+					if((data.Data[i].Flag) == 1 && data.Data[i].ApproverResUID == CurrentGuid)
+					{
+						sum = sum + 1; 
+						//var pendcount='<span class="highlight_no">'+sum+'</span>' ;
+						$('#pendingCount span').text(sum);						
+						var startDate = new Date(data.Data[i].StartDate)
+						var sdate = ("0" + startDate.getDate()).slice(-2) + "-" + monthNames[startDate.getMonth()] + "-" + startDate.getFullYear();
+						var endDate = new Date(data.Data[i].EndDate)
+						var edate = ("0" + endDate.getDate()).slice(-2) + "-" + monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();
+						var timeUID=data.Data[i].TS_UID;						
+						projectId = data.Data[i].ProjectId;
+						pojectuid = data.Data[i].PeriodUID;
+						periodnameNextPage = data.Data[i].PeriodName.substr(data.Data[i].PeriodName.indexOf('||')+1,data.Data[i].PeriodName.length)+"("+sdate+"-"+edate+")";
+						innerHtml += "<tr>";
+						//innerHtml += "<td><input type='checkbox' name='APPROVE' class='checkboxAppRej' value="+timeUID+" />";
+						//innerHtml += "<input type='hidden' id='Periodid"+i+"' value="+projectId+" /><input type='hidden' id='Perid"+i+"' value="+projectId+" /><input type='hidden' id='EendDate"+i+"' value="+edate+" /> <input type='hidden' id='timid"+i+"' value="+timeUID+" /><input type='hidden' id='resourceid"+i+"' value="+data.Data[i].ResourceId+" /></td>";
+						<!-- innerHtml += "<td style='width: 22% !important;'><a href='ApproveSubmitPage.aspx?PeriodName="+periodnameNextPage+"?ProjectName="+data.Data[i]. [j].ProjectName+"' >" + data.Data[i]. [j].PeriodName.substr(data.Data[i]. [j].PeriodName.indexOf('||') + 2, data.Data[i]. [j].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+						//innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+pojectuid+"&TimesheetUID="+timeUID+"&RES_UID="+data.Data[i].ResourceId+"&StartDate="+sdate+"&EndDate="+edate+" '>" + data.Data[i].PeriodName.substr(data.Data[i].PeriodName.indexOf('||') + 1, data.Data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+						//if(data.Data[i].TS_Open_Close_Flag == "0")
+						//{
+						//	innerHtml += "<td><input type='checkbox' name='APPROVE' value="+timeUID+" disabled />";
+							//innerHtml += "<input type='hidden' id='Periodid"+i+"' value="+projectId+" /><input type='hidden' id='Perid"+i+"' value="+projectId+" /><input type='hidden' id='EendDate"+i+"' value="+edate+" /> <input type='hidden' id='timid"+i+"' value="+timeUID+" /><input type='hidden' id='resourceid"+i+"' value="+data.Data[i].ResourceId+" /></td>";
+						//	innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+pojectuid+"&TimesheetUID="+timeUID+"&RES_UID="+data.Data[i].ResourceId+"&StartDate="+sdate+"&EndDate="+edate+" '>" + data.Data[i].PeriodName.substr(data.Data[i].PeriodName.indexOf('||') + 1, data.Data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a>";
+							
+						//	innerHtml += "<span class='red-btn' style='padding: 3px 5px; margin-left: 5px; border-radius: 5px;' >TS Period Closed</span></td>";
+						//}
+						//else
+						//{
+							innerHtml += "<td><input type='checkbox' name='APPROVE' class='checkboxAppRej' value="+timeUID+" />";
+							innerHtml += "<input type='hidden' id='Periodid"+i+"' value="+projectId+" /><input type='hidden' id='Perid"+i+"' value="+projectId+" /><input type='hidden' id='EendDate"+i+"' value="+edate+" /> <input type='hidden' id='timid"+i+"' value="+timeUID+" /><input type='hidden' id='resourceid"+i+"' value="+data.Data[i].ResourceId+" /></td>";
+							innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+pojectuid+"&TimesheetUID="+timeUID+"&RES_UID="+data.Data[i].ResourceId+"&StartDate="+sdate+"&EndDate="+edate+" '>" + data.Data[i].PeriodName.substr(data.Data[i].PeriodName.indexOf('||') + 1, data.Data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a>";
+							if(data.Data[i].TS_Open_Close_Flag == "0")
+							{
+								innerHtml += "<span class='red-btn' style='padding: 3px 5px; margin-left: 5px; border-radius: 5px;' >TS Period Closed</span></td>";
+							}
+							else
+							{
+								innerHtml += "</td>";
+							}
+						//}
+						innerHtml += "<td>"+data.Data[i].ProjectName+"</td>";
+						innerHtml += "<td >"+data.Data[i].ResourceName+"</td>";
+						innerHtml += "<td style='text-align: right;'>"+parseFloat(data.Data[i].TotalHrs).toFixed(2)+"</td>";
+						
+						innerHtml += "<td style='text-align: right;'>"+parseFloat(data.Data[i].Billable_Hours).toFixed(2)+"</td>";
+						innerHtml += "<td style='text-align: right;'>"+parseFloat(data.Data[i].Non_Billable_Hours).toFixed(2)+"</td>";
+						innerHtml += "<td style='text-align:center;' >"+new Date(data.Data[i].Submitted_Date).format('dd-MMM-yyyy')+"</td>";
+						if(data.Data[i].Comment.length > 15)
+						{
+							innerHtml += "<td><span data-toggle='tooltip' data-placement='top' title='"+data.Data[i].Comment+"' style='word-wrap: break-word; display: inline-block; '>"+data.Data[i].Comment.substr(0,15)+"...</span></td>";
+						}
+						else
+						{
+							innerHtml += "<td><span data-toggle='tooltip' data-placement='top' title='"+data.Data[i].Comment+"' style='word-wrap: break-word; display: inline-block; '>"+data.Data[i].Comment+"</span></td>";
+						}
+						<!-- innerHtml += "<td></td>"; -->
+						<!-- innerHtml += "<td></td>"; -->
+						innerHtml += "</tr>";						
+					}					
+				}
+				if(sum == 0)
+				{	$("#TabularViewSelectAll").hide();
+					$("#mytable").hide();$//("#mytable").remove();
+					$("#tabularView").text("");
+					$('.btnAllAppRej').hide();
+					$("#tabularView").append("<h2 style='text-align: center;'>"+popUpMessage.NoDataPresentTimesheet+"</h2>");
+				
+					//innerHtml += "<tr><td class='text-center' colspan='9'><h2 style='text-align: center;'>No timesheet pending for your approval. Enjoy :)</h2></tr></td>";
+					//$("#tblPeriodBody").append(innerHtml);
+					$("#tblPeriodBody").children('tr').children('td').attr("colspan",$("#mytable").children('thead').children('tr').children('th:visible').length)
+				}
+				else
+				{	$("#TabularViewSelectAll").show();
+					$("#tblPeriodBody").append(innerHtml);
+				}
+				$(".viewTSNote").show();
+			}
+			
+			dataTableLoad();
+			appendTabularViewAfterEvents();
+			$("#mytable").show();
+			
+			$('#loading-image').hide(); 
+			$("#pageHeader").show();
+		},
+		error: function (data)
+		{	$("#pageHeader").show();
+			alert("failed");
+		}
+	});
+}
+	
+function appendTabularViewAfterEvents()
+{
+	$("#selectAllCheckTabularView").click(function(e){
+		if($(e.target).is(":checked"))
+		{ 
+			$(".checkboxAppRej").prop("checked",true);
+		} 
+		else
+		{
+			$(".checkboxAppRej").prop("checked",false);
+		}
+		if($(":checkbox.checkboxAppRej:checked").length > 0)
+		{
+			//$("#btnapproveselected").parent('li').switchClass('blue-btn','green-btn');			
+			$("#btnapproveselected").parent('li').removeClass('blue-btn');
+			$("#btnapproveselected").parent('li').addClass('green-btn');
+		}
+		else
+		{
+			//$("#btnapproveselected").parent('li').switchClass('green-btn','blue-btn');
+			$("#btnapproveselected").parent('li').addClass('blue-btn');
+			$("#btnapproveselected").parent('li').removeClass('green-btn');
+		}
+	});
+	
+	$(":checkbox.checkboxAppRej").click(function(e){
+		if($(":checkbox.checkboxAppRej:checked").length == $(":checkbox.checkboxAppRej").length)
+		{
+			$("#selectAllCheckTabularView").prop("checked",true)
+		}
+		else
+		{
+			$("#selectAllCheckTabularView").prop("checked",false)
+		}
+		
+		if($(":checkbox.checkboxAppRej:checked").length > 0)
+		{
+			//$("#btnapproveselected").parent('li').switchClass('blue-btn','green-btn');			
+			$("#btnapproveselected").parent('li').removeClass('blue-btn');
+			$("#btnapproveselected").parent('li').addClass('green-btn');
+		}
+		else
+		{
+			//$("#btnapproveselected").parent('li').switchClass('green-btn','blue-btn');
+			$("#btnapproveselected").parent('li').addClass('blue-btn');
+			$("#btnapproveselected").parent('li').removeClass('green-btn');
+		}
+	});
+}
+	
+function bindDataToTableWeekView()
+{	$("#btnapproveselected").parent('li').addClass('blue-btn');
+	$("#btnapproveselected").parent('li').removeClass('green-btn');
+	$('#loading-image').show();	
+	var CurrentRESGuid = GetCurrentUserGUID();
+	//var 
+	$("#WeekView").text("");
+	$.ajax
+	({
+		url:GetTimesheetApproverSummaryUrl,	
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		//data: { "ResourceUID":"467B2620-D6B2-E611-BEF9-E50A825364A1" },
+		data: { "ResourceUID": CurrentRESGuid},
+		success: function (data) 
+		{	//$('#loading-image').hide();
+			//resultData = JSON.parse(dummyData);	
+			resultData = data;
+			
+			//$("#WeekView").append();
+			var weekHtml = "";
+		if(resultData.Data.length == 0)
+		{
+			//	$("#WeekView").append("<table class='table-bordered table-new'><tr><td class='text-center' colspan='9'>No timesheet pending for your approval</td></tr></table>");
+			$("#weekviewSelectAll").hide();
+			$("#WeekView").append("<h2 style='text-align: center;'>No timesheet pending for your approval. </h2>");
+			$('.btnAllAppRej').hide();
+			$('.CheckSummary').remove();
+			$('.CheckZero').remove();
+			$('.CheckPlan').remove();
+			$("#all").parents("li").hide();
+		}
+		else
+		{	$("#weekviewSelectAll").show();
+			weekHtml += '<div class="panel-group" id="accordion">';
+			periodWiseAllData = [];
+			prjtAllData = [];
+			resourceWiseAllData = [];
+			$('.btnAllAppRej').show();
+			var pendingApprover=0;
+			$(".viewTSNote").show();
+			for(var i=0;i<resultData.Data.length;i++)
+			{	weekHtml += '<input type="checkbox" class="left-check periodWiseCheckBox" id="chkPeriod_'+i+'" />';
+				//for upper
+				weekHtml += '<div class="panel panel-default" onclick="panelfun()">';
+				weekHtml += '<div class="panel-heading" id="accProject_'+i+'"><h4 class="panel-title">';
+				
+				weekHtml += '<div class="accordion-toggle"> <span class="row" style="width:100%; display:inline-block; margin-left:0;">';
+				var tempPeriodName = resultData.Data[i].PeriodName.substring(resultData.Data[i].PeriodName.indexOf("||") + 1,resultData.Data[i].PeriodName.length) + " ( " +new Date(resultData.Data[i].Period_Start).format("dd-MMM-yyyy") + " - "+ new Date(resultData.Data[i].Period_End).format("dd-MMM-yyyy") + " )";
+				
+				weekHtml += '<span class="col-md-6 pl-0"><a aria-expanded="false" data-toggle="collapse" data-parent="#accordion" href="#collapse_'+i+'">'+tempPeriodName+'</a></span>';
+				//weekHtml += '<span class="col-md-4"></span>';
+				weekHtml += '<span class="col-md-6 text-right"><ul style="text-align: right;" class="right-ul-summary">';
+				weekHtml += '<li>T: <span id="periodWiseTotalHrs_'+i+'">5</span> Hrs</li>';
+				weekHtml += '<li>B: <span id="periodWiseBillableHrs_'+i+'">2</span> Hrs</li>';
+				weekHtml += '<li class="pr-0">NB: <span id="periodNonBillableWiseHrs_'+i+'">3</span> Hrs</li>';
+				weekHtml += '</ul></span>';
+				weekHtml += '</div></span>';
+				weekHtml += '</h4></div>';
+				
+				
+				weekHtml += '<div id="collapse_'+i+'" class="panel-collapse collapse">';
+				weekHtml += '<div class="panel-body pr-0" style="padding-top:5px;">';
+				weekHtml += '<div class="panel-group accordion1" id="accordion2'+i+'">';
+				var tempStartDate = new Date(resultData.Data[i].Period_Start);
+				var tempEndDate = new Date(resultData.Data[i].Period_End);
+				
+				var periodTotalhrs = 0;
+				var periodBillablehrs = 0;
+				var periodNonBillablehrs = 0;
+				for(var j=0;j<resultData.Data[i].Projects.length;j++)
+				{
+					
+					weekHtml += '<div class="panel panel-default" onclick="panelfun()">';
+					weekHtml += '<div class="panel-heading">';
+					weekHtml += '<h4 class="panel-title checkbox-heading">';
+					weekHtml += '<input type="checkbox" class="left-check projectWiseCheckBox" id="chkProject_'+i+'" />';
+					weekHtml += '<div class="accordion-toggle">';
+					weekHtml += '<span class="row" style="width:100%; display:inline-block; margin-left:0;">';
+					weekHtml += '<span class="col-md-6 pl-0"><a aria-expanded="false" data-toggle="collapse" data-parent="#accordion2'+i+'" href="#collapseinner_'+i+'_'+j+'" class="collapsed">'+resultData.Data[i].Projects[j].ProjectName+'</a></span>';
+					//weekHtml += '<span class="col-md-4"></span>';
+					weekHtml += '<span class="col-md-6 text-right">';
+					weekHtml += '<ul style="text-align: right;" class="right-ul-summary">';
+					weekHtml += '<li>T: <span id="projectWiseTotalHrs_'+i+'_'+j+'">5</span> Hrs</li>';
+					weekHtml += '<li>B: <span id="periodWiseBillableHrs_'+i+'_'+j+'">3</span> Hrs</li>';
+					weekHtml += '<li class="pr-0">NB: <span id="periodWiseNonBillableHrs_'+i+'_'+j+'">1</span> Hrs</li>';
+					weekHtml += '</ul>';
+					weekHtml += '</span>';
+					weekHtml += '</span>';
+					weekHtml += '</div>';
+					weekHtml += '<div class="clearfix"></div>';
+						
+					weekHtml += '</h4></div>';
+										
+					weekHtml += '<div id="collapseinner_'+i+'_'+j+'" class="panel-collapse collapse">';
+					weekHtml += '<div class="panel-body third-block">';
+					weekHtml += '<div class="panel-group accordion3" id="accordion3'+i+'_'+j+'">';
+					
+					prjtTotalHrs = new Array();
+					prjtBillableHrs = new Array();
+					prjtNonBillableHrs = new Array();
+					
+					resourceWiseHrs = new Object();
+					var iscmmnt=0;
+					for(var k=0;k<resultData.Data[i].Projects[j].TS.length;k++)
+					{	var tableColSum = new Array();
+						pendingApprover++;
+						weekHtml += '<div class="panel panel-default" onclick="panelfun()">';
+						weekHtml += '<div class="panel-heading">';
+						weekHtml += '<h4 class="panel-title checkbox-heading">';
+						//if(resultData.Data[i].Projects[j].TS[k].TS_Open_Close_Flag == "1"){
+							weekHtml += '<input type="checkbox" class="left-check resourceWiseCheckBox" id="chkResource_'+i+'_'+j+'" />';						
+						//}
+						//else{
+						//	weekHtml += '<input type="checkbox" class="left-check " id="DisabledResourcechkResource_'+i+'_'+j+'" disabled />';
+						//}
+						
+						
+																
+						weekHtml += '<span style="display:none"><input type="hidden" class="PeriodID" value="'+resultData.Data[i].PeriodId+'" ><input type="hidden" class="resourceUID" value="'+resultData.Data[i].Projects[j].TS[k].ResourceUID+'" ><input type="hidden" class="projectId"  value="'+resultData.Data[i].Projects[j].ProjectID+'" ><input type="hidden"  class="TimeSheetUID"  value="'+resultData.Data[i].Projects[j].TS[k].TimesheetId+'" ></span>';
+		
+						weekHtml += '<div class="accordion-toggle" >';
+						weekHtml += '<span class="row" style="width:100%; display:inline-block; margin-left:0;">';
+						weekHtml += '<span class="col-md-4 pl-0"><a aria-expanded="false" data-toggle="collapse" data-parent="#accordion3'+i+''+j+'" style="color:#333;" href="#collapse_'+i+'_'+j+'_'+k+'">'+resultData.Data[i].Projects[j].TS[k].ResourceName+'</a></span>';
+						if(resultData.Data[i].Projects[j].TS[k].TS_Open_Close_Flag == "1"){
+							weekHtml += '<span class="col-md-4 text-center"></span>';
+						}
+						else{
+						weekHtml += '<span class="col-md-4 text-center"><span class="red-btn" style="padding: 3px 5px; border-radius: 5px; display:; margin-bottom:0px;" id="">TS Period Closed</span></span>';
+						}
+
+						weekHtml += '<span class="col-md-4 pr-0 text-right">';
+						weekHtml += '<ul style="text-align: right;" class="right-ul-summary">';
+						weekHtml += '<li>T: <span id="resTotalHrsSpan_'+i+"_"+j+"_"+k+'"></span> Hrs</li>';
+						weekHtml += '<li>B: <span id="resBillableHrsSpan_'+i+"_"+j+"_"+k+'"></span> Hrs</li>';
+						weekHtml += '<li class="">NB: <span id="resNonBillableHrsSpan_'+i+"_"+j+"_"+k+'"></span> Hrs</li>';
+						weekHtml += '<li id="resourceWiseAllComments_'+i+'_'+j+'_'+k+'" onclick="openResourceWiseAllComments(event,this,\''+resultData.Data[i].Projects[j].TS[k].ResourceName+'\')" class="openallcomment pr-0" style="color:#d2d2d2; cursor:pointer; "><i class="fa fa-comment"></i></li>';
+						weekHtml += '</ul>';
+						weekHtml += '</span>';
+						weekHtml += '</span>';
+						weekHtml += '</div> <div class="clearfix"></div>';
+						weekHtml += '</h4>';
+						weekHtml += '</div>';
+						weekHtml += '<div id="collapse_'+i+'_'+j+'_'+k+'" class="panel-collapse collapse">';
+						weekHtml += '<div class="panel-body third-body" style="border: 1px solid #ccc !important; border-top: 0 !important; margin: 0px 0px 0px 0px !important; padding: 5px 8px 8px 8px !important; width: 98.5% !important;">';
+						var otherSummaryTask = "";
+						var checkLLPresent = false;
+						var longLeaveSummaryPage = "";
+						otherSummaryTask += '<table class="table-bordered table-new" style="margin-top:5px;">';
+						otherSummaryTask += '<thead>';
+						otherSummaryTask += '<tr>';
+						otherSummaryTask += '<th>Task Name</th>';
+						otherSummaryTask += '<th style="width:124px;" class="colSummaryTask">Summary Task Name</th>';
+						otherSummaryTask += '<th style="width:90px;">Type</th>';
+						otherSummaryTask += '<th style="width:80px;">Task Hours</th>';
+						otherSummaryTask += '<th style="width:85px;">Time Type</th>';
+						longLeaveSummaryPage = otherSummaryTask;
+						
+						longLeaveSummaryPage += '<th style="width:170px; background: #19bb9b;">From Date</th>';
+						longLeaveSummaryPage += '<th style="width:170px; background: #19bb9b;">To Date</th>';
+						longLeaveSummaryPage += '<th style="width:253px; background: #19bb9b;">Comments</th>';
+						longLeaveSummaryPage += '</tr>';
+						longLeaveSummaryPage += '</thead><tbody>';
+						otherSummaryTask
+						var thInc = 0;
+						var tableHtml = "";
+						resTotalHrs = 0;
+						resBillableHrs = 0;
+						resNonBillableHrs = 0;
+						for(var s =0;s<resultData.Data[i].Projects[j].TS[k].SummaryTask.length;s++)
+						{		
+							if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].SummaryTask.trim() == "LONGLEAVE_TASK")
+							{	var totalLongLeave = 0;
+								
+								for(var w =0;w<resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks.length;w++)
+								{	
+									if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].TS_Actual!= ""||resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].TS_Actual != 0)
+									{	checkLLPresent = true;
+										longLeaveSummaryPage += '<tr>';
+										longLeaveSummaryPage += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName+'</td>';
+										longLeaveSummaryPage += '<td class="colSummaryTask"><span title="'+longLeaveValues.longLeaveSummaryTaskName+'">Long...</span></td>';
+										longLeaveSummaryPage += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TASK_TYPE+'</td>';									
+										var tsAct = "";
+										
+										if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].TS_Actual != "")
+										{
+											tsAct = parseFloat(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].TS_Actual).toFixed(2);
+											totalLongLeave += parseFloat(tsAct);
+											longLeaveSummaryPage += '<td>'+tsAct+'</td>';	
+										}
+										else
+										{	tsAct = "0";
+											longLeaveSummaryPage += '<td class="">0.0</td>';	
+										}
+										
+										longLeaveSummaryPage += '<td>Actual</td>';	
+										
+										var sdate = "";
+										var edate = "";
+										if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].Start != "")
+										{
+											sdate = new Date(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].Start).format('dd-MMM-yyyy')
+										}
+										if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].End != "")
+										{
+											edate = new Date(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].End).format('dd-MMM-yyyy')
+										}
+										longLeaveSummaryPage += '<td>'+sdate+'</td>';	
+										longLeaveSummaryPage += '<td>'+edate+'</td>';	
+										longLeaveSummaryPage += '<td style="text-align: left;">'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[0].Comment+'</td>';										
+										longLeaveSummaryPage += '</tr>';
+										
+										if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TASK_TYPE == "Billable")
+										{
+											prjtBillableHrs[tempStartDate.format('dd-MMM-yyyy')] = parseFloat(parseFloat(prjtBillableHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + parseFloat(tsAct)).toFixed(2);
+											resBillableHrs = parseFloat(parseFloat(resBillableHrs) + parseFloat(tsAct)).toFixed(2);
+										}
+										else
+										{	
+											prjtNonBillableHrs[tempStartDate.format('dd-MMM-yyyy')] =parseFloat(parseFloat(prjtNonBillableHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + parseFloat(tsAct)).toFixed(2);//(prjtNonBillableHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + parseFloat(tsAct);
+											resNonBillableHrs = parseFloat(parseFloat(resNonBillableHrs) + parseFloat(tsAct)).toFixed(2);
+										}
+										resTotalHrs = parseFloat(parseFloat(resTotalHrs) + parseFloat(tsAct)).toFixed(2);
+										prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] = parseFloat(parseFloat(prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + parseFloat(tsAct)).toFixed(2);//parseFloat(parseFloat(prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + parseFloat(tsAct)).toFixed(2);
+									}
+								}
+								
+								longLeaveSummaryPage += '</tbody>';
+								longLeaveSummaryPage += '<tfoot>';
+								longLeaveSummaryPage += '<tr>';
+								longLeaveSummaryPage += '<td>Total</td>';
+								longLeaveSummaryPage += '<td  class="colSummaryTask"></td>';
+								longLeaveSummaryPage += '<td></td>';
+								longLeaveSummaryPage += '<td>'+parseFloat(totalLongLeave).toFixed(2)+'</td>';
+								longLeaveSummaryPage += '<td></td>';
+								longLeaveSummaryPage += '<td></td>';
+								longLeaveSummaryPage += '<td></td>';
+								longLeaveSummaryPage += '<td></td>';
+								longLeaveSummaryPage += '</tr>';
+								longLeaveSummaryPage += '</tfoot>';
+								//ProjectDetailsHtml += '<tfoot>';
+								longLeaveSummaryPage += '</table>';
+								
+								
+							}
+							else
+							{
+							
+								for(var w =0;w<resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks.length;w++)
+								{
+									
+										var plannedrow = "";
+										var actualrow = "";
+										
+									//if(resourceTask[w].ResId == resourceIDs[k])
+									//{									
+										
+										if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].SummaryTask == "PERSONAL_TASK")
+										{
+										
+											actualrow += '<tr>';
+											//if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName == "ZZZ_Adoption Leave" || resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName == "ZZZ_Long Leave (more than 7 days)" || resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName == "ZZZ_Maternity Leave" || resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName == "ZZZ_Paternity Leave")
+											if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName.indexOf("ZZZ_") > -1)
+											{
+												//ProjectDetailsHtmlActual += '<td>'+res1[i].SummaryTask[j].Tasks[k].TaskName.substr(2,res1[i].SummaryTask[j].Tasks[k].TaskName.length)+'</td>';
+												actualrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName.substr(4,resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName.length)+'</td>';
+												actualrow += '<td class="colSummaryTask"><span title="LONGLEAVE TASK">Long Leave...</span></td>';
+											}
+											else
+											{
+												actualrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName+'</td>';
+												//actualrow += '<td><td>'
+												actualrow += '<td class="colSummaryTask"><span title="'+TimesheetKeywords.PersonalTask+'">Personal...</span></td>';
+											}
+											
+											
+											plannedrow += '<tr>';
+											plannedrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName+'</td>';
+											plannedrow += '<td class="colSummaryTask"><span title="'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskTree+'">'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskTree.substring(0,8) + "..."+'</span></td>';
+										}
+										else
+										{
+											var summarytaskName = resultData.Data[i].Projects[j].TS[k].SummaryTask[s].SummaryTask;
+											if(summarytaskName.trim().indexOf('>') == 0)
+											{
+												summarytaskName = summarytaskName.trim().substring(1,summarytaskName.length);
+											}
+											if(summarytaskName.trim().endsWith('>'))
+											{
+												summarytaskName =summarytaskName.substring(0,summarytaskName.length-1)
+											}
+											
+											actualrow += '<tr class="actualtr">';
+											actualrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName+'</td>';
+											actualrow += '<td class="colSummaryTask"><span title="'+summarytaskName+'">'+summarytaskName.substring(0,8) + "..."+'</span></td>';
+											
+											plannedrow += '<tr class="Plannedtr">';
+											plannedrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskName+'</td>';
+											plannedrow += '<td class="colSummaryTask"><span title="'+summarytaskName+'">'+summarytaskName.substring(0,8) + "..."+'</span></td>';
+											
+										}
+										actualrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TASK_TYPE+'</td>';
+										plannedrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TASK_TYPE+'</td>';
+										
+										
+										
+										//plannedrow += '<td class="colSummaryTask"><span title="'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskTree+'">'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskTree.substring(0,8) + "..."+'</span></td>';
+										//plannedrow += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TASK_TYPE+'</td>';
+										var weekdays = 0;
+										var planeedDynamicTd = "";
+										var actualDynamicTd = "";
+										var WeekWiseHrs = 0;
+										while(tempStartDate <= tempEndDate)
+										{
+											var findIndex=0,tempIndex=0; 
+											resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays.filter
+											(
+												function(e)
+												{ 
+													if((new Date(e.End)).valueOf() == tempStartDate.valueOf())
+													{	findIndex=tempIndex; }  tempIndex++; 
+												}
+											);
+											if(s == 0 && w == 0){
+												//if((new Date(tempStartDate)).format("ddd") == "Sat" || (new Date(tempStartDate)).format("ddd") == "Sun")
+												//{
+												otherSummaryTask += '<th style="width:85px; background: #19bb9b;"><span>'+tempStartDate.format('ddd')+'</span> '+tempStartDate.format('dd-MMM-yy')+'</th>';
+												//}
+												//else
+												//{
+												//	weekHtml += '<th style="width:80px;"><span>'+tempStartDate.format('ddd')+'</span>'+tempStartDate.format('dd-MMM-yyyy')+'</th>';
+												//}
+											}										
+											
+											planeedDynamicTd += '<td><span style="float:left; width:75%;">'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].PlannedWork+'</span> </td>';
+											
+											if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].Comment != "" || resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].Incident_No != "")
+											{	iscmmnt++;
+												actualDynamicTd += '<td>'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].TS_Actual +'<span onclick="openAdditionalInfomation(this)" id="innerTaskWiseComment_'+i+'_'+j+'_'+k+'_'+s+'_'+w+'"   class="org-color comment-icon" style="margin: 4px 0px 0px 5px; cursor:pointer; float:none;"><i class="fa fa-comment"></i><input type="hidden" class="taskId" value="'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskId+'"><input type="hidden" class="StaskName" value="'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TaskTree+'"><input type="hidden" class="startDate" value="'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].Start+'"></span></td>'																	
+											}
+											else
+											{   										
+												actualDynamicTd += '<td><span style="float:left; width:75%;">'+resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].TS_Actual+'</span></td>';				
+											}
+																					
+											//if(parseFloat(resourceTask[w].WeekDays[weekdays].TS_Actual) > 0)
+											//{
+											//  var asdfasdf=0;
+											//}
+											var actualHours = (parseFloat(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].WeekDays[findIndex].TS_Actual) || 0);
+											if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].Tasks[w].TASK_TYPE == "Billable")
+											{
+												//prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] = (prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + (parseFloat(resourceTask[w].WeekDays[weekdays].TS_Actual) || 0);
+												prjtBillableHrs[tempStartDate.format('dd-MMM-yyyy')] = parseFloat(parseFloat(prjtBillableHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + actualHours).toFixed(2);
+												//resTotalHrs = resTotalHrs + (parseFloat(resourceTask[w].WeekDays[weekdays].TS_Actual) || 0);
+												resBillableHrs = parseFloat(parseFloat(resBillableHrs) + actualHours).toFixed(2);
+											}
+											else
+											{	
+												prjtNonBillableHrs[tempStartDate.format('dd-MMM-yyyy')] =parseFloat(parseFloat(prjtNonBillableHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + actualHours).toFixed(2);
+												resNonBillableHrs = parseFloat(parseFloat(resNonBillableHrs) + actualHours).toFixed(2);
+											}
+											
+											WeekWiseHrs = parseFloat(parseFloat(WeekWiseHrs) + actualHours).toFixed(2);
+											prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] = parseFloat((parseFloat(prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')] || 0) + actualHours)).toFixed(2);
+											resTotalHrs =  parseFloat(parseFloat(resTotalHrs) + parseFloat(actualHours)).toFixed(2);
+											tableColSum[weekdays] =  parseFloat((parseFloat(tableColSum[weekdays] || 0) + actualHours)).toFixed(2);	
+											
+											tempStartDate = new Date(tempStartDate.setDate(tempStartDate.getDate() + 1)); 		
+											weekdays++;
+										}
+										thInc++;
+										tempStartDate = new Date(resultData.Data[i].Period_Start);
+										if(parseFloat(WeekWiseHrs) == 0)
+										{
+											//actualrow += '<td class="zeroActualHours">'+WeekWiseHrs+'</td>';
+											plannedrow += '<td class="zeroActualHours">'+WeekWiseHrs+'</td>';
+											
+										}
+										else
+										{										
+											plannedrow += '<td>'+WeekWiseHrs+'</td>';
+										}
+										actualrow += '<td>'+WeekWiseHrs+'</td>';
+										actualrow += '<td>Actual</td>';
+										plannedrow += '<td>Planned</td>';
+										actualrow = actualrow + actualDynamicTd +'</tr>';
+										plannedrow = plannedrow + planeedDynamicTd + '</tr>';	
+										
+										if(resultData.Data[i].Projects[j].TS[k].SummaryTask[s].SummaryTask == "PERSONAL_TASK")
+										{									
+											tableHtml += actualrow;
+										}
+										else
+										{
+											tableHtml += plannedrow;
+											tableHtml += actualrow;
+										}
+										
+										
+								}
+							}
+						}
+					//	}							
+						resourceWiseAllData.push({'accordianValue':i+"_"+j+"_"+k,'resTotalHrs':resTotalHrs,'resBillableHrs':resBillableHrs,'resNonBillableHrs':resNonBillableHrs});
+						if(k == 0){
+						}
+						otherSummaryTask += '</tr>';
+						otherSummaryTask += '</thead><tbody>';							
+						otherSummaryTask += tableHtml;
+						otherSummaryTask += '</tbody>';
+						otherSummaryTask += '<tfoot>';
+						otherSummaryTask += '<tr>';
+						
+						otherSummaryTask += '<td>Total</td>';
+						otherSummaryTask += '<td class="colSummaryTask"></td>';
+						if(iscmmnt > 0){
+							otherSummaryTask += '<td class="iscmmntvalue"></td>';
+						}
+						else{
+							otherSummaryTask += '<td></td>';
+						}
+						otherSummaryTask += '<td>'+tableColSum.reduce(function(a, b) { return parseFloat(parseFloat(a) + parseFloat(b)).toFixed(2); }, 0)+'</td>';
+						otherSummaryTask += '<td></td>';
+						otherSummaryTask = otherSummaryTask + "<td><span style='float:left; width:75%;'>"+tableColSum.join("</span></td><td><span style='float:left; width:75%;'>")+"</span></td>";						
+						otherSummaryTask += '</tr>';
+						otherSummaryTask += '</tfoot>';
+						otherSummaryTask += '</table>';
+						
+						weekHtml += otherSummaryTask;
+						if(checkLLPresent)
+						{
+							weekHtml += longLeaveSummaryPage;
+						}
+						//if(resultData.Data[i].Projects[j].TS[k].Comment != "")
+						//{
+							weekHtml += '<div style="    margin-top: 10px;">Project wise timesheet comments from submitter: </div><textarea type="text" disabled style="margin-top:5px" class="big-textbox" >'+resultData.Data[i].Projects[j].TS[k].Comment+'</textarea>';
+						//}
+						weekHtml += '<ul class="top-btns btnAppRej" style="padding-left:0px; margin-top:5px;">';
+						
+						
+						//if(resultData.Data[i].Projects[j].TS[k].TS_Open_Close_Flag == "1")
+						//{	
+							weekHtml += '<li class="green-btn">';
+							//weekHtml += '<span>  APPROVE </span>';
+							weekHtml += '<a href="javascript:void(0)" onclick="yesapproveSelectedItemsforResourceWise(\''+resultData.Data[i].PeriodId+'\',\''+resultData.Data[i].Projects[j].TS[k].ResourceUID+'\',\''+resultData.Data[i].Projects[j].ProjectID+'\',\''+resultData.Data[i].Projects[j].TS[k].TimesheetId+'\')" style="color:#fff;" >  APPROVE </a>';
+							weekHtml += '</li>					';				
+							weekHtml += '<li class="red-btn">';
+							weekHtml += '<a href="javascript:void(0)" onclick="rejectSelectedItemsforResourceWise(\''+resultData.Data[i].PeriodId+'\',\''+resultData.Data[i].Projects[j].TS[k].ResourceUID+'\',\''+resultData.Data[i].Projects[j].ProjectID+'\',\''+resultData.Data[i].Projects[j].TS[k].TimesheetId+'\')"  style="color:#fff;">REJECT</a>';
+							weekHtml += '</li></ul>';
+						/*}
+						else
+						{	weekHtml += '<li class="gray-btn">';
+							weekHtml += '<span>  APPROVE </span>';
+							weekHtml += '</li>					';				
+							weekHtml += '<li class="gray-btn">';
+							weekHtml += '<span >REJECT</span>';
+							weekHtml += '</li></ul>';
+						}*/
+						
+						
+						
+						weekHtml += '</div>';
+						weekHtml += '<div class="clearfix"></div>';
+						weekHtml += '</div>';
+						weekHtml += '</div>';
+					}
+					
+					var weekdays = 0;
+					var prjtTotalSum =0;
+					var prjtTotalBillSum =0;
+					var prjtTotalnonBillSum =0;
+					while(tempStartDate <= tempEndDate){
+						prjtTotalSum = parseFloat(parseFloat(prjtTotalSum) + (parseFloat(prjtTotalHrs[tempStartDate.format('dd-MMM-yyyy')]) || 0)).toFixed(2);
+						prjtTotalBillSum = parseFloat(parseFloat(prjtTotalBillSum)  + (parseFloat(prjtBillableHrs[tempStartDate.format('dd-MMM-yyyy')]) || 0)).toFixed(2);
+						prjtTotalnonBillSum = parseFloat(parseFloat(prjtTotalnonBillSum) + (parseFloat(prjtNonBillableHrs[tempStartDate.format('dd-MMM-yyyy')]) || 0)).toFixed(2);
+						tempStartDate = new Date(tempStartDate.setDate(tempStartDate.getDate() + 1)); 		
+						weekdays++;
+					}
+					prjtAllData.push({'accordianValue':i+"_"+j,'prjtTotalSum':prjtTotalSum,'prjtTotalBillSum':prjtTotalBillSum,'prjtTotalnonBillSum':prjtTotalnonBillSum})
+					periodTotalhrs = parseFloat(periodTotalhrs) + (parseFloat(prjtTotalSum) || 0);
+					periodBillablehrs = parseFloat(periodBillablehrs) + (parseFloat(prjtTotalBillSum) || 0);
+					periodNonBillablehrs = parseFloat(periodNonBillablehrs) + (parseFloat(prjtTotalnonBillSum) || 0);
+					
+					tempStartDate = new Date(resultData.Data[i].Period_Start);
+					
+					weekHtml += '</div>';
+					weekHtml += '</div>';
+					weekHtml += '<div class="clearfix"></div>';
+					weekHtml += '</div>';
+					
+					
+					//for lower
+					weekHtml += '</div>';	
+										
+				}
+				
+				weekHtml += '</div>';
+				weekHtml += '</div><div class="clearfix"></div>';
+				weekHtml += '</div>';
+				//for lower
+				weekHtml += '</div>';
+				
+				periodWiseAllData.push({'accordianValue':i,'periodTotalhrs':periodTotalhrs,'periodBillablehrs':periodBillablehrs,'periodNonBillablehrs':periodNonBillablehrs});
+			}
+			weekHtml += '</div>';
+			$("#WeekView").append(weekHtml);
+			$('#pendingCount span').text(pendingApprover);	
+			for(var h=0;h<periodWiseAllData.length;h++)
+			{
+				var TotalHrsIDs ="#periodWiseTotalHrs_"+periodWiseAllData[h].accordianValue; 
+				var BillableHrsIDs ="#periodWiseBillableHrs_"+periodWiseAllData[h].accordianValue; 
+				var NonBillableHrsIDs ="#periodNonBillableWiseHrs_"+periodWiseAllData[h].accordianValue; 					
+				$(TotalHrsIDs).text(parseFloat(periodWiseAllData[h].periodTotalhrs).toFixed(2) || 0);
+				$(BillableHrsIDs).text(parseFloat(periodWiseAllData[h].periodBillablehrs).toFixed(2) || 0);
+				$(NonBillableHrsIDs).text(parseFloat(periodWiseAllData[h].periodNonBillablehrs).toFixed(2) || 0);					
+			}
+			
+			for(var h=0;h<prjtAllData.length;h++)
+			{
+				var TotalHrsIDs ="#projectWiseTotalHrs_"+prjtAllData[h].accordianValue; 
+				var BillableHrsIDs ="#periodWiseBillableHrs_"+prjtAllData[h].accordianValue; 
+				var NonBillableHrsIDs ="#periodWiseNonBillableHrs_"+prjtAllData[h].accordianValue; 					
+				$(TotalHrsIDs).text(parseFloat(prjtAllData[h].prjtTotalSum).toFixed(2) || 0);
+				$(BillableHrsIDs).text(parseFloat(prjtAllData[h].prjtTotalBillSum).toFixed(2) || 0);
+				$(NonBillableHrsIDs).text(parseFloat(prjtAllData[h].prjtTotalnonBillSum).toFixed(2) || 0);					
+			}
+			
+			for(var h=0;h<resourceWiseAllData.length;h++)
+			{
+				var TotalHrsIDs ="#resTotalHrsSpan_"+resourceWiseAllData[h].accordianValue; 
+				var BillableHrsIDs ="#resBillableHrsSpan_"+resourceWiseAllData[h].accordianValue; 
+				var NonBillableHrsIDs ="#resNonBillableHrsSpan_"+resourceWiseAllData[h].accordianValue; 					
+				$(TotalHrsIDs).text(parseFloat(resourceWiseAllData[h].resTotalHrs).toFixed(2) || 0);
+				$(BillableHrsIDs).text(parseFloat(resourceWiseAllData[h].resBillableHrs).toFixed(2) || 0);
+				$(NonBillableHrsIDs).text(parseFloat(resourceWiseAllData[h].resNonBillableHrs).toFixed(2) || 0);					
+			}
+			//$("#WeekView").append('</div>');
+		}
+			$(".Plannedtr").hide();
+			$(".colSummaryTask").hide();
+			$(".zeroActualHours").closest("tr").next().hide();
+			$(".zeroActualHours").closest("tr").hide();	
+					
+			appendEventsAfterSuccess();
+			$('#loading-image').hide();
+			$("#pageHeader").show();
+		},
+		error: function (data) {
+			$("#pageHeader").show();
+			alert("failed");
+		}
+	});
+}
+	
+
+
+function openAdditionalInfomation(data)
+{	
+
+	$('.addition-info-block').animate({ width: 'hide'});
+	var tempIds = data.id.replace("innerTaskWiseComment_","");
+	var first = tempIds.substring(0,tempIds.indexOf("_"));
+	tempIds = tempIds.substring(tempIds.indexOf("_")+1,tempIds.length);
+
+	var second = tempIds.substring(0,tempIds.indexOf("_"));
+	tempIds = tempIds.substring(tempIds.indexOf("_")+1,tempIds.length);
+	
+	var third = tempIds.substring(0,tempIds.indexOf("_"));
+	tempIds = tempIds.substring(tempIds.indexOf("_")+1,tempIds.length);
+	
+	var forth = tempIds.substring(0,tempIds.indexOf("_"));
+	tempIds = tempIds.substring(tempIds.indexOf("_")+1,tempIds.length);
+	
+	var fifth = tempIds.substring(tempIds.indexOf("_")+1,tempIds.length);
+	
+	var taskId = $(data).find(".taskId").val();
+	var startdate = new Date($(data).find(".startDate").val())
+	
+	//var sTaskName = $(data).find(".StaskName").val();	
+	//resultData.Data[0].Projects[0].SummaryTask.filter(function(e){if(sTaskName == e.SummaryTask){sTaskData = e;}})
+	var f1 = false;
+	
+	resultData.Data[first].Projects[second].TS[third].SummaryTask[forth].Tasks[fifth].WeekDays.filter
+	(
+		function(wk)
+		{   
+			if((new Date(wk.Start).valueOf()) == (startdate.valueOf()))
+			{	//console.log("test");
+				if(wk.Incident_No == "")
+				{
+					$("#txtIncidentNumber").val("NA");
+				}
+				else
+				{
+					$("#txtIncidentNumber").val(wk.Incident_No);
+				}
+				
+				$("#txtComment").val(wk.Comment);	
+				f1 = true;
+				return false;
+			}
+		}
+	)
+		
+	$('.addition-info-block').animate({ width: 'show'});
+
+}
+
+
+function appendEventsAfterSuccess()
+{
+	$("#AllProjectCheck").click
+	(
+		function(e){
+			if($(e.target).is(":checked"))
+			{
+				$(".periodWiseCheckBox").prop("checked",false);
+			}
+			else
+			{
+				$(".periodWiseCheckBox").trigger("checked",true);				
+			}
+			$(".periodWiseCheckBox").trigger("click");
+		}
+	)
+	$(".projectWiseCheckBox").click
+	 (
+		function(e)
+		{	if($(e.target).is(":checked"))
+			{
+				$(e.target).parents(".panel-heading").next().find(':checkbox:not(:disabled)').prop("checked",true)
+			}
+			else
+			{
+				$(e.target).parents(".panel-heading").next().find(':checkbox:not(:disabled)').prop("checked",false)
+			}			
+			console.log(e); temp = e;
+			
+			if($(this).parents(".panel-body").find(".projectWiseCheckBox").length == $(this).parents(".panel-body").find(".projectWiseCheckBox:checked").length)
+			{
+				$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",true);
+				if($(".periodWiseCheckBox").length == $(".periodWiseCheckBox:checked").length)
+				{	//$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",false);
+					$("#AllProjectCheck").prop("checked",true);
+				}
+				else
+				{
+					$("#AllProjectCheck").prop("checked",false);
+				}
+			}
+			else
+			{
+				$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",false);
+				$("#AllProjectCheck").prop("checked",false);
+			}
+			
+			
+						
+			if($(":checkbox.resourceWiseCheckBox:checked").length > 0)
+			{
+				//$("#btnapproveselected").parent('li').switchClass('blue-btn','green-btn');			
+				$("#btnapproveselected").parent('li').removeClass('blue-btn');
+				$("#btnapproveselected").parent('li').addClass('green-btn');
+			}
+			else
+			{
+				//$("#btnapproveselected").parent('li').switchClass('green-btn','blue-btn');
+				$("#btnapproveselected").parent('li').addClass('blue-btn');
+				$("#btnapproveselected").parent('li').removeClass('green-btn');
+			}
+		}
+	);
+	
+	$(".periodWiseCheckBox").click(function(e)
+	{
+		if($(e.target).is(":checked")){
+			$(e.target).next(".panel-default").find(".projectWiseCheckBox").prop("checked",false);
+			$(e.target).next(".panel-default").find(".projectWiseCheckBox").trigger("click");
+		}
+		else{
+			$(e.target).next(".panel-default").find(".projectWiseCheckBox").prop("checked",true);
+			$(e.target).next(".panel-default").find(".projectWiseCheckBox").trigger("click");
+		}
+		
+		
+		if($(":checkbox.resourceWiseCheckBox:checked").length > 0)
+		{
+			//$("#btnapproveselected").parent('li').switchClass('blue-btn','green-btn');			
+			$("#btnapproveselected").parent('li').removeClass('blue-btn');
+			$("#btnapproveselected").parent('li').addClass('green-btn');
+		}
+		else
+		{
+			//$("#btnapproveselected").parent('li').switchClass('green-btn','blue-btn');
+			$("#btnapproveselected").parent('li').addClass('blue-btn');
+			$("#btnapproveselected").parent('li').removeClass('green-btn');
+		}
+	})
+	
+	$(".resourceWiseCheckBox").click
+	 (
+		function(e)
+		{	
+			if($(e.target).parents("div[id^='collapseinner']").find(':checkbox:checked').length == $(e.target).parents("div[id^='collapseinner']").find(':checkbox').length)
+			{
+				$(e.target).parents("div[id^='collapseinner']").prev().find(':checkbox').trigger("click");//.prop("checked",true);
+			}
+			else
+			{
+				$(e.target).parents("div[id^='collapseinner']").prev().find(':checkbox').prop("checked",false);
+				if($(this).parents(".panel-body").find(".projectWiseCheckBox").length == $(this).parents(".panel-body").find(".projectWiseCheckBox:checked").length)
+				{
+					//$(e.target).parents("div[id^='collapseinner']").prev().find(':checkbox').trigger("click");//.prop("checked",true);
+					$("#chkPeriod_" + $(this).attr('id').replace("chkResource_","").substr(0,1)).prop("checked",true);
+					if($(".periodWiseCheckBox").length == $(".periodWiseCheckBox:checked").length)
+					{	//$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",false);
+						$("#AllProjectCheck").prop("checked",true);
+					}
+					else
+					{
+						$("#AllProjectCheck").prop("checked",false);
+					}
+				}	
+				else
+				{					
+					$("#chkPeriod_" + $(this).attr('id').replace("chkResource_","").substr(0,1)).prop("checked",false);
+					$("#AllProjectCheck").prop("checked",false);
+				}				
+				
+			}
+			if($(":checkbox.resourceWiseCheckBox:checked").length > 0)
+			{
+				//$("#btnapproveselected").parent('li').switchClass('blue-btn','green-btn');			
+				$("#btnapproveselected").parent('li').removeClass('blue-btn');
+				$("#btnapproveselected").parent('li').addClass('green-btn');
+			}
+			else
+			{
+				//$("#btnapproveselected").parent('li').switchClass('green-btn','blue-btn');
+				$("#btnapproveselected").parent('li').addClass('blue-btn');
+				$("#btnapproveselected").parent('li').removeClass('green-btn');
+			}
+			
+			if($(this).parents(".panel-body").find(".periodWiseCheckBox").length == $(this).parents(".panel-body").find(".periodWiseCheckBox:checked").length)
+			{	$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",false);
+				$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",true);
+			}
+			else
+			{
+				$("#chkPeriod_" + $(this).attr('id').replace("chkProject_","")).prop("checked",false);
+			}
+		}
+	);
+	
+	$('#onPlannedClick').click(function() {
+		
+		if($("#onPlannedClick").is(':checked'))
+		{
+			$(".Plannedtr").show();
+			$(".actualtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').hide();
+			$(".Plannedtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').attr("rowspan",2);
+		}
+		else{
+			$(".Plannedtr").hide();
+			$(".actualtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').show();
+			$(".Plannedtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').removeAttr("rowspan",2);
+		}	
+
+		if($("#showZeroActualHrs").is(':checked'))
+		{
+			//$(".zeroActualHours").closest("tr").show();			
+			$(".zeroActualHours").closest("tr").next().show();
+		}
+		else
+		{
+			//$(".zeroActualHours").closest("tr").hide();	
+
+			$(".zeroActualHours").closest("tr").next().hide();
+			$(".zeroActualHours").closest("tr").hide();
+		}
+		if($("#hideShowSummaryColumn").is(":checked"))
+		{
+			//$(".colSummaryTask").show();
+		}
+		else
+		{
+			$(".colSummaryTask").hide();
+		}
+		
+	 });
+	 
+	 $('#showZeroActualHrs').click(function() {
+		
+		
+		if($("#showZeroActualHrs").is(':checked'))
+		{	$(".zeroActualHours").closest("tr").next('.actualtr').show();
+			$(".zeroActualHours").closest("tr").show();			
+		}
+		else
+		{	$(".zeroActualHours").closest("tr").next('.actualtr').hide();
+			$(".zeroActualHours").closest("tr").hide();			
+		}
+
+		if($("#onPlannedClick").is(':checked'))
+		{				
+			$(".actualtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').hide();
+			$(".Plannedtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').attr("rowspan",2);
+		}
+		else{
+			$(".Plannedtr").hide();
+			$(".actualtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').show();
+			$(".Plannedtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').removeAttr("rowspan",2);
+		}
+		if($("#hideShowSummaryColumn").is(":checked"))
+		{
+			//$(".colSummaryTask").show();
+		}
+		else
+		{
+			$(".colSummaryTask").hide();
+		}
+		
+	 });
+	 
+	 $('#hideShowSummaryColumn').click(function() {
+		
+		
+		if($("#showZeroActualHrs").is(':checked'))
+		{	//$(".zeroActualHours").closest("tr").next().show();
+			//$(".zeroActualHours").closest("tr").show();			
+		}
+		else
+		{	//$(".zeroActualHours").closest("tr").next().hide();
+			//$(".zeroActualHours").closest("tr").hide();			
+		}
+		
+		if($("#hideShowSummaryColumn").is(":checked"))
+		{
+			$(".colSummaryTask").show();
+		}
+		else
+		{
+			$(".colSummaryTask").hide();
+		}
+
+		if($("#onPlannedClick").is(':checked'))
+		{				
+			$(".actualtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').hide();
+		//	$(".Plannedtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').attr("rowspan",2);
+		}
+		//else{
+		//	$(".Plannedtr").hide();
+		//	$(".actualtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').show();
+		//	$(".Plannedtr").find('td:first, td:nth-child(2),td:nth-child(3),td:nth-child(4)').removeAttr("rowspan",2);
+		//}
+		
+		
+	 });
+
+	$(document).click(function (event) {
+		  if($(event.target).is('.comment-icon, .comment-icon *'))
+		  {
+		   return;
+		  }
+		  else if(!$(event.target).is('.addition-info-block, .addition-info-block *'))
+		  {
+		   $('.addition-info-block').hide({ width: 'toggle'});
+		  }
+	});
+	 
+	$(document).click(function (event) {
+	if (!$(event.target).is('.allcommentdiv, .allcommentdiv *')) {
+	   $('.allcommentdiv').hide({ width: 'toggle'});
+	  }
+	});
+	$(".iscmmntvalue").closest("table").parentsUntil("div[id^='collapse_']").parent().prev().find("li[id^='resourceWiseAllComments_']").addClass("org-color")
+	 
+	$('textarea').on("blur",function(){
+		if(checkIsSpecialCharacterPresent($(this).val())){
+			console.log("true");$("#Fillerror").hide()
+			$(this).nextAll(".specialCharacterValidation").show();
+		}
+		else
+		{
+			$(this).nextAll(".specialCharacterValidation").hide();
+		}
+	})
+	
+}
+
+function openApprovedPopup()
+{	
+	if($("#DDtabularOrWeekView").val() == 'week')
+	{
+		//var checkCheckBoxCheckedCnt = $("#WeekView").find(':checkbox:checked').length;
+		var checkCheckBoxCheckedCnt = $("#WeekView").find('.resourceWiseCheckBox:checkbox:checked').length
+		//if(checkCheckBoxCheckedCnt > 1)
+		//{
+		//	openOKpopup(popUpMessage.MultipleCheckBoxApprove,"");
+		//}
+		//else 
+		if(checkCheckBoxCheckedCnt > 0)
+		{
+			//openyesNoPopup('ApproveBtn',popUpMessage.YesNoApproveMessage);			
+			//$('#btnYes').attr('onclick',"approveSelectedItems()");
+			approveSelectedItems();
+			
+		}
+		else
+		{	
+			
+			openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");			
+			
+		}
+	}
+	else
+	{
+		var allowTOReject = $('input:checkbox.checkboxAppRej:checked', '#mytable').length;
+		if(allowTOReject > 0)
+		{
+			approveSelectedItems();
+			//openyesNoPopup('ApproveBtn',popUpMessage.YesNoApproveMessage);
+			//$('#btnYes').attr('onclick',"approveSelectedItems()");
+		}
+		else
+		{
+			
+			openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+		}
+	}
+}
+
+function approveSelectedItems()
+{	okPopupOnOkButton('#yesNoPopup'); 
+	$('#loading-image').show();
+	var approvedData = new Object();
+	approvedData.Data = new Array();
+	var CurrentRESGuid = GetCurrentUserGUID();
+	flag = false;
+	if($("#DDtabularOrWeekView").val() == 'week')
+	{
+		$('input:checkbox:checked.resourceWiseCheckBox','#WeekView').each(function()
+		{
+			var tempData = new Object();
+			tempData.TimesheetUID = $(this).next("span").find(".TimeSheetUID").val();  
+			//if(ApprovalStatus == "Appproved")
+			//{
+			tempData.Flag = flagValues.approved	;
+			//}
+			//var commID = '#yesNoPopupComent';
+			tempData.Comment = "";
+			tempData.ProjectId = $(this).next("span").find(".projectId").val();
+			tempData.Requester_Code = $(this).next("span").find(".resourceUID").val();
+			tempData.Approver_Code = CurrentRESGuid;
+			tempData.PeriodID =$(this).next("span").find(".PeriodID").val();  
+			approvedData.Data.push(tempData);				
+		});		
+		flag = true;
+	}
+	else
+	{
+		$('input:checkbox.checkboxAppRej:checked','#mytable').each(function()
+		{
+			var tempData = new Object();
+			tempData.TimesheetUID = $(this).closest("tr").find("input[id^=timid]").val();
+			//if(ApprovalStatus == "Appproved")
+			//{
+			tempData.Flag = flagValues.approved	;
+			//}
+			//var commID = '#yesNoPopupComent';
+			tempData.Comment = "";
+			tempData.ProjectId = $(this).closest("tr").find("input[id^=Perid]").val();
+			
+			tempData.Approver_Code = CurrentRESGuid;
+			tempData.Requester_Code = $(this).closest("tr").find("input[id^=resourceid]").val();//$("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=resourceid]").val(); 
+			tempData.PeriodID = $(this).closest("tr").find("input[id^=Periodid]").val();
+			approvedData.Data.push(tempData);				
+		});
+		flag = true;
+	}
+	if(flag)
+	{
+		var ApproveTimesheetUrls =ApproveTimesheet();
+		$.ajax
+		({       
+			url: ApproveTimesheetUrls,
+			headers: { "Accept": "application/json; odata=verbose" },
+			method: "POST",
+			data: approvedData,
+			dataType: 'json',
+			success: function(data)
+			{	location.href = "ApproveSummaryPage.aspx?DDView=" + $('#DDtabularOrWeekView').val(); 
+				//$('#loading-image').hide();
+				//okPopupOnOkButton('#yesNoPopup');
+				//openOKpopup(popUpMessage.timeSheetApproved,"true");	
+			}
+		});
+		//alert("success");
+	}
+	
+}
+
+function openRejectPopup()
+{
+	$("#yesNoPopupComent").val("");
+	if($("#DDtabularOrWeekView").val() == 'week')
+	{
+		var checkCheckBoxCheckedCnt = $("#WeekView").find('.resourceWiseCheckBox:checkbox:checked').length;
+		if(checkCheckBoxCheckedCnt == 1)
+		{
+			openyesNoPopup('RejectBtn',popUpMessage.rejectMsg);			
+			$('#btnYes').attr('onclick',"rejectSelectedItems()");
+		}
+		else if(checkCheckBoxCheckedCnt > 1)
+		{
+			openOKpopup(popUpMessage.MultipleCheckBox,"");	
+		}
+		else
+		{	openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+			//openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+		}
+	}
+	else
+	{
+		var allowTOReject = $('input:checkbox:checked', '#mytable').length;
+		if(allowTOReject == 0)
+		{
+			openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+		}
+		else if(allowTOReject == 1)
+		{	openyesNoPopup('RejectBtn',popUpMessage.rejectMsg);
+			//openyesNoPopup('ApproveBtn',popUpMessage.YesNoApproveMessage);
+			$('#btnYes').attr('onclick',"rejectSelectedItems()");
+		}
+		else
+		{	openOKpopup(popUpMessage.MultipleCheckBox,"");
+			//openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+		}
+	}
+}
+
+function rejectSelectedItems()
+{	 
+	
+	var approvedData = new Object();
+	approvedData.Data = new Array();
+	var CurrentRESGuid = GetCurrentUserGUID();
+	flag = false;
+	if($("#DDtabularOrWeekView").val() == 'week')
+	{	
+		var kk =0;
+		if($('#yesNoPopupComent').val().trim()=="")
+		{
+			$('#Fillerror').show();
+		}
+		else
+		{	
+			var tempData = new Object();
+			tempData.TimesheetUID =$("#WeekView").find('.resourceWiseCheckBox:checkbox:checked').next().find('.TimeSheetUID').val(); //$("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=timid]").val();			
+			tempData.Flag = flagValues.rejected	;			
+			tempData.Comment = $('#yesNoPopupComent').val();
+			tempData.ProjectId = $("#WeekView").find('.resourceWiseCheckBox:checkbox:checked').next().find('.projectId').val();//$("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=Perid]").val();
+			tempData.Approver_Code = CurrentRESGuid;
+			tempData.Requester_Code = $("#WeekView").find('.resourceWiseCheckBox:checkbox:checked').next().find('.resourceUID').val()//$("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=resourceid]").val(); 
+			tempData.PeriodID = $("#WeekView").find('.resourceWiseCheckBox:checkbox:checked').next().find(".PeriodID").val();  
+			approvedData.Data.push(tempData);
+			flag = true;
+		}
+	}
+	else
+	{	
+		if($('#yesNoPopupComent').val()=="")
+		{
+			$('#Fillerror').show();
+		}
+		else
+		{	
+			var allowTOReject = $('input:checkbox:checked', '#mytable').length;
+			if(allowTOReject == 0)
+			{
+				openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+			}
+			else if(allowTOReject == 1)
+			{
+				var tempData = new Object();
+				tempData.TimesheetUID = $("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=timid]").val();			
+				tempData.Flag = flagValues.rejected	;			
+				tempData.Comment = $('#yesNoPopupComent').val();
+				tempData.ProjectId = $("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=Perid]").val();
+				tempData.Approver_Code = CurrentRESGuid;
+				tempData.Requester_Code = $("#tabularView").find("input:checkbox:checked").closest("tr").find("input[id^=resourceid]").val(); 
+				approvedData.Data.push(tempData);
+				flag = true;
+			}
+			else
+			{	openOKpopup(popUpMessage.MultipleCheckBox,"");
+				//openOKpopup(popUpMessage.SlelectleastOneCheckBox,"");
+			}
+		}		
+	}
+	if(flag)
+	{	$('#loading-image').show();
+		okPopupOnOkButton('#yesNoPopup');
+		//var ApproveRejectJson = JSON.stringify(approvedData);	
+		var ApproveTimesheetUrls =ApproveTimesheet();
+		$.ajax
+		({       
+		 //url: 'https://ppmdev.bcone.com/api/Timesheet/ApproveTimesheet',
+		 url: ApproveTimesheetUrls,
+		 headers: { "Accept": "application/json; odata=verbose" },
+		 method: "POST",
+		 data: approvedData,
+		 dataType: 'json',
+		 success: function(data)
+		 {
+			//$('#loading-image').hide();
+			location.href = "ApproveSummaryPage.aspx?DDView=" + $('#DDtabularOrWeekView').val(); 
+			// openOKpopup(popUpMessage.timeSheetReject,"true");
+		 }
+		});
+	}
+	//$('#loading-image').hide();
+}
+
+function openResourceWiseAllComments(ev,data,resourceName)
+{
+	ev.stopPropagation(); 
+	$("#commentSummary").text("");
+	
+	var summaryCommentTbale = "";  
+	summaryCommentTbale += '<h3 id="summCommentHeading">'+resourceName+'</h3><div class="vertical-scoll">';
+	summaryCommentTbale += '<table class="table table-bordered">';
+	summaryCommentTbale += '<thead><tr><th style="width:85px;">Date</th><th style="width:180px;">Task Name</th><th>Incident ID</th><th>Comments</th></tr></thead><tbody>';
+	
+	var thisid = data.id.replace("resourceWiseAllComments_","");
+	var first = thisid.substring(0,1);
+
+	var thisid = thisid.substring(thisid.indexOf('_')+1,thisid.length);
+	var second = thisid.substring(0,1);
+
+	var third = thisid.substring(thisid.indexOf('_')+1,thisid.length);
+	var flag = false;
+	resultData.Data[first].Projects[second].TS[third].SummaryTask.filter
+	(
+		function(e)
+		{	//var taskName = e.TaskName;
+		if(e.SummaryTask != "LONGLEAVE_TASK")
+		{
+			e.Tasks.filter(
+			function(t)
+			{	var taskName = t.TaskName;
+				t.WeekDays.filter(
+				function(w)
+				{
+					if(w.Comment != "" || w.Incident_No != "")
+					{
+						var dd = new Date(w.End);
+						summaryCommentTbale += '<tr>';
+						summaryCommentTbale += '<td>'+dd.format('dd-MMM-yy')+'</td>';
+						summaryCommentTbale += '<td>'+taskName+'</td>';
+						if(w.Incident_No == ""){
+						summaryCommentTbale += '<td>NA</td>';
+						}else{
+							summaryCommentTbale += '<td>'+w.Incident_No+'</td>';
+						}
+						summaryCommentTbale += '<td><span style="word-wrap: break-word; display: inline-block; width: 200px;">'+w.Comment+'</span></td>';
+						summaryCommentTbale += '</tr>';
+						flag=true;
+					}
+					console.log(w.Comment)
+				}
+				)			
+			}
+		)
+		}
+	});
+  summaryCommentTbale += '</tbody></table></div>';
+  $("#commentSummary").append(summaryCommentTbale);
+  if(flag)
+  {
+	$('.allcommentdiv').animate({ width: 'toggle'});
+  }
+  
+}
+function closeallcomment()
+{
+  $('.allcommentdiv').animate({ width: 'toggle'});
+};
+
+function approveSelectedItemsforResourceWise(PeriodId,ResourceUID,ProjectID,TimesheetId)
+{		$("#Fillerror").hide()
+		openyesNoPopup('ApproveBtn',popUpMessage.YesNoApproveMessage);
+		$('#btnYes').attr('onclick',"yesapproveSelectedItemsforResourceWise('"+PeriodId+"','"+ResourceUID+"','"+ProjectID+"','"+TimesheetId+"')");
+}
+
+function yesapproveSelectedItemsforResourceWise(PeriodId,ResourceUID,ProjectID,TimesheetId)
+{	
+	var approvedData = new Object();
+	approvedData.Data = new Array();
+	
+	var tempData = new Object();
+	tempData.TimesheetUID = TimesheetId;
+	tempData.Flag = flagValues.approved	;
+	tempData.Comment = "";
+	tempData.ProjectId = ProjectID;
+	tempData.Requester_Code = ResourceUID;
+	tempData.Approver_Code = CurrentGuid;
+	tempData.PeriodID = PeriodId;
+	approvedData.Data.push(tempData);	
+	$('#loading-image').show();	
+	okPopupOnOkButton('#yesNoPopup');
+	var ApproveTimesheetUrls =ApproveTimesheet();
+	$.ajax
+	({       
+		url: ApproveTimesheetUrls,
+		headers: { "Accept": "application/json; odata=verbose" },
+		method: "POST",
+		data: approvedData,
+		dataType: 'json',
+		success: function(data)
+		{
+			//$('#loading-image').hide();
+			//okPopupOnOkButton('#yesNoPopup');
+			//openOKpopup(popUpMessage.timeSheetApproved,"true");	
+			location.href = "ApproveSummaryPage.aspx?DDView=" + $('#DDtabularOrWeekView').val();
+		}
+	});	
+	
+}
+
+
+function rejectSelectedItemsforResourceWise(PeriodId,ResourceUID,ProjectID,TimesheetId)
+{		$("#Fillerror").hide();
+		//$("#yesNoPopupComent").show();
+		$("#yesNoPopupComent").nextAll(".specialCharacterValidation").hide()
+		openyesNoPopup('RejectBtn',popUpMessage.rejectMsg);
+		$('#btnYes').attr('onclick',"yesrejectSelectedItemsforResourceWise('"+PeriodId+"','"+ResourceUID+"','"+ProjectID+"','"+TimesheetId+"')");
+}
+
+function yesrejectSelectedItemsforResourceWise(PeriodId,ResourceUID,ProjectID,TimesheetId)
+{
+	if($("#yesNoPopupComent").nextAll(".specialCharacterValidation").is(":visible"))
+	{
+		openOKpopup(popUpMessage.specialCharacterValidaitonMessage,"false");
+		return false;
+	}
+	if($("#yesNoPopupComent").val().trim() != "")
+	{		$('#loading-image').show();
+		$("#Fillerror").hide();
+		var approvedData = new Object();
+		approvedData.Data = new Array();
+		
+		var tempData = new Object();
+		tempData.TimesheetUID = TimesheetId;
+		tempData.Flag = flagValues.rejected	;
+		tempData.Comment = $("#yesNoPopupComent").val();
+		tempData.ProjectId = ProjectID;
+		tempData.Requester_Code = ResourceUID;
+		tempData.Approver_Code = CurrentGuid;
+		tempData.PeriodID = PeriodId;
+		approvedData.Data.push(tempData);	
+		okPopupOnOkButton('#yesNoPopup');
+		var ApproveTimesheetUrls =ApproveTimesheet();
+		$.ajax
+		({       
+			url: ApproveTimesheetUrls,
+			headers: { "Accept": "application/json; odata=verbose" },
+			method: "POST",
+			data: approvedData,
+			dataType: 'json',
+			success: function(data)
+			{
+				//$('#loading-image').hide();
+				location.href = "ApproveSummaryPage.aspx?DDView=" + $('#DDtabularOrWeekView').val();
+				//openOKpopup(popUpMessage.timeSheetReject,"true");	
+			}
+		});
+	}
+	else
+	{
+		$("#Fillerror").show();
+	}
+	
+}
+
+$('#all').on('click', function () {
+	//if ($('.accordion-toggle a').hasClass('collapsed'))
+	if($("#all span").text() == "Collapse All")
+	{
+		$('.accordion-toggle a').attr('aria-expanded','false');
+		$("#all span").text("Expand All");
+		$('#all i').removeClass('fa-minus');
+		$('.panel-collapse').removeClass('in');
+		$('.panel-collapse').css('height','auto');
+	}
+	else
+	{
+		$('.accordion-toggle a').attr('aria-expanded','true');
+		$("#all span").text("Collapse All");
+		$('#all i').addClass('fa-minus');
+		$('.panel-collapse').addClass('in');
+		$('.panel-collapse').css('height','auto');
+	}
+});
+
+function panelfun(){
+	setTimeout(function(){ 
+		var areexpand = false;
+		$('#accordion').find('div[id^=accProject] a').each(function(e)
+		{ 
+			if($(this).attr('aria-expanded')=='true')
+			{		   
+				areexpand = true;
+				$("#all span").text("Collapse All");
+				$('#all i').addClass('fa-minus');
+				return false;
+			}  
+			else
+			{
+				$("#all span").text("Expand All");
+				$('#all i').removeClass('fa-minus');
+			} 
+		});
+	}, 100);
+};
+
+function dataTableLoad() 
+{	
+	var table = $('#mytable').DataTable({
+		"JQueryUI":true,
+		"autoWidth": false,
+		"bAutoWidth": false,
+		
+		fixedColumns: true,
+		
+		"columnDefs": [{
+		"defaultContent": "-",		
+		"targets": "_all",
+		
+		},
+			{ "width": "4%", "targets": 0 },
+			{ "width": "20%", "targets": 1 },
+			{ "width": "20%", "targets": 2 },
+			{ "width": "12%", "targets": 3 },
+			{ "width": "7%", "targets": 4 },
+			{ "width": "9%", "targets": 5 },
+			{ "width": "10%", "targets": 6 },
+			{ "width": "9%", "targets": 7 },
+			{ "width": "10%", "targets": 8 },
+		]//,
+	  //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+	  
+	});
+
+	$('#mytable tfoot th').each(function(){
+		var title = $('#mytable thead th').eq( $(this).index() ).text();
+		
+		//console.log(title)
+		if(title != "Action")
+		{
+			$(this).html( '<input type="text" placeholder="Search" />' );
+		}
+		else
+		{	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+			//$(this).html( '<input type="checkbox" id="selectAllCheckTabularView" /> <span style="font-weight: normal;vertical-align: sub;">All</span>' );
+		}
+	} );
+
+	
+	// Apply the search
+	table.columns().every( function () {
+		var that = this;
+		
+		$( 'input', this.footer() ).on( 'keyup change', function () {			
+			if ( that.search() !== this.value && this.type == "text") {
+				that
+					.search( this.value )
+					.columns.adjust().draw();
+					//.draw();			
+			}
+		} );
+	});/*
+	$("th.ResourceName").css("width","130px");
+	$("th.clsTotalHours").css("width","100px");
+	$("th.submittedDate").css("width","110px");
+	$("th.clsStatus").css("width","120px");
+	$("th.clsApproveReject").css("width","110px");
+	$("th.clsUserComment").css("width","200px");
+	$("th.NonBillableHours").css("width","120px");
+	$("th.BillableHours").css("width","70px");
+	$("th.Total").css("width","50px");	
+	$("th.projectName").css("width","280px"); 
+	$("th.clsApproveComment").css("width","150px"); 
+	$("th.clsPrjtName").css("width","250px");*/
+}
+</script>

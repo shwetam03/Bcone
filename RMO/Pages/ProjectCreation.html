@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>RMO</title>
+<link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css"/>
+
+<style>
+.sp-peoplepicker-topLevel {
+	width: 100% !important;
+	border: none !important;
+}
+.sp-peoplepicker-initialHelpText {
+	top: 6px !important;
+}
+#divClientPartner,divdeliverymanager,divfinance,divowner,divrmospoc {
+	padding: 0 !important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-----------Breadcrumb End---------->
+<div class="contain-div ">
+<div class="form-horizontal">
+<div class="col-sm-6">
+  <div class="form-group row">
+  
+            <label class="col-sm-4 " for="textinput">Project Code</label>
+            <div class="col-sm-6">
+              <input type="text" placeholder="Project Code" class="form-control">
+            </div>            
+            <label class="col-sm-4 " for="textinput">Customer Name</label>
+            <div class="col-sm-6">
+              <select class="form-control"><option>test</option></select>
+            </div>            
+            <label class="col-sm-4 " for="textinput">Start Date</label>
+            <div class="col-sm-6">
+              <div class="date" style="margin-bottom:10px">
+              	<input type="text" placeholder="State Date" id="datepicker" class="form-control">
+              </div>  
+            </div>      
+              <label class="col-sm-4" for="textinput">Region</label>
+            <div class="col-sm-6">
+              <select class="form-control"><option>test</option></select>
+            </div>
+			<label class="col-sm-4" for="textinput">Project Location</label>
+            <div class="col-sm-6">
+              <select class="form-control"><option>test</option></select>
+            </div>
+			 <label class="col-sm-4" for="textinput">Contract Type</label>
+            <div class="col-sm-6">
+              <select class="form-control"><option>test</option></select>
+            </div>
+             <label class="col-sm-4" for="textinput">RMO SPOC</label>
+            <div class="col-sm-6">
+              <div id="divrmospoc" class="form-control" ></div>
+            </div>
+             <label class="col-sm-4" for="textinput">Owner</label>
+            <div class="col-sm-6">
+             <div id="divowner" class="form-control" ></div>
+            </div>
+             <label class="col-sm-4" for="textinput">Delivery Manager</label>
+            <div class="col-sm-6">
+			<div id="divdeliverymanager" class="form-control" ></div>
+              
+            </div>
+            
+     </div>   
+   </div>
+   <div class="col-sm-6">
+   		<div class="form-group row">
+		    <label class="col-sm-4" for="textinput">Project Name</label>
+            <div class="col-sm-6">
+              <input type="text" placeholder="Project Name" class="form-control">
+            </div>
+			<label class="col-sm-4" for="textinput">GBU</label>
+            <div class="col-sm-6">
+              <select class="form-control"><option>test</option></select>
+            </div>
+			<label class="col-sm-4" for="textinput">End Date</label>
+            <div class="col-sm-6">
+              <div class="date" style="margin-bottom:10px">	
+              	<input type="text" placeholder="End Date" id="datepicker2" class="form-control">
+               </div> 
+            </div>
+			<label class="col-sm-4" for="textinput">Category Type </label>
+            <div class="col-sm-6">
+              <select class="form-control"><option>test</option></select>
+            </div>
+			 <label class="col-sm-4" for="textinput">Project Status</label>
+            <div class="col-sm-6">
+               <select class="form-control"><option>test</option></select>
+            </div>
+        	 <label class="col-sm-4" for="textinput">Clint Patner</label>
+            <div class="col-sm-6">
+			<div id="divClientPartner" class="form-control" ></div>
+              <!--<input type="text" placeholder="Clint Patner" class="form-control">-->
+            </div>
+           
+            
+            
+            
+              
+             
+            
+             <label class="col-sm-4" for="textinput">Finance</label>
+            <div class="col-sm-6">
+			<div id="divfinance" class="form-control" ></div>
+              
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-6">
+            	<button type="button" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-primary">Publish</button>	
+                <button type="button" class="btn btn-default">Cancel</button>
+                
+                
+        	</div>
+        </div>
+   
+   </div>
+   
+
+           
+  <div class="clearfix"></div>
+  </div>    
+  
+  
+</div>
+
+<script src="../SiteAssets/RMO/js/jquery.min.js"></script> 
+<script src="../SiteAssets/RMO/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="../SiteAssets/RMO/js/jqueryui.js"></script>
+<script type="text/javascript" src="../SiteAssets/RMO/js/sppeoplepicker.js"></script> 
+ 
+<script>
+$(document).ready(function() {
+  
+    $( "#datepicker,#datepicker2" ).datepicker();
+    $("#divClientPartner").spPeoplePicker();
+	$("#divrmospoc").spPeoplePicker();
+	$("#divdeliverymanager").spPeoplePicker();
+	$("#divfinance").spPeoplePicker();
+	$("#divowner").spPeoplePicker();
+	
+
+
+} );
+
+</script>
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

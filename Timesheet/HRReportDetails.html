@@ -1,0 +1,339 @@
+<html>
+<head>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jszip.js"></script>
+    <script src="../SiteAssets/Timesheet/js/jquery-ui.min.js"></script>
+    <script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+    <script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $.widget.bridge('uitooltip', $.ui.tooltip);
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+    <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/Timesheet/js/excelexportjs.js"></script>
+    <!-- <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script> -->
+    <!--<link rel="stylesheet" type="text/css" href="../SiteAssets/css/jquery.dataTables.css"> -->
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+    <!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script> -->
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+    <!-- <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css"> -->
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+    <style>
+	.sumoselect
+        #sideNavBox
+        {
+            Display: none !important;
+            width: 0px !important;
+            margin: 0px !important;
+        }
+
+        #contentBox
+        {
+            margin-left: 0px !important;
+        }
+
+        .static
+        {
+            Display: none !important;
+        }
+
+        #DeltaPlaceHolderPageTitleInTitleArea
+        {
+            Display: none !important;
+        }
+
+        #RibbonContainer
+        {
+            Display: none !important;
+        }
+
+        #ctl00_PlaceHolderSearchArea_ctl01_SmallSearchInputBox1_csr
+        {
+            Display: none !important;
+        }
+
+        #log
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #log td, #log th
+            {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+        #tblErrorList
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #tblErrorList td, #tblErrorList th
+            {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+
+        #StatusWiseSummary_wrapper
+        {
+            margin-top: 10px;
+        }
+
+        #siteIcon::after
+        {
+            display: none;
+        }
+
+        .SumoSelect.open > .optWrapper
+        {
+            width: 250px;
+        }
+
+        body
+        {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .form-group
+        {
+            margin-bottom: 0px;
+        }
+
+        #siteIcon
+        {
+            position: relative;
+            border-right: 0px !important;
+            line-height: -1;
+            height: auto;
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        #s4-titlerow
+        {
+            height: 50px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+    <div class="container-fluid">
+        <div class="breadcrumb-main">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                    </li>
+                    <li>Shift Allowance
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mid-main">
+        <div class="mid-top" style="margin-bottom: 5px;">
+
+            <div class="container-fluid">
+
+                <div class="row SAAllowanceData" style="padding-top: 10px">
+                    
+                        <div class="col-md-8" style="width: 32%; margin-left: 15px;">
+                            <label style="color: #337ab7">Project Name</label></br>
+				            <!--   <select id="ddlProjects" multiple class="testSelAll ProjectnamE" style="width: 300px !important;">
+                               </select>-->
+
+                            
+                            <select multiple="multiple" id="ddlProjects" style="width: 400px !important;" placeholder="Search Project" onchange="console.log($(this).children(':selected').length)" class="testSelAll">
+                            </select>
+                        </div>
+                    
+                    
+                        <div class="col-md-2" style="width: 20%">
+                            <label style="color: #337ab7;">Period</label></br>
+				      <!-- <select id="ddlPeriod" disabled placeholder="Select Period" style="width: 250px !important; height: 30px; border: 1px solid #A4A4A4;"> -->
+                            <!-- </select> -->
+
+                            <select id="ddlPeriods" class="ProjectnamE" placeholder="Select Period" style="width: 250px !important;">
+                            </select>
+
+                        </div>
+                    
+
+                    
+                        <div class="col-md-1">
+                            <input type="button" id="upload" style="padding: 5px; background-color: #337ab7; color: white; margin-top: 21px" value="Export To Excel" onclick="ProjectExcelDownload('')" />
+                        </div>
+                    
+
+                </div>
+            </div>
+        </div>
+</body>
+<script>
+    var CurrentGuid = ""
+    var APILink = "https://ppmprod.bcone.com";
+    var PageLink = "https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/";
+
+    $(document).ready(function () {
+
+        CurrentGuid = GetCurrentUserGUID("1");
+        // alert(CurrentGuid);
+        GetAllProjectsByUserID();
+        GetAllPeriodsByUserID();
+        window.sb = $('.SlectBox-grp-src').SumoSelect({ csvDispCount: 5, search: true, searchText: 'Enter here.', selectAll: true});
+
+        window.testSelAll = $('.testSelAll').SumoSelect({ okCancelInMulti: true, selectAll: true  });
+
+    });
+
+    function GetAllProjectsByUserID() {
+        $.ajax({
+            url: APILink + "/api/rmo/GetAllProjectsForShiftHr",
+            type: "POST",
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            async: false,
+            data: {
+                "UserID": CurrentGuid
+            },
+            success: function (res) {
+
+                debugger
+                if ($("#ddlProjects").hasClass("SumoUnder")) { $("#ddlProjects").html(''); $("#ddlProjects")[0].sumo.unload(); }
+                //  $("#ddlProjects").append("<option value='Select_Project' index=0>Select Project</option>");
+
+                $.each(res.Projects, function (index, value) {
+
+                    ProjectCode = value.ProjectCode;
+                    ProjectName = value.ProjectName;
+
+                    $('#ddlProjects').append("<option value = '" + ProjectCode + "'>" + ProjectName + "</option>");
+                });
+                $('.testSelAll').SumoSelect({
+                    search: true,
+                    selectAll: true,
+                    searchText: 'Search Project'
+                });
+                $('.optWrapper').css("width", "400px")
+            },
+            error: function (data) {
+
+                $('#loading-image').hide();
+            }
+        });
+    }
+    function GetAllPeriodsByUserID() {
+        $.ajax({
+            url: APILink + "/api/rmo/GetAllPeriodForShiftHR",
+            type: "POST",
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            async: false,
+            data: {
+                "UserID": CurrentGuid
+            },
+            success: function (res) {
+
+                debugger
+                if ($("#ddlPeriods").hasClass("SumoUnder")) { $("#ddlPeriods").html(''); $("#ddlPeriods")[0].sumo.unload(); }
+                $("#ddlPeriods").append("<option value='Select_Periods' index=0>Select Period</option>");
+
+                $.each(res.Projects, function (index, value) {
+
+                    $('#ddlPeriods').append("<option value = '" + value.Period + "'>" + value.Period + "</option>");
+                });
+                $('.ProjectnamE').SumoSelect({
+                    search: true,
+                    searchText: 'Search Project'
+                });
+
+            },
+            error: function (data) {
+
+                $('#loading-image').hide();
+            }
+        });
+    }
+
+
+    function ProjectExcelDownload(sfId) {
+        console.log(sfId);
+        var ProjectCodeList = "", seprator = ",";
+        var total = $("#ddlProjects option:selected").length;
+        $("#ddlProjects option:selected").each(function (index) {
+
+            if (index != total - 1) {
+                // this is the last one
+                ProjectCodeList = ProjectCodeList + $(this).val() + seprator;
+            }
+            else {
+                ProjectCodeList = ProjectCodeList + $(this).val()
+            }
+            //   alert(ProjectCodeList)
+        });
+        ProjectCodeList.replace("Select_Project,", "");
+        var period = $('#ddlPeriods').val();
+
+        var uri = APILink + "/api/rmo/GetAllowanceDataDetailForExcelForHRByProjectandPeriod";
+        $.ajax({
+            url: uri,
+            type: "POST",
+            data: {
+                "ResourceUID": CurrentGuid,
+                "ProjectCode": ProjectCodeList,
+                "Period": period,
+            },
+            async: false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                if (data.Allowance != undefined) {
+
+                    $("").excelexportjs({
+                        containerid: "dvjson"
+                           , datatype: 'json'
+                           , dataset: data.Allowance
+                           , columns: getColumns(data.Allowance)
+                    });
+
+                }
+            }
+        });
+    }
+</script>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

@@ -1,0 +1,115 @@
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" /> 
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<script>
+ //"";
+ $(document).ready(function(){
+ disableRightClick();
+ $('#loading-image').show();
+ callService("https://ppmprod.bcone.com/api/Timesheet/Admin_GetPeriodsandUsersData","",Admin_GetPeriodsandUsersData_Success,"");
+	/*$.ajax({
+		//"https://ppmdev.bcone.com/api/Timesheet/gettimesheet",
+		url:"https://ppmprod.bcone.com/api/Timesheet/Admin_GetPeriodsandUsersData",
+		method:"POST",
+		//data:"",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success:function(response){
+			test = response;
+			test.Periods.forEach(function(p){$("#periodName").append("<option value='"+p.PeriodId+"##"+p.StartDate+"##"+p.EndDate+"'>"+new Date(p.StartDate).format('dd-MMM-yy')+" - "+new Date(p.EndDate).format('dd-MMM-yy')+"</option>");});
+			test.Users.forEach(function(u){$("#resourceName").append("<option value="+u.ResourceId+"##"+u.ResourceEmailAddress+">"+u.ResourceName+"</option>")});
+			$('#periodName').selectpicker();
+			$('#resourceName').selectpicker();
+			$('#loading-image').hide();
+		},
+		error:function(){
+			alert("error");
+		}	
+	});*/
+ });
+ 
+ function Admin_GetPeriodsandUsersData_Success(response)
+ {
+	test = response;
+	var currentPeriod = "";
+	test.Periods.forEach(function(p)
+	{
+		$("#periodName").append("<option value='"+p.PeriodId+"##"+p.StartDate+"##"+p.EndDate+"'>"+new Date(p.StartDate).format('dd-MMM-yy')+" - "+new Date(p.EndDate).format('dd-MMM-yy')+"</option>");
+		if((new Date(p.StartDate)).valueOf() <= (new Date(new Date().format("d")).valueOf()) && (new Date(p.EndDate)).valueOf() >= (new Date(new Date().format("d")).valueOf()))
+		{
+			currentPeriod = (new Date(p.StartDate).format('dd-MMM-yy')+" - "+new Date(p.EndDate).format('dd-MMM-yy')).trim();
+		}
+	});
+	test.Users.forEach(function(u){$("#resourceName").append("<option value="+u.ResourceId+"##"+u.ResourceEmailAddress+">"+u.ResourceName+"</option>")});
+	$('#periodName').selectpicker();
+	$('#resourceName').selectpicker();
+	$('#periodName option:contains("'+currentPeriod+'")').prop('selected', 'selected').change();
+	$('#loading-image').hide();
+ }
+ 
+ function goToTimesheetEntryPage(){
+	var periodValues = $("#periodName :selected").val().toString().split('##');	
+	var userValues = $("#resourceName :selected").val().toString().split('##');	
+	var isRefresh = "";
+	if($("#isRefresh").is(':checked'))
+	{
+		isRefresh = "&isRefresh=1";
+	}
+	var newLink = "https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/TimesheetEntryPageAdmin.aspx?PeriodUID="+periodValues[0]+"&Start="+periodValues[1]+"&End="+periodValues[2]+"&TimesheetUID=&ProjectUID=&ResourceUID="+userValues[0]+isRefresh; 
+	window.open(newLink);
+ }
+ 
+ function goToAllocationDetailsAdminPage(){
+ var userValues = $("#resourceName :selected").val().toString().split('##');	
+ if(userValues[0] == "")
+ {
+	alert("Resource Name should not be blank");
+	return;
+ }
+ var newLink = "https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/AllocationDetailsAdmin.aspx?ResourceUID="+userValues[0]+"&resourceEmailID="+userValues[1];
+ window.open(newLink);
+ }
+
+ function getOData()
+ {		
+	var periodValues = $("#periodName :selected").val().toString().split('##');	
+	var userValues = $("#resourceName :selected").val().toString().split('##');	
+	var inputObj = new Object();
+	inputObj.ResourceUID = userValues[0];
+	inputObj.Start = periodValues[1];
+	inputObj.End = periodValues[2];
+	inputObj.ProjectUID = "NA";
+
+	callService("https://ppmprod.bcone.com/api/Timesheet/GetResourceOData",inputObj,getOData_success,"");
+ }
+ 
+ function getOData_success(data){
+	window.open(data.Data)
+ }
+</script>
+<div>
+	<div style="margin: 15px;display: inline-block;">	
+		<span>Period Name : </span>
+		<select id="periodName" data-live-search="true"></select>
+		
+	</div>
+	<div  style="margin: 15px;display: inline-block;">
+		<span>Resouce Name : </span>
+		<select id="resourceName" data-live-search="true">
+		</select>		
+		
+	</div>
+	<div  style="margin: 15px;display: inline-block;">
+		<span>Is Refresh : </span>
+		<input type="checkbox" id="isRefresh" style="    margin: 0;" />
+	</div>
+	<div style="margin: 15px;display: inline-block;">
+		<input type="button" id="go" value="Go to Timesheet Entry Page" onclick="goToTimesheetEntryPage()" />
+		<input type="button" id="goAllocaitonPage" value="Go to Allocation Details Admin Page" onclick="goToAllocationDetailsAdminPage()" />
+		<input type="button" id="gogetOData" value="Get OData" onclick="getOData()" />
+	</div>
+</div>
+<span id="loading-image"></span>

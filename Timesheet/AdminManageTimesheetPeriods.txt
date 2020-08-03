@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TimePeriodMaster</title>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+
+<script src="../SiteAssets/Timesheet/js/Configs.js"></script>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+<style>
+    .stiled {
+        width: 150px;
+        height: 150px;
+        margin: 0 4px 0px 3px;
+        position: relative;
+        font-family: "Segoe UI" !important;
+        font-size: 14px;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .innerShiled {
+        top: 100px;
+        padding: 10px;
+        width: 100%;
+        height: 150px;
+    }
+
+    .stiled:hover .ms-tileview-tile-detailsBox {
+        top: 0;
+        transition: all 150ms ease;
+        cursor: pointer;
+    }
+
+    .titlefontstyle {
+        font-family: "Segoe UI Semilight","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+        color: #7695a3;
+        overflow: hidden;
+        text-align: justify;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: normal;
+        font-size: 1.46em;
+        padding-bottom: 11px;
+    }
+</style>
+</head>
+<body>
+<div class="breadcrumb-main">
+    <div class="container-fluid">
+        <ul>
+            <li>
+                <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+				<!-- <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/AdminManageTimesheetPeriods.aspx">Home</a> -->
+            </li>
+            <li>
+            </li>
+        </ul>
+    </div>
+</div>
+<div>
+	<div class="stiled ms-tileview-tile-content" id="MngTim">
+		<img src="../SiteAssets/Timesheet/images/timesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+		<a  href="javascript:void(0)" onclick="ManageTimesheetPeriods();">
+			<div class="ms-tileview-tile-detailsBox innerShiled">
+			Manage Timesheet Period
+			</div>
+		</a>
+	</div>
+
+	<div class="stiled ms-tileview-tile-content" id="CrtBulkPeriods">
+		<img src="../SiteAssets/Timesheet/images/timesheetCheckStatus.png" style="left: 0px; top: 0px; position: absolute;" />
+		<a  href="javascript:void(0)"  onclick="ManageExceptionTimesheetPeriod();">
+			<div class="ms-tileview-tile-detailsBox innerShiled">
+			Manage Exception   
+			<div>Timesheet Period</div>
+			</div>
+		</a>
+	</div>
+
+	<div class="stiled ms-tileview-tile-content" id="divCreateTimeSheet">
+		<img src="../SiteAssets/Timesheet/images/timesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+		<a  href="javascript:void(0)" onclick="URLGetCreateBulkTimesheet();"> 
+			<div class="ms-tileview-tile-detailsBox innerShiled">
+			Create Bulk Period
+			</div>
+		</a>
+	</div>
+</div>
+
+</body>
+</html>
+<script>
+$(document).ready(function()
+{
+
+});
+</script>
+

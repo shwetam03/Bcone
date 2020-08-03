@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $.widget.bridge('uitooltip', $.ui.tooltip);
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css"> 
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css"> 
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" /> 
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+<style>
+.lableHighlight{
+    margin-bottom: 10px;
+    display: inline-block;
+    background: #f1ff2e;
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 1px solid #d0dc29;
+	font-weight:normal;
+	float:right;
+	
+}
+.mid-top .top-btns{
+    margin-right:10px;
+}
+.tooltip{
+	width:200px !important;
+	word-wrap: break-word !important;
+}
+/* Add In stylesheet */
+table.dataTable {
+    border-collapse: collapse;
+}
+.dataTable tfoot {
+    display: table-header-group;
+}
+.dataTable tfoot input[type="text"]{
+	width: 100%;
+}
+/* Add In stylesheet */
+.viewTSNote{}
+.SumoSelect {width:270px !important;}
+.SumoSelect > .CaptionCont{            border-radius: 0px;            border-color:#ccc !important;        }
+.SumoSelect > .optWrapper > .options  li.opt label{            font-weight: normal;        }
+.SumoSelect .select-all {            padding: 6px 0 4px 35px;            height: auto;        }
+.SumoSelect .select-all label{            font-weight: normal;        }
+.SumoSelect > .CaptionCont > span.placeholder{            font-style: normal;        }
+select[multiple], select[size]{height:30px !important}
+.optWrapper > .options li label { text-align: left !important}
+</style>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+<div class="container-fluid">
+	<div class="breadcrumb-main">
+	    <div class="container-fluid">
+	        <ul>
+	            <li>
+	                <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+	            </li>
+	            <li>My Timesheet
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+</div>
+<div class="mid-main">
+    <div class="mid-top" style="margin-bottom:5px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-5">
+                    <select id="tableFilter" onchange='filterById(this)'>
+                        <option value="current">Current Month</option>
+                        <option value="Previous">Previous Month</option>
+                        <option value="Next">Next Month</option>
+                        <option value="DateRange">Date Range</option>
+                    </select>
+                    <input type="text" id="TxtToData" hidden class="txtDateInput" placeholder="From Date" style="width:120px" />
+                    <input type="text" id="TxtFromDate" hidden class="txtDateInput" placeholder="To Date" style="width:120px"/>
+                    <input type="button" style="padding:4px 10px; font-size:10px;" id="BtnFilterData" value="GO" hidden class="btnSubmit" onclick='showmydata()' /> 
+					<!-- <select id="WeekID" class="Search_WeekIdData" multiple="multiple" placeholder="Select Week" style="width: 270px !important;margin-right: 10px;" > -->
+					<!-- </select> -->
+					<!-- <a  href="javascript:void(0)" id="btnAllPeriodsShow" class="blue-btn" onclick="showmydata()"  >Show</a> -->
+                </div>
+                <div class="col-md-7">
+                    <div>
+                        <ul class="top-btns">
+							<li>
+                               <a href="javascript:void(0)" id="btnCreateTimesheetMain" onclick="onStatusBtnClick(this)" > 
+							   <i class="fa fa-flag-o"></i> Create Timesheet
+								<!-- <span class="highlight_no">0</span> -->
+								</a>
+                            </li>
+                            <li>
+                               <a href="javascript:void(0)" id="btnAllPeriods" onclick="onStatusBtnClick(this)" > 
+							   <i class="fa fa-flag-o"></i> All Records
+								<span class="highlight_no">0</span>
+								</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnOpenPeriods" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-folder-o"></i> Open
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a href="javascript:void(0)" id="btnSavePeriods" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-floppy-o"></i> Save
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li> -->
+                            <li>
+                                <a href="javascript:void(0)" id="btnSubmitPeriods" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-send"></i> Submitted
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnAppovedCount" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-check"></i> Approved
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnRejectCount" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-ban"></i> Rejected
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mid-block">
+        <div class="container-fluid">
+			<!-- <label class="lableHighlight">Go to "CREATE TIMESHEET" Tab to create / view timesheet.</label> -->
+			<div class="alert alert-warning viewTSNote" style="display:none;;padding:2px;margin-bottom:10px;margin-top:5px;color: black !important;    background-color: rgba(251, 185, 0, 0.80);border-radius: 0px !important;border-color: #b1a565 !important;"> <strong> <i class="fa fa-exclamation-circle"></i> </strong>NOTE: Click on "CREATE TIMESHEET" button to fill / create your timesheet.</div>
+            <table id="periodsummary" class="table-bordered table-new" style="table-layout: auto !important; display:none;">
+                <thead>
+                    <tr><th id="Action"  class='clsAction'>Action</th>
+                        <th class='projectName'>Timesheet Name</th>
+                        <th>Project Name</th>
+                        <th class='clsTotalHours'>Total Hours</th>
+                        <th class='clsStatus'>Status</th>
+						<th class='submittedDate'>Submitted Date</th>
+						<th class='clsApproveRejct'>Appoved Date</th>
+                        <th class="pendingBy">Pending With</th>
+                        <th class="clsUserComment">User Comments</th>
+						<th class="clsApprovedBy">Approved By</th>
+                        <!-- <th>Approver 1 Comments</th>
+                        <th>Approver 2 Comments</th> -->
+                    </tr>
+                </thead>
+				<tfoot>
+                    <tr>
+                    	<th id="Action"  class='clsAction'></th>
+                        <th>Timesheet Name</th>
+                        <th>Project Name</th>
+                        <th>Total Hours</th>
+                        <th class='clsStatus'>Status</th>
+						<th class='submittedDate'>Submitted  Date</th>
+						<th class='clsApproveRejct'>Appoved  Date</th>
+                        <th class="pendingBy">Pending With</th>
+                        <th class="clsUserComment">User Comments</th>
+						<th class="clsApprovedBy">Approved By</th>
+                    </tr>
+                </tfoot>
+                <tbody id="tblPeriodBody">					
+                   <!-- <img  src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/BconeExpenseImg/loader.gif" /> -->
+                </tbody>
+            </table>
+			
+			<div class="createTimesheetMain" id="createTimesheetMain">
+				<!--<a href="javascript:void(0)" class="createtimesheetBlock">
+                 <h3>WK | 48</h3>
+                    <span>(02-Jan-2017 - 08-Jan-2017)</span>
+                </a>
+                <a href="javascript:void(0)" class="createtimesheetBlock">
+                 <h3>WK | 48</h3>
+                    <span>(02-Jan-2017 - 08-Jan-2017)</span>
+                </a>
+                <a href="javascript:void(0)" class="createtimesheetBlock">
+                 <h3>WK | 48</h3>
+                    <span>(02-Jan-2017 - 08-Jan-2017)</span>
+                </a>
+                -->	
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="black-bg alert-main" id="yesNoPopup" style="display:none;">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="yesNoPopupMsg"></span></div>		
+		<!-- <textarea rows="4" cols="30" class="form-control col-xs-12" placeholder="Comment..."  style="display: inline-block;margin-left: 10px;margin-right: 10pc;margin-top: 10px;width: 95%; margin-bottom: 10px;" id="yesNoPopupComent" maxlength="512" hidden ></textarea> -->
+		<div class="pop-mid">
+		<textarea rows="4" cols="30"  class="form-control col-xs-12" placeholder="Comment..." style="margin-bottom: 10px;" id="yesNoPopupComent" maxlength="512" hidden ></textarea>
+		<label id="Fillerror"  ><font color="red" style="margin-left: -212px;">Please Enter the Comment</font></label>
+		<br/>
+			<input type="Button" class="divnewbtn" id="btnYes" value="YES" /> 
+			<input type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')"  value="NO" />					
+		</div>
+	</div>
+</div>
+	
+<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh"></span>
+			<input type="Button" class="divnewbtn" id="btnOkPopup" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+		</div>			
+	</div>
+</div>
+
+<span id="loading-image"></span>
+
+<!-- Log Pop up -->
+<div class="allcommentdiv" >
+	<div class="allcommentdiv-heading" style="background: rgb(51,122,183);">
+		Log
+	</div>
+	<div class="allcommentdiv-mid">
+		<h3><span id="LogId"></span></h3>
+		<div class="vertical-scoll">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width: 150px;background: #00b0f0 !important;">Date</th>
+						<th style="width: 100px;background: #00b0f0 !important;">Actor</th> 
+						<th style="width: 80px;background: #00b0f0 !important;">Action</th>
+						<th style="background: #00b0f0 !important;">Note</th>
+					</tr>
+				</thead>
+				<tbody id="bindlog">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="allcommentdiv-foot">
+		<a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+	</div>
+</div>
+<!-- Log Pop up -->
+<script>
+
+$(document).ready(function(){
+	disableRightClick();
+	setInterval(function(){ 
+		$("[data-toggle='tooltip']").tooltip(); 
+		$('[data-toggle="tooltip"]').tooltip(); 
+	}, 100);
+ });
+
+ 
+$(document).click(function (event) {
+	if ($(event.target).is('.comment-icon, .comment-icon *')) {
+		return;
+	}
+	else if (!$(event.target).is('.allcommentdiv, .allcommentdiv *')) {
+		$('.allcommentdiv').hide({ width: 'toggle' });
+	}
+});
+    var summaryTable = "";
+    monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+   
+    $(document).ready(function () 
+	{
+		$('#loading-image').show();
+		$('#yesNoPopupComent').hide();
+		$('#Fillerror').hide();     
+		CurrentGuid = GetCurrentUserGUID("1");
+		var username = sessionStorage.getItem("CurrentUsername");
+		if(username  == "" || username == undefined)
+		{
+			$("#login_name_contain").text("");
+		}
+		else
+		{
+			$("#login_name_contain").text(username);
+		}
+		adddatepicker();
+		getALLPerdiosData();
+		/*if(queryString.isRefresh == "1")
+		{
+			GetCurrentMonthPeriodsData();
+			
+		}
+		else
+		{
+			getPeriodData();
+		}*/	
+    });
+	
+	function adddatepicker()
+	{
+	$('#TxtToData').datepicker({ 		
+		dateFormat: 'dd-M-yy' ,
+		beforeShowDay :function(dd)
+		{
+			var cc = "gg";
+			if($('#TxtFromDate').val() && dd.valueOf() > (new Date(returnDateFormat($('#TxtFromDate').val()))).valueOf())
+			{
+				return [false];
+			}
+			else
+			{
+				return [true];
+			}
+			
+		}
+		});
+		$('#TxtFromDate').datepicker({ 
+		dateFormat: 'dd-M-yy',
+		beforeShowDay :function(dd)
+		{
+			var cc = "gg";
+			
+			if($('#TxtToData').val() && dd.valueOf() < (new Date(returnDateFormat($('#TxtToData').val()))).valueOf())
+			{
+				return [false, "", "Unavailable"];
+			}
+			else
+			{
+				return [true];
+			}
+		}
+		});
+	}
+	
+	function getALLPerdiosData()
+	{
+		$('#loading-image').show();
+		var User_GetPeriods_UrlLinks = User_GetPeriods_Url();
+		$.ajax
+		({
+			//url:"https://ppmprod.bcone.com/api/Timesheet/User_GetPeriods",
+			url:User_GetPeriods_UrlLinks,
+			method:"POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			dataType: 'json',
+			success:function(data)
+			{
+				/*if(data.Periods.length != 0)
+				{
+					if($("#WeekID").hasClass("SumoUnder")){$("#WeekID").html('');$("#WeekID")[0].sumo.unload();}
+					currentweek = 0;
+					for(var j=0;j<data.Periods.length;j++)
+					{ 
+						$("#WeekID").append("<option value='"+data.Periods[j].PeriodId+"' >"+new Date(data.Periods[j].StartDate).format('dd-MMM-yy')+" - "+new Date(data.Periods[j].EndDate).format('dd-MMM-yy')+"</option>");
+						if(new Date((new Date()).format("MM-dd-yyyy")) >= new Date(data.Periods[j].StartDate) && new Date((new Date()).format("MM-dd-yyyy")) <= new Date(data.Periods[j].EndDate))
+						{
+							currentweek = j;
+							//console.log(currentweek);
+						}
+					}
+					$('.Search_WeekIdData').SumoSelect({search: true, searchText: 'Search Week',selectAll: true});	
+					$("#WeekID ").prop("selectedIndex",-1); //unselect check box
+					$('#WeekID ')[0].sumo.reload(); 
+				}*/
+				
+				period_info = data.Periods;
+				if(queryString.status == "0")
+				{
+					$("#btnCreateTimesheetMain").parent('li').addClass("green-btn");
+					//$("#btnCreateTimesheetMain").click();
+				}
+				else if(queryString.status == "3")
+				{
+					$("#btnRejectCount").parent('li').addClass("green-btn");
+					//$("#btnRejectCount").click();					
+				}
+				else if(queryString.status == "1")
+				{
+					$("#btnSubmitPeriods").parent('li').addClass("green-btn");
+					//$("#btnSubmitPeriods").click();
+				}
+				else
+				{
+					$("#btnAllPeriods").parent('li').addClass("green-btn");
+					//$("#btnAllPeriods").click();					
+				}
+				//$("#btnAllPeriods").parent('li').addClass("green-btn");
+				//$("#WeekID")[0].sumo.selectItem(currentweek);
+				showmydata();
+				//$('#loading-image').hide();
+			},
+			error:function()
+			{
+				$('#loading-image').hide();
+				openOKpopup(popUpMessage.ServerError,"false");
+			}	
+		});	
+	}
+	
+	function onStatusBtnClick(data)
+	{
+		$(data).parent("li").siblings().removeClass("green-btn");
+		$(data).parent("li").addClass("green-btn");
+		//var ddOptions = document.getElementById("tableFilter");
+		showmydata();
+	}
+	
+	function showmydata()
+	{	$('#loading-image').show();
+		/*if($('#WeekID option:selected').length == 0)
+		{
+			openOKpopup("Please select atleast one period.",false);
+			return false;
+		}
+		var periodIDs = "";
+		
+		$('#WeekID option:selected').each(function(e){		
+			if(($('#WeekID option:selected').length-1) == e)
+			{
+				periodIDs += $(this).val();
+			}
+			else
+			{
+				periodIDs += $(this).val() + ",";
+			}
+		});*/
+		var periodIDs = "";
+		if($("#tableFilter").val() == "DateRange")
+		{
+			firstDay = new Date($("#TxtToData").val());
+			lastDay = new Date($("#TxtFromDate").val())
+			
+			period_info.forEach(
+			function(e)
+			{
+				if((new Date(e.StartDate)).valueOf() >= firstDay.valueOf() && (new Date(e.StartDate)).valueOf() <= lastDay.valueOf())
+				{
+					periodIDs = periodIDs + e.PeriodId + ",";
+				}
+			});
+		}
+		else if($("#tableFilter").val() == "Next")
+		{
+			var date = new Date();
+			firstDay = new Date(date.getFullYear(), date.getMonth()+1, 1);
+			lastDay = new Date(date.getFullYear(), date.getMonth()+2, 0);
+			
+			period_info.forEach(
+			function(e)
+			{
+				if((new Date(e.StartDate)).valueOf() >= firstDay.valueOf() && (new Date(e.StartDate)).valueOf() <= lastDay.valueOf())
+				{
+					periodIDs = periodIDs + e.PeriodId + ",";
+				}
+			});
+		}
+		else if($("#tableFilter").val() == "Previous")
+		{
+			var date = new Date();
+			firstDay = new Date(date.getFullYear(), date.getMonth()-1, 1);
+			lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
+			
+			period_info.forEach(
+			function(e)
+			{
+				if((new Date(e.StartDate)).valueOf() >= firstDay.valueOf() && (new Date(e.StartDate)).valueOf() <= lastDay.valueOf())
+				{
+					periodIDs = periodIDs + e.PeriodId + ",";
+				}
+			});
+		} 
+		else
+		{
+			var date = new Date();
+			firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+			lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
+			
+			period_info.forEach(
+			function(e)
+			{
+				if((new Date(e.StartDate)).valueOf() >= firstDay.valueOf() && (new Date(e.StartDate)).valueOf() <= lastDay.valueOf())
+				{
+					periodIDs = periodIDs + e.PeriodId + ",";
+				}
+			});
+		}
+		
+		var buckets = 4;
+		
+		var GetProjectResourcePeriodsURLs  = "";	
+		if($('#btnCreateTimesheetMain').parent('li').hasClass('green-btn'))
+		{
+			//GetProjectResourcePeriodsURLs =  "https://ppmprod.bcone.com/_api/TimesheetDump?$orderby=STARTDATE &$filter=RES_UID eq guid'"+CurrentGuid+"' and ("+periodIDsCondition+")";		
+			//approvalSummaryData = new Object();
+			buckets=4;
+		}
+		if($("#btnOpenPeriods").parent('li').hasClass("green-btn"))
+		{
+			//GetProjectResourcePeriodsURLs =  "https://ppmprod.bcone.com/_api/TimesheetDump?$orderby=STARTDATE &$filter=RES_UID eq guid'"+CurrentGuid+"' and APPROVAL_FLAG eq 0 and ("+periodIDsCondition+")";		
+			//approvalSummaryData = new Object();
+			buckets=0;
+		}
+		else if($("#btnSubmitPeriods").parent('li').hasClass("green-btn"))
+		{
+			//GetProjectResourcePeriodsURLs =  "https://ppmprod.bcone.com/_api/TimesheetDump?$orderby=STARTDATE &$filter=RES_UID eq guid'"+CurrentGuid+"' and APPROVAL_FLAG eq 1 and ("+periodIDsCondition+")";
+			//$.when($('#loading-image').show()).then(function(){getApproverData()});
+			buckets=1;
+		}
+		else if($("#btnAppovedCount").parent('li').hasClass("green-btn"))
+		{
+			//GetProjectResourcePeriodsURLs =  "https://ppmprod.bcone.com/_api/TimesheetDump?$orderby=STARTDATE &$filter=RES_UID eq guid'"+CurrentGuid+"' and APPROVAL_FLAG eq 2 and ("+periodIDsCondition+")";
+			//$.when($('#loading-image').show()).then(function(){getApproverData()});
+			buckets=2;
+		}
+		else if($("#btnRejectCount").parent('li').hasClass("green-btn"))
+		{
+			//GetProjectResourcePeriodsURLs =  "https://ppmprod.bcone.com/_api/TimesheetDump?$orderby=STARTDATE &$filter=RES_UID eq guid'"+CurrentGuid+"' and APPROVAL_FLAG eq 3 and ("+periodIDsCondition+")";
+			//$.when($('#loading-image').show()).then(function(){getApproverData()});
+			buckets=3;
+		}
+		summaryTable = new Array();
+		getPeriodData(periodIDs.slice(0,-1),buckets);
+	}
+	
+	function GetCurrentMonthPeriodsData()
+	{	var res = "";
+		var varURLGetCurrentMonthPeriodsData =URLGetCurrentMonthPeriodsData()
+		$.ajax({
+            url: varURLGetCurrentMonthPeriodsData,
+			//url: GetPeriodsUrls,
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+			//async: false,
+            //data: { "ResourceUID": "dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6" },
+			//data: { 			"ResourceUID": CurrentGuid,			"Role" : flagValues.TeamMember			},
+            success: function (data) {
+			//alert("check");			
+				refreshtimesheetData(data.CurMonth_Periods);	
+				//$.when(refreshtimesheetData(data.CurMonth_Periods)).done(function() {
+				//	alert();
+					 
+				//});				
+			}
+		});
+	}
+	
+	function refreshtimesheetData(data)
+	{   var result = 0;
+		var RefreshTimesheetUrls = RefreshTimesheet();
+		var len = data.length;
+		var tempData = data;
+		for(var i=0;i<data.length;i++)
+		{	console.log("call refreshtimesheetData : start date "+data[i].Start_Date +"ENd date : "+data[i].End_Date+"PeriodID : "+data[i].PeriodUID);
+			$.ajax
+			({       
+				url: RefreshTimesheetUrls,
+				headers: { "Accept": "application/json; odata=verbose" },
+				method: "POST",
+				//async: false,
+				data:
+				{
+					"ResourceUID" : CurrentGuid,
+					"Start" : data[i].Start_Date,
+					"End" : data[i].End_Date,
+					"ProjectUID":"NA"
+				},
+				dataType: 'json',
+				success: function(data)
+				{	console.log("Success refreshtimesheetData : "+result);
+					result++;					
+					if(result == len)
+					{	console.log("call Timesheets");
+						 getTimeSheetData(tempData);
+					}
+				}
+			});			
+		}		
+	}
+	
+	function getTimeSheetData(data)
+	{   var result = 0;
+		//var RefreshTimesheetUrls = RefreshTimesheet();
+		var varURLgetTimeSheetData = URLgetTimeSheetData();
+		var len = data.length;
+		for(var i=0;i<data.length;i++)
+		{	console.log("call getTimeSheetData : start date "+data[i].Start_Date +"ENd date : "+data[i].End_Date+"PeriodID : "+data[i].PeriodUID);
+			$.ajax
+			({       
+				url: varURLgetTimeSheetData,//"https://ppmprod.bcone.com/api/Timesheet/gettimesheet",
+				headers: { "Accept": "application/json; odata=verbose" },
+				method: "POST",
+				data:
+				{
+					"ResourceUID" : CurrentGuid,
+					//"Start" : data[i].Start_Date,
+					//"End" : data[i].End_Date,
+					"PeriodUID":data[i].PeriodUID,
+					"TimesheetUID":""
+				},
+				dataType: 'json',
+				success: function(data)
+				{	console.log("Success getTimeSheetData"+result);
+					result++;					
+					if(result == len)
+					{	console.log("call getPeriodData");
+						 getPeriodData();
+					}
+				}
+			});			
+		}		
+	}
+			
+	function getPeriodData(periodIDs,buckets)
+	{
+		//var GetPeriodsUrls=GetPeriods();
+		var Custom_GetperiodsUrlLinks=Custom_Getperiods_Url();
+	   $.ajax({
+           // url: "https://ppmprod.bcone.com/api/Timesheet/Custom_Getperiods",
+			url: Custom_GetperiodsUrlLinks,
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+            //data: { "ResourceUID": "dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6" },
+			data: { 
+				"ResourceUID": CurrentGuid,
+				"Role" : flagValues.TeamMember,
+				"Bucket":buckets,
+				"Period":periodIDs
+			},
+            success: function (data) {
+				if(data.error != undefined)				
+				{ 	$('#loading-image').hide();
+					openOKpopup(popUpMessage.ServerError,"false");
+					return;
+				}
+                summaryTable = data;// JSON.parse(dummyData);
+				maxApprover = data.Data[0].Max_approvers;
+				$(".clsLog").remove();
+				$(".clsApproveName").remove();
+				$(".clsApproveComment").remove();
+				for(var i=0;i<maxApprover;i++)
+				{
+					$('#periodsummary thead th:last-child').after('<th class="clsApproveName">Approver Name '+parseFloat(i+1)+'</th>');
+					$('#periodsummary thead th:last-child').after('<th class="clsApproveComment">Approver Comment '+parseFloat(i+1)+'</th>');
+					
+					$('#periodsummary tfoot th:last-child').after('<th class="clsApproveName">Approver Name '+parseFloat(i+1)+'</th>');
+					$('#periodsummary tfoot th:last-child').after('<th class="clsApproveComment">Approver Comment '+parseFloat(i+1)+'</th>');
+				}
+				$('#periodsummary thead th:last-child').after('<th class="clsLog">Log</th>');
+				$('#periodsummary tfoot th:last-child').after('<th class="clsLog"></th>');
+				//for(var i=0;i<maxApprover;i++)
+				//{
+				//	$('#periodsummary thead th:last-child').after('<th class="clsApproveComment">Approver Comment '+parseFloat(i+1)+'</th>');
+				//}
+                //createSummaryTable(data.Data[0].PeriodInfo);
+                //console.log(data);				
+               // $('#tableFilter').trigger('change');
+				allrecordCount = 0;
+				createSummaryTable(data.Data[0].PeriodInfo);
+				fun_GetTimesheetCountByPeriods(periodIDs)
+				$('#loading-image').hide();
+            },
+            error: function (data) {
+                alert("failed");
+				$('#loading-image').hide();
+            }
+        });
+	}
+    
+	function fun_GetTimesheetCountByPeriods(periodIDs)
+	{	//var periodIDs = "";
+		/*$('#WeekID option:selected').each(function(e){		
+			if(($('#WeekID option:selected').length-1) == e)
+			{
+				periodIDs += $(this).val();
+			}
+			else
+			{
+				periodIDs += $(this).val() + ",";
+			}
+		});*/
+		var GetTimesheetCountByPeriodsUrlLink = GetTimesheetCountByPeriods_Url();
+		$.ajax
+		({
+			//url: "https://ppmprod.bcone.com/api/timesheet/GetTimesheetCountByPeriods",
+			url:GetTimesheetCountByPeriodsUrlLink,
+			method: "POST",
+			headers: { "Accept": "application/json; odata=verbose" },	
+			async:false,
+			data:
+			{
+				"Periods" :	periodIDs,
+				"ResourceUID" : CurrentGuid
+			},
+			success: function (data)
+			{	
+				//console.log(data);
+				$("#btnAllPeriods span").text(parseInt(data.TimesheetCount[0].Opened) + parseInt(data.TimesheetCount[0].Submitted) + parseInt(data.TimesheetCount[0].Approved) + parseInt(data.TimesheetCount[0].Rejected) + parseInt(allrecordCount));
+				$("#btnOpenPeriods span").text(parseInt(data.TimesheetCount[0].Opened) + parseInt(allrecordCount));
+				//$("#btnSavePeriods span").text(saveCnt);
+				$("#btnSubmitPeriods span").text(data.TimesheetCount[0].Submitted);
+				$("#btnAppovedCount span").text(data.TimesheetCount[0].Approved);
+				$("#btnRejectCount span").text(data.TimesheetCount[0].Rejected);
+			},
+			error: function (data)
+			{
+				$('#loading-image').hide();
+			}
+		});
+	}
+	
+	function createSummaryTable(data) 
+	{	
+		if($("#btnCreateTimesheetMain").parents('li').hasClass('green-btn'))
+		{	$("#createTimesheetMain").css("display","")
+			$("#periodsummary").css("display","none");
+			$("#periodsummary_wrapper").hide();
+			$(".viewTSNote").hide();
+			bindCreateTimesheetMain(data);
+			return;
+		}
+		else
+		{	$("#periodsummary").dataTable().fnDestroy();	
+			$("#createTimesheetMain").css("display","none");
+			$("#periodsummary").css("display","");
+			//$("#tableFilter").children("option[value*='DateRange']").removeAttr('disabled');
+			//$("#tableFilter").children("option[value*='Next']").removeAttr('disabled');
+		}
+		$(".viewTSNote").show();
+        $("#tblPeriodBody").text("");
+        var innerHtml = "";
+		
+		var isCheck = false;
+		var status = "";
+		if($("#btnOpenPeriods").parent("li").hasClass("green-btn"))
+		{
+			status = "0";isCheck = true;
+		}
+		else if($("#btnSavePeriods").parent("li").hasClass("green-btn"))
+		{
+			status = "0";isCheck = true;		
+		}
+		else if($("#btnSubmitPeriods").parent("li").hasClass("green-btn"))
+		{
+			status = "1";isCheck = true;	
+		}
+		else if($("#btnAppovedCount").parent("li").hasClass("green-btn"))
+		{
+			status = "2";isCheck = true;				
+		}
+		else if($("#btnRejectCount").parent("li").hasClass("green-btn"))
+		{
+			status = "3";isCheck = true;		    
+		}
+		else 
+		{
+			$("#btnAllPeriods").parent("li").addClass("green-btn");
+		}		
+		/*if(isCheck)
+		{	var i=0; 
+			var data1 = data;
+			data = [];  
+			data1.filter(
+				function(e)
+				{	
+					if(status == "0"){
+						if(e.ApprovalStatus == "0" || e.ApprovalStatus == "")
+						{	
+							data[i] = e;  i++;
+						}
+					}
+					else
+					{	
+						if(e.ApprovalStatus == status)
+						{	
+							data[i] = e;  i++;
+						}
+					}					
+				}
+			);
+		}*/
+        for (var i = 0; i < data.length; i++) 
+		{
+			if(data[i].ApprovalStatus == "")
+			{
+				allrecordCount++;
+			}
+			var isShow = false;
+			if(status == "0" || status == "")
+			{
+				isShow = true;
+			}
+			else
+			{
+				if(data[i].ApprovalStatus != "")
+				{
+					isShow = true;
+				}				
+			}
+			
+						
+			if(isShow)
+			{
+				var startDate = new Date(data[i].StartDate)
+				var sdate = ("0" + startDate.getDate()).slice(-2) + "-" + monthNames[startDate.getMonth()] + "-" + startDate.getFullYear();
+				var endDate = new Date(data[i].EndDate)
+				var edate = ("0" + endDate.getDate()).slice(-2) + "-" + monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();			
+				
+				//var timeShetUID=data.Data[i].TimesheetUID;
+				
+				innerHtml += "<tr>";
+				var TimesheetUIDValue = "";
+				var isPeriodOpen = false;
+				var isOpen = false;
+				if(data[i].TimesheetUID.indexOf("-000000000000") > -1)
+				{
+					TimesheetUIDValue = "";
+					isPeriodOpen = false;				
+				}
+				else
+				{
+					TimesheetUIDValue = data[i].TimesheetUID;
+					isPeriodOpen = true;				
+				}
+				var statusTD = "";
+				var pathStatus = false;
+				if(data[i].ApprovalStatus== "0"){
+					<!-- innerHtml += "<td><a href='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "'> Edit </a> / <a onclick='openYesNoPOpup(\""+data[i].TimesheetUID+"\",\""+data[i].PeriodId+"\",\""+data[i].RES_UID+"\")' style='cursor: pointer;'>Delete</a>  </td>"; -->
+					innerHtml += "<td style='text-align:center;' class='clsAction'><a title='Delete Timesheet' onclick='openYesNoPOpup(\""+data[i].TimesheetUID+"\",\""+data[i].PeriodId+"\",\""+data[i].RES_UID+"\")' style='cursor: pointer;'><i class='fa fa-trash-o' style='color:#333;font-size: 16px;'></i> 	</a>  </td>";
+					if(data[i].Recall == "1")
+					{	statusTD += "<td  class='clsStatus'>Open";	
+						//statusTD = "<td class='clsStatus'>Recalled</td>";
+					}
+					else
+					{
+						statusTD += "<td  class='clsStatus'>Open";				
+					}
+					//statusTD +="</td>";
+					pathStatus = true;
+					//innerHtml += "<td style='width: 22% !important;'><a href='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+				}
+				else if(data[i].ApprovalStatus== "1")
+				{
+					innerHtml += "<td style='text-align:center;' class='clsAction'><a title='Edit Timesheet' onclick='openYesNoPOpupRecallFun(\""+data[i].TimesheetUID+"\",this)' style='cursor: pointer;'>";
+					if(data[i].TS_Period_Open_Close_Flag == "1")
+					{
+						innerHtml += "<i class='fa fa-pencil' style='font-size: 16px;'></i>";
+					}
+					innerHtml+="<input type='hidden' value='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"' class='redirectUrl' /></a>";//</td>";  //<input type='hidden' id='timid"+i+"' value="+timeShetUID+" />
+					innerHtml+="</td>";
+					//statusTD += "<td class='clsStatus'>Submitted</td>";
+					if(data[i].Recall == "1")
+					{	statusTD += "<td  class='clsStatus'>Open";	
+						//statusTD = "<td class='clsStatus'>Recalled</td>";
+					}
+					else
+					{
+						statusTD += "<td  class='clsStatus'>Submitted";				
+					}
+					//statusTD +="</td>";
+					//innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+CurrentGuid+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+				}
+				else if(data[i].ApprovalStatus== "2"){
+					innerHtml += "<td class='clsAction'></td>";
+					statusTD += "<td class='clsStatus'>Approved";
+					//statusTD +="</td>";
+					//innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+CurrentGuid+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+				}
+				else  if(data[i].ApprovalStatus== "3"){
+					innerHtml += "<td style='text-align:center;' class='clsAction'><a title='Edit Timesheet' onclick='openYesNoPOpupRecallFun(\""+data[i].TimesheetUID+"\",this)' style='cursor: pointer;'>";//<i class='fa fa-repeat' style='font-size: 16px;'></i>";
+					if(data[i].TS_Period_Open_Close_Flag == "1")
+					{
+						innerHtml += "<i class='fa fa-pencil' style='font-size: 16px;'></i>";
+					}
+					innerHtml+="<input type='hidden' value='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&ProjectUID="+data[i].ProjectUID+"' class='redirectUrl' /></a>";
+					innerHtml+="</td>";
+					//statusTD += "<td class='clsStatus'>Rejected</td>";
+					if(data[i].Recall == "1")
+					{	statusTD += "<td  class='clsStatus'>Open";	
+						//statusTD = "<td class='clsStatus'>Recalled</td>";
+					}
+					else
+					{
+						statusTD += "<td  class='clsStatus'>Rejected";				
+					}
+					//innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+CurrentGuid+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+				}
+				else{				
+					innerHtml += "<td class='clsAction'></td>"				
+					if(data[i].Recall == "1")
+					{	statusTD += "<td  class='clsStatus'>Open";	
+						//statusTD = "<td class='clsStatus'>Recalled</td>";
+					}
+					else
+					{
+						statusTD += "<td  class='clsStatus'>Open";				
+					}
+					pathStatus = true;
+					//innerHtml += "<td style='width: 22% !important;'><a href='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+				}
+				
+				if(data[i].TS_Period_Open_Close_Flag == "1")
+				{	
+					//if((new Date(data[i].StartDate) > (new Date()).valueOf()))
+					//{
+					//	innerHtml += "<td><span style='    color: gray;    cursor: no-drop;'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span<img src='"+ImgPath.AltImg+"' style='margin-left: 10px; width: 14px;' /></td>";								
+					//}
+					//else
+					//{
+						if(data[i].ProjectName != "" && data[i].Delta == "true")
+						{
+							
+							if(pathStatus == true)
+							{	//innerHtml += "<td style='width: 22% !important;'><a style='cursor: pointer;' href='javascript:void(0)' onclick=redirectToEntryPage('" + data[i].PeriodId + "','" + new Date(data[i].StartDate).valueOf() + "','" + new Date(data[i].EndDate).valueOf() + "','"+TimesheetUIDValue+"','"+data[i].ProjectUID+"')>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a><img src='"+ImgPath.AltImg+"' style='margin-left: 10px; width: 14px;' /></td>";								
+								//innerHtml += "<td><a href='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&isRefresh=1&ProjectUID="+data[i].ProjectUID+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a><img src='"+ImgPath.AltImg+"' style='margin-left: 10px; width: 14px;' /></td>";								
+								innerHtml += "<td><span style='cursor: help;'  data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.' >" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span></td>";								
+							}
+							else
+							{
+								innerHtml += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+CurrentGuid+"&who=1'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+							}
+						}
+						else
+						{			
+							if(pathStatus == true)
+							{	//innerHtml += "<td style='width: 22% !important;'><a style='cursor: pointer;' href='javascript:void(0)' onclick=redirectToEntryPage('" + data[i].PeriodId + "','" + new Date(data[i].StartDate).valueOf() + "','" + new Date(data[i].EndDate).valueOf() + "','"+TimesheetUIDValue+"','"+data[i].ProjectUID+"')>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";								
+								//innerHtml += "<td><a href='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&ProjectUID="+data[i].ProjectUID+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";								
+								innerHtml += "<td><span style='cursor: help;'  data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span></td>";								
+							}
+							else
+							{
+								innerHtml += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+CurrentGuid+"&who=1'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+							}
+						}
+						//statusTD += ' | <span class="red-btn" style="padding: 3px 5px; margin-left: 5px; border-radius: 5px;"  id="">Timesheet Closed</span>';
+					//}
+				}
+				else
+				{
+					if(TimesheetUIDValue =="")
+					{
+						//innerHtml += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID=NA&RES_UID="+CurrentGuid+"&who=1&isClosed=1'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";	
+						innerHtml += "<td><span style='cursor: help;'  data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span></td>";	
+					}
+					else
+					{
+						innerHtml += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+CurrentGuid+"&who=1'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";	
+					}
+					statusTD += ' | <span class="red-btn" style="padding: 3px 5px; margin-left: 5px; border-radius: 5px;"  id="">TS Period Closed</span>';
+				}
+				statusTD +="</td>";
+				
+				
+				
+				innerHtml += "<td>"+data[i].ProjectName+"</td>";
+				if(data[i].TotalHours == "")
+				{
+					innerHtml += "<td style='text-align:right' class='clsTotalHours'>"+data[i].TotalHours || 0+"</td>";
+				}
+				else
+				{
+					innerHtml += "<td style='text-align:right' class='clsTotalHours'>"+parseFloat(data[i].TotalHours).toFixed(2)+"</td>";
+				}
+				
+				innerHtml += statusTD;//"<td>"+data[i].ApprovalStatus+"</td>";	
+				
+				if(data[i].LAST_SUBMITTED_DATE == "")
+				{
+					
+					//innerHtml += "<td style='text-align:center' class='submittedDate'>"+(new Date(data[i].MOD_DATE)).format('dd-MMM-yy') || ""+"</td>";
+					var tdate = (data[i].MOD_DATE == "")? "" : (new Date(data[i].MOD_DATE)).format('dd-MMM-yy');
+					innerHtml += "<td style='text-align:center' class='submittedDate'>"+tdate+"</td>";
+					data[i].MOD_DATE
+				}
+				else
+				{	var tdate = (data[i].LAST_SUBMITTED_DATE == "")? "" : (new Date(data[i].LAST_SUBMITTED_DATE)).format('dd-MMM-yy');
+					innerHtml += "<td style='text-align:center' class='submittedDate'>"+tdate+"</td>";
+				}
+				if(data[i].MOD_DATE == ""){
+					if(data[i].CREATED_DATE == ""){
+						innerHtml += "<td class='clsApproveRejct'></td>";
+					}
+					else{
+						innerHtml += "<td style='text-align:center' class='clsApproveRejct'>"+(new Date(data[i].CREATED_DATE)).format('dd-MMM-yy')+"</td>";
+					}
+					
+				}
+				else{
+					innerHtml += "<td style='text-align:center' class='clsApproveRejct'>"+(new Date(data[i].MOD_DATE)).format('dd-MMM-yy')+"</td>";
+				}
+				
+				innerHtml += "<td class='pendingBy'>"+data[i].Current_Approver+"</td>";
+				if(data[i].UserComments.length > 22)
+				{
+					innerHtml += "<td class='clsUserComment'><span data-toggle='tooltip' data-placement='top' title='"+data[i].UserComments+"' style='word-wrap: break-word; display: inline-block; width: 200px;'>"+data[i].UserComments.substr(0,22)+"...</span></td>";
+				}
+				else
+				{
+					innerHtml += "<td class='clsUserComment'><span data-toggle='tooltip' data-placement='top' title='"+data[i].UserComments+"' style='word-wrap: break-word; display: inline-block; width: 200px;'>"+data[i].UserComments.substr(0,22)+"</span></td>";
+				}
+				innerHtml += "<td class='clsApprovedBy'>"+data[i].Current_Approver+"</td>";	
+				if(data[i].Approvers_Comments.length != 0)
+				{
+					for(var app =0;app<maxApprover;app++)
+					{	if(data[i].Approvers_Comments[app] == undefined)
+						{	innerHtml += '<td class="clsApproveName">NA</td>';
+							innerHtml += '<td class="clsApproveComment">NA</td>';						
+						}
+						else
+						{	
+							if(status== "3")
+							{
+								if(data[i].Approvers_Comments[app].ApproverStatus == "3")
+								{
+									innerHtml += '<td  class="clsApproveName">'+data[i].Approvers_Comments[app].Approver_Name+'</td>';
+									if(data[i].Approvers_Comments[app].Comment.length > 22)
+									{
+										innerHtml += '<td  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment.substr(0,22)+'...</span></td>';		
+									}
+									else
+									{
+										innerHtml += '<td  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment+'</span></td>';		
+									}
+								}
+							}
+							else
+							{
+								if(data[i].Approvers_Comments[app].ApproverStatus == "2")
+								{
+									innerHtml += '<td  class="clsApproveName approvedTimesheet">'+data[i].Approvers_Comments[app].Approver_Name+'</td>';
+									if(data[i].Approvers_Comments[app].Comment.length > 22)
+									{
+										innerHtml += '<td  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment.substr(0,22)+'...</span></td>';		
+									}
+									else
+									{
+										innerHtml += '<td  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment+'</span></td>';		
+									}
+								}
+								else
+								{
+									innerHtml += '<td class="clsApproveName">NA</td>';
+									innerHtml += '<td class="clsApproveComment">NA</td>';
+								}
+							}
+						}															
+					}
+				}
+				else
+				{
+					for(var app =0;app<maxApprover;app++)
+					{	innerHtml += '<td class="clsApproveName">NA</td>';			
+						innerHtml += '<td class="clsApproveComment">NA</td>';					
+					}
+				}     
+				innerHtml += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data[i].ProjectName+'\' ><i onclick="openTSLog(\''+data[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>';  //   
+				innerHtml += "</tr>";	
+			}
+        }
+		
+		if(data.length == 0)
+		{
+			innerHtml += "<tr><td class='text-center'>No record found</td></tr>";	
+			$("#tblPeriodBody").append(innerHtml);	
+		
+			TableHideShow(status);			
+			$("#tblPeriodBody").children('tr').children('td').attr("colspan",$("#periodsummary").children('thead').children('tr').children('th:visible').length)
+		}		
+		else
+		{
+			$("#tblPeriodBody").append(innerHtml);
+			//dataTableLoad();
+			TableHideShow(status);
+		}
+        dataTableLoad();	
+		//$("#periodsummary").children('thead').children('tr').children('th').length
+		$('#loading-image').hide();
+		
+    }
+  
+	function filterById(data)
+	{
+        //console.log(JSON.stringfy(data));
+        $('#TxtToData').hide();
+        $('#TxtFromDate').hide();
+        $('#BtnFilterData').hide();
+		
+        /*var arr = [];
+        var crrDate = new Date();
+		
+        if (data.value == "current")
+		{
+			$('#TxtToData').val('');
+			$('#TxtFromDate').val('');
+            var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 1);
+            var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 0);
+
+            summaryTable.Data[0].PeriodInfo.filter
+			(
+				function (a) {
+				    var sdate = new Date(a.StartDate);
+				    var edate = new Date(a.EndDate);
+				    if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				    {   
+				        arr.push(a);
+				        //console.log(a);						
+				    }
+				}
+			)
+			displayStatusCount(arr,data);
+            createSummaryTable(arr);
+        }
+        else if (data.value == "Next")
+		{
+			$('#TxtToData').val('');
+			$('#TxtFromDate').val('');
+            var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 1);
+            var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 2, 0);
+            summaryTable.Data[0].PeriodInfo.filter
+			(
+				function (a) {
+				    var sdate = new Date(a.StartDate);
+				    var edate = new Date(a.EndDate);
+				    if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth())//(crrDate.getMonth() == sdate.getMonth() || && crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				    {	//console.log(sdate +""+edate);
+				        arr.push(a);
+				        //console.log(a);						
+				    }
+				}
+			)
+			displayStatusCount(arr,data);
+            createSummaryTable(arr);
+        }
+        else if (data.value == "Previous") 
+		{
+			$('#TxtToData').val('');
+			$('#TxtFromDate').val('');
+            var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() - 1, 1);
+            var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 0);
+            summaryTable.Data[0].PeriodInfo.filter
+			(
+				function (a) {
+				    var sdate = new Date(a.StartDate);
+				    var edate = new Date(a.EndDate);
+				    if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//((crrDate.getMonth()+1) == edate.getMonth() || crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				    {	//console.log(sdate +""+edate);
+				        arr.push(a);
+				        //console.log(a);
+
+				    }
+				}
+			)
+			displayStatusCount(arr,data);
+            createSummaryTable(arr);
+        }
+        else */
+		if (data.value == "DateRange") {
+            $('#TxtToData').show();
+            $('#TxtFromDate').show();
+            $('#BtnFilterData').show();
+        }
+		else
+		{
+			showmydata();
+		}
+    }
+    function filterByDateRange() 
+	{
+
+        var arr = [];
+        var crrDate = new Date();
+        var fDate = new Date(returnDateFormat($('#TxtToData').val()).toString());// new Date(Date($('#TxtToData').val()));
+        var tDate =  new Date(returnDateFormat($('#TxtFromDate').val()).toString());// new Date(Date($('#TxtFromDate').val()));
+        summaryTable.Data[0].PeriodInfo.filter
+		(
+			function (a) {
+			    var sdate = new Date(a.StartDate);
+			    var edate = new Date(a.EndDate);
+			    if (fDate <= sdate && tDate >= edate) {	//console.log(sdate +""+edate);
+			        arr.push(a);
+			        //console.log(a);
+
+			    }
+			}
+		)
+		displayStatusCount(arr,document.getElementById("tableFilter"));
+        createSummaryTable(arr);
+    }
+
+	function displayStatusCount(data,control)
+	{
+		var openCnt = 0;
+		//var saveCnt = 0;
+		var SubmitCnt = 0;
+		var ApprovedCnt = 0;
+		var rejectCnt = 0;
+		data.filter
+		(
+			function (a)
+			{
+				if(a.ApprovalStatus == "0" || a.ApprovalStatus == "")
+				{
+					openCnt++;
+					//saveCnt++;
+				}
+				else if(a.ApprovalStatus == "1"){
+					SubmitCnt++;
+				}
+				else if(a.ApprovalStatus == "2"){
+					ApprovedCnt++;
+				}
+				else if(a.ApprovalStatus == "3"){
+					rejectCnt++;
+				}
+			}
+		);
+		$("#btnAllPeriods span").text(data.length);
+		$("#btnOpenPeriods span").text(openCnt);
+		//$("#btnSavePeriods span").text(saveCnt);
+		$("#btnSubmitPeriods span").text(SubmitCnt);
+		$("#btnAppovedCount span").text(ApprovedCnt);
+		$("#btnRejectCount span").text(rejectCnt);			
+	}
+
+	
+function openYesNoPOpupRecallFun(TimesheetUID,data)
+{
+	$('#Fillerror').hide();
+	$('#yesNoPopupComent').remove();
+	openyesNoPopup("recallTimeSheet",popUpMessage.timeSheetRecallComment);
+	var redirectURL = $(data).find(".redirectUrl").val();
+	$("#btnYes").attr('onclick',"TimesheetRecall('"+TimesheetUID+"','"+redirectURL+"')");	
+}
+
+approvedData = new Object();
+function TimesheetRecall(TimesheetUID,dataUrl)
+{	
+	//$('#yesNoPopupComent').hide();
+	var CurrentRESGuid = GetCurrentUserGUID();
+	var commEmpty = "";
+	//var commEmpty=$("#yesNoPopupComent").val();
+	
+	//if(commEmpty=="")
+	//{
+	//	$('#Fillerror').show();
+	//	}
+	//else
+	//{	
+		var tempData = new Object();
+		$('#Fillerror').hide();
+		tempData.Comment = commEmpty;
+		tempData.TimesheetUID = TimesheetUID;
+		//console.log(tempData)
+				
+		var RecallTimesheetUrls =RecallTimesheet();
+		$.ajax
+		({       
+			url: RecallTimesheetUrls,
+			headers: { "Accept": "application/json; odata=verbose" },
+			method: "POST",
+			data: tempData,
+			dataType: 'json',
+			success: function(data)
+			{
+				okPopupOnOkButton('#yesNoPopup');	
+				//$("#btnOkPopup").attr("onclick","window.location.href = '"+dataUrl+"'")
+				//openOKpopup(popUpMessage.timeSheetRecallOkPopUp,"true");
+				window.location.href = dataUrl;
+			}
+		});
+	//}	
+}
+function openYesNoPOpup(TimesheetUID,PeriodId,RES_UID)
+{
+	openyesNoPopup("deleteTimeSheet",popUpMessage.timesheetDelete);
+	$("#btnYes").attr('onclick',"TimesheetDelete('"+TimesheetUID+"','"+PeriodId+"','"+RES_UID+"')");	
+}
+function TimesheetDelete(TimesheetUID,PeriodId,RES_UID)
+{	
+	var CurrentRESGuid = GetCurrentUserGUID();
+	var tempData = new Object();
+	tempData.TimesheetUID = TimesheetUID;
+	tempData.PeriodUID = PeriodId;
+	tempData.ResourceUID = RES_UID;
+	
+	//console.log(tempData)
+		
+	var DeleteTimesheetUrls = DeleteTimesheet();
+	$.ajax
+	({       
+		url: DeleteTimesheetUrls,
+		headers: { "Accept": "application/json; odata=verbose" },
+		method: "POST",
+		data: tempData,
+		dataType: 'json',
+		success: function(data)
+		{
+			okPopupOnOkButton('#yesNoPopup');	
+			openOKpopup(popUpMessage.timesheetDeleteSucess,"true");
+		}
+	});
+}
+
+function TableHideShow(status)
+{	$(".clsLog").hide();
+	if(status== "")
+	{	$(".clsStatus").show();
+		$(".clsAction").hide();		
+		$(".clsUserComment").hide();
+		$(".clsApproveComment").hide();
+		$(".clsApproveName").hide();		
+		$(".submittedDate").hide();
+		$(".clsApprovedBy").hide();
+		$(".pendingBy").hide();
+		$(".clsApproveRejct").hide();
+	}
+	else if(status== "0")
+	{	$(".clsAction").show();
+		
+		$(".clsApproveRejct").show();
+		$("th.clsApproveRejct").html("Created Date");	
+		//$("th.clsApproveRejct").css("width","100px");		
+		$(".clsStatus").hide();
+		$(".clsUserComment").hide();
+		$(".clsApproveComment").hide();
+		$(".clsApproveName").hide();
+		$(".submittedDate").hide();
+		$(".clsApprovedBy").hide();
+		$(".pendingBy").hide();		
+	}
+	else if(status== "1")
+	{	$(".clsAction").show();
+		//$("th.clsAction").css("width","50px");
+		$(".clsUserComment").show();
+		//$("th.clsUserComment").css("width","150px");
+		$(".submittedDate").show();		
+		//$("th.submittedDate").css("width","100px");
+		$(".pendingBy").show();
+		//$("th.pendingBy").css("width","150px");
+		
+		$("th.pendingBy").text("Pending With");
+		$(".clsStatus").hide();		
+		$(".clsApproveComment").hide();
+		$(".clsApproveName").hide();		
+		$(".clsApprovedBy").hide();
+		$(".clsApproveRejct").hide();				
+	}
+	else if(status== "2")
+	{	$(".clsAction").hide();
+		$(".clsStatus").hide();
+		$(".clsUserComment").hide();
+		$(".clsApproveComment").hide();
+		$(".pendingBy").hide();		//for pending by name
+		$(".clsApproveName").show();
+		//$("th.clsApproveName").css("width","150px");
+		$(".submittedDate").show();      //for submitted date
+		//$("th.submittedDate").css("width","100px");
+		$(".clsApproveRejct").show();   //for Approve/Reject Date
+		$("th.clsApproveRejct").html("Approved Date");
+		//$("th.clsApproveRejct").css("width","100px");
+		$(".clsApprovedBy").show();    //for approve by name
+		//$("th.clsApprovedBy").css("width","150px");
+		$(".clsLog").show();
+	}
+	else if(status== "3")
+	{	$(".clsAction").show();		
+		//$("th.clsAction").css("width","50px");
+		$(".clsApproveComment").show();		
+		$("th.clsApproveComment").text("Rejection Comments");
+		//$("th.clsApproveComment").css("width","150px");
+		$(".submittedDate").show();
+		//$("th.submittedDate").css("width","100px");
+		$(".clsApproveRejct").show();
+		$("th.clsApproveRejct").html("Rejected Date");	
+		//$("th.clsApproveRejct").css("width","100px");		
+		$(".pendingBy").show();
+		$("th.pendingBy").text("Rejected By");
+		//$("th.pendingBy").css("width","150px");
+		
+		$(".clsStatus").hide();
+		$(".clsUserComment").hide();
+		$(".clsApprovedBy").hide();
+		$(".clsApproveName").hide();
+		$("#periodsummary tr").each(function(){$(this).find('td.clsApproveComment').eq(1).hide();$(this).find('th.clsApproveComment').eq(1).hide();});
+		//$("#periodsummary tr").each(function(){$(this).find('td.clsApproveComment').eq(1).hide();$(this).find('td.clsApproveComment').eq(1).hide();});
+		$(".clsLog").show();
+	}	
+	
+}
+
+function redirectToEntryPage(PeriodId,StartDate,EndDate,TimesheetUIDValue,ProjectUID)
+{
+	window.location.href = "TimesheetEntryPage.aspx?PeriodUID=" + PeriodId + "&Start=" + new Date(StartDate) + "&End=" + new Date(EndDate) + "&TimesheetUID="+TimesheetUIDValue+"&ProjectUID="+ProjectUID;
+}
+
+function bindCreateTimesheetMain(data)
+{	//$("#tableFilter").children("option[value*='DateRange']").attr('disabled','disabled');
+	//$("#tableFilter").children("option[value*='Next']").attr('disabled','disabled');
+	if(data.length != 0)
+	{
+		var periodID = "";
+		$("#createTimesheetMain").text("");
+		var innerHtml = "";
+		var checkID = 0;
+		var flag = false;
+		console.log("Data Length : "+data.length);
+		
+		for(var i=0;i<data.length;i++)
+		{	
+			if(data[i].ApprovalStatus == "")
+			{
+				allrecordCount++;
+			}
+			if(i<data.length-1)
+			{
+				if(data[i].PeriodId != data[i+1].PeriodId)
+				{
+					// Ketan code to check whether any project timesheet is openied in past for change
+					// if any timesheet is opened that time that period should be clickable to go for opened timesheet
+					var statflag =0; 
+					for(var k=0;k<data.length;k++) 
+					{ 
+						if(data[i].PeriodId ==data[k].PeriodId) 
+						{ 
+							if(data[k].TS_Period_Open_Close_Flag==1) 
+							{ 
+								statflag=1; 
+								break; 
+							}  
+						}  
+					}  
+				
+					if(statflag==1 && !flag) 
+					{
+						flag=true;
+					}
+					//Rohit old code
+					//if(data[i].TS_Period_Open_Close_Flag == "1" && !flag)
+					//{
+						//flag=true;
+					//}
+					
+					if(flag)
+					{
+						console.log("true")
+						innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i].PeriodId+'&Start='+data[i].StartDate+'&End='+data[i].EndDate+'&TimesheetUID=&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+						innerHtml += '<h3>'+data[i].PeriodName+'&nbsp;</h3>';
+						innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+') &nbsp;</span>';
+						innerHtml += '</a>';
+						flag=false;
+					}
+					else
+					{
+						innerHtml += '<a href="javascript:void(0)" class="createtimesheetBlock createtimesheetsubmitBlock">';
+						innerHtml += '<h3>'+data[i].PeriodName+'&nbsp;</h3>';
+						innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+') &nbsp;</span>';
+						innerHtml += '</a>';
+						console.log("false")
+					}
+				}
+				else if(checkID == 0)
+				{
+					if(data[i].TS_Period_Open_Close_Flag == "1")
+					{
+						flag = true;
+						checkID++;
+					}
+					else
+					{
+						flag = false;
+					}
+				}
+			}
+			else
+			{
+			// Ketan code to check whether any project timesheet is openied in past for change
+				// if any timesheet is opened that time that period should be clickable to go for opened timesheet
+
+				var statflag =0; 
+				for(var k=0;k<data.length;k++) 
+				{ 
+					if(data[i].PeriodId ==data[k].PeriodId) 
+					{ 
+						if(data[k].TS_Period_Open_Close_Flag==1) 
+						{ 
+							statflag=1; 
+							break; 
+						}  
+					}  
+				}  
+			
+				if(statflag==1 && !flag) 
+				{
+					flag=true;
+				}
+					
+				//if(data[i].TS_Period_Open_Close_Flag == "1" && !flag)
+				//{
+					//flag=true;
+				//}
+				if(flag)
+				{
+					console.log("true")
+					innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i].PeriodId+'&Start='+data[i].StartDate+'&End='+data[i].EndDate+'&TimesheetUID=&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+					innerHtml += '<h3>'+data[i].PeriodName+'&nbsp;</h3>';
+					innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+') &nbsp;</span>';
+					innerHtml += '</a>';
+					flag=false;
+				}
+				else
+				{
+					innerHtml += '<a href="javascript:void(0)" class="createtimesheetBlock createtimesheetsubmitBlock">';
+					innerHtml += '<h3>'+data[i].PeriodName+'&nbsp;</h3>';
+					innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+') &nbsp;</span>';
+					innerHtml += '</a>';
+					console.log("false")
+				}
+			}
+			periodID = data[i].PeriodId;						
+		}
+		
+		/*for(var i=0;i<data.length;i++)
+		{
+			if(i<data.length-1)
+			{	
+				console.log(i);				
+				if(data[i].PeriodId != data[i+1].PeriodId)
+				{	
+					if(checkID == 0 && (data[i].ApprovalStatus == "" || data[i].ApprovalStatus == "0"))
+					{
+						//console.log("Open1" + data[i].PeriodName);
+						checkID = 0;
+						flag=true;
+					}
+					
+					if(flag)
+					{
+						console.log("Open1" + data[i].PeriodName);
+						//checkID = 0;
+						if(data[i].TS_Period_Open_Close_Flag == "0" && checkID == 0)
+						{
+							innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i].PeriodId+'&Start='+data[i].StartDate+'&End='+data[i].EndDate+'&isClosed=1&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+						}
+						else
+						{
+							innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i].PeriodId+'&Start='+data[i].StartDate+'&End='+data[i].EndDate+'&TimesheetUID=&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+						}
+						//innerHtml += '<a href="javascript:void(0)" class="createtimesheetBlock">';
+						innerHtml += '<h3>'+data[i].PeriodName+'</h3>';
+						innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+'</span>';
+						innerHtml += '</a>';
+						flag = false;
+					}
+					else
+					{
+						console.log("Closed" + data[i].PeriodName);
+						//checkID = 0;
+						
+						innerHtml += '<a href="javascript:void(0)" class="createtimesheetBlock createtimesheetsubmitBlock">';
+						innerHtml += '<h3>'+data[i].PeriodName+'</h3>';
+						innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+')</span>';
+						innerHtml += '</a>';
+						flag = false;
+					}
+					
+				}
+				else
+				{
+					if(data[i].ApprovalStatus == "" || data[i].ApprovalStatus == "0")
+					{				
+						flag = true;
+						checkID++;
+					}
+				}					
+				checkID++;
+			}
+			/*if(periodID != data[i].PeriodId)
+			{
+				console.log(data[i].PeriodId);
+				//if((new Date(data[i].StartDate)).valueOf() > (new Date()).valueOf())
+				//{
+				//	innerHtml += '<a href="javascript:void(0)" class="createtimesheetBlock createtimesheetsubmitfuture">';
+				//}
+				//else 
+				if(data[i].TS_Period_Open_Close_Flag == "1")
+				{
+					innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i].PeriodId+'&Start='+data[i].StartDate+'&End='+data[i].EndDate+'&TimesheetUID=&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+				}
+				else
+				{	innerHtml += '<a href="javascript:void(0)" class="createtimesheetBlock createtimesheetsubmitBlock">';
+					//innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i].PeriodId+'&Start='+data[i].StartDate+'&End='+data[i].EndDate+'&isClosed=1&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+				}
+				innerHtml += '<h3>'+data[i].PeriodName+'&nbsp;</h3>';
+				innerHtml += '<span>('+(new Date(data[i].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i].EndDate)).format("dd-MMM-yyyy")+') &nbsp;</span>';
+				innerHtml += '</a>';
+			}
+			periodID = data[i].PeriodId;			
+			
+		}*/
+		//if(data.length > 0)
+		//{	console.log(i);
+		//	if(flag == false && data[data.length-1].ApprovalStatus == "" || data[data.length-1].ApprovalStatus == "0")
+		//	{
+		//		console.log("Open1" + data[i-1].PeriodName);
+		//		innerHtml += '<a href="TimesheetEntryPage.aspx?PeriodUID='+data[i-1].PeriodId+'&Start='+data[i-1].StartDate+'&End='+data[i-1].EndDate+'&TimesheetUID=&isRefresh=1&ProjectUID=" class="createtimesheetBlock">';
+		//				
+		//		innerHtml += '<h3>'+data[i-1].PeriodName+'</h3>';
+		//		innerHtml += '<span>('+(new Date(data[i-1].StartDate)).format("dd-MMM-yyyy")+' - '+(new Date(data[i-1].EndDate)).format("dd-MMM-yyyy")+'</span>';
+		//		innerHtml += '</a>';
+
+		//	}
+		//}
+		$("#createTimesheetMain").append(innerHtml);
+	}
+	else
+	{
+		$("#createTimesheetMain").text("");
+	}
+}
+
+function dataTableLoad() 
+{	
+	var table = $('#periodsummary').DataTable({
+		"JQueryUI":true,
+		"autoWidth": false,
+		"bAutoWidth": true,
+		
+		fixedColumns: true,
+		//"bSortable": false,
+		//"bSort" : false,
+		"aaSorting": [],
+		"columnDefs": [{
+		"defaultContent": "-",		
+		"targets": "_all",
+		
+		}
+		]//,
+	  //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+	  
+	});
+
+	$('#periodsummary tfoot th').each( function () {
+		var title = $('#periodsummary thead th').eq( $(this).index() ).text();
+		
+		//console.log(title)
+		if(title != "Action" && title != "Log")
+		{
+			$(this).html( '<input type="text" placeholder="Search" />' );
+		}
+		else
+		{	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+		}
+	} );
+
+	
+	// Apply the search
+	table.columns().every( function () {
+		var that = this;
+		
+		$( 'input', this.footer() ).on( 'keyup change', function () {			
+			if ( that.search() !== this.value) {
+				that
+					.search( this.value )
+					.columns.adjust().draw();
+					//.draw();			
+			}
+		} );
+	});
+
+	
+	$("th.clsAction").css("width","70px");
+	$("th.clsTotalHours").css("width","100px");
+	$("th.submittedDate").css("width","140px");
+	$("th.clsStatus").css("width","205px");
+	$("th.clsApproveRejct").css("width","140px");
+	$("th.clsUserComment").css("width","200px");
+	$("th.pendingBy").css("width","150px");
+	$("th.clsApprovedBy").css("width","150px");
+	$("th.clsApproveName").css("width","150px");
+	$("th.clsApproveComment").css("width","200px");
+	$("th.projectName").css("width","300px");
+	$("th.clsLog").css("width","50px");
+}  
+
+function returnDateFormat(input)
+{
+	var sptdate = String(input).split("-");
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var myMonth = sptdate[1];
+    var myDay = sptdate[0];
+    var myYear = sptdate[2];
+	return (months.indexOf(myMonth)+1).toString() + "-"+  myDay +"-"+myYear;
+}
+
+function openTSLog(TS_UID,currData)
+{	$('#loading-image').show();
+	var ServiceURL = getURLTimesheet_AuditLog();
+	var inputData = new Object();
+	inputData.TimesheetUID = TS_UID;
+	callService(ServiceURL,inputData,openLogTable,"",currData);
+}
+
+function openLogTable(data,passData)
+{
+	var innerLogHTML = "";
+	$("#bindlog").text("");
+	//$(passData.parentNode).find(".ts_name").val()
+	$("#LogId").text($(passData.parentNode).find(".ts_name").val());
+	for(var i=0;i<data.Data.length;i++)
+	{	innerLogHTML += '<tr>';
+		innerLogHTML += '<td>'+(new Date(data.Data[i].Created_Date)).format('dd-MMM-yyyy')+'</td>';
+		innerLogHTML += '<td>'+data.Data[i].Actor+'</td>';
+		if(data.Data[i].Remarks.indexOf("Rejected") > -1)
+		{
+			innerLogHTML += '<td>REJECTED</td>';
+		}
+		else if(data.Data[i].Remarks.indexOf("Approved") > -1)
+		{
+			innerLogHTML += '<td>APPROVED</td>';		
+		}
+		else if(data.Data[i].Remarks.indexOf("SUBMIT") > -1)
+		{
+			innerLogHTML += '<td>SUBMITTED</td>';		
+		}
+		else if(data.Data[i].Remarks.indexOf("SAVE") > -1)
+		{
+			innerLogHTML += '<td>SAVED</td>';		
+		}
+		else
+		{
+			innerLogHTML += '<td>'+data.Data[i].Type+'</td>';
+		}
+		//innerLogHTML += '<td>'+data.Data[i].Type+'</td>';
+		innerLogHTML += '<td>'+data.Data[i].Remarks+'</td>';
+		innerLogHTML += '</tr>';
+	}
+	$("#bindlog").append(innerLogHTML);
+	$('.allcommentdiv').show({ width: 'toggle' });
+	$('#loading-image').hide();
+}
+
+function closeallcomment() {
+	$('.allcommentdiv').animate({ width: 'toggle' });
+}
+
+
+function test123()
+{	var date = new Date();
+	firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+	lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
+	period_info.forEach(
+	function(e)
+	{
+		if((new Date(e.StartDate)).valueOf() >= firstDay.valueOf() && (new Date(e.StartDate)).valueOf() <= lastDay.valueOf())
+		{
+			console.log(e)
+		}
+	});
+}
+</script>

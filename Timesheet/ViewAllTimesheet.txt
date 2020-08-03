@@ -1,0 +1,2886 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>ViewAllTimesheet</title>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css"> 
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+	<style>
+		#DeltaTopNavigation{	
+			display: none;
+
+		}
+		.table thead tr th {padding: 5px;background: #00b0f0;color: #fff;}	
+		tr.otherstyle {background-color: #c4d0d7; color:#fbfbfb;}
+		.SumoSelect {width:100% !important;}
+		.SumoSelect > .CaptionCont{            border-radius: 0px;            border-color:#ccc !important;        }
+		.SumoSelect > .optWrapper > .options  li.opt label{            font-weight: normal;        }
+		.SumoSelect .select-all {            padding: 6px 0 4px 35px;            height: auto;        }
+		.SumoSelect .select-all label{            font-weight: normal;        }
+		.SumoSelect > .CaptionCont > span.placeholder{            font-style: normal;        }
+		select[multiple], select[size]{height:30px !important}
+		.optWrapper > .options li label { text-align: left !important}
+		.CaptionCont > span { text-align: left !important}
+		.errMsgs{ color: red; }
+		.errMsg { color: red; }
+		#loading-image{z-index:9999999}
+		
+	</style>
+</head>
+<body>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+	<div class="container-fluid">
+		<div class="breadcrumb-main">
+			<div class="container-fluid">
+				<ul>
+					<li>
+						 <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a> 
+					</li>
+					<li>Timesheet
+					</li>
+					<li><span id="CurrentTabName"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="pull-left">
+		<div style="margin: 15px;display: inline-block;">	
+		
+			<table>
+			
+				<tr>
+					<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Week<sup style="color: #f00; font-size: 14px;">*</sup> <br>
+						<select id="WeekID" class="Search_WeekIdData" multiple="multiple" placeholder="Select Week" style="width: 270px !important;margin-right: 10px;" >
+						</select>
+					</td>
+					<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Project Name<sup style="color: #f00; font-size: 14px;">*</sup>  <br>
+						<select id="projName" class="search_periodNameDataId" multiple="multiple" placeholder="Select Project" style="width: 270px !important;margin-right: 10px;" >
+						</select>
+					</td>
+					<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Resource Name<sup style="color: #f00; font-size: 14px;">*</sup>  <br>
+						<select id="ResName" class="search_ResName" multiple="multiple" placeholder="Select Resource" style="width: 270px !important;margin-right: 10px;" >
+						</select>
+					</td>
+					
+				
+					<td><br><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoId" onclick="show();" ><i class=""></i>SHOW</a></td>
+					<td><br><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="clr" onclick="clrs();" ><i class=""></i>CLEAR</a>  <span class="errMsg"></span></td>
+				</tr>
+			</table>
+		</div>	
+	</div>
+	<div class="container-fluid">
+
+	</div>
+	<hr style="margin-top: 16px;margin-bottom: 5px;border: 0;border-top: 1px solid #eee;">
+	
+	<div class="container-fluid">
+		<div class="mid-block">		
+			<div class="mid-top" style="margin-bottom: 5px; ">
+				<ul class="top-btns" style="float:left">
+					<li style="margin-left:0px;">
+					
+						<a href="javascript:void(0)" id="clickTest" onclick="openTilldateManagePopup()" >  
+							<i class="fa fa-folder-o"></i>
+							OPEN - TS PERIOD
+						</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)" onclick="openAdminUpdatePopup()" id="clickTest">
+							<i class="fa fa-rotate-left"></i>
+							RESET - TS STATUS
+						</a>
+					</li>
+					<li id="Allowid">
+						<a href="javascript:void(0)" onclick="AllowToOpenToFill()" id="">
+							<i class="fa fa-sitemap"></i>
+							ALLOW
+						</a>
+					</li>
+					<li id="delegateid">
+						<a href="javascript:void(0)" onclick="delegatePopUp()" id="">
+							<i class="fa fa-sitemap"></i>
+							Delegate Now
+						</a>
+					</li>
+					<span id="SelectedItemCount">0</span> item selected
+				</ul><br>
+				<div style="margin: 15px 0px 5px 0px;">
+					<!-- <select id="tableFilter" onchange="onDDChangeEvent()"> -->
+					<select id="tableFilter" >
+							<option value="current">Current Month</option>
+							<option value="Previous">Previous Month</option>
+							<option value="DateRange" >Date Range</option>
+					</select>
+					<select id="WeekWiseOnly" onchange="onDDChangeEvent()"></select>
+					<input type="text" id="txt_from_date"  class="txtDateInput" hidden placeholder="From Date" style="width:120px" />
+                    <input type="text" id="txt_to_date"  class="txtDateInput" hidden placeholder="To Date" style="width:120px"/>
+					<input type="button" style="padding:4px 10px; font-size:10px;" id="BtnFilterData" value="GO" hidden class="btnSubmit" onclick='filterByDateRange()' />
+					
+					<ul class="top-btns" style="float:right;margin-right:8px;">
+					        <li>
+                               <a href="javascript:void(0)" id="btnAllPeriods" onclick="filterData('btnAllPeriods')" > 
+							   <i class="fa fa-flag-o"></i> All Records
+								<span class="highlight_no">0</span>
+								</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnOpenPeriods" onclick="filterData('btnOpenPeriods')">
+								<i class="fa fa-folder-o"></i> Open
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                    
+                            <li>
+                                <a href="javascript:void(0)" id="btnSubmitPeriods" onclick="filterData('btnSubmitPeriods')">
+								<i class="fa fa-send"></i> Submitted
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnAppovedCount" onclick="filterData('btnAppovedCount')">
+								<i class="fa fa-check"></i> Approved
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" id="btnRejectCount" onclick="filterData('btnRejectCount')">
+								<i class="fa fa-ban"></i> Rejected
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                        </ul>
+				</div>
+				
+						
+			</div>	
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="" id="jqxgrid_container">
+			<table id="ExpenceDataTable" class="display example table table-bordered table-new" cellspacing="0">
+			</table>
+		</div>
+	</div>
+
+	<div class="black-bg alert-main" id="yesNoPopup" style="display:none;">
+		<div class="popup-main">
+			<div class="popup-heading" style="margin-bottom: 15px;"><span id="yesNoPopupMsg"></span></div>
+			<label id="TillDateOfOpen" hidden><font style="margin-left: -28px;">Till Date :</font></label> <input type="text" id="TxtTillData" hidden  placeholder="Till Date" style="width:120px" readonly/>
+			</br><label id="Fillerror" style="text-align: center; font-weight: normal;"><font color="red" style="margin-left:27px;">Select Till Date</font></label>
+			<div class="pop-mid">
+				<input type="Button" class="divnewbtn" id="btnYes" value="YES"  /> 
+				<input type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')"  value="NO" />					
+			</div>
+		</div>
+	</div>
+
+
+	<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+		<div class="popup-main">
+			<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+			<div class="pop-mid">
+				<input type="hidden" id="isPagerefresh"></span>
+				<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+			</div>			
+		</div>
+	</div>
+<div id="alertmain" class="alert-main" style="display: none">
+		<div class="black-bg" id="backcolor">
+			<div class="popup-main">
+				<div class="popup-heading"><span id="Alert_msg"></span></div>
+				<div class="pop-mid">
+					<p id="submitValue"></p>
+					<input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+				</div>
+			</div>
+		</div>
+	</div>
+<div id="Confirmation_alert" class="alert-main" style="display: none;">
+	<span id="confirmation_type"></span>
+	<span id="delete_expense_id" style="display: none;"></span>
+	<div class="black-bg" id="Div1">
+		<div class="popup-main">
+			<div class="popup-heading"><span id="Confirmation_msg">Select resource to delegate</span></div>
+			<div class="pop-mid">
+				<table id="ddlDelegation" style="display:none;">
+					<tbody>
+						<tr id="">
+						<td><select id="PrxAppName" class="search_test" style="width: 300px !important;margin-bottom: 10px;" ></select></td>
+						</tr>
+						<tr id="">
+						<td><span class="errMsgs"></span></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="Button" class="divnewbtn" value="OK" id="ok_click" onclick="delegation();" style="display:none;" >
+				<input type="Button" class="divnewbtn" value="OK" id="allow_click" onclick="AllowTimeSheetToEnable();" style="display:none;" >
+				<input type="Button" class="divnewbtn" value="Cancel" onclick="confirmation_close();">
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- Log Pop up -->
+<div class="allcommentdiv" >
+	<div class="allcommentdiv-heading" style="background: rgb(51,122,183);">
+		<span id="LogResource"></span>
+	</div>
+	<div class="allcommentdiv-mid">
+		<h3><span id="LogId"></span></h3>
+		<div class="vertical-scoll">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width: 150px;background: #00b0f0 !important;">Date</th>
+						<th style="width: 100px;background: #00b0f0 !important;">Action by</th> 
+						<th style="width: 80px;background: #00b0f0 !important;">Action</th>
+						<th style="background: #00b0f0 !important;">Note</th>
+					</tr>
+				</thead>
+				<tbody id="bindlog">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="allcommentdiv-foot">
+		<a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+	</div>
+</div>
+<!-- Log Pop up -->
+<span id="loading-image"></span>
+	
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+<script type="text/javascript">
+	$.widget.bridge('uitooltip', $.ui.tooltip);
+	$.widget.bridge('uibutton', $.ui.button);
+</script>
+
+<script>
+$(document).ready(function()
+{
+	//disableRightClick();
+	setInterval(function()
+	{ 
+		$("[data-toggle='tooltip']").tooltip(); 
+		$('[data-toggle="tooltip"]').tooltip(); 
+	}, 100);
+});
+
+var ColumnsData;
+
+var firstCount=0;
+var ActiveBucket="";
+var ActiveTsDetails="";
+var ActiveViewAllTs="";
+//var filterBuckket="";
+
+$(document).ready(function()
+{
+	//GetCurrentUserGUID("1");
+	CurrentGuid = GetCurrentUserGUID();
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	
+	$('#txt_from_date').datepicker
+	({ 		
+		dateFormat: 'dd-M-yy' ,
+		onSelect: function (selected) {
+            var dt = new Date(selected);
+            dt.setDate(dt.getDate() + 1);
+            $("#txt_to_date").datepicker("option", "minDate", dt);
+        }
+		/*beforeShowDay :function(dd)
+		{
+			var cc = "gg";
+			if(($('#txt_to_date').val() && dd.valueOf() > (new Date(returnDateFormat($('#txt_to_date').val()))).valueOf()) || dd.getMonth() >= (new Date().getMonth()+1))
+			{
+				return [false];
+			}
+			else
+			{
+				return [true];
+			}
+			
+		}*/
+	});
+	$('#txt_to_date').datepicker
+	({ 
+		dateFormat: 'dd-M-yy',
+		 
+		onSelect: function (selected) {
+            var dt = new Date(selected);
+            dt.setDate(dt.getDate() - 1);
+            $("#txt_from_date").datepicker("option", "maxDate", dt);
+        }
+		/*beforeShowDay :function(dd)
+		{
+			var cc = "gg";
+			
+			if(($('#txt_from_date').val() && dd.valueOf() < (new Date(returnDateFormat($('#txt_from_date').val()))).valueOf()) || dd.getMonth() >= (new Date().getMonth()+1))
+			{
+				return [false, "", "Unavailable"];
+			}
+			else
+			{
+				return [true];
+			}
+		}*/
+	});
+	document.getElementById("projName").disabled = true;
+	document.getElementById("ResName").disabled = true;
+	ActiveViewAllTs="bottomSearch";
+	ActiveTsDetails="";
+	getALLPerdiosData();
+	$('#tableFilter').trigger('change');
+	$('#TxtTillData').datepicker({  minDate: 0,dateFormat: 'dd-M-yy' });
+	$('#Fillerror').hide();
+	$(".errMsgs").text("");
+	$('#allow_click').hide();
+
+});
+
+//timesheet details
+function show()
+{
+	ActiveViewAllTs="";
+	ActiveTsDetails="topSearch";
+	
+	document.getElementById("WeekWiseOnly").disabled = true;
+	document.getElementById("tableFilter").disabled = true;
+	ActiveBucket="SingleResourceData";
+	temp_count=0;
+	var DDLselValue="";
+	DDLselValue = $('#ResName option:selected').val();
+	var DDLselValueWeek = $('#WeekID option:selected').val();
+	var DDLselValueProject = $('#projName option:selected').val();
+	if(DDLselValueWeek=="Select_Employee"  || DDLselValueWeek==undefined)
+	{
+		$('#reourceDivShowHideID').hide();
+		$('#tblResNameDiv').hide();
+		$('.errMsg').text("");
+		$('.errMsg').text("Select Week");
+		$('.errMsg').show();
+		return false;
+	}
+	else if(DDLselValueProject=="Select_Employee"|| DDLselValueProject==undefined)
+	{
+		$('#reourceDivShowHideID').hide();
+		$('#tblResNameDiv').hide();
+		$('.errMsg').text("");
+		$('.errMsg').text("Select Project");
+		$('.errMsg').show();
+		return false;
+	}
+	else if(DDLselValue=="Select_Resource"|| DDLselValue==undefined)
+	{
+		$('#reourceDivShowHideID').hide();
+		$('#tblResNameDiv').hide();
+		$('.errMsg').text("");
+		$('.errMsg').text("Select Resource");
+		$('.errMsg').show();
+		return false;
+	}
+	else
+	{
+		//ClearBackGroundColour();
+		$('.errMsg').text("");
+		$('.errMsg').hide();
+		$('#reourceDivShowHideID').show();
+		$('#tblResNameDiv').show();
+		GetPeriodMasterDataTSDetails();
+	}
+}
+function clrs()
+{
+	//ClearBackGroundColour();
+	firstCount=0;
+	ActiveViewAllTs="bottomSearch";
+	ActiveTsDetails="";
+	document.getElementById("WeekWiseOnly").disabled = false;
+	document.getElementById("tableFilter").disabled = false;
+	ActiveBucket="";
+	var CuurentDates = new Date();
+	$("#tableFilter").val("current");
+	$('#tableFilter').trigger('change');
+		
+	$('.errMsg').text("");
+	$('.search_ResName ').css({"border": "","background": ""});
+	temp_count=0;
+	$('#tblResNameDiv').hide();
+	$("#WeekID").prop("selectedIndex",-1); //unselect check box  
+	$('#WeekID')[0].sumo.reload();
+	document.getElementById("projName").disabled = true;
+	document.getElementById("ResName").disabled = true;
+	$("#projName").prop("selectedIndex",-1); //unselect check box  
+	$('#projName')[0].sumo.reload();
+	$("#ResName").prop("selectedIndex",-1); //unselect check box  
+	$('#ResName')[0].sumo.reload();	
+	$('#reourceDivShowHideID').hide();
+	$("#CurrentTabName").text("");
+	$("#btnAllPeriods span").text("0");
+	$("#btnOpenPeriods span").text("0");
+	$("#btnSubmitPeriods span").text("0");
+	$("#btnAppovedCount span").text("0");
+	$("#btnRejectCount span").text("0");
+	//cleardata();
+}
+
+function getALLPerdiosData()
+{
+	$(".loader").show();
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/Timesheet/Admin_GetPeriods",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		dataType: 'json',
+		success:function(data)
+		{
+			if(data.Periods.length ==0)
+			{
+				//$(".loader").hide();
+			}
+			else
+			{
+				if($("#WeekID").hasClass("SumoUnder")){$("#WeekID").html('');$("#WeekID")[0].sumo.unload();}
+				for(var j=0;j<data.Periods.length;j++)
+				{ 
+					$("#WeekID").append("<option value="+data.Periods[j].PeriodId+" >"+new Date(data.Periods[j].StartDate).format('dd-MMM-yy')+" - "+new Date(data.Periods[j].EndDate).format('dd-MMM-yy')+"</option>");
+				}
+				$('.Search_WeekIdData').SumoSelect({search: true, searchText: 'Search Week',selectAll: true});	
+				$("#WeekID ").prop("selectedIndex",-1); //unselect check box
+				$('#WeekID ')[0].sumo.reload(); 
+			}
+			$(".loader").hide();
+		},
+		error:function()
+		{
+			$('.loader').hide();
+			openOKpopup(popUpMessage.ServerError,"false");
+		}	
+	});	
+}
+
+document.getElementById("WeekID").onchange = function() 
+{ 
+	var SelectedPeriods = [];
+	$('#WeekID option:selected').each(function(i) 
+	{
+		SelectedPeriods.push("'" +$(this).val()+ "'");
+	});
+	if(SelectedPeriods.length==0)
+	{
+		$("#projName").prop("selectedIndex",-1); //unselect check box  
+		$('#projName')[0].sumo.reload();
+		document.getElementById("projName").disabled = true;
+		$("#ResName").prop("selectedIndex",-1); //unselect check box  
+		$('#ResName')[0].sumo.reload();
+		document.getElementById("ResName").disabled = true;
+	}
+	else
+	{
+		document.getElementById("projName").disabled = false;
+		getALLProjectsData();
+		$("#ResName").prop("selectedIndex",-1); //unselect check box  
+		//$('#ResName')[0].sumo.reload();
+	}
+};
+function getALLProjectsData()
+{
+	//$(".loader").show();
+	var SelectedPeriods = [];
+	$('#WeekID option:selected').each(function(i) 
+	{
+		SelectedPeriods.push("'" +$(this).val()+ "'");
+	});
+	var SelectedPeriodsDa = SelectedPeriods.join();
+	var Periodsel = SelectedPeriodsDa;
+	var Periodselected = Periodsel;
+	var requestProjectData = {"Periods": Periodselected};
+	//console.log(JSON.stringify(requestProjectData));
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/Timesheet/Admin_GetProjects_ByPeriod",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		dataType: 'json',
+		data:requestProjectData,
+		success:function(data)
+		{
+			if(data.Projects.length ==0)
+			{
+				//$(".loader").hide();
+			}
+			else
+			{
+				//remove old appened data
+				if($("#projName").hasClass("SumoUnder")){$("#projName").html('');$("#projName")[0].sumo.unload();}
+				//$("#projName").append("<option value='Select_Employee' index=0>Select Project</option>");
+				for(var i=0;i<data.Projects.length;i++)
+				{ 
+					$("#projName").append("<option value="+data.Projects[i].PROJ_UID+" >"+data.Projects[i].PROJECT_NAME+"</option>");
+				}
+				$('.search_periodNameDataId').SumoSelect({search: true, searchText: 'Search Project',selectAll: true});	
+			//	$("#projName ")[0].sumo.selectItem($("#projName   option[value='Select_Employee']").index());  
+				$("#projName ").prop("selectedIndex",-1); //unselect check box
+				$('#projName ')[0].sumo.reload(); 
+			}
+			//$(".loader").hide();
+		},
+		error:function()
+		{
+			
+			$('.loader').hide();
+			openOKpopup(popUpMessage.ServerError,"false");
+		}	
+	});	
+}
+document.getElementById("projName").onchange = function() 
+{ 
+	var SelectedProj = [];
+		$('#projName option:selected').each(function(i) 
+		{
+			SelectedProj.push("'" +$(this).val()+ "'");
+		});
+	if(SelectedProj.length==0)
+	{
+		$("#ResName").prop("selectedIndex",-1); //unselect check box  
+		$('#ResName')[0].sumo.reload();
+		document.getElementById("ResName").disabled = true;
+	}
+	else
+	{
+		document.getElementById("ResName").disabled = false;
+		getALLResData();
+	}
+};
+function getALLResData()
+{
+	var SelectedPeriods = [];
+	$('#WeekID option:selected').each(function(i) 
+	{
+		SelectedPeriods.push("'" +$(this).val()+ "'");
+	});
+	var SelectedPeriodsDa = SelectedPeriods.join();
+	var Periodsel = SelectedPeriodsDa;
+	var Periodselected = Periodsel;
+	
+	var SelectedProjetcs = [];
+	$('#projName option:selected').each(function(i) 
+	{
+		SelectedProjetcs.push("'" +$(this).val()+ "'");
+	});
+	var SelectedProjectDa = SelectedProjetcs.join();
+	var Projectselected = SelectedProjectDa;
+	
+	var requestData = {"Periods": Periodselected,
+						"Projects":Projectselected};
+	//console.log(JSON.stringify(requestData));
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/Timesheet/Admin_GetResources_ByPeriodandProject",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		dataType: 'json',
+		data:requestData,
+		success:function(data)
+		{
+			if(data.Resources.length > 0)
+			{
+				//remove old appened data
+				if($("#ResName").hasClass("SumoUnder")){$("#ResName").html('');$("#ResName")[0].sumo.unload();}
+				//$("#ResName").append("<option value='Select_Resource' index=0>Select Project</option>");
+				for(var i=0;i<data.Resources.length;i++)
+				{ 
+					$("#ResName").append("<option value="+data.Resources[i].Res_uid+" >"+data.Resources[i].ResourceName+"</option>");
+				}
+				$('.search_ResName').SumoSelect({search: true, searchText: 'Search Resource',selectAll: true});	
+				//$("#ResName")[0].sumo.selectItem($("#ResName option[value='Select_Employee']").index());  
+				$("#ResName").prop("selectedIndex",-1); //unselect check box
+				$('#ResName')[0].sumo.reload(); 
+			}
+			
+		},
+		error:function()
+		{
+			$("#loading-image").hide();
+			openOKpopup(popUpMessage.ServerError,"false");
+		}	
+	});	
+}
+
+
+var ColumnsDataTsDetails="";
+function GetPeriodMasterDataTSDetails()
+{	
+	$("#loading-image").show();
+	$("#CurrentTabName").text("");
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	cleardata(); 	
+	var SelectedPeriods = [];
+	$('#WeekID option:selected').each(function(i){ SelectedPeriods.push("'" +$(this).val()+ "'");});
+	var SelectedPeriodsDa = SelectedPeriods.join();
+	var Periodsel = SelectedPeriodsDa;
+	var Periodselected = Periodsel;
+	
+	var SelectedProjetcs = [];
+	$('#projName option:selected').each(function(i) { SelectedProjetcs.push("'" +$(this).val()+ "'"); });
+	var SelectedProjectDa = SelectedProjetcs.join();
+	var Projectselected = SelectedProjectDa;
+	
+	var SelectedResource = [];
+	$('#ResName option:selected').each(function(i) { SelectedResource.push("'" +$(this).val()+ "'"); });
+	var SelectedResDa = SelectedResource.join();
+	var ResSelected = SelectedResDa;
+	
+	var requestALLData = {"Periods": Periodselected, "Projects":Projectselected,"Resources":ResSelected};
+	//console.log(JSON.stringify(requestALLData));
+	$.ajax
+	({
+		url: "https://ppmprod.bcone.com/api/Timesheet/Admin_GetTimesheets_ByPeriod_and_Project",
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:requestALLData,
+	    success: function (data)
+		{	
+			ColumnsDataTsDetails=data;
+			$("#btnAllPeriods span").text("0");
+			$("#btnOpenPeriods span").text("0");
+			$("#btnSubmitPeriods span").text("0");
+			$("#btnAppovedCount span").text("0");
+			$("#btnRejectCount span").text("0");
+			filterData('btnAllPeriods');
+			
+		},
+		error: function (data)
+		{
+			$('.loader').hide();
+			openOKpopup(popUpMessage.ServerError,"false");
+		}
+	});
+}
+
+/*function filterData(getDataID)
+{
+	cleardata(); 
+	DisplayColumnTsDetails(getDataID,ColumnsDataTsDetails);
+}*/
+
+function DisplayColumnTsDetails(getDataID,ColumnsDataTsDetails)
+{
+	$("#loading-image").show();
+	cleardata();
+	var data = ColumnsDataTsDetails;
+	if(getDataID=="btnAllPeriods")
+	{
+		$('#delegateid').hide();
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").addClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		$("#CurrentTabName").text("All Records");
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th style='width:130px !important;'>Timesheet Period <br> Status</th>";
+		table_header=table_header +"<th style='width:95px !important;'>Timesheet <br> Status</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>S.No</th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Timesheet Period Status</th>";
+		table_header=table_header +"<th>Timesheet Status</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+
+		table_element="";	
+		table_body="<tbody>"; 
+		
+		if(data.Data.length == 0)
+		{
+		}
+		else
+		{
+			var openCnt=0;
+			var SubmitCnt=0;
+			var ApprovedCnt=0;
+			var rejectCnt=0;
+			var status = "";
+			for (var i = 0; i < data.Projects.length; i++) 
+			{			
+				var slNo = i+1;
+				
+				var startDate_mail = new Date(data.Projects[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Projects[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Projects[i].Comment;
+				var OpenStatus =data.Projects[i].Open;
+				if (OpenStatus == 1) { OpenStatusText = "TS Period Open"; }
+				else { OpenStatusText = "TS Period Close"; }
+				var AppFlagStaus = data.Projects[i].ApprovalFlag;
+				table_body +="<tr>";				
+				table_body +="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Projects[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+				table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Projects[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Projects[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Projects[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Projects[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Projects[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Projects[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Projects[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Projects[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Projects[i].ApprovalFlag+"\" /></td>"; //
+				
+				table_body +="<td >"+slNo+"</td>";
+				var PendingForApproval ="";
+				
+				if(AppFlagStaus == 1)
+				{
+				
+					//var PendingForApproval="";
+					var PendingForApprovalUID="";
+					for(var t=0;t<data.Projects[i].Approvers_Comments.length;t++)
+					{
+						var pebdingLevelSts = data.Projects[i].Approvers_Comments[t].ApproverStatus;
+						if(pebdingLevelSts=="1")
+						{
+							var finalPendingWith = data.Projects[i].Approvers_Comments[t].Approver_Name;
+							//	PendingForApprovalUID = data.Projects[i].Approvers_Comments[t].ApproverUID;
+						}
+					}
+					AppFlagStausTxt = "Submitted";
+					//PendingForApproval = data.Projects[i].Approvers_Comments[0].Approver_Name;
+					PendingForApproval = finalPendingWith;
+					SubmitCnt++;
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&RES_UID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].PeriodName+"</td>";
+				}
+				else if (AppFlagStaus == 0)
+				{
+					AppFlagStausTxt = "Open";
+					PendingForApproval ="";
+					openCnt++;
+					//table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Projects[i].PeriodId+"&Start="+data.Projects[i].StartDate+"&End="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&ProjectUID="+data.Projects[i].ProjectUID+"&ResourceUID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Projects[i].PeriodId+"&Start="+data.Projects[i].StartDate+"&End="+data.Projects[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Projects[i].PeriodId+"&Start="+data.Projects[i].StartDate+"&End="+data.Projects[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].PeriodName+"</a></td>";
+				}
+				else if(AppFlagStaus == 2)
+				{
+					AppFlagStausTxt = "Approved";
+					PendingForApproval ="";
+					ApprovedCnt++;
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&RES_UID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].PeriodName+"</td>";
+				}
+				else if(AppFlagStaus == 3)
+				{
+					AppFlagStausTxt = "Rejected";
+					PendingForApproval ="";
+					rejectCnt++;
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&RES_UID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].PeriodName+"</td>";
+				}
+				table_body+="<td>"+data.Projects[i].ProjectName+"</td>";
+				table_body+="<td>"+data.Projects[i].ProjectOwnerName+"</td>";
+				table_body += "<td>"+ OpenStatusText+"</td>";
+				table_body+="<td>"+AppFlagStausTxt+ "</td>";
+				table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Projects[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Projects[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+				table_body += "</tr>";
+				$("#btnAllPeriods span").text(data.Projects.length);
+				$("#btnOpenPeriods span").text(openCnt);
+				$("#btnSubmitPeriods span").text(SubmitCnt);
+				$("#btnAppovedCount span").text(ApprovedCnt);
+				$("#btnRejectCount span").text(rejectCnt);
+			}
+		
+		}
+		table_body=table_body+"/<tbody>";
+		table_element=table_header+table_body;
+		$('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+		$("#loading-image").hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	else if(getDataID=="btnOpenPeriods")
+	{
+		//$(".loader").show();
+		$('#delegateid').hide();
+		$("#CurrentTabName").text("Open");
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").addClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style:'width: 10%;'>Resource Name</th> ";
+		table_header=table_header +"<th style:'width: 20%;'>Timesheet Name</th>";
+		table_header=table_header +"<th style:'width: 15%;'>Project Name</th>";
+		table_header=table_header +"<th style:'width: 15%;'>Project Manager</th>";
+		table_header=table_header +"<th style:'width: 10%;'>Timesheet Created Date </th>";
+		table_header=table_header +"<th style:'width: 10%;'>Timesheet  Status</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>S.No</th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Timesheet Created Date</th>";
+		table_header=table_header +"<th>Timesheet Status</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";	
+		table_body="<tbody>"; 	
+		if(data.Projects.length == 0)
+		{
+		}
+		else
+		{
+			var status = "";
+			$("#btnAllPeriods span").text(data.Projects.length);
+			for (var i = 0; i < data.Projects.length; i++) 
+			{		
+				var slNo=i+1;
+				var startDate_mail = new Date(data.Projects[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Projects[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var CREATED_Dte = new Date(data.Projects[i].CREATED_DATE)
+				if(CREATED_Dte=="Invalid Date")
+				{
+					var Credate ="";
+				}
+				else
+				{
+					var Credate = ("0" + CREATED_Dte.getDate()).slice(-2)+  "-" + monthNames[CREATED_Dte.getMonth()] +"-" + CREATED_Dte.getFullYear();
+				}
+				var commment = data.Projects[i].Comment;
+				var OpenStatus =data.Projects[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Projects[i].ApprovalFlag;
+				if (AppFlagStaus == 0 || AppFlagStaus == "")
+				{
+					AppFlagStausTxt = "Open";
+					PendingForApproval ="";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Projects[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Projects[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Projects[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Projects[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Projects[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Projects[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Projects[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Projects[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Projects[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Projects[i].ApprovalFlag+"\" /></td>";
+					
+					table_body += "<td>"+slNo+"</td>";	
+					//table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&ProjectUID="+data.Projects[i].ProjectUID+"&ResourceUID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Projects[i].PeriodId+"&Start="+data.Projects[i].StartDate+"&End="+data.Projects[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Projects[i].PeriodId+"&Start="+data.Projects[i].StartDate+"&End="+data.Projects[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].PeriodName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectOwnerName+"</td>";
+					table_body += "<td>"+Credate+"</td>";
+					table_body+="<td>"+AppFlagStausTxt+ "</td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Projects[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Projects[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+			}
+		}
+		 table_body=table_body+"/<tbody>";
+		 table_element=table_header+table_body;
+		 $('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+			$("#loading-image").hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	else if(getDataID=="btnSubmitPeriods")
+	{	
+		//$(".loader").show();
+		$('#delegateid').show();
+		$("#CurrentTabName").text("Submitted");
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").addClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th style='width:120px !important;'>Timesheet <br> Status</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th style='width:120px !important;'>Pending <br> With</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>S.No</th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Timesheet Status</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Pending with</th>"; 
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";	
+		table_body="<tbody>"; 	
+		if(data.Projects.length == 0)
+		{
+			
+		}
+		else
+		{
+			var status = "";
+			$("#btnAllPeriods span").text(data.Projects.length);
+			for (var i = 0; i < data.Projects.length; i++) 
+			{	
+				var slNo = i+1;
+				var startDate_mail = new Date(data.Projects[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Projects[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Projects[i].Comment;
+				var OpenStatus =data.Projects[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Projects[i].ApprovalFlag;
+				if(AppFlagStaus == "1")
+				{
+					var PendingForApproval="";
+					var PendingForApprovalUID="";
+					for(var t=0;t<data.Projects[i].Approvers_Comments.length;t++)
+					{
+						var pebdingLevelSts = data.Projects[i].Approvers_Comments[t].ApproverStatus;
+						if(pebdingLevelSts=="1")
+						{
+							var finalPendingWith = data.Projects[i].Approvers_Comments[t].Approver_Name;
+								PendingForApprovalUID = data.Projects[i].Approvers_Comments[t].ApproverUID;
+						}
+					}
+					AppFlagStausTxt = "Submitted";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Projects[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Projects[i].StartDate+"\" /><input type='hidden' id='ApprResUId"+i+"' value="+PendingForApprovalUID+" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Projects[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Projects[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Projects[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Projects[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Projects[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Projects[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Projects[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Projects[i].ApprovalFlag+"\" /></td>";
+					
+					
+					table_body+="<td>"+slNo+"</td>";
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&RES_UID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].PeriodName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectOwnerName+"</td>";
+					table_body+="<td>"+AppFlagStausTxt+ "</td>";
+					var sub_Dtes = new Date(data.Projects[i].TS_SUBMITTED_DATE);
+					if(sub_Dtes == "Invalid Date")
+					{
+						var SubmitDateTS = "";
+						var subdates = "";
+					}
+					else
+					{
+						var SubmitDateTS = ("0" + sub_Dtes.getDate()).slice(-2)+  "-" + monthNames[sub_Dtes.getMonth()] +"-" + sub_Dtes.getFullYear();
+						var subdates = dateformat(sub_Dtes);
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + subdates + "'>"+SubmitDateTS+ "</a></td>";
+					table_body+="<td>"+finalPendingWith+"</td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Projects[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Projects[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+			}
+		}
+		table_body=table_body+"/<tbody>";
+		table_element=table_header+table_body;
+		$('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+			$("#loading-image").hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	else if(getDataID=="btnAppovedCount")
+	{
+		//$(".loader").show();
+		$('#delegateid').hide();
+		$("#CurrentTabName").text("Approved");
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").addClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Approved Date</th>";
+		table_header=table_header +"<th>Approved By</th>";
+		
+		table_header=table_header +"<th>Approver 1</th>";
+		table_header=table_header +"<th>Approver 2</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>S.No</th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Approved Date</th>";
+		table_header=table_header +"<th>Approved By</th>";
+		table_header=table_header +"<th>Approver 1</th>";
+		table_header=table_header +"<th>Approver 2</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+
+		table_element="";	
+		table_body="<tbody>"; 
+		
+		if(data.Projects.length == 0)
+		{
+			
+		}
+		else
+		{
+			var status = "";
+			for (var i = 0; i < data.Projects.length; i++) 
+			{			
+				var slNo = i+1;
+				
+				var startDate_mail = new Date(data.Projects[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Projects[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Projects[i].Comment;
+				var OpenStatus =data.Projects[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Projects[i].ApprovalFlag;
+				
+				if(AppFlagStaus == 2)
+				{
+					AppFlagStausTxt = "Approved";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Projects[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Projects[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Projects[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Projects[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Projects[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Projects[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Projects[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Projects[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Projects[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Projects[i].ApprovalFlag+"\" /></td>";
+					
+					table_body+="<td>"+slNo+"</td>";
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&RES_UID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].PeriodName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectOwnerName+"</td>";
+					var subb_Dte = new Date(data.Projects[i].TS_SUBMITTED_DATE);
+					if(subb_Dte == "Invalid Date")
+					{
+						var SubmitDatTS ="";
+						var subdatadate = "";
+					}
+					else
+					{
+						var SubmitDatTS = ("0" + subb_Dte.getDate()).slice(-2)+  "-" + monthNames[subb_Dte.getMonth()] +"-" + subb_Dte.getFullYear();
+						var subdatadate = dateformat(subb_Dte);
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + subdatadate + "'>"+SubmitDatTS+ "</a></td>";
+					var Appr1 ="";
+					var PendingForApprovalUID="";
+					var app1Name="";
+					var app2Name="";
+					var appDate="";	
+					var approvedByPerson="";
+					var dateApprovd="";
+					var dateApprovdate="";
+					
+					for(var t=0;t<data.Projects[i].Approvers_Comments.length;t++)
+					{
+						var apprStatus = data.Projects[i].Approvers_Comments[t].ApproverStatus;
+						var pebdingLevel = data.Projects[i].Approvers_Comments[t].Approver_Level;
+						var dateAppr = new Date(data.Projects[i].Approvers_Comments[t].Appr_Rej_Date);
+						if(pebdingLevel=="1")
+						{
+							app1Name = data.Projects[i].Approvers_Comments[t].Approver_Name;
+						}
+						if(pebdingLevel=="1" && apprStatus=="2")
+						{
+							approvedByPerson = data.Projects[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								dateApprovd="";
+								dateApprovdate="";
+							}
+							else
+							{
+								dateApprovd = dateformat(dateAppr);
+								dateApprovdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+						}
+						if(pebdingLevel=="2")
+						{
+							app2Name = data.Projects[i].Approvers_Comments[t].Approver_Name;
+						}
+						if(pebdingLevel=="2" && apprStatus=="2")
+						{
+							approvedByPerson = data.Projects[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								dateApprovd="";
+								dateApprovdate="";
+							}
+							else
+							{
+								dateApprovd = dateformat(dateAppr);
+								dateApprovdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+						}
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + dateApprovd + "'>"+dateApprovdate+"</a></td>";
+					table_body+="<td>"+approvedByPerson+"</td>";
+					table_body+="<td>"+app1Name+"</td>";
+					table_body+="<td>"+app2Name+"</td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Projects[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Projects[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}	
+			}
+		}
+		table_body=table_body+"/<tbody>";
+		table_element=table_header+table_body;
+		$('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+			$("#loading-image").hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	if(getDataID=="btnRejectCount")
+	{
+		//$(".loader").show();
+		$('#delegateid').hide();
+		$("#CurrentTabName").text("Rejected");
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").addClass("green-btn");
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet <br> Name</th>";
+		table_header=table_header +"<th>Project <br> Name</th>";
+		table_header=table_header +"<th>Project <br> Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Rejected Date</th>";
+		table_header=table_header +"<th>Rejected By</th>";
+		
+		table_header=table_header +"<th>Rejection Comment</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>S.No</th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Rejected Date</th>";
+		table_header=table_header +"<th>Rejected By</th>";
+		table_header=table_header +"<th>Rejection Comment</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+
+		table_element="";	
+		table_body="<tbody>"; 
+		
+		if(data.Projects.length == 0)
+		{
+		}
+		else
+		{
+			var status = "";
+			for (var i = 0; i < data.Projects.length; i++) 
+			{			
+				var slNo = i+1;
+				
+				var startDate_mail = new Date(data.Projects[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Projects[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Projects[i].Comment;
+				var OpenStatus =data.Projects[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Projects[i].ApprovalFlag;
+				
+				var PendingForApproval ="";
+				if(AppFlagStaus == 3)
+				{
+					AppFlagStausTxt = "Rejected";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Projects[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Projects[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Projects[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Projects[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Projects[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Projects[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Projects[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Projects[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Projects[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Projects[i].ApprovalFlag+"\" /></td>";
+					table_body+="<td>"+slNo+"</td>";
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Projects[i].PeriodId+"&StartDate="+data.Projects[i].StartDate+"&EndDate="+data.Projects[i].EndDate+"&TimesheetUID="+data.Projects[i].TimesheetUID+"&RES_UID="+data.Projects[i].ResourceId+"' target='_blank' >"+data.Projects[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Projects[i].PeriodName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Projects[i].ProjectOwnerName+"</td>";
+					var subb_Dte = new Date(data.Projects[i].TS_SUBMITTED_DATE);
+					if(subb_Dte == "Invalid Date")
+					{
+						var SubmitDatTS ="";
+						var SUBMitdates = dateformat(sub_Dtes);
+					}
+					else
+					{
+						var SubmitDatTS = ("0" + subb_Dte.getDate()).slice(-2)+  "-" + monthNames[subb_Dte.getMonth()] +"-" + subb_Dte.getFullYear();
+						var SUBMitdates = dateformat(subb_Dte);
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + SUBMitdates + "'>"+SubmitDatTS+ "</a></td>";
+					var RejPersonBy ="";
+					var RejDate="";
+					var Comment_TS="";
+					for(var t=0;t<data.Projects[i].Approvers_Comments.length;t++)
+					{
+						var apprStatus = data.Projects[i].Approvers_Comments[t].ApproverStatus;
+						var pebdingLevel = data.Projects[i].Approvers_Comments[t].Approver_Level;
+						var dateAppr = new Date(data.Projects[i].Approvers_Comments[t].Appr_Rej_Date);
+						if(pebdingLevel=="1" && apprStatus=="3")
+						{
+							RejPersonBy = data.Projects[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								daterejecteds="";
+								dateRejdate="";
+							}
+							else
+							{
+								daterejecteds = dateformat(dateAppr);
+								dateRejdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+							Comment_TS = data.Projects[i].Approvers_Comments[t].Comment;
+						}
+						if(pebdingLevel=="2" && apprStatus=="3")
+						{
+							RejPersonBy = data.Projects[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								daterejecteds="";
+								dateRejdate="";
+							}
+							else
+							{
+								daterejecteds = dateformat(dateAppr);
+								dateRejdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+							Comment_TS = data.Projects[i].Approvers_Comments[t].Comment;
+						}
+					}
+					table_body+="<td ><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + daterejecteds + "'>"+dateRejdate+"</a></td>";
+					table_body+="<td>"+RejPersonBy+"</td>";
+					var Comment_TSLimitLength = Comment_TS;
+					var lessCommentData = Comment_TSLimitLength.length > 12 ? Comment_TSLimitLength.slice(0,15) + "..." :  Comment_TSLimitLength;
+					table_body+="<td><span  title='"+Comment_TS+"'  data-toggle='tooltip' data-placement='top'> "+lessCommentData+"</span></td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Projects[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Projects[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+			}
+		}
+		table_body=table_body+"</tbody>";
+		table_element=table_header+table_body;
+		$('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+			$("#loading-image").hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+}
+
+
+function cleardata()
+{
+	$('#jqxgrid_container').empty();
+	$("#jqxgrid_container").append("<table id='ExpenceDataTable' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+} 
+function checkall() //select all and un select all
+{
+	if ($('#select_all').is(':checked'))
+	{
+		$("input[id^=timid]").prop('checked', true);
+	}
+	else
+	{
+		$("input[id^=timid]").prop('checked', false);
+	}
+	onchildcheck();
+}
+function unchecksingle(object) 
+{
+	if ($(object).is(':checked'))
+	{
+		var CheckBoxCount=$("input[id^=timid]").length;
+		var CheckCount=0;
+		$("input[id^=timid]").each ( function()
+		{
+			if($(this).is(':checked'))
+			{
+				CheckCount=CheckCount+1;
+			}
+			
+		});
+		if(CheckBoxCount==CheckCount)
+		{
+			$("#select_all").prop('checked', true);
+		}
+	}
+	else
+	{
+		$("#select_all").prop('checked', false);
+	}
+	onchildcheck();
+}
+
+
+
+document.getElementById("tableFilter").onchange = function() 
+{
+	$("#txt_from_date").hide();
+	$("#txt_to_date").hide();
+	$("#BtnFilterData").hide();
+	
+	var crrDate = new Date();
+	var CurrentFirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 1);
+	var PreviousFirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() - 1, 1);
+	if($("#tableFilter :selected ").val()=="current")
+	{
+		$("#WeekWiseOnly").show();
+		console.log(CurrentFirstDay.format("MM/dd/yyyy"));
+		Get_weeks_Wise(CurrentFirstDay.format("MM/dd/yyyy"));
+	}
+	else if($("#tableFilter :selected ").val()=="Previous")
+	{
+		$("#WeekWiseOnly").show();
+		console.log(PreviousFirstDay.format("MM/dd/yyyy"));
+		Get_weeks_Wise(PreviousFirstDay.format("MM/dd/yyyy"));
+		
+	}
+	else if($("#tableFilter :selected ").val() == "DateRange")
+	{
+		$("#WeekWiseOnly").hide();
+		$("#txt_from_date").show();
+		$("#txt_to_date").show();
+		$("#BtnFilterData").show();	
+	}	
+}
+var dateRangeData=[];
+function Get_weeks_Wise(dateformat)  //weeks wise start and end date
+{
+	//$('#WeekWiseOnly').find('option').remove().end().append('<option value=""></option>').val('');
+	
+	$('#WeekWiseOnly').html('');
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/BCONEReport/GET_MONTH_WISE_WEEK",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		dataType: 'json',
+		data:{"Month":dateformat},
+		success:function(data)
+		{
+			
+			for(var j=0;j<data.Data.length;j++)
+			{ 
+				$("#WeekWiseOnly").append("<option value=\""+data.Data[j].WeekStart+"##"+data.Data[j].WeekEnd+"\" >"+new Date(data.Data[j].WeekStart).format('dd-MMM-yy')+" - "+new Date(data.Data[j].WeekEnd).format('dd-MMM-yy')+"</option>");
+				if($("#tableFilter :selected ").val()=="current")
+				{
+					dateRangeData.push(data.Data[j].WeekStart+"##"+data.Data[j].WeekEnd);
+				}
+			}
+			onDDChangeEvent();
+		},
+		error:function(data)
+		{
+			alert("Delegation failed");
+		}	
+	});
+}
+//document.getElementById("WeekWiseOnly").onchange = function() 
+//{
+
+function onDDChangeEvent()
+{
+	var CuurentDates = new Date();
+	var cDate=(new Date(CuurentDates)).format("MM-dd-yyyy");
+	var Week_date =$("#WeekWiseOnly option:selected").val();
+	var FFirstDate = Week_date.split("##")[0];
+	var EEndDate = Week_date.split("##")[1];
+	var dateCount = 0;
+	if(firstCount==0)
+	{
+		if($("#tableFilter :selected ").val()=="current")
+		{
+			var firtDat = "";
+			var lastDat ="";
+			var FFirstDate = "";
+			var EEndDate = "";
+			for(var y=0;y<dateRangeData.length;y++)
+			{
+				var firtDat = new Date(dateRangeData[y].split("##")[0]);
+				var lastDat = new Date(dateRangeData[y].split("##")[1]);
+				var FFirstDate = Week_date.split("##")[0];
+				var EEndDate = Week_date.split("##")[1];
+				
+			//	if (firtDat <= CuurentDates && lastDat >= CuurentDates )
+			if(new Date(cDate) >= firtDat && new Date(cDate) <= lastDat)
+				{
+					dateCount++;
+					var passingDates = dateRangeData[y];
+					firstCount++;
+					$("#WeekWiseOnly").val(passingDates);
+				}
+				
+			}
+			if(dateCount>0)
+			{
+				GetPeriodMasterData('btnAllPeriods',passingDates.split("##")[0],passingDates.split("##")[1]);
+			}
+		}
+	}
+	else
+	{
+		GetPeriodMasterData('btnAllPeriods',FFirstDate,EEndDate);
+	}
+}
+function GetPeriodMasterData(getDataID,startDate,endDate)
+{	
+	$('#loading-image').show();
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	cleardata(); 	
+	var GetProjectResourcePeriodsURLs =  GetProjectResourcePeriods();
+	$.ajax
+	({
+		url: GetProjectResourcePeriodsURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data: { 
+				"Start": startDate,
+				"End" : endDate
+			},
+	    success: function (data)
+		{	
+			ColumnsData= data;
+			$("#btnAllPeriods span").text("0");
+			$("#btnOpenPeriods span").text("0");
+			$("#btnSubmitPeriods span").text("0");
+			$("#btnAppovedCount span").text("0");
+			$("#btnRejectCount span").text("0");
+			DisplayColumn(getDataID,data);
+		},
+		error: function (data)
+		{
+			alert("failed");
+			$('#loading-image').hide();
+		}
+	});
+}
+function filterData(getDataID)
+{
+	cleardata();
+	if(ActiveViewAllTs=="bottomSearch")
+	{
+		DisplayColumn(getDataID,ColumnsData);
+	}
+	if(ActiveTsDetails=="topSearch")
+	{
+		DisplayColumnTsDetails(getDataID,ColumnsDataTsDetails);
+	}
+	
+	
+}
+function DisplayColumn(getDataID,ColumnswiseData)
+{
+	$("#CurrentTabName").text("");
+	data=ColumnswiseData;
+	$('#loading-image').show();
+	if(getDataID=="btnAllPeriods")
+	{
+		$('#delegateid').hide();
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").addClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		$("#CurrentTabName").text("All Records");
+		
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th style='width:130px !important;'>Timesheet Period <br> Status</th>";
+		table_header=table_header +"<th style='width:95px !important;'>Timesheet <br> Status</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Timesheet Period Status</th>";
+		table_header=table_header +"<th>Timesheet Status</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+
+		table_element="";	
+		table_body="<tbody>"; 
+		
+		if(data.Data.length == 0)
+		{
+		}
+		else
+		{
+			var openCnt=0;
+			var SubmitCnt=0;
+			var ApprovedCnt=0;
+			var rejectCnt=0;
+			var status = "";
+				
+			for (var i = 0; i < data.Data.length; i++) 
+			{			
+				var slNo = i+1;
+				
+				var startDate_mail = new Date(data.Data[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Data[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Data[i].Comment;
+				var OpenStatus =data.Data[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Data[i].ApprovalFlag;
+				table_body += "<tr>";				
+				table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Data[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+				
+				table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Data[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Data[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Data[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Data[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Data[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Data[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Data[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Data[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Data[i].ApprovalFlag+"\" /></td>";
+				table_body+="<td >"+slNo+"</td>";
+				var PendingForApproval ="";
+				if(AppFlagStaus == 1)
+				{
+				
+					var PendingForApprovalUID="";
+					for(var t=0;t<data.Data[i].Approvers_Comments.length;t++)
+					{
+						var pebdingLevelSts = data.Data[i].Approvers_Comments[t].ApproverStatus;
+						if(pebdingLevelSts=="1")
+						{
+							var finalPendingWith = data.Data[i].Approvers_Comments[t].Approver_Name;
+						}
+					}
+					
+					AppFlagStausTxt = "Submitted";
+					PendingForApproval = finalPendingWith;
+					SubmitCnt++;
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&RES_UID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Data[i].PeriodName+"</td>";
+				}
+				else if (AppFlagStaus == 0)
+				{
+					AppFlagStausTxt = "Open";
+					PendingForApproval ="";
+					openCnt++;
+					//table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&ProjectUID="+data.Data[i].ProjectUID+"&ResourceUID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Data[i].PeriodId+"&Start="+data.Data[i].StartDate+"&End="+data.Data[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Data[i].PeriodId+"&Start="+data.Data[i].StartDate+"&End="+data.Data[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].PeriodName+"</a></td>";
+				}
+				else if(AppFlagStaus == 2)
+				{
+					AppFlagStausTxt = "Approved";
+					PendingForApproval ="";
+					ApprovedCnt++;
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&RES_UID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Data[i].PeriodName+"</td>";
+				}
+				else if(AppFlagStaus == 3)
+				{
+					AppFlagStausTxt = "Rejected";
+					PendingForApproval ="";
+					rejectCnt++;
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&RES_UID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Data[i].PeriodName+"</td>";
+				}
+				table_body+="<td>"+data.Data[i].ProjectName+"</td>";
+				table_body+="<td>"+data.Data[i].ProjectOwnerName+"</td>";
+				table_body += "<td>"+ OpenStatusText+"</td>";
+				table_body+="<td>"+AppFlagStausTxt+ "</td>";
+				table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Data[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Data[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+				table_body += "</tr>";
+				$("#btnAllPeriods span").text(data.Data.length);
+				$("#btnOpenPeriods span").text(openCnt);
+				$("#btnSubmitPeriods span").text(SubmitCnt);
+				$("#btnAppovedCount span").text(ApprovedCnt);
+				$("#btnRejectCount span").text(rejectCnt);
+			}
+		}
+		 table_body=table_body+"/<tbody>";
+		 table_element=table_header+table_body;
+		 $('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+		$('#loading-image').hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	if(getDataID=="btnOpenPeriods")
+	{
+		$("#CurrentTabName").text("Open");
+		$('#delegateid').hide();
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").addClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		$('#loading-image').show();
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style:'width: 10%;'>Resource Name</th> ";
+		table_header=table_header +"<th style:'width: 20%;'>Timesheet Name</th>";
+		table_header=table_header +"<th style:'width: 15%;'>Project Name</th>";
+		table_header=table_header +"<th style:'width: 15%;'>Project Manager</th>";
+		table_header=table_header +"<th style:'width: 10%;'>Timesheet Created Date </th>";
+		table_header=table_header +"<th style:'width: 10%;'>Timesheet  Status</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Timesheet Created Date</th>";
+		table_header=table_header +"<th>Timesheet Status</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";	
+		table_body="<tbody>"; 	
+		if(data.Data.length == 0)
+		{
+		}
+		else
+		{
+			var status = "";
+			$("#btnAllPeriods span").text(data.Data.length);
+			for (var i = 0; i < data.Data.length; i++) 
+			{		
+				var slNo=i+1;
+				var startDate_mail = new Date(data.Data[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Data[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var CREATED_Dte = new Date(data.Data[i].CREATED_DATE)
+				if(CREATED_Dte=="Invalid Date")
+				{
+					var Credate ="";
+				}
+				else
+				{
+					var Credate = ("0" + CREATED_Dte.getDate()).slice(-2)+  "-" + monthNames[CREATED_Dte.getMonth()] +"-" + CREATED_Dte.getFullYear();
+				}
+				var commment = data.Data[i].Comment;
+				var OpenStatus =data.Data[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Data[i].ApprovalFlag;
+				if (AppFlagStaus == 0 || AppFlagStaus == "")
+				{
+					AppFlagStausTxt = "Open";
+					PendingForApproval ="";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Data[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Data[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Data[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Data[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Data[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Data[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Data[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Data[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Data[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Data[i].ApprovalFlag+"\" /></td>";
+					table_body += "<td>"+slNo+"</td>";	
+					//table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&ProjectUID="+data.Data[i].ProjectUID+"&ResourceUID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Data[i].PeriodId+"&Start="+data.Data[i].StartDate+"&End="+data.Data[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td><a href='TimesheetEntryPageAdmin.aspx?PeriodUID="+data.Data[i].PeriodId+"&Start="+data.Data[i].StartDate+"&End="+data.Data[i].EndDate+"&TimesheetUID=&ProjectUID=&ResourceUID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].PeriodName+"</a></td>";
+					table_body+="<td>"+data.Data[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectOwnerName+"</td>";
+					table_body += "<td>"+Credate+"</td>";
+					table_body+="<td>"+AppFlagStausTxt+ "</td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Data[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Data[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+			}
+		}
+		 table_body=table_body+"/<tbody>";
+		 table_element=table_header+table_body;
+		 $('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+		$('#loading-image').hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	if(getDataID=="btnSubmitPeriods")
+	{	
+		$("#CurrentTabName").text("Submitted");
+		$('#delegateid').show();
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").addClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		$('#loading-image').show();
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th style='width:120px !important;'>Timesheet <br> Status</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th style='width:120px !important;'>Pending <br> With</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Timesheet Status</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Pending with</th>"; 
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";	
+		table_body="<tbody>"; 	
+		if(data.Data.length == 0)
+		{
+			
+		}
+		else
+		{
+			var status = "";
+			$("#btnAllPeriods span").text(data.Data.length);
+			for (var i = 0; i < data.Data.length; i++) 
+			{	
+				var slNo = i+1;
+				var startDate_mail = new Date(data.Data[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Data[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Data[i].Comment;
+				var OpenStatus =data.Data[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Data[i].ApprovalFlag;
+				if(AppFlagStaus == "1")
+				{
+					var PendingForApproval="";
+					var PendingForApprovalUID="";
+					for(var t=0;t<data.Data[i].Approvers_Comments.length;t++)
+					{
+						var pebdingLevelSts = data.Data[i].Approvers_Comments[t].ApproverStatus;
+						if(pebdingLevelSts=="1")
+						{
+							var finalPendingWith = data.Data[i].Approvers_Comments[t].Approver_Name;
+								PendingForApprovalUID = data.Data[i].Approvers_Comments[t].ApproverUID;
+						}
+					}
+					AppFlagStausTxt = "Submitted";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Data[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					table_body += "<input type='hidden' id='projec"+i+"' value="+data.Data[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Data[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Data[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='ApprResUId"+i+"' value="+PendingForApprovalUID+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Data[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Data[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Data[i].ApprovalFlag+"\" /></td>";
+					table_body+="<td>"+slNo+"</td>";
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&RES_UID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Data[i].PeriodName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectOwnerName+"</td>";
+					table_body+="<td>"+AppFlagStausTxt+ "</td>";
+					var sub_Dtes = new Date(data.Data[i].TS_SUBMITTED_DATE);
+					if(sub_Dtes == "Invalid Date")
+					{
+						var SubmitDateTS = "";
+						var subdates = "";
+					}
+					else
+					{
+						var SubmitDateTS = ("0" + sub_Dtes.getDate()).slice(-2)+  "-" + monthNames[sub_Dtes.getMonth()] +"-" + sub_Dtes.getFullYear();
+						var subdates = dateformat(sub_Dtes);
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + subdates + "'>"+SubmitDateTS+ "</a></td>";
+					table_body+="<td>"+finalPendingWith+"</td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Data[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Data[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+			}
+		}
+		 table_body=table_body+"/<tbody>";
+		 table_element=table_header+table_body;
+		 $('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+		$('#loading-image').hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	if(getDataID=="btnAppovedCount")
+	{
+		$("#CurrentTabName").text("Approved");
+		$('#delegateid').hide();
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").addClass("green-btn");
+		$("#btnRejectCount").parent("li").removeClass("green-btn");
+		$('#loading-image').show();
+			
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Approved Date</th>";
+		table_header=table_header +"<th>Approved By</th>";
+		
+		table_header=table_header +"<th>Approver 1</th>";
+		table_header=table_header +"<th>Approver 2</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Approved Date</th>";
+		table_header=table_header +"<th>Approved By</th>";
+		table_header=table_header +"<th>Approver 1</th>";
+		table_header=table_header +"<th>Approver 2</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+
+		table_element="";	
+		table_body="<tbody>"; 
+		
+		if(data.Data.length == 0)
+		{
+			
+		}
+		else
+		{
+			var status = "";
+			for (var i = 0; i < data.Data.length; i++) 
+			{			
+				var slNo = i+1;
+				var startDate_mail = new Date(data.Data[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Data[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				var commment = data.Data[i].Comment;
+				var OpenStatus =data.Data[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Data[i].ApprovalFlag;
+				
+				if(AppFlagStaus == 2)
+				{
+					AppFlagStausTxt = "Approved";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Data[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Data[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Data[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Data[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Data[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Data[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Data[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Data[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Data[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Data[i].ApprovalFlag+"\" /></td>";
+					table_body+="<td>"+slNo+"</td>";
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&RES_UID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Data[i].PeriodName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectOwnerName+"</td>";
+					var subb_Dte = new Date(data.Data[i].TS_SUBMITTED_DATE);
+					if(subb_Dte == "Invalid Date")
+					{
+						var SubmitDatTS ="";
+						var subdatadate = "";
+					}
+					else
+					{
+						var SubmitDatTS = ("0" + subb_Dte.getDate()).slice(-2)+  "-" + monthNames[subb_Dte.getMonth()] +"-" + subb_Dte.getFullYear();
+						var subdatadate = dateformat(subb_Dte);
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + subdatadate + "'>"+SubmitDatTS+ "</a></td>";
+					var Appr1 ="";
+					var PendingForApprovalUID="";
+					var app1Name="";
+					var app2Name="";
+					var appDate="";	
+					var approvedByPerson="";
+					var dateApprovd="";
+					var dateApprovdate="";
+					
+					for(var t=0;t<data.Data[i].Approvers_Comments.length;t++)
+					{
+						var apprStatus = data.Data[i].Approvers_Comments[t].ApproverStatus;
+						var pebdingLevel = data.Data[i].Approvers_Comments[t].Approver_Level;
+						var dateAppr = new Date(data.Data[i].Approvers_Comments[t].Appr_Rej_Date);
+						if(pebdingLevel=="1")
+						{
+							app1Name = data.Data[i].Approvers_Comments[t].Approver_Name;
+						}
+						if(pebdingLevel=="1" && apprStatus=="2")
+						{
+							approvedByPerson = data.Data[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								dateApprovd="";
+								dateApprovdate="";
+							}
+							else
+							{
+								dateApprovd = dateformat(dateAppr);
+								dateApprovdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+						}
+						if(pebdingLevel=="2")
+						{
+							app2Name = data.Data[i].Approvers_Comments[t].Approver_Name;
+						}
+						if(pebdingLevel=="2" && apprStatus=="2")
+						{
+							approvedByPerson = data.Data[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								dateApprovd="";
+								dateApprovdate="";
+							}
+							else
+							{
+								dateApprovd = dateformat(dateAppr);
+								dateApprovdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+						}
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + dateApprovd + "'>"+dateApprovdate+"</a></td>";
+					table_body+="<td>"+approvedByPerson+"</td>";
+					table_body+="<td>"+app1Name+"</td>";
+					table_body+="<td>"+app2Name+"</td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Data[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Data[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+				
+					
+			}
+		}
+		 table_body=table_body+"/<tbody>";
+		 table_element=table_header+table_body;
+		 $('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+		$('#loading-image').hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+	if(getDataID=="btnRejectCount")
+	{
+		$("#CurrentTabName").text("Rejected");
+		$('#delegateid').hide();
+		$('#SelectedItemCount').text(0);
+		$("#btnAllPeriods").parent("li").removeClass("green-btn");
+		$("#btnOpenPeriods").parent("li").removeClass("green-btn");
+		$("#btnSubmitPeriods").parent("li").removeClass("green-btn");
+		$("#btnAppovedCount").parent("li").removeClass("green-btn");
+		$("#btnRejectCount").parent("li").addClass("green-btn");
+		$('#loading-image').show();
+		var	table_header="<thead><tr>";
+		table_header=table_header +"<th data-orderable='false' style='width: 50px !important; text-align:center;' id='checkRem'><input type='checkbox' id='select_all'  onclick='checkall();' /></th>";
+		table_header=table_header +"<th style='width:50px !important;'>S.No</th>";
+		table_header=table_header +"<th style='width:150px !important;'>Resource Name</th> ";
+		table_header=table_header +"<th>Timesheet <br> Name</th>";
+		table_header=table_header +"<th>Project <br> Name</th>";
+		table_header=table_header +"<th>Project <br> Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Rejected Date</th>";
+		table_header=table_header +"<th>Rejected By</th>";
+		
+		table_header=table_header +"<th>Rejection Comment</th>";
+		table_header=table_header +"<th data-orderable='false' id='remLog' style='width:50px !important;'>Log</th>";
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"<th>Resource Name</th>";
+		table_header=table_header +"<th>Timesheet Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Project Manager</th>";
+		table_header=table_header +"<th>Submitted Date</th>";
+		table_header=table_header +"<th>Rejected Date</th>";
+		table_header=table_header +"<th>Rejected By</th>";
+		table_header=table_header +"<th>Rejection Comment</th>";
+		table_header=table_header +"<th></th>";
+		table_header=table_header +"</tr></tfoot>";
+
+		table_element="";	
+		table_body="<tbody>"; 
+		
+		if(data.Data.length == 0)
+		{
+		}
+		else
+		{
+			var status = "";
+			for (var i = 0; i < data.Data.length; i++) 
+			{			
+				var slNo = i+1;
+				var startDate_mail = new Date(data.Data[i].StartDate)
+				var sdate_mail = ("0" + startDate_mail.getDate()).slice(-2) + "-" + monthNames[startDate_mail.getMonth()] + "-" + startDate_mail.getFullYear();
+				var endDate_mail = new Date(data.Data[i].EndDate)
+				var edate_mail = ("0" + endDate_mail.getDate()).slice(-2) + "-" + monthNames[endDate_mail.getMonth()] + "-" + endDate_mail.getFullYear();
+				
+				var send_Period = "wk ( "+sdate_mail+" - "+edate_mail+" )";
+				
+				var commment = data.Data[i].Comment;
+				var OpenStatus =data.Data[i].Open;
+				if (OpenStatus == 1)
+				{
+					OpenStatusText = "TS Period Open";
+				}
+				else
+				{
+					OpenStatusText = "TS Period Close";
+				}
+				var AppFlagStaus = data.Data[i].ApprovalFlag;
+				
+				var PendingForApproval ="";
+				if(AppFlagStaus == 3)
+				{
+					AppFlagStausTxt = "Rejected";
+					table_body += "<tr>";				
+					table_body+="<td style='text-align:center;'><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='timid"+i+"' value="+data.Data[i].TimesheetUID+" onclick='unchecksingle(this)' />"; //<input type='hidden' id='commen"+i+"' value="+commment+" />
+					
+					table_body += "<input type='hidden' id='StartDate_allow"+i+"' value=\""+data.Data[i].StartDate+"\" /><input type='hidden' id='EndDate_allow"+i+"' value=\""+data.Data[i].EndDate+"\" /><input type='hidden' id='CreateDate_allow"+i+"' value=\""+data.Data[i].CREATED_DATE+"\" /><input type='hidden' id='projec"+i+"' value="+data.Data[i].ProjectUID+" /><input type='hidden' id='periodsid"+i+"' value="+data.Data[i].PeriodId+" /><input type='hidden' id='resourcid"+i+"' value="+data.Data[i].ResourceId+" /><input type='hidden' id='openActives"+i+"' value="+OpenStatus+" /><input type='hidden' id='TotalHrs_"+i+"' value=\""+data.Data[i].TOTAL_HRS+"\" /><input type='hidden' id='ProjectName_"+i+"' value=\""+data.Data[i].ProjectName+"\" /><input type='hidden' id='Period_Name_"+i+"' value=\""+send_Period+"\" /><input type='hidden' id='ApprovalFlag_"+i+"' value=\""+data.Data[i].ApprovalFlag+"\" /></td>";
+					table_body+="<td>"+slNo+"</td>";
+					table_body += "<td><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&TimesheetUID="+data.Data[i].TimesheetUID+"&RES_UID="+data.Data[i].ResourceId+"' target='_blank' >"+data.Data[i].ResourceName+"</a></td>";
+					table_body+="<td>"+data.Data[i].PeriodName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectName+"</td>";
+					table_body+="<td>"+data.Data[i].ProjectOwnerName+"</td>";
+					var subb_Dte = new Date(data.Data[i].TS_SUBMITTED_DATE);
+					if(subb_Dte == "Invalid Date")
+					{
+						var SubmitDatTS ="";
+						var SUBMitdates = dateformat(sub_Dtes);
+					}
+					else
+					{
+						var SubmitDatTS = ("0" + subb_Dte.getDate()).slice(-2)+  "-" + monthNames[subb_Dte.getMonth()] +"-" + subb_Dte.getFullYear();
+						var SUBMitdates = dateformat(subb_Dte);
+					}
+					table_body+="<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + SUBMitdates + "'>"+SubmitDatTS+ "</a></td>";
+					var RejPersonBy ="";
+					var RejDate="";
+					var Comment_TS="";
+					for(var t=0;t<data.Data[i].Approvers_Comments.length;t++)
+					{
+						var apprStatus = data.Data[i].Approvers_Comments[t].ApproverStatus;
+						var pebdingLevel = data.Data[i].Approvers_Comments[t].Approver_Level;
+						var dateAppr = new Date(data.Data[i].Approvers_Comments[t].Appr_Rej_Date);
+						if(pebdingLevel=="1" && apprStatus=="3")
+						{
+							RejPersonBy = data.Data[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								daterejecteds="";
+								dateRejdate="";
+							}
+							else
+							{
+								daterejecteds = dateformat(dateAppr);
+								dateRejdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+							Comment_TS = data.Data[i].Approvers_Comments[t].Comment;
+						}
+						if(pebdingLevel=="2" && apprStatus=="3")
+						{
+							RejPersonBy = data.Data[i].Approvers_Comments[t].Approver_Name;
+							if(dateAppr=="Invalid Date")
+							{
+								daterejecteds="";
+								dateRejdate="";
+							}
+							else
+							{
+								daterejecteds = dateformat(dateAppr);
+								dateRejdate = ("0" + dateAppr.getDate()).slice(-2)+  "-" + monthNames[dateAppr.getMonth()] +"-" + dateAppr.getFullYear();
+							}
+							Comment_TS = data.Data[i].Approvers_Comments[t].Comment;
+						}
+					}
+					table_body+="<td ><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" + daterejecteds + "'>"+dateRejdate+"</a></td>";
+					table_body+="<td>"+RejPersonBy+"</td>";
+					var Comment_TSLimitLength = Comment_TS;
+					var lessCommentData = Comment_TSLimitLength.length > 12 ? Comment_TSLimitLength.slice(0,15) + "..." :  Comment_TSLimitLength;
+					table_body+="<td><span  title='"+Comment_TS+"'  data-toggle='tooltip' data-placement='top'> "+lessCommentData+"</span></td>";
+					table_body += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data.Data[i].ProjectName+'\' ><i onclick="openTSLog(\''+data.Data[i].TimesheetUID+'\',this)" style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle"></i></td>'; 
+					table_body += "</tr>";	
+				}
+				
+					
+			}
+		}
+		 table_body=table_body+"</tbody>";
+		 table_element=table_header+table_body;
+		 $('#ExpenceDataTable').html(table_element);
+		bind_dataTable();
+		$('#loading-image').hide();
+		$("#checkRem").removeClass("sorting");
+		$('#remLog').removeClass("sorting");
+	}
+}
+
+
+
+function dateformat(date) 
+{
+	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var ampm = hours >= 12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	//var strTime = hours + ':' + minutes + ' ' + ampm;
+	return ("0" + date.getDate()).slice(-2)+  "-" + monthNames[date.getMonth()] +"-" + date.getFullYear() +" "+ hours + ":" + minutes + ":" + date.getSeconds() +" "+ampm ;
+
+	//return strTime;
+}
+function openAdminUpdatePopup()
+{
+	var no_checked=0;
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();           
+    $("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			no_checked++;
+		}
+	});
+	if(no_checked==0)
+	{
+		openOKpopup(popUpMessage.AdminAtleastOnePopup,"");		
+	}
+	else
+	{
+		$('#TxtTillData').hide();
+		$('#TillDateOfOpen').hide();
+		openyesNoPopup('AdminUpdateTSstatusReset',popUpMessage.adminResetUpdate);
+		
+	}
+}
+function openTilldateManagePopup()
+{
+	$('#TillDateOfOpen').show();
+	$('#TxtTillData').show();
+	$('#TxtTillData').val("");
+	var no_checked=0;
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var  no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();           
+	$("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			no_checked++;
+		}
+	});
+	if(no_checked==0)
+	{
+		openOKpopup(popUpMessage.AdminAtleastOnePopup,"");		
+	}
+	else
+	{
+		openyesNoPopup('AdminOpenTimesheetPeriods',popUpMessage.SureTilldate);
+	}
+}
+
+
+
+function TimesheetAdminUpdateTSstatus()
+{	
+	var approvedData = new Object();
+	approvedData.Data = new Array();	
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var  no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();           
+	$("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			var tempData = new Object();
+			tempData.TimesheetUID = $(this).closest("tr").find("input[id^=timid]").val();
+			tempData.PeriodUID = $(this).closest("tr").find("input[id^=periodsid]").val();
+			tempData.ProjectUID = $(this).closest("tr").find("input[id^=projec]").val();
+			tempData.ResourceUID = $(this).closest("tr").find("input[id^=resourcid]").val();
+			
+			tempData.TotalHrs = $(this).closest("tr").find("input[id^=TotalHrs_]").val();
+			//tempData.Status = "Approved";
+			tempData.ProjectName = $(this).closest("tr").find("input[id^=ProjectName_]").val();
+			tempData.Period_Name = $(this).closest("tr").find("input[id^=Period_Name_]").val();
+			tempData.RequesterID = CurrentGuid;
+			var Status_sendMail = $(this).closest("tr").find("input[id^=ApprovalFlag_]").val();
+			if(Status_sendMail == "0" || Status_sendMail == "")
+			{
+				Status_sendMail = "Open";
+			}
+			else if(Status_sendMail == "1")
+			{
+				Status_sendMail = "Submitted";
+			}
+			else if(Status_sendMail == "2")
+			{
+				Status_sendMail = "Approved";
+			}
+			else if(Status_sendMail == "3")
+			{
+				Status_sendMail = "Rejected";
+			}
+			else
+			{
+				Status_sendMail = "";
+			}
+			tempData.Status = Status_sendMail;
+			approvedData.Data.push(tempData);
+		}
+	});
+	var ApproveRejectJson = JSON.stringify(approvedData);
+	var Admin_UpdateTSstatusUrls = Admin_UpdateTSstatus();
+	$.ajax
+	({       
+		url: Admin_UpdateTSstatusUrls,
+		headers: { "Accept": "application/json; odata=verbose" },
+		method: "POST",
+		dataType: 'json',
+		data: approvedData, 
+		//data: ApproveRejectJson,		
+		success: function(data)
+		{
+			AfterSucesss("Reset");
+			
+		}
+	});
+}
+
+function AfterSucesss(sucesstype)
+{
+	$('#allow_click').hide();
+	okPopupOnOkButton('#yesNoPopup');
+	//openOKpopup(popUpMessage.AdminResetSucessfully,"true");
+	if(sucesstype=="Reset")
+	{
+		document.getElementById("Alert_msg").innerHTML="Timesheet Reset Successfully !";	
+	}
+	else if(sucesstype=="Opened")
+	{
+		document.getElementById("Alert_msg").innerHTML="Timesheet Opened Successfully !";	
+	}
+	else if(sucesstype=="Allowed")
+	{
+		document.getElementById("Alert_msg").innerHTML="Timesheet Allowed Successfully !";	
+	}
+	else if(sucesstype=="exsited")
+	{
+		document.getElementById("Alert_msg").innerHTML="Timesheet Already Open To Fill !";	
+	}
+	$("#alertmain").show();
+	$("#WeekWiseOnly").show();
+	$("#txt_from_date").hide();
+	$("#txt_to_date").hide();
+	$("#BtnFilterData").hide();
+	if(ActiveBucket=="")
+	{
+	$("#tableFilter").val("current");
+	$('#tableFilter').trigger('change');
+	}
+	else
+	{
+		GetPeriodMasterDataTSDetails();
+	}
+	
+}
+
+function TimesheetAdminTilldateData()
+{	
+	var approvedDataTillDate = new Object();
+	approvedDataTillDate.Data = new Array();
+
+	var textboxTillDate =  $('#TxtTillData').val();
+	if(textboxTillDate == "")
+	{
+		$('#Fillerror').show();
+	}
+	else
+	{
+		var no_checked=0;
+		var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+		var  no_checked1 = childCheckboxes.filter(':checked').length;
+		var source = $("#ExpenceDataTable").DataTable();           
+		$("input[type=checkbox]", source.rows().nodes()).each(function ()
+		{
+			var tuisre = $(this).is(":checked");
+			if (tuisre)
+			{
+				var tempDataOpen = new Object();
+				tempDataOpen.TillDate = textboxTillDate;
+				tempDataOpen.TimesheetUID = $(this).closest("tr").find("input[id^=timid]").val();
+				tempDataOpen.PeriodUID = $(this).closest("tr").find("input[id^=periodsid]").val();
+				tempDataOpen.ProjectUID = $(this).closest("tr").find("input[id^=projec]").val();
+				tempDataOpen.ResourceUID = $(this).closest("tr").find("input[id^=resourcid]").val();
+				tempDataOpen.Active = $(this).closest("tr").find("input[id^=openActives]").val();
+				approvedDataTillDate.Data.push(tempDataOpen);	
+			}
+		});
+		var ApproveRejectJson = JSON.stringify(approvedDataTillDate);
+		var OpenTimesheetPeriodUrls = OpenTimesheetPeriod();
+		$.ajax
+		({       
+			url: OpenTimesheetPeriodUrls,
+			headers: { "Accept": "application/json; odata=verbose" },
+			method: "POST",
+			data: approvedDataTillDate,
+			dataType: 'json',
+			success: function(data)
+			{
+				AfterSucesss("Opened");
+				
+			}
+		});
+	}
+}
+var count = 0;
+var table ="";
+function bind_dataTable() //table srearch and column search
+{
+	$('#ExpenceDataTable').DataTable
+	( {
+		"oLanguage": {
+			"sEmptyTable":     "No Records found."
+		},
+		"order": []
+	} );
+	var ExpenceDataTableElement = $('#ExpenceDataTable').DataTable();
+	$('#ExpenceDataTable tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+
+	ExpenceDataTableElement.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	if($('.dataTables_empty').text()=='No data available in table')
+	$('#ExpenceDataTable tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+
+function onchildcheck()
+{
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var  no_checked1 = childCheckboxes.filter(':checked').length;
+	var no_checked=0;
+	var source = $("#ExpenceDataTable").DataTable();           
+	$("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			no_checked++;
+		}
+	});
+	if(no_checked>0)
+	{
+		$('#SelectedItemCount').text(no_checked);
+	}
+	else
+	{
+		$('#SelectedItemCount').text(no_checked);
+	}
+	if(childCheckboxes.length == no_checked1)
+	{ 
+		$("#select_all").prop('checked',true);
+	}
+	else
+	{
+		$("#select_all").prop('checked',false);
+	}
+}
+
+function returnDateFormat(input)
+{
+	var sptdate = String(input).split("-");
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var myMonth = sptdate[1];
+    var myDay = sptdate[0];
+    var myYear = sptdate[2];
+	return (months.indexOf(myMonth)+1).toString() + "-"+  myDay +"-"+myYear;
+}
+
+function filterByDateRange()
+{
+	if($("#txt_from_date").val() == "" || $("#txt_to_date").val() == "")
+	{
+		openOKpopup("Please select valid Date",false);
+		return;
+	}
+	else
+	{
+		var st = $('#txt_from_date').val(); //date range fromatit is used for IE 9 above format
+		var split=st.split("-")
+		var dd = split[0];              
+		var y = split[2];
+		var GetMonth ={"Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December"}
+		var Month =['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		var mm = GetMonth[split[1]];
+		var Month =['January','February','March','April','May','June','July','August','September','October','November','December'];
+		var EDate1 = "";
+		EDate1= mm + " " + dd + "," + y;
+		
+		var et = $('#txt_to_date').val();
+		var split=et.split("-")
+		var dd = split[0];              
+		var y = split[2];
+		var mm = GetMonth[split[1]];			  
+		var EDate2 = "";
+		EDate2= mm + " " + dd + "," + y;
+		
+		GetPeriodMasterData('btnAllPeriods',new Date(EDate1).format("yyyy/MM/dd 00:00:00.000"),new Date(EDate2).format("yyyy/MM/dd 00:00:00.000"));
+		//GetPeriodMasterData('btnAllPeriods',new Date($("#txt_from_date").val()).format("yyyy/MM/dd 00:00:00.000"),new Date($("#txt_to_date").val()).format("yyyy/MM/dd 00:00:00.000"));
+	}	
+}
+
+
+function delegatePopUp()
+{
+	var no_checkedDelegate=0;
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var  no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();           
+
+	$("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			no_checkedDelegate++;
+		}
+	});
+	if(no_checkedDelegate==0)
+	{
+		openOKpopup(popUpMessage.AdminAtleastOnePopup,"");		
+	}
+	else
+	{
+		$('#Confirmation_alert').show();
+		$('#ddlDelegation').show();
+		$('#ok_click').show();
+		$('#allow_click').hide();
+		getAllProxy();
+	}
+}
+function getAllProxy()
+{
+	$('#loading-image').show();
+	indexData =[];
+	var Admin_GetPeriodsandUsersDataUrls = Admin_GetPeriodsandUsersDataURLRH();
+	$.ajax
+	({
+		url:Admin_GetPeriodsandUsersDataUrls,
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success:function(Resdata)
+		{	
+			$("#PrxAppName").append("<option value='Select_Employee' index=0>Select Resource</option>");
+			for(var i=0;i<Resdata.Users.length;i++)
+			{ 
+				var res_name = Resdata.Users[i].ResourceName;
+				$("#PrxAppName").append("<option value=\""+Resdata.Users[i].ResourceId+"##"+Resdata.Users[i].ResourceEmailAddress+"##"+res_name+"##"+(i+1)+"\" index=\""+(i+1)+"\">"+Resdata.Users[i].ResourceName+"</option>");
+			}
+			$('.search_test').SumoSelect({search: true, searchText: 'Search Approver'});
+			$('#loading-image').hide();
+			
+		},
+		error:function()
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}	
+	});
+	
+}
+function delegation()
+{
+	var no_checked=0;
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var  no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();           
+	var delegationDta = new Object();
+	delegationDta.Data = new Array();
+	var Delegated_App = $('#PrxAppName option:selected').val();
+	if(Delegated_App=="Select_Employee" || Delegated_App== undefined)
+	{
+		$(".errMsgs").text("");
+		$(".errMsgs").text("select delegation name");
+	}
+	else
+	{
+		$("input[type=checkbox]", source.rows().nodes()).each(function ()
+		{
+			$(".errMsgs").text("");
+			var tuisre = $(this).is(":checked");
+			if (tuisre)
+			{
+				var tempDataDelegation = new Object();
+				tempDataDelegation.TimesheetUID = $(this).closest("tr").find("input[id^=timid]").val();
+				tempDataDelegation.ApproverUID = $(this).closest("tr").find("input[id^=ApprResUId]").val();
+				tempDataDelegation.Delegated_ApproverUID = Delegated_App.split('##')[0];
+				delegationDta.Data.push(tempDataDelegation);	
+			}
+		});
+		$.ajax
+		({
+			url:"https://ppmprod.bcone.com/api/timesheet/Admin_SaveTimesheetPostDelegation",
+			method:"POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			dataType: 'json',
+			data:delegationDta,
+			success:function(data)
+			{
+				confirmation_close();
+				document.getElementById("Alert_msg").innerHTML="Delegation done sucessfully";	
+				$("#alertmain").show();
+				$("#WeekWiseOnly").show();
+				$("#txt_from_date").hide();
+				$("#txt_to_date").hide();
+				$("#BtnFilterData").hide();
+				if(ActiveBucket=="")
+				{
+					$("#tableFilter").val("current");
+					$('#tableFilter').trigger('change');
+				}
+				else
+				{
+					GetPeriodMasterDataTSDetails();
+				}
+			},
+			error:function(data)
+			{
+				alert("Delegation failed");
+			}	
+		});
+	}
+}
+function confirmation_close()
+{
+	$('#Confirmation_alert').hide();
+}
+function close_div()
+{
+	$("#alertmain").hide();
+	document.getElementById("Alert_msg").innerHTML="";
+}
+
+function openTSLog(timeUid,currData)
+{
+	$('.addition-info-block').animate({ width: 'toggle'});
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	$('#loading-image').show();
+	var ServiceURL = getURLTimesheet_AuditLog();
+	var inputData = new Object();
+	inputData.TimesheetUID = timeUid;
+	callService(ServiceURL,inputData,openLogTable,"",currData);
+}
+function openLogTable(data,passData)
+{
+	var innerLogHTML = "";
+	$("#bindlog").text("");
+	$("#LogResource").text("Log");
+	$("#LogId").text($(passData.parentNode).find(".ts_name").val());
+	for(var i=0;i<data.Data.length;i++)
+	{	
+		$("#LogResource").text("Log ("+data.Data[i].ActorEmployeeid+")");
+		innerLogHTML += '<tr>';
+		var lofdate = new Date(data.Data[i].Created_Date);
+		innerLogHTML += "<td><a style='text-decoration:none; cursor:default;' data-toggle='tooltip' data-placement='top' title='" +dateformat(lofdate)+ "'>"+(new Date(data.Data[i].Created_Date)).format('dd-MMM-yyyy')+"</a></td>";
+		innerLogHTML += '<td>'+data.Data[i].Actor+'</td>';
+		if(data.Data[i].Remarks.indexOf("Rejected") > -1)
+		{
+			innerLogHTML += '<td>REJECTED</td>';
+		}
+		else if(data.Data[i].Remarks.indexOf("Approved") > -1)
+		{
+			innerLogHTML += '<td>APPROVED</td>';		
+		}
+		else if(data.Data[i].Remarks.indexOf("SUBMIT") > -1)
+		{
+			innerLogHTML += '<td>SUBMITTED</td>';		
+		}
+		else if(data.Data[i].Remarks.indexOf("SAVE") > -1)
+		{
+			innerLogHTML += '<td>SAVED</td>';		
+		}
+		else
+		{
+			innerLogHTML += '<td>'+data.Data[i].Type+'</td>';
+		}
+		innerLogHTML += '<td>'+data.Data[i].Remarks+'</td>';
+		innerLogHTML += '</tr>';
+	
+	}
+	$("#bindlog").append(innerLogHTML);
+	$('.allcommentdiv').show({ width: 'toggle' });
+	$('#loading-image').hide();
+}
+function closeallcomment() 
+{
+	$('.allcommentdiv').animate({ width: 'toggle' });
+}
+
+function AllowToOpenToFill()
+{
+	var no_checked=0;
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();           
+    $("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			no_checked++;
+		}
+	});
+	if(no_checked==0)
+	{
+		openOKpopup(popUpMessage.AdminAtleastOnePopup,"");	
+		return false;		
+	}
+	/*if(no_checked>1)
+	{
+		openOKpopup(popUpMessage.MultiNotAlloweed,"");	
+		return false;
+	}*/
+	if(no_checked>=1)
+	{
+		$('#Confirmation_alert').show();
+		$('#ddlDelegation').hide();
+		$("#Confirmation_msg").text("Are You Sure, You Want To Allow Timesheet");
+		//document.getElementById("ok_click").onclick = function () { AllowTimeSheetToEnable(); };
+		$('#ok_click').hide();
+		$('#allow_click').show();
+	}
+}
+
+function AllowTimeSheetToEnable()
+{	
+	$('#Confirmation_alert').hide();
+	var approvedData_all = new Object();
+	approvedData_all.Data = new Array();
+	var childCheckboxes = $('#ExpenceDataTable tbody tr td').find('input[type=checkbox]');
+	var  no_checked1 = childCheckboxes.filter(':checked').length;
+	var source = $("#ExpenceDataTable").DataTable();
+		
+	$("input[type=checkbox]", source.rows().nodes()).each(function ()
+	{
+		var tuisre = $(this).is(":checked");
+		if (tuisre)
+		{
+			var tempDataAllow = new Object();
+			tempDataAllow.Timesheet_UID = $(this).closest("tr").find("input[id^=timid]").val();
+			tempDataAllow.Period_UID = $(this).closest("tr").find("input[id^=periodsid]").val();
+			tempDataAllow.Project_UID = $(this).closest("tr").find("input[id^=projec]").val();
+			tempDataAllow.Resource_UID = $(this).closest("tr").find("input[id^=resourcid]").val();
+			tempDataAllow.Start_Date = $(this).closest("tr").find("input[id^=StartDate_allow]").val();
+			tempDataAllow.Finish_Date = $(this).closest("tr").find("input[id^=EndDate_allow]").val();
+			tempDataAllow.Created_Date = $(this).closest("tr").find("input[id^=CreateDate_allow]").val();
+			approvedData_all.Data.push(tempDataAllow);
+		}
+	});
+	var AllowDataJson = JSON.stringify(approvedData_all);
+	//var Admin_AllowUrls = "https://ppmprod.bcone.com/_api/TimesheetException";
+	var Admin_AllowUrls = "https://ppmprod.bcone.com/api/TimesheetExceptionData/PostTimesheetExceptionData";
+	$.ajax
+	({       
+		url: Admin_AllowUrls,
+		headers: { "Accept": "application/json; odata=verbose" },
+		method: "POST",
+		async: false,
+		data: approvedData_all,
+		dataType: 'json',
+		success: function(Allowdata)
+		{
+			var exitesOrNot="Allowed";
+			/*if(Allowdata.d.root == "200")
+			{
+				//alert("Already period is allowed to fill timesheet");
+				exitesOrNot = "exsited";
+			}*/
+			AfterSucesss(exitesOrNot);
+			//alert(Allowdata);
+			console.log(Allowdata);
+		},
+		error:function(Allowdata)
+		{
+			console.log(Allowdata);
+		}
+	});
+}
+
+</script>
+
+</body>
+</html>

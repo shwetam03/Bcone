@@ -1,0 +1,129 @@
+<script type="text/javascript" src="../SiteAssets/js/datepicker1.js"></script>
+<script type="text/javascript" src="../SiteAssets/js/datepicker2.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Css/datepicker.css" />
+<script>
+    var Start= new Date();
+    var Email="";
+//ppmprod.bcone.com
+    //$("#txtcrstartdate").datepicker("setDate", today);
+    $(function () {
+        $("#txtcrstartdate").datepicker();
+    });
+    var End= new Date();
+    //$("#txtcrEnddate").datepicker("setDate", today);
+    $(function () {
+        $("#txtcrEnddate").datepicker();
+    });
+    $(document).ready(function(){
+        getUser();
+GetAllResource();
+        $("#btnsubmit").click(function(){
+debugger
+            var StartDate=$("#txtcrstartdate").val();
+            var EndDate = $("#txtcrEnddate").val();
+            var finalurl = "";
+           // finalurl = document.getElementById("rptTimesheet").src = "https://ppmdev.bcone.com//Complinace.aspx?Login=" + Email + "&Start=" + StartDate + "&End=" + EndDate + "&EmployeeID="+$('#ddlcrEmployeeName option:selected').val();
+ finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//Complinace.aspx?Login=" + Email + "&Start=" + StartDate + "&End=" + EndDate + "&EmployeeID="+$('#ddlcrEmployeeName option:selected').val();
+            return false;
+        });
+
+    })
+
+
+    function getUser() {
+        var userid = _spPageContextInfo.userId;
+        //alert(userid);
+
+        var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        var requestHeaders = { "accept": "application/json;odata=verbose" };
+        $.ajax({
+            url: requestUri,
+            contentType: "application/json;odata=verbose",
+            headers: requestHeaders,
+            success: onSuccess,
+            error: onError
+        }); function onSuccess(data, request) {
+            debugger;
+            var loginName = data.d.Title;
+            Email=data.d.Email
+            //alert(Email);
+        } function onError(error) {
+            alert("Error on retrieving current user.");
+        }
+    }
+
+function GetAllResource()
+{
+var URL="https://bristleconeonline.sharepoint.com/sites/pwa/_api/ProjectData/Resources?$Select=EmployeeID,ResourceName&$orderby=ResourceName asc";
+$.ajax({
+        url: URL,
+
+        type: "GET",
+        headers: {
+            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+            "Accept": "application/json; odata=verbose",
+            "Content-Type": "application/json; odata=verbose"
+        },
+        success: function (res) {
+debugger;
+            var GetVal=res.d.results;
+
+for(var i=0;i<GetVal.length;i++){
+var GetID=GetVal[i].EmployeeID==null?'':GetVal[i].EmployeeID;
+if(GetID!=''){
+$('#ddlcrEmployeeName').append('<option value="'+GetID+'">'+GetVal[i].ResourceName+'</option>');
+}
+}
+        },
+
+        error: function (error) {
+
+            alert("error");
+        }
+    });
+}
+</script>
+<table width="100%">
+<tr>
+<td width="15%">Start Date : </td><td width="25%"><input type="text" id="txtcrstartdate" class="txtbox"></td><td width="60%"></td>
+</tr>
+<tr>
+<td width="15%">End Date : </td><td width="25%"><input type="text" id="txtcrEnddate" class="txtbox"></td><td width="60%"></td>
+</tr>
+<tr>
+<td width="15%">Employee Name : </td><td width="25%"><select id="ddlcrEmployeeName" class="txtbox"></select></td><td width="60%"><input type="Submit" Value="Generate Report" id="btnsubmit"/></td>
+</tr>
+
+<tr><td colspan="3">
+<iframe id="rptTimesheet" height="600" width="100%" ></iframe></td></tr>
+
+<style>
+input[type=text], select {
+height:30px;
+    padding: 2px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+width:80%;
+}
+
+input[type=submit] {
+ height:30px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+</style>
+
+
+

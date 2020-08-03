@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="Font Awesome, the iconic font and CSS framework">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css">
+</head>
+
+<body>
+    <div class="loader" style="display: none;"></div>
+    <div class="breadcrumb-new">
+        <ul>
+            <li><a href="../default.aspx">Home</a> </li>
+            <li><a style="cursor: default; text-decoration: none; color: #272727;">Search Resources</a> </li>
+           <!--  <li id="status"></li> -->
+            <li style="float: right;"><a style="text-decoration: underline;color:blue;" href="https://bristleconeonline.sharepoint.com/sites/pwa/EmployeeProfileDocument/Forms/RMO%20View.aspx" target="_blank">Search Skill or Any Text in PPTx & DOCx Resume</a></li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!-----------Breadcrumb End---------->
+    <div class="contain-div">
+
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <table id="tblSearchResource" class="display" style="table-layout: fixed; width: 100%">
+        </table>
+
+    </div>
+
+</body>
+</html>
+<script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+<script src="../_layouts/15/callout.js"></script>
+<script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+<script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+<script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+<script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+<script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+
+<!-- Export to excel js file start -->
+<script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script>
+<script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script>
+<script src="../SiteAssets/RMO/js/jszip.min.js"></script>
+<script src="../SiteAssets/RMO/js/pdfmake.min.js"></script>
+<script src="../SiteAssets/RMO/js/vfs_fonts.js"></script>
+<script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script>
+<script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+<script>
+    var array_Resources = [];
+    $(document).ready(function () {
+
+
+        //url = "https://ppmdev.bcone.com/_api/WorkdayResourceMaster?$select=EmployeeID,First_Name,Middle_Name,Lat_Name,Role_Band,PrimarySkill,secondarySkill,Designation,Location,Employee_status,Work_Email";
+        var url = getAllResourcesData();
+        getworkdayresourceData(url);
+
+    });
+    function getworkdayresourceData(url) {
+
+        $.ajax({
+            url: url,
+            method: "GET",
+            async: false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                $.each(data.d.results, function (key, value) {
+                    array_Resources.push(value);
+                });
+                if (data.d.__next != "" && data.d.__next != null && data.d.__next != undefined) {
+                    var Next_url = data.d.__next;
+                    getworkdayresourceData(Next_url);
+                } else {
+                    bindResourceTable(array_Resources);
+                }
+            }
+        });
+    }
+    function bindResourceTable(array_Resources) {
+        var resourceTbl_header = "";
+        var resourcetable_element = "";
+        resourceTbl_header = "<thead><tr>";
+        var ResourceLIHTML = "<tbody>";
+        //table binding for resources data
+
+        resourceTbl_header = resourceTbl_header + "<th >Emp ID</th>"
+        resourceTbl_header = resourceTbl_header + "<th >Name</th>"
+        resourceTbl_header = resourceTbl_header + "<th>Role Band</th>"
+        resourceTbl_header = resourceTbl_header + "<th >Primary Skill</th>"
+        resourceTbl_header = resourceTbl_header + "<th>Secondary Skill</th>"
+        resourceTbl_header = resourceTbl_header + "<th >Designation</th>"
+        resourceTbl_header = resourceTbl_header + "<th >Location</th>"
+        resourceTbl_header = resourceTbl_header + "<th>Status</th>"
+        resourceTbl_header = resourceTbl_header + "</tr></thead>";
+
+        //footer menu
+        resourceTbl_header = resourceTbl_header + "<tfoot><tr>";
+
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + "<th></th>"
+        resourceTbl_header = resourceTbl_header + " </tr></tfoot>";
+
+        $.each(array_Resources, function (key, value) {
+            if (value.EmployeeID != null && value.ResourceName != null && value.EmployeeID != "" && value.ResourceName != "") {
+                var EmpID = "";
+                var EmpName = "";
+                var RoleBand = "";
+                var PrimarySkill = "";
+                var secondrySkill = "";
+                var Designation = "";
+                var Location = "";
+                var status = "";
+                if (value.EmployeeID != null) {
+                    EmpID = value.EmployeeID;
+                }
+                if (value.ResourceName != null) {
+                    EmpName = value.ResourceName
+                }
+                if (value.RoleBand != null) {
+                    RoleBand = value.RoleBand;
+                }
+                if (value.PrimarySkill != null) {
+                    PrimarySkill = value.PrimarySkill;
+                }
+                if (value.Skill != null) {
+                    secondrySkill = value.Skill;
+                }
+                if (value.Designation != null) {
+                    Designation = value.Designation;
+                }
+                if (value.BaseLocation != null) {
+                    Location = value.BaseLocation;
+                }
+                if (value.EmployeeStatus != null) {
+                    status = value.EmployeeStatus;
+                }
+                ResourceLIHTML = ResourceLIHTML + "<tr id=" + EmpID + "><td id=" + EmpID + "#;" + EmpName + ">" + EmpID + "</td><td><span href='#' id='show-popup' class='action-b'>" + EmpName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank'>Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' >View Profile</a></div></span></td><td>" + RoleBand + "</td><td><span href='#' id='show-popup' class='action-b'>" + PrimarySkill + "<div class=''><a style='border-right:0px solid black !important' href='https://bristleconeonline.sharepoint.com/sites/Pwa/EmployeeProfileDocument/Forms/AllItems.aspx' target='_blank'></a></div></span></td><td>" + secondrySkill + "</td><td>" + Designation + "</td><td>" + Location + "</td><td>" + status + "</td></tr>"
+            }
+        });
+        ResourceLIHTML += "</tbody>";
+        resourcetable_element = resourceTbl_header + ResourceLIHTML;
+        $("#tblSearchResource").append(resourcetable_element);
+
+        var ResourceTable = $('#tblSearchResource').DataTable({
+            "dom": 'Rlfrtip',
+            "iDisplayLength": 10,
+            "lengthMenu": [[10, 15, 35, -1], [10, 15, 35, "All"]],
+            "pagingType": "simple_numbers",
+            "dom": 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7],
+						format: {
+							body: function ( data, row, column, node ) {
+							   if (column === 1) {
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									var t =data.split('>')[1];
+									splitData =t.split('<')[0];
+									
+									/*data = '';
+									for (i=0; i < splitData.length; i++) {
+										//add escaped double quotes around each line
+										data += '\"' + splitData[i] + '\"';
+										//if its not the last line add CHAR(13)
+										if (i + 1 < splitData.length) {
+											data += ', CHAR(13), ';
+										}
+									}
+									//Add concat function
+									data = 'CONCATENATE(' + data + ')';*/
+									return splitData;
+								}
+								return data = data.replace( /&amp;/g, "&" );
+								}
+							}
+						}
+                    
+                }
+            ],
+			
+	    
+        });
+
+        $('#tblSearchResource tfoot th').each(function () {
+            var title = $(this).text();
+            if (title != 'Action' && title != 'Item') {
+                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            }
+            else {
+                $(this).html('');
+            }
+        });
+
+        // DataTable
+        var table = $('#tblSearchResource').DataTable();
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+    }
+</script>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

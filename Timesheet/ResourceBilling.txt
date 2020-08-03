@@ -1,0 +1,1433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Resouce Billing</title>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+<script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+<link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" />
+<link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <!-- <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css"> -->
+   
+<style>
+	.table thead tr th {padding: 5px;background: #00b0f0;color: #fff;}	
+	tr.otherstyle {background-color: #c4d0d7; color:#fbfbfb;}
+	.SumoSelect {width:469px !important;}
+	.SumoSelect > .CaptionCont{            border-radius: 0px;            border-color:#ccc !important;        }
+	.SumoSelect > .optWrapper > .options  li.opt label{            font-weight: normal;        }
+	.SumoSelect .select-all {            padding: 6px 0 4px 35px;            height: auto;        }
+	.SumoSelect .select-all label{            font-weight: normal;        }
+	.SumoSelect > .CaptionCont > span.placeholder{            font-style: normal;        }
+	select[multiple], select[size]{height:30px !important}
+	.optWrapper > .options li label { text-align: left !important}
+	.CaptionCont > span { text-align: left !important}
+	.errMsg { color: red; }
+	.error { color: red; }
+	.btn-group-sm>.btn, .btn-sm{padding: 2px 5px;font-size: 10px;line-height: 1.5;border-radius: 3px;}
+	
+        .popup-heading {
+            width: 100%;
+            text-align: center;
+            font-size: 15px;
+            color: #fff;
+            padding: 8px 0;
+        }
+</style>
+
+</head>
+<body>
+<div class="breadcrumb-main">
+	<div class="container-fluid">
+		<ul class="pull-left">
+			<li>
+				<a href="javascript:void(0)" onclick="URLTimesheetHome();" >Home</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">Resource Billing</a>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+<div class="pull-left">
+	<div style="margin: 15px;display: inline-block;">	
+		<table>
+			<tr>
+				<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Project Name : </td>
+				<td><select id="projName" class="search_periodNameDataId" style="width: 469px !important;" ></select></td>
+				<td><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoId" onclick="show();" ><i class=""></i>SHOW</a></td>
+				<td><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="clr" onclick="clrs();" ><i class=""></i>CLEAR</a>  <span class="errMsg"></span></td>
+			</tr>
+		</table>
+		
+	</div>
+	
+		<ul class="pull-right top-refine">
+			<li style="display:inline-block;">
+				<a href="javascript:void(0)" data-toggle="modal" data-target="#myModal" class="Add-more mouseover_date" onclick="clearItem(this)"><i class="fa fa-plus" style="margin-right: 5px; padding: 4px 4px 3px 4px;"></i>Add New Item</a>
+			</li>
+		</ul>
+		
+	</div>
+<div id="myModal" class="modal fade textwidth in" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="display: none; padding-left: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"  value=""><i class="fa fa-times" aria-hidden="true"></i></button>
+                <h4 class="modal-title" id="hheader">Add New Item</h4>
+            </div>
+            <div class="modal-body">
+				<table id="tblBconeresource">
+                    <tbody>
+						<tr>
+                            <td>Employee Name<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+								  <select id="ddlempname" class="form-control empname" style="width: 300px !important;" ></select>
+                                </div>
+								<span class="error" id="errempname">Please Select Employee Name</span>
+                            </td>
+                        </tr>
+						<tr>
+                            <td>Employee ID<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+								  <input type="text" id="txtempid" class="form-control ClearMsg"  readonly="true">
+                                </div>
+								<span class="error" id="errempid">Please Select Employee ID</span>
+                            </td>
+                        </tr>
+                        <tr id="Del4">
+                            <td>Currency<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+                                  <select id="ddlcurrency" class="form-control curency" style="width: 300px !important;" ></select>
+                                </div>
+								<span class="error" id="errcurrency">Please Select Currency</span>
+                            </td>
+                        </tr>
+						<tr>
+                            <td>Unit<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+								  <select id="ddlunit" class="form-control ClearMsg" style="width: 300px !important;" >
+								  <option value="select unit">--Select Unit--</option>
+								  <option id="hrs" value="Per Hour">Per Hour</option>
+								  <option id="dai" value="Per Day">Per Day</option>
+								  <option id="wee" value="Per Week">Per Week</option>
+								  <option id="mont" value="Per Month">Per Month</option>
+								  </select>
+								  
+                                </div>
+								<span class="error" id="errunit">Please Select Unit</span>
+                            </td>
+                        </tr>
+						<tr>
+                            <td>Rate<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+                                  <input type="text" id="txtrate" class="form-control ClearMsg" >
+								  
+                                </div>
+								<span class="error" id="errRate">Please Select Rate</span>
+                            </td>
+                        </tr>
+						<tr>
+                            <td>Start Date<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+                                  <input type="text" id="txtstartdate" class="form-control ClearMsg" readonly="true">
+								  
+                                </div>
+								<span class="error" id="errstartdate">Please Select Start Date</span>
+                            </td>
+                        </tr><tr>
+                            <td>End Date<sup id="Sup16" style="color: #f00; font-size: 14px;">*</sup>
+                            </td>
+                            <td>
+                                <div class="Amount-right-side">
+                                  <input type="text" id="txtendate" class="form-control ClearMsg" readonly="true">
+								   
+                                </div>
+								<span class="error" id="errendate">Please Select End Date</span>
+                            </td>
+                        </tr>
+						<tr>
+                            <td><sup id="Sup16" style="color: #f00; font-size: 14px;"></sup>
+                            </td>
+                            <td>
+								<span class="error" id="errordate">Date Already Exist</span>
+                            </td>
+                        </tr>
+						
+                        <tr>
+                            <td></td>
+                            <td><span class="Errormsg" ></span></td>
+                        </tr>
+                        <tr id="gen5">
+                            <td></td>
+                            <td>
+                                <a href="javascript:void(0)" class="blue-btn" id="A3" onclick="Savedata();"><span class="in-stock">Save</span></a>
+
+                                <a href="javascript:void(0)" class="gray-btn" data-dismiss="modal">Cancel</a>
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+		<!-- Log Pop up -->
+    <div class="allcommentdiv">
+        <div class="allcommentdiv-heading">
+            Log
+        </div>
+        <div class="allcommentdiv-mid">
+            <h3><span id="LogId"></span></h3>
+            <div class="vertical-scoll">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">Modified Date</th>
+                            <th style="width: 100px;">Modified By</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bindlog">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="allcommentdiv-foot">
+            <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+        </div>
+    </div>
+    <!-- Log Pop up -->
+                <!-------divViewLog-------->
+                <div class="clear"></div>
+<span id="loading-image"></span>
+<span class="loader"></span>
+<div class="container-fluid" id="ProjDiv">
+	<div class="" id="jqxgrid_containertblResName">
+		<table id="tblResName" class="display example table table-bordered table-new" cellspacing="0">
+		</table>
+	</div> 
+	<span id="noteData" hidden>Note: The list of resource from allocation table.</span>
+</div>
+<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh" ></span>
+			<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+		</div>			
+	</div>
+</div>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+ <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+<!-- <script src="../SiteAssets/Timesheet/Timesheet_js/ResourceBilling.js"></script>  -->
+<script src="../SiteAssets/Timesheet/js/Config.js"></script> 
+<script>
+var selectedFromYear, selectedFromMonth, selectedToYear, selectedToMonth, CountryName;
+$(document).ready(function () 
+{
+	$('.static').hide();
+	//$('#tblBconeresource').hide();
+	$('.search_resNameDataId').SumoSelect({search: true, searchText: 'Search Periods'});
+});
+
+ProjCds="";
+Efftivedate="";
+var Email="";
+$(document).ready(function()
+{
+	
+
+	
+	
+	//disableRightClick();
+	$('.Add-more').hide();
+	Email=_spPageContextInfo.userEmail;
+	GetCurrentUserGUID("1");
+	var resid =GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	getALLProjectsData();
+});
+
+		
+function show()
+{
+	temp_count=0;
+	var DDLselValue="";
+	DDLselValue = $('#projName option:selected').val();
+	if(DDLselValue=="Select_Employee")
+	{
+		$('#ProjDiv').hide();
+		$('.errMsg').text("");
+		$('.errMsg').text("Select Project Name");
+		$('.errMsg').show();
+		$('.CaptionCont ').css({"border": "1px solid red","background": "#FFCECE"});
+		//document.getElementById(".CaptionCont ").focus();
+		$('#noteData').hide();
+	}
+	else
+	{
+		ClearBackGroundColour();
+		$('.errMsg').text("");
+		$('.errMsg').hide();
+		$('#ProjDiv').show();
+		ProjCds = DDLselValue.split("##")[1];
+		getRESName(ProjCds);
+	}
+	//	$('#loading-image').hide();	
+}
+function clrs()
+{
+	ClearBackGroundColour();
+	$('.errMsg').text("");
+	temp_count=0;
+	$("#projName ")[0].sumo.selectItem($("#projName  option[value='0']").index());
+	$('#ProjDiv').hide();
+	$('#noteData').hide();	
+	$(".Add-more").hide();
+}
+<!-- function getALLProjectsData() -->
+<!-- { -->
+	<!-- $('.loader').show(); -->
+	<!-- $.ajax -->
+	<!-- ({ -->
+		<!-- <!-- url:"https://ppmprod.bcone.com/api/invoice/Get_AllProjects", --> -->
+		<!-- <!-- method:"POST", --> -->
+		<!-- <!-- headers: { "Accept": "application/json; odata=verbose" }, --> -->
+		<!-- <!-- dataType: 'json', --> -->
+		<!-- <!-- //async:false, --> -->
+		<!-- url: "https://ppmprod.bcone.com/api/BCONEReport/GET_ProjectNameByPM", -->
+		<!-- method: "POST", -->
+		<!-- headers: { "Accept": "application/json; odata=verbose" },	 -->
+		<!-- async:false, -->
+		<!-- data: -->
+		<!-- { -->
+			<!-- "UserName" :Email -->
+		<!-- }, -->
+		<!-- success:function(data) -->
+		<!-- { -->
+		
+			<!-- $("#projName").append("<option value='Select_Employee' index=0>Select Project</option>"); -->
+			<!-- for(var i=0;i<data.Data.length;i++) -->
+			<!-- {  -->
+				<!-- if(data.Data[i].ProjectId=="ProjectID") -->
+				<!-- { -->
+				<!-- } -->
+				<!-- else -->
+				<!-- { -->
+					<!-- $("#projName").append("<option value="+data.Data[i].ProjectId+"##"+data.Data[i].ProjectCode+" >"+data.Data[i].ProjectName+"</option>"); -->
+				<!-- } -->
+			<!-- } -->
+			<!-- $('.search_periodNameDataId').SumoSelect({search: true, searchText: 'Search Project'}); -->
+						
+			<!-- $('.loader').hide(); -->
+		<!-- }, -->
+		<!-- error:function() -->
+		<!-- { -->
+			<!-- //alert("error"); -->
+			<!-- $('.loader').hide(); -->
+	<!-- //		openOKpopup(popUpMessage.ServerError,false); -->
+		<!-- }	 -->
+	<!-- }); -->
+<!-- } -->
+
+function getALLProjectsData()
+{
+	$('.loader').show();
+	var NewElementCollection;
+	NewElementCollection = $('#projName :selected');
+	var ID = "";
+	var requestData = {
+		"ID": "",
+		"UserID": Email
+	};
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/bconeReport/GetProjectName",
+		method:"POST",
+		data:requestData,
+		headers: { "Accept": "application/json; odata=verbose" },
+		success:function(res)
+		{
+			var a = res;
+			var len;
+			if (res.Projects.length == 0)
+			{
+			}
+			else
+			{
+				if($("#projName").hasClass("SumoUnder")){$("#projName").html('');$("#projName")[0].sumo.unload();}
+				$('#projName').append(new Option("--Select--", 0));
+				for (var i = 0; i < res.Projects.length; i++) 
+				{
+				
+				  
+					$('#projName').append('<option value="'+res.Projects[i].ProjectID+"##"+res.Projects[i].ProjectCode+'">' + res.Projects[i].ProjectName + '</option>');
+				}
+				$('.search_periodNameDataId').SumoSelect({search: true, searchText: 'Search Project'});
+			}
+			$('.loader').hide();
+		},
+		error:function()
+		{
+			alert("error");
+			$('.loader').hide();
+		}
+	});
+}
+function getcurenncy()
+{
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/invoice/Get_AllCurrencies",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		async : false,
+		success:function(data)
+		{
+			if(data.Currency.length == 0)
+			{
+			}
+			else
+			{
+				for(var i=0;i<data.Currency.length;i++)
+				{ 
+					$("#CurAllData").append("<option value="+data.Currency[i].Currency+">"+data.Currency[i].Currency+"</option>");
+				}
+				$('.search_CurAllData').SumoSelect({search: true, searchText: 'Search Currency'});	
+			}	
+		},
+		error:function()
+		{
+			//alert("error");
+			$('#loading-image').hide();
+			openOKpopup(popUpMessage.ServerError,false);
+		}	
+	});	
+}
+function cleardata()
+{
+	$('#jqxgrid_containertblResName').empty();
+	$("#jqxgrid_containertblResName").append("<table id='tblResName' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+} 
+function getRESName(ProjCds)
+{
+	cleardata();
+	
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	$('#loading-image').show();
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/invoice/Get_AllocatedResourcesOfProject",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:
+			{
+				"ProjectCode":ProjCds,
+				"Filter":"All"
+			},
+		success:function(data)
+		{
+			Efftivedate = data.DateTime;
+			var	table_header="";
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th style='width:10%'>Employee ID</th>";
+			table_header=table_header +"<th style='width:20%'>Employee Name</th>";
+			table_header=table_header +"<th style='width:8%'>Currency</th>";
+			table_header=table_header +"<th style='width:10%'>Unit</th>";
+			
+			table_header=table_header +"<th style='width:10%'>Rate</th>";
+			table_header=table_header +"<th style='width:8%'>Rate Per Hour</th>";
+			table_header=table_header +"<th style='width:10%'>Start Date</th>";
+			table_header=table_header +"<th style='width:10%'>End Date</th>";
+			table_header=table_header +"<th style='width:15%'>Action</th>";
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th >Employee ID</th>";
+			table_header=table_header +"<th >Employee Name</th>";
+			table_header=table_header +"<th >Currency</th>";
+			table_header=table_header +"<th >Unit</th>";
+			
+			table_header=table_header +"<th >Rate</th>";
+			table_header=table_header +"<th >Rate Per Hour</th>";
+			table_header=table_header +"<th >Start Date</th>";
+			table_header=table_header +"<th >End Date</th>";
+			table_header=table_header +"<th ></th>";
+			table_header=table_header +"</tr></tfoot>";
+
+			table_element="";	
+			var  table_body="";
+			table_body="<tbody>"; 
+			
+			if(data.Projects.length == 0)
+			{
+			}
+			else
+			{
+				var status = "";
+				for (var i = 0; i < data.Projects.length; i++) 
+				{		
+					var logdata=data.Projects[i].Modified_Date  + "#" + data.Projects[i].Modified_By;
+					$('.Add-more').show();				
+					table_body += "<tr>";				
+					table_body+="<td resIDs="+data.Projects[i].ResourceId +" Udata =\""+data.Projects[i].Unit+"\" Cdata=\""+data.Projects[i].Currency+"\" Rdata=\""+data.Projects[i].Rate+"\" Hdata=\""+data.Projects[i].Hourly+"\" Sfdata=\""+data.Projects[i].Effective_Date+"\" Efdata=\""+data.Projects[i].Effective_End_Date+"\" BLID=\""+data.Projects[i].BL_ID+"\" Logdata=\""+logdata+"\">"+data.Projects[i].EmployeeID+"</td>"; 
+					table_body+="<td>"+data.Projects[i].ResourceFullName+"</td>";
+					table_body+="<td >"+data.Projects[i].Currency+"</td>";
+					table_body+="<td>"+data.Projects[i].Unit+"</td>";
+					
+					table_body+="<td style='text-align: right;'>"+data.Projects[i].Rate+"</td>";
+					table_body+="<td style='text-align: right;'>"+data.Projects[i].Hourly+"</td>";
+					var dat = new Date(data.Projects[i].Modified_Date);
+					var edat = new Date(data.Projects[i].Effective_End_Date);
+					var sdat = new Date(data.Projects[i].Effective_Date);
+					
+					if(sdat=="Invalid Date")  
+					{  
+					  var startdate="";  
+					}  
+					else      
+					{  
+					var startdate = ("0" + sdat.getDate()).slice(-2)+  "-" + monthNames[sdat.getMonth()] +"-" + sdat.getFullYear();
+					}
+					if(edat=="Invalid Date")  
+					{  
+					  var enddate="";  
+					}  
+					else      
+					{  
+						var enddate = ("0" + edat.getDate()).slice(-2)+  "-" + monthNames[edat.getMonth()] +"-" + edat.getFullYear();
+					}
+					table_body+="<td>"+startdate+"</td>";
+					table_body+="<td>"+enddate+"</td>";
+					table_body+="<td><button type='button' class='roweditable_row btn btn-sm btn-warning' style='min-width: auto;'><i class='fa fa-pencil'></i></button>  <button type='button' class='roweditable_row_deleted btn btn-sm btn-danger' style='min-width: auto;'><i class='fa fa-trash'></i></button><a id='"+logdata+"' onclick='showlog(this)' style='cursor:pointer;margin: 7px;'><i class='fa fa-info-circle' aria-hidden='true'></i></a></td>";
+					table_body += "</tr>";		
+				}
+			}
+			table_body=table_body+"/<tbody>";
+			table_element=table_header+table_body;
+			$('#tblResName').html(table_element);
+			bind_dataTabletblResName();
+			$('#noteData').show();				
+			my_editable();
+			$('#loading-image').hide();
+		},
+		error:function()
+		{
+			alert("error");
+			$('#loading-image').hide();
+		}	
+	});
+}
+function showlog(logdata)
+{
+		var modifiedby=logdata.id.split("#")[0];
+		var createdby=logdata.id.split("#")[1];
+		var Div_Log="<tr><td>"+modifiedby+"</td><td>"+createdby+"</td></tr>";
+		$("#bindlog").html(Div_Log);
+		 $('.allcommentdiv').animate({ width: 'toggle'});
+}
+var temp_count=0;
+function my_editable()
+{
+	$('body').on('click', '.roweditable_row', function(event)
+	{
+		if(temp_count==1)
+		{
+			event.preventDefault();
+		}
+		else
+		{
+			temp_count=1;
+			//var row = $(this).closest('tr');
+			var currentRow=$(this).closest("tr"); 
+			currentRow.find("td:eq(0)").text();
+			var log=currentRow.find('td:eq(0)').attr("Logdata");
+			var Rate_data=currentRow.find('td:eq(4)').text();
+			var s_date=currentRow.find('td:eq(6)').text();
+			var e_date=currentRow.find('td:eq(7)').text();
+			var Modifiefd_data = currentRow.find('td:eq(6)').text();
+			monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			var dat = new Date(Modifiefd_data);
+			if(dat=="Invalid Date")  
+			{  
+				var Modifiefd_date="";  
+			}  
+			else      
+			{  
+				var Modifiefd_date = ("0" + dat.getDate()).slice(-2)+  "-" + monthNames[dat.getMonth()] +"-" + dat.getFullYear();
+			}  
+			var unit_data=currentRow.find('td:eq(3)').text();
+			currentRow.find('td:eq(3)').html('<select class="form-control" id="unit_selected"><option id="mont"  value="Per Month">Per Month</option><option id="wee" value="Per Week">Per Week</option><option id="dai" value="Per Day" >Per Day</option><option id="hrs" value="Per Hour">Per Hour</option></select>');
+			if(unit_data== "undefined" ||unit_data =="")
+			{
+				$('#unit_selected').val("Per Hour");
+			}
+			else
+			{
+				$('#unit_selected').val(unit_data);
+			}
+			
+			var unitData =currentRow.find('td:eq(2)').text();
+			currentRow.find('td:eq(2)').html('<select id="CurAllData" class="search_CurAllData" style="width: 80px !important;"  ></select>');
+			getcurenncy();
+			if(unitData=="")
+			{
+				var defaultdata="USD"
+				$("#CurAllData")[0].sumo.selectItem($("#CurAllData option[value='"+defaultdata+"']").index());//assign values in sumoselect dropdown
+			}
+			
+			
+			if(unitData!='')
+			{
+				$("#CurAllData")[0].sumo.selectItem($("#CurAllData option[value='"+unitData+"']").index());//assign values in sumoselect dropdown
+			}
+			currentRow.find('td:eq(4)').html('<input type="text" id="rateId" value="'+Rate_data+'" class="form-control" maxlength="15" />');
+			currentRow.find('td:eq(6)').html('<input type="text" id="startdateId" readonly="true" value="'+s_date+'" class="form-control" maxlength="15" />');
+			currentRow.find('td:eq(7)').html('<input type="text" id="enddateId" readonly="true" value="'+e_date+'" class="form-control" maxlength="15" />');
+			//currentRow.find('td:eq(6)').html('<input type="text" id="txtEfftiveDate" value="'+Modifiefd_date+'" class="form-control" placeholder="" />');
+			$("#startdateId").datepicker({
+			dateFormat: 'dd-M-yy',
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function (selected) 
+			{
+                $("#enddateId").datepicker("option", "minDate", selected)
+
+            }
+			});
+			$("#enddateId").datepicker({
+			dateFormat: 'dd-M-yy',
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function (selected) 
+			{
+
+				$("#startdateId").datepicker("option", "maxDate", selected)
+
+			}
+			});
+			currentRow.find('td:eq(8)').html('<button type="button"  class="btn btn-sm btn-success saveitem" style="display:inline-block;"><i class="fa fa-check"></i> Save </button>   <button type="button" style="display:inline-block; min-width:auto;" class="btn btn-sm btn-danger cancelitem"><i class="fa fa-times"></i></button> <a  id="'+log+'" onclick="showlog(this)" style="cursor:pointer;margin: 7px;"><i class="fa fa-info-circle" aria-hidden="true"></i></a>');
+			 document.getElementById("rateId").focus();
+			$('#rateId').on('input', function() //only number and decimal are allowed
+			{
+				var position = this.selectionStart - 1;
+				fixed = this.value.replace(/[^0-9\.]/g, '');  //remove all but number and .
+				if(fixed.charAt(0) === '.')                  //can't start with .
+				fixed = fixed.slice(1);
+				var pos = fixed.indexOf(".") + 1;
+				if(pos >= 0)
+				fixed = fixed.substr(0,pos) + fixed.slice(pos).replace('.', '');  //avoid more than one .
+				if (this.value !== fixed) 
+				{
+					this.value = fixed;
+					this.selectionStart = position;
+					this.selectionEnd = position;
+				}
+			});
+			
+			$('.saveitem').click(function()
+			{
+				temp_count=0; 
+				var currentRow=$(this).closest("tr");
+				var resIDs=currentRow.find('td:eq(0)').attr("resIDs");
+				var BLID=currentRow.find('td:eq(0)').attr("BLID");
+				if(BLID=="" || BLID==null || BLID==undefined)
+				{
+					BLID="";
+				}
+				var DDLselValue = $('#projName option:selected').val();
+				var ProjId = DDLselValue.split("##")[0];
+				var empIds = currentRow.find("td:eq(0)").text();
+				var unit_data=$('#unit_selected option:selected').val();
+				var Rate_data=$('#rateId').val();
+				var curr_data = $('#CurAllData option:selected').val();
+				var start_date = $('#startdateId').val();
+				var end_date = $('#enddateId').val();
+				
+				monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				months = {Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+				Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12'};
+				monthpart = start_date.split('-')[1];
+				var start_date= start_date.replace(monthpart, months[monthpart]);
+				start_date=start_date.split('-')[1]+"/"+start_date.split('-')[0]+"/"+start_date.split('-')[2];
+				var startdat = new Date(start_date);
+				
+				monthpart = end_date.split('-')[1];
+				var end_date= end_date.replace(monthpart, months[monthpart]);
+				end_date=end_date.split('-')[1]+"/"+end_date.split('-')[0]+"/"+end_date.split('-')[2];
+				var enddate = new Date(end_date);
+				var cureentdate=new Date();
+				if(startdat=="Invalid Date")  
+				{  
+				  var s_date="";  
+				}  
+				else      
+				{  
+					var s_date = ("0" + startdat.getDate()).slice(-2)+  "-" + monthNames[startdat.getMonth()] +"-" + startdat.getFullYear();
+				}
+				if(enddate=="Invalid Date")  
+				{  
+				  var e_date="";  
+				}  
+				else      
+				{  
+					var e_date = ("0" + enddate.getDate()).slice(-2)+  "-" + monthNames[enddate.getMonth()] +"-" + enddate.getFullYear();
+				}
+				
+				var currentdate = ("0" + cureentdate.getDate()).slice(-2)+  "-" + monthNames[cureentdate.getMonth()] +"-" + cureentdate.getFullYear();
+				
+				var rateVal = $("#rateId").val();
+				var slectedunits = $('#unit_selected option:selected').val();
+				if(rateVal == "")
+				{
+					ClearBackGroundColour(); 
+					$('#rateId').css({"border": "1px solid red","background": "#FFCECE"});
+					document.getElementById("rateId").focus();
+					return false;
+				}
+				else
+				{
+					ClearBackGroundColour();
+					if(slectedunits=="Per Month")
+					{
+						var unitvalues= (rateVal/(22*8)).toString();
+					}
+					if(slectedunits=="Per Week")
+					{
+						var unitvalues = (rateVal/40).toString();
+					}
+					if(slectedunits=="Per Day")
+					{
+						var unitvalues = (rateVal/8).toString();
+					}
+					if(slectedunits=="Per Hour")
+					{
+						var unitvalues = (rateVal/1).toString();
+					}
+					currentRow.find('td:eq(5)').html(unitvalues);
+					var HrsData =currentRow.find('td:eq(5)').text();
+					var tempdata = {	
+									"ProjectUID":ProjId,
+									"ResourceUID":resIDs,
+									"Unit":unit_data,
+									"Rate":Rate_data,
+									"Currency":curr_data,
+									"Hourly":HrsData,
+									"Effective_Date":s_date,
+									"Effective_End_Date":e_date,
+									"Created_Date":currentdate,
+									"Modified_Date":currentdate,
+									"Created_By":_spPageContextInfo.userDisplayName,
+									"Modified_By":_spPageContextInfo.userDisplayName,
+									"BL_ID":BLID
+									};
+					$("#loading-image").show();
+					$.ajax
+					({
+						url:"https://ppmprod.bcone.com/api/invoice/Insert_BillingRateOfResources",
+						method:"POST",
+						headers: { "Accept": "application/json; odata=verbose" },
+						data:tempdata,
+						dataType: 'json',
+						success:function(data)
+						{
+							<!-- currentRow.find('td:eq(0)').attr('Udata' ,unit_data); -->
+							<!-- currentRow.find('td:eq(0)').attr('Cdata' ,curr_data); -->
+							<!-- currentRow.find('td:eq(0)').attr('Rdata' ,Rate_data); -->
+							<!-- currentRow.find('td:eq(0)').attr('Hdata' ,HrsData); -->
+							<!-- currentRow.find('td:eq(0)').attr('Sfdata' ,s_date); -->
+							<!-- currentRow.find('td:eq(0)').attr('Efdata' ,e_date); -->
+							<!-- currentRow.find('td:eq(3)').html(unit_data + '<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+							<!-- currentRow.find('td:eq(2)').html(curr_data + '<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+							<!-- currentRow.find('td:eq(4)').html(Rate_data +'<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+							<!-- currentRow.find('td:eq(6)').html(s_date +'<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+							<!-- currentRow.find('td:eq(7)').html(e_date +'<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+							<!-- currentRow.find('td:eq(8)').html('<button type="button"  class="roweditable_row btn btn-sm btn-warning" style="min-width: auto;"><i class="fa fa-pencil"></i></button>  <button type="button" class="roweditable_row_deleted btn btn-sm btn-danger" style="min-width: auto;"><i class="fa fa-trash"></i></button> <a onclick="showlog(this)" style="cursor:pointer;margin: 7px;"><i class="fa fa-info-circle" aria-hidden="true"></i></a>'); -->
+				
+							if(data.Message=="SELECT OTHER DATE")
+							{
+								alert("Date Already Exist");
+								$('#loading-image').hide();
+								$( ".close" ).trigger( "click" );
+								show();
+								return false;
+							}
+							else if(data.Message=="UPDATE")
+							{
+								alert("Data Updated Successfully");
+								$('#loading-image').hide();
+								$( ".close" ).trigger( "click" );
+								show();
+							}
+							else if(data.Message=="Data Added Successfully")
+							{
+								alert("Data Inserted Successfully");
+								$('#loading-image').hide();
+								$( ".close" ).trigger( "click" );
+								show();
+							}
+							else
+							{
+								alert("Error");
+							}
+							
+							//$('#loading-image').hide();
+						},
+						error:function()
+						{
+							alert("error");
+							$('#loading-image').hide();
+						}	
+					});
+					
+				}
+			});
+			$('.cancelitem').click(function()
+			{
+				temp_count=0;
+				var currentRow = $(this).closest("tr");
+				var Udata_da=currentRow.find('td:eq(0)').attr("Udata");
+				var Cdata_da=currentRow.find('td:eq(0)').attr("Cdata");
+				var Rdata_da=currentRow.find('td:eq(0)').attr("Rdata");
+				var Hdata_da=currentRow.find('td:eq(0)').attr("Hdata");
+				var sdate=currentRow.find('td:eq(0)').attr("Sfdata");
+				var edate=currentRow.find('td:eq(0)').attr("Efdata");
+				var log=currentRow.find('td:eq(0)').attr("Logdata");
+				var start_date = new Date(sdate);
+				var end_date = new Date(edate);
+				if(start_date=="Invalid Date")
+				{
+					var startdate="";
+				}
+				else
+				{
+					var startdate = ("0" + start_date.getDate()).slice(-2) + "-" + monthNames[start_date.getMonth()] + "-" + start_date.getFullYear();
+		
+				}
+				if(end_date=="Invalid Date")
+				{
+					var enddate="";
+				}
+				else
+				{
+					var enddate = ("0" + end_date.getDate()).slice(-2) + "-" + monthNames[end_date.getMonth()] + "-" + end_date.getFullYear();
+		
+				}
+				currentRow.find('td:eq(3)').html(Udata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+				currentRow.find('td:eq(2)').html(Cdata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+				currentRow.find('td:eq(4)').html(Rdata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+				currentRow.find('td:eq(5)').html(Hdata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+				currentRow.find('td:eq(6)').html(startdate +'<span style="color: #ababab;margin-left: 6px;"></span>');
+				currentRow.find('td:eq(7)').html(enddate +'<span style="color: #ababab;margin-left: 6px;"></span>');
+				currentRow.find('td:eq(8)').html('<button type="button"  class="roweditable_row btn btn-sm btn-warning" style="min-width: auto;"><i class="fa fa-pencil"></i></button>  <button type="button" class="roweditable_row_deleted btn btn-sm btn-danger" style="min-width: auto;"><i class="fa fa-trash"></i></button> <a id="'+log+'" onclick="showlog(this)" style="cursor:pointer;margin: 7px;"><i class="fa fa-info-circle" aria-hidden="true"></i></a>');
+				
+			});
+		}		
+	});
+	$('body').on('click', '.roweditable_row_deleted', function(event)
+{
+	if(temp_count==1)
+	{
+		event.preventDefault();
+	}
+	else
+	{
+		temp_count=1;
+		var currentRow=$(this).closest("tr"); 
+		currentRow.find('td:eq(8)').html('<button type="button"  class="btn btn-sm btn-success deleted" style="display:inline-block;"><i class="fa fa-trash"></i> confirm </button>   <button type="button" style="display:inline-block; min-width:auto;" class="btn btn-sm btn-danger deletedcancelitem"><i class="fa fa-times"></i></button>');
+
+		$('.deleted').click(function()
+		{
+			temp_count=0; 
+			var currentRow=$(this).closest("tr");
+			var resIDs=currentRow.find('td:eq(0)').attr("resIDs");
+			var BLID=currentRow.find('td:eq(0)').attr("BLID");
+			var Sfdata=currentRow.find('td:eq(0)').attr("Sfdata");
+			var Efdata=currentRow.find('td:eq(0)').attr("Efdata");
+			var DDLselValue = $('#projName option:selected').val();
+			var ProjId = DDLselValue.split("##")[0];
+			var empIds = currentRow.find("td:eq(0)").text();
+			var unit_data=currentRow.find('td:eq(0)').attr("Udata");
+			var Rate_data=currentRow.find('td:eq(0)').attr("Rdata");
+			var curr_data = currentRow.find('td:eq(0)').attr("Cdata");
+			var HrsData = currentRow.find('td:eq(0)').attr("Hdata");
+			var log=currentRow.find('td:eq(0)').attr("Logdata");
+			//var Modifiefd_data = $('#txtEfftiveDate').val();
+			var Modifiefd_data = new Date();
+			monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			var dat = new Date(Modifiefd_data);
+			if(dat=="Invalid Date")  
+			{  
+			  var Modifiefd_date="";  
+			}  
+			else      
+			{  
+				var Modifiefd_date = ("0" + dat.getDate()).slice(-2)+  "-" + monthNames[dat.getMonth()] +"-" + dat.getFullYear();
+			}  
+			
+			var tempdataDele = {	
+								"ProjectUID":ProjId,
+								"ResourceUID":resIDs,
+								"BL_ID":BLID,
+								};
+			$("#loading-image").show();
+			$.ajax
+			({
+				url:"https://ppmprod.bcone.com/api/invoice/Delete_BillingRateOfResources",
+				method:"POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				data:tempdataDele,
+				dataType: 'json',
+				success:function(data)
+				{
+					<!-- currentRow.find('td:eq(0)').attr('Udata' ,""); -->
+					<!-- currentRow.find('td:eq(0)').attr('Cdata' ,""); -->
+					<!-- currentRow.find('td:eq(0)').attr('Rdata' ,""); -->
+					<!-- currentRow.find('td:eq(0)').attr('Hdata' ,""); -->
+					<!-- currentRow.find('td:eq(0)').attr('Efdata' ,""); -->
+					<!-- currentRow.find('td:eq(3)').html('<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+					<!-- currentRow.find('td:eq(2)').html('<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+					<!-- currentRow.find('td:eq(4)').html('<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+					<!-- currentRow.find('td:eq(5)').html('<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+					<!-- currentRow.find('td:eq(6)').html('<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+					<!-- currentRow.find('td:eq(7)').html('<span style="color: #ababab;margin-left: 6px;"></span>'); -->
+					<!-- currentRow.find('td:eq(8)').html('<button type="button"  class="roweditable_row btn btn-sm btn-warning" style="min-width: auto;"><i class="fa fa-pencil"></i></button> <button type="button"  class="roweditable_row_deleted btn btn-sm btn-danger" style="min-width: auto;"><i class="fa fa-trash"></i></button> <a onclick="showlog(this)" style="cursor:pointer;margin: 7px;"><i class="fa fa-info-circle" aria-hidden="true"></i></a>'); -->
+					show();
+					$('#loading-image').hide();
+				},
+				error:function()
+				{
+					alert("error");
+					$('#loading-image').hide();
+				}	
+			});
+		});
+		$('.deletedcancelitem').click(function()
+		{
+			temp_count=0;
+			var currentRow = $(this).closest("tr");
+			var Udata_da=currentRow.find('td:eq(0)').attr("Udata");
+			var Cdata_da=currentRow.find('td:eq(0)').attr("Cdata");
+			var Rdata_da=currentRow.find('td:eq(0)').attr("Rdata");
+			var Hdata_da=currentRow.find('td:eq(0)').attr("Hdata");
+			var Efdata_da=currentRow.find('td:eq(0)').attr("Efdata");
+				var sdate=currentRow.find('td:eq(0)').attr("Sfdata");
+				var edate=currentRow.find('td:eq(0)').attr("Efdata");
+				var log=currentRow.find('td:eq(0)').attr("Logdata");
+				var start_date = new Date(sdate);
+				var end_date = new Date(edate);
+				if(start_date=="Invalid Date")
+				{
+					var startdate="";
+				}
+				else
+				{
+					var startdate = ("0" + start_date.getDate()).slice(-2) + "-" + monthNames[start_date.getMonth()] + "-" + start_date.getFullYear();
+		
+				}
+				if(end_date=="Invalid Date")
+				{
+					var enddate="";
+				}
+				else
+				{
+					var enddate = ("0" + end_date.getDate()).slice(-2) + "-" + monthNames[end_date.getMonth()] + "-" + end_date.getFullYear();
+		
+				}
+			var edate = new Date(Efdata_da);
+			if(edate=="Invalid Date")
+			{
+				var Eftivedata_da="";
+			}
+			else
+			{
+			var Eftivedata_da = ("0" + edate.getDate()).slice(-2) + "-" + monthNames[edate.getMonth()] + "-" + edate.getFullYear();
+	
+			}
+			currentRow.find('td:eq(3)').html(Udata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+			currentRow.find('td:eq(2)').html(Cdata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+			currentRow.find('td:eq(4)').html(Rdata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+			currentRow.find('td:eq(5)').html(Hdata_da +'<span style="color: #ababab;margin-left: 6px;"></span>');
+			currentRow.find('td:eq(6)').html(startdate +'<span style="color: #ababab;margin-left: 6px;"></span>');
+			currentRow.find('td:eq(7)').html(enddate +'<span style="color: #ababab;margin-left: 6px;"></span>');
+			currentRow.find('td:eq(8)').html('<button type="button"  class="roweditable_row btn btn-sm btn-warning" style="min-width: auto;"><i class="fa fa-pencil"></i></button> <button type="button"  class="roweditable_row_deleted btn btn-sm btn-danger" style="min-width: auto;"><i class="fa fa-trash"></i></button> <a  id="'+log+'" onclick="showlog(this)" style="cursor:pointer;margin: 7px;"><i class="fa fa-info-circle" aria-hidden="true"></i></a>');
+		});
+	}		
+});
+}
+
+function ClearBackGroundColour() 
+{
+	$('#rateId').css({"border": "","background": ""});
+	$('.CaptionCont ').css({"border": "","background": ""});
+
+}
+
+function bind_dataTabletblResName() //table srearch and column search
+{     
+	$('#tblResName').DataTable
+	( {
+		"order": []
+	} );
+	var tblResNameElement = $('#tblResName').DataTable();
+	$('#tblResName tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );			
+		}
+	} );
+  
+	tblResNameElement.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	if($('.dataTables_empty').text()=='No data available in table')
+	$('#tblResName tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+//Manohar code 
+	$( "#ddlempname" ).change(function() {
+		$('#errempname').hide();
+		var employeename=$("#ddlempname option:selected").val();
+		var employeeid=employeename.split("#")[1];
+		$("#txtempid").val(employeeid);
+	});
+	$( "#ddlcurrency" ).change(function() {
+		$('#errcurrency').hide();
+	});
+	$( "#ddlunit" ).change(function() {
+		$('#errunit').hide();
+	});
+	$("#txtrate").keypress(function(){
+	$('#errRate').hide();
+	});
+	$("#txtstartdate").blur(function (e) {
+
+        $('#errstartdate').hide();
+        $('#errordate').hide();
+    });
+	$("#txtendate").blur(function (e) {
+
+        $('#errendate').hide();
+        $('#errordate').hide();
+    });
+	
+	function clearItem() 
+	{
+	HideValidationMsg();
+	var DDLselValue="";
+	DDLselValue1 = $('#projName option:selected').val();
+	
+	$('#txtstartdate').val('');
+	$('#txtendate').val('');
+	$('#txtempid').val('');
+	if(DDLselValue1=="Select_Employee")
+	{
+		$('#ProjDiv').hide();
+		$('.errMsg').text("");
+		$('.errMsg').text("Select Project Name");
+		$('.errMsg').show();
+		$('.CaptionCont ').css({"border": "1px solid red","background": "#FFCECE"});
+		$('#noteData').hide();
+		$('#tblBconeresource').hide();
+		return false;
+	}
+	else
+	{
+		$('#tblBconeresource').show();
+		//ClearBackGroundColour();
+		$('.errMsg').text("");
+		$('.errMsg').hide();
+		$('#ProjDiv').show();
+		ProjCds = DDLselValue1.split("##")[1];
+		getRESNames(ProjCds);
+	}
+		
+	$("#txtstartdate").datepicker({
+			dateFormat: 'dd-M-yy',
+			changeMonth: true,
+			changeYear: true,
+			onSelect: function (selected) 
+			{
+                $("#txtendate").datepicker("option", "minDate", selected)
+
+            }
+	});
+	$("#txtendate").datepicker({
+		dateFormat: 'dd-M-yy',
+		changeMonth: true,
+		changeYear: true,
+		onSelect: function (selected) 
+		{
+
+            $("#txtstartdate").datepicker("option", "maxDate", selected)
+
+        }
+
+	});
+	$('#txtstartdate').val('');
+	$('#txtendate').val('');
+	$('#txtempid').val('');
+	getcurency();
+	
+}
+function getRESNames(ProjCds)
+{
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/invoice/Get_AllocatedResourcesOfProject",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:
+			{
+				"ProjectCode":ProjCds,
+				"Filter":"All"
+			},
+		success:function(data)
+		{
+			var distinct=[];
+			$("#ddlempname").append("<option value='--Select Employee Name--'>--Select Employee Name--</option>");
+			if(data.Projects.length == 0)
+			{
+			}
+			else
+			{
+			
+				for (var i = 0; i < data.Projects.length; i++) 
+				{		
+					var result=data.Projects[i].ResourceId+"#"+data.Projects[i].EmployeeID +"#"+ data.Projects[i].ResourceFullName;
+					distinct.push(result);
+					 
+				}
+				var unique = distinct.filter( onlyUnique );
+				for(var t = 0; t < unique.length; t++)
+				{
+					//var resourcename=
+					$("#ddlempname").append("<option value="+unique[t]+">"+unique[t].split("#")[2]+"</option>");
+					
+				}	
+				$('.empname').SumoSelect({search: true, searchText: 'Search Employee Name'});
+			}
+			
+		},
+		error:function()
+		{
+			alert("error");
+			$('#loading-image').hide();
+		}	
+	});
+}
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+function getcurency()
+{
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/invoice/Get_AllCurrencies",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		async : false,
+		success:function(data)
+		{
+			if($("#ddlempname").hasClass("SumoUnder")){$("#ddlempname").html('');$("#ddlempname")[0].sumo.unload();}
+			if($("#ddlcurrency").hasClass("SumoUnder")){$("#ddlcurrency").html('');$("#ddlcurrency")[0].sumo.unload();}
+			$("#ddlunit").val("select unit");
+			$("#txtrate").val("");
+			$("#ddlcurrency").append("<option value='--Select Currency--'>--Select Currency--</option>");
+			if(data.Currency.length == 0)
+			{
+			
+			}
+			else
+			{
+				for(var i=0;i<data.Currency.length;i++)
+				{ 
+					$("#ddlcurrency").append("<option value="+data.Currency[i].Currency+">"+data.Currency[i].Currency+"</option>");
+				}
+				$('.curency').SumoSelect({search: true, searchText: 'Search Currency'});	
+			}	
+		},
+		error:function()
+		{
+			//alert("error");
+			$('#loading-image').hide();
+			openOKpopup(popUpMessage.ServerError,false);
+		}	
+	});	
+}	
+	function Savedata()
+	{
+		if (validate()) {   
+		//validate();
+		//$("#loading-image").show();		
+		var DDLselValue = $('#projName option:selected').val();
+		var ProjId = DDLselValue.split("##")[0];
+		var ddlemplname = $('#ddlempname option:selected').val();
+		var resIDs = ddlemplname.split("#")[0];
+		var empIds = $("#txtempid").val();
+		var unit_data=$('#ddlunit option:selected').val();
+		var Rate_data=$('#txtrate').val();
+		var curr_data = $('#ddlcurrency option:selected').val();
+		var start_date=$("#txtstartdate").val();
+		var end_date=$("#txtendate").val();
+		
+		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		months = {Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
+              Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12'};
+		monthpart = start_date.split('-')[1];
+		var start_date= start_date.replace(monthpart, months[monthpart]);
+		start_date=start_date.split('-')[1]+"/"+start_date.split('-')[0]+"/"+start_date.split('-')[2];
+		//var newdate = new Date(cdate);
+		var startdat = new Date(start_date);
+		
+		monthpart1 = end_date.split('-')[1];
+		var end_date= end_date.replace(monthpart1, months[monthpart1]);
+		end_date=end_date.split('-')[1]+"/"+end_date.split('-')[0]+"/"+end_date.split('-')[2];
+		var enddate = new Date(end_date);
+				var cureentdate=new Date();
+				if(startdat=="Invalid Date")  
+				{  
+				  var s_date="";  
+				}  
+				else      
+				{  
+					var s_date = ("0" + startdat.getDate()).slice(-2)+  "-" + monthNames[startdat.getMonth()] +"-" + startdat.getFullYear();
+				}
+				if(enddate=="Invalid Date")  
+				{  
+				  var e_date="";  
+				}  
+				else      
+				{  
+					var e_date = ("0" + enddate.getDate()).slice(-2)+  "-" + monthNames[enddate.getMonth()] +"-" + enddate.getFullYear();
+				}
+				var cureentdate=new Date();
+				var currentdate = ("0" + cureentdate.getDate()).slice(-2)+  "-" + monthNames[cureentdate.getMonth()] +"-" + cureentdate.getFullYear();
+		
+		//validateresourcename(ProjId,resIDs,startdate,enddate);
+		var rateVal = $("#txtrate").val();
+		var slectedunits = $('#ddlunit option:selected').val();
+		var currentdate1=new Date();
+		
+		if(rateVal == "")
+		{
+			ClearBackGroundColour(); 
+			$('#txtrate').css({"border": "1px solid red","background": "#FFCECE"});
+			document.getElementById("txtrate").focus();
+			return false;
+		}
+		else
+		{
+			ClearBackGroundColour();
+			if(slectedunits=="Per Month")
+			{
+				var unitvalues= (rateVal/(22*8)).toString();
+			}
+			if(slectedunits=="Per Week")
+			{
+				var unitvalues = (rateVal/40).toString();
+			}
+			if(slectedunits=="Per Day")
+			{
+				var unitvalues = (rateVal/8).toString();
+			}
+			if(slectedunits=="Per Hour")
+			{
+				var unitvalues = (rateVal/1).toString();
+			}
+			var HrsData =unitvalues;
+			var tempdata = {	
+							"ProjectUID":ProjId,
+							"ResourceUID":resIDs,
+							"Unit":unit_data,
+							"Rate":Rate_data,
+							"Currency":curr_data,
+							"Hourly":HrsData,
+							"Effective_Date":s_date,
+							"Effective_End_Date":e_date,
+							"Created_Date":currentdate,
+							"Modified_Date":currentdate,
+							"Created_By":_spPageContextInfo.userDisplayName,
+							"Modified_By":_spPageContextInfo.userDisplayName,
+							"BL_ID":""
+							};
+			
+			$.ajax
+			({
+				url:"https://ppmprod.bcone.com/api/invoice/Insert_BillingRateOfResources",
+				method:"POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				data:tempdata,
+				dataType: 'json',
+				success:function(data)
+				{
+							if(data.Message=="SELECT OTHER DATE")
+							{
+								$("#errordate").show();
+								//$('#loading-image').hide();
+								//$( ".close" ).trigger( "click" );
+								//show();
+								return false;
+							}
+							else if(data.Message=="UPDATE")
+							{
+								alert("Data Updated Successfully");
+								$('#loading-image').hide();
+								$( ".close" ).trigger( "click" );
+								$('#myModal').hide();
+								show();
+							}
+							else if(data.Message=="Data Added Successfully")
+							{
+								alert("Data Inserted Successfully");
+								$('#loading-image').hide();
+								$( ".close" ).trigger( "click" );
+								$('#myModal').hide();
+								show();
+							}
+							else
+							{
+								alert("Error");
+							}
+							//$('#loading-image').hide();
+							
+					
+				},
+				error:function()
+				{
+					alert("error");
+					$('#loading-image').hide();
+				}	
+			});
+			
+		}
+		}
+		else {
+		
+            $('#loading-image').hide();
+        }
+		
+	}
+	function validate()
+	{
+		if($("#ddlempname").val()=="--Select Employee Name--")
+		{
+			$('#errempname').show();
+			return false;
+		}
+		else if($("#txtempid").val()=="")
+		{
+			$('#errempid').show();
+			return false;
+		}
+		else if($("#ddlcurrency").val()=="--Select Currency--")
+		{
+			$('#errcurrency').show();
+			return false;
+		}
+		else if($("#ddlunit").val()=="select unit")
+		{
+			$('#errunit').show();
+			return false;
+		}
+		else if($("#txtrate").val()=="")
+		{
+			$('#errRate').show();
+			return false;
+		}
+		else if($("#txtstartdate").val()=="")
+		{
+			$('#errstartdate').show();
+			return false;
+		}
+		else if($("#txtendate").val()=="")
+		{
+			$('#errendate').show();
+			return false;
+		}
+		return true;
+	}
+	function HideValidationMsg()
+	{
+		$('#errempname').hide();
+		$('#errcurrency').hide();
+		$('#errunit').hide();
+		$('#errRate').hide();
+		$('#errstartdate').hide();
+		$('#errendate').hide();
+		$('#errempid').hide();
+		$('#errordate').hide();
+	}
+	 function closeallcomment(){
+            $('.allcommentdiv').animate({ width: 'toggle'});
+        }
+		$('#txtrate').on('input', function() //only number and decimal are allowed
+			{
+				var position = this.selectionStart - 1;
+				fixed = this.value.replace(/[^0-9\.]/g, '');  //remove all but number and .
+				if(fixed.charAt(0) === '.')                  //can't start with .
+				fixed = fixed.slice(1);
+				var pos = fixed.indexOf(".") + 1;
+				if(pos >= 0)
+				fixed = fixed.substr(0,pos) + fixed.slice(pos).replace('.', '');  //avoid more than one .
+				if (this.value !== fixed) 
+				{
+					this.value = fixed;
+					this.selectionStart = position;
+					this.selectionEnd = position;
+				}
+			});
+</script>
+</body>
+</html>

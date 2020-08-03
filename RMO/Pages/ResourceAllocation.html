@@ -1,0 +1,1738 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/sumoselect.css">
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+    <script src="../SiteAssets/RMO/js/SearchResource.js"></script>
+
+</head>
+<style>
+    .SumoSelect > .CaptionCont {
+        height: 30px;
+        /* width: 277px !important;*/
+    }
+
+    input[type=button] {
+        margin: 0 5px 0 0 !important;
+    }
+</style>
+<body>
+    <div class="loader" style="display: none;"></div>
+    <div class="breadcrumb-new">
+        <ul>
+            <li><a href="../default.aspx">Home</a> </li>
+            <li><a style="cursor: default; text-decoration: none; color: #272727;">Resource Allocation</a> </li>
+            <li id="EmpInfo"></li>
+
+        </ul>
+
+        <div class="clearfix"></div>
+    </div>
+    <!-----------Breadcrumb End---------->
+    <div class="contain-div" style="width: 80%">
+
+        <div class="clearfix"></div>
+        <div>
+            <div id="divResourceAssignment">
+
+                <div id="resourceInformation">
+                    <div class="col-md-2">
+                        <label>Employee Name</label>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="ddlResourceName" class="search-box form-control mx-sm-3" onchange="bindSelectedResourceData();">
+                            <option data-value="0"></option>
+                        </select>
+                        <div id="errMsgResource" class="error">Select Employee Name</div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Employee ID</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtResourceID" readonly="readonly" class="form-control mx-sm-3" />
+                        <div id="errMsgResourceId" class="error">Employee ID is not available</div>
+
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <h3>Project Information</h3>
+                <div id="ProjectInfo">
+
+                    <div class="col-md-2">
+                        <label>Project Name</label>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="ddlProjectName" class="search-box form-control mx-sm-3" onchange="bindSelectedProjectData();">
+                            <option data-value="0"></option>
+                        </select>
+                        <div id="errMsgProjects" class="error">Select Project Name</div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Project Code</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtProjectCode" class="form-control mx-sm-3" readonly="readonly">
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2">
+                        <label>Project Manager</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtProjectManager" class="form-control mx-sm-3" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Client Partner</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtclientPertner" class="form-control mx-sm-3" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label>RMO SPOC</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtResourcemanager" class="form-control mx-sm-3" readonly="readonly">
+                    </div>
+                    <div class="col-md-2">
+                        <label>Base Location</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtPLocation" class="form-control mx-sm-3" onkeyup="removeErrorMsgResourceAssignment()">
+                         <div id="errMsgLocation" class="error">Location is required</div>
+                    </div>
+					<div class="col-md-2">
+                        <label>Contract Type</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtContractType" class="form-control mx-sm-3" readonly="readonly">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <h3>Resource Information</h3>
+                <div id="ResourceInfo">
+                    <div class="col-md-2">
+                        <label>Allocation%</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="txtAllocation" class="form-control mx-sm-3 classAllocation" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57" maxlength="3" pattern="^[0-9]$" onkeyup="removeErrorMsgResourceAssignment()">
+                        <div id="errtxtAllocation" class="error">Allocation % is required</div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Employee Role</label>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="ddlBillability" class="form-control mx-sm-3 ddlBillability">
+                        </select>
+                        <div id="errddlBillability" class="error">Billability is required</div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2">
+                        <label>Allocation Start Date</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="date">
+                            <input type="text" id="txtstrtDt" class="form-control mx-sm-3 strtDt" autocomplete="off">
+                        </div>
+                        <div id="errtxtstrtDt" class="error">Allocation Start Date is required</div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Allocation End Date</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="date">
+                            <input type="text" id="txtendDt" class="form-control mx-sm-3 endDt" autocomplete="off">
+                        </div>
+                        <div id="errtxtendDt" class="error">Allocation End Date is required</div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2">
+                        <label>Type Of Assignment</label>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control mx-sm-3" id="ddlAssignmentTyp">
+                            <option value="BCONE LOCATION">BCONE LOCATION</option>
+                            <option value="CLIENT LOCATION">CLIENT LOCATION</option>
+                            <option value="Both">BOTH</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 action">
+                        <input type="button" class="btn btn-primary" value="Check Availability" id="btncheckAvailbility" onclick="checkResourceAvailbility(this);" />
+                        <a href="#"><span class="glyphicon glyphicon-ok-sign" id="Availabilitysign" style="display: none;"></span><span id="Availabilityvalue" style="visibility: hidden"></span></a>
+                        <a href="#"><span id="ShowAddResource" class="glyphicon glyphicon-plus" onclick="BindResourceInfoDiv()"></span></a>
+                        <a href="#"><span id="removeaddResource" style="display: none" class="glyphicon glyphicon-minus" onclick="RemoveResourceInfoDiv()"></span></a>
+                        <div id="AvailbilityErrMsg" class="error" style="font-size: 11px;">Please check Resource Availbility</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <h3>Other Information</h3>
+                <div id="OtherInfo">
+                    <div class="col-md-2">
+                        <label>Additional Email</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="email" id="txtAdditionalEmail" class="form-control mx-sm-3" onchange="removeErrorMsgResourceAssignment();">
+                        <div><span id="errMsgEmail" class="error">Email Id is not valid</span></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2">
+                        <label>Notes</label>
+                    </div>
+                    <div class="col-md-4">
+                        <textarea rows="4" class="form-control mx-sm-3" cols="45" id="TextareaResourceNote" onkeyup="hideerrormsg(this)" maxlength="500"></textarea>
+                        <br>
+                        <sup style="color: #ababab; font-size: 12px;">(Max 500 characters and these special characters are not allowed /:|'<>*#~%&{}+)</sup>
+                        <div><span id="errMsgNote" class="error">Invalid comment.Comment contains invalid character</span></div>
+
+                    </div>
+                </div>
+
+
+                <div class="allbtn col-md-4" style="margin-top: 60px">
+                    <input class="btn btn-success" type='Button' value="Submit" id="btnSaveResource" onclick="SaveResourceassignment()" />
+                    <input class="btn btn-default Toppupup-close" type='Button' value="Cancel" onclick="RedirecttoHome();" />
+                    <span id="rrfnumber" style="visibility: hidden"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="Alertpopup-bg">
+        <div class="Alertpopup">
+            <div class="Alertpopup-head">
+                <div class="Alertpanel-head">
+                    <h4 class="AlertclssPopupHead" style="text-align: center">Sucess Massage</h4>
+                </div>
+                <div class="Alertpopup-boday">
+                    <div id="divSuccessMsg">
+                        <p>Selected Resource Allocated Successfully.</p>
+                        <div class="allbtn text-center">
+                            <input class="btn btn-default" style="text-align: center" type='Button' value="OK" onclick="SelectionResourceAlert();" />
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.sumoselect.js"></script>
+    <script>
+        var site_url = getPWAURl();
+        var txtidIndex = 0;
+        var resourceListID = "";
+        var resourceRRFCount = "";
+        var LoginUserName = "";
+        var ResourceAllocationFlag = "";
+        var chechBoxFlag = "";
+        var RRF_Number = "";
+        var PrimarySkill = null;
+        var SecondrySkill = "";
+        var RolBand = "";
+        var ResourceAvailbilityCount = "";
+        var projectStrtdate = "";
+        var projectEndDate = "";
+        var count = 0;
+        var Project_EndDate = "";
+        var LoginUserEmail = "";
+        var allocationResourceEmail = "";
+        var projectManagerEmailadd = "";
+        var NewInternalID = "";
+        var baseLoaction = "";
+        var AdminCount = "";
+		var projectStart_Date="";
+		var Project_StartDate="";
+		
+        //code to bind Employee role
+        $(document).on('click', '#ShowAddResource ', function () {
+            //code to bind Employee Role dropdown          
+            url = getRRFMasterEmpRole(); //"https://ppmdev.bcone.com/_api/RRFMaster?$filter=Type eq 'EmployeeRoles'";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    // $('#ddlProjectName').append(new Option("", 0));
+                    $.each(data.d.results, function (key, value) {
+
+                        $('.ddlBillability').append("<option data-value = '" + value["Value"] + "'>" + value.Value + "</option>");
+
+                    })
+
+                }
+            });
+        });
+
+       /* $(document).ready(function() {
+            $('#txtstrtDt','#txtendDt').focus(function() {
+                $(this).val('');
+            });
+        });*/
+        $(document).ready(function () {
+            //var url = getResourceName(); //"https://ppmdev.bcone.com/api/BCONE/GetResourceNames";
+            var url = site_url +"_api/Resources?$select=EmployeeID,RoleBand,ResourceName,EmployeeStatus,PrimarySkill,ResourceEmailAddress,BaseLocation&$filter=EmployeeStatus ne null and EmployeeStatus ne 'Terminated'&$orderby=ResourceName asc";
+            resourceBind(url);
+            //code to bind Projects in Project Dropdown
+            url = site_url + "_api/Projects";
+            projectBind(url);
+
+            //code to bind Employee Role dropdown          
+            url = getRRFMasterEmpRole(); //"https://ppmdev.bcone.com/_api/RRFMaster?$select=Value&$filter=Type eq 'EmployeeRoles'";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    // $('#ddlProjectName').append(new Option("", 0));
+                    $.each(data.d.results, function (key, value) {
+
+                        $('.ddlBillability').append("<option data-value = '" + value["Value"] + "'>" + value.Value + "</option>");
+
+                    })
+
+                }
+            });
+            //code to bind resouces in Resource Search Dropdown in Resource assignment
+
+            //setInterval(function () {
+            //    if (count == 0) {
+            //        var url = "https://ppmdev.bcone.com/_api/Resources";
+            //        resourceBind(url);
+
+            //    }
+
+            //}, 1000);
+
+            //
+            //code to searchable DropDpwn
+            window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, placeholder: 'Type Name' });
+            $('.classAllocation').numeric({ max: 100 });
+        });
+        (function ($) {
+
+            $.fn.numeric = function (options) {
+
+                return this.each(function () {
+                    var $this = $(this);
+
+                    $this.keypress(options, function (e) {
+
+                        // check max range 
+                        var dest = e.which - 48;
+                        var result = this.value + dest.toString();
+                        if (result > e.data.max) {
+                            return false;
+                        }
+                    });
+                });
+            };
+        })(jQuery);
+        $(document).ready(function () {
+
+            //Get logged in user name
+            $.getJSON(_spPageContextInfo.webServerRelativeUrl + "/_api/web/currentuser")
+            .done(function (data) {
+                LoginUserName = data.Title;
+                LoginUserEmail = data.Email;
+                var LoginUserId = data.Id;
+				var Group_url="../_api/Web/GetUserById('"+LoginUserId+"')/Groups?$select=Id,Title&$filter=Title eq 'Flash News'";
+				var RMOAdminCount = resultset(Group_url);
+				if (RMOAdminCount.length > 0) {
+					AdminCount= "1";
+				}
+				else {
+					AdminCount = "";
+				}
+            });
+
+
+            $(document).on("click", "input", function () {
+			if(AdminCount=="")
+			{
+			
+                var Past15_Days_date = Past15_Days();
+                $(".strtDt,.endDt").datepicker({
+                    dateFormat: 'dd-M-yy',
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: new Date(Past15_Days_date),
+                    onSelect: function (selected, evnt) {
+                        document.getElementById('Availabilitysign').style.display = 'none';
+                        document.getElementById('Availabilityvalue').innerHTML = "";
+                        removeErrorMsgResourceAssignment();
+                    }
+                });
+			}
+			else if(AdminCount=="1")
+			{
+			
+			//var projectname = $("#ddlProjectName option:selected").attr('data-value');
+			//var projectGUID=projectname.split(';')[7];
+			//var project_startdate=projectStartDate(projectGUID);
+			//var pastdays=Past_Days(project_startdate);
+				$(".strtDt,.endDt").datepicker({
+                    dateFormat: 'dd-M-yy',
+                    changeMonth: true,
+                    changeYear: true,
+                   // minDate: new Date(pastdays),
+                    onSelect: function (selected, evnt) {
+                        document.getElementById('Availabilitysign').style.display = 'none';
+                        document.getElementById('Availabilityvalue').innerHTML = "";
+                        removeErrorMsgResourceAssignment();
+                    }
+                });
+			}
+            });
+            $(".strtDt,.endDt").keypress(function (e) {
+                return false;
+            });
+            $('.strtDt,.endDt').bind("cut copy paste", function (e) {
+                e.preventDefault();
+            });
+
+
+        });
+		function projectStartDate(projectGUID) {
+		//var GUIDurl="../_api/projectdata/Projects?$select=ProjectStartDate&$filter=ProjectId eq (guid'"+projectGUID+"') and ne ProjectStatus 'Closed'";
+		var GUIDurl = site_url + "_api/Projects?$select=ProjectName,ProjectId,ProjectCode,BenchProjects,ProjectOwnerId,CustomerName,GBU,FinanceTeam,ClientPartner,RMOSPOC,ProjectOwnerName,ProjectStartDate,ProjectFinishDate&$filter=ProjectId eq (guid'" + projectGUID + "')";
+		
+            var startdate=""
+            $.ajax({
+                url: GUIDurl,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    // $('#ddlProjectName').append(new Option("", 0));
+                    if (data.d.results.length > 0) {
+                      
+
+                            startdate=data.d.results[0].ProjectStartDate;
+
+                        
+                    }
+                    
+                }
+            });
+			return startdate;
+        }
+		function Past_Days(pastdays) {
+            var ToDay_Date = new Date(pastdays);
+            var Date_year = ToDay_Date.getFullYear();
+            var Date_month = ToDay_Date.getMonth() + 1;
+            var ToDay_Date_Format = Date_year + "-" + ("0" + Date_month).slice(-2) + "-" + ("0" + ToDay_Date.getDate()).slice(-2);
+            var fiteenDays = new Date(ToDay_Date_Format);
+            fiteenDays.setDate(fiteenDays.getDate() - 0);
+            var Date_year1 = fiteenDays.getFullYear();
+            var Date_month1 = fiteenDays.getMonth() + 1;
+            var fiteenDays_Format = Date_year1 + "-" + ("0" + Date_month1).slice(-2) + "-" + ("0" + fiteenDays.getDate()).slice(-2);
+
+            return fiteenDays_Format;
+
+        }
+		function resultset(Url) 
+		{
+        var result;
+        $.ajax({
+            url: Url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function (data) {
+                result = data.d.results;
+            },
+            error: function (error) {
+                result = 'error';
+            }
+        });
+        return result;
+    }
+        function Past15_Days() {
+            var ToDay_Date = new Date();
+            var Date_year = ToDay_Date.getFullYear();
+            var Date_month = ToDay_Date.getMonth() + 1;
+            var ToDay_Date_Format = Date_year + "-" + ("0" + Date_month).slice(-2) + "-" + ("0" + ToDay_Date.getDate()).slice(-2);
+            var fiteenDays = new Date(ToDay_Date_Format);
+            fiteenDays.setDate(fiteenDays.getDate() - 15);
+            var Date_year1 = fiteenDays.getFullYear();
+            var Date_month1 = fiteenDays.getMonth() + 1;
+            var fiteenDays_Format = Date_year1 + "-" + ("0" + Date_month1).slice(-2) + "-" + ("0" + fiteenDays.getDate()).slice(-2);
+
+            return fiteenDays_Format;
+
+        }
+        //code to bind resouces in Resource Search Dropdown in Resource assignment
+        function resourceBind(url) {
+
+            //url = "https://ppmdev.bcone.com/_api/Resources";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    //$('#ddlResourceName').append(new Option("", 0));
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function (key, value) {
+
+                            $('#ddlResourceName').append("<option data-value = '"+ value["EmployeeID"] + "#" + value["RoleBand"] + "#" + value["PrimarySkill"] + "#" + value["BaseLocation"] + "#" + value["ResourceEmailAddress"] + "'>" + value.ResourceName + "</option>");
+
+                        })
+                    }
+                    if (data.d.__next != "" && data.d.__next != undefined) {
+                      nextURL = data.d.__next;
+                       resourceBind(nextURL);
+                    }
+                }
+            });
+        }
+        function projectBind(url) {
+            url = site_url + "/_api/Projects?$select=ProjectId,ProjectName,ProjectCode,ProjectOwnerName,ProjectOwnerId,ClientPartner,RMOSPOC,ProjectLocation,ProjectStartDate,ProjectFinishDate,ContractType&$filter=ProjectStatus ne 'Closed'";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    // $('#ddlProjectName').append(new Option("", 0));
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function (key, value) {
+
+                            $('#ddlProjectName').append("<option data-value = '" + value["ProjectCode"] + ";" + value["ProjectOwnerName"] + ";" + value["ClientPartner"] + ";" + value["RMOSPOC"] + ";" + value["ProjectLocation"] + ";" + value["ProjectFinishDate"] + ";" + value["ProjectOwnerId"] + ";" + value["ProjectId"] + ";" + value["ProjectStartDate"] + ";" + value["ContractType"] + "'>" + value.ProjectName + "</option>");
+
+                        })
+                    }
+                    if (data.d.__next != "" && data.d.__next != undefined) {
+                        nextURL = data.d.__next;
+                        projectBind(nextURL);
+                    }
+                }
+            });
+        }
+        function bindSelectedResourceData() {
+            removeErrorMsgResourceAssignment();
+            var resource_Data = $("#ddlResourceName option:selected").attr('data-value');
+			var resourceID= resource_Data.split('#')[0];
+			resourceID.trim();
+			var role_Band= resource_Data.split('#')[1];
+			PrimarySkill= resource_Data.split('#')[2];
+			baseLoaction= resource_Data.split('#')[3];
+			allocationResourceEmail= resource_Data.split('#')[4];
+            var EmpName = document.getElementById('ddlResourceName').value;
+            document.getElementById('txtResourceID').value = resourceID != "null" ? resourceID : "";
+            $("#EmpInfo").empty();
+            $('#EmpInfo').append("<span href='#' id='show-popup' class='action-b'>" + EmpName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + resourceID + "&employeename=" + EmpName + "' target='_blank'>Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + resourceID + "&employeename=" + EmpName + "' target='_blank' >View Profile</a></div></span>");
+            <!-- if (resourceID != "") { -->
+                <!-- url = searchResourcefromResourcesUsingEmpid(resourceID); -->
+                <!-- $.ajax({ -->
+                    <!-- url: url, -->
+                    <!-- method: "GET", -->
+                    <!-- async: false, -->
+                    <!-- headers: { "Accept": "application/json; odata=verbose" }, -->
+                    <!-- success: function (data) { -->
+                        <!-- if (data.d.results.length > 0) { -->
+                            <!-- PrimarySkill = data.d.results[0].PrimarySkill; -->
+                            <!-- allocationResourceEmail = data.d.results[0].ResourceEmailAddress; -->
+                            <!-- baseLoaction = data.d.results[0].BaseLocation; -->
+                        <!-- } -->
+                    <!-- } -->
+                <!-- }); -->
+            <!-- } -->
+            document.getElementById('txtPLocation').value = baseLoaction != "" && baseLoaction != "null" ? baseLoaction : "";
+        }
+        function getemailaddress(ResourceGUID) {
+            url = site_url + "_api/Resources?$select=ResourceEmailAddress&$filter=ResourceId eq (guid'" + ResourceGUID + "')";
+            var Email = "";
+            $.ajax({
+                url: url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        Email = data.d.results[0].ResourceEmailAddress;
+                    }
+                }
+            });
+            return Email;
+        }
+        function bindSelectedProjectData() {
+            removeErrorMsgResourceAssignment();
+            var projectdata = $("#ddlProjectName option:selected").attr('data-value');
+            projectdata = projectdata.split(';');
+            document.getElementById('txtProjectCode').value = projectdata[0] != "" && projectdata[0] != "null" ? projectdata[0] : "";
+
+            var projectManag = projectdata[1] != "" && projectdata[1] != "null" ? projectdata[1] : "";
+            if (projectManag.indexOf('|') >= 0) {
+                projectManag = projectManag.split('| ')[1];
+                document.getElementById('txtProjectManager').value = projectManag;
+            } else {
+                document.getElementById('txtProjectManager').value = projectManag;
+            }
+            var clientPart = projectdata[2] != "" && projectdata[2] != "null" ? projectdata[2] : "";
+            if (clientPart.indexOf('|') >= 0) {
+                clientPart = clientPart.split('| ')[1];
+                document.getElementById('txtclientPertner').value = clientPart;
+            } else {
+                document.getElementById('txtclientPertner').value = clientPart;
+            }
+            var rmoSPOC = projectdata[3] != "" && projectdata[3] != "null" ? projectdata[3] : "";
+            if (rmoSPOC.indexOf('|') >= 0) {
+                rmoSPOC = rmoSPOC.split('| ')[1];
+                document.getElementById('txtResourcemanager').value = rmoSPOC;
+            } else {
+                document.getElementById('txtResourcemanager').value = rmoSPOC;
+            }
+
+
+			document.getElementById('txtContractType').value = projectdata[9] != "" && projectdata[9] != "null" ? projectdata[9] : "";
+
+            //document.getElementById('txtProjectManager').value = projectdata[1] != "" && projectdata[1] != "null" ? projectdata[1] : "";
+            //document.getElementById('txtclientPertner').value = projectdata[2] != "" && projectdata[2] != "null" ? projectdata[2] : "";
+            //document.getElementById('txtResourcemanager').value = projectdata[3] != "" && projectdata[3] != "null" ? projectdata[3] : "";
+
+            projectEndDate = projectdata[5] != "" && projectdata[5] != "null" ? projectdata[5] : "";
+            Project_EndDate = projectEndDate;
+            projectEndDate = Date.parse(projectEndDate);
+			projectStart_Date = projectdata[8] != "" && projectdata[8] != "null" ? projectdata[8] : "";
+            Project_StartDate = projectStart_Date;
+			Project_StartDate = new Date(Project_StartDate);
+			Project_StartDate=Project_StartDate.setHours(0,0,0,0);
+			Project_StartDate =new Date(Project_StartDate);
+			Project_StartDate=Project_StartDate.toISOString();
+            projectStart_Date = Date.parse(Project_StartDate);
+            var projectOwnerGUID = projectdata[6] != "" && projectdata[6] != "null" ? projectdata[6] : "";
+            projectManagerEmailadd = projectOwnerGUID != "" && projectOwnerGUID != "null" ? getemailaddress(projectOwnerGUID) : "";
+        }
+        function checkResourceAvailbility(event) {
+
+            var Employee_ID = document.getElementById('txtResourceID').value;
+            Employee_ID.trim();
+               var SDate=document.getElementById('txtstrtDt').value;
+			  var EDate=document.getElementById('txtendDt').value;
+		
+		     allocation(Employee_ID.trim(),SDate,EDate);
+            //Employee_ID = "10062";
+            var projectStrtdate = "";
+            var projectEnddate = "";
+            var Allocationvalue = "";
+            if (event.parentNode.parentNode.childNodes.length == 14) {
+                var projectStrtdateID = event.parentNode.parentNode.childNodes[6].firstElementChild.firstElementChild.id;
+                projectStrtdate = $('#' + projectStrtdateID).datepicker("getDate");
+                projectStrtdate.setDate(projectStrtdate.getDate() + 1);
+                projectStrtdate = projectStrtdate.toISOString();
+                projectStrtdate = projectStrtdate != "" ? projectStrtdate.substring(0, 19) : "";
+                var ProjectEnddateID = event.parentNode.parentNode.childNodes[8].firstElementChild.firstElementChild.id;
+                projectEnddate = $('#' + ProjectEnddateID).datepicker("getDate");
+                projectEnddate.setDate(projectEnddate.getDate() + 1);
+                projectEnddate = projectEnddate.toISOString();
+                projectEnddate = projectEnddate != "" ? projectEnddate.substring(0, 19) : "";
+                Allocationvalue = event.parentNode.parentNode.childNodes[1].firstElementChild.value;
+                if (projectStrtdate != "" && Allocationvalue != "" && projectEnddate != "") {
+                    var result = searchResourcehek(Employee_ID, projectStrtdate, projectEnddate, Allocationvalue);
+                    if (result.length > 0) {
+                        ResourceAvailbilityCount++;
+                        event.parentNode.parentNode.childNodes[12].childNodes[1].lastElementChild.innerHTML = "1";
+                        event.parentNode.parentNode.childNodes[12].childNodes[2].style.display = "none"
+                        event.parentNode.parentNode.childNodes[12].childNodes[1].firstElementChild.style.display = 'inline-block';
+                    } else {
+                        event.parentNode.parentNode.childNodes[12].childNodes[1].firstElementChild.style.display = 'none';
+                        event.parentNode.parentNode.childNodes[12].childNodes[2].innerHTML = "Resourece is not Available";
+                        event.parentNode.parentNode.childNodes[12].childNodes[2].style.display = "block";
+                    }
+
+                } else {
+                    event.parentNode.parentNode.childNodes[12].childNodes[1].firstElementChild.style.display = 'none';
+                    if (Allocationvalue == "") {
+                        event.parentNode.parentNode.childNodes[1].lastElementChild.style.display = 'block';
+                        return false;
+                    } else if (projectStrtdate == "") {
+                        event.parentNode.parentNode.childNodes[6].firstElementChild.nextElementSibling.style.display = 'block'
+                        return false;
+                    } else if (projectEnddate == "") {
+                        event.parentNode.parentNode.childNodes[8].firstElementChild.nextElementSibling.innerHTML = "End date is required";
+                        event.parentNode.parentNode.childNodes[8].firstElementChild.nextElementSibling.style.display = 'block'
+                        return false;
+                    }
+                }
+            } else {
+                var projectStrtdateID = event.parentNode.parentNode.childNodes[13].firstElementChild.firstElementChild.id;
+                projectStrtdate = $('#' + projectStrtdateID).datepicker("getDate");
+                projectStrtdate.setDate(projectStrtdate.getDate() + 1);
+                projectStrtdate = projectStrtdate.toISOString();
+                projectStrtdate = projectStrtdate != "" ? projectStrtdate.substring(0, 19) : "";
+                var ProjectEnddateID = event.parentNode.parentNode.childNodes[17].firstElementChild.firstElementChild.id;
+                projectEnddate = $('#' + ProjectEnddateID).datepicker("getDate");//.toISOString();
+                projectEnddate.setDate(projectEnddate.getDate() + 1);
+                projectEnddate = projectEnddate.toISOString();
+                projectEnddate = projectEnddate != "" ? projectEnddate.substring(0, 19) : "";
+                Allocationvalue = event.parentNode.parentNode.childNodes[3].firstElementChild.value;
+                if (projectStrtdate != "" && Allocationvalue != "" && projectEnddate != "") {
+                    var result = searchResourcehek(Employee_ID, projectStrtdate, projectEnddate, Allocationvalue);
+                    if (result.length > 0) {
+                        ResourceAvailbilityCount++;
+                        event.parentNode.parentNode.childNodes[25].childNodes[3].lastElementChild.innerHTML = "1";
+                        event.parentNode.parentNode.childNodes[25].childNodes[9].style.display = "none"
+                        event.parentNode.parentNode.childNodes[25].childNodes[3].firstElementChild.style.display = "inline-block";
+                    } else {
+                        event.parentNode.parentNode.childNodes[25].childNodes[3].firstElementChild.style.display = "none";
+                        event.parentNode.parentNode.childNodes[25].childNodes[9].innerHTML = "Resource is not Available";
+                        event.parentNode.parentNode.childNodes[25].childNodes[9].style.display = "block";
+                    }
+                } else {
+                    if (Allocationvalue == "") {
+                        event.parentNode.parentNode.childNodes[3].lastElementChild.style.display = 'block';
+                        return false;
+                    } else if (projectStrtdate == "") {
+                        event.parentNode.parentNode.childNodes[13].firstElementChild.nextElementSibling.style.display = 'block'
+                        return false;
+                    } else if (projectEnddate == "") {
+                        event.parentNode.parentNode.childNodes[17].firstElementChild.nextElementSibling.innerHTML = "End date is required"
+                        event.parentNode.parentNode.childNodes[17].firstElementChild.nextElementSibling.style.display = 'block'
+                        return false;
+                    }
+                }
+            }
+        }
+        function removeErrorMsgResourceAssignment() {
+		$('#errtxtstrtDt').css('display', 'none');
+		$('#errtxtendDt').css('display', 'none');
+            if (document.getElementById('ddlResourceName').value != "") {
+                $('#errMsgResource').css('display', 'none');
+
+            }
+            if (document.getElementById('txtResourceID').value != "") {
+                $('#errMsgResourceId').css('display', 'none');
+
+            }
+            if (document.getElementById('ddlProjectName').value != "") {
+                $('#errMsgProjects').css('display', 'none');
+
+            }
+            if (document.getElementById('txtPLocation').value != "") {
+                $('#errMsgLocation').css('display', 'none');
+
+            }
+            if (document.getElementById('txtAllocation').value != "") {
+                //$('#errtxtAllocation').css('display', 'none');													
+                var allocationVal = document.getElementById('txtAllocation').value;
+                allocationVal = parseInt(allocationVal);
+                if (allocationVal > 100 || allocationVal == 0) {
+                    document.getElementById('txtAllocation').value = "";
+                    document.getElementById('errtxtAllocation').innerHTML = 'Allocation % should be between 1-100';
+                    $('#errtxtAllocation').css('display', 'block');
+                    return false;
+                } else {
+                    $('#errtxtAllocation').css('display', 'none');
+                }
+
+
+            }
+            if (document.getElementById('ddlBillability').value != "") {
+                $('#errddlBillability').css('display', 'none');
+            }
+            if (document.getElementById('txtstrtDt').value != "") {
+                $('#errtxtstrtDt').css('display', 'none');
+            }
+            var formatedProjectEndDate = convert_date_DDMMYYYY(Project_EndDate);
+
+            if (document.getElementById('txtstrtDt').value != "") {
+                $('#errtxtstrtDt').css('display', 'none');
+                var strtdate = document.getElementById('txtstrtDt').value;
+                strtdate = $('#txtstrtDt').datepicker("getDate");
+                strtdate = Date.parse(strtdate);
+                var ParseprojectEndDate = projectEndDate;// Date.parse(projectEnddate);
+
+                if (document.getElementById('txtendDt').value != "") {
+                    var enddate = document.getElementById('txtendDt').value;
+                    enddate = $('#txtendDt').datepicker("getDate");
+                    enddate = Date.parse(enddate);
+                    if (strtdate > enddate) {
+                        document.getElementById('txtstrtDt').value = "";
+                        document.getElementById('errtxtstrtDt').innerHTML = "it can't be greater-than End date";
+                        $('#errtxtstrtDt').css('display', 'block');
+                        return false;
+                    }
+                }
+                if (ParseprojectEndDate < strtdate) {
+                    document.getElementById('txtstrtDt').value = "";
+                    document.getElementById('errtxtstrtDt').innerHTML = "it can't be greater-than Project End date:" + "<br/>" + formatedProjectEndDate + "";
+                    $('#errtxtstrtDt').css('display', 'block');
+                    return false;
+                } else {
+                    $('#errtxtstrtDt').css('display', 'none');
+                }
+            }
+			if (document.getElementById('txtstrtDt').value != "") {
+                $('#errtxtstrtDt').css('display', 'none');
+                var strtdate = document.getElementById('txtstrtDt').value;
+                strtdate = $('#txtstrtDt').datepicker("getDate");
+                strtdate = Date.parse(strtdate);
+				var formatedProjectStart_Date = convert_date_DDMMYYYY(Project_StartDate);
+                var ParseprojectEndDate = projectEndDate;// Date.parse(projectEnddate);
+                if (projectStart_Date > strtdate) {
+                    document.getElementById('txtstrtDt').value = "";
+                    document.getElementById('errtxtstrtDt').innerHTML = "it can't be greater-than Project Start date:" + "<br/>" + formatedProjectStart_Date + "";
+                    $('#errtxtstrtDt').css('display', 'block');
+                    return false;
+                } else {
+                    $('#errtxtstrtDt').css('display', 'none');
+                }
+            }
+
+
+
+
+            if (document.getElementById('txtendDt').value != "") {
+                $('#errtxtendDt').css('display', 'none');
+                var enddate = document.getElementById('txtendDt').value;
+                enddate = $('#txtendDt').datepicker("getDate");
+                enddate = Date.parse(enddate);
+
+
+                // var ParseprojectEndDate = Date.parse(projectEnddate);
+                if (document.getElementById('txtstrtDt').value != "") {
+                    var strtdate = document.getElementById('txtstrtDt').value;
+                    strtdate = $('#txtstrtDt').datepicker("getDate");
+                    strtdate = Date.parse(strtdate);
+                    if (strtdate > enddate) {
+                        document.getElementById('txtendDt').value = "";
+                        document.getElementById('errtxtendDt').innerHTML = "it can't be lesser-than Project start date";
+                        $('#errtxtendDt').css('display', 'block');
+                        return false;
+                    }
+                }
+
+
+                if (projectEndDate < enddate) {
+                    document.getElementById('txtendDt').value = "";//"it can't be greater-than Project End date:" + "<br/>" + formatedProjectEndDate + "";
+                    document.getElementById('errtxtendDt').innerHTML = "it can't be greater-than Project End date:" + "<br/>" + formatedProjectEndDate + "";
+                    $('#errtxtendDt').css('display', 'block');
+                    return false;
+                } else {
+                    $('#errtxtendDt').css('display', 'none');
+                }
+            }
+            if (txtidIndex > 0) {
+                for (var z = 0; z < txtidIndex; z++) {
+                    if (document.getElementById('txtAllocation' + z).value != "") {
+                        $('#errtxtAllocation' + z).css('display', 'none');
+                    }
+                    if (document.getElementById('ddlBillability' + z).value != "") {
+                        $('#errddlBillability' + z).css('display', 'none');
+                    }
+                    // if (document.getElementById('txtstrtDt' + z).value != "") {
+                    //    $('#errtxtstrtDt' + z).css('display', 'none');
+                    //}
+
+                    if (document.getElementById('txtstrtDt' + z).value != "") {
+                        $('#errtxtstrtDt' + z).css('display', 'none');
+                        var strtdate = document.getElementById('txtstrtDt').value;
+                        strtdate = $('#txtstrtDt' + z).datepicker("getDate");
+                        strtdate = Date.parse(strtdate);
+                        var ParseprojectEndDate = projectEndDate;// Date.parse(projectEnddate);
+
+                        if (document.getElementById('txtendDt' + z).value != "") {
+                            var enddate = document.getElementById('txtendDt' + z).value;
+                            enddate = $('#txtendDt' + z).datepicker("getDate");
+                            enddate = Date.parse(enddate);
+                            if (strtdate > enddate) {
+                                document.getElementById('txtstrtDt' + z).value = "";
+                                document.getElementById('errtxtstrtDt' + z).innerHTML = "it can't be greater-than End date";
+                                $('#errtxtstrtDt' + z).css('display', 'block');
+                                return false;
+                            }
+                        }
+                        if (ParseprojectEndDate < strtdate) {
+                            document.getElementById('txtstrtDt' + z).value = "";
+                            document.getElementById('errtxtstrtDt' + z).innerHTML = "it can't be greater-than Project End date:" + "<br/>" + formatedProjectEndDate + "";
+                            $('#errtxtstrtDt' + z).css('display', 'block');
+                            return false;
+                        } else {
+                            $('#errtxtstrtDt' + z).css('display', 'none');
+                        }
+                    }
+
+
+                    if (document.getElementById('txtendDt' + z).value != "") {
+                        var enddate = document.getElementById('txtendDt' + z).value;
+                        enddate = $('#txtendDt' + z).datepicker("getDate");
+                        enddate = Date.parse(enddate);
+
+                        if (document.getElementById('txtstrtDt' + z).value != "") {
+                            var strtdate = document.getElementById('txtstrtDt' + z).value;
+                            strtdate = $('#txtstrtDt' + z).datepicker("getDate");
+                            strtdate = Date.parse(strtdate);
+                            if (strtdate > enddate) {
+                                document.getElementById('txtendDt' + z).value = "";
+                                document.getElementById('errtxtendDt' + z).innerHTML = "it can't be lesser-than Project start date";
+                                $('#errtxtendDt' + z).css('display', 'block');
+                                return false;
+                            }
+                        }
+
+                        if (projectEndDate < enddate) {
+                            document.getElementById('txtendDt' + z).value = "";
+                            document.getElementById('errtxtendDt' + z).innerHTML = "it can't be greater-than Project End date:" + "<br/>" + formatedProjectEndDate + "";
+                            $('#errtxtendDt' + z).css('display', 'block');
+                            return false;
+                        } else {
+                            $('#errtxtendDt' + z).css('display', 'none');
+                        }
+                    }
+
+
+
+
+                }
+            }
+            if (document.getElementById('txtAdditionalEmail').value != "") {
+                var email = document.getElementById('txtAdditionalEmail').value;
+                if (!validateEmail(email)) {
+                    $('#errMsgEmail').css('display', 'block');
+                    return false;
+                } else {
+                    $('#errMsgEmail').css('display', 'none');
+                }
+
+            }
+
+        }
+        //code to bind new Resource information div
+        function BindResourceInfoDiv() {
+
+            var divHtml = "<div class='AddResource' id='maindiv" + txtidIndex + "'><div class='col-md-3'><label>Allocation%</label></div><div class='col-md-3'><input type='text' id='txtAllocation" + txtidIndex + "' class='form-control mx-sm-3 classAllocation' onkeypress='return event.charCode >= 48 &amp;&amp; event.charCode <= 57' maxlength='3' pattern='^[0-9]$' onkeyup='removeErrorMsgResourceAssignment()'><div id='errtxtAllocation" + txtidIndex + "' class='error'>Allocation % is required</div></div><div class='col-md-3'><label>Employee Role</label></div><div class='col-md-3'><select id='ddlBillability" + txtidIndex + "' class='form-control mx-sm-3 ddlBillability'></select><div id='errddlBillability" + txtidIndex + "' class='error'>Billability is required</div></div><div class='clear'></div><div class='col-md-3'><label>Start Date</label></div><div class='col-md-3'><div class='date'><input type='text' id='txtstrtDt" + txtidIndex + "' class='form-control mx-sm-3 strtDt' onselect='removeErrorMsgResourceAssignment()'></div><div id='errtxtstrtDt" + txtidIndex + "' class='error'>Start date is required</div></div><div class='col-md-3'><label>End Date</label></div><div class='col-md-3'><div class='date'><input type='text' id='txtendDt" + txtidIndex + "' class='form-control mx-sm-3 endDt' onselect='removeErrorMsgResourceAssignment()'></div><div id='errtxtendDt" + txtidIndex + "' class='error'>End date is required</div></div><div class='clear'></div><div class='col-md-3'><label>Type Of Assignment</label></div><div class='col-md-4'><select id='selectAssignment" + txtidIndex + "' class='form-control mx-sm-3'><option value='BCONE LOCATION'>BCONE LOCATION</option><option value='CLIENT LOCATION'>CLIENT LOCATION</option><option value='Both'>Both</option></select></div><div class='col-md-5 action'><input type='button' class='btn btn-primary' id='btncheckAvailbility" + txtidIndex + "' value='Check Availability' onclick='checkResourceAvailbility(this);'/><a href='#'><span class='glyphicon glyphicon-ok-sign' id='Availabilitysign' style='display:none'></span><span id='Availabilityvalue" + txtidIndex + "' style='visibility:hidden'></span></a><div id='AvailbilityErrMsg" + txtidIndex + "' class='error' style='font-size: 11px;'>Please check Resource Availbility</div></div><div class='clear'></div></div>"
+            if (txtidIndex > 0) {
+                var divId = txtidIndex - 1;
+                $(divHtml).insertAfter("#maindiv" + divId);
+            } else {
+                $(divHtml).insertAfter("#ResourceInfo");
+            }
+            if (txtidIndex >= 0) {
+                document.getElementById('removeaddResource').style.display = 'inline-block';
+            }
+
+            txtidIndex++;
+        }
+        //code to remove resource informaition div
+        function RemoveResourceInfoDiv() {
+            txtidIndex--;
+            $('#maindiv' + txtidIndex).remove();
+            if (txtidIndex < 1) {
+                document.getElementById('removeaddResource').style.display = 'none';
+            }
+        }
+        //function searchResourcehek(Employee_ID, ProjectStrtdate, ProjectEnddate, Allocationvalue) {//2017-08-29T19:00:00
+        //    var refined_data = [];
+        //    var refined_array = [];
+
+        //   // url = site_url + "_api/ProjectWiseResourceAllocation?$filter=(Finishdatetime lt datetime'" + ProjectStrtdate + "'or Allocation lt 100) and EmployeeID eq '" + Employee_ID + "'";
+        //    // var requestData = "{\"EmployeeID\":\"" + Employee_ID + "\"}";
+        //    url = searchresourceAllocationPercentResource(ProjectStrtdate, Employee_ID);
+        //    $.ajax({
+        //        url: url,
+        //        method: "GET",
+        //        async: false,
+        //        headers: { "Accept": "application/json; odata=verbose" },
+        //        success: function (data) {
+        //            var tdId = "";
+        //            var rejId = "";
+        //            var cmntID = "";
+        //            var resource_Array = [];
+        //            var denieddate_Array = [];
+        //            ProjectStrtdate = Date.parse(ProjectStrtdate);
+        //            ProjectEnddate = Date.parse(ProjectEnddate);
+        //            $.each(data.d.results, function (key, value) {
+        //                var allocatedStartdate = value.Startdatetime;
+        //                allocatedStartdate = Date.parse(allocatedStartdate);
+        //                var allocatedEnddate = value.Finishdatetime;
+        //                allocatedEnddate = Date.parse(allocatedEnddate);
+        //                if ((allocatedStartdate >= ProjectStrtdate && allocatedStartdate <= ProjectEnddate) || (allocatedEnddate >= ProjectStrtdate && allocatedEnddate <= ProjectEnddate) || (ProjectStrtdate >= allocatedStartdate && ProjectStrtdate <= allocatedEnddate) || (ProjectEnddate >= allocatedStartdate && ProjectEnddate <= allocatedEnddate)) {
+        //                    resource_Array.push(value);
+        //                } else {
+        //                    denieddate_Array.push(value);
+        //                }
+        //            });
+
+        //            var lookup = {};
+        //            var items = resource_Array;
+        //            var result = [];
+        //            for (var item, i = 0; item = items[i++];) {
+        //                var name = item.EmployeeID;
+        //                var projectStrtMinDate = [];
+        //                var projectEndMaxtDate = [];
+        //                if (!(name in lookup)) {
+        //                    lookup[name] = 1;
+        //                    result.push(item);
+        //                }
+        //            }
+        //            for (var j = 0; j < result.length; j++) {
+        //                var array2 = [];
+        //                var array_d1 = [];
+        //                var array_d2 = [];
+        //                var Projectdatacount = 0;
+        //                var Locationdatacount = 0;
+        //                var allocation = 0;
+        //                var array_d3 = [];
+        //                for (var k = 0; k < resource_Array.length; k++) {
+        //                    if (resource_Array[k].EmployeeID == result[j].EmployeeID) {
+        //                        array2.push(resource_Array[k]);
+
+        //                        var srtDate = resource_Array[k].Startdatetime;
+        //                        var endDate = resource_Array[k].Finishdatetime;
+        //                        srtDate = Date.parse(srtDate);
+        //                        endDate = Date.parse(endDate);
+        //                        array_d1.push(srtDate);
+        //                        array_d2.push(endDate);
+        //                        if (srtDate)
+        //                            if (resource_Array[k].ProjectName != result[j].ProjectName) {
+        //                                Projectdatacount++;
+        //                            }
+        //                        if (resource_Array[k].ProjectLocation != result[j].ProjectLocation) {
+        //                            Locationdatacount++;
+        //                        }
+        //                        //allocation.push(resource_Array[k].Allocation);
+        //                        allocation = parseInt(allocation) + parseInt(resource_Array[k].Allocation);
+        //                    }
+
+        //                }
+        //                var minStartDate = Math.min.apply(Math, array_d1);
+        //                minStartDate = formateRefinedDate(minStartDate);
+        //                var maxEndDate = Math.max.apply(Math, array_d2);
+        //                maxEndDate = formateRefinedDate(maxEndDate);
+        //                var allocationPer = allocation   // Math.max.apply(Math, allocation);
+        //                var project_Name = Projectdatacount > 0 ? "Multiple Assignment" : array2[0].ProjectName;
+        //                var Project_Loaction = Locationdatacount > 0 ? "Multiple Loaction" : array2[0].ProjectLocation;
+
+
+        //                if (Allocationvalue != "" && Allocationvalue != undefined) {
+        //                    if (Allocationvalue <= (100 - parseInt(allocationPer)))
+        //                        refined_array.push({
+        //                            "EmployeeID": array2[0].EmployeeID,
+        //                            "ResourceFullName": array2[0].ResourceFullName,
+        //                            "Designation": array2[0].Designation,
+        //                            "ProjectName": project_Name,
+        //                            "Startdatetime": minStartDate,
+        //                            "Finishdatetime": maxEndDate,
+        //                            "Allocation": allocationPer,
+        //                            "Work_Location": Project_Loaction
+        //                        })
+        //                } else {
+
+        //                    refined_array.push({
+        //                        "EmployeeID": array2[0].EmployeeID,
+        //                        "ResourceFullName": array2[0].ResourceFullName,
+        //                        "Designation": array2[0].Designation,
+        //                        "ProjectName": project_Name,
+        //                        "Startdatetime": minStartDate,
+        //                        "Finishdatetime": maxEndDate,
+        //                        "Allocation": allocationPer,
+        //                        "Work_Location": Project_Loaction
+        //                    })
+        //                }
+
+
+        //            }
+        //            if (refined_array.length == 0) {
+        //                if (denieddate_Array.length == data.d.results.length) {
+        //                    refined_array.push(denieddate_Array);
+        //                }
+        //            }
+        //        }
+        //    });
+
+        //    return refined_array;
+        //}
+        function searchResourcehek(Employee_ID, ProjectStrtdate, ProjectEnddate, Allocationvalue) {
+            var refined_array = [];
+            var site_url = searchresourceAllocationPercentResourceNew(ProjectStrtdate, ProjectEnddate, Employee_ID);
+            var lenghtCheck = 0;
+            $.ajax({
+                url: site_url,
+                method: "GET",
+                async: false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    var tdId = "";
+                    var rejId = "";
+                    var cmntID = "";
+                    var resource_Array = [];
+                    var denieddate_Array = [];
+                    if (data.d.results.length > 0) {
+                        lenghtCheck = data.d.results.length;
+                        ProjectStrtdate = Date.parse(ProjectStrtdate);
+                        ProjectEnddate = Date.parse(ProjectEnddate);
+                        $.each(data.d.results, function (key, value) {
+                            var allocatedStartdate = value.Startdatetime;
+                            allocatedStartdate = Date.parse(allocatedStartdate);
+                            var allocatedEnddate = value.Finishdatetime;
+                            allocatedEnddate = Date.parse(allocatedEnddate);
+                            if ((allocatedStartdate >= ProjectStrtdate && allocatedStartdate <= ProjectEnddate) || (allocatedEnddate >= ProjectStrtdate && allocatedEnddate <= ProjectEnddate) || (ProjectStrtdate >= allocatedStartdate && ProjectStrtdate <= allocatedEnddate) || (ProjectEnddate >= allocatedStartdate && ProjectEnddate <= allocatedEnddate)) {
+                                resource_Array.push(value);
+                            } else {
+                                denieddate_Array.push(value);
+                            }
+                        });
+
+                        var array2 = [];
+                        var array_d1 = [];
+                        var array_d2 = [];
+                        var Projectdatacount = 0;
+                        var Locationdatacount = 0;
+                        var allocation = 0;
+                        var array_d3 = [];
+                        var newAllocation_val = [];
+                        for (var k = 0; k < resource_Array.length; k++) {
+
+                            array2.push(resource_Array[k]);
+
+                            var srtDate = resource_Array[k].Startdatetime;
+                            var endDate = resource_Array[k].Finishdatetime;
+                            srtDate = Date.parse(srtDate);
+                            endDate = Date.parse(endDate);
+                            array_d1.push(srtDate);
+                            array_d2.push(endDate);
+
+                            allocation = parseInt(allocation) + parseInt(resource_Array[k].Allocation);
+                            newAllocation_val.push(parseInt(resource_Array[k].Allocation));
+
+                        }
+                        var minStartDate = Math.min.apply(Math, array_d1);
+                        minStartDate = formateRefinedDate(minStartDate);
+                        var maxEndDate = Math.max.apply(Math, array_d2);
+                        maxEndDate = formateRefinedDate(maxEndDate);
+                        var allocationPer = allocation   // Math.max.apply(Math, allocation); lenghtCheck > 1 ? Math.max.apply(Math, newAllocation_val) : 
+                        if (resource_Array.length > 0) {
+                            if (Allocationvalue != "" && Allocationvalue != undefined) {
+                                if (Allocationvalue <= (100 - parseInt(allocationPer)))
+                                    refined_array.push({
+                                        "EmployeeID": array2[0].EmployeeID,
+                                        "ResourceFullName": array2[0].ResourceFullName,
+                                        "Designation": array2[0].Designation,
+                                        "ProjectName": array2[0].ProjectName,
+                                        "Startdatetime": minStartDate,
+                                        "Finishdatetime": maxEndDate,
+                                        "Allocation": allocationPer,
+                                        "Work_Location": array2[0].ProjectLocation
+                                    })
+                            } else {
+
+                                refined_array.push({
+                                    "EmployeeID": array2[0].EmployeeID,
+                                    "ResourceFullName": array2[0].ResourceFullName,
+                                    "Designation": array2[0].Designation,
+                                    "ProjectName": array2[0].ProjectName,
+                                    "Startdatetime": minStartDate,
+                                    "Finishdatetime": maxEndDate,
+                                    "Allocation": allocationPer,
+                                    "Work_Location": array2[0].ProjectLocation
+                                })
+                            }
+                        }
+                    } else {
+                        denieddate_Array.push({
+                            "EmployeeID": Employee_ID,
+                            "ResourceFullName": "",
+                            "Designation": "",
+                            "ProjectName": "",
+                            "Startdatetime": "",
+                            "Finishdatetime": "",
+                            "Allocation": "",
+                            "Work_Location": ""
+                        })
+                    }
+                    // }
+                    if (refined_array.length == 0) {
+                        if (data.d.results.length > 0) {
+                            if (denieddate_Array.length == data.d.results.length && (denieddate_Array.length > 0)) {
+                                refined_array.push(denieddate_Array);
+                            }
+                        } else if (denieddate_Array.length > 0) {
+                            refined_array.push(denieddate_Array);
+                        }
+                    }
+                }
+            });
+
+            return refined_array;
+        }
+        //code to formet date
+        function formateRefinedDate(date) {
+            var resultdate = "";
+            var newdate = new Date(date);
+            newdate.setDate(newdate.getDate() + 1);
+            var tempDate_array = newdate.toDateString().split(' ');
+
+            resultdate = tempDate_array[2] + "-" + tempDate_array[1] + "-" + tempDate_array[3];
+            return resultdate;
+        }
+        function getFormatDate(date) {
+            if (date != null && date != "") {
+                var year = date.toString().substring(0, 4);
+                var month = GetMonthName(date.toString().substring(4, 6));
+                var date = date.toString().substring(6, 8);
+                var formatDate = date + '-' + month + '-' + year;
+                return formatDate;
+            }
+        }
+        function GetMonthName(monthNumber) {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[monthNumber - 1];
+        }
+
+        function SaveResourceassignment() {
+
+            var resourceFlag = 0;
+            if (validateResourceAssignementData()) {
+                $('.loader').show();
+                document.getElementById('btnSaveResource').style.display = 'none';
+                var projectCode = document.getElementById('txtProjectCode').value;
+                var projectName = document.getElementById('ddlProjectName').value;
+                var projecManager = document.getElementById('txtProjectManager').value;
+                var clientPartner = document.getElementById('txtclientPertner').value;
+                var resourceManager = document.getElementById('txtResourcemanager').value;
+                var ProjectLoaction = document.getElementById('txtPLocation').value;
+                var resourceAllocation = document.getElementById('txtAllocation').value;
+                var EmployeeRole = document.getElementById('ddlBillability').value;
+                var startDate = $('#txtstrtDt').datepicker("getDate").format("yyyy-MM-dd");
+
+                startDate = getformateDateForSave(startDate);
+                // startDate = startDate.substring(0, 19);
+                var endDate = $('#txtendDt').datepicker("getDate").format("yyyy-MM-dd");
+                endDate = getformateDateForSave(endDate);
+                // endDate = endDate.substring(0, 19);
+
+                var assignmentType = document.getElementById('ddlAssignmentTyp').value;
+				
+				var ContractType = document.getElementById('txtContractType').value;
+
+                var resourceName = document.getElementById('ddlResourceName').value;
+                var resource_ID = document.getElementById('txtResourceID').value;
+                var resourceID =resource_ID.trim();
+                var emailId = document.getElementById('txtAdditionalEmail').value;
+                var Note = document.getElementById('TextareaResourceNote').value;
+				var resource_Data = $("#ddlResourceName option:selected").attr('data-value');
+				var role_Band= resource_Data.split('#')[1];
+                var activeFlag = 1;
+                //---Future allocation check
+                var allocation_StartDate = $('#txtstrtDt').datepicker("getDate");
+                allocation_StartDate = Date.parse(allocation_StartDate);
+                var currentDate = new Date();
+                currentDate = Date.parse(currentDate);
+                if (allocation_StartDate > currentDate) {
+                    var getactiveflagData = "";
+                    activeFlag = 2;
+                } else {
+                    var getactiveflagData = getActiveByResourceWiseProjectAllocation(projectCode, resourceID, LoginUserEmail);
+                }
+
+                var getProjectwiseURL = ProjectWiseAllocation();
+                $.ajax({
+                    url: getProjectwiseURL, //"https://ppmdev.bcone.com/_api/ProjectWiseResourceAllocation",
+                    async: false,
+                    method: "POST",
+
+                    data: {
+                        "AllocatedProjectCode": projectCode,
+                        "ProjectName": projectName,
+                        "ResourceFullName": resourceName,
+                        "EmployeeID": resourceID,
+                        "BookingType": null,
+                        "Startdatetime": startDate,
+                        "Finishdatetime": endDate,
+                        "Allocation": resourceAllocation,
+                        "ProjectLocation": ProjectLoaction,
+                        "BillableStatus": null,
+                        "RMOSPOC": resourceManager,
+                        "Reporting_Manager": projecManager,
+                        "Flag": "Internal",
+                        "Active": activeFlag,
+                        "RRFNO": null,
+                        "PrimarySkills": PrimarySkill,
+                        "RA_created_by": LoginUserEmail,
+                        "RA_Modify_By": LoginUserEmail,
+                        "AllocationRoleBand": role_Band,
+                        "AllocationBaseLocation": ProjectLoaction
+                    },
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                    },
+                    success: function (data) {
+                        NewInternalID = data.d.InternalID;
+                        // alert('added successfully');
+                        var listName = "RMOResourceAssignment";
+                        var itemType = GetItemTypeForListName(listName);
+                        var item = {
+                            __metadata: { "type": itemType },
+
+                            ProjectCode: projectCode,
+                            ProjectName: projectName,
+                        };
+                        $.extend(item, { ProjectManager: projecManager });
+                        $.extend(item, { ClientPartner: clientPartner });
+                        $.extend(item, { ResourceManager: resourceManager });
+                        $.extend(item, { ProjectLoaction: ProjectLoaction });
+                        $.extend(item, { ResourceName: resourceName });
+                        $.extend(item, { ResourceID: resourceID });
+                        $.extend(item, { AllocationPercent: resourceAllocation });
+                        $.extend(item, { Billability: EmployeeRole });
+                        $.extend(item, { StartDate: startDate });
+                        $.extend(item, { EndDate: endDate });
+                        $.extend(item, { TypeofAssignment: assignmentType });
+                        $.extend(item, { AdditionalEmail: emailId });
+						$.extend(item, { ContractType: ContractType });
+                        $.extend(item, { Note: Note });
+
+                        $.ajax({
+                            url: "../_api/Web/Lists/GetByTitle('" + listName + "')/items",
+                            type: "POST",
+                            contentType: "application/json;odata=verbose",
+                            data: JSON.stringify(item),
+
+                            headers: {
+                                "Accept": "application/json;odata=verbose",
+                                "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                            },
+                            success: function (data) {
+                                //alert('Resource Allocated Successfully');
+                                if (txtidIndex == 0) {
+                                    var Cc = "RMO@bcone.com" + ";" + projectManagerEmailadd;
+                                    var EventId = "";
+                                    var Flag = "10";
+                                    var TrackingId = NewInternalID.toString();
+                                    insertIntoSendEmailData(allocationResourceEmail, Cc, EventId, Flag, TrackingId);
+                                    $('.loader').hide();
+                                    $('.Alertpopup-bg').show();
+                                    //alert('Resource Allocated Successfully');
+                                    //location.reload();
+                                }
+                                if (txtidIndex > 0) {
+                                    for (var z = 0; z < txtidIndex; z++) {
+                                        resourceName = document.getElementById('ddlResourceName').value;
+                                        resource_ID = document.getElementById('txtResourceID').value;
+                                        resourceID =resource_ID.trim();
+                                        projectCode = document.getElementById('txtProjectCode').value;
+                                        projectName = document.getElementById('ddlProjectName').value;
+                                        projecManager = document.getElementById('txtProjectManager').value;
+                                        clientPartner = document.getElementById('txtclientPertner').value;
+                                        resourceManager = document.getElementById('txtResourcemanager').value;
+                                        ProjectLoaction = document.getElementById('txtPLocation').value;
+
+                                        resourceAllocation = document.getElementById('txtAllocation' + z).value;
+                                        EmployeeRole = document.getElementById('ddlBillability' + z).value;
+                                        startDate = $('#txtstrtDt' + z).datepicker("getDate").toISOString();
+                                        startDate = startDate.substring(0, 19);
+                                        endDate = $('#txtendDt' + z).datepicker("getDate").toISOString();
+                                        endDate = endDate.substring(0, 19);
+                                        assignmentType = document.getElementById('selectAssignment' + z).value;
+
+                                        emailId = document.getElementById('txtAdditionalEmail').value;
+                                        Note = document.getElementById('TextareaResourceNote').value;
+
+                                        //---Future allocation check
+                                        var allocation_StartDate = $('#txtstrtDt' + z).datepicker("getDate");
+                                        allocation_StartDate = Date.parse(allocation_StartDate);
+                                        var currentDate = new Date();
+                                        currentDate = Date.parse(currentDate);
+                                        if (allocation_StartDate > currentDate) {
+                                            var getactiveflagData = "";
+                                            activeFlag = 2;
+                                        } else {
+                                            var getactiveflagData = getActiveByResourceWiseProjectAllocation(projectCode, resourceID, LoginUserEmail);
+                                        }
+
+                                        $.ajax({
+                                            url: getProjectwiseURL, //"https://ppmdev.bcone.com/_api/ProjectWiseResourceAllocation",
+                                            async: false,
+                                            method: "POST",
+                                            data: {
+                                                "AllocatedProjectCode": projectCode,
+                                                "ProjectName": projectName,
+                                                "ResourceFullName": resourceName,
+                                                "EmployeeID": resourceID,
+                                                "BookingType": null,
+                                                "Startdatetime": startDate,
+                                                "Finishdatetime": endDate,
+                                                "Allocation": resourceAllocation,
+                                                "ProjectLocation": ProjectLoaction,
+                                                "BillableStatus": null,
+                                                "RMOSPOC": resourceManager,
+                                                "Reporting_Manager": projecManager,
+                                                "Flag": "Internal",
+                                                "Active": activeFlag,
+                                                "RRFNO": null,
+												"RA_created_by": LoginUserEmail,
+												"RA_Modify_By": LoginUserEmail,
+												"AllocationRoleBand": role_Band,
+												"AllocationBaseLocation": ProjectLoaction
+                                            },
+                                            headers: {
+                                                "Accept": "application/json;odata=verbose",
+                                            },
+                                            success: function (data) {
+                                                NewInternalID = data.d.InternalID;
+                                                // alert('added successfully');
+                                                var listName = "RMOResourceAssignment";
+                                                var itemType = GetItemTypeForListName(listName);
+                                                var item = {
+                                                    __metadata: { "type": itemType },
+
+                                                    ProjectCode: projectCode,
+                                                    ProjectName: projectName,
+                                                };
+                                                $.extend(item, { ProjectManager: projecManager });
+                                                $.extend(item, { ClientPartner: clientPartner });
+                                                $.extend(item, { ResourceManager: resourceManager });
+                                                $.extend(item, { ProjectLoaction: ProjectLoaction });
+                                                $.extend(item, { ResourceName: resourceName });
+                                                $.extend(item, { ResourceID: resourceID });
+                                                $.extend(item, { AllocationPercent: resourceAllocation });
+                                                $.extend(item, { Billability: EmployeeRole });
+                                                $.extend(item, { StartDate: startDate });
+                                                $.extend(item, { EndDate: endDate });
+                                                $.extend(item, { TypeofAssignment: assignmentType });
+                                                $.extend(item, { AdditionalEmail: emailId });
+												 $.extend(item, { ContractType: ContractType });
+                                                $.extend(item, { Note: Note });
+
+                                                $.ajax({
+                                                    url: "../_api/Web/Lists/GetByTitle('" + listName + "')/items",
+                                                    type: "POST",
+                                                    contentType: "application/json;odata=verbose",
+                                                    data: JSON.stringify(item),
+
+                                                    headers: {
+                                                        "Accept": "application/json;odata=verbose",
+                                                        "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                                                    },
+                                                    success: function (data) {
+                                                        resourceFlag++;
+                                                        if (resourceFlag == txtidIndex) {
+                                                            var Cc = "RMO@bcone.com" + ";" + projectManagerEmailadd;
+                                                            var EventId = "";
+                                                            var Flag = "10";
+                                                            var TrackingId = NewInternalID.toString();
+                                                            insertIntoSendEmailData(allocationResourceEmail, Cc, EventId, Flag, TrackingId);
+                                                            $('.loader').hide();
+                                                            $('.Alertpopup-bg').show();
+                                                            //alert('Resource Allocated Successfully');
+                                                            // location.reload();
+                                                        }
+                                                    },
+                                                    error: function (error) {
+                                                        //alert(JSON.stringify(error));
+                                                    }
+                                                });
+
+                                            },
+                                            error: function (error) {
+                                                result = 'error';
+                                                console.log(JSON.stringify(error));
+                                            }
+
+                                        });
+                                    }
+
+                                }
+                            },
+                            error: function (error) {
+                                //alert(JSON.stringify(error));
+                            }
+                        });
+
+                    },
+                    error: function (error) {
+                        result = 'error';
+                        console.log(JSON.stringify(error));
+                    }
+
+                });
+
+
+            }
+        }
+        function validateResourceAssignementData() {
+            var allocationId = "txtAllocation";
+            var billablityId = "txtBillability";
+            var stsrtDataId = "txtstrtDt";
+            var endDataId = "txtendDt";
+
+            if (document.getElementById('ddlResourceName').value == "") {
+                $('#errMsgResource').css('display', 'block');
+                return false;
+            }
+            if (document.getElementById('txtResourceID').value == "") {
+                $('#errMsgResourceId').css('display', 'block');
+                return false;
+            }
+            if (document.getElementById('ddlProjectName').value == "") {
+                $('#errMsgProjects').css('display', 'block');
+                return false;
+
+            }
+            if (document.getElementById('txtPLocation').value == "") {
+                $('#errMsgLocation').css('display', 'block');
+                return false;
+            }
+            if (document.getElementById('txtAllocation').value == "") {
+                document.getElementById('errtxtAllocation').innerHTML = "Allocation% is required"
+                $('#errtxtAllocation').css('display', 'block');
+                return false;
+            } else {
+                var allocationVal = document.getElementById('txtAllocation').value;
+                allocationVal = parseInt(allocationVal);
+                if (allocationVal > 100 || allocationVal == 0) {
+                    document.getElementById('txtAllocation').value = "";
+                    document.getElementById('errtxtAllocation').innerHTML = 'Allocation % should be between 1-100';
+                    $('#errtxtAllocation').css('display', 'block');
+                    return false;
+                } else {
+                    $('#errtxtAllocation').css('display', 'none');
+                }
+
+            }
+            if (document.getElementById('ddlBillability').value == "") {
+                $('#errddlBillability').css('display', 'block');
+                return false;
+            } else {
+                $('#errtxtBillability').css('display', 'none');
+            }
+            if (document.getElementById('txtstrtDt').value == "") {
+                $('#errtxtstrtDt').css('display', 'block');
+                return false;
+            } else {
+                $('#errtxtstrtDt').css('display', 'none');
+            }
+            if (document.getElementById('txtendDt').value == "") {
+                document.getElementById('txtendDt').innerHTML = "End date is required";
+                $('#errtxtendDt').css('display', 'block');
+
+                return false;
+            } else {
+                $('#errtxtendDt').css('display', 'none');
+            }
+            if (document.getElementById('Availabilityvalue').innerHTML == "") {
+                document.getElementById('AvailbilityErrMsg').innerHTML = "Please check Resource Availbility "
+                $('#AvailbilityErrMsg').css('display', 'block');
+                return false;
+            } else {
+                $('#AvailbilityErrMsg').css('display', 'none');
+            }
+
+            if (txtidIndex > 0) {
+                for (var z = 0; z < txtidIndex; z++) {
+                    if (document.getElementById('txtAllocation' + z).value == "") {
+                        $('#errtxtAllocation' + z).css('display', 'block');
+                        return false;
+                    } else {
+                        $('#errtxtAllocation' + z).css('display', 'none');
+                    }
+                    if (document.getElementById('ddlBillability' + z).value == "") {
+                        $('#errddlBillability' + z).css('display', 'block');
+                        return false;
+                    } else {
+                        $('#errtxtBillability' + z).css('display', 'none');
+                    }
+                    if (document.getElementById('txtstrtDt' + z).value == "") {
+                        $('#errtxtstrtDt' + z).css('display', 'block');
+                        return false;
+                    } else {
+                        $('#errtxtstrtDt' + z).css('display', 'none');
+                    }
+                    if (document.getElementById('txtendDt' + z).value == "") {
+                        document.getElementById('txtendDt' + z).innerHTML = "End date is required";
+                        $('#errtxtendDt' + z).css('display', 'block');
+                        return false;
+                    } else {
+                        $('#errtxtendDt' + z).css('display', 'none');
+                    }
+                    if (document.getElementById('Availabilityvalue' + z).innerHTML == "") {
+                        document.getElementById('AvailbilityErrMsg' + z).innerHTML = "Please check Resource Availbility "
+                        $('#AvailbilityErrMsg' + z).css('display', 'block');
+                        return false;
+                    } else {
+                        $('#AvailbilityErrMsg' + z).css('display', 'none');
+                    }
+                }
+            }
+            return true;
+        }
+        function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+        function hideerrormsg(comment) {
+            var commentID = comment.id;
+            var comment = document.getElementById(commentID).value;
+            var match = (new RegExp('[~#%\&{}+\|]|\\.\\.|^\\.|\\.$')).test(comment);
+            if (match) {
+                $('#' + commentID).css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+                $('#errMsgNote').css('display', 'block');
+
+                document.getElementById(commentID).focus();
+                return false;
+            } else {
+                $('#' + commentID).css({
+
+                    "border": "",
+                    "background": ""
+                });
+                $('#errMsgNote').css('display', 'none');
+            }
+        }
+        function GetItemTypeForListName(name) {
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.slice(1) + "ListItem";
+        }
+        function RedirecttoHome() {
+            var getUrl = getSiteURl();
+            window.location.href = getUrl + "/default.aspx";
+        }
+        function convert_date_DDMMYYYY(date_to_convert) {
+            var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            var MonthName = GetMonthName(arr_dateonly[1]);
+            converted_date = arr_dateonly[2] + "-" + MonthName + "-" + arr_dateonly[0];
+            return converted_date;
+        }
+        function getformateDateForSave(date) {
+            var newdate = date + "T00:00:00";
+            return newdate;
+        }
+        function SelectionResourceAlert() {
+            $('.Alertpopup-bg').hide();
+            location.reload();
+
+        }
+        function insertIntoSendEmailData(To, Cc, EventId, Flag, TrackingId) {
+            var item = {
+                __metadata: { "type": "SP.Data.BconeEmailDataListItem" }
+            };
+
+            $.extend(item, { To: To });
+
+            $.extend(item, { Cc: Cc });
+
+            $.extend(item, { EventId: EventId });
+            $.extend(item, { Flag: Flag });
+            $.extend(item, { TrackingId: TrackingId });
+
+            $.ajax({
+                url: "../_api/Web/Lists/GetByTitle('BconeEmailData')/items",
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+                    // alert('success');
+                },
+                error: function (error) {
+                    //alert(JSON.stringify(error));
+                }
+            });
+        }
+        function allocation(Employee_ID,SDate,EDate){
+		var listName = "ResourceAllocationDetails";
+	    
+		var url="../_api/web/lists/getbytitle('" + listName + "')/items?$select=ProjectName,EmployeeID,ApprovalStatus,AllocationPercentage,StartDate,EndDate,ExtensionDate&$filter=EmployeeID eq ('"+ Employee_ID+"') and ApprovalStatus eq 'Pending' ";
+        $.ajax({
+		url:  url,
+		type: "GET",
+		async:false,
+        headers: {  
+            "accept": "application/json;odata=verbose",  
+            "content-type": "application/json;odata=verbose"  
+  
+        }, 
+		success: function(data) {  
+             
+			var UserStartDate=Date.parse(SDate);
+			var UserEndDate=Date.parse(EDate);
+			 
+			
+			if(data.d.results["length"]>0)
+			{
+					
+					var EndDate=data.d.results[0].EndDate;
+					EndDate = Date.parse(EndDate);
+					var ExtensionDate=data.d.results[0].ExtensionDate;
+					ExtensionDate = Date.parse(ExtensionDate);
+					var AllocationPercentage=data.d.results[0].AllocationPercentage;
+					var StartDate=Date.parse(data.d.results[0].StartDate);
+				     var ProjectName=data.d.results[0].ProjectName;
+						//alert(StartDate);
+					var input_allocation_percentage = $('#txtAllocation').val();
+					
+					var total_allocation_percentage = parseInt(AllocationPercentage) + parseInt(input_allocation_percentage);
+
+					
+			if((UserStartDate>=EndDate && UserEndDate<=ExtensionDate )||total_allocation_percentage >100)
+			{
+			
+				alert("Resource is not available due to pending request of Extension on  "+data.d.results[0].ProjectName+" Project");
+			
+		      $("#Availabilitysign").css({display: "none",visibility: "hidden"});
+			  	 <!-- if(total_allocation_percentage >100) -->
+				 <!-- { -->
+			 
+				<!-- alert("Resource is not available for Extension as it is pending with  "+data.d.results[0].ProjectName+" Project"); -->
+			
+		      <!-- $("#Availabilitysign").css({display: "none",visibility: "hidden"}); -->
+			
+				  }
+			
+			
+			
+			else{
+			  
+				   $("#Availabilitysign").css({display: "inline-block",visibility: "display"});
+			  }
+			  
+				
+			}
+        },  
+        error: function(error) 
+		{  
+            console.log(JSON.stringify(error));  
+  
+        }  
+
+        });
+		
+		}
+    </script>
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

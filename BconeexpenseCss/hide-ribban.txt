@@ -1,0 +1,29 @@
+<style>
+#s4-ribbonrow,#SearchBox,#O365_MainLink_Settings{display:none }
+.middle {width: 97%;margin: 0 auto;}
+#sideNavBox{width:0px !important;display: none;}
+#contentBox {margin-right: 0px !important;  margin-left:0px !important; }
+#contentRow {padding-top: 0px !important;}
+.menu-item-text{
+display:none;
+}
+#pageTitle{
+display:none;
+}
+#siteIcon{    
+	height: 25px !important;
+	line-height: 25px !important;
+}
+.ms-breadcrumb-box{
+	height:auto !important;
+}
+.ms-webpart-chrome-title{
+	display:none !important;
+}
+#MSOZoneCell_WebPartWPQ4{
+	margin:0px !important;
+}
+#s4-titlerow{
+	height: 53px !important;
+}
+</style>

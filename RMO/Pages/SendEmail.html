@@ -1,0 +1,263 @@
+<html>
+<head>
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+	
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>	
+    <script type="text/javascript">
+		var CustomerNamedata = "";
+		var ProjectCode = "";
+		var PM = "";
+		var PM_resid = "";
+		var CP = "NA";
+		var RMOSPoc_ ="NA";
+		var CP_mail = "";
+		var ProjectStartdate = "";
+		var ProjectEnddate = "";
+		var ProjectTemplateType = "NA";
+		var Opportunity = "NA";
+		var ProjectName = "";
+		var ContractType_ = "";
+		var Subject = "New Project Creation- ";
+		var cc_mailSend ="RMO@bcone.com;pmo@bcone.com;project.setup@bcone.com";
+		var UrlAPI = getPWAURl();
+		var ProjectGuidGotCount = 0;
+		
+        $(document).ready(function () 
+		{
+            $('#btnSendEmail').click(function () 
+			{
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                var ProjectId = vars["ProjUid"];
+				if(ProjectId == undefined )
+				{
+					ProjectId = vars["projuid"];
+                }
+				//var cc_mailSend ="";
+				
+				setInterval(function () {
+					if(ProjectGuidGotCount == 0)
+					{
+						$.ajax
+						({
+							url: _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Projects?$filter=ProjectId eq guid'" + ProjectId + "'",
+							//data: requestData,
+							type: "GET",
+							async: false,
+							dataType: "json",
+							success: function (res) {
+							   // console.log(res);
+								CustomerNamedata = res.d.results[0].CustomerName;
+								ProjectCode = res.d.results[0].ProjectCode;
+								PM = res.d.results[0].ProjectOwnerName;
+								PM_resid =getmailFromGuid(res.d.results[0].ProjectOwnerId,"guid");
+								
+								if (res.d.results[0].ClientPartner != null && res.d.results[0].ClientPartner != 'NA') {
+									CP = res.d.results[0].ClientPartner; //<d:ClientPartner>1000000 | Executive PPM</d:ClientPartner>
+									
+									CP_mail =getmailFromGuid(CP.split('|')[0].trim(),"empids");
+									CP = CP.split('|')[1].trim();
+									cc_mailSend = cc_mailSend+';'+CP_mail;
+									//cc_mailSend = "";
+								}
+								if(res.d.results[0].RMOSPOC != null && res.d.results[0].RMOSPOC != 'NA'){
+									RMOSPoc_ = res.d.results[0].RMOSPOC;
+									RMOSPoc_ = RMOSPoc_.split('|')[1];
+								}
+								ContractType_ = res.d.results[0].ContractType;
+								Opportunity = res.d.results[0].Opportunity;
+								ProjectStartdate = formateRefinedDate(parseInt(res.d.results[0].ProjectStartDate.toString().substring(6, 19))); //"/Date(1487203200000)/"
+								//ProjectEnddate = formateRefinedDate(parseInt(res.d.results[0].ProjectFinishDate.toString().substring(6, 19))); // old date
+								ProjectEnddate = formateRefinedDate(parseInt(res.d.results[0].TargetProjectEndDate.toString().substring(6, 19))); //new date
+								ProjectTemplateType = res.d.results[0].EnterpriseProjectTypeName;
+								ProjectName = res.d.results[0].ProjectName;
+								Subject = "New Project Creation- " + ProjectName;
+								var body = "<div style='font-family:Calibri Light;size:12px'>Hi "+PM+",<br><br>Based on the inputs given by you and Project Set-up team, the Project <b><u>" + ProjectName + "</u></b> is created <b>in PPM.</b></p>" +
+										   "<p>Actions on PM:</p>" +
+											"<ul ><li>Please go ahead and create your Project Plan in PPM tool.</li>"+
+											"<br/><li>Kindly raise RRFs for the Project to the earliest for the assignment of resources in PPM.</li>"+
+											"<li>Create accurate tasks to the consultants, to enable them submit their Timesheets.</li></ul>" +
+											"RMO Team: Please allocate resources in line with RRFs raised." +
+										   "<br/><br/>Kindly find the Project details below:<br/>" +
+								   
+										  "<table border='thin solid black' width='auto' height= 'auto' border='1' cellspacing='0'>"+ 
+										  
+												"<tbody>"+ 
+													"<tr>"+            
+														"<td  style='text-align:left;background: cornflowerblue;'><strong>Customer Name</strong><br/></td>"+
+														"<td  style='text-align:left;background: cornflowerblue;'><strong>" + CustomerNamedata + "</strong><br/></td>"+
+													"</tr><td style='text-align:left;background-color: #deeaf6;'><strong>Project Name</strong></td><td style='text-align:left;background-color: #deeaf6;'>"+ProjectName+"</td></tr>"+
+													"</tr><td style='text-align:left'><strong>Project Code</strong></td><td style='text-align:left'>"+ProjectCode+"</td></tr>"+
+													"</tr><td style='text-align:left;background-color: #deeaf6;'><strong>Opportunity Code</strong></td><td style='text-align:left;background-color: #deeaf6;'>"+Opportunity+"</td></tr>"+
+													"</tr><td style='text-align:left'><strong>Project Manager</strong></td><td style='text-align:left'>"+PM+"</td></tr>"+
+													"</tr><td style='text-align:left;background-color: #deeaf6;'><strong>Client Partner</strong></td><td style='text-align:left;background-color: #deeaf6;'>"+CP+"</td></tr>"+
+													"</tr><td style='text-align:left'><strong>RMO SPOC</strong></td><td style='text-align:left'>"+RMOSPoc_.trim()+"</td></tr>"+
+													"</tr><td style='text-align:left;background-color: #deeaf6;'><strong>Contract Type</strong></td><td style='text-align:left;background-color: #deeaf6;'>"+ContractType_+"</td></tr>"+
+													"</tr><td style='text-align:left'><strong>Project Start Date</strong></td><td style='text-align:left'>"+ProjectStartdate+"</td></tr>"+
+													"</tr><td style='text-align:left;background-color: #deeaf6;'><strong>Project End Date</strong></td><td style='text-align:left;background-color: #deeaf6;'>"+ProjectEnddate+"</td></tr>"+
+													"</tr><td style='text-align:left'><strong>Project Template Type</strong></td><td style='text-align:left'>"+ProjectTemplateType+"</td></tr>"+
+												"</tbody>"+   
+											"</table>"+ 						  
+										"</div><br>" +
+									"<div>Thanks & Regards,<br/>PMO Team</div><div><br/><br/><br/><br/></div>";
+								
+								//PM_resid = "spdevadmin@bcone.com";
+								var requestData = '{\"To\": \"'+PM_resid+'\", \"Subject\": "' + Subject + '", \"Body\": "' + body + '",' +
+								'\"BodyFormat\": \"\",\"SubjectContent\": \"Test\", \"cc\": \"'+cc_mailSend+'\", \"URL\": \"https://a\"' +
+								'}';
+								var requestData = jQuery.parseJSON(requestData);
+								$("#outDiv").html("");
+								if(ProjectName != "" && ProjectName != null && ProjectName != "null" && ProjectName != "undefined" && ProjectCode != "" && ProjectCode != null && ProjectCode != "null" && ProjectCode != "undefined")
+								{
+									ProjectGuidGotCount = 1;
+									SendMAil(requestData,CustomerNamedata,ProjectName,ProjectCode,Opportunity,PM,RMOSPoc_,ContractType_,ProjectStartdate,ProjectEnddate,ProjectTemplateType,CP);
+								}
+							//});
+							},
+							error: function (jqXHR, textStatus, errorThrown) {
+								$("#outDiv").html(textStatus + " : " + errorThrown);
+							},
+							headers: {
+								"Accept": "application/json; odata=verbose",
+								"Content-Type": "application/json; odata=verbose"
+							}
+						});
+					}
+				},
+				3000);
+        });
+		});
+		
+		function SendMAil(requestData_,CustomerNamedata,ProjectName,ProjectCode,Opportunity,PM,RMOSPoc_,ContractType_,ProjectStartdate,ProjectEnddate,ProjectTemplateType,CP)
+		{
+			$.ajax
+			({
+				url: UrlAPI + "api/BCONE/SendEmail",
+				data: requestData_,
+				type: "POST",
+				dataType: "json",
+				success: function (res) {
+				   // console.log(res);
+					if (res.SubOptions == "success") {
+					
+						UpdateLog(CustomerNamedata,ProjectName,ProjectCode,Opportunity,PM,RMOSPoc_,ContractType_,ProjectStartdate,ProjectEnddate,ProjectTemplateType,CP);
+						$("#outDiv").html("Email notification sent!!");
+						
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					$("#outDiv").html(textStatus + " : " + errorThrown);
+				},
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+				}
+			});
+			
+		}
+		
+		function getmailFromGuid(resGuidorEmpId,restype)
+		{
+			var resGuidMAil ="";
+			var urls = "";
+			if(restype == "guid")
+			{
+				urls = _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Resources?$filter=ResourceId eq guid'"+resGuidorEmpId+"'";
+			}
+			if(restype == "empids")
+			{ 
+				urls = _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Resources?$filter=EmployeeID eq '"+resGuidorEmpId+"'";
+			}
+			$.ajax
+			({
+				url:urls,
+				type:"GET",
+				async: false,
+				headers:{ "Accept": "application/json;odata=verbose" },
+				success:function(data)
+				{
+					//console.log(data.d.results[0].ResourceEmailAddress)
+					resGuidMAil = data.d.results[0].ResourceEmailAddress;
+				},
+				error:function(err){
+					alert(err);
+				},
+			});
+			return resGuidMAil;
+		}
+		
+        function formateRefinedDate(date) {
+            var resultdate = "";
+            var newdate = new Date(date);
+            //newdate.setDate(date.getDate());
+            var tempDate_array = newdate.toDateString().split(' ');
+            resultdate = tempDate_array[2] + "-" + tempDate_array[1] + "-" + tempDate_array[3];
+            return resultdate;
+        }
+		
+		function UpdateLog(CustomerNamedatas,ProjectNames,ProjectCodes,Opportunitys,PMs,RMOSPoc_s,ContractType_s,ProjectStartdates,ProjectEnddates,ProjectTemplateTypes,cps)
+		{
+            var DetailsitemType_ = GetItemTypeForListName('ProjectNotificationLog');
+			var Detailsitems_insert = {
+                __metadata: {
+                    "type": DetailsitemType_
+                },
+                ProjectName: ProjectNames,
+                CustomerName: CustomerNamedatas,
+                ProjectCode: ProjectCodes,
+                OpportunityCode: Opportunitys,
+                ProjectManager: PMs,
+                RMOSPOC: RMOSPoc_s,
+                ContractType: ContractType_s,
+                ProjectStartDate: ProjectStartdates,
+                ProjectEndDate: ProjectEnddates,
+                ProjectTemplateType: ProjectTemplateTypes,
+				ClientPartner:cps
+            };
+			var Urld = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('ProjectNotificationLog')/items";
+
+            $.ajax({
+                url: Urld,
+                type: "POST",
+                async: false,
+                contentType: "application/json;odata=verbose",
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                data: JSON.stringify(Detailsitems_insert),
+                success: function(res) {
+                },
+                error: function(res) {
+                    alert(' error inserting');
+
+                }
+            });
+		
+		}
+		
+		 function GetItemTypeForListName(name) {
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem"; //for list
+        }
+    </script>
+</head>
+<body>
+	<input type="button" value="Send Notification!" id="btnSendEmail"/>
+    <pre id="outDiv"></pre>
+</body>
+</html><html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Project Allocation Details Admin</title>
+	<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+	
+	<!-- <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script> -->
+	<!-- <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script> -->
+	<!-- <link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" /> -->
+	<!-- <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" /> -->
+	<!-- <link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css"> -->
+	<!-- <script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script> -->
+	<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+	
+		<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+	<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+
+	<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+	<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+	<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+	
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+
+	<!-- <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" /> -->
+   	<style>
+		
+#DeltaTopNavigation{	
+    display: none;
+
+}
+		tr.otherstyle {background-color: #c4d0d7; color:#fbfbfb;}
+		.table-new thead tr th {padding: 5px;background: #00b0f0;color: #fff;}	
+	</style>
+</head>
+<body>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+	<div class="container-fluid">
+		<div class="breadcrumb-main">
+			<div class="container-fluid">
+				<ul>
+					<li>
+						 <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a> 
+					</li>
+					<li>Project Allocation Details
+					</li>
+					<li><span id="resName"></span> ( <span id="resEmpId"></span> | <span id="resMail"></span> | <span id="resCountryLegal"></span> )
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="mid-block">		
+			<div class="mid-top" style="margin-bottom: 5px; ">
+			
+						<ul class="top-btns" style="float:right;margin-right:8px;">
+						 <li>
+                                <a href="javascript:void(0)" id="DataFromPhr" onclick="GetData('DataFromPhr')">
+								<i class="fa fa-folder-o"></i> Data From PHR
+                                    	<!-- <span class="highlight_no">0</span> -->
+                                </a>
+                            </li>
+					        <li>
+                               <a href="javascript:void(0)" id="DataFromPpm" onclick="GetData('DataFromPpm')" > 
+							   <i class="fa fa-folder-o"></i> Data From PPM
+								<!-- <span class="highlight_no">0</span> -->
+								</a>
+                            </li>
+                           
+                    
+                        </ul>
+			</div>	
+		</div>
+	</div>
+	<div class="container-fluid" id="tblLong">
+		<div class="" id="jqxgrid_container1">
+			<table id="tblAllcationDetails" class="display example table table-bordered table-new" cellspacing="0">
+			</table>
+			
+		</div>
+		<span id="yrsNote" hidden>NOTE: During integration, year 9999 is converted to 9900.</span>
+	</div>
+	
+	
+	<div id="alertmain" class="alert-main" style="display: none">
+		<div class="black-bg" id="backcolor">
+			<div class="popup-main">
+				<div class="popup-heading"><span id="Alert_msg"></span></div>
+				<div class="pop-mid">
+					<p id="submitValue"></p>
+					<input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh" ></span>
+			<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+		</div>			
+	</div>
+</div>
+	<span id="loading-image"></span>
+</body>
+</html>
+<script>
+
+function closeaddinfo()
+{
+	$('.addition-info-block').animate({ width: 'toggle'});
+};
+
+function cleardataAllocation() 
+{
+	$('#jqxgrid_container1').empty();
+	$("#jqxgrid_container1").append("<table id='tblAllcationDetails' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+
+</script>
+<script>
+var ResourceUID ="";
+var EmployeeEmailID ="";
+$(document).ready(function()
+{
+	disableRightClick();
+	GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+	$("#login_name_contain").text("");
+	}
+	else
+	{
+	$("#login_name_contain").text(username);
+	}
+	//	ResourceUID = location.search.split('ResourceUID=')[1];
+	
+	ResourceUID= queryString.ResourceUID;
+	EmployeeEmailID =queryString.resourceEmailID;
+	$('#resMail').text(EmployeeEmailID);
+	GetResName();
+	GetData('DataFromPhr');
+});
+resEmpId
+
+$(function()
+{
+	GetResEmpId();
+});
+function GetResEmpId()
+{
+	//$('#yrsNote').hide();
+	var GetAllocationDetailsUrl =GetResourceAllocationUri();// "https://ppmprod.bcone.com/api/Timesheet/GetResourceAllocation";
+	$.ajax
+	({
+		url:GetAllocationDetailsUrl,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		datatype:"json",
+		data: 
+			{
+				"ResourceUID":ResourceUID
+			},
+		success: function (data) 
+		{
+			$('#resEmpId').text(data.Data[0].EmployeeID);
+			$('#resCountryLegal').text(data.Data[0].CountryLegal);
+		},
+		error: function (data)
+		{
+			//alert("failed");
+			//$('#loading-image').hide();
+		}
+	});
+}	
+
+function GetResName()
+{
+	var Get_ResourcesNamesByIDUrl = Get_ResourcesNamesByIDuri();//"https://ppmprod.bcone.com/api/BCONE/Get_ResourcesNamesByID";
+		$.ajax
+		({
+		url:Get_ResourcesNamesByIDUrl,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		datatype:"json",
+		data:
+			{
+				"ResourcesUID":ResourceUID
+			},
+		success: function (data) 
+		{
+			//console.log(data);
+			$('#resName').text(data.ResourceName);
+		},
+		error: function (data)
+		{
+			alert("failed");
+			$('#loading-image').hide();
+		}
+	});
+}
+
+function GetData(dataPpmPhr)
+{	
+		$("#yrsNote").hide();
+		$('#loading-image').show();
+		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		cleardataAllocation();
+		if(dataPpmPhr=="DataFromPpm")
+		{
+			$("#DataFromPhr").parent("li").removeClass("green-btn");
+			$("#DataFromPpm").parent("li").addClass("green-btn");
+			var GetAllocationDetailsUrl =GetResourceAllocationUri();// "https://ppmprod.bcone.com/api/Timesheet/GetResourceAllocation";
+			$.ajax
+			({
+				url:GetAllocationDetailsUrl,
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				datatype:"json",
+				data: 
+					{
+						"ResourceUID":ResourceUID
+					},
+				success: function (data) 
+				{
+					
+					var table_header="";
+					table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+					table_header=table_header +"<th style='width:8%'>Employee ID</th>";
+					table_header=table_header +"<th style='width:10%'>Project Code</th>";
+					table_header=table_header +"<th style='width:33%'>Project Name</th>";
+					table_header=table_header +"<th style='width:8%'>Start Date</th>";
+					table_header=table_header +"<th style='width:8%'>Finish Date</th>";	
+					table_header=table_header +"<th style='width:8%'>Allocation %</th>";	
+					table_header=table_header +"<th style='width:8%'>Created Date</th>";
+					table_header=table_header +"<th style='width:9%'>Modified Date</th>";	
+					table_header=table_header +"<th style='width:8%'>Internal ID</th>";	
+					table_header=table_header +"</tr></thead>";
+					
+					//footer menu	
+					table_header=table_header +"<tfoot><tr>";
+					table_header=table_header +"<th >Employee ID</th>";
+					table_header=table_header +"<th >Project Code</th>";
+					table_header=table_header +"<th >Project Name</th>";
+					table_header=table_header +"<th >Start Date</th>";
+					table_header=table_header +"<th>Finish Date</th>";	
+					table_header=table_header +"<th >Allocation %</th>";
+					
+					table_header=table_header +"<th >Created Date</th>";
+					table_header=table_header +"<th>Modified Date</th>";	
+					table_header=table_header +"<th >Internal ID</th>";
+					table_header=table_header +"</tr></tfoot>";
+
+					table_element="";
+					var  table_body="";
+					table_body="<tbody>"; 
+					
+					if(data.Data.length == 0)
+					{
+						$("#yrsNote").hide();
+					}
+					else
+					{
+						var status = "";
+						for (var i = 0; i < data.Data.length; i++) 
+						{					
+							var CreatedDatadate ="";
+							var AlldatesCreates = data.Data[i].CreatedOn;
+							if(AlldatesCreates=="0" || AlldatesCreates == "undefined" || AlldatesCreates=="")
+							{
+								CreatedDatadate ="";
+							}
+							else if (AlldatesCreates.match(/^-?\d+$/))
+							{
+							var da=( AlldatesCreates.match(/.{1,4}/g) );
+							var yr =da[0];
+							var mothDate = da[1];
+							var MD=( mothDate.match(/.{1,2}/g) );
+							var months = MD[0];
+							var Dates = MD[1];
+							var creationDates = new Date(yr+"/"+months+"/"+Dates);
+							 CreatedDatadate = ("0" + creationDates.getDate()).slice(-2)+  "-" + monthNames[creationDates.getMonth()] +"-" + creationDates.getFullYear();
+							}	
+							else
+							{
+								var Created_On_date = new Date(AlldatesCreates);
+								CreatedDatadate = ("0" + Created_On_date.getDate()).slice(-2)+  "-" + monthNames[Created_On_date.getMonth()] +"-" + Created_On_date.getFullYear();
+							}
+		
+							var AlldatesModified = data.Data[i].LastMod;
+							var modificationDatadate="";
+							if(AlldatesModified==0 || AlldatesModified == "undefined" || AlldatesModified == "")
+							{
+								 modificationDatadate ="";
+							}
+							else if(AlldatesModified.match(/^-?\d+$/))
+							{
+								var da1=( AlldatesModified.match(/.{1,4}/g) );
+								var yr1 =da1[0];
+								var mothDate1 = da1[1];
+								var MD1=( mothDate1.match(/.{1,2}/g) );
+								var months1 = MD1[0];
+								var Dates1 = MD1[1];
+								var ModDates = new Date(yr1+"/"+months1+"/"+Dates1);
+								modificationDatadate = ("0" + ModDates.getDate()).slice(-2)+  "-" + monthNames[ModDates.getMonth()] +"-" + ModDates.getFullYear();
+							}
+							else
+							{
+								var Mod_On_date = new Date(AlldatesCreates);
+								modificationDatadate = ("0" + Mod_On_date.getDate()).slice(-2)+  "-" + monthNames[Mod_On_date.getMonth()] +"-" + Mod_On_date.getFullYear();
+							
+							}
+							table_body += "<tr>";	
+							table_body += "<td>"+data.Data[i].EmployeeID+"</td>";
+							table_body += "<td>"+data.Data[i].AllocatedProjectCode+"</td>";
+							table_body += "<td>"+data.Data[i].ProjectName+"</td>";
+							
+							
+							var crtdates = new Date(data.Data[i].Startdatetime);
+							if(crtdates=="Invalid Date")
+							{
+								var CreatedDate = "";
+							}
+							else
+							{
+								var CreatedDate = ("0" + crtdates.getDate()).slice(-2)+  "-" + monthNames[crtdates.getMonth()] +"-" + crtdates.getFullYear();
+							}
+							
+							table_body += "<td>"+CreatedDate+"</td>";
+							
+							var endate = new Date(data.Data[i].Finishdatetime);
+							if(endate=="Invalid Date")
+							{
+								var ENDdDate = "";
+							}
+							else
+							{
+								var ENDdDate = ("0" + endate.getDate()).slice(-2)+  "-" + monthNames[endate.getMonth()] +"-" + endate.getFullYear();
+							}
+							
+							table_body += "<td>"+ENDdDate+"</td>";	
+							table_body += "<td>"+Math.round(data.Data[i].ResourceMaxUnits)+"</td>";	
+							
+							table_body += "<td>"+CreatedDatadate+"</td>";	
+							table_body += "<td>"+modificationDatadate+"</td>";	
+							table_body += "<td>"+data.Data[i].InternalID+"</td>";	
+							table_body += "</tr>";	
+						}
+					}
+					table_body=table_body+"/<tbody>";
+					table_element=table_header+table_body;
+					$('#tblAllcationDetails').html(table_element);
+					AllocationDatatableBind();
+					$("#yrsNote").show();
+					$('#loading-image').hide();
+				},
+				error: function (data)
+				{
+					alert("failed");
+					$('#loading-image').hide();
+				}
+			});
+		}
+		if(dataPpmPhr=="DataFromPhr")
+		{
+			$("#DataFromPhr").parent("li").addClass("green-btn");
+			$("#DataFromPpm").parent("li").removeClass("green-btn");
+			var GetResourceAllocationPHRUrl =GetResourceAllocationPHRUri(); //"https://ppmprod.bcone.com/api/Timesheet/GetResourceAllocationPHR";
+			$.ajax
+			({
+				url:GetResourceAllocationPHRUrl,
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				datatype:"json",
+				data: 
+					{
+						"EmployeeEmailID":EmployeeEmailID
+					},
+				success: function (data) 
+				{
+					
+					var table_header="";
+					table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+					table_header=table_header +"<th style='width:8%'>Employee ID</th>";
+					table_header=table_header +"<th style='width:10%'>Project Code</th>";
+					table_header=table_header +"<th style='width:33%'>Project Name</th>";
+					table_header=table_header +"<th style='width:8%'>Start Date</th>";
+					table_header=table_header +"<th style='width:8%'>Finish Date</th>";	
+					table_header=table_header +"<th style='width:8%'>Allocation %</th>";	
+					table_header=table_header +"<th style='width:8%'>Created Date</th>";
+					table_header=table_header +"<th style='width:9%'>Modified Date</th>";	
+					table_header=table_header +"<th style='width:8%'>Internal ID</th>";	
+					table_header=table_header +"</tr></thead>";
+					
+					//footer menu	
+					table_header=table_header +"<tfoot><tr>";
+					table_header=table_header +"<th >Employee ID</th>";
+					table_header=table_header +"<th >Project Code</th>";
+					table_header=table_header +"<th >Project Name</th>";
+					table_header=table_header +"<th >Start Date</th>";
+					table_header=table_header +"<th>Finish Date</th>";	
+					table_header=table_header +"<th >Allocation %</th>";
+					table_header=table_header +"<th >Created Date</th>";
+					table_header=table_header +"<th>Modified Date</th>";	
+					table_header=table_header +"<th >Internal ID</th>";
+					table_header=table_header +"</tr></tfoot>";
+
+					table_element="";
+					var  table_body="";
+					table_body="<tbody>"; 
+					
+					if(data.Data.length == 0)
+					{
+						$("#yrsNote").hide();
+					}
+					else
+					{
+						var status = "";
+						for (var i = 0; i < data.Data.length; i++) 
+						{		
+							var AlldatesCreates = data.Data[i].CreatedOn;
+							var CreatedDatadate="";
+							if(AlldatesCreates==0 || AlldatesCreates == "undefined" || AlldatesCreates=="")
+							{
+								 CreatedDatadate="";
+							}
+							else if (AlldatesCreates.match(/^-?\d+$/))
+							{
+								var da=( AlldatesCreates.match(/.{1,4}/g) );
+								var yr =da[0];
+								var mothDate = da[1];
+								var MD=( mothDate.match(/.{1,2}/g) );
+								var months = MD[0];
+								var Dates = MD[1];
+								var creationDates = new Date(yr+"/"+months+"/"+Dates);
+								CreatedDatadate = ("0" + creationDates.getDate()).slice(-2)+  "-" + monthNames[creationDates.getMonth()] +"-" + creationDates.getFullYear();
+							}
+							else
+							{
+								var Created_On_date = new Date(AlldatesCreates);
+								CreatedDatadate = ("0" + Created_On_date.getDate()).slice(-2)+  "-" + monthNames[Created_On_date.getMonth()] +"-" + Created_On_date.getFullYear();
+							
+							}
+							var AlldatesModified = data.Data[i].LastMod;
+							var modificationDatadate="";
+							if(AlldatesModified==0 || AlldatesModified == "undefined")
+							{
+								 modificationDatadate ="";
+							}
+							else if(AlldatesModified.match(/^-?\d+$/)) //interdate format
+							{
+								var da1=( AlldatesModified.match(/.{1,4}/g) );
+								var yr1 =da1[0];
+								var mothDate1 = da1[1];
+								var MD1=( mothDate1.match(/.{1,2}/g) );
+								var months1 = MD1[0];
+								var Dates1 = MD1[1];
+								var ModDates = new Date(yr1+"/"+months1+"/"+Dates1);
+								modificationDatadate = ("0" + ModDates.getDate()).slice(-2)+  "-" + monthNames[ModDates.getMonth()] +"-" + ModDates.getFullYear();
+							}
+							else
+							{
+								var Mod_On_date = new Date(AlldatesCreates);
+								modificationDatadate = ("0" + Mod_On_date.getDate()).slice(-2)+  "-" + monthNames[Mod_On_date.getMonth()] +"-" + Mod_On_date.getFullYear();
+							
+							}
+							table_body += "<tr>";	
+							table_body += "<td>"+data.Data[i].EmployeeID+"</td>";
+							
+							//getEmployeeIds.push(data.Data[i].EmployeeID);
+							
+							table_body += "<td>"+data.Data[i].AllocatedProjectCode+"</td>";
+							table_body += "<td>"+data.Data[i].ProjectName+"</td>";
+							
+							var crtdates = new Date(data.Data[i].Startdatetime);
+							if(crtdates=="Invalid Date")
+							{
+								var CreatedDate = "";
+							}
+							else
+							{
+							var CreatedDate = ("0" + crtdates.getDate()).slice(-2)+  "-" + monthNames[crtdates.getMonth()] +"-" + crtdates.getFullYear();
+							}
+							table_body += "<td>"+CreatedDate+"</td>";
+							
+							
+							var endate = new Date(data.Data[i].Finishdatetime);
+							if(endate=="Invalid Date")
+							{
+								var ENDdDate = "";
+							}
+							else
+							{
+								var ENDdDate = ("0" + endate.getDate()).slice(-2)+  "-" + monthNames[endate.getMonth()] +"-" + endate.getFullYear();
+							}
+							table_body += "<td>"+ENDdDate+"</td>";	
+							table_body += "<td>"+Math.round(data.Data[i].RessourceMaxUnits)+"</td>";	
+							table_body += "<td>"+CreatedDatadate+"</td>";	
+							table_body += "<td>"+modificationDatadate+"</td>";	
+							table_body += "<td>"+data.Data[i].InternalID+"</td>";
+							table_body += "</tr>";	
+						}
+					}
+					table_body=table_body+"/<tbody>";
+					table_element=table_header+table_body;
+					$('#tblAllcationDetails').html(table_element);
+					AllocationDatatableBind();
+					$("#yrsNote").show();
+					$('#loading-image').hide();
+				},
+				error: function (data)
+				{
+					alert("failed");
+					$('#loading-image').hide();
+				}
+			});
+			
+		}
+		
+	}
+
+function AllocationDatatableBind()
+{
+	$('#tblAllcationDetails').DataTable
+	( {
+		"order": []
+	} );
+	var ExpenceDataTableElementtblLongLeave = $('#tblAllcationDetails').DataTable();
+	$('#tblAllcationDetails tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	ExpenceDataTableElementtblLongLeave.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	if($('.dataTables_empty').text()=='No data available in table')
+	$('#tblAllcationDetails tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	
+}
+</script>

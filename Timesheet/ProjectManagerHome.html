@@ -1,0 +1,2409 @@
+nd<html>
+<head>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jszip.js"></script>
+
+    <script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+
+    <!-- jQuery library -->
+    <script src="../SiteAssets/Timesheet/NewJS/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="../SiteAssets/Timesheet/NewJS/bootstrap.min.js"></script>
+    <script src="../SiteAssets/Timesheet/NewJS/jquery-ui.js"></script>
+    <script src="../SiteAssets/Timesheet/NewJS/jquery-ui.min.js"></script>
+
+    <!-- <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script> -->
+    <!--<link rel="stylesheet" type="text/css" href="../SiteAssets/css/jquery.dataTables.css"> -->
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+    <!--   <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+    <!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script> -->
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+    <style>
+        #log
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #log td, #log th
+            {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+        #tblErrorList
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #tblErrorList td, #tblErrorList th
+            {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+
+        #StatusWiseSummary_wrapper
+        {
+            margin-top: 10px;
+        }
+
+        #siteIcon::after
+        {
+            display: none;
+        }
+
+        .SumoSelect.open > .optWrapper
+        {
+            width: 250px;
+        }
+
+        body
+        {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .form-group
+        {
+            margin-bottom: 0px;
+        }
+
+        #siteIcon
+        {
+            position: relative;
+            border-right: 0px !important;
+            line-height: -1;
+            height: auto;
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        #s4-titlerow
+        {
+            height: 50px !important;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+    <div class="container-fluid">
+        <div class="breadcrumb-main">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                    </li>
+                    <li>Shift Allowance
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mid-main">
+        <div class="mid-top" style="margin-bottom: 5px;">
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-sm-12">
+                        <!-- <div class="form-group"> -->
+                        <div class="col-md-5">
+                            <select id="ResumeDDL" class="hideExcelTemplate" onchange="ResumeDDLChangeEvent()" style="height: 30px; border: 1px solid #A4A4A4; width: 250px">
+                                <option style="background-color: white" id="resDelafult" value="ExcelTemplate">Select Template</option>
+                                <option class="resumeResStyle" value="Download">Download Template</option>
+                            </select>
+                        </div>
+                        <!-- </div> -->
+                        <div class="form-group">
+                            <!-- <div class="col-md-7" style="margin: 0px -3px 0px 499px;"> -->
+                            <div class="col-md-7" style="">
+                                <div>
+                                    <div>
+                                        <ul class="top-btns">
+                                            <li>
+                                                <a href="javascript:void(0)" id="btnCreateTimesheetMain" onclick="onStatusBtnClick(this)">
+                                                    <i class="fa fa-flag-o"></i>Create Shift Allowance
+									  <!-- <span class="highlight_no">0</span> -->
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" id="btnAllRecords" onclick="onStatusBtnClick(this, 'All'); ">
+                                                    <i class="fa fa-flag-o"></i>All Records
+								   <span class="highlight_no">0</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" id="btnOpenPeriods" onclick="onStatusBtnClick(this,'Open');">
+                                                    <i class="fa fa-folder-o"></i>Open
+								   <span class="highlight_no">0</span>
+                                                </a>
+                                            </li>
+                                            <!-- <li>
+								   <a href="javascript:void(0)" id="btnSavePeriods" onclick="onStatusBtnClick(this)">
+								   <i class="fa fa-floppy-o"></i> Save
+										<span class="highlight_no">0</span>
+								   </a>
+								   </li> -->
+                                            <li>
+                                                <a href="javascript:void(0)" id="btnSubmitPeriods" onclick="onStatusBtnClick(this,'Submitted');">
+                                                    <i class="fa fa-send"></i>Submitted
+								   <span class="highlight_no">0</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" id="btnAppovedCount" onclick="onStatusBtnClick(this,'Approved');">
+                                                    <i class="fa fa-check"></i>Approved
+								   <span class="highlight_no">0</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" id="btnRejectCount" onclick="onStatusBtnClick(this,'Rejected');">
+                                                    <i class="fa fa-ban"></i>Rejected
+								   <span class="highlight_no">0</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row SAAllowanceData" style="padding-top: 10px">
+                    <div class="form-group">
+                        <div class="col-md-2" style="width: 20%; margin-left: 15px;">
+                            <label style="color: #337ab7">Project Name</label></br>
+				   <select id="ddlProjects" class="ProjectnamE" placeholder="Select Project" style="width: 250px !important;">
+                   </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2" style="width: 20%">
+                            <label style="color: #337ab7;">Period</label></br>
+				      <!-- <select id="ddlPeriod" disabled placeholder="Select Period" style="width: 250px !important; height: 30px; border: 1px solid #A4A4A4;"> -->
+                            <!-- </select> -->
+
+                            <input type="text" id="ddlPeriod" class="form-control" style="border-radius: 0px;" disabled />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2" style="width: 20%">
+                            <label style="color: #337ab7;">Upload file</label>
+                            <input type="file" id="fileUpload" style="padding: 4px;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <input type="button" id="upload" style="padding: 5px; background-color: #337ab7; color: white; margin-top: 21px" value="Excel Validation" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2" style="width: 20%">
+                            <button name="button" id="btnsave" style="padding: 5px; background-color: #77acda; color: white; margin-top: 21px" onclick="InsertValidAllowanceData()" disabled>Submit for timesheet validation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="mid-block" id="divExcelSummary">
+                <div class="container-fluid">
+                    <div class="alert alert-warning viewTSNote" style="display: none; padding: 2px; margin-bottom: 10px; margin-top: 5px; color: black !important; background-color: rgba(251, 185, 0, 0.80); border-radius: 0px !important; border-color: #b1a565 !important;"><strong><i class="fa fa-exclamation-circle"></i></strong></div>
+                    <table id="excelsummary" class="table-bordered table-new" style="table-layout: auto !important; display: none;">
+                        <thead>
+                            <tr>
+                                <th id="empemail">Employee Email</th>
+                                <th class='empname'>Employee Name</th>
+                                <th>Project Code</th>
+                                <th>Project Name</th>
+                                <th>Allowance Type</th>
+                                <th>Temp Note</th>
+                                <th>Frequency</th>
+                                <th>No. of days</th>
+                                <th>For Date</th>
+                                <th>Day</th>
+                                <th>From Time</th>
+                                <th>To Time</th>
+                                <th>Allowance Ammount</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th id="empemail">Employee Email</th>
+                                <th class='empname'>Employee Name</th>
+                                <th>Project Code</th>
+                                <th>Project Name</th>
+                                <th>Allowance Type</th>
+                                <th>Temp Note</th>
+                                <th>Frequency</th>
+                                <th>No. of days</th>
+                                <th>For Date</th>
+                                <th>Day</th>
+                                <th>From Time</th>
+                                <th>To Time</th>
+                                <th>Allowance Ammount</th>
+                            </tr>
+                        </tfoot>
+                        <tbody id="tblexcelBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mid-block" id="divStatusSummary">
+                <div class="container-fluid">
+                    <div class="alert alert-warning viewSA" style="display: none; padding: 2px; margin-bottom: 10px; margin-top: 5px; color: black !important; background-color: rgba(251, 185, 0, 0.80); border-radius: 0px !important; border-color: #b1a565 !important;"><strong><i class="fa fa-exclamation-circle"></i></strong></div>
+                    <table id="StatusWiseSummary" class="table-bordered table-new" style="table-layout: auto !important; display: none;">
+                        <thead>
+                            <tr>
+                                <th class="clsOperation">Action</th>
+                                <th>S No.</th>
+                                <th>Period</th>
+                                <th>File Name</th>
+                                <th>Project Name</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                                <th class="clsSubmited">Pending With</th>
+                                <th class="clsSubmited">Submitted On</th>
+                                <th class="clsApproved">Approved On</th>
+                                <th class="clsApproved">Approved By</th>
+                                <th class="clsApproved">Pending</th>
+                                <th class="clsRejected">Rejected On</th>
+                                <th class="clsRejected">Rejected By</th>
+                                <th class="clsRejected">Comment</th>
+                                <th>Total Employee</th>
+                                <th>Total Amount</th>
+                                <th>Log</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th class="clsOperation"></th>
+                                <th></th>
+                                <th>Period</th>
+                                <th>File Name</th>
+                                <th>Project Name</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                                <th class="clsSubmited">Peding With</th>
+                                <th class="clsSubmited">Submitted On</th>
+                                <th class="clsApproved">Approved On</th>
+                                <th class="clsApproved">Approved By</th>
+                                <th class="clsApproved">Pending</th>
+                                <th class="clsRejected">Rejected On</th>
+                                <th class="clsRejected">Rejected By</th>
+                                <th class="clsRejected">Comment</th>
+                                <th>Total Employee</th>
+                                <th>Total Amount</th>
+                                <th>Log</th>
+                            </tr>
+                        </tfoot>
+                        <tbody id="tblStatusWiseSummary">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="black-bg alert-main" id="yesNoPopup" style="display: none;">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="yesNoPopupMsg"></span></div>
+            <!-- <textarea rows="4" cols="30" class="form-control col-xs-12" placeholder="Comment..."  style="display: inline-block;margin-left: 10px;margin-right: 10pc;margin-top: 10px;width: 95%; margin-bottom: 10px;" id="yesNoPopupComent" maxlength="512" hidden ></textarea> -->
+            <div class="pop-mid">
+                <textarea rows="4" cols="30" class="form-control col-xs-12" placeholder="Comment..." style="margin-bottom: 10px;" id="yesNoPopupComent" maxlength="512" hidden></textarea>
+                <label id="Fillerror"><font color="red" style="margin-left: -212px;">Please Enter the Comment</font></label>
+                <br />
+                <input type="Button" class="divnewbtn" id="btnYes" value="YES" />
+                <input type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')" value="NO" />
+            </div>
+        </div>
+    </div>
+    <div class="black-bg alert-main" style="display: none;" id="OKPopup">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="okPopupMsg"></span></div>
+            <div class="pop-mid">
+                <input type="hidden" id="isPagerefresh"></span>
+               <input type="Button" class="divnewbtn" id="btnOkPopup" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />
+            </div>
+        </div>
+    </div>
+    <span id="loading-image"></span>
+    <!-- Log Pop up -->
+    <div class="allcommentdiv">
+        <div class="allcommentdiv-heading" style="background: rgb(51,122,183);">
+            <span id="LogResource"></span>
+        </div>
+        <div class="allcommentdiv-mid">
+            <h3><span id="LogId"></span></h3>
+            <div class="vertical-scoll">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px; background: #00b0f0 !important;">Date</th>
+                            <th style="width: 100px; background: #00b0f0 !important;">Action By</th>
+                            <th style="width: 80px; background: #00b0f0 !important;">Action</th>
+                            <th style="background: #00b0f0 !important;">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bindlog">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="allcommentdiv-foot">
+            <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+        </div>
+    </div>
+    <!-- Log Pop up -->
+    <!-- The Modal -->
+    <div id="myModals" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="height: 400px; width: 700px;">
+            <p style="font-size: large;">Kindly use IE (Version 11 and above) or Chrome (Version 59 and above) in Laptop or Desktop to access PPM</p>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 100%; text-align: center">
+                <div class="modal-header" style="background-color: #0072c6; padding: 7px !important;">
+                    <h4 class="modal-title" id="H2" style="color: white">LOG</h4>
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <table id="tblErrorList">
+                        <tr style="background-color: #00b0f0">
+                            <th>Row Number</th>
+                            <th>Error</th>
+                        </tr>
+                        <tbody id="divErrorList">
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white; margin-top: 10px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Confirmation_alert_submit" class="alert-main" style="display: none;">
+        <span id="confirmation_type"></span>
+        <span id="delete_expense_id" style="display: none;"></span>
+        <div class="black-bg" id="Div1">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg">Are you sure you want to Submit File?</span></div>
+                <div class="pop-mid">
+                    <p id="P1"></p>
+                    <span id="Method_tocall"></span>
+                    <input type="Button" class="divnewbtn" value="YES" id="ok_click">
+                    <input type="Button" class="divnewbtn" value="NO" onclick="confirmation_close();">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Confirmation_alert_submit1" class="alert-main" style="display: none;">
+        <span id="confirmation_type1"></span>
+        <span id="Span2" style="display: none;"></span>
+        <div class="black-bg" id="Div3">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg1">Are you sure you want to Submit File?</span></div>
+                <div class="pop-mid">
+                    <p id="P2"></p>
+                    <span id="Span4"></span>
+                    <input type="Button" class="divnewbtn" value="OK" id="ok_click1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="divCommonPopup" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 100%; text-align: center">
+                <div class="modal-header" style="background-color: #0072c6; padding: 7px !important;">
+                    <h4 class="modal-title" id="divMsg" style="color: white">LOG</h4>
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white; margin-top: 10px;">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="divLogTable" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 100%; text-align: center">
+                <div class="modal-header" style="background-color: #0072c6; padding: 7px !important;">
+                    <h4 class="modal-title" id="H1" style="color: white">LOG</h4>
+
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <table id="log">
+                        <tr style="background-color: #00b0f0">
+                            <th>Date</th>
+                            <th>Actor</th>
+                            <th>Action</th>
+                            <th>Comment</th>
+                        </tr>
+                        <tbody id="tblLogRow">
+                        </tbody>
+
+
+                    </table>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white; margin-top: 10px;">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="black-bg alert-main2" style="display: none;" id="">
+        <div class="popup-main" style="background-color: #fff; margin: 8% auto; text-align: center; width: max-content;">
+            <div class="popup-heading" style="text-align: left; padding-left: 5px; font-weight: 100">
+                Download Resume Template <span class="glyphicon glyphicon-remove" style="color: white; padding-top: 3px; margin-right: 5px; float: right;"
+                    onclick="hideResumePopUPREsume()"></span>
+            </div>
+            <div class="pop-mid">
+                <div class="container-fluid tableBind1" id="" style="">
+                    <div class="" id="jqxgrid_container1" style="margin-top: 5px;">
+                        <table id="TempleateResume" class="display example table table-bordered table-new" cellspacing="0">
+                        </table>
+                        <div id="noRecordFound1" style="text-align: center;">
+                            <span>No Documnet Found!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-bg-alert" style="display: none">
+        <div class="popup">
+            <div class="popup-head">
+                <div class="panel-head pull-left">
+                    <h4 class="alertmessage" style="display: none"></h4>
+                    <h4 class="templateHeader" style="display: none"></h4>
+                    <h4 class="ResDownloadHeader" style="display: none"></h4>
+                </div>
+                <div class="right-pol clsbtn">
+                    <div class="glyphicon glyphicon-remove" style="color: white; padding-top: 10px; margin-right: 5px;" onclick="hideResumePopUP()"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-boday">
+                <div id="resumeDiv">
+                    <div class="container-fluid tableBind" id="" style="display: none">
+                        <div class="" id="jqxgrid_container" style="margin-top: 5px;">
+                            <table id="TemplateDataTable" class="display example table table-bordered table-new" cellspacing="0">
+                            </table>
+                            <div id="noRecordFound" style="text-align: center;">
+                                <span>No Doumnet Found!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var projectdata = "",
+        CurrentGuid = "";
+        var ExcelProjectCode = "";
+        var ExcelEmployeeNumber = "";
+        var proemployeenum = "";
+        var ProjectCodelist = [""];
+        var EmployeeNumList = "";
+        var Project = [],AllowanceMasterArr = [];
+        var ResourceDetails = {};
+        ResourceDetails.ResourceData = [];          
+        var AllowanceMaster = {};
+        AllowanceMaster.AllowanceData = [];
+        projectdata = getProjectDetail();
+        projectemaildata = getEmailDetail();		
+        var excelemail = "";
+        var  duplicateFlag=false;
+        var APILink="https://ppmprod.bcone.com";
+        var List="";
+        $("#upload").click(function() {
+            var fileUpload = $("#fileUpload")[0];
+                
+            // var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+            var regex = /^([a-zA-Z0-9\s_!@#$&()\\.\-:])+(.xls|.xlsx)$/;
+            if (regex.test(fileUpload.value.toLowerCase())) {
+                if (typeof(FileReader) != "undefined") {
+                    var reader = new FileReader();
+
+                    //For Browsers other than IE.
+                    if (reader.readAsBinaryString) {
+                        reader.onload = function(e) {
+                            ProcessExcel(e.target.result);
+                        };
+                        reader.readAsBinaryString(fileUpload.files[0]);
+                    } else {
+                        //For IE Browser.
+                        reader.onload = function(e) {
+                            var data = "";
+                            var bytes = new Uint8Array(e.target.result);
+                            for (var i = 0; i < bytes.byteLength; i++) {
+                                data += String.fromCharCode(bytes[i]);
+                            }
+                            ProcessExcel(data);
+                        };
+                        reader.readAsArrayBuffer(fileUpload.files[0]);
+                    }
+                } else {
+                    alert("This browser does not support HTML5.");
+                }
+            } else {
+                alert("Please upload a valid Excel file.");
+            }
+        });
+
+        var FlagValidation = false;
+        var excelRows;
+        Object.size = function(obj) {
+            var size = 0,
+                key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) size++;
+            }
+            return size;
+        };
+
+        function ProcessExcel(data) {
+            var project_id = "";
+            $("#ddlProjects option:selected").each(function() {
+                project_id = $(this).val()
+            });
+            getProjectDetailsByProjectID(project_id);
+            getAllownaceTypeDetail();
+            var SheetFlag=false;
+            //Read the Excel File data.
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+            var errorlist = "";
+            //Fetch the name of First Sheet.
+            if(workbook.SheetNames[0]=="Main")
+            {
+                var validation = workbook.Sheets["Main"]["A1"];
+                if (validation == " " || validation == "undefined") {
+                    alert('please upload a template');
+                    $("#dvExcel").hide();
+                } else {
+                    // alert('success') ;
+                    $("#dvExcel").show();
+                }
+         
+                var firstSheet = workbook.SheetNames[0];
+                //Read all rows from First Sheet into an JSON array.
+                excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+                
+                if (excelRows.length > 0) {
+                    if (excelRows[0]["BconeHr&E2E"] == "Employee Email") {
+                    } else {
+                        errorlist += "<tr><td> Row Number 0 </td> <td>Please use correct Shift Allowance Template<td></tr>";
+                        SheetFlag=true;
+                        //return;
+                    }
+                }
+
+                //Create a HTML Table element.
+			
+                var GetMonth = { "Jan": 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 } 
+
+                var row_add = 2,email = "";
+                var dup_check_excelRows = excelRows;
+                for (var i = 1; i < excelRows.length; i++) {
+                    if (excelRows[i]["BconeHr&E2E"] == undefined) {
+                    } else {
+                        email = excelRows[i]["BconeHr&E2E"].toLowerCase();
+                        if (projectemaildata.indexOf(email) !== -1) {
+                        } else {
+                            errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + " </td><td> email \"" + excelRows[i]["BconeHr&E2E"] + "\" does not exist in PPM</td></tr>";
+                        }
+                    }				
+
+                    if (Project.length > 0) {
+                        if (Project[0].ProjectCode.trim().replace(/(\r\n|\n|\r)/gm, "") === excelRows[i]["__EMPTY_1"].trim().replace(/(\r\n|\n|\r)/gm, "")) {
+                        } else {
+                            errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + " </td><td>Project Code \"" + excelRows[i]["__EMPTY_1"] + "\" does not exist in PPM</td></tr>";
+                        }
+                    } else {
+                        errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + "</td><td> Project Code \"" + excelRows[i]["__EMPTY_1"] + "\" does not exist in PPM</td></tr>";
+                    }
+
+                    //var allowance_flag = false;
+                    //if (AllowanceMasterArr.length > 0) {
+                    //	for (var k = 0; k < AllowanceMasterArr.length; k++) {
+
+                    //		if (AllowanceMasterArr[k].Allowance_x0020_Type.trim() === excelRows[i]["__EMPTY_3"].trim().replace(/(\r\n|\n|\r)/gm, "")) {
+                    //			allowance_flag = true;
+                    //			break;
+                    //		}
+
+                    //	}
+
+                    //}
+
+                
+                    var allowance_flag = false;
+                    var AllowanceMasterObject = searchAllowanceMaster(excelRows[i]["__EMPTY_3"].toLocaleLowerCase());
+                    if (AllowanceMasterObject != undefined) {
+                        AllowanceTypeID = AllowanceMasterObject["Allowance_Type_value"].trim().replace(/(\r\n|\n|\r)/gm, "")
+                        AllowanceType = AllowanceMasterObject["Allowance_Type"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                        allowance_flag = true;
+                    }
+                    if (allowance_flag == false) {
+                        errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + "</td><td>  Allowance Type \"" + excelRows[i]["__EMPTY_3"] + "\" does not exist in PPM</td></tr>";
+                    }
+
+                    if (excelRows[i]["__EMPTY_5"] == "Daily") {
+                    } else {
+                        errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + "</td><td>  Frequency should be \"Daily\"</td> </tr>";
+                    }
+                    if (parseInt(excelRows[i]["__EMPTY_6"]) == parseInt("1")) {
+                    } else {
+                        errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + " </td><td> \"No of Days\" Should not be grater then 1</td></tr>";
+                    }
+
+                
+
+                    //var et = excelRows[i]["__EMPTY_7"];
+                    //var split = et.split("-");
+                    //var dd = split[0];
+                    //var y = split[2];
+                    //var mm = GetMonth[split[1]];
+                    //var curr_date = new Date();
+                    //var sheetyear = curr_date.getFullYear().toString().substr(-2);
+                    //var curr_month = curr_date.getMonth() + 1;
+                    //var curr_day = curr_date.getDate();
+
+                
+                    //if (parseInt(y) == sheetyear) {
+                    //	if (parseInt(curr_month) == parseInt(mm)) {
+                    //		if (parseInt(curr_day) >= parseInt(dd)) {
+                    //			// alert("Valid Date full date check")
+                    //		} else {
+                    //			errorlist += "Row Number " + parseInt(i + row_add) + " :- date is not valid day check";
+                    //			FlagValidation = true;
+                    //		}
+                    //	} else if (parseInt(curr_month) > parseInt(mm)) {
+                    //		// alert("Valid Date full date check")
+                    //	} else {
+                    //		errorlist += "Row Number " + parseInt(i + row_add) + " :- Date is not valid month is diffrent";
+                    //		FlagValidation = true;
+                    //	}
+
+                    //} else if (y < sheetyear) {
+                    //	// alert("Valid Date")
+                    //} else {
+                    //	errorlist += "Row Number " + parseInt(i + row_add) + " :- Date is not valid Year check";
+                    //	FlagValidation = true;
+                    //}
+
+                
+                    var et = excelRows[i]["__EMPTY_7"];
+                    var split = et.split("/");
+                    var dd = split[0];
+                    var y = split[2];
+                    var mm = split[1];
+                    var ForDate = new Date(mm+"/"+dd+"/"+y);
+
+                    var CurrentDate = new Date();
+                    var startDate=$('#ddlPeriod').val().split("-")[0].trim().split(" ")
+                    var StartDate=GetMonth[startDate[1]]+"/"+startDate[0]+"/"+startDate[2]
+
+                    var endDate=$('#ddlPeriod').val().split("-")[1].trim().split(" ")
+                    var EndDate=new Date(GetMonth[endDate[1]]+"/"+endDate[0]+"/"+endDate[2])
+                    if(ForDate > EndDate){
+                        errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + " </td><td> \"For Date\" Should not be  greater than current date</td></tr>";
+                    }else{
+                        //  alert('Given date is not greater than the current date.');
+                    }
+
+                
+                    //var startDate=$('#ddlPeriod').val().split("-")[0].trim().split(" ");
+
+                    var d = new Date(StartDate);
+                    d.setMonth(d.getMonth() - 2);
+                
+                    var PastDate = new Date(d);
+                    if (PastDate>=ForDate) { 
+                        //    errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + " </td><td> \"For Date\" Should be between last 2 months</td></tr>";
+                    }
+                    //else if (PastDate<=ForDate){ 
+                    //    //alert("Date2 > Date1")
+                    //}
+                    //else 
+                    //{alert("Date1 = Date2")} 
+
+                    //For Date,Project Code, AllowanceType,EmployeeEmail,excelRows[i]["__EMPTY_1"]
+
+                
+                    var chkEmail="",chkProjectCode="",chk_AllowanceType="",chkForDate="";
+                    chkEmail=excelRows[i]["BconeHr&E2E"],chkProjectCode=excelRows[i]["__EMPTY_1"],chk_AllowanceType=excelRows[i]["__EMPTY_3"],chkForDate=excelRows[i]["__EMPTY_7"];
+                    duplicateFlag=false;
+                    CheckDuplicateRows(chkEmail,chkProjectCode,chk_AllowanceType,chkForDate);
+                    if(duplicateFlag==true)
+                    {
+                        errorlist += "<tr><td>Row Number " + parseInt(i + row_add) + " </td><td> is a duplicate row</td></tr>";
+                    }
+                }
+
+            }
+            else
+            {
+                SheetFlag=true;
+                errorlist += "<tr><td>Row Number 0 </td><td>Please correct sheet name as Main </td></tr>";
+            }
+            
+            // BconeHr&E2E __EMPTY_3 ForDate excelRows[i]["__EMPTY_1"]
+            
+            //viewData.AllownaceData.push(requestData);
+            if (errorlist=="") {
+                document.getElementById("btnsave").disabled = false;
+                $('#btnsave').css('background-color', '#337ab7').css("color","white");
+                
+                document.getElementById("Confirmation_msg1").innerHTML="All data is ok. Now you can click on Submit for Timesheet Validation";
+                $('#ok_click1').attr('onclick','ValidateSuccessfull()');
+                $("#Confirmation_alert_submit1").show(); 
+
+            } else {
+                showexceldata(excelRows,SheetFlag)
+                $("#divErrorList").html(errorlist)
+                $('#myModal').modal("show");
+            }
+            
+            errorlist = "";
+            
+        };
+
+
+        function ValidateSuccessfull()
+        {
+            $("#Confirmation_alert_submit1").hide(); 
+        }
+
+        function InsertValidAllowanceData() {
+            var AllownaceInsert = {};
+            AllownaceInsert.AllownaceData = [];
+            var EmployeeEmail = "",EmployeeName = "", EmployeeCode = "", ProjectCode = "", ProjectName = "", AllowanceType = "", Tmpfornotes_validation = "", Frequency = "", NoofDays = "", ForDate = "", Dayby = "", FromTime = "", ToTime = "", AllowanceAmount = "";
+            var GetMonth = { 1: "Jan", 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' }	
+            FromDate ="23/12/20"; //$('#DeligateFromDate').val()
+            ToDate = "23/12/20";//$('#DeligateToDate').val();
+            var Period = $('#ddlPeriod').val();
+            var From_Date = "",
+                To_Date = "";
+            if (FromDate != "" && ToDate != "") {
+                var FDate = [],
+                    TDate = [];
+                FDate = FromDate.split("/");
+                TDate = ToDate.split("/");
+
+                From_Date = FDate[0] + "-" + GetMonth[parseInt(FDate[1])] + "-" + FDate[2];
+                To_Date = TDate[0] + "-" + GetMonth[parseInt(TDate[1])] + "-" + TDate[2];
+            }
+            ForDate="";
+
+            var ClientPartner = "" ,AllowanceTypeId="",EmployeeID="",DateValidation="";
+            if (Project.length > 0)
+            {
+                var CP=[];
+                CP = Project[0].ClientPartner.split("|");
+                if(CP.length>0)
+                {
+                    ClientPartner=CP[1].trim().replace(/(\r\n|\n|\r)/gm, "");
+                    EmployeeID=CP[0].trim().replace(/(\r\n|\n|\r)/gm, "");
+                }
+            }
+
+            for (var i = 1; i < excelRows.length; i++) {
+
+                EmployeeEmail = excelRows[i]["BconeHr&E2E"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                ProjectCode = Project[0].ProjectCode.trim().replace(/(\r\n|\n|\r)/gm, "")//excelRows[i]["__EMPTY_1"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                ProjectName = Project[0].ProjectName.trim().replace(/(\r\n|\n|\r)/gm, "");//excelRows[i]["__EMPTY_2"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                Tmpfornotes_validation = excelRows[i]["__EMPTY_4"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                Frequency = excelRows[i]["__EMPTY_5"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                NoofDays = excelRows[i]["__EMPTY_6"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                Dayby = excelRows[i]["__EMPTY_8"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                FromTime = excelRows[i]["__EMPTY_9"];
+                ToTime = excelRows[i]["__EMPTY_10"];
+                AllowanceAmount = excelRows[i]["__EMPTY_11"].trim().replace(/(\r\n|\n|\r)/gm, "");                
+                ForDate = excelRows[i]["__EMPTY_7"].trim().replace(/(\r\n|\n|\r)/gm, "");
+
+                if (ForDate != "" ) {
+                    var FDate = [],
+                        TDate = [];
+                    FDate = ForDate.split("/");
+                    
+                    ForDate = FDate[0] + "-" + GetMonth[parseInt(FDate[1])] + "-" + FDate[2];
+			    
+                }
+                var resultObject = search(EmployeeEmail.toLocaleLowerCase());
+                if (resultObject != undefined) {
+                    EmployeeCode = resultObject["EmployeeID"].trim().replace(/(\r\n|\n|\r)/gm, "")
+                    EmployeeName = resultObject["ResourceName"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                }
+
+                var AllowanceMasterObject = searchAllowanceMaster(excelRows[i]["__EMPTY_3"].toLocaleLowerCase());
+                if (AllowanceMasterObject != undefined) {
+                    AllowanceTypeID = AllowanceMasterObject["Allowance_Type_value"].trim().replace(/(\r\n|\n|\r)/gm, "")
+                    AllowanceType = AllowanceMasterObject["Allowance_Type"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                }
+
+                var et = excelRows[i]["__EMPTY_7"];
+                var split = et.split("/");
+                var dd = split[0];
+                var y = split[2];
+                var mm = split[1];
+                var ForDateDateValidation = new Date(mm+"/"+dd+"/"+y);
+                
+                
+                var GetMonth1 = { "Jan": 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 }                 
+
+                var CurrentDate = new Date();
+                var startDate=$('#ddlPeriod').val().split("-")[0].trim().split(" ")
+                var StartDate=GetMonth1[startDate[1]]+"/"+startDate[0]+"/"+startDate[2]
+
+                var endDate=$('#ddlPeriod').val().split("-")[1].trim().split(" ")
+                var EndDate=new Date(GetMonth1[endDate[1]]+"/"+endDate[0]+"/"+endDate[2])
+
+                var d = new Date(StartDate);
+                d.setMonth(d.getMonth() - 2);
+                
+                debugger
+                var PastDate = new Date(d);
+                console.log(PastDate )
+                console.log(ForDateDateValidation )
+                if (PastDate>=ForDateDateValidation) { 
+                    DateValidation="Out Policy";
+                }
+                else
+                {
+                    DateValidation="In Policy";
+                }
+                
+                item = {}
+                item["EmployeeEmail"] = EmployeeEmail;
+                item["EmployeeId"] = EmployeeCode;
+                item["EmployeeName"] = EmployeeName;
+                item["ProjectCode"] = ProjectCode;
+                item["ProjectName"] = ProjectName;
+                item["AllowanceType"] = AllowanceTypeID;
+                item["Tmpfornotes_validation"] = Tmpfornotes_validation;
+                item["Frequency"] = Frequency;
+                item["NoofDays"] = NoofDays;
+                item["ForDate"] = ForDate;
+                item["Dayby"] = Dayby;
+                item["FromTime"] = FromTime;
+                item["ToTime"] = ToTime;
+                item["AllowanceAmount"] = AllowanceAmount;
+                item["BillableHours"] = "0";
+                item["NonBillableHours"] = "0";
+                item["NBTaskName"] = "";
+                item["FileName"] = "";
+                item["FromDate"] = From_Date;
+                item["ToDate"] = To_Date;
+                item["Period"] = Period;
+                item["CreateShiftAllowanceUserID"] = CurrentGuid;
+                item["Status"] = "All";
+
+                item["ClientPartner"] =ClientPartner;// 'Saurabh vij'; 
+                item["EmployeeID"] = EmployeeID;//EmployeeID //ClientPartner-CustomData1 "60555"
+                
+                //item["ClientPartner"] = "PPM PM";//'Saurabh vij' //ClientPartner
+                //item["EmployeeID"] = "88888";//"60555";EmployeeID //ClientPartner-CustomData1
+
+                item["DateValidation"] = DateValidation;
+                item["TimesheetAvailability"] = "ALL";
+                item["CustomData1"] = flagValues.TeamMember;
+                item["CustomData2"] = "";
+                item["CustomData3"] = "";
+                AllownaceInsert.AllownaceData.push(item);
+            }
+           
+            
+            AllowanceData = JSON.stringify(AllownaceInsert);
+            //Ravi
+            var url = APILink+"/api/rmo/InsertAllowans";
+            $.ajax({
+                url: url,
+                data: AllownaceInsert,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(res) {
+                    $('#divExcelSummary').hide()
+
+                    document.getElementById("Confirmation_msg1").innerHTML="File Submitted Successfully";
+                    $('#ok_click1').attr('onclick','ReloadPage()');
+                    $("#Confirmation_alert_submit1").show(); 
+
+                    document.getElementById("btnsave").disabled = true;
+                    $('#btnsave').css('background-color', '#77acda')
+                    
+                },
+                error: function(error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+        }
+
+        function ReloadPage()
+        {
+            window.location.reload();
+        }
+        function search(nameKey) {
+            for (var i = 0; i < ResourceDetails["ResourceData"].length; i++) {
+                if (ResourceDetails["ResourceData"][i].ResourceEmailAddress === nameKey) {
+                    return ResourceDetails["ResourceData"][i];
+                }
+            }
+        }
+        function searchAllowanceMaster(nameKey) {
+            for (var i = 0; i < AllowanceMaster["AllowanceData"].length; i++) {
+                if (AllowanceMaster["AllowanceData"][i].Allowance_Type === nameKey) {
+                    return AllowanceMaster["AllowanceData"][i];
+                }
+            }
+        }
+        var GetMonth = { "Jan": 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 } 
+
+        function getProjectDetail() { //Project center data
+            //Ravi
+            url = _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Projects?$select=ProjectCode,ProjectName";
+            var ProjectDetailsArr = [];
+            var ProjectDataNameInfo = [];
+            var ProjectDatacCodeInfo = [];
+            var resultProjectinfo = [];
+            var requestHeaders = {
+                "accept": "application/json;odata=verbose"
+            };
+            $.ajax({
+                url: url,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            });
+            function onSuccess(data) {
+                ProjectDetailsArr = data.d.results;
+                result = data.d.results.length;
+                for (var i = 0; i < result; i++) {
+                    ProjectDataNameInfo.push(data.d.results[i].ProjectName);
+                    ProjectDatacCodeInfo.push(data.d.results[i].ProjectCode);
+                    resultProjectinfo = ProjectDataNameInfo + " " + ProjectDatacCodeInfo;
+                }
+            }
+            function onError(error) {
+                //alert("Error on retrieving");
+            }
+            return ProjectDetailsArr;
+        }
+
+        function getProjectDetailByUserID() { //Project center data
+            //Ravi
+            url = _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Projects?$select=ProjectCode,ProjectName";
+            var ProjectDetailsArr = [];
+            var ProjectDataNameInfo = [];
+            var ProjectDatacCodeInfo = [];
+            var resultProjectinfo = [];
+            var requestHeaders = {
+                "accept": "application/json;odata=verbose"
+            };
+            $.ajax({
+                url: url,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            });
+            function onSuccess(data) {
+                ProjectDetailsArr = data.d.results;
+                result = data.d.results.length;
+                for (var i = 0; i < result; i++) {
+                    ProjectDataNameInfo.push(data.d.results[i].ProjectName);
+                    ProjectDatacCodeInfo.push(data.d.results[i].ProjectCode);
+                    resultProjectinfo = ProjectDataNameInfo + " " + ProjectDatacCodeInfo;
+                }
+            }
+            function onError(error) {
+                //alert("Error on retrieving");
+            }
+            return ProjectDetailsArr;
+        }
+
+        function getAllownaceTypeDetail() { //List
+            //Ravi
+            url = _spPageContextInfo.webAbsoluteUrl +"/_api/lists/getbytitle('Allowance_Type_Master')/items?$top=5000";
+            
+            AllowanceMasterArr = [];
+            var requestHeaders = {
+                "accept": "application/json;odata=verbose"
+            };
+            $.ajax({
+                url: url,
+                contentType: "application/json;odata=verbose",
+                type: "GET",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            });
+
+            function onSuccess(data) {
+                debugger
+                AllowanceMasterArr = data.d.results;
+                for(var i=0;i<data.d.results.length;i++)
+                {			    
+                    item = {}
+                    item["Allowance_Type"] = data.d.results[i].Allowance_x0020_Type.toLowerCase();
+                    item["Allowance_Type_value"] = data.d.results[i].Allowance_Type_value;
+                    AllowanceMaster.AllowanceData.push(item);
+                }
+            }
+            function onError(error) {
+                //alert("Error on retrieving");
+            }
+            return AllowanceMasterArr;
+        }
+
+        function getEmailDetail() {
+            //Ravi
+            url = _spPageContextInfo.webAbsoluteUrl +"/_api/ProjectData/Resources?$select=EmployeeID,ResourceName,ResourceEmailAddress";
+
+            var Email_Array = [],
+                Email_PPM_Data = [];
+            var requestHeaders = {
+                "accept": "application/json;odata=verbose"
+            };
+            resourceEmailCall(url);
+            function resourceEmailCall(url) {
+                $.ajax({
+                    url: url,
+                    contentType: "application/json;odata=verbose",
+                    headers: requestHeaders,
+                    success: onSuccess,
+                    error: onError,
+                    async: false
+                });
+
+            }
+
+
+            function onSuccess(data) {
+                //Email_PPM_Data.concat(data.d.results);
+
+                //	debugger
+                result = data.d.results.length;
+                item = {}
+                if (data.d.__next == undefined) {
+                    for (var i = 0; i < result; i++) {
+                        if (data.d.results[i].ResourceEmailAddress != null) {
+                            Email_PPM_Data.push(data.d.results[i].ResourceEmailAddress.toLowerCase());
+
+                            item = {}
+                            item["ResourceEmailAddress"] = data.d.results[i].ResourceEmailAddress.toLowerCase();
+                            item["ResourceName"] = data.d.results[i].ResourceName;
+                            item["EmployeeID"] = data.d.results[i].EmployeeID;
+                            ResourceDetails.ResourceData.push(item);
+
+                        } else {
+                            Email_PPM_Data.push(data.d.results[i].ResourceEmailAddress);
+
+                            item = {}
+                            item["ResourceEmailAddress"] = data.d.results[i].ResourceEmailAddress;
+                            item["ResourceName"] = data.d.results[i].ResourceName;
+                            item["EmployeeID"] = data.d.results[i].EmployeeID;
+                            ResourceDetails.ResourceData.push(item);
+
+
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < result; i++) {
+
+                        if (data.d.results[i].ResourceEmailAddress != null) {
+                            Email_PPM_Data.push(data.d.results[i].ResourceEmailAddress.toLowerCase());
+
+                            item = {}
+                            item["ResourceEmailAddress"] = data.d.results[i].ResourceEmailAddress.toLowerCase();
+                            item["ResourceName"] = data.d.results[i].ResourceName;
+                            item["EmployeeID"] = data.d.results[i].EmployeeID;
+                            ResourceDetails.ResourceData.push(item);
+                        } else {
+                            Email_PPM_Data.push(data.d.results[i].ResourceEmailAddress);
+
+                            item = {}
+                            item["ResourceEmailAddress"] = data.d.results[i].ResourceEmailAddress;
+                            item["ResourceName"] = data.d.results[i].ResourceName;
+                            item["EmployeeID"] = data.d.results[i].EmployeeID;
+                            ResourceDetails.ResourceData.push(item);
+                        }
+
+                    }
+
+                    resourceEmailCall(data.d.__next)
+                }
+
+            }
+
+            function onError(error) {
+                // alert("Error on retrieving");
+            }
+
+            return Email_PPM_Data;
+        }
+
+        function getProjectDetailsByProjectID(ProjectID) {
+            //Ravi
+            url = _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Projects(guid'" + ProjectID + "')?$select=ProjectCode,ProjectName,ClientPartner";
+
+            var requestHeaders = {
+                "accept": "application/json;odata=verbose"
+            };
+            $.ajax({
+                url: url,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            });
+
+
+            function onSuccess(data) {
+                Project = [];
+                Project.push(data.d);
+                //debugger
+            }
+
+            function onError(error) {
+                // alert("Error on retrieving");
+            }
+
+            return Project;
+        }
+
+
+      
+        $(document).ready(function() {
+            
+            var userid = _spPageContextInfo.userId;
+            GetUserId(userid);
+            //$("#ddlProjects").append("<option value='Select_Project' index=0>Select Project</option>");
+            $(".container-fluid")
+            $("#btnCreateTimesheetMain").parent('li').addClass("green-btn");
+
+            //debugger
+            <!-- var curr_year = new Date().getFullYear(), -->
+                <!-- Option = ""; -->
+            <!-- var curr_day = new Date().getDate(); -->
+            <!-- var curr_month = new Date().getMonth(); -->
+            <!-- var next_year = curr_year + 1; -->
+            <!-- var monthNames = ["Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"]; -->
+            <!-- for (var i = 0; i < 12; i++) { -->
+                <!-- if (i == 9) { -->
+                    <!-- Option = "16 " + monthNames[i] + " " + curr_year + " - 15 " + monthNames[i + 1] + " " + next_year; -->
+                <!-- } else if (i == 10 || i == 11) { -->
+                    <!-- Option = "16 " + monthNames[i] + " " + next_year + " - 15 " + monthNames[i + 1] + " " + next_year; -->
+                <!-- } else { -->
+                    <!-- Option = "16 " + monthNames[i] + " " + curr_year + " - 15 " + monthNames[i + 1] + " " + curr_year; -->
+                <!-- } -->
+                <!-- // $("#ddlPeriod").append($("<option></option>").val("16 Mar 2020 - 15 Apr 2020").html("16 Mar 2020 - 15 Apr 2020")); -->
+                <!-- $('#ddlPeriod').append('<option value="' + Option + '">' + Option + '</option>'); -->
+            <!-- } -->
+			var toDayDate = new Date();
+        let todayDateFormat = toDayDate.format("dd MMM yyyy");
+        let curentMoth = toDayDate.format("MMM");
+        let currentYear = toDayDate.format("yyyy");			
+        console.log(todayDateFormat);
+        var LastMonthFormat = new Date(toDayDate.getFullYear(), toDayDate.getMonth() - 1, 16);
+        LastMonthFormat = LastMonthFormat.format("dd MMM yyyy");
+        console.log(LastMonthFormat);
+        <!-- var NextMonthFormat = new Date(toDayDate.getFullYear(), toDayDate.getMonth() + 1, 15); -->
+        <!-- NextMonthFormat = NextMonthFormat.format("dd MMM yyyy"); -->
+        <!-- console.log(NextMonthFormat); -->
+        <!-- console.log(toDayDate.getDate()); -->
+        <!-- let rr = toDayDate.getDate(); -->
+        <!-- if(16 > toDayDate.getDate() ){ -->
+            <!-- console.log("false"); -->
+            //	15
+            let setDateDat = LastMonthFormat + " - " + "15 "+curentMoth+" "+currentYear;
+            $('#ddlPeriod').val(setDateDat)
+        <!-- } -->
+        <!-- else{ -->
+        <!-- //16 -->
+            <!-- let setDateDat = "16 "+curentMoth+" "+currentYear +" - "+ NextMonthFormat; -->
+            <!-- $('#ddlPeriod').val(setDateDat) -->
+            <!-- console.log(setDateDat); -->
+        <!-- } -->
+			
+			
+			
+        var GetMonth = { 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 9: 7, 10: 8, 11: 9, 1: 10, 2: 11 } 
+        // $('#ddlPeriod').val(GetMonth[curr_month])
+           
+        // 
+        });
+
+        function GetUserId(userid) {
+            var NewloginName = "";
+            jQuery.ajax({
+                //Ravi
+                url: _spPageContextInfo.webAbsoluteUrl+"/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    var dataResults = data.d;
+                    var loginName = dataResults.LoginName;
+                    $('#user_name').text(dataResults.Title);
+                    $('#login_name_contain').text(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    getResourcesGuid(NewloginName);
+                },
+                complete: function() {
+                    // var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+        }
+
+        function getResourcesGuid(NewloginName,ResourceEmail) {
+            jQuery.ajax({
+                //Ravi
+                url: _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    dataResults = data.d;
+                    Guid = dataResults.results[0].ResourceId;
+                    UserID = Guid;
+                    Emp_ID = dataResults.results[0].EmployeeID;
+                    getProjectsByGUID(Guid, Emp_ID,NewloginName,ResourceEmail);
+                },
+                complete: function() {
+                },
+            });
+
+        }
+
+        function getProjectsByGUID(ResGUID, Emp_ID,NewloginName,ResourceEmail) {
+            var Projectname = "";
+            //Ravi
+            var url = APILink+"/api/RMO/GetAllProjectsByUseID";
+            var count = 0;
+            var requestData = {
+                "ResGUID": ResGUID,
+                "EmployeeID": Emp_ID,
+                "UserName":ResourceEmail
+            };
+            $.ajax({
+                url: url,
+                data: requestData,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                success: function(res) {
+                    if($("#ddlProjects").hasClass("SumoUnder")){$("#ddlProjects").html('');$("#ddlProjects")[0].sumo.unload();}
+                    $("#ddlProjects").append("<option value='Select_Project' index=0>Select Project</option>");
+
+                    $.each(res.SubOptions[0].Projectinfo, function(index, value) {
+                        count++;
+                        ProjectId = value.ProjectId;
+                        Projectname = value.Projectname;
+
+                        $('#ddlProjects').append("<option value = '" + ProjectId + "'>" + Projectname + "</option>");
+                    });
+                    $('.ProjectnamE').SumoSelect({
+                        search: true,
+                        searchText: 'Search Project'
+                    });
+ 
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    ////alert("ResourcesFailed");
+                    openOKpopup(popUpMessage.ServerError, "false");
+                },
+                complete: function(data) {
+                    $('.loader').hide();
+                    // console.log('loader stopped');
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            });
+
+        }
+        $(function() {
+
+
+            $('#btnsave').css('background-color', '#77acda');
+
+        });
+
+
+        $(document).ready(function() {
+            $('.ms-breadcrumb-box').hide();
+            var is_iPad = navigator.userAgent.match(/iPhone/i) != null;
+            if (is_iPad == true) {
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+            }
+           
+        });
+
+
+        var summaryTable = "";
+        monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $(document).ready(function() {
+            $('#yesNoPopupComent').hide();
+            $('#Fillerror').hide();
+            CurrentGuid = GetCurrentUserGUID("1");
+            GetShiftAllowanceData();
+            var username = sessionStorage.getItem("CurrentUsername");
+            if (username == "" || username == undefined) {
+                $("#login_name_contain").text("");
+            } else {
+                $("#login_name_contain").text(username);
+            }
+           
+        });
+        $(function() {
+            var userid = _spPageContextInfo.userId;
+            GetUserId(userid);
+        });
+
+        function GetUserId(userid) {
+            var NewloginName = "";
+            jQuery.ajax({
+                //Ravi
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    var dataResults = data.d;
+                    var loginName = dataResults.LoginName;
+                    $('#user_name').text(dataResults.Title);
+                    $('#login_name_contain').text(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    getResourcesGuid(NewloginName,dataResults.Email);
+                },
+                complete: function() {
+                },
+            });
+        }
+
+
+
+        function onStatusBtnClick(data, status) {
+            $(data).parent("li").siblings().removeClass("green-btn");
+            $(data).parent("li").addClass("green-btn");
+            $('#divExcelSummary').hide();
+            if(status == undefined)
+            {
+                $('.hideExcelTemplate').show();
+            }else{
+                $('.hideExcelTemplate').hide();
+            }
+				
+            showstatusdata(status);
+        }
+
+	
+        function showexceldata(data,SheetFlag) {
+            var periodIDs = "";
+            var buckets = 4;
+            summaryTable = new Array();
+            if( SheetFlag==false)
+            {
+                createexcelSummaryTable(data);
+            }
+        }
+
+
+
+        function showstatusdata(status) {
+            var periodIDs = "";
+            var buckets = 4;
+            if ($('#btnCreateTimesheetMain').parent('li').hasClass('green-btn')) {
+                $('.SAAllowanceData').show();
+                $('#divExcelSummary').show();
+                $('#divStatusSummary').hide();
+            } else {
+                $('.SAAllowanceData').hide();
+                $('#divExcelSummary').hide();
+                $('#divStatusSummary').show();
+                summaryTable = new Array();
+                createstatusSummaryTable(status);
+            }
+        }
+
+        function GetShiftAllowanceData() {
+            var ApiUrl=APILink+"/api/rmo/GetShiftAllowanceCountByUserID";
+            
+            $.ajax({
+                url : ApiUrl,
+                type: "POST",
+                async: false,
+                data: {
+                    "Status": "",
+                    "ResourceUID": CurrentGuid
+                },
+                success: function(data) {
+                   
+                    var btnAllRecords = 0,
+                        btnOpenCountTSValidation = 0,
+                        btnOpenCountForSubmission = 0;
+
+                    if (data.Allowance.length > 0) {
+                        for (var i = 0; i < data.Allowance.length; i++) {
+                            //        alert(data.Allowance[i].Status)
+                            if (data.Allowance[i].Status.trim() == "Pending for TS validation") {
+
+                                btnOpenCountTSValidation = parseInt(data.Allowance[i].StatusCount);
+                            }
+                            if (data.Allowance[i].Status.trim() == "Proceed for Submission") {
+                                btnOpenCountForSubmission = parseInt(data.Allowance[i].StatusCount);
+                            }
+                            if (data.Allowance[i].Status.trim() == "Submitted") {
+
+                                $("#btnSubmitPeriods span").text(parseInt(data.Allowance[i].StatusCount));
+                            }
+                            if (data.Allowance[i].Status.trim() == "Approved") {
+
+                                $("#btnAppovedCount span").text(parseInt(data.Allowance[i].StatusCount));
+                            }
+                            if (data.Allowance[i].Status.trim() == "Rejected") {
+
+                                $("#btnRejectCount span").text(parseInt(data.Allowance[i].StatusCount));
+                            }
+                            //if (data.Allowance[i].Status.trim() == "Rejected by CP") {
+
+                            //    $("#btnRejectCount span").text(parseInt(data.Allowance[i].StatusCount));
+                            //}
+                            //if (data.Allowance[i].Status.trim() == "Approved by HR") {
+
+                            //}
+                            //if (data.Allowance[i].Status.trim() == "Rejected by HR") {
+
+                            //}
+                            btnAllRecords += parseInt(data.Allowance[i].StatusCount);
+                        }
+                    }
+                    $("#btnAllRecords span").text(parseInt(btnAllRecords));
+                    $("#btnOpenPeriods span").text(parseInt(btnOpenCountTSValidation + btnOpenCountForSubmission));
+                },
+                error: function(data) {
+
+                    $('#loading-image').hide();
+                }
+            });
+        }
+
+        function createDate(date) {
+            var GetMonth = {1: "Jan",2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov',12: 'Dec'}
+            var Month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            //var mm = GetMonth[split[1]];
+            FullDate = [], FDate = [];
+            FullDate = date.split(" ");
+            FDate = FullDate[0].split("/");
+            var mm = GetMonth[parseInt(FDate[0])];
+            var EDate1 = "";
+            EDate1 = FDate[0] + "-" + mm + "-" + FDate[2];
+            return EDate1;
+        }
+
+        function createstatusSummaryTable(Status) {
+
+            $("#StatusWiseSummary").dataTable().fnDestroy();
+            $("#StatusWiseSummary").css("display", "");
+            $("#tblStatusWiseSummary").text("");
+            
+            var innerHtml = "",style="";
+            //Ravi
+            var url = APILink+"/api/rmo/GetAllowanceDataByStatus";
+            $.ajax({
+                url: url,
+                data: {
+                    "ResourceUID": CurrentGuid,
+                    "Status": Status,
+                },
+                async: false,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(res) {
+                    if (res.Allowance.length > 0) {
+                        for (var i = 0; i < res.Allowance.length; i++) {
+
+                            if(res.Allowance[i]["Flag"]=="1")
+                            {
+                                style="style='color: #b8d2e8;  pointer-events: none;cursor: default;'" ;
+                            }
+                            else
+                            {
+                                style='style=\'color: #337ab7;\'';
+                            }
+                            innerHtml += "<tr ><td  class='clsOperation'  ><a onclick='SubmitForCP(" + res.Allowance[i]["ShiftMasterID"] + ",\""+res.Allowance[i]["ProjectID"]+"\")' "+style+">Submit</a>  /  <a onclick='DeleteShiftAllowanceFileConfirmation(" + res.Allowance[i]["ShiftMasterID"] + ",\""+res.Allowance[i]["ProjectID"]+"\")'>Delete</a></td><td style='width:6% !important'> " + parseInt(i + 1) + " </td><td ><a  onclick='callDetailsPage("+res.Allowance[i]["ShiftMasterID"]+")' target=\"_blank\">" + res.Allowance[i]["Period"] + "</a></td><td>" + res.Allowance[i]["CustomData3"] + "</td><td >" + res.Allowance[i]["ProjectName"] + "</td><td style='width:12% !important'>" + res.Allowance[i]["CreatedDate"] + "</td><td style='width:12% !important'>" + res.Allowance[i]["Status"] + "</td><td class='clsSubmited' >" + res.Allowance[i]["PendingWith"] + "</td><td class='clsSubmited' >" + res.Allowance[i]["SubmitedOn"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedOn"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedBy"] + "</td><td class=\"clsApproved\">" + res.Allowance[i]["Pending"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedOn"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedBy"] + "</td><td class='clsRejected'>" + res.Allowance[i]["Comment"] + "</td><td>"+res.Allowance[i]["TotalEmployee"]+"</td><td>"+res.Allowance[i]["TotalAmount"]+"</td><td style='text-align: center;width:6% !important' onclick=createlogTable(" + res.Allowance[i]["ShiftMasterID"] + ")><i  class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></td></tr>";
+                        }
+                    }
+                    document.getElementById("btnsave").disabled = true;
+                    $('#btnsave').css('background-color', '#77acda');
+                },
+                error: function(error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+
+            
+            $("#tblStatusWiseSummary").append(innerHtml);
+            statussummary_dataTableLoad(Status);
+            $('#loading-image').hide();
+        }
+
+        function callDetailsPage(ShiftMasterID)
+        {
+            //  document.cookie = "ShiftMasterID="+ShiftMasterID+" ;expires=Thu, 18 Dec 2050 12:00:00 UTC";
+            // createCookie("ShiftMasterID",ShiftMasterID,2);
+            localStorage.setItem("ShiftMasterID", ShiftMasterID);
+            window.open(_spPageContextInfo.webAbsoluteUrl+"/SitePages/ProjectsDetails.aspx");
+
+
+        }
+
+        function createCookie(name,value,days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime()+(days*24*60*60*1000));
+                var expires = "; expires="+date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name+"="+value+expires+";";
+        }
+        function SubmitForCP(ShiftMasterID,ProjectID) {
+            $('#ok_click').attr('onclick','submitForCPConfirmation("'+ShiftMasterID+'","'+ProjectID+'")');
+            $("#Confirmation_alert_submit").show();
+        }
+
+         
+        function submitForCPConfirmation(ShiftMasterID,ProjectID)
+        {
+            $("#Confirmation_alert_submit").hide();
+            getProjectDetailsByProjectID(ProjectID)
+            // var ClientPartner = "88888 | PPM PM";
+            // var ClientPartner = "60555 | Saurabh vij";
+            
+
+            if (Project.length > 0) {
+                ClientPartner = Project[0].ClientPartner.trim().replace(/(\r\n|\n|\r)/gm, "");
+            }
+            
+            var url = APILink+"/api/rmo/SubmitForCPByUserID";
+            $.ajax({
+                url: url,
+                data: {
+                    "ShiftMasterUserID": CurrentGuid,
+                    "ShiftMasterID": ShiftMasterID,
+                    "Status": "Pending",
+                    "UserComment": "",
+                    "Role":flagValues.TeamMember,
+                    "ClientPartner":ClientPartner
+                },
+                async: false,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(res) {
+                    document.getElementById("Confirmation_msg1").innerHTML="File Submitted Successfully";
+                    $('#ok_click1').attr('onclick','ReloadPage()');
+                    $("#Confirmation_alert_submit1").show(); 
+                    //  window.location.reload();
+                },
+                error: function(error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+
+        }
+
+        function  confirmation_close()
+        {
+            $("#Confirmation_alert_submit").hide();
+        }
+
+        function SubmitForCP(ShiftMasterID, ProjectID) {
+
+            $('#ok_click').attr('onclick', 'submitForCPConfirmation("' + ShiftMasterID + '","' + ProjectID + '")');
+            $("#Confirmation_alert_submit").show();
+
+
+        }
+        function DeleteShiftAllowanceFileConfirmation(ShiftMasterID,ProjectID) {
+            document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to Delete file?";
+            $('#ok_click').attr('onclick','DeleteShiftAllowanceFile("'+ShiftMasterID+'","'+ProjectID+'")');
+            $("#Confirmation_alert_submit").show();          
+        }
+
+        
+        function DeleteShiftAllowanceFile(ShiftMasterID,ProjectID) {
+            //Ravi
+            var url = APILink+"/api/rmo/DeleteShiftAllowanceFileByShiftID";
+            $.ajax({
+                url: url,
+                data: {
+                    "ShiftMasterUserID": CurrentGuid,
+                    "ShiftMasterID": ShiftMasterID,
+                    "Role":flagValues.TeamMember,
+                },
+                async: false,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(res) {
+
+                    //alert("File Deleted Successfully");
+                    document.getElementById("Confirmation_msg1").innerHTML="File deleted successfully";
+                    $('#ok_click1').attr('onclick','ValidateSuccessfull()');
+                    $("#Confirmation_alert_submit1").show(); 
+
+                    window.location.reload();
+                },
+                error: function(error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+
+        }
+        
+        function createexcelSummaryTable(excelRows) {
+            $("#excelsummary").dataTable().fnDestroy();
+            $("#excelsummary").css("display", "");
+            $(".viewTSNote").show();
+            $("#tblexcelBody").text("");
+            var innerHtml = "";
+            if (excelRows.length == 0) {
+                innerHtml += "<tr><td class='text-center'>No record found</td></tr>";
+                $("#tblexceBody").append(innerHtml);
+                $("#tblexcelBody").children('tr').children('td').attr("colspan", $("#excelsummary").children('thead').children('tr').children('th:visible').length)
+            } else {
+                var email = "",
+                    AllowanceStyle = "",
+                    testhtml = "",
+                    ErrorStyle = "style='color: #e68585;'",
+                    ProjectNameStyle = "",
+                    ResourceEmailStyle = "",
+                    ProjectCodeStyle = "",
+                    FrequencyStyle = "",
+                    NoOfDaysStyle = "",
+                    errorlist = "",
+                    ForDateStyle="",
+                    DuplicateCheckStyle="";
+                FlagValidation = false,
+                row_add = 2;
+                for (var i = 1; i < excelRows.length; i++) {
+
+                    if (excelRows[i]["BconeHr&E2E"] == undefined) {
+                        //alert("1")
+                    } else {
+                        email = excelRows[i]["BconeHr&E2E"].toLowerCase();
+                        if (projectemaildata.indexOf(email) !== -1) {
+                            ResourceEmailStyle = ""
+                        } else {
+                            ResourceEmailStyle = ErrorStyle;
+                        }
+                    }
+                    //debugger
+                    if (Project.length > 0) {
+                        if (Project[0].ProjectCode.trim().replace(/(\r\n|\n|\r)/gm, "") === excelRows[i]["__EMPTY_1"].trim().replace(/(\r\n|\n|\r)/gm, "")) {
+                            //alert("Object found inside the array. Project Code");
+                            ProjectCodeStyle = "";
+                        } else {
+                            ProjectCodeStyle = ErrorStyle;
+                        }
+                    } else {
+                        ProjectCodeStyle = ErrorStyle;
+                    }
+
+                    var allowance_flag = false;
+                    var AllowanceMasterObject = searchAllowanceMaster(excelRows[i]["__EMPTY_3"].toLocaleLowerCase());
+                    //debugger
+                    var AllowanceStyle = "";
+                    if (AllowanceMasterObject != undefined) {
+                        AllowanceTypeID = AllowanceMasterObject["Allowance_Type_value"].trim().replace(/(\r\n|\n|\r)/gm, "")
+                        AllowanceType = AllowanceMasterObject["Allowance_Type"].trim().replace(/(\r\n|\n|\r)/gm, "");
+                        allowance_flag = true;
+                    }
+                    if (allowance_flag == false) {
+                        AllowanceStyle = ErrorStyle;
+                    }
+
+                   
+
+
+                    if (excelRows[i]["__EMPTY_5"] == "Daily") {
+                        //alert("Object found inside the array. Project Name");
+                        FrequencyStyle = "";
+                    } else {
+                        errorlist += "<li>Row Number " + parseInt(i + row_add) + " :- Frequency should be \"Daily\" </li>";
+                        FlagValidation = true;
+                        FrequencyStyle = ErrorStyle;
+                    }
+
+                    if (parseInt(excelRows[i]["__EMPTY_6"]) == parseInt("1")) {
+                        NoOfDaysStyle = "";
+                        //alert("Object found inside the array. Project Name");
+                    } else {
+                        errorlist += "<li>Row Number " + parseInt(i + row_add) + " :- \"No of Days\" Should not be grater then 1</li>";
+                        FlagValidation = true;
+                        NoOfDaysStyle = ErrorStyle;
+                    }
+                    
+                    //var et = excelRows[i]["__EMPTY_7"];
+                    //var split = et.split("-");
+                    //var dd = split[0];
+                    //var y = split[2];
+                    //var mm = GetMonth[split[1]];
+
+                    //var curr_date = new Date();
+                    //var sheetyear = curr_date.getFullYear().toString().substr(-2);
+                    //var curr_month = curr_date.getMonth() + 1;
+                    //var curr_day = curr_date.getDate();
+                 
+                    
+
+                    var et = excelRows[i]["__EMPTY_7"];
+                    var split = et.split("/");
+                    var dd = split[0];
+                    var y = split[2];
+                    var mm = split[1];
+                    var ForDate = new Date(mm+"/"+dd+"/"+y);
+                
+                    var d = new Date();
+                    d.setMonth(d.getMonth() - 2);
+                
+                    var PastDate = new Date(d);
+                    var flag = 0; // false
+
+                    var CurrentDate = new Date();
+
+                    if(ForDate > CurrentDate){
+                        ForDateStyle=ErrorStyle;
+                    }
+                        //else if (PastDate>ForDate) { 
+                        //    ForDateStyle=ErrorStyle;
+                        //}
+                        //else if (PastDate<ForDate){ 
+                        //    //alert("Date2 > Date1")
+                        //    ForDateStyle="";
+                        //}
+                    else 
+                    {
+                        ForDateStyle=""; //alert("Date1 = Date2")
+                    } 
+
+                    var chkEmail="",chkProjectCode="",chk_AllowanceType="",chkForDate="";
+                    chkEmail=excelRows[i]["BconeHr&E2E"],chkProjectCode=excelRows[i]["__EMPTY_1"],chk_AllowanceType=excelRows[i]["__EMPTY_3"],chkForDate=excelRows[i]["__EMPTY_7"];
+                    duplicateFlag=false;
+                    DuplicateCheckStyle="";
+                    CheckDuplicateRows(chkEmail,chkProjectCode,chk_AllowanceType,chkForDate);
+                    if(duplicateFlag==true)
+                    {
+                        DuplicateCheckStyle=ErrorStyle;
+                    }
+
+                    testhtml += "<tr "+DuplicateCheckStyle+"><td class='clsAction' " + ResourceEmailStyle + ">" + excelRows[i]["BconeHr&E2E"] + "</td><td ><span style='cursor: help;' data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.'> " + excelRows[i]["__EMPTY"] + " </span></td><td " + ProjectCodeStyle + ">" + excelRows[i]["__EMPTY_1"] + "</td><td " + ProjectNameStyle + " style='text-align:right' class='clsTotalHours'>" + excelRows[i]["__EMPTY_2"] + "</td><td  class='clsStatus' " + AllowanceStyle + ">" + excelRows[i]["__EMPTY_3"] + "</td><td style='text-align:center' class='submittedDate'>" + excelRows[i]["__EMPTY_4"] + "</td><td class='clsApproveRejct' " + FrequencyStyle + ">" + excelRows[i]["__EMPTY_5"] + "</td><td class='pendingBy' " + NoOfDaysStyle + ">" + excelRows[i]["__EMPTY_6"] + "</td><td class='clsUserComment'><span data-toggle='tooltip' data-placement='top' title='' "+ForDateStyle+">" + excelRows[i]["__EMPTY_7"] + "</span></td><td class='clsApprovedBy'>" + excelRows[i]["__EMPTY_8"] + "</td><td class=\"clsLog\"><input type=\"hidden\" class=\"ts_name\" value='' >" + excelRows[i]["__EMPTY_9"] + "</td><td >" + excelRows[i]["__EMPTY_10"] + "</td><td >" + excelRows[i]["__EMPTY_11"] + "</td></tr>";
+                    empname_style = "";
+                }
+
+            }
+            $("#tblexcelBody").append(testhtml);
+            //dataTableLoad();
+            //TableHideShow(status);
+            excelsummary_dataTableLoad();
+            //$("#periodsummary").children('thead').children('tr').children('th').length
+            $('#loading-image').hide();
+        }
+
+        function filterById(data) {
+            //console.log(JSON.stringfy(data));
+            $('#TxtToData').hide();
+            $('#TxtFromDate').hide();
+            $('#BtnFilterData').hide();
+            if (data.value == "DateRange") {
+                $('#TxtToData').show();
+                $('#TxtFromDate').show();
+                $('#BtnFilterData').show();
+            } else {
+                showexceldata();
+            }
+        }
+
+        function filterByDateRange() {
+            var arr = [];
+            var crrDate = new Date();
+            var fDate = new Date(returnDateFormat($('#TxtToData').val()).toString()); // new Date(Date($('#TxtToData').val()));
+            var tDate = new Date(returnDateFormat($('#TxtFromDate').val()).toString()); // new Date(Date($('#TxtFromDate').val()));
+            summaryTable.Data[0].PeriodInfo.filter(
+                function(a) {
+                    var sdate = new Date(a.StartDate);
+                    var edate = new Date(a.EndDate);
+                    if (fDate <= sdate && tDate >= edate) { //console.log(sdate +""+edate);
+                        arr.push(a);
+                        //console.log(a);
+                    }
+                }
+            )
+            displayStatusCount(arr, document.getElementById("tableFilter"));
+            createexcelSummaryTable(arr);
+        }
+
+        function displayStatusCount(data, control) {
+            var openCnt = 0;
+            //var saveCnt = 0;
+            var SubmitCnt = 0;
+            var ApprovedCnt = 0;
+            var rejectCnt = 0;
+            data.filter(
+                function(a) {
+                    if (a.ApprovalStatus == "0" || a.ApprovalStatus == "") {
+                        openCnt++;
+                        //saveCnt++;
+                    } else if (a.ApprovalStatus == "1") {
+                        SubmitCnt++;
+                    } else if (a.ApprovalStatus == "2") {
+                        ApprovedCnt++;
+                    } else if (a.ApprovalStatus == "3") {
+                        rejectCnt++;
+                    }
+                }
+            );
+            $("#btnAllRecords span").text(data.length);
+            $("#btnOpenPeriods span").text(openCnt);
+            //$("#btnSavePeriods span").text(saveCnt);
+            $("#btnSubmitPeriods span").text(SubmitCnt);
+            $("#btnAppovedCount span").text(ApprovedCnt);
+            $("#btnRejectCount span").text(rejectCnt);
+        }
+
+
+        function openYesNoPOpupRecallFun(TimesheetUID, data) {
+            $('#Fillerror').hide();
+            $('#yesNoPopupComent').remove();
+            openyesNoPopup("recallTimeSheet", popUpMessage.timeSheetRecallComment);
+            var redirectURL = $(data).find(".redirectUrl").val();
+            $("#btnYes").attr('onclick', "TimesheetRecall('" + TimesheetUID + "','" + redirectURL + "')");
+        }
+
+        approvedData = new Object();
+        function TimesheetRecall(TimesheetUID, dataUrl) {
+            //$('#yesNoPopupComent').hide();
+            var CurrentRESGuid = GetCurrentUserGUID();
+            var commEmpty = "";
+            //var commEmpty=$("#yesNoPopupComent").val();
+
+            //if(commEmpty=="")
+            //{
+            //	$('#Fillerror').show();
+            //	}
+            //else
+            //{	
+            var tempData = new Object();
+            $('#Fillerror').hide();
+            tempData.Comment = commEmpty;
+            tempData.TimesheetUID = TimesheetUID;
+            //console.log(tempData)
+            var RecallTimesheetUrls = RecallTimesheet();
+            $.ajax({
+                url: RecallTimesheetUrls,
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                method: "POST",
+                data: tempData,
+                dataType: 'json',
+                success: function(data) {
+                    okPopupOnOkButton('#yesNoPopup');
+                    //$("#btnOkPopup").attr("onclick","window.location.href = '"+dataUrl+"'")
+                    //openOKpopup(popUpMessage.timeSheetRecallOkPopUp,"true");
+                    window.location.href = dataUrl;
+                }
+            });
+            //}	
+        }
+
+        
+        function TableHideShow(status,table) {
+            $(".clsLog").hide();
+            if (status == "All") {
+                //$(".clsSubmited").hide();
+                //$(".clsApproved").hide();
+                //$(".clsRejected").hide();
+                // $(".clsOperation").hide();
+                table.column( 0 ).visible( false ); //clsOperation               
+                table.column( 7 ).visible( false );      //clsSubmited          
+                table.column( 8 ).visible( false );//clsSubmited
+                table.column( 9 ).visible( false );//clsApproved
+                table.column( 10 ).visible( false );//clsApproved
+                table.column( 11 ).visible( false );//clsApproved
+                table.column( 12 ).visible( false );//clsRejected
+                table.column( 13 ).visible( false );//clsRejected
+                table.column( 14 ).visible( false );//clsRejected
+            } else if (status == "Open") {
+                //$(".clsSubmited").hide();
+                //$(".clsApproved").hide();
+                //$(".clsRejected").hide();
+                //$(".clsOperation").show();
+                
+                table.column( 0 ).visible( true ); //clsOperation               
+                table.column( 7 ).visible( false );      //clsSubmited          
+                table.column( 8 ).visible( false );//clsSubmited
+                table.column( 9 ).visible( false );//clsApproved
+                table.column( 10 ).visible( false );//clsApproved
+                table.column( 11 ).visible( false );//clsApproved
+                table.column( 12 ).visible( false );//clsRejected
+                table.column( 13 ).visible( false );//clsRejected
+                table.column( 14 ).visible( false );//clsRejected
+
+            } else if (status == "Submitted") {
+                // $(".clsSubmited").show();
+                // $(".clsApproved").hide();
+                // $(".clsRejected").hide();
+                // $(".clsOperation").hide();
+                table.column( 0 ).visible( false ); //clsOperation               
+                table.column( 7 ).visible( true );      //clsSubmited          
+                table.column( 8 ).visible( true );//clsSubmited
+                table.column( 9 ).visible( false );//clsApproved
+                table.column( 10 ).visible( false );//clsApproved
+                table.column( 11 ).visible( false );//clsApproved
+                table.column( 12 ).visible( false );//clsRejected
+                table.column( 13 ).visible( false );//clsRejected
+                table.column( 14 ).visible( false );//clsRejected
+
+            } else if (status == "Approved") {
+                // $(".clsSubmited").hide();
+                // $(".clsApproved").show();
+                // $(".clsRejected").hide();
+                //// $(".clsOperation").hide();                
+                table.column( 0 ).visible( false ); //clsOperation               
+                table.column( 7 ).visible( false );      //clsSubmited          
+                table.column( 8 ).visible( false );//clsSubmited
+                table.column( 9 ).visible( true );//clsApproved
+                table.column( 10 ).visible( true );//clsApproved
+                table.column( 11 ).visible( true );//clsApproved
+                table.column( 12 ).visible( false );//clsRejected
+                table.column( 13 ).visible( false );//clsRejected
+                table.column( 14 ).visible( false );//clsRejected
+
+            } else if (status == "Rejected") {
+                //$(".clsSubmited").hide();
+                //$(".clsApproved").hide();
+                //$(".clsRejected").show();
+                //$(".clsOperation").hide();
+                
+                table.column( 0 ).visible( false ); //clsOperation               
+                table.column( 7 ).visible( false );      //clsSubmited          
+                table.column( 8 ).visible( false );//clsSubmited
+                table.column( 9 ).visible( false );//clsApproved
+                table.column( 10 ).visible( false );//clsApproved
+                table.column( 11 ).visible( false );//clsApproved
+                table.column( 12 ).visible( true );//clsRejected
+                table.column( 13 ).visible( true );//clsRejected
+                table.column( 14 ).visible( true );//clsRejected
+                
+            }
+
+        }
+
+        function redirectToEntryPage(PeriodId, StartDate, EndDate, TimesheetUIDValue, ProjectUID) {
+            window.location.href = "TimesheetEntryPage.aspx?PeriodUID=" + PeriodId + "&Start=" + new Date(StartDate) + "&End=" + new Date(EndDate) + "&TimesheetUID=" + TimesheetUIDValue + "&ProjectUID=" + ProjectUID;
+        }
+
+     
+        function statussummary_dataTableLoad(Status) {
+            var table = $('#StatusWiseSummary').DataTable({
+                "JQueryUI": true,
+                "autoWidth": false,
+                "bAutoWidth": true,
+
+                fixedColumns: true,
+                //"bSortable": false,
+                //"bSort" : false,
+                "aaSorting": [],
+                "columnDefs": [{
+                    "defaultContent": "-",
+                    "targets": "_all",
+
+                }] //,
+                //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+
+            });
+
+            $('#StatusWiseSummary tfoot th').each(function() {
+                var title = $('#StatusWiseSummary thead th').eq($(this).index()).text();
+
+                //console.log(title)
+                if (title != "Action" && title != "Log") {
+                    $(this).html('<input type="text" placeholder="Search" />');
+                } else {
+                    /*this.style.width = "150px";
+                 $(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+                }
+            });
+
+
+            // Apply the search
+            table.columns().every(function() {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .columns.adjust().draw();
+                        //.draw();			
+                    }
+                });
+            });
+
+
+            $("th.clsAction").css("width", "70px");
+            $("th.clsTotalHours").css("width", "100px");
+            $("th.submittedDate").css("width", "140px");
+            $("th.clsStatus").css("width", "205px");
+            $("th.clsApproveRejct").css("width", "140px");
+            $("th.clsUserComment").css("width", "200px");
+            $("th.clsCpapprover").css("width", "150px");
+            $("th.clsHrapprover").css("width", "150px");
+            $("th.pendingBy").css("width", "150px");
+            $("th.clsApprovedBy").css("width", "150px");
+            $("th.clsApproveName").css("width", "150px");
+            $("th.clsApproveComment").css("width", "200px");
+            $("th.projectName").css("width", "300px");
+            $("th.clsLog").css("width", "20px");
+
+            
+            TableHideShow(Status,table);
+            debugger
+        }
+
+        function excelsummary_dataTableLoad() {
+            var table = $('#excelsummary').DataTable({
+                "JQueryUI": true,
+                "autoWidth": false,
+                "bAutoWidth": true,
+
+                fixedColumns: true,
+                //"bSortable": false,
+                //"bSort" : false,
+                "aaSorting": [],
+                "columnDefs": [{
+                    "defaultContent": "-",
+                    "targets": "_all",
+
+                }] //,
+                //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+
+            });
+
+            $('#excelsummary tfoot th').each(function() {
+                var title = $('#excelsummary thead th').eq($(this).index()).text();
+
+                //console.log(title)
+                if (title != "Action" && title != "Log") {
+                    $(this).html('<input type="text" placeholder="Search" />');
+                } else {
+                    /*this.style.width = "150px";
+                 $(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+                }
+            });
+
+
+            // Apply the search
+            table.columns().every(function() {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .columns.adjust().draw();
+                        //.draw();			
+                    }
+                });
+            });
+
+
+            $("th.clsAction").css("width", "70px");
+            $("th.clsTotalHours").css("width", "100px");
+            $("th.submittedDate").css("width", "140px");
+            $("th.clsStatus").css("width", "205px");
+            $("th.clsApproveRejct").css("width", "140px");
+            $("th.clsUserComment").css("width", "200px");
+            $("th.clsCpapprover").css("width", "150px");
+            $("th.clsHrapprover").css("width", "150px");
+            $("th.pendingBy").css("width", "150px");
+            $("th.clsApprovedBy").css("width", "150px");
+            $("th.clsApproveName").css("width", "150px");
+            $("th.clsApproveComment").css("width", "200px");
+            $("th.projectName").css("width", "300px");
+            $("th.clsLog").css("width", "50px");
+        }
+
+        function returnDateFormat(input) {
+            var sptdate = String(input).split("-");
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var myMonth = sptdate[1];
+            var myDay = sptdate[0];
+            var myYear = sptdate[2];
+            return (months.indexOf(myMonth) + 1).toString() + "-" + myDay + "-" + myYear;
+        }
+
+        function openTSLog(TS_UID, currData) {
+            //	debugger
+            $('#loading-image').show();
+            var ServiceURL = getURLTimesheet_AuditLog();
+            var inputData = new Object();
+            inputData.TimesheetUID = TS_UID;
+            callService(ServiceURL, inputData, openLogTable, "", currData);
+        }
+
+        function closeallcomment() {
+            $('.allcommentdiv').animate({
+                width: 'toggle'
+            });
+        }
+
+        function hideResumePopUP() {
+            $('.ResumeHeader').hide();
+            $('#BtnUplodRes').hide();
+            $('#hideOKBtn').hide();
+            $('.ResumeHeader').text('');
+            $('.alertmessage').text('');
+            $('.popup-bg-alert').hide();
+            $('.tableBind').hide();
+            $('#ResumeDDL').val('ExcelTemplate');
+        }
+
+       
+        
+        function hideResumePopUPREsume() {
+            $('.alert-main2').hide();
+            $('#ResumeDDL').val('Download');
+        }
+
+        function ResumeDDLChangeEvent() {
+            if ($('#ResumeDDL option:selected').val() == "Download") {
+                $('.popup-bg-alert').show();
+                $('.templateHeader').show();
+                $('.clsbtn').show();
+                $('.templateHeader').text('Download Excel Template');
+                $('.alertmessage').text('');
+                $('.tableBind').show();
+                $('#uploadREsumeInput').val('');
+                DisplayColumnTsDetails();
+            } else {
+                $('#TempleateResume').html('');
+                $('#TempleateResume').hide();
+                $('#noRecordFound1').show();
+            }
+        }
+
+        function DisplayColumnTsDetails() {
+            //Ravi
+            let next_Files = _spPageContextInfo.webAbsoluteUrl + "/_api/web/GetFolderByServerRelativeUrl('" + _spPageContextInfo.webServerRelativeUrl + "/ExcelTemplate')/files?$select=*,EditorId,AuthorId,FieldValuesAsText/FileRef&$expand=ModifiedBy,EditorId,AuthorId,ListItemAllFields&$orderby=TimeCreated desc";
+            $.ajax({
+                url: next_Files,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(ColumnsDataTsDetails) {
+                    $('#TemplateDataTable').html('');
+                    var results_data = ColumnsDataTsDetails;
+                    var table_header = "<thead style='background: #337ab7'><tr>";
+                    table_header = table_header + "<th>SL No</th>";
+                    table_header = table_header + "<th class='filehideName'>File Name</th>";
+                    table_header = table_header + "<th>Action</th>";
+                    table_header = table_header + "</tr></thead>";
+                    table_element = "";
+                    table_body = "<tbody>";
+                    var incrementcount = 0;
+                    if (results_data.d.results.length > 0) {
+                        $('#noRecordFound').hide();
+                        $('#TemplateDataTable').show();
+                        for (var j = 0; j < results_data.d.results.length; j++) {
+                            table_body += "<tr>";
+                            ++incrementcount;
+                            table_body += '<td>' + incrementcount + '</td>';
+                            let DocumentNam = results_data.d.results[j].Name;
+                            let UniqueId = results_data.d.results[j].UniqueId;
+                            UniqueId = "{" + UniqueId + "}";
+                            table_body += '<td class="filehideName">' + results_data.d.results[j].Name + '</td>';
+                            table_body += '<td ><input type="hidden" class="ts_name" value=\'' + results_data.d.results[j].ListItemAllFields.ID + '\' > <a href ="' + results_data.d.results[j].ServerRelativeUrl + '"  download = "' + results_data.d.results[j].Name + '" ><span style="cursor: pointer;color: rgb(6, 94, 160);" title="Download" class="glyphicon glyphicon-download-alt"></span></a></tr></td>';
+                        }
+                    } else {
+                        $('#TemplateDataTable').html('');
+                        $('#TemplateDataTable').hide();
+                    }
+                    table_body = table_body + "/<tbody>";
+                    table_element = table_header + table_body;
+                    $('#TemplateDataTable').html(table_element);
+                    if (results_data.d.results.length == 0) {
+                        $('#noRecordFound').show();
+                    }
+                },
+                error: function(error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+        }
+
+        function closepopup() {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+
+        function createlogTable(ShiftMasterID) {
+            // alert(ShiftMasterID);
+            debugger
+            var innerHtml = "";
+
+            CurrentGuid = GetCurrentUserGUID("1");
+            //Ravi
+            var url = APILink+"/api/rmo/GetShiftMasterLog";
+            $.ajax({
+                url: url,
+                // data: { "ResourceUID": "75EBCC57-31D7-E611-80CD-00155D045C09", "ShiftMasterID": ShiftMasterID},
+                data: { "ResourceUID": CurrentGuid, "ShiftMasterID": ShiftMasterID},            
+                async: false,
+                type: "POST",
+                dataType: "json",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (res) {
+                    debugger
+                    if (res.Allowance.length > 0) {
+                        for (var i = 0; i < res.Allowance.length; i++) {
+                                
+                            innerHtml+=   '<tr id="#LogRow"><td>' + res.Allowance[i]["UpdatedDate"] + '</td><td>' + res.Allowance[i]["ResourceName"] + '</td><td>' + res.Allowance[i]["Fullstatus"] + '</td><td>' + res.Allowance[i]["Comment"] + '</td> </tr>';
+                            //  innerHtml += "<tr ><td  class='clsOperation'><input type=\"checkbox\"  name='chkProjectWiseCheckbox' class=\"left-check projectWiseCheckBox\" onclick=\"chkClick('" + res.Allowance[i]["HRID"] + "')\"  id=chkProject_"+i+"' value='" + res.Allowance[i]["HRID"] + "'/></td><td> " + parseInt(i + 1) + " </td><td ><a href=\"https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/ProjectsDetails.aspx\" target=\"_blank\">" + res.Allowance[i]["Period"] + "</a></td><td  style='' class='.projectname' >" + res.Allowance[i]["ProjectName"] + "</td><td>" + res.Allowance[i]["CreatedDate"] + "</td><td >" + res.Allowance[i]["HRStatus"] + "</td><td class='clsSubmited' >" + res.Allowance[i]["PendingWith"] + "</td><td class='clsSubmited' >" + res.Allowance[i]["CPSubmittedDate"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedOn"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedBy"] + "</td><td class=\"clsApproved\">" + res.Allowance[i]["Pending"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedOn"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedBy"] + "</td><td class='clsRejected'>" + res.Allowance[i]["HRComment"] + "</td><td class=''>" + res.Allowance[i]["TotalEmployee"] + "</td><td class=''>" + res.Allowance[i]["TotalAmount"] + "</td><td>" + res.Allowance[i]["Log"] + "</td></tr>";
+                        }
+                    }
+                
+              
+                },
+                error: function (error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+        
+            $("#tblLogRow").html(innerHtml);
+            $('#divLogTable').modal("show");
+            $('#loading-image').hide();
+
+        }
+
+        function CheckDuplicateRows(Email,ProjectCode,AllowanceType,ForDate) {
+            
+            var requestData = {
+                "ResourceUID": CurrentGuid,
+                "EmailID": Email,
+                "ProjectCode": ProjectCode,
+                "AllowanceType": AllowanceType,
+                "ForDate": ForDate,
+            };
+            var url = APILink+"/api/rmo/CheckDuplicateRow";
+            $.ajax({
+                url: url,
+                data: requestData,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(res) {
+
+                    if (res.Allowance.length > 0) {
+                        duplicateFlag=true;
+                    }
+                    else 
+                    {
+                        duplicateFlag=false;
+                    }
+                
+                },
+                error: function(error) {
+                    console.log(JSON.stringify(error));
+                }
+            });
+
+        }
+
+    </script>
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

@@ -1,0 +1,639 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+<link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/jquery.mCustomScrollbar.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css"/>
+<link rel="stylesheet" href="../SiteAssets/RMO/css/select2.min.css">
+<link rel="stylesheet" href="../SiteAssets/RMO/css/sumoselect.css">
+<style>
+.sp-peoplepicker-topLevel {
+	width: 100% !important;
+	border: none !important;
+}
+.sp-peoplepicker-initialHelpText {
+	top: 6px !important;
+}
+#divReportingTo {
+	padding: 0 !important;
+}
+#suiteBarTop, #s4-titlerow {
+	display:none !important
+}
+.contain-div {
+	padding-top:0 !important;
+}
+.wrrfgreybg .options li, .wrrfgreybg .SumoSelect > .CaptionCont {
+	font-weight:700;
+}
+.CaptionCont {
+	height:30px;
+}
+ #siteIcon::after {
+top:3px;
+left:217px
+}
+</style>
+</head>
+
+<body>
+
+<div class="loader"> <img src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/RMO/images/loader1.gif" style='display:none'/></div>
+<div class="contain-div">
+  <div class="wrrfhead ">
+    <div class="row">
+      <div class="col-md-6">
+        <div id="siteIcon"> <img src="/sites/Dev/SiteAssets/RMO/images/blogo.png"> </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <div class="pull-right">
+            <h3 class="pull-left">RRF (RESOURCE REQUEST FORM): </h3>
+            <h3  class=" pull-left" id="lblrrfid"></h3>
+            <div class="clearfix"></div>
+            <label class="control-label pull-right" >Created By:- <span id="lbluser"></span> </label>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="wrrfgreybg">
+    <div class="row">
+      <div class="col-sm-9" id="CloneBtnDiv">
+		<span class="clone pull-left" >Clone</span>
+	  </div>
+      <div class="col-sm-3">
+        <label class="pull-left" style="margin-left:50px">Project Status<span class="mandatory">*</span> </label>
+        <div class="pull-right">
+          <label class="radio-inline ">
+            <input id="rdbnew"type="radio" value="New" name="projectstatus">
+            New </label>
+          <label class="radio-inline">
+            <input id="rdbexisting" type="radio" value="Existing" name="projectstatus">
+            Existing </label>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-6" >
+		
+	  </div>
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-5">
+            <label class="control-label pull-right"> Project / Opportunity Name <span class="mandatory">*</span> </label>
+          </div>
+          <div class="col-sm-7">
+            <select class="form-control" id="ddlprojectname">
+            </select>
+			<input type="text" id="projectname" style="display:none" class="form-control">
+			
+             <span class="error" id="errprojectname">Please Select Project Name</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title"> <a role="button" data-toggle="collapse" onclick="bindfirstaccdata();" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <i class="more-less glyphicon glyphicon-minus"></i> PROJECT INFORMATION </a> </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <div class="row">
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lbloppertunitystatus">Opportunity Status<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtoppertunitystatus" class="form-control">
+                <span class="error" id="erroppertunitystatus">Please Insert Opportunity Status </span> </div>
+              <div class="form-group">
+                <label id="lblsubpractice">Sub-Practice<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlsubpractice" class="form-control">
+                </select>
+               <!-- </select>-->
+                <span class="error" id="errsubpractice">Please Select SubPractice </span> </div>
+              <div class="form-group">
+                <label id="lblrequirementtype">Requirement Type<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlrequirementtype" class="form-control">
+                  <!--<option value="Product Engineering">Product Engineering</option>
+                <option value="Staffing">Staffing</option>
+                  <option value="Projects">Projects</option>-->
+                </select>
+                <span class="error" id="errrequirementtype">Please Select Requirement Type </span> </div>
+              <!--<div class="form-group">
+                    <label id="lblcountry">Country<span class="mandatory">*</span></label>
+                    <br />
+                    <select id="ddlcountry" class="form-control">
+                       
+                    </select>
+                    <span class="error" id="errcountry">Please Select country </span>
+					
+                </div>--> 
+            </div>
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lblcustomer">Customer<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtcustomer" class="form-control">
+                <span class="error" id="errcustomer">Please insert Customer Name </span> </div>
+              <div class="form-group">
+                <label id="lblpractice">Practice<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtpractice" class="form-control">
+                <span class="error" id="errpractice">Please insert Practice </span> </div>
+              <div class="form-group">
+                <label id="lblclientrate">Client Rate/Day<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <div class="row">
+                  <div class=" col-sm-6">
+                    <select id="ddlclientrate" class="form-control">
+                    </select>
+                    <span class="error" id="errclientrate">Please select Rate/day </span> </div>
+                  <div class=" col-sm-6">
+                    <input class="form-control" type="text" id="txtclientrate" maxlength="10"><span class="error" id="errnummsg"></span>
+                   <span class="error" id="errzeroselectperday">0 is not allowed on first digit</span> <span class="error" id="errclientrateperday">Please enter Rate/Day </span> </div>
+                </div>
+              </div>
+            </div>
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lblentity">Entity<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlentity" class="form-control">
+                </select>
+                <span class="error" id="errentity">Please Select Entity </span> </div>
+              <div class="form-group">
+                <label id="lblgbu">GBU<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtgbu" class="form-control">
+                <span class="error" id="errgbu">Please select Project/Opportunity which is having GBU </span> </div>
+              <div class="form-group">
+                <label id="Label1">Infrastructure<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <label class="checkbox-inline">
+                  <input id="checkBox1" name="InfraStructure" value="Data card" type="checkbox">
+                  Data card </label>
+                <label class="checkbox-inline">
+                  <input name="InfraStructure" value="Mobile" id="checkBox2" type="checkbox">
+                  Mobile </label>
+                <label class="checkbox-inline">
+                  <input name="InfraStructure" value="Laptop" id="checkBox3" type="checkbox">
+                  Laptop </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!---panel-1---->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingTwo">
+        <h4 class="panel-title"> <a class="collapsed" onclick="bindsecondaccdata();" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> <i class="more-less glyphicon glyphicon-plus"></i> RESOURCE INFORMATION </a> </h4>
+      </div>
+      <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="panel-body">
+          <div class="row">
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lblemployeerole">Employee Role<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlemployeerole" class="form-control">
+				<option value=0>Select</Option>
+                </select>
+                <span class="error" id="erremployeerole">Please Select Employee Role </span> 
+                
+              </div>
+              <div class="form-group">
+                <label id="lbltypeofassignemnt">Type of Assignment<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddltypeofassignemnt" class="form-control">
+                 
+                </select>
+              </div>
+              <div class="form-group">
+                <label id="lblrequirementpercentage">Requirement Percentage<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtrequirementpercentage"  class="form-control classReqPercentage"><span class="error" id="errreqpercentagemsg">Requirement Percentage should not be greater than 100</span>
+               <span class="error" id="errzeroreqpercentage">0 is not allowed on first digit</span> <span class="error" id="errrequirementpercentage">Please Enter Requirement Percentage </span> </div>
+            
+             
+              <div class="form-group" >
+                <label id="lblprimaryskill">Primary Skill<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlprimaryskill" class="search-box ddlprimaryskill form-control ">
+                </select>
+				
+                <span class="error" id="errprimaryskill">Please Select Primary Skill </span> </div>
+				<div class="form-group">
+                <label id="lblindustry">Industry<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlindustry" class="form-control">
+                </select>
+              </div>
+                  <div class="form-group">
+                <label id="lblnatureofvacancy">Nature of Vacancy<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlnatureofvacancy" class="form-control">
+                  <!--<option value="Replacement-Resignation">Replacement-Resignation</option>
+                    <option value="Replacement-Leave">Replacement-Leave</option>
+                    <option value="Replacement-Performance">Replacement-Performance</option>
+                    <option value="Replacement-New-Billable">New-Billable</option>
+                    <option value="Replacement-Rotation">Replacement-Rotation</option>
+                    <option value="New-Non Billable">New-Non Billable</option>-->
+                </select>
+                <span class="error" id="errnatureofvacancy">Please Select Nature Of vacancy </span> </div>
+              <div class="form-group">
+                <label id="lblworklocation">Work Location<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <!--<select id="ddlworklocation" class="form-control"></select>-->
+                <input type="text" id="txtworklocation" class="form-control">
+                <span class="error" id="errworklocation">Please Enter Work Location </span> </div>
+             
+            </div>
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lbldesignation">Designation<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddldesignation"  class="form-control">
+                </select>
+                <span class="error" id="errdesignation">Please Select Designation </span> </div>
+              <div class="form-group" style="margin-bottom:5px">
+                <label id="lblemploymenttype">Employment Type<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <div class="row">
+                  <div class=" col-sm-6">
+                    <select id="ddlemploymenttype" class="form-control">
+                    </select>
+                    <span class="error" id="erremploymenttype">Please Select Employment Type </span> </div>
+                  <div class=" col-sm-6">
+                    <select id="ddlemptypey" class="form-control" onchange="mySelectEType()">
+                    </select>
+					<span class="error" id="erremploymentsubtype">Please Select Sub-Employment Type </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" >
+                <label id="lblrequirementstartdate">Requirement Start Date<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <div class="date">
+                  <input type="text" id="txtrequirementstartdate" readonly="true" class="form-control txtrequirementstartdate">
+                </div>
+                <span class="error" id="errrequirementstartdate">Please Select Requirement Start Date </span> </div>
+				<div class="form-group">
+                <label id="lblsecondryskill">Secondary Skills<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlsecondryskill" class="search-box ddlsecondryskill form-control ">
+                </select>
+				 <span class="error" id="errsecondryskillmsg">Please Select Secondry Skill </span>
+              </div>
+             	 <div class="form-group">
+                <label id="lblindustryexperiance">Industry Experience<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlindustryexperiance" class="form-control">
+                </select>
+                
+                
+              </div>
+              <div class="form-group">
+                <label id="lblreplacementfor">Replacement for (Project Team)<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select  class="form-control" id="ddlreplacementfor"></select>
+                <span class="error" id="errreplacementfor">Please select replacement For </span>
+               </div>			  
+         
+              
+             
+              <div class="form-group">
+                <label id="lblbaselocation">Base Location<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlbaselocation" class="form-control">
+                </select>
+                <span class="error" id="errbaselocation">Please Select Base location </span> </div>
+            </div>
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lblroleband">Role Band<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlroleband" class="form-control">
+                </select>
+                 
+                <span class="error" id="errroleband">Please Enter Role Band </span> </div>
+              <div class="form-group">
+                <label id="lblpositiontype">Position Type<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlpositiontype"  class="form-control">
+                  
+                </select>
+                <span class="error" id="errpositiontype">Please select position type </span> </div>
+				 <div class="form-group">
+                <label id="lblrequirementenddat">Requirement End Date<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <div class="date">
+                  <input type="text" id="txtrequirementenddate" readonly="true" class="form-control txtrequirementenddate">
+                </div>
+                <span class="error" id="errrequirementenddate">Please Select Requirement End date </span> </div>
+				
+				  <div class="form-group" style="margin-top: 26px;">
+                <label id="lblclientinterviewrequired">Client Interview Required<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <label class="radio-inline">
+                  <input type="radio" id="rdbyes" name="clientinterview" value="Yes">
+                  Yes </label>
+                <label class="radio-inline">
+                  <input type="radio" id="rdbno" name="clientinterview" value="No">
+                  No </label>
+                <span class="error" id="errclientinterviewrequired">Please Select Client  Interview Required </span> </div>
+				 <div class="form-group">
+                <label id="lblminrelevantexp">Min Relevant Exp<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <select id="ddlminrelevantexp" class="form-control">
+                </select>
+				 <span class="error" id="errminrelevantexp">Please select Min Relevant Exp </span>
+              </div>
+              
+              
+			   
+              
+              <div class="form-group">
+                <label id="lblsalaryrange">Salary Range<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <div class="row">
+                  <div class=" col-sm-4">
+                    <select id="ddlsalaryrange" class="form-control  m-bottom">
+                    </select>
+                    <span class="error" id="errsalaryrange">Please select Salary range</span> </div>
+                  <div class=" col-sm-4">
+                    <input type="text" placeholder="Min Range" id="txtminsalaryrange" maxlength="10" class="form-control  m-bottom">
+                   <span class="error" id="errnumminmsg"></span><span class="error" id="errzerominsalary">0 is not allowed on first digit</span><span class="error" id="errminsalaryrange">Please enter min Salary range</span> </div>
+                  <div class=" col-sm-4">
+                    <input type="text" placeholder="Max Range" id="txtmaxsalaryrange" maxlength="10" class="form-control  m-bottom">
+                   <span class="error" id="errnummaxmsg"></span><span class="error" id="errzeromaxsalary">0 is not allowed on first digit</span> <span class="error" id="errmaxsalary">Max Salary range should be greater than Min Salary range</span><span class="error" id="errmaxsalaryrange">Please enter max Salary range</span> </div>
+                </div>
+              </div>
+			   <div class="form-group">
+                <label id="lbldurationofonsitetravel">Duration of Onsite Travel<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtdurationofonsitetravel" class="form-control">
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!---panel-2---->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingThree">
+        <h4 class="panel-title"> <a class="collapsed" onclick="bindthirdaccdata();" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> <i class="more-less glyphicon glyphicon-plus"></i> REPORTING AND APPROVALS </a> </h4>
+      </div>
+      <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+        <div class="panel-body">
+          <div class="row">
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lblreportingto"> Reporting To <span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+				<div id="divReportingTo" class="form-control" ></div>
+               <!-- <select  class="ddlreportingto search-box form-control" id="ddlreportngto"> </select>-->
+				
+				<span class="error" id="errreportingto">Please select Reporting To</span>
+				<span class="error" id="errreportingtoinvalid">Please select valid user</span>
+              </div>
+              <div class="form-group">
+                <label id="lblfpaapprover">FPNA Approver<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtfpaapprover" class="form-control">
+              </div>
+            </div>
+            <div class=" col-sm-4">
+             <!-- <div class="form-group">
+                <label id="lblskipmanager">Skip Manager <span class="mandatory">*</span></label>
+                <br />
+                <input type="text" id="txtskipmanager" class="form-control">
+				<br/>
+				<span class="error" id="errskipmanager">Please select Skip Manager</span>
+              </div>-->
+              <div class="form-group">
+                <label id="lblclientpartner">Client Partner<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtclientpartner" class="form-control">
+              </div>
+			  <div class="form-group">
+                <label id="lblrmospoc">RMO SPOC<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtrmospoc" class="form-control">
+              </div>
+            </div>
+            <div class=" col-sm-4">
+              <div class="form-group">
+                <label id="lblprojectmanager">Project Manager<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                <br />
+                <input type="text" id="txtprojectmanager" class="form-control">
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!---panel-3---->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingFour">
+        <h4 class="panel-title"> <a class="collapsed" role="button" onclick="bindfouraccdata();" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour"> <i class="more-less glyphicon glyphicon-plus"></i> JOB DESCRIPTION </a> </h4>
+      </div>
+      <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+        <div class="panel-body">
+          <div class="row">
+            <div class=" col-sm-6">
+              <div class="form-group">
+                <label id="lbljobsummary">Job Summary<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                </br />
+                <input type="text" id="txtjobsummary" class="form-control">
+                <span class="error" id="errjobsummary">Please select Designation and Primary Skill </span> </div>
+              <div class="form-group">
+                <label id="Label2">Job Description<span class="mandatory">*</span><i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                </br />
+                <textarea id="txtjobdescription"  class="form-control"></textarea><span class="error" id="errjobdescriptionmsg">Special Characters are not allowed</span>
+                <span class="error" id="errjobdescription">Please Enter Job Description </span> </div>
+				</div>
+				<div class=" col-sm-6">
+              <div class="form-group">
+                <div id="File_Control_div1">
+                  <div id="attachFilesContainer">
+				   <label id="lbluploadsupport">Upload Support<i class="fa fa-info-circle" aria-hidden="true"></i></label>
+                    <input type="file" multiple="multiple"  class="multi1" id="txtfilesupport" >
+                  </div><br>
+                  <sup style="color: #ababab; font-size: 11px;">(File names with these special characters are not allowed  !@#$%^&amp;*()+=[]'/{}|\":&lt;&gt;.)<br/>
+                  (.csv|.doc|.docm|.docx|.wpd|.eml|.htm|.html|.pdf|.ppt|.pptm|.pptx|.ppsx|.pps|.ppsm|</br>
+                  .txt|.xls|.xlsx|.zip|.jpg|.img|.png|.gif|.war files are allowed)</sup> </div>
+              </div>
+			<div class="allcommentdiv-mid">
+                       <h3 id="ref_no"></h3>
+                       <div class="vertical-scoll">
+                        <table class="table table-bordered text-left">
+                           <tbody id="uploaded_files">
+                             </tbody>
+                            </table>
+                           </div>
+                          </div>
+						<span id="delete_file_ids" style="display: none"></span>
+            </div>
+			
+          </div>
+        </div>
+      </div>
+    </div><!---panel-4---->
+  </div><!-- accordion close -->
+  <div class="pull-right">
+    <input type="button" id="btnsave" value="Save" class="btn btn-success">
+    <input type="button" id="btnsubmit" value="Submit" class="btn btn-danger">
+    <input type="button" id="btnsearch" value="Search" class="btn btn-primary">
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="popup-bg">
+  <div class="popup">
+    <div class="popup-head">
+      <div class="panel-head left-pol">
+        <h4></h4>
+      </div>
+      <div class="right-pol">
+        <div class="p-close">x</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popup-boday" style="width: 1000px" >
+          <div id="VScroll" >
+          <table id="tblResourceSearch" class="display" width="100%">
+          </table>       
+</div>
+      <div class"clearfix"></div>
+      <div class="pull-right" style="margin:0 30px 0 0">
+        <input type="button" id="btnresourcesave" value="Save" class="btn btn-success">
+        <input type="button" id="btnresourcecancel" value="Cancel" class="btn btn-danger">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<!---------------top popup------------------->
+<div class="Toppopup-bg" id="alertmain">
+  <div class="popup">
+    <div class="popup-head">
+      <div class="panel-head left-pol">
+        <h4></h4>
+      </div>
+      <div class="right-pol">
+        <div class="top-close">x</div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="popup-boday text-center" >
+       <!-- File upload massege -->
+	   <div id="fileuploadmsg" style="display:none">
+					<div class="popup-heading "><span id="Confirmation_msg"></span><span id="Alert_msg"></span></div>
+                    <div class="pop-mid">
+                        <p id="P1"></p>
+                        <span id="Method_tocall"></span>
+                        <input type='Button' class="divnewbtn" value="OK" id="ok_click" />
+                        <input type='Button' class="divnewbtn" value="Cancel" onclick='confirmation_close();' />
+                    </div>
+	   </div>
+					
+	 <!-- RRF saved or submit Msg -->
+         <div id="rrfsavedmsg" style="display:none">					
+					<div class="popup-heading " ><span id="RRFsaved_msg"></div>
+                    <div class="pop-mid">
+                        <p id="P1"></p>
+                        <span id="Method_tocall"></span>
+                        <input type='Button' class="divnewbtn" value="OK" id="RRFok_click" />
+                        
+                    </div>
+		 </div>
+	<!---Number of clone--->
+
+	<div id="clone" style="display:none">
+		<div class="col-md-6">
+			<div class="form-group">
+                <label id="lblfpaapprover">Number Of Clones</label>
+                <br>
+                <input type="text" id="CloneNumber" class="form-control">
+				
+            </div>
+			
+		</div>
+		<div class="col-md-6" style="margin-top:22px">
+			<input type="button" class="btn btn-primary" value="OK" onclick="AddNoofCloneItems()">
+			<input type="button" class="btn btn-default" value="Cancel">
+		</div>
+		<div class="clear"></div>
+		<span class="error" id="ErrClone" style="display:none">Invalid Clone value.Please enter only numeric value from 1-100</span>
+		
+	</div>
+	
+	<div id="alertclone" style="display:none">
+	<span>Cloning in Process</span>
+	</div>
+	<!---Number of clone End--->
+					<div class="clear"></div>
+					<div id="divMultipleAssignment" style="display:none;width:820px;">
+                    <table id="tblMultipleAssignment">
+
+                    </table>
+                    
+                </div>
+	</div>
+  </div>
+</div>
+<script src="../SiteAssets/RMO/js/jquery.min.js"></script> 
+<script src="../SiteAssets/RMO/js/bootstrap.min.js"></script> 
+<script src="../SiteAssets/RMO/js/select2.min.js"></script>
+<!--<script src="../SiteAssets/RMO/js/jquery.sumoselect.js"></script>-->
+<script type="text/javascript" src="../SiteAssets/RMO/js/sppeoplepicker.js"></script> 
+<script type="text/javascript" src="../SiteAssets/RMO/js/jqueryui.js"></script> 
+<script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script> 
+<script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script> 
+ <script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script> 
+<script src="../SiteAssets/RMO/js/SearchResource.js"></script> 
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<script src="../SiteAssets/RMO/js/RRFConfig.js"></script> 
+<script src="../SiteAssets/RMO/js/RRFRaisedTest.js"></script> 
+<script src="../SiteAssets/RMO/js/Tooltip.js"></script>
+<script src="../SiteAssets/RMO/js/jquery.MultiFile.js"></script>
+
+ 
+
+<script>
+	$(document).ready(function(){
+		$("span.clone").click(function(){
+			$(".Toppopup-bg,#clone").show();
+		});
+		$(".top-close").click(function(){
+			$(".Toppopup-bg,#clone").hide();
+		});
+	});
+</script>
+
+</body>
+</html>
+
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head >
+		<title></title>
+		
+	</head>
+
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+    <script type="text/javascript" src="../SiteAssets/js/jquery.sumoselect.js"></script>
+	<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+	<style>
+	
+	.SumoSelect.open > .optWrapper { 	width:270px; 	}
+	.ms-core-tableNoSpace .ms-webpart-zone #MSOZoneCell_WebPartWPQ4{ 	display: inline-block; 	width: 100%; 	}
+	.ms-core-tableNoSpace .ms-webpart-zone #MSOZoneCell_WebPartWPQ4 .ms-webpart-chrome-fullWidth{ 	display: inline-block; 	width: 100%; 	}
+	.login_name_contain {
+	float: right;
+	margin: -32px 0px 0px 0px;
+	background: url(https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center;
+	padding: 3px 32px 3px 0px;
+	}
+	.ms-webpartPage-root { 	border-spacing: 20px 0px !important; 	}
+	/*#s4-workspace{
+	height:auto !important;
+	}*/
+	#s4-titlerow{ 	padding-bottom:0px; 	height:auto; 	}
+	#siteIcon{ 	height:auto; 	line-height: 34px; 	}
+	#s4-titlerow .ms-breadcrumb-box{ 	display:none; 	}
+	#s4-ribbonrow,#SearchBox,#O365_MainLink_Settings{display:none }
+	.middle {width: 97%;margin: 0 auto;}
+	#sideNavBox{width:0px !important;display: none;}
+	#contentBox {margin-right: 0px !important;  margin-left:0px !important; }
+	#contentRow {padding-top: 0px !important;}
+	.menu-item-text{ 	display:none; 	}
+	.breadcrumb-new ul{ 	margin:0px ; 	padding:0px; 	list-style:none; 	}
+	.breadcrumb-new { 	background:#f3f3f3; 	margin-bottom:10px; 	overflow: hidden; 	}
+	.breadcrumb-new ul li{ 	float:left; 	padding:10px 5px;
+	/*border-right:1px solid #ccc;*/
+	}
+	.breadcrumb-new ul.pull-right li{ 	border-right:1px solid #ccc; 	}
+	.breadcrumb-new ul.pull-right li:after{ 	display:none; 	}
+	.breadcrumb-new ul li:after{ 	content:"\f101"; 	font-family:'FontAwesome'; 	color:#999; 	font-size: 13px; 	display: inline-block; 	margin: 0px 0px 0px 6px; 	}
+	.breadcrumb-new ul li:first-child{ 	padding-left:0; 	}
+	.breadcrumb-new ul li:last-child:after{ 	content:''; 	}
+	.breadcrumb-new ul li:last-child{ 	border-right:0; 	}
+	#_invisibleIfEmpty:first-child .ms-webpart-zone{ 	display:inline-block; 	}
+	.breadcrumb-new a:visited { 	color: #337ab7; 	}
+	</style>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="breadcrumb-main">
+			<div class="container-fluid">
+				<ul>
+					<li>
+						<a href="../default.aspx">Home</a>
+					</li>
+					<li>PMO DataTable Report
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" >
+		<div style="width: 250px;position: relative; margin-right: 5px; float: left; " >
+			GBU<br>
+			<select id="selGUB" name="selGUB" multiple="multiple" class="search-Country" style="width: 200px !important;">
+			
+			</select>
+		</div>
+	
+		<div style="width: 250px; float: left; margin-right: 5px;" >
+			Project Type
+			<br>
+			<select id="selProjects" name="selProjects" multiple="multiple" onchange="GetProjectsData()" class="search-Project" style="width: 200px !important;"> 
+			</select> 
+		</div>
+		
+		<div style="width: 280px; float: left; margin-right: 5px;" >
+			Project Name (Max 10 can be selected)
+				<br>
+			 <select id="selProjectsName" name="selProjectsName" multiple="multiple" style="width: 250px !important;" class="search_Project_name"> 
+			 </select> 
+		</div>
+		<div style="width: 200px; float: left; margin-right: 5px;" >
+			Select Status<br>
+			<select id="ddlStatus" style="width: 100% !important;" class="search-status" >
+			<option value="ALL">ALL</option>
+			<option value="Baseline">Baseline</option>
+			<option value="No Baseline">No Baseline</option>
+			</select>
+		</div>
+		<div id="errMessage" class="alert-main" style="">
+			<div class="black-bg" id="backcolor">
+				<div class="popup-main">
+					<div class="popup-heading"><span id="Alert_msg">Please Select</span></div>
+					<div class="pop-mid">
+						<p id="submitValue"></p>
+						<input type="Button" class="divnewbtn" value="OK" id="ok_click1" onclick="close_div('')">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	 <div class="clear"></div>
+		<div class="container-fluid" style="margin-top:80px;">
+			<a href="javascript:void(0)" class="blue-btn" name="btnGenrate"><i class="fa fa-sticky-note"></i>Generate Report</a>
+			<a href="javascript:void(0)" class="blue-btn" name="btnClear"><i class="fa fa-remove"></i>Clear</a><br>
+			<div class="loader" style="display: none;"></div>
+			<div style="width:100%">
+				<table width="100%">
+					<tr>
+						<td>
+							<iframe id="rptTimesheet"  width="100%" style="height: 100% !important;overflow: auto !important;min-height: 1299px;" ></iframe>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	
+<script>
+   
+    var Email = "";
+    var gbu = "";
+    var ProjectName = "";
+    var status = "";
+   
+    $(document).ready(function () 
+	{
+	
+		$(".loader").show();
+		$("#errMessage").hide();
+        getUser();
+		 
+		//document.getElementById("rptTimesheet").src ="https://ppmprod.bcone.com//BconeReport/Report_Pages/PmoDatatableReport.aspx?login="+Email+"&ProjectName=,ALL,&gbu=all&status=,baseline,&epttype=all";
+		GetGBUData();
+		GetProjectTypeData();
+		$('.search-status').SumoSelect({search: true, searchText: 'Search Status'});
+       
+    });
+
+	function GetGBUData()
+	{
+		url = "https://ppmprod.bcone.com/api/BCONEReport/GetGBU";
+		$.ajax({
+			url: url,
+			async: false,
+			type: "POST",
+			dataType: "json",
+			success: function (data)
+			{
+				if(data.length==0)
+				{
+				
+				}
+				else
+				{
+				if($("#selGUB").hasClass("SumoUnder")){$("#selGUB").html('');$("#selGUB")[0].sumo.unload();}
+					$("#selGUB").append("<option value='ALL' >ALL</option>");
+					if(data.GBU_Name.length >0)
+					{
+						for(var i=0;i<data.GBU_Name.length;i++)
+						{ 
+							var datavalue= data.GBU_Name[i].GBU;
+							var PMOReplace = datavalue.replace("&", " and ");
+							$("#selGUB").append("<option value=\""+PMOReplace+"\" >"+data.GBU_Name[i].GBU+"</option>");
+						}
+					}
+					$('.search-Country').SumoSelect({search: true, searchText: 'Search GBU'});
+					$('#selGUB')[0].sumo.enable(); // Enable the SUMO SELECT 
+					$('#selGUB')[0].sumo.reload();
+					$('#selGUB')[0].sumo.selectItem(0); //default select first option
+					$('#selGUB option').each(function(e){if(e != 0){$('#selGUB')[0].sumo.disableItem(e)}});
+					$(".sumo_selGUB li").bind('click', function(event, ui) 
+					{
+						if($(this).find('label').text().trim() == "ALL")
+						{
+							if($(this).is(".selected"))
+							{
+								$('#selGUB option').each(function(e){if(e != 0){$('#selGUB')[0].sumo.disableItem(e)}});									
+							}
+							else
+							{
+								$('#selGUB option').each(function(e){$('#selGUB')[0].sumo.enableItem(e)});
+							}
+						}
+						else
+						{
+							$(".sumo_selGUB li").each(function(e){
+								if(!$(this).is(".selected"))
+								{
+									$('#selGUB')[0].sumo.enableItem(e)
+								}
+							})
+						}
+					})
+				}
+			},
+			error:function()
+			{
+				alert("failed");
+				$(".loader").hide();
+			}	
+		
+			
+		});
+	}
+	
+	function GetProjectTypeData() 
+	{
+		$.ajax
+		({
+			url:"https://ppmprod.bcone.com/api/BCONEReport/GetAllProjectEPT_Type",
+			method:"POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			success:function(data)
+			{
+				var index_=0;
+				if(data.Data.length==0)
+				{
+				}
+				else
+				{
+					if($("#selProjects").hasClass("SumoUnder")){$("#selProjects").html('');$("#selProjects")[0].sumo.unload();}
+					for(var i=0;i<data.Data.length;i++)
+					{
+						$("#selProjects").append("<option value=\""+data.Data[i].ENTERPRISEPROJECTTYPENAME+"\" >"+data.Data[i].ENTERPRISEPROJECTTYPENAME+"</option>")
+						if(data.Data[i].ENTERPRISEPROJECTTYPENAME == "SAP Implementation")
+						{
+							index_ = i;
+						}
+					}
+					
+					$('.search-Project').SumoSelect({search: true, searchText: 'Search Project'});
+					$('#selProjects')[0].sumo.remove(0);
+					$('#selProjects')[0].sumo.enable(); // Enable the SUMO SELECT 
+					$('#selProjects')[0].sumo.reload();
+					if(index_ == 0)
+					{
+						$('#selProjects')[0].sumo.selectItem(0);
+					}
+					else
+					{
+						$('#selProjects')[0].sumo.selectItem(parseInt(index_) - 1);
+					}
+					 //default select first option
+					//$('#selProjects option').each(function(e){if(e != 0){$('#selProjects')[0].sumo.disableItem(e)}});
+					//GetProjectNameSelected(); 
+					/*$(".sumo_selProjects li").bind('click', function(event, ui) 
+					{
+						if($(this).find('label').text().trim() == "Select All Project Type")
+						{
+							if($(this).is(".selected"))
+							{
+								$('#selProjects option').each(function(e){if(e != 0){$('#selProjects')[0].sumo.disableItem(e)}});									
+							}
+							else
+							{
+								$('#selProjects option').each(function(e){$('#selProjects')[0].sumo.enableItem(e)});
+							}
+						}
+						else
+						{
+							$(".sumo_selProjects li").each(function(e)
+							{
+								if(!$(this).is(".selected"))
+								{
+									$('#selProjects')[0].sumo.enableItem(e)
+								}
+							})
+						}
+					})*/
+					
+				}
+				$(".loader").hide();
+			},
+			error:function()
+			{
+				alert("failed");
+				$(".loader").hide();
+			}	
+		});
+	}	
+	
+	
+	//document.getElementById("selProjects").onchange = function() // onchange of project type dropdown
+	function GetProjectsData()
+	{
+		/*var Proj_Type = $("#selProjects option:selected").val();
+		if (Proj_Type == undefined) 
+		{
+			
+		}
+		else
+		{*/
+			var selProjecName = $('#selProjects :selected');
+			var seprator = ',', ProjecName = '', status = '';
+			selProjecName.each(function (index, item) 
+			{
+				ProjecName += seprator + $(item).val();
+			});
+			ProjecName = ProjecName + ",";
+			if(ProjecName==","||ProjecName=="")
+			{
+			}
+			else
+			{
+				GetProjectNameSelected();	
+			}
+		//}
+		
+		
+	}
+	
+	function GetProjectNameSelected() 
+	{
+		var seprator = ',', ProjNames = '', status = '';
+		var selProNames = $('#selProjects :selected');
+		var SelectedPeriods = $('#selProjects option:selected').val();
+		if(SelectedPeriods =="Select All Project Type")
+		{
+			$("#selProjects").prop("selectedIndex",0); //unselect check box  
+			var Proj="Select All Project Type";
+			ProjNames = ","+Proj + ",";
+		}
+		else
+		{
+			selProNames.each(function (index, item) 
+			{
+				ProjNames += seprator + $(item).val();
+			});
+			ProjNames = ProjNames + ",";
+		}
+		//console.log(ProjNames);
+		$.ajax
+		({
+			url:"https://ppmprod.bcone.com/api/BCONEReport/GetAllProjectCode",
+			method:"POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			data:{
+					"EPT_Type":ProjNames
+					},
+			success:function(Resdata)
+			{
+				if(Resdata.Data.length==0)
+				{
+				}
+				else
+				{
+					if($("#selProjectsName").hasClass("SumoUnder")){$("#selProjectsName").html('');$("#selProjectsName")[0].sumo.unload();}
+		
+					for(var i=0;i<Resdata.Data.length;i++)
+					{
+						$("#selProjectsName").append("<option value=\""+Resdata.Data[i].PROJ_UID+"\" >"+Resdata.Data[i].PROJECTCODE+"</option>")
+					}
+					$('.search_Project_name').SumoSelect({search: true, searchText: 'Search Project Name'});
+					$('#selProjectsName')[0].sumo.enable(); // Enable the SUMO SELECT 
+					$('#selProjectsName')[0].sumo.reload();
+					
+					$('#selProjectsName')[0].sumo.selectItem(0); //default select first option
+					$('#selProjectsName option').each(function(e){if(e != 0){$('#selProjectsName')[0].sumo.disableItem(e)}});
+					
+					$(".sumo_selProjectsName li").bind('click', function(event, ui) 
+					{
+						if($(this).find('label').text().trim() == "Select All Projects")
+						{
+							if($(this).is(".selected"))
+							{
+								$('#selProjectsName option').each(function(e){if(e != 0){$('#selProjectsName')[0].sumo.disableItem(e)}});									
+							}
+							else
+							{
+								$('#selProjectsName option').each(function(e){$('#selProjectsName')[0].sumo.enableItem(e)});
+							}
+						}
+						else
+						{
+							$(".sumo_selProjectsName li").each(function(e){
+								if(!$(this).is(".selected"))
+								{
+									$('#selProjectsName')[0].sumo.enableItem(e)
+								}
+							})
+						}
+						if($(".sumo_selProjectsName li.selected").length > 10)
+						{
+							$('#selProjectsName')[0].sumo.unSelectItem($(this).index());
+							$('#Alert_msg').html("Max 10 projects can be selected!");
+							$("#errMessage").css("display", "block");
+						}
+					})
+				}
+				$(".loader").hide();
+			},
+			error:function()
+			{
+				alert("failed");
+				$(".loader").hide();
+			}	
+		});
+	}
+
+	
+	$('[name="btnGenrate"]').click(function () 
+	{
+		var Proj_Type = $("#selProjects option:selected").val();
+		var Proj_name = $("#selProjectsName option:selected").val();
+		var GBU_Valdidation = $("#selGUB option:selected").val();
+		if(GBU_Valdidation == undefined)
+		{
+			$('#Alert_msg').html("Please Select GBU");
+			$("#errMessage").css("display", "block");
+			return false;
+		}
+		else if (Proj_Type == undefined) 
+		{
+			$('#Alert_msg').html("Please Select Project Type");
+			$("#errMessage").css("display", "block");
+			return false;
+		}
+		else if(Proj_name == undefined)
+		{
+			$('#Alert_msg').html("Please Project Name");
+			$("#errMessage").css("display", "block");
+			return false;
+		}
+		else 
+		{
+			$(".loader").show();
+			var finalurl = "";
+			var GBU_Value = $('#selGUB :selected');
+			var sepratorGbu = ',', GBUNameCode = '';
+			GBU_Value.each(function (index, item) 
+			{
+				GBUNameCode += sepratorGbu + $(item).val();
+			});
+			GBUNameCode = GBUNameCode + ",";
+			
+			var status = $('#ddlStatus :selected').val();
+			/*selStatus.each(function (index, item)
+			{
+				status += seprator + $(item).val();
+			});*/
+			status = ","+ status + ",";
+				
+			var selProName = $('#selProjects :selected');
+			var seprator = ',', ProjName = '';
+			selProName.each(function (index, item) 
+			{
+				ProjName += seprator + $(item).val();
+			});
+			ProjName = ProjName + ",";
+				
+			var selProNameCode = $('#selProjectsName :selected');
+			var sepratorCode = ',', ProjNameCode = '';
+			selProNameCode.each(function (index, item) 
+			{
+				ProjNameCode += sepratorCode + $(item).val();
+			});
+			ProjNameCode = ProjNameCode + ",";
+				
+			finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com/BconeReport/Report_Pages/PmoDatatableReport.aspx?login="+Email+"&ProjectName="+ProjNameCode+"&gbu="+GBUNameCode+"&status="+status+"&epttype="+ProjName+"";
+			$(".loader").hide();
+				return false;
+			}
+		
+	});
+
+	function getUser() 
+	{
+		var userid = _spPageContextInfo.userId;
+		var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+		var requestHeaders = { "accept": "application/json;odata=verbose" };
+		$.ajax
+		({
+			url: requestUri,
+			async: false,
+			contentType: "application/json;odata=verbose",
+			headers: requestHeaders,
+			success: onSuccess,
+			error: onError
+		});
+		function onSuccess(data, request) 
+		{
+			var loginName = data.d.Title;
+			Email = data.d.Email
+			$("#login_name_contain").text(loginName);
+		} 
+		function onError(error) 
+		{
+			alert("Error on retrieving current user.");
+		}
+	}
+	function close_div() 
+	{
+		$("#errMessage").css("display", "none");
+	}
+		
+	$('[name=\'btnClear\']').click(function ()
+	{    
+		//$("#selGUB").prop("selectedIndex",-1); //unselect check box
+		//$('#selGUB')[0].sumo.reload();
+		//$('#selGUB')[0].sumo.selectItem(0);		
+		//$("#selProjects").prop("selectedIndex",-1); //unselect check box
+		//$('#selProjects')[0].sumo.reload();
+		//$('#selProjects')[0].sumo.selectItem(0);
+		$('#ddlStatus')[0].sumo.selectItem(0);
+		GetGBUData();
+		GetProjectTypeData();
+		
+		$('#errMessage').html('');
+		$('#rptTimesheet').attr('src', '');
+	});
+	
+</script>
+</body>
+</html>
+
+

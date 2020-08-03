@@ -1,0 +1,376 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Assignment Tracking Report</title>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <style>
+        .SumoSelect {
+            width: 100% !important;
+        }
+
+        .form-control {
+            border-radius: 0px;
+            border-color: #ccc !important;
+        }
+
+        .SumoSelect {
+            border-radius: 0px;
+            border-color: #ccc !important;
+        }
+
+        .SumoSelect>.CaptionCont {
+            border-radius: 0px;
+            border-color: #ccc !important;
+        }
+
+        .SumoSelect>.optWrapper>.options li.opt label {
+            font-weight: normal;
+        }
+
+        .SumoSelect .select-all {
+            padding: 6px 0 4px 35px;
+            height: auto;
+        }
+
+        .SumoSelect .select-all label {
+            font-weight: normal;
+        }
+
+        .SumoSelect>.CaptionCont>span.placeholder {
+            font-style: normal;
+        }
+
+        select[multiple],
+        select[size] {
+            height: auto;
+            z-index: -1;
+        }
+
+        select[multiple],
+        select[size] {
+            height: auto;
+            z-index: -1;
+        }
+
+        #loading-image {
+            z-index: 9999999
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+    <div class="container-fluid">
+        <div class="breadcrumb-main">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                    </li>
+                    <li>Assignment Tracking Report
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div <div class="pull-left">
+    <div style="margin: 15px;display: inline-block;">
+
+        <table>
+
+            <tr>
+                <td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Project Type<sup style="color: #f00; font-size: 14px;">*</sup> <br>
+                    <select id="selProjects" name="selProjects" multiple="multiple" class="search-Project" style="width: 270px !important;margin-right: 10px;"> 
+								<option>Select All Project Type</option>
+								<option>AMS Project</option>
+								<option>Default Internal</option>
+								<option>Enterprise Project</option>
+								<option>Internal</option>
+								<!-- <option>Project Type is NA</option> -->
+								<option>SAP Implementation</option>
+								<option>Staffing Project</option>
+							</select>
+                </td>
+                <td id="DivselCluster" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Cluster<sup style="color: #f00; font-size: 14px;">*</sup> <br>
+
+                    <select id="selCluster" name="selCluster" multiple="multiple" class="search-selCluster" style="width: 270px !important;margin-right: 10px;"> 
+		
+							</select>
+                </td>
+                <td id="DivEmpType" hidden style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Sub Practice<sup style="color: #f00; font-size: 14px;">*</sup> <br>
+                    <select id="selsubPractice" name="selsubPractice" multiple="multiple" class="search-selsubPractice" style="width: 270px !important;margin-right: 10px;"> 
+							</select>
+                </td>
+
+
+                <td><br><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoId" onclick="show();"><i class=""></i>SHOW</a></td>
+                <td><br><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;visibility:hidden" id="clr" onclick="clrs();"><i class=""></i>CLEAR</a> <span class="errMsg"></span></td>
+            </tr>
+        </table>
+    </div>
+    </div>
+    <div id="errMessage" class="alert-main" style="display: none;">
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Alert_msg">Please Select At-least One Expense To Reset</span></div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <input type="Button" class="divnewbtn" value="OK" id="ok_click1" onclick="close_div('')">
+                </div>
+            </div>
+        </div>
+    </div>
+    <iframe id="rptTimesheet" height="680px" width="100%"></iframe>
+    </div>
+    <script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+    <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+    <script>
+        var GetMonth = {
+            "Jan": "January",
+            'Feb': "February",
+            'Mar': "March",
+            'Apr': "April",
+            'May': "May",
+            'Jun': "June",
+            'Jul': "July",
+            'Aug': "August",
+            'Sep': "September",
+            'Oct': "October",
+            'Nov': "November",
+            'Dec': "December"
+        }
+        var Month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var Email = "";
+
+        var siteUrLDirection = "//ppmprod";
+        $(document).ready(function() {
+            getUser();
+            GetProjectTypeData();
+            getCluster();
+            getSubpratice();
+        });
+
+        function getUser() {
+            var userid = _spPageContextInfo.userId;
+            //alert(userid);
+
+            var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+            var requestHeaders = {
+                "accept": "application/json;odata=verbose"
+            };
+            $.ajax({
+                url: requestUri,
+                async: false,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError
+            });
+
+            function onSuccess(data, request) {
+                var loginName = data.d.Title;
+                Email = data.d.Email
+                $("#login_name_contain").text(loginName);
+                //alert(Email);
+            }
+
+            function onError(error) {
+                alert("Error on retrieving current user.");
+            }
+        }
+
+        function GetProjectTypeData() {
+            $('.search-Project').SumoSelect({
+                search: true,
+                searchText: 'Search Project'
+            });
+            $('#selProjects')[0].sumo.selectItem(0); //default select first option
+            $('#selProjects option').each(function(e) {
+                if (e != 0) {
+                    $('#selProjects')[0].sumo.disableItem(e)
+                }
+            });
+            //GetProjectNameSelected(); 
+            $(".sumo_selProjects li").bind('click', function(event, ui) {
+                if ($(this).find('label').text().trim() == "Select All Project Type") {
+                    if ($(this).is(".selected")) {
+                        $('#selProjects option').each(function(e) {
+                            if (e != 0) {
+                                $('#selProjects')[0].sumo.disableItem(e)
+                            }
+                        });
+                    } else {
+                        $('#selProjects option').each(function(e) {
+                            $('#selProjects')[0].sumo.enableItem(e)
+                        });
+                    }
+                } else {
+                    $(".sumo_selProjects li").each(function(e) {
+                        if (!$(this).is(".selected")) {
+                            $('#selProjects')[0].sumo.enableItem(e)
+                        }
+                    })
+                }
+            })
+        }
+
+        function getCluster() {
+            $.ajax({
+                url: "https:" + siteUrLDirection + ".bcone.com/api/bconereport/Get_Sub_Claster",
+                method: "POST",
+                data: {
+                    "Type": "claster"
+                },
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                async: false,
+                success: function(data) {
+                    $("#selCluster").append("<option value='ALL' >Select ALL Cluster</option>");
+                    for (var i = 0; i < data.Data.length; i++) {
+                        $("#selCluster").append("<option value=\"" + data.Data[i].Val + "\" >" + data.Data[i].Val + "</option>")
+                    }
+                    $('.search-selCluster').SumoSelect({
+                        search: true,
+                        searchText: 'Search Cluster'
+                    });
+                    $('#selCluster')[0].sumo.selectItem(0); //default select first option
+                    $('#selCluster option').each(function(e) {
+                        if (e != 0) {
+                            $('#selCluster')[0].sumo.disableItem(e)
+                        }
+                    });
+                    //	$('.loader').css("display", "none");
+                    $(".sumo_selCluster li").bind('click', function(event, ui) {
+                        if ($(this).find('label').text().trim() == "Select ALL Cluster") {
+                            if ($(this).is(".selected")) {
+                                $('#selCluster option').each(function(e) {
+                                    if (e != 0) {
+                                        $('#selCluster')[0].sumo.disableItem(e)
+                                    }
+                                });
+                            } else {
+                                $('#selCluster option').each(function(e) {
+                                    $('#selCluster')[0].sumo.enableItem(e)
+                                });
+                            }
+                        } else {
+                            $(".sumo_selCluster li").each(function(e) {
+                                if (!$(this).is(".selected")) {
+                                    $('#selCluster')[0].sumo.enableItem(e)
+                                }
+                            })
+                        }
+                        /*if($(".sumo_EmpType li.selected").length > 10)
+                        {
+                        	$('#EmpType')[0].sumo.unSelectItem($(this).index());
+                        	$('#Alert_msg').html("you can't select more than 10 Employee Type");
+                        	$("#errMessage").css("display", "block");
+                        }*/
+                    })
+                },
+                error: function(data) {}
+            });
+
+        }
+
+        function getSubpratice() {
+            $.ajax({
+                url: "https:" + siteUrLDirection + ".bcone.com/api/bconereport/Get_Sub_Claster",
+                method: "POST",
+                data: {
+                    "Type": "subpractice"
+                },
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                async: false,
+                success: function(data) {
+                    $("#selsubPractice").append("<option value='ALL' >Select ALL Sub Practice</option>");
+                    for (var i = 0; i < data.Data.length; i++) {
+                        $("#selsubPractice").append("<option value=\"" + data.Data[i].Val + "\" >" + data.Data[i].Val + "</option>")
+                    }
+                    $('.search-selsubPractice').SumoSelect({
+                        search: true,
+                        searchText: 'Search subPractice'
+                    });
+                    $('#selsubPractice')[0].sumo.selectItem(0); //default select first option
+                    $('#selsubPractice option').each(function(e) {
+                        if (e != 0) {
+                            $('#selsubPractice')[0].sumo.disableItem(e)
+                        }
+                    });
+                    //	$('.loader').css("display", "none");
+                    $(".sumo_selsubPractice li").bind('click', function(event, ui) {
+                        if ($(this).find('label').text().trim() == "Select ALL Sub Practice") {
+                            if ($(this).is(".selected")) {
+                                $('#selsubPractice option').each(function(e) {
+                                    if (e != 0) {
+                                        $('#selsubPractice')[0].sumo.disableItem(e)
+                                    }
+                                });
+                            } else {
+                                $('#selsubPractice option').each(function(e) {
+                                    $('#selsubPractice')[0].sumo.enableItem(e)
+                                });
+                            }
+                        } else {
+                            $(".sumo_selsubPractice li").each(function(e) {
+                                if (!$(this).is(".selected")) {
+                                    $('#selsubPractice')[0].sumo.enableItem(e)
+                                }
+                            })
+                        }
+                        /*if($(".sumo_EmpType li.selected").length > 10)
+                        {
+                        	$('#EmpType')[0].sumo.unSelectItem($(this).index());
+                        	$('#Alert_msg').html("you can't select more than 10 Employee Type");
+                        	$("#errMessage").css("display", "block");
+                        }*/
+                    })
+                },
+                error: function(data) {}
+            });
+        }
+
+        function show() {
+            var ddlselProjects = $("#selProjects :selected");
+            var seprator_ = ',',
+                ProjData = '';
+            ddlselProjects.each(function(index, item) {
+                ProjData += seprator_ + $(item).val();
+            });
+
+
+            var finalurl = "";
+            var ddlSelectedCluster = $('#selCluster :selected');
+            var seprator_ = ',',
+                ClusterData = '';
+            ddlSelectedCluster.each(function(index, item) {
+                ClusterData += seprator_ + $(item).val();
+            });
+
+            var ddlselsubPractice = $('#selsubPractice :selected');
+            var seprator_ = ',',
+                subPracticeData = '';
+            ddlselsubPractice.each(function(index, item) {
+                subPracticeData += seprator_ + $(item).val();
+            });
+
+            //finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/RRFDumpReport.aspx?login=&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"&status="+statusData+"";
+            finalurl = document.getElementById("rptTimesheet").src = "https:" + siteUrLDirection + ".bcone.com/ListOfResourcesHavingAssignment.aspx?Login=" + Email + "&ProjectTypeName=" + encodeURIComponent(ProjData) + "&BillableType=" + ClusterData + "&SubPractice=" + subPracticeData + "";
+            //alert(finalurl);
+        }
+    </script>
+</body>
+
+</html>

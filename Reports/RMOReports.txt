@@ -1,0 +1,942 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>RMO Reports</title>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css"> 
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+	<style>
+		#DeltaTopNavigation{	
+    display: none;
+
+}
+		.SumoSelect {width: 100% !important;}
+		.form-control {border-radius: 0px;border-color: #ccc !important;}
+		.SumoSelect { border-radius: 0px; border-color: #ccc !important; }
+		.SumoSelect > .CaptionCont { border-radius: 0px; border-color: #ccc !important; }
+		.SumoSelect > .optWrapper > .options li.opt label { font-weight: normal; }
+		.SumoSelect .select-all { padding: 6px 0 4px 35px; height: auto; }
+		.SumoSelect .select-all label { font-weight: normal; }
+		.SumoSelect > .CaptionCont > span.placeholder { font-style: normal; }
+		select[multiple], select[size]{height: auto;z-index: -1;}
+		select[multiple], select[size]{height: auto;z-index: -1;}
+		#loading-image{z-index:9999999}
+		#siteIcon{ position:relative; border-right:3px solid #ccc;line-height:0;height:auto; margin:0; padding-right:50px; }
+		#siteIcon::after{ content:""; position:absolute;left: 250px;top: -7px; width:150px;height:60px;background:url(../SiteAssets%2FRMO%2Fimages%2FRMOLogo.jpg) no-repeat;}
+
+
+
+
+		
+	</style>
+</head>
+<body>
+	<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+		<div class="container-fluid">
+			<div class="breadcrumb-main">
+				<div class="container-fluid">
+					<ul>
+						<li>
+							 <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a> 
+						</li>
+						<li>RMO Reports
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div
+		<div class="pull-left">
+			<div style="margin: 15px;display: inline-block;">	
+			
+				<table>
+				
+					<tr>
+						<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">RMO Reports<sup style="color: #f00; font-size: 14px;">*</sup> <br>
+							<select id="SelectedRMOValues" class="selectRMOReoprts" placeholder="Select Week" style="width: 270px !important;margin-right: 10px;" onchange="GetRMOReportsData()" >
+								 <option value="Select" selected>Select</option>
+								<option value="Bench_report">Bench Report</option>
+								<option value="Profile_Attachment_Report">Profile Attachment Report</option>
+								<option value="Up_comming_roll_offs">Up coming Roll Offs</option>
+								 <option value="Head_count_with_active_allocation" >Head Count With Active Allocation</option> 
+								<option value="RRFvsAllocatedResourcereport" >Demand Fulfillment Report</option>
+								<option value="RRFDumpReport" >RRF Dump Report</option> 
+								<option value="ActiveAllocationReport" >Total Allocation Information Report</option> 
+								<option value="OverNoUnderAllocationReport" > No/Under Allocation Report</option>
+								<!-- <option value="ExperienceInformation_ReportPage" >Experience Information Report</option>  as per ashish requirement i hide this drop down-->
+								<option value="Investment_report" >Investment Report</option>
+								<option value="Non_Deployable_Report" >Non Deployable Report</option>
+								<option value="Exit_resource_for_a_Period" >Exit Resource For a Period</option>
+								<option value="SoftBookReport" >Soft Block Report</option>
+							    <option value="StaffingHeadCountReport" >Staffing Head Count Report</option>
+								<option value="SkillReport" >Skill Report</option>
+								<option value="UtilizationReport" >Global Utilization Report</option>
+								<option value="TSApproval_rpt" >Timesheet Approval Report</option>
+							</select>
+						</td>
+					
+							
+						<td id="S_date" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Start Date<sup style="color: #f00; font-size: 14px;">*</sup>  <br> 
+							<input type="text" id="txt_from_date" placeholder="From Date" style="width:120px !important;margin-right: 10px;height: 34px" />
+						</td> 
+						<td id="E_date" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">End Date<sup style="color: #f00; font-size: 14px;">*</sup>  <br> 
+							<input type="text" id="txt_to_date"  placeholder="To Date" style="width:120px !important;margin-right: 10px;height: 34px"/> 
+						</td>
+						<td id="E_Hide_date" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">End Date<sup style="color: #f00; font-size: 14px;">*</sup>  <br> 
+							<input type="text" id="End_disable_date"  placeholder="To Date" style="width:120px !important;margin-right: 10px;height: 34px"/> 
+						</td>
+						<td id="DivProjectType" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;"> Project Type<sup style="color: #f00; font-size: 14px;">*</sup>  <br> 
+							<select id="selProjects" name="selProjects" multiple="multiple" class="search-Project" style="width: 270px !important;margin-right: 10px;"> 
+							</select> 
+						</td>
+						<td id="DivEmpType" hidden style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Employee Type<sup style="color: #f00; font-size: 14px;">*</sup>  <br>  
+							<select id="EmpType" name="EmpType" class="search-EmpType" multiple="multiple" placeholder="Select Employee Type" style="width: 270px !important;margin-right: 10px;" >  
+							</select>  
+						</td> 
+						<td id="DivSataus" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Status<sup style="color: #f00; font-size: 14px;">*</sup>  <br>  
+							<select id="Status_" name="" class="search-status"  placeholder="Select Status" style="width: 200px !important;margin-right: 10px;" >  
+								<option value="All">ALL</option>
+								<option value="Open">Open</option>
+								<option value="Fulfilled">Fulfilled</option>
+							</select>  
+						</td> 
+						<td id="DivTo" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">To<sup style="color: #f00; font-size: 14px;">*</sup>  <br>  
+							<select id="To_" name="" class="search-To" placeholder="Select To" style="width: 100px !important;margin-right: 10px;" >  
+							</select>  
+						</td> 
+						<td id="DivFrom" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">From<sup style="color: #f00; font-size: 14px;">*</sup>  <br>  
+							<select id="From_" name="" class="search-From"  placeholder="Select From" style="width: 100px !important;margin-right: 10px;" >  
+							</select>  
+						</td> 
+						<td id="DivGBU" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">GBU<sup style="color: #f00; font-size: 14px;">*</sup>  <br>  
+							<select id="selGUB" name="selGUB" multiple="multiple" class="search-Country" style="width: 200px !important;">
+							</select>
+						</td> 
+					      <td id="roll_off_date" style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Set Compliance Start Date<sup style="color: #f00; font-size: 14px;"></sup>  <br>  
+							<!-- <span ><i class="fa fa-calendar" ></i> -->
+							<input type="text" id="txt_Profilee_date"   placeholder="Select Date" style="width:239px !important;margin-right: 10px;height: 34px"/> 
+							</span>
+						</td>
+						<td><br><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoId" onclick="show();" ><i class=""></i>SHOW</a></td>
+						<td><br><a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="clr" onclick="clrs();" ><i class=""></i>CLEAR</a>  <span class="errMsg"></span></td>
+					</tr>
+				</table>
+			</div>	
+		</div>
+		<div id="errMessage" class="alert-main" style="display: none;">
+                <div class="black-bg" id="backcolor">
+                    <div class="popup-main">
+                        <div class="popup-heading"><span id="Alert_msg">Please Select At-least One Expense To Reset</span></div>
+                        <div class="pop-mid">
+                            <p id="submitValue"></p>
+                            <input type="Button" class="divnewbtn" value="OK" id="ok_click1" onclick="close_div('')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+		 <iframe id="rptTimesheet" height="680px" width="100%"></iframe>
+	</div>
+	<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+	<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+	<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+	<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+	<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+	<script>
+		var GetMonth ={"Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December"}
+		var Month =['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		var Email = "";
+		var date = new Date();
+		var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+		var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+		var siteUrLDirection ="//ppmprod";
+		$(document).ready(function()
+		{			
+		
+		  
+		
+		
+				   getUser();
+				   
+				   var showdata = getUserone();
+				   var showrrfdata = getRRfuser();
+		   
+		           if(showdata.d.results.length > 0)
+				   {
+				        $('#SelectedRMOValues').show();
+				   }
+	
+
+				   else if(showrrfdata.d.results.length > 0)
+				   {
+
+				         $('#SelectedRMOValues').find('option').remove().end()
+                        .append('<option value="-Select-">-Select-</option>')
+                        .append('<option value="RRFDumpReport" >RRF Dump Report</option>') 
+				   }
+				   
+				   else
+				   {
+			          alert("You Do Not Have Access To This Page");
+					  $('#SelectedRMOValues').hide(); 
+					  $('#GoId').hide(); 
+					  $('#clr').hide(); 
+					  
+				   }
+		   
+			
+			$("#roll_off_date").hide();
+			$("#DivProjectType").hide();
+			$('.selectRMOReoprts').SumoSelect({search: true, searchText: 'Search RMO Reports'});
+			$('.search_ResName').SumoSelect({search: true, searchText: 'Search EmployeeType'});
+			$('.search-status').SumoSelect({search: true, searchText: 'Search Status'});
+			$('#S_date,#E_date,#DivProjectType,#DivEmpType,#E_Hide_date,#DivSataus,#DivGBU,#DivFrom,#DivTo').css("display", "none");
+			
+			$("#txt_from_date").datepicker(
+			{
+				numberOfMonths: 1,
+				dateFormat: 'dd-M-yy' ,
+				onSelect: function (selected)
+				{
+					var st = selected; //date range fromatit is used for IE 9 above format
+					var split=st.split("-");
+					var dd = split[0];              
+					var y = split[2];
+					var mm = GetMonth[split[1]];
+					var EDate1 = "";
+					EDate1= mm + " " + dd + "," + y;
+					var dt = new Date(EDate1);
+					dt.setDate(dt.getDate() + 1);
+					$("#txt_to_date").datepicker("option", "minDate", dt);
+				}
+			}).datepicker('setDate', firstDay);
+			
+			$("#End_disable_date").datepicker(
+			{
+				numberOfMonths: 1,
+				dateFormat: 'dd-M-yy' ,
+				minDate: 0
+			}).datepicker('setDate', lastDay);
+				
+			$("#txt_to_date").datepicker(
+			{
+				numberOfMonths: 1,
+				dateFormat: 'dd-M-yy' ,
+				onSelect: function (selected) 
+				{
+					var st = selected; //date range fromatit is used for IE 9 above format
+					var split=st.split("-");
+					var dd = split[0];              
+					var y = split[2];
+					var mm = GetMonth[split[1]];
+					var EDate2 = "";
+					EDate2= mm + " " + dd + "," + y;
+					var dt = new Date(EDate2);
+					dt.setDate(dt.getDate() - 1);
+					$("#txt_from_date").datepicker("option", "maxDate", dt);
+				}
+			}).datepicker('setDate', lastDay);
+			$("#txt_Profilee_date").datepicker({
+            dateFormat: 'dd-M-yy',
+			changeMonth: true,
+            changeYear: true,
+            minDate: new Date('2019/11/11')
+        }).datepicker('setDate', new Date('2019/11/11'));
+		});
+		
+		   function getUser()
+		{
+            var userid = _spPageContextInfo.userId;
+            var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+            var requestHeaders = { "accept": "application/json;odata=verbose" };
+            $.ajax({
+                url: requestUri,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            }); function onSuccess(data, request) 
+			{
+				var loginName = data.d.Title;
+				Email = data.d.Email
+				$('#login_name_contain').html(loginName)
+				//alert(Email);
+			} 
+			function onError(error) {alert("Error on retrieving current user.");}
+        }
+        function getUserone()
+		 { 
+		 
+		  var apddate="";
+          var userid = _spPageContextInfo.userId; 
+		  
+          var GetRMOUserURL = _spPageContextInfo.webAbsoluteUrl + "/_api/Web/GetUserById('"+userid+"')/Groups?$select=Id,Title&$filter=Title eq '_RMO'";
+		 
+          var requestHeaders = { "accept": "application/json;odata=verbose" };
+            $.ajax({ 
+                url: GetRMOUserURL,
+                contentType: "application/json;odata=verbose",
+                 headers: requestHeaders, 
+                success: onSuccess,
+                 error: onError, 
+                 async: false 
+             }); 
+      
+	     	function onSuccess(data)
+			{
+                apddate=data;    
+		
+            }  
+           function onError(error) {alert("Error on retrieving current user.");} 
+ 
+                    return apddate;
+         } 
+		 
+        function getRRfuser()
+		 { 
+		  
+		  var rrfdata="";
+          var userid = _spPageContextInfo.userId; 
+		  
+          var GetRMOUserURL = _spPageContextInfo.webAbsoluteUrl + "/_api/Web/GetUserById('"+userid+"')/Groups?$select=Id,Title&$filter=Title eq 'RMO Dump Report Access'";
+		 
+          var requestHeaders = { "accept": "application/json;odata=verbose" };
+            $.ajax({ 
+                url: GetRMOUserURL,
+                contentType: "application/json;odata=verbose",
+                 headers: requestHeaders, 
+                success: onSuccess,
+                 error: onError, 
+                 async: false 
+             }); 
+
+			function onSuccess(data) 
+			 { 
+			    rrfdata=data;   
+
+			 }
+
+			 function onError(error) {alert("Error on retrieving current user.");} 
+
+                return rrfdata;
+         } 
+
+		function show()
+		{
+			var ddlSelectedValue=$("#SelectedRMOValues").val();
+			var emptyProject = $("#selProjects option:selected").val();
+			var checkEmpType = $("#EmpType option:selected").val();
+			var finalurl="";
+			if (ddlSelectedValue == "Select") 
+			{
+				$('#Alert_msg').html("Please Select RMO Reports");
+				$("#errMessage").css("display", "block");
+				return false;
+            }
+			else if(ddlSelectedValue=="Bench_report")
+			{
+				if ($('#txt_from_date').val() == "" || $('#txt_to_date').val() == "") 
+				{
+					$('#Alert_msg').html("Please Select Date");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/BenchReport.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="Profile_Attachment_Report")
+			{
+			  
+				
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/EmployeeProfile.aspx?login="+Email+"&Startdate="+$("#txt_Profilee_date").val()+"&enddate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="Up_comming_roll_offs")
+			{
+			
+				if ($('#txt_from_date').val() == "" || $('#End_disable_date').val() == "") 
+				{
+					$('#Alert_msg').html("Please Select Date");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				else if (emptyProject==undefined || emptyProject=="" )
+				{
+					$('#Alert_msg').html("Please Select Project Type");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				var selProName = $('#selProjects :selected');
+				var seprator = ',', ProjName = '';
+				selProName.each(function (index, item) 
+				{
+					ProjName += seprator + $(item).val();
+				});
+				ProjName = ProjName + ",";
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/UpcomingRollOffs.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#End_disable_date").val()+"&ProjectType="+ProjName+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="Head_count_with_active_allocation")
+			{
+				if (emptyProject==undefined ||emptyProject=="" )
+				{
+					$('#Alert_msg').html("Please Select Project Type");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				var selProName = $('#selProjects :selected');
+				var seprator = ',', ProjName = '';
+				selProName.each(function (index, item) 
+				{
+					ProjName += seprator + $(item).val();
+				});
+				ProjName = ProjName + ",";
+				
+				var selEmpType = $('#EmpType :selected');
+				var seprator_ = ',', EmpTypeData = '';
+				selEmpType.each(function (index, item) 
+				{
+					EmpTypeData += seprator_ + $(item).val();
+				});
+				EmpTypeData = EmpTypeData + ",";
+				if (checkEmpType==undefined ||checkEmpType=="" )
+				{
+					$('#Alert_msg').html("Please Select Employee Type");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				debugger;
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/HeadCountWithActiveAllocationReport.aspx?login="+Email+"&ProjectType="+ProjName+"&EmployeeType="+EmpTypeData+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="StaffingHeadCountReport")
+			{
+				if (checkEmpType==undefined ||checkEmpType=="" )
+				{
+					$('#Alert_msg').html("Please Select Employee Type");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				var selEmpType = $('#EmpType :selected');
+				var seprator_ = ',', EmpTypeData = '';
+				selEmpType.each(function (index, item) 
+				{
+					EmpTypeData += seprator_ + $(item).val();
+				});
+				EmpTypeData = EmpTypeData + ",";
+				var selectedstatus = $('#Status_ :selected');
+				var seprator_ = ',', statusData = '';
+				selectedstatus.each(function (index, item) 
+				{
+					statusData += seprator_ + $(item).val();
+				});
+				statusData = statusData + ",";
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/StaffingHeadCountReport.aspx?login="+Email+"&EmployeeType="+EmpTypeData+"&status="+statusData+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue == "RRFvsAllocatedResourcereport")
+			{
+				var selectedstatus = $('#Status_ :selected');
+				var seprator_ = ',', statusData = '';
+				selectedstatus.each(function (index, item) 
+				{
+					statusData += seprator_ + $(item).val();
+				});
+				statusData = statusData + ",";
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/RRFvsAllocatedResourcereport.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue == "RRFDumpReport")
+			{
+				var selectedstatus = $('#Status_ :selected');
+				var seprator_ = ',', statusData = '';
+				selectedstatus.each(function (index, item) 
+				{
+					statusData += seprator_ + $(item).val();
+				});
+				statusData = statusData + ",";
+				//finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/RRFDumpReport.aspx?login="+Email+"&status="+statusData+"";
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/RRFDumpReport.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"&status="+statusData+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="ActiveAllocationReport")
+			{
+				if ($('#txt_from_date').val() == "" || $('#txt_to_date').val() == "") 
+				{
+					$('#Alert_msg').html("Please Select Date");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/ActiveAllocationReport.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="ExperienceInformation_ReportPage")
+			{
+				var GBU_Valdidation = $("#selGUB option:selected").val();
+				if(GBU_Valdidation == undefined)
+				{
+					$('#Alert_msg').html("Please Select GBU");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				if ($('#To_').val() == "" || $('#From_').val() == "") 
+				{
+					$('#Alert_msg').html("Please Select To and From");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				var GBU_Value = $('#selGUB :selected');
+				var sepratorGbu = ',', GBUNameCode = '';
+				GBU_Value.each(function (index, item) 
+				{
+					GBUNameCode += sepratorGbu + $(item).val();
+				});
+				GBUNameCode = GBUNameCode + ",";
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/ExperienceInformation_ReportPage.aspx?login="+Email+"&To="+$("#To_").val()+"&From="+$("#From_").val()+"&gbu="+GBUNameCode+"";
+				//alert(finalurl);
+			}
+			
+			
+			else if(ddlSelectedValue=="OverNoUnderAllocationReport")
+			{
+				/*if ($('#txt_from_date').val() == "" || $('#txt_to_date').val() == "") 
+				{
+					$('#Alert_msg').html("Please Select Date");
+					$("#errMessage").css("display", "block");
+					return false;
+				}*/
+				
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/OverNoUnderAllocationReport.aspx?login="+Email+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="SoftBookReport")
+			{
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/SoftBookReport.aspx?login="+Email+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="SkillReport")
+			{
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/Skill_Report.aspx?login="+Email+"";
+				//alert(finalurl);
+			}
+			
+			else if(ddlSelectedValue=="UtilizationReport")
+			{
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/BconeReport/Report_Pages/UtilizationReport.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="Investment_report")
+			{
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/InvestMentReport.aspx?login="+Email+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="Non_Deployable_Report")
+			{
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/NonDeployableReport.aspx?login="+Email+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="Exit_resource_for_a_Period")
+			{
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/RMO_Report_Pages/ExitResourceForPeriod.aspx?login="+Email+"&startdate="+$("#txt_from_date").val()+"&Enddate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+			else if(ddlSelectedValue=="TSApproval_rpt")
+			{
+				if ($('#txt_from_date').val() == "" || $('#txt_to_date').val() == "") 
+				{
+					$('#Alert_msg').html("Please Select Date");
+					$("#errMessage").css("display", "block");
+					return false;
+				}
+				finalurl = document.getElementById("rptTimesheet").src = "https:"+siteUrLDirection+".bcone.com/BconeReport/Report_Pages/TSApproverReport.aspx?StartDate="+$("#txt_from_date").val()+"&EndDate="+$("#txt_to_date").val()+"";
+				//alert(finalurl);
+			}
+		}
+		
+		function GetRMOReportsData() //onchange dropdown
+		{
+			$('#rptTimesheet').attr('src', '');
+			$('#txt_from_date,#txt_to_date').val('').datepicker('option', {minDate: null, maxDate: null});
+			var fd =new Date(firstDay);
+			var ld =new Date(lastDay);
+			$('#txt_from_date').datepicker('setDate',fd );
+			$('#txt_to_date').datepicker('setDate',ld);
+			$('#End_disable_date').datepicker('setDate',ld);
+			var ddlSelectedValue=$("#SelectedRMOValues").val();
+			var finalurl="";
+			if (ddlSelectedValue == "Select") 
+			{
+                $('#S_date,#E_date,#DivProjectType,#DivEmpType,#E_Hide_date,#DivSataus,#DivGBU,#DivFrom,#DivTo,#roll_off_date').css("display", "none");
+				document.getElementById("txt_from_date").disabled = false;
+                return false;
+            }
+			else if(ddlSelectedValue=="Bench_report")
+			{
+				$("#S_date,#E_date,#DivProjectType,#DivEmpType,#roll_off_date,#E_Hide_date,#DivSataus,#DivGBU,#DivFrom,#DivTo").hide();
+				//$("#S_date,#E_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			}
+			else if(ddlSelectedValue=="Profile_Attachment_Report")
+			{
+				$("#S_date,#E_date,#DivProjectType,#DivEmpType,#E_Hide_date,#DivSataus,#DivGBU,#DivFrom,#DivTo").hide();
+				//$("#S_date,#E_date").show();
+				$("#roll_off_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			}
+			else if(ddlSelectedValue=="Up_comming_roll_offs")
+			{	
+				$("#DivProjectType,#S_date,#E_Hide_date").show();
+				$("#DivEmpType,#E_date,#DivSataus,#roll_off_date,#DivGBU,#DivFrom,#DivTo").hide();
+				GetProjectTypeData();
+				var setToDayDate = new Date();
+				$('#txt_from_date').datepicker('setDate',setToDayDate );
+				document.getElementById("txt_from_date").disabled = true;
+				//$('#txt_to_date').datepicker({ format: 'DD-MM-YYYY', minDate: new Date }); 				
+			}
+			else if(ddlSelectedValue=="Head_count_with_active_allocation")
+			{
+				$("#S_date,#E_date,#E_Hide_date,#DivSataus,#roll_off_date,#DivGBU,#DivFrom,#DivTo").hide();
+				$("#DivProjectType,#DivEmpType").show();
+				//$("#DivEmpType").hide();
+				document.getElementById("txt_from_date").disabled = false;
+				GetProjectTypeData();
+				GetEmployeementType();
+			}
+			else if(ddlSelectedValue == "RRFvsAllocatedResourcereport")
+			{
+				$("#S_date,#E_date,#E_Hide_date,#DivProjectType,#roll_off_date,#DivEmpType,#DivGBU,#DivFrom,#DivTo,#DivSataus").hide();
+				
+				$("#S_date,#E_date").show();
+				$('#Status_')[0].sumo.selectItem(0);
+				
+				document.getElementById("txt_from_date").disabled = true;
+				document.getElementById("txt_to_date").disabled = true;
+			}
+			else if(ddlSelectedValue == "UtilizationReport")
+			{
+				$("#S_date,#E_date,#E_Hide_date,#DivProjectType,#roll_off_date,#DivEmpType,#DivGBU,#DivFrom,#DivTo,#DivSataus").hide();
+				
+				$("#S_date,#E_date").show();
+				$('#Status_')[0].sumo.selectItem(0);
+				document.getElementById("txt_from_date").disabled = false;
+			}
+			else if(ddlSelectedValue == "TSApproval_rpt")
+			{
+				$("#S_date,#E_date,#E_Hide_date,#DivProjectType,#roll_off_date,#DivEmpType,#DivGBU,#DivFrom,#DivTo,#DivSataus").hide();
+				
+				$("#S_date,#E_date").show();
+				$('#Status_')[0].sumo.selectItem(0);
+				document.getElementById("txt_from_date").disabled = false;
+			}
+			else if(ddlSelectedValue == "RRFDumpReport")
+			{
+				$("#E_Hide_date,#DivProjectType,#DivEmpType,#roll_off_date,#DivGBU,#DivFrom,#DivTo").hide();
+				$("#DivSataus").show();
+				//$("#S_date,#E_date").show();
+				$("#S_date,#E_date").hide();
+				$('#Status_')[0].sumo.selectItem(0);
+				document.getElementById("txt_from_date").disabled = false;
+			}
+			else if(ddlSelectedValue=="StaffingHeadCountReport")
+			{
+				$("#DivProjectType,#S_date,#E_date,#E_Hide_date,#roll_off_date,#DivGBU,#DivFrom,#DivTo,#DivEmpType,#DivSataus").hide();
+				//$("#DivEmpType,#DivSataus").show();
+				document.getElementById("txt_from_date").disabled = false;
+				GetEmployeementType();
+				$('#Status_')[0].sumo.selectItem(0);
+			}
+			else if(ddlSelectedValue=="ActiveAllocationReport")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#DivGBU,#DivFrom,#DivTo").hide();
+				$("#S_date,#E_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			} 
+			else if(ddlSelectedValue=="ExperienceInformation_ReportPage")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#S_date,#E_date").hide();
+				$("#DivGBU,#DivFrom,#DivTo").show();
+				document.getElementById("txt_from_date").disabled = false;
+				GetGBUData();
+				GetExpYears();
+			}
+			else if(ddlSelectedValue=="OverNoUnderAllocationReport")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,,#roll_off_date#DivSataus,#DivGBU,#DivFrom,#DivTo,#S_date,#E_date").hide();
+				//$("#S_date,#E_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			}
+           	else if(ddlSelectedValue=="SoftBookReport")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#DivGBU,#DivFrom,#DivTo,#S_date,#E_date").hide();
+				//$("#S_date,#E_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			} 
+			
+			else if(ddlSelectedValue=="SkillReport")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#DivGBU,#DivFrom,#DivTo,#S_date,#E_date").hide();
+				//$("#S_date,#E_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			} 
+			
+			else if(ddlSelectedValue=="Investment_report")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#DivGBU,#DivFrom,#DivTo,#S_date,#E_date").hide();
+				document.getElementById("txt_from_date").disabled = false;
+			} 
+			else if(ddlSelectedValue=="Non_Deployable_Report")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#DivGBU,#DivFrom,#DivTo,#S_date,#E_date").hide();
+				document.getElementById("txt_from_date").disabled = false;
+			} 
+			else if(ddlSelectedValue=="Exit_resource_for_a_Period")
+			{
+				$("#DivProjectType,#DivEmpType,#E_Hide_date,#roll_off_date,#DivSataus,#DivGBU,#DivFrom,#DivTo").hide();
+				$("#S_date,#E_date").show();
+				document.getElementById("txt_from_date").disabled = false;
+			} 
+		}
+		function GetExpYears()
+		{
+			for(var i=0;i<30;i++)
+			{
+				$("#To_").append("<option value=\""+i+"\" >"+i+"</option>")
+				$("#From_").append("<option value=\""+i+"\" >"+i+"</option>")
+			}
+			$('.search-To').SumoSelect({search: true, searchText: 'Search To'});
+			$('.search-From').SumoSelect({search: true, searchText: 'Search From'});
+		}
+		
+		function GetProjectTypeData() 
+		{
+			$('.loader').css("display", "block");
+			$.ajax
+			({
+				url:"https:"+siteUrLDirection+".bcone.com/api/BCONEReport/GetAllProjectEPT_Type",
+				method:"POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				async: false,
+				success:function(data)
+				{
+					if(data.Data.length==0)
+					{
+					}
+					else
+					{
+						if($("#selProjects").hasClass("SumoUnder")){$("#selProjects").html('');$("#selProjects")[0].sumo.unload();}
+			
+						for(var i=0;i<data.Data.length;i++)
+						{
+							$("#selProjects").append("<option value=\""+data.Data[i].ENTERPRISEPROJECTTYPENAME+"\" >"+data.Data[i].ENTERPRISEPROJECTTYPENAME+"</option>")
+						}
+						$('.search-Project').SumoSelect({search: true, searchText: 'Search Project'});
+						$('#selProjects')[0].sumo.enable(); // Enable the SUMO SELECT 
+						$('#selProjects')[0].sumo.reload();
+						$('#selProjects')[0].sumo.selectItem(0); //default select first option
+						$('#selProjects option').each(function(e){if(e != 0){$('#selProjects')[0].sumo.disableItem(e)}});
+					//	$('.loader').css("display", "none");
+						$(".sumo_selProjects li").bind('click', function(event, ui) 
+						{
+							if($(this).find('label').text().trim() == "Select All Project Type")
+							{
+								if($(this).is(".selected"))
+								{
+									$('#selProjects option').each(function(e){if(e != 0){$('#selProjects')[0].sumo.disableItem(e)}});									
+								}
+								else
+								{
+									$('#selProjects option').each(function(e){$('#selProjects')[0].sumo.enableItem(e)});
+								}
+							}
+							else
+							{
+								$(".sumo_selProjects li").each(function(e)
+								{
+									if(!$(this).is(".selected"))
+									{
+										$('#selProjects')[0].sumo.enableItem(e)
+									}
+								})
+							}
+							if($(".sumo_selProjects li.selected").length > 10)
+							{
+								$('#selProjects')[0].sumo.unSelectItem($(this).index());
+								$('#Alert_msg').html("you can't select more than 10 projects");
+								$("#errMessage").css("display", "block");
+							}
+						})
+					}
+				},
+				error:function()
+				{
+					alert("failed");
+					 $('.loader').css("display", "none");
+				}	
+			});
+		}
+		
+		function GetEmployeementType() 
+		{
+			$('.loader').css("display", "block");
+			$.ajax
+			({
+				url:"https:"+siteUrLDirection+".bcone.com/api/BCONEReport/Get_EmployeeRole",
+				method:"POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				async: false,
+				success:function(data)
+				{
+					if(data.Data.length==0)
+					{
+					}
+					else
+					{
+						if($("#EmpType").hasClass("SumoUnder")){$("#EmpType").html('');$("#EmpType")[0].sumo.unload();}
+						$("#EmpType").append("<option value='ALL' >ALL</option>");
+						for(var i=0;i<data.Data.length;i++)
+						{
+							$("#EmpType").append("<option value=\""+data.Data[i].EmployeeRole+"\" >"+data.Data[i].EmployeeRole+"</option>")
+						}
+						$('.search-EmpType').SumoSelect({search: true, searchText: 'Search Employee Type'});
+						$('#EmpType')[0].sumo.enable(); // Enable the SUMO SELECT 
+						$('#EmpType')[0].sumo.reload();
+						$('#EmpType')[0].sumo.selectItem(0); //default select first option
+						$('#EmpType option').each(function(e){if(e != 0){$('#EmpType')[0].sumo.disableItem(e)}});
+					//	$('.loader').css("display", "none");
+						$(".sumo_EmpType li").bind('click', function(event, ui) 
+						{
+							if($(this).find('label').text().trim() == "ALL")
+							{
+								if($(this).is(".selected"))
+								{
+									$('#EmpType option').each(function(e){if(e != 0){$('#EmpType')[0].sumo.disableItem(e)}});									
+								}
+								else
+								{
+									$('#EmpType option').each(function(e){$('#EmpType')[0].sumo.enableItem(e)});
+								}
+							}
+							else
+							{
+								$(".sumo_EmpType li").each(function(e)
+								{
+									if(!$(this).is(".selected"))
+									{
+										$('#EmpType')[0].sumo.enableItem(e)
+									}
+								})
+							}
+							if($(".sumo_EmpType li.selected").length > 10)
+							{
+								$('#EmpType')[0].sumo.unSelectItem($(this).index());
+								$('#Alert_msg').html("you can't select more than 10 Employee Type");
+								$("#errMessage").css("display", "block");
+							}
+						})
+					}
+				},
+				error:function()
+				{
+					alert("failed");
+					 $('.loader').css("display", "none");
+				}	
+			});
+		}
+		
+		
+		function close_div() 
+		{
+            $("#errMessage").css("display", "none");
+        }
+		
+		function clrs()
+		{
+			//$('#SelectedRMOValues').val("Select");
+			$('#SelectedRMOValues')[0].sumo.selectItem(0);
+			$('#Status_').val("All");
+			//$('#reporttype').val('Select');
+			//  $('#reporttype')[0].sumo.enable(); // Enable the SUMO SELECT 
+			// $('#reporttype')[0].sumo.reload();
+			hideshow();
+			$('#errMessage').html('');
+			$('#rptTimesheet').attr('src', '');
+			$('#txt_from_date,#txt_to_date,#End_disable_date').val() = "";
+		}
+		
+		function hideshow()
+		{
+			//$("#DivProjectType,#S_date,#E_date,#E_Hide_date").hide();
+			$('#S_date,#E_date,#DivProjectType,#DivEmpType,#E_Hide_date,#DivSataus,#DivGBU,#DivFrom,#DivTo').css("display", "none");
+			$('#txt_from_date,#txt_to_date,#End_disable_date').val() = "";
+		}
+		
+	function GetGBUData()
+	{
+		url = "https:"+siteUrLDirection+".bcone.com/api/BCONEReport/GetGBU";
+		$.ajax({
+			url: url,
+			async: false,
+			type: "POST",
+			dataType: "json",
+			success: function (data)
+			{
+				if(data.length==0)
+				{
+				
+				}
+				else
+				{
+				if($("#selGUB").hasClass("SumoUnder")){$("#selGUB").html('');$("#selGUB")[0].sumo.unload();}
+					$("#selGUB").append("<option value='ALL' >ALL</option>");
+					if(data.GBU_Name.length >0)
+					{
+						for(var i=0;i<data.GBU_Name.length;i++)
+						{ 
+							var datavalue= data.GBU_Name[i].GBU;
+							var PMOReplace = datavalue.replace("&", " and ");
+							$("#selGUB").append("<option value=\""+PMOReplace+"\" >"+data.GBU_Name[i].GBU+"</option>");
+						}
+					}
+					$('.search-Country').SumoSelect({search: true, searchText: 'Search GBU'});
+					$('#selGUB')[0].sumo.enable(); // Enable the SUMO SELECT 
+					$('#selGUB')[0].sumo.reload();
+					$('#selGUB')[0].sumo.selectItem(0); //default select first option
+					$('#selGUB option').each(function(e){if(e != 0){$('#selGUB')[0].sumo.disableItem(e)}});
+					$(".sumo_selGUB li").bind('click', function(event, ui) 
+					{
+						if($(this).find('label').text().trim() == "ALL")
+						{
+							if($(this).is(".selected"))
+							{
+								$('#selGUB option').each(function(e){if(e != 0){$('#selGUB')[0].sumo.disableItem(e)}});									
+							}
+							else
+							{
+								$('#selGUB option').each(function(e){$('#selGUB')[0].sumo.enableItem(e)});
+							}
+						}
+						else
+						{
+							$(".sumo_selGUB li").each(function(e){
+								if(!$(this).is(".selected"))
+								{
+									$('#selGUB')[0].sumo.enableItem(e)
+								}
+							})
+						}
+					})
+				}
+			},
+			error:function()
+			{
+				alert("failed");
+				$(".loader").hide();
+			}	
+		});
+	}
+	</script>
+</body>
+</html>

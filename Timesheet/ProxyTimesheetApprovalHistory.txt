@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript">
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+      $.widget.bridge('uibutton', $.ui.button);
+</script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script> 
+
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css"> 
+ 
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<style>
+#DeltaTopNavigation{	
+    display: none;
+
+}
+.mid-top .top-btns{
+    margin-right:10px;
+}
+.tooltip{
+	width:200px !important;
+	word-wrap: break-word !important;
+}
+.last:after {
+   content: none !important;
+}
+</style>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" /> 
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+<div class="container-fluid">
+	<div class="breadcrumb-main">
+	    <div class="container-fluid">
+	        <ul>
+	            <li>
+	                <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+	            </li>
+	            <li class="ApprovalHeading">
+				    <a href="javascript:void(0)" onclick="URLGetTimesheetSummary();">Timesheet Approval</a>
+	            </li>				
+				<li class="ApprovalHeading last">
+					Approval History
+	            </li>
+				<li style="display:none;" class="proxyApprovalHeading">
+				    <a href="ProxySummaryPage.aspx" style="color: #337ab7 !important; ;text-decoration: initial !important;">Proxy Timesheet Approval  </a>
+	            </li>
+				<li style="display:none;" class="proxyApprovalHeading last">
+				    Proxy Approval History 
+				</li>
+	        </ul>
+	    </div>
+	</div>
+</div>
+<div class="mid-main">
+    <div class="mid-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <select id="tableFilter" onchange='filterById(this)'>
+                        <option value="current">Current Month</option>
+                        <option value="Previous">Previous Month</option>
+                        <!-- <option value="Next">Next Month</option> -->
+                        <option value="DateRange">Date Range</option>
+                    </select>
+                    <input type="text" id="TxtToData" hidden class="txtDateInput" placeholder="From Date" style="width:120px" />
+                    <input type="text" id="TxtFromDate" hidden class="txtDateInput" placeholder="To Date" style="width:120px"/>
+                    <input type="button" style="padding:4px 10px; font-size:10px;" id="BtnFilterData" value="GO" hidden class="btnSubmit" onclick='filterByDateRange()' />
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <ul class="top-btns" style="margin-right: 10px;">
+                            <li>
+								<a href="javascript:void(0)" id="allCurrentData" onclick="onStatusBtnClick(this)">
+								 <i class="fa fa-flag-o"></i>  All Records
+									<span class="highlight_no">0</span>
+								</a>
+                            </li>
+                        
+                            <li>
+                                <a href="javascript:void(0)" id="btnAppovedCount" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-check"></i> Approved
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                            <li>
+                              <a href="javascript:void(0)" id="btnRejectCount" onclick="onStatusBtnClick(this)">
+								<i class="fa fa-ban"></i> Rejected
+                                    	<span class="highlight_no">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mid-block">
+        <div class="container-fluid">
+            <table class="table-bordered table-new" id="approverPeriodSummary" style="table-layout: auto !important; width:100%; display:none;">
+                <thead>
+                    <tr>
+                        <th class="projectName">Timesheet Name</th>
+                        <th class="clsPrjtName">Project Name</th>
+                        <th class="ResourceName">Resource Name</th>
+                        <th class="Total">Total</th>
+                        <th class="BillableHours">Billable<br> Hours</th>
+                        <th class="NonBillableHours">Non Billable <br> Hours</th>
+						<th class="submittedDate">Submitted<br> Date</th>
+                        <!-- <th>Approver 1</th>
+                        <th>Approver 2</th> -->
+						<th class="clsApproveReject">Approved Date</th>
+						<th class="hidesAP clsStatus">Status</th>
+						<!-- <th class="clsRemark">Remark</th> -->
+                    </tr>
+                </thead>
+				<tfoot>
+					<tr>
+                        <th>Timesheet Name</th>
+                        <th>Project Name</th>
+                        <th>Resource Name</th>
+                        <th>Total</th>
+                        <th>Billable Hours</th>
+                        <th>Non Billable Hours</th>
+						<th>Submitted Date</th>
+                        <!-- <th>Approver 1</th>
+                        <th>Approver 2</th> -->
+						<th class="clsApproveReject">Approved Date</th>
+						<th  class="hidesAP">Status</th>
+						
+                    </tr>
+				</tfoot>
+                <tbody id="tblPeriodBody">
+					
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<span id="loading-image"></span>
+<!-- Log Pop up -->
+<div class="allcommentdiv" >
+	<div class="allcommentdiv-heading" style="background: rgb(51,122,183);">
+		Log
+	</div>
+	<div class="allcommentdiv-mid">
+		<h3><span id="LogId"></span></h3>
+		<div class="vertical-scoll">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width: 150px;background: #00b0f0 !important;">Date</th>
+						<th style="width: 100px;background: #00b0f0 !important;">Actor</th> 
+						<th style="width: 80px;background: #00b0f0 !important;">Action</th>
+						<th style="background: #00b0f0 !important;">Note</th>
+					</tr>
+				</thead>
+				<tbody id="bindlog">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="allcommentdiv-foot">
+		<a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+	</div>
+</div>
+<!-- Log Pop up -->
+<script>
+    var summaryTable = "";
+	
+    monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    $(document).ready(function () {
+		disableRightClick();
+        $('.top-btns li').click(function () {
+            $(this).addClass('green-btn').siblings().removeClass('green-btn');
+        });
+    });
+	$(document).ready(function(){
+		setInterval(function(){ 
+			$("[data-toggle='tooltip']").tooltip(); 
+			$('[data-toggle="tooltip"]').tooltip(); 
+		}, 100);
+	 });
+	$(document).click(function (event) {
+		if ($(event.target).is('.comment-icon, .comment-icon *')) {
+			return;
+		}
+		else if (!$(event.target).is('.allcommentdiv, .allcommentdiv *')) {
+			$('.allcommentdiv').hide({ width: 'toggle' });
+		}
+	});
+	CurrentGuid = GetCurrentUserGUID();
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	
+	
+    $(document).ready(function () {
+		$('#loading-image').show();
+		if(queryString.IsProxyPage == "1")
+		{
+			$(".proxyApprovalHeading").css("display","");
+			$(".ApprovalHeading").css("display","none");
+		}
+        $('#TxtToData').datepicker({ dateFormat: 'dd-M-yy' });
+        $('#TxtFromDate').datepicker({ dateFormat: 'dd-M-yy' });
+		
+		
+		var GetPeriodsUrls=getURLProxy_GetPeriods();
+		
+        $.ajax({
+            //url: "https://ppmdev.bcone.com/api/Timesheettest/Proxy_GetPeriods",
+			url: GetPeriodsUrls,
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+            //data: { "ResourceUID": "467B2620-D6B2-E611-BEF9-E50A825364A1" },
+			data: { 
+			//"ResourceUID": "",//queryString.DDResourceGUID,
+			"Proxy_ResourceUID" : CurrentGuid,
+			"Role" : "AP",
+			"ResourceUID" : ""
+			},
+            success: function (data) {
+			
+                summaryTable = data;
+				maxApprover = data.Data[0].Max_approvers;
+				for(var i=0;i<maxApprover;i++)
+				{
+					$('#approverPeriodSummary thead th:last-child').after('<th class="clsApproveComment">Approver '+parseFloat(i+1)+'</th>');
+					$('#approverPeriodSummary tfoot th:last-child').after('<th class="clsApproveComment">Approver '+parseFloat(i+1)+'</th>');
+				}
+				$('#approverPeriodSummary thead th:last-child').after('<th class="clsRemark">Remark</th>');
+				$('#approverPeriodSummary tfoot th:last-child').after('<th class="clsRemark">Remark</th>');
+				$('#approverPeriodSummary thead th:last-child').after('<th class="clsLog">Log</th>');
+				$('#approverPeriodSummary tfoot th:last-child').after('<th class="clsLog"></th>');
+                $('#tableFilter').trigger('change');
+            },
+            error: function (data) {
+                alert("failed");
+            }
+        });
+    });
+    function createSummaryTable(data)
+	{	$("#approverPeriodSummary").dataTable().fnDestroy();
+		$("#tblPeriodBody").text("");
+        var innerHtml = "";
+      
+		//clixk fillter
+		var isCheck = false;
+		var status = "";
+		
+		if($("#btnAppovedCount").parent("li").hasClass("green-btn"))
+		{
+			status = "2";isCheck = true;
+
+		}		
+		else if($("#btnRejectCount").parent("li").hasClass("green-btn"))
+		{
+			status = "3";isCheck = true;
+
+		}
+		else
+		{
+			$("#allCurrentData").parent("li").addClass("green-btn");
+		}
+		if(isCheck)
+		{
+			var i=0; 
+			var data1 = data;
+			data = [];  
+			data1.filter(
+			function(e)
+			{	var tempval =0;		
+				for(var z=0;z<e.Approvers_Comments.length;z++)
+				{
+					//if(e.Approvers_Comments[z].ApproverUID == queryString.DDResourceGUID)
+					//{
+						if(e.Approvers_Comments[z].ApproverStatus == status && tempval == 0)
+						{	
+							data[i] = e;  i++;
+							tempval++;
+						}
+					//}
+				}				
+			}
+			);
+		}
+		
+		var colLength = data.length;
+		var checkData = 0;
+		for (var i = 0; i < data.length; i++) 
+		{
+			if(((data[i].ApprovalStatus)==2) || ((data[i].ApprovalStatus)==3))
+			{
+				var startDate = new Date(data[i].StartDate)
+				var sdate = ("0" + startDate.getDate()).slice(-2) + "-" + monthNames[startDate.getMonth()] + "-" + startDate.getFullYear();
+				var endDate = new Date(data[i].EndDate)
+				var edate = ("0" + endDate.getDate()).slice(-2) + "-" + monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();
+				
+				innerHtml += "<tr>";
+				innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+data[i].PeriodId+"&RES_UID="+data[i].RES_UID+"&TimesheetUID="+data[i].TimesheetUID+"'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a>";
+				if(data[i].TS_Period_Open_Close_Flag == "0")
+				{
+					innerHtml += "<span class='red-btn' style='padding: 3px 5px; border-radius: 5px; margin-bottom: 0px;'>TS Period Closed</span></td>";
+				}
+				else
+				{
+					innerHtml += "</td>";
+				}
+				innerHtml += "<td>"+data[i].ProjectName+"</td>";
+				innerHtml += "<td>"+data[i].ResourceName+"</td>";
+				innerHtml += "<td style='text-align: right;'>"+parseFloat(data[i].TotalHours).toFixed(2)+"</td>";
+				innerHtml += "<td style='text-align: right;'>"+parseFloat(data[i].BillableHourse).toFixed(2)+"</td>";
+				innerHtml += "<td style='text-align: right;'>"+parseFloat(data[i].NonBillableHourse).toFixed(2)+"</td>";
+				//innerHtml += "<td>"+(new Date(data[i].LAST_SUBMITTED_DATE)).format('dd-MMM-yyyy')+"</td>";
+				
+				if(data[i].LAST_SUBMITTED_DATE != ""){
+					innerHtml += "<td  style='text-align: center;' class=''>"+(new Date(data[i].LAST_SUBMITTED_DATE)).format('dd-MMM-yyyy')+"</td>";
+				}
+				else if(data[i].MOD_DATE != ""){
+					innerHtml += "<td   style='text-align: center;' class=''>"+(new Date(data[i].MOD_DATE)).format('dd-MMM-yyyy')+"</td>";
+				}
+				else
+				{
+					innerHtml += "<td  class=''></td>";
+				}
+				innerHtml += "<td   style='text-align: center;' class='clsApproveReject'>"+(new Date(data[i].MOD_DATE)).format('dd-MMM-yyyy')+"</td>";
+				if(data[i].ApprovalStatus == "2")
+				{
+					innerHtml += "<td class='hidesAP' >Approved</td>";
+				}
+				else
+				{
+					innerHtml += "<td class='hidesAP' >Rejected</td>";
+				}
+				
+				if(data[i].Approvers_Comments.length != 0)
+				{
+					for(var app =0;app<maxApprover;app++)
+					{	if(data[i].Approvers_Comments[app] == undefined)
+						{innerHtml += '<td class="clsApproveComment"></td>';}
+						else
+						{
+							if(data[i].Approvers_Comments[app].ApproverStatus == "3")
+							{
+								innerHtml += '<td  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 150px;">'+data[i].Approvers_Comments[app].Comment.substr(0,20)+'</span></td>';
+							}
+						}					
+					}
+				}
+				else
+				{
+					for(var app =0;app<maxApprover;app++)
+					{				
+						innerHtml += '<td class="clsApproveComment"></td>';
+					}
+				} 
+				/*if(data[i].Proxy_Remark != undefined && data[i].Proxy_Remark != "" && data[i].ApprovalStatus == "2")
+				{//title="Approved on behalf of PPM PM by Proxy SP Dev Admin "
+					innerHtml += '<td class="clsRemark"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Proxy_Remark+'"><i class="fa fa-exclamation-circle"></i></span></td>';
+				}
+				else if(data[i].Proxy_Remark != undefined && data[i].Proxy_Remark != "" && data[i].ApprovalStatus == "3")
+				{//title="Rejected on behalf of PPM PM by Proxy SP Dev Admin "
+					innerHtml += '<td class="clsRemark"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Proxy_Remark+'"><i class="fa fa-exclamation-circle"></i></span></td>';
+				}
+				else{
+					innerHtml += '<td class="clsRemark"></td>';
+				}*/
+				//innerHtml += '<td class="clsRemark"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Proxy_Remark+'">'+data[i].Proxy_Remark.substr(0,6)+'...</td>'; //<i class="fa fa-exclamation-circle"></i></span>
+				if(data[i].ApprovalStatus == "2")
+				{
+					innerHtml += '<td class="clsRemark"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Proxy_Remarks+'">'+data[i].Proxy_Remarks.substr(0,6)+'...</td>'; 
+				}
+				else
+				{
+					innerHtml += '<td class="clsRemark"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Proxy_Remarks+'">'+data[i].Proxy_Remarks.substr(0,6)+'...</td>'; 
+				}
+				
+				innerHtml += '<td class="clsLog"><input type="hidden" class="ts_name" value=\''+data[i].ProjectName+'\'><i style="cursor: pointer;color: rgb(6, 94, 160);" class="fa fa-exclamation-circle" onclick="openTSLog(\''+data[i].TimesheetUID+'\',this)"></i></td>';
+				innerHtml += "</tr>";
+				checkData++;
+			}
+		}
+
+		if(checkData == 0)
+		{
+			innerHtml += "<tr><td class='text-center' colspan="+$(".table-bordered > thead  > tr > th").length+">No Timesheet Data Found</td></tr>";
+			$("#tblPeriodBody").append(innerHtml);
+			
+			TableHideShow(status);
+			$("#approverPeriodSummary").css("display","");
+			$("#tblPeriodBody").children('tr').children('td').attr("colspan",$("#approverPeriodSummary").children('thead').children('tr').children('th:visible').length)
+			//innerHtml += "<tr><td class='text-center' colspan="+colLength+">No Record Found</td></tr>";
+		}
+		else
+		{
+			$("#tblPeriodBody").append(innerHtml);
+			$("#approverPeriodSummary").css("display","")
+			TableHideShow(status);
+		}
+        dataTableLoad();	
+		
+		$('#loading-image').hide();
+		
+    }
+    function filterById(data) {
+        //console.log(JSON.stringfy(data));
+        $('#TxtToData').hide();
+        $('#TxtFromDate').hide();
+        $('#BtnFilterData').hide();
+        var arr = [];
+        var crrDate = new Date();
+
+        if (data.value == "current")
+		{
+			$('#TxtToData').val('');
+			$('#TxtFromDate').val('');
+            var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 1);
+            var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 0);
+
+            summaryTable.Data[0].PeriodInfo.filter
+			(
+				function (a) {
+				    var sdate = new Date(a.StartDate);
+				    var edate = new Date(a.EndDate);
+				    if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				    {   
+				        arr.push(a);
+				        //console.log(a);						
+				    }
+				}
+			)
+			displayStatusCount(arr,data);
+            createSummaryTable(arr);
+        }
+        else if (data.value == "Next") {
+            var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 1);
+            var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 2, 0);
+            summaryTable.Data[0].PeriodInfo.filter
+			(
+				function (a) {
+				    var sdate = new Date(a.StartDate);
+				    var edate = new Date(a.EndDate);
+				    if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth())//(crrDate.getMonth() == sdate.getMonth() || && crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				    {	
+				        arr.push(a);
+				        //console.log(a);						
+				    }
+				}
+			)
+            createSummaryTable(arr);
+        }
+        else if (data.value == "Previous")
+		{
+			$('#TxtToData').val('');
+			$('#TxtFromDate').val('');
+            var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() - 1, 1);
+            var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 0);
+            summaryTable.Data[0].PeriodInfo.filter
+			(
+				function (a) {
+				    var sdate = new Date(a.StartDate);
+				    var edate = new Date(a.EndDate);
+				    if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//((crrDate.getMonth()+1) == edate.getMonth() || crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				    {	
+				        arr.push(a);
+				        //console.log(a);
+
+				    }
+				}
+			)
+			 displayStatusCount(arr,data);
+            createSummaryTable(arr);
+        }
+        else if (data.value == "DateRange") {
+   
+			$('#TxtToData').show();
+            $('#TxtFromDate').show();
+            $('#BtnFilterData').show();
+			
+
+        }
+    }
+    function filterByDateRange() {
+        var arr = [];
+        var crrDate = new Date();
+        var fDate = new Date($('#TxtToData').val());
+        var tDate = new Date($('#TxtFromDate').val());
+        summaryTable.Data[0].PeriodInfo.filter
+		(
+			function (a) {
+			    var sdate = new Date(a.StartDate);
+			    var edate = new Date(a.EndDate);
+			    if (fDate <= sdate && tDate >= edate) {	
+			        arr.push(a);
+			        //console.log(a);
+
+			    }
+			}
+		)
+       displayStatusCount(arr,document.getElementById("tableFilter"));
+        createSummaryTable(arr);
+    }
+	
+function onStatusBtnClick(data)
+	{
+		
+		//$(data).siblings().removeClass('green-btn');
+		$(data).parent("li").siblings().removeClass("green-btn");
+		$(data).parent("li").addClass("green-btn");
+		var ddOptions = document.getElementById("tableFilter");
+		filterById(ddOptions);
+		if(ddOptions.value == "DateRange")
+		{
+			document.getElementById("BtnFilterData").onclick(); 
+		}
+	
+	}
+	var openCnt = 0;
+function displayStatusCount(data,control)
+{
+		
+		var ApprovedCnt = 0;
+		var rejectCnt = 0;
+		data.filter
+			(
+				function (a)
+					{
+						if(a.ApprovalStatus == "2"){
+						ApprovedCnt++;
+
+						}
+						else if(a.ApprovalStatus == "3"){
+							rejectCnt++;
+							
+						}
+						//openCnt++;
+						
+
+						openCnt = ApprovedCnt + rejectCnt;
+				}
+			);
+			$("#allCurrentData span").text(openCnt);
+			$("#btnAppovedCount span").text(ApprovedCnt);
+			$("#btnRejectCount span").text(rejectCnt);
+			
+			//$("#btnOpenPeriods span").text(6)
+		//alert("open/save " + openCnt + "submit " + SubmitCnt +"approve " + ApprovedCnt+ "reject " + rejectCnt);
+	}
+	
+	function TableHideShow(status)
+	{
+		if(status== "2")
+		{	//$(".clsAction").show();
+			$(".hidesAP").hide();			
+			$(".clsApproveComment").hide();
+			$(".clsApproveReject").show();
+			$("th.clsApproveReject").text("Approved Date");
+			
+		}
+		else if(status== "3")
+		{	//$(".clsAction").show();
+			$(".hidesAP").hide();
+			$(".clsApproveComment").show();
+			$("th.clsApproveComment").text("Rejection Comment");			
+			$(".clsApproveReject").show();
+			$("th.clsApproveReject").text("Rejected Date");
+			$("#approverPeriodSummary tr").each(function(){$(this).find('td.clsApproveComment').eq(1).hide();$(this).find('th.clsApproveComment').eq(1).hide();});
+		}	
+		else
+		{	$(".hidesAP").show();
+			$(".clsApproveComment").hide();			
+			$(".clsApproveReject").hide();
+		}
+		$(".clsRemark").hide();
+		//$(".clsLog").hide();
+		if(queryString.IsProxyPage == "1" && (status == '2' || status == '3'))
+		{
+			$(".clsRemark").show();	//$(".clsLog").show();
+		}
+	}
+	
+	
+function dataTableLoad() 
+{	
+	var table = $('#approverPeriodSummary').DataTable({
+		"JQueryUI":true,
+		"autoWidth": false,
+		"bAutoWidth": true,
+		
+		fixedColumns: true,
+		//"bSortable": false,
+		//"bSort" : false,
+		"aaSorting": [],
+		"columnDefs": [{
+		"defaultContent": "-",		
+		"targets": "_all",
+		
+		}
+		]//,
+	  //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+	  
+	});
+
+	$('#approverPeriodSummary tfoot th').each( function () {
+		var title = $('#approverPeriodSummary thead th').eq( $(this).index() ).text();
+		
+		//console.log(title)
+		if(title != "Log")
+		{
+			$(this).html( '<input type="text" placeholder="Search" />' );
+		}
+		else
+		{	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+		}
+	} );
+
+	
+	// Apply the search
+	table.columns().every( function () {
+		var that = this;
+		
+		$( 'input', this.footer() ).on( 'keyup change', function () {			
+			if ( that.search() !== this.value) {
+				that
+					.search( this.value )
+					.columns.adjust().draw();
+					//.draw();			
+			}
+		} );
+	});
+	$("th.ResourceName").css("width","130px");
+	$("th.clsTotalHours").css("width","100px");
+	$("th.submittedDate").css("width","100px");
+	$("th.clsStatus").css("width","120px");
+	$("th.clsApproveReject").css("width","110px");
+	$("th.clsUserComment").css("width","200px");
+	$("th.NonBillableHours").css("width","100px");
+	$("th.BillableHours").css("width","70px");
+	$("th.Total").css("width","40px");	
+	$("th.projectName").css("width","280px"); 
+	$("th.clsApproveComment").css("width","150px"); 
+	$("th.clsPrjtName").css("width","250px");
+	$("th.clsRemark").css("width","60px");
+	$("th.clsLog").css("width","40px");
+}	
+
+function openTSLog(TS_UID,currData)
+{	$('#loading-image').show();
+	var ServiceURL = getURLTimesheet_AuditLog();
+	var inputData = new Object();
+	inputData.TimesheetUID = TS_UID;
+	callService(ServiceURL,inputData,openLogTable,"",currData);
+}
+
+function openLogTable(data,passData)
+{
+	var innerLogHTML = "";
+	$("#bindlog").text("");
+	//$(passData.parentNode).find(".ts_name").val()
+	$("#LogId").text($(passData.parentNode).find(".ts_name").val());
+	for(var i=0;i<data.Data.length;i++)
+	{	innerLogHTML += '<tr>';
+		innerLogHTML += '<td>'+(new Date(data.Data[i].Created_Date)).format('dd-MMM-yyyy')+'</td>';
+		innerLogHTML += '<td>'+data.Data[i].Actor+'</td>';
+		if(data.Data[i].Remarks.indexOf("Rejected") > -1)
+		{
+			innerLogHTML += '<td>REJECTED</td>';
+		}
+		else if(data.Data[i].Remarks.indexOf("Approved") > -1)
+		{
+			innerLogHTML += '<td>APPROVED</td>';		
+		}
+		else if(data.Data[i].Remarks.indexOf("SUBMIT") > -1)
+		{
+			innerLogHTML += '<td>SUBMITTED</td>';		
+		}
+		else if(data.Data[i].Remarks.indexOf("SAVE") > -1)
+		{
+			innerLogHTML += '<td>SAVED</td>';		
+		}
+		else
+		{
+			innerLogHTML += '<td>'+data.Data[i].Type+'</td>';
+		}
+		//innerLogHTML += '<td>'+data.Data[i].Type+'</td>';
+		innerLogHTML += '<td>'+data.Data[i].Remarks+'</td>';
+		innerLogHTML += '</tr>';
+	}
+	$("#bindlog").append(innerLogHTML);
+	$('.allcommentdiv').show({ width: 'toggle' });
+	$('#loading-image').hide();
+}
+
+function closeallcomment() {
+	$('.allcommentdiv').animate({ width: 'toggle' });
+}
+
+//config.js
+
+
+</script>

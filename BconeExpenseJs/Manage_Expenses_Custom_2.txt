@@ -1,0 +1,265 @@
+<style>
+.stiled{width: 150px;height: 150px; margin:0 10px 0 0; background:#31752F;position: relative;font-fmily:"Segoe UI" !important; font-size:14px;display: inline-block;overflow: hidden;}
+.inner-stiled{color: #fff;background-color: rgba(0, 0, 0, 0.60);position: absolute;top:100px; padding:10px; width:100%; height:150px;}
+.stiled:hover .inner-stiled{top:0;transition: all 150ms ease; cursor:pointer;}
+.yellow-bg{background-color: #f09609;}
+.blue-bg{background-color: #1c4269;}
+</style>
+<div class="stiled blue-bg ">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/Programming-Add-Property-icon.png" style="left:0;
+    top:0px;
+    position: absolute;" />
+	<a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx?Default=Open"><div class="inner-stiled">Add Expense<span></span></div></a>
+</div>
+<div class="stiled blue-bg">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/approvedicon.png" style="left:0px;
+    top:0px;
+    position: absolute;" />
+	<a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx"><div class="inner-stiled">Check Expense Status<span></span></div></a>
+</div>
+<div class="stiled blue-bg" id="expenseapproval" style="display:none">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/Check_Status.png" style="left:0px;
+    top:0px;
+    position: absolute;"/>
+	<a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/ExpenseApproval.aspx"><div class="inner-stiled">Expense Approval: <span id="expenseCount"></span></div></a>
+</div>
+<div class="stiled blue-bg" id="financeapproval" style="display:none">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/Check_Status.png" style="left:0px;
+    top:0px;
+    position: absolute;" />
+	<a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/FinanceApproval.aspx"><div class="inner-stiled">Finance Approval: <span id="financeCount"></span></div></a>
+</div>
+
+
+
+<script src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+
+<script>
+	
+	$(document).ready(function(){
+	var userid = _spPageContextInfo.userId;
+	//alert('userid: '+userid);
+	GetUserId(userid);
+	
+	});
+
+
+ 	function GetUserId(userid) {
+            var NewloginName = "";
+            jQuery.ajax({
+                url: "/sites/PPMUAT/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                  
+                    var loginName = dataResults.LoginName;
+                  
+                    var displayName =dataResults.Title;
+                  
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                   
+                    var resGuid = getResourcesGuid(NewloginName);
+                    hideExpenseTab(resGuid);
+		    hideFinanceApprovalTab(resGuid,displayName);
+                },
+                complete: function () {
+
+                    // var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+        }
+
+function getResourcesGuid(NewloginName) {
+          var ResourceGuid=""
+            jQuery.ajax({
+
+                url: "/sites/PPMUAT/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+		async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                ResourceGuid= data.d.results[0].ResourceId;
+                
+                }
+            });
+	return ResourceGuid;
+
+        }
+
+
+	function hideExpenseTab(resGuid) {
+
+		var count=0;
+		var query_cml = '<View><Query><Where><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">' + resGuid + '</Value></Eq></Where></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+		async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+				
+                success: function (data) {
+                   
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+
+                    document.getElementById('expenseapproval').style.display="inline-block";
+					
+                    }else
+					{
+					
+				 document.getElementById('expenseapproval').style.display="none";
+					}
+					
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+					
+                }
+            });
+
+		var query_cmlNew = '<View><Query><Where><And><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">' + resGuid + '</Value></Eq><Eq> <FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></Where></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+		async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cmlNew
+                    }
+                }),
+				
+                success: function (data) {
+                   
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+
+                    document.getElementById('expenseCount').innerHTML=data.d.results.length;
+					
+                    }else
+					{
+					
+				 document.getElementById('expenseCount').innerHTML="0";
+					}
+					
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+					
+                }
+            });
+			
+        }
+
+
+	function hideFinanceApprovalTab(resGuid,displayName) {
+
+		var count=0;
+	    var query_cml = '<View><Query><Where><Eq><FieldRef Name='Financepersonname' /> <Value Type='User'>' + displayName + '</Value></Eq></Where></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('Finance Team')/GetItems",
+                type: "POST",
+		async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+				
+                success: function (data) {
+
+                    if (data.d.results.length > 0) {
+
+                    document.getElementById('financeapproval').style.display="inline-block";
+					
+                    }else
+		    {
+		    document.getElementById('financeapproval').style.display="none";
+		    }
+					
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+					
+                }
+            });
+
+var query_cmlNew = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">' + resGuid + '</Value></Eq><Neq> <FieldRef Name="FinanceExpenseStatus" /> <Value Type="Text">Approved</Value></Neq></And></Where></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+		async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cmlNew
+                    }
+                }),
+				
+                success: function (data) {
+                   
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+
+                    document.getElementById('financeCount').innerText=data.d.results.length;
+					
+                    }else
+					{
+					
+				 document.getElementById('financeCount').innerText="0";
+					}
+					
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+					
+                }
+            });
+			
+        }
+
+</script>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript">
+  $.widget.bridge('uitooltip', $.ui.tooltip);
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css"> 
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css"> 
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" /> 
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+<style>
+#DeltaTopNavigation{	
+    display: none;
+
+}
+.SumoSelect{
+width:60% !important;
+}
+.tooltip{
+	width:200px !important;
+	word-wrap: break-word !important;
+}
+.opt > label
+{font-weight: 100;}
+</style>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+<div class="container-fluid">
+	<div class="breadcrumb-main">
+	    <div class="container-fluid">
+	        <ul>
+	            <li>
+	                <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+	            </li>
+	            <li>Proxy Timesheet Approval
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+</div>
+<div class="mid-main">
+    <div class="mid-top" style="margin-bottom:5px;">
+        <div class="container-fluid">
+            <div class="row">
+				<div class="col-md-6">
+					<div style="display: inline-block;width: 20%;vertical-align: super;">Select on behalf of</div>
+					<div style="display:inline-block;width:79%"> 
+						<select id="proxyResourceName" style="width:100%">
+							<option value="-1" style="display:none">Select Resource</option>
+						</select>
+						<a href="javascript:void(0)" class="blue-btn" id="btnShow" style="margin-left:12px;margin-top: -10px;" onclick="onProxyResourceChange()" >Show</a>
+						<a href="javascript:void(0)" class="blue-btn" id="ClearAll" style="margin-left:12px;margin-top: -10px;display:none;" onclick="reloadAll()" >Reset</a>						
+					</div>
+				</div>				
+				<div class="col-md-6">
+					<div>
+						<ul class="top-btns">								
+							<li class="green-btn" style="display: none;">
+								<a style="cursor:default;" href="javascript:void(0)" id="pendingCount">PENDING APPROVAL
+									<span class="highlight_no">0</span>
+								</a>
+							</li>
+							<li class="History-btn" >
+								<!-- href="TimesheetApprovalHistory.aspx?IsProxyPage=1"  -->
+								<a href="javascript:void(0)" id="historyCount" onclick="recallToHistoryPage()"><i class="fa fa-history"></i> APPROVAL HISTORY
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="mid-block">
+		 <div class="container-fluid">
+			<div class="alert alert-warning viewTSNote" style="padding: 2px; margin-bottom: 10px; margin-top: 5px; background-color: rgba(251, 185, 0, 0.8); color: black !important; border-radius: 0px !important; border-color: rgb(177, 165, 101) !important; display: block;">
+				<strong> <i class="fa fa-exclamation-circle"></i> </strong>Note: You can also Approve / Reject timesheet for closed period.</div>
+			<table class="table-bordered table-new" id="proxySummaryTable" style="table-layout: fixed; width:100%;margin-top: 20px;display:none;">
+				<thead id="tableHead">
+					<tr>
+						<th>Timesheet Name</th>
+						<th style="width:20%;">Project Name</th>
+						<th style="width:15%;" >Resource Name</th>
+						<th style="width:9%;">Total Hours</th>
+						<th style="width:9%;">Billable Hours</th>
+						<th style="width:11%;">Non Billable Hours</th>
+						<th style="width:10%;">Submitted Date</th>
+						<th style="width:10%;">User Comments</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>Timesheet Name</th>
+						<th>Project Name</th>
+						<th>Resource Name</th>
+						<th>Total Hours</th>
+						<th>Billable Hours</th>
+						<th>Non Billable Hours</th>
+						<th>Submitted Date</th>
+						<th>User Comments</th>
+					</tr>
+				</tfoot>
+				<tbody id="tblPeriodBody">						
+				</tbody>
+			</table>
+		 </div>
+	</div>
+</div>
+<span id="loading-image"></span>  
+<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh"></span>
+			<input type="Button" class="divnewbtn" id="btnOkPopup" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+		</div>			
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	disableRightClick();
+	$("#loading-image").show();
+	CurrentGuid = GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	$('#proxyResourceName').SumoSelect({search: true, placeholder: 'Select Resource'});
+	var ServiceURL = GetProxyResourceList();//"https://ppmdev.bcone.com/api/Timesheettest/GetProxyResourceList";
+	var inputData = new Object();
+	inputData.ResourceUID = GetCurrentUserGUID();
+	callService(ServiceURL,inputData,bindProxyResources,errorMsg,"");
+	setInterval(function(){ 
+		$("[data-toggle='tooltip']").tooltip(); 
+		$('[data-toggle="tooltip"]').tooltip(); 
+	}, 100);
+	
+});
+function errorMsg(data){
+	openOKpopup(popUpMessage.ServerError,false);
+}
+function errorMsgSummaryProxyTable(data){	
+	openOKpopup(popUpMessage.ServerError,false);
+}
+function bindProxyResources(data,passData){
+	//var i=0;
+	data.Resources.forEach(function(e)
+	{ //if(i==1){return false;}
+	$("#proxyResourceName")[0].sumo.add(e.Approval_Res_Uid,e.Approval_Res_Name);
+	//i++;
+	});
+	if(queryString.ApproGUID != undefined)
+	{
+		$("#proxyResourceName")[0].sumo.selectItem($("#proxyResourceName option[value='"+queryString.ApproGUID+"']").index());
+		onProxyResourceChange();
+		return;
+	}
+	if($("#proxyResourceName option:not([value='-1'])").length == 1)
+	{
+		$("#proxyResourceName")[0].sumo.selectItem(1);
+		onProxyResourceChange();
+	}
+	else
+	{	$("#viewTSNote").show();
+		$("#loading-image").hide()
+	}
+	
+}
+function recallToHistoryPage()
+{
+	window.open("ProxyTimesheetApprovalHistory.aspx?IsProxyPage=1");//&DDResourceGUID="+document.getElementById("proxyResourceName").value);
+}
+function onProxyResourceChange(){	
+	$("#loading-image").show();
+	$("#proxySummaryTable").css("display",'');
+	$("#proxySummaryTable").dataTable().fnDestroy();
+	$("#proxySummaryTable").css("display",'none');	
+	$("#tblPeriodBody").html('');
+	$("#pendingCount span.highlight_no").text(0);
+	$("#pendingCount").parents("li").hide();
+	//$("#historyCount").parents('li').hide();
+	$("#ClearAll").hide()
+	if(document.getElementById("proxyResourceName").value == "-1")
+	{
+		openOKpopup("Please select Resource Name"); $("#loading-image").hide(); return;
+	}
+	//var ServiceURL = "https://ppmdev.bcone.com/api/Timesheettest/Proxy_GetPeriods";
+	var ServiceURL = GetTimesheetSummary();
+	var inputData = new Object();
+	inputData.ResourceUID = document.getElementById("proxyResourceName").value;	
+	callService(ServiceURL,inputData,bindProxyResourcesData,errorMsgSummaryProxyTable,"");
+}
+function bindProxyResourcesData(data,passData){
+	
+	if(data.error != undefined)
+	{	
+		openOKpopup(popUpMessage.ServerError);dataTableLoad();$("#loading-image").hide();return false;
+	}
+	var innerHtml = "";
+	
+	if(data.Data.length == 0)
+	{	$("#viewTSNote").show();
+		$("#loading-image").hide();
+	}
+	else
+	{	$("#viewTSNote").show();
+		var cnt = 0;
+		for (var i = 0; i < data.Data.length; i++) 
+		{
+			if(data.Data[0].Flag == "1" && data.Data[i].ApproverResUID == $("#proxyResourceName option:selected").val())
+			{
+				innerHtml += "<tr>";
+				//innerHtml += "<td style='width: 22% !important;'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID="+pojectuid+"&TimesheetUID="+timeUID+"&RES_UID="+data.Data[i].ResourceId+"&StartDate="+sdate+"&EndDate="+edate+" '>" + data.Data[i].PeriodName.substr(data.Data[i].PeriodName.indexOf('||') + 1, data.Data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+				innerHtml += "<td><a href='ProxyResourceWiseTimesheetDetails.aspx?PeriodUID="+data.Data[i].PeriodUID+"&TimesheetUID="+data.Data[i].TS_UID+"&RES_UID="+data.Data[i].ResourceId+"&StartDate="+data.Data[i].StartDate+"&EndDate="+data.Data[i].EndDate+"&ApproGUID="+$("#proxyResourceName option:selected").val()+"&ApproName="+$("#proxyResourceName option:selected").text().trim()+"' >"+data.Data[i].PeriodName + " ("+new Date(data.Data[i].StartDate).format('dd-MMM-yyyy')+" - "+new Date(data.Data[i].EndDate).format('dd-MMM-yyyy') +")</a>";
+				if(data.Data[i].TS_Open_Close_Flag == "0")
+				{
+						innerHtml += "<span class='red-btn' style='padding: 3px 5px; border-radius: 5px; margin-bottom: 0px;'>TS Period Closed</span></td>";
+				}
+				else
+				{
+					innerHtml += "</td>";
+				}
+				innerHtml += "<td>"+data.Data[i].ProjectName+"</td>";
+				innerHtml += "<td >"+data.Data[i].ResourceName+"</td>";
+				innerHtml += "<td style='text-align: right;'>"+parseFloat(data.Data[i].TotalHrs).toFixed(2)+"</td>";						
+				innerHtml += "<td style='text-align: right;'>"+parseFloat(data.Data[i].Billable_Hours).toFixed(2)+"</td>";
+				innerHtml += "<td style='text-align: right;'>"+parseFloat(data.Data[i].Non_Billable_Hours).toFixed(2)+"</td>";
+				innerHtml += "<td style='text-align:center;' >"+new Date(data.Data[i].Submitted_Date).format('dd-MMM-yyyy')+"</td>";
+				if(data.Data[i].Comment.length > 15)
+				{
+					innerHtml += "<td><span data-toggle='tooltip' data-placement='top' title='"+data.Data[i].Comment+"' style='word-wrap: break-word; display: inline-block;     '>"+data.Data[i].Comment.substr(0,15)+"...</span></td>";
+				}
+				else
+				{
+					innerHtml += "<td class='clsUserComment'><span data-toggle='tooltip' data-placement='top' title='"+data.Data[i].Comment+"' style='word-wrap: break-word; display: inline-block; '>"+data.Data[i].Comment+"</span></td>";
+				}
+				
+				innerHtml += "</tr>";
+				cnt++;	
+			}
+		}		
+		$("#tblPeriodBody").append(innerHtml);$("#pendingCount span.highlight_no").text(cnt);		
+	}	
+	$("#pendingCount").parents("li").show();
+	//$("#historyCount").parents('li').show();
+	$("#ClearAll").show();
+	dataTableLoad();
+}
+function dataTableLoad() 
+{	
+	var table = $('#proxySummaryTable').DataTable({
+		"JQueryUI":true,
+		"autoWidth": false,
+		"bAutoWidth": true,
+		"language": {
+		  "emptyTable": "No data available in table"
+		},
+		fixedColumns: true,
+		"aaSorting": [],
+		"columnDefs": [{
+		"defaultContent": "-",		
+		"targets": "_all",
+		
+		}
+		]	  
+	});
+	$('#proxySummaryTable tfoot th').each( function () {
+		var title = $('#proxySummaryTable thead th').eq( $(this).index() ).text();		
+		if(title != "Action")
+		{
+			$(this).html( '<input type="text" placeholder="Search" />' );
+		}
+	} );
+	
+	// Apply the search
+	table.columns().every( function () {
+		var that = this;
+		
+		$( 'input', this.footer() ).on( 'keyup change', function () {			
+			if ( that.search() !== this.value) {
+				that
+					.search( this.value )
+					.columns.adjust().draw();
+			}
+		} );
+	});
+	$("#proxySummaryTable").css("display",'');
+	$("#loading-image").hide();
+}
+function reloadAll(){
+	$("#proxyResourceName")[0].sumo.selectItem(0)
+	$("#proxySummaryTable").css("display",'');
+	$("#proxySummaryTable").dataTable().fnDestroy();
+	$("#proxySummaryTable").css("display",'none');	
+	$("#tblPeriodBody").html('');
+	$("#pendingCount span.highlight_no").text(0);
+	$("#pendingCount").parents("li").hide();
+	//$("#historyCount").parents('li').hide();
+	$("#ClearAll").hide()
+}
+//config.js changes
+
+</script>

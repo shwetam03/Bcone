@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <!--<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>-->
+     <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/sumoselect1.css">
+    <script type="text/javascript" src="../SiteAssets/js/jquery.sumoselect.js"></script>
+    <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css">
+    <style>
+	#s4-ribbonrow,#SearchBox,#O365_MainLink_Settings{display:none }
+.middle {width: 97%;margin: 0 auto;}
+#sideNavBox{width:0px !important;display: none;}
+#contentBox {margin-right: 0px !important;  margin-left:0px !important; }
+#contentRow {padding-top: 0px !important;}
+.menu-item-text{
+display:none;
+}
+#pageTitle{
+display:none;
+}
+
+#siteIcon{    
+	height: 25px !important;
+	line-height: 25px !important;
+}
+.ms-breadcrumb-box{
+	height:auto !important;
+}
+.ms-webpart-chrome-title{
+	display:none !important;
+}
+#MSOZoneCell_WebPartWPQ4{
+	margin:0px !important;
+}
+#s4-titlerow{
+	height: 53px !important;
+}
+        .SumoSelect {
+       width:100% !important;
+     }
+	 .additional-background
+{
+	display:none;
+}
+    </style>
+    <script type="text/javascript">
+        var selectedFromYear, selectedFromMonth, selectedToYear, selectedToMonth;
+
+
+
+        $(document).ready(function () {
+
+            window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 2, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.test = $('.testsel').SumoSelect({ okCancelInMulti: true, captionFormatAllSelected: "Yeah, OK, so everything." });
+            window.testSelAll = $('.testSelAll').SumoSelect({ okCancelInMulti: true, selectAll: true });
+            window.testSelAlld = $('.SlectBox-grp').SumoSelect({ okCancelInMulti: true, selectAll: true });
+
+            window.testSelAll2 = $('.testSelAll2').SumoSelect({ csvDispCount: 2, search: true, searchText: 'Enter here.' });
+
+
+            window.Search = $('.search-box').SumoSelect({ csvDispCount: 2, search: true, searchText: 'Enter here.', selectAll: true });
+            window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 2, selectAll: true, search: true, searchText: 'Enter here.', okCancelInMulti: true });
+            window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 2, selectAll: true, search: false, searchText: 'Enter here.', up: true });
+
+            window.groups_eg_g = $('.groups_eg_g').SumoSelect({ selectAll: true, search: true });
+            //$('#TSType1').css("display", "block");
+            /*$('#TSType').css("display", "block");*/
+
+            /*$('#TSDataBy').css("display", "block");*/
+            /*$('#ProjectName').css("display", "block");*/
+            /*$('#ResourceName').css("display", "block");*/
+
+
+            $("#selResourceName").parent().addClass("disabled")
+
+            $('#ProjectName').change(function () {
+                var len = $('#selProjectName :selected').length;
+                if (len > 0) {
+                    $("#selResourceName").parent().removeClass("disabled");
+                    $("#selResourceName").prop("disabled", false);
+
+                }
+                else {
+                    $("#selResourceName").parent().addClass("disabled");
+                    $("#selResourceName").prop("disabled", true);
+                }
+            });
+
+            $("#ProjectName").change(function (event)
+                //$("#ResourceName .SumoSelect").on('click', function (event) 
+            {
+                // $('#ResourceName').bind('opening', function (event) {
+                // console.log("dropdown opened", o)
+
+                if (!$("#selResourceName").parent().hasClass("disabled")) {
+                    var NewElementCollection;
+
+                    NewElementCollection = $('#ProjectName :selected');
+
+                    var url = "https://ppmprod.bcone.com/api/bconeReport/GetResourceName";
+                    var requestedData1 = getRequestToData(NewElementCollection);
+                    var ID = "";
+                    requestData = {
+                        "ID": requestedData1.ID,
+                        "UserID": Email + ";Financereport"
+                    };
+
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        type: "POST",
+                        dataType: "json",
+                        data: requestData,
+                        // contentType: "application/json; charset=utf-8",
+                        // url: "Dashboard.aspx/getChartData",
+                        success: function (res) {
+                            //  alert(res + " dfg")
+                            var num = $('#ResourceName option').length;
+                            for (var i = num; i >= 1; i--) {
+                                $('#selResourceName')[0].sumo.remove(i - 1);
+                            }
+                            var a = res;
+                            var len;
+
+                            for (var i = 0; i < res.Resources.length; i++) {
+                                $('#selResourceName').append('<option value="' + res.Resources[i].ResourceID + '">' + res.Resources[i].ResourceName + '</option>');
+                            }
+                            $('#selResourceName')[0].sumo.enable(); // Enable the SUMO SELECT 
+                            $('#selResourceName')[0].sumo.reload();
+                            return false;
+
+                            //$('#ProjectName ul').append('<li class="opt"><span><i></i></span><label>' + Data.Projects[i].ProjectName + '</label></li>');
+                        }
+
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        });
+        function getFormate(Date) {
+
+            var year = Date.getFullYear();
+            var month = Date.getMonth();
+
+            var day = Date.getDate();
+            return parseInt(month) + 1 + "/" + day + "/" + year;
+        }
+    </script>
+
+    <!--<link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />-->
+    <!--<script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jqueryui.js"></script>-->
+    
+
+   
+    <style type="text/css">
+        body {
+            font-family: Verdana,Arial,sans-serif !important;
+            color: #444;
+            font-size: 13px;
+        }
+
+        p, div, ul, li {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .txt {
+            display: inline-block;
+            position: relative;
+            outline: none;
+            width: 160px;
+            height: 24px;
+            border-radius: 2px;
+            border: 1px solid #CCC;
+        }
+        input[type=text]{
+            color: #555 !important;
+        }
+        .combo {
+           /* width: 100%;
+            height: 28px;
+            border-radius: 2px;
+            border: 1px solid #CCC;*/
+        }
+       
+        #myModal .modal-body table tr td .form-control {
+            outline: none;
+            width: 100%;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 5px !important;
+        }
+        .form-table{
+            width: 100%;
+        }
+        .form-table tr td{
+            padding: 5px ;
+            width: 25%;
+        }
+        .form-control{
+            border-radius: 0px;
+            border-color:#ccc !important;
+        }
+        .SumoSelect{
+            border-radius: 0px;
+            border-color:#ccc !important;
+        }
+        .SumoSelect > .CaptionCont{
+            border-radius: 0px;
+            border-color:#ccc !important;
+        }
+        .SumoSelect > .optWrapper > .options  li.opt label{
+            font-weight: normal;
+        }
+         .SumoSelect .select-all {
+            padding: 6px 0 4px 35px;
+            height: auto;
+        }
+         .SumoSelect .select-all label{
+            font-weight: normal;
+        }
+        .ui-datepicker-calendar thead tr th{
+            background: #00b0f0;
+            color: #fff;
+        }
+        .SumoSelect > .CaptionCont > span.placeholder{
+            font-style: normal;
+        }
+        .SumoSelect > .CaptionCont > label > i{
+            background-size: 45% 90%;
+        }
+        img.ui-datepicker-trigger {
+            position: absolute;
+            top: 9px;
+            right: 8px;
+            z-index: 9;
+            cursor: pointer !important;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+    <div class="container-fluid">
+        <div class="breadcrumb-main">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+                    </li>
+                    <li>Expense Report
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <table class="form-table" id="tblTimesheetReport" style="margin-bottom: 20px;display:none;">
+            <tr>
+                
+                <td>ER Submitted From Date
+                    <div style="position: relative;">               
+                        <input type="text" id="DeligateFromDate" class="form-control">
+                        <!--<span class="right-icon">
+                            <i class="fa fa-calendar" id="iconcalender" style="cursor: pointer;"></i>
+                        </span>-->
+                    </div>
+                </td>
+                
+                <td>ER Submitted To Date 
+                    <div style="position: relative;">  
+                        <input type="text" id="DeligateToDate" class="form-control">
+                        <!--<span class="right-icon">
+                            <i class="fa fa-calendar" id="i1" style="cursor: pointer;"></i>
+                        </span>-->
+                    </div>
+                </td>
+                
+                <td id="TSType" hidden>
+                    <span hidden id="TSType1">TS Type</span>
+                    <select style="visibility:hidden;" multiple="multiple" id="selTSType" placeholder="Search" onchange="console.log($(this).children(':selected').length)" class="search-box"  style="display:block">
+                        <option  value="Billable (8 hrs)">Billable (8 hrs)</option>
+                        <option value="Non-billable (8 hrs)">Non-billable (8 hrs)</option>
+                        <option  value="Billable (Beyond 8 hrs)">Billable (Beyond 8 hrs)</option>
+                        <option value="Non-billable (Beyond 8 hrs)">Non-billable (Beyond 8 hrs)</option>
+                    </select>
+                </td>
+
+                <td id="TSDataBy" >
+                    Status
+                    <select  id="selTSDataBy"  style="display:block" class="combo form-control">
+                          <option value="All">All</option>  
+                               <option value="Reimbursed">Finance Reimbursed</option>                         
+                               <option value="Approved">Finance Approved</option>
+                                <option value="Rejected">Finance Rejected</option>
+								<option value="Manager Approved">Manager Approved</option>  
+                                <option value="Manager Rejected">Manager Rejected</option>  
+                                <option value="Submitted">Submitted</option>              
+                    </select>
+                </td>   
+            </tr>
+            <tr> 
+                   
+                <td id="ProjectName" >
+                    Project Name
+                    <select multiple="multiple" id="selProjectName" placeholder="Search" onchange="console.log($(this).children(':selected').length)" class="search-box"  >
+                    </select>
+                </td>
+                <td id="ResourceName" >
+                    Resource Name
+                    <select disabled multiple="multiple" id="selResourceName" placeholder="Search" onchange="console.log($(this).children(':selected').length)" class="search-box">
+                    </select>
+                </td> 
+                <td>  
+                    <span>&nbsp;</span><br>
+                    <!-- <input type="button" value="Generate"  name="btnGenrate"/>    -->
+                    <a href="javascript:void(0)" class="blue-btn"  name="btnGenrate"><i class="fa fa-sticky-note"></i> Generate</a>
+                    <!-- <input type="button" value="Clear"  name="btnClear"/> -->
+                    <a href="javascript:void(0)" class="blue-btn" name="btnClear" ><i class="fa fa-remove"></i> Clear</a>
+                    <span id="" style="color:red"></span>
+                    <div id="errMessage" class="alert-main" style="display: none;">
+                            <div class="black-bg" id="backcolor">
+                                <div class="popup-main">
+                                    <div class="popup-heading"><span id="Alert_msg">Please Select At-least One Expense To Reset</span></div>
+                                    <div class="pop-mid">
+                                        <p id="submitValue"></p>
+                                    <input type="Button" class="divnewbtn" value="OK" id="ok_click1" onclick="close_div('')">  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     <div class="loader" style="display: none;"></div>
+                </td>
+            </tr>
+        </table>
+        <div style="border-bottom:1px solid #ccc"></div>
+      <iframe id="rptTimesheet" height="700px" width="100%"></iframe>
+    </div>
+  
+    <script>
+        var url = "";
+        var requestData;
+        var selResources = $('#selResourceName :selected');
+        var selProjects = $('#selProjectName :selected');
+
+        var Email = "";
+
+        function getUser() {
+            var userid = _spPageContextInfo.userId;
+            var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+            var requestHeaders = { "accept": "application/json;odata=verbose" };
+            $.ajax({
+                url: requestUri,
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError,
+                async: false
+            }); function onSuccess(data, request) {
+
+                var loginName = data.d.Title;
+                Email = data.d.Email
+                $('#login_name_contain').html(loginName)
+                //alert(Email);
+            } function onError(error) {
+                alert("Error on retrieving current user.");
+            }
+        }
+        $(function () {
+            getUser();
+            bindProjectData("ProjectChange");
+
+
+            var date = new Date();
+            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+            $("#DeligateFromDate").datepicker({
+                dateFormat: 'dd-M-y',
+                changeMonth: true,
+                buttonImage: "../SiteAssets/BconeExpenseImg/calendar.png",
+                showOn: "both",
+                buttonImageOnly: true,
+                changeYear: true,
+                onSelect: function (selected) {
+                    $("#DeligateToDate").datepicker("option", "minDate", selected);
+                    var date = $(this).datepicker('getDate'),
+                      day = date.getDate(),
+                     month = date.getMonth() + 1,
+                     year = date.getFullYear();
+                    selectedFromYear = month + '/' + day + '/' + year;
+                }
+            }).datepicker('setDate', firstDay);
+
+            $("#DeligateToDate").datepicker({
+                //dateFormat: 'yy-mm-dd',
+                dateFormat: 'dd-M-y',
+                changeMonth: true,
+                buttonImage: "../SiteAssets/BconeExpenseImg/calendar.png",
+                showOn: "both",
+                buttonImageOnly: true,
+                changeYear: true,
+
+                onSelect: function (selected) {
+                    $("#DeligateFromDate").datepicker("option", "maxDate", selected)
+                    var date = $(this).datepicker('getDate'),
+                    day = date.getDate(),
+                   month = date.getMonth() + 1,
+                   year = date.getFullYear();
+                    selectedToYear = month + '/' + day + '/' + year;
+                }
+            }).datepicker('setDate', lastDay);
+
+            selectedToYear = getFormate(lastDay)
+            selectedFromYear = getFormate(firstDay)
+        });
+        window.onload = getUser();
+        function bindProjectData(SelectedValue) {
+
+            var NewElementCollection;
+
+            if (SelectedValue == "ProjectChange") {
+                NewElementCollection = $('#selProjectName :selected');
+                url = "https://ppmprod.bcone.com/api/bconeReport/GetProjectName";
+                // url = "http://localhost:6851/api/bconeReport/GetProjectName";
+
+            }
+
+            var requestedData1 = getRequestToData(NewElementCollection);
+            //  var email=getuser()
+            var ID = "";
+            requestData = {
+                "ID": requestedData1.ID,
+                "UserID": Email + ";Financereport"
+            };
+
+
+
+            $.ajax({
+                url: url,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                data: requestData,
+                // contentType: "application/json; charset=utf-8",
+                // url: "Dashboard.aspx/getChartData",
+                success: function (res) {
+                    //  alert(res + " dfg")
+                    var a = res;
+                    var len;
+                    if (SelectedValue == "ProjectChange") {
+
+                        for (var i = 0; i < res.Projects.length; i++) {
+                            $('#selProjectName').append('<option value="' + res.Projects[i].ProjectID + '">' + res.Projects[i].ProjectName + '</option>');
+                        }
+
+                        $('#selProjectName')[0].sumo.enable(); // Enable the SUMO SELECT 
+                        $('#selProjectName')[0].sumo.reload();
+                    }
+                }
+
+            });
+
+
+
+
+
+        }
+
+        function getRequestToData(NewElementCollection) {
+            var requestedData = "";
+            var ResourceUID = "";
+            var AallID = "";
+            if (NewElementCollection.length > 0) {
+
+                NewElementCollection.each(function (index, item) {
+                    AallID += "," + $(item).val() + ",";
+                });
+
+                requestedData = {
+                    ID: AallID
+
+                }
+            }
+            else {
+                requestedData = { "ID": "" };
+            }
+
+            return requestedData;
+        }
+
+
+        function setCookie(TSType, TSDataBy, ProjectName, ResourceName) {
+            var d = new Date();
+            d.setTime(d.getTime() + (1 * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = "login=Ashish;" + expires + ";path=/";
+            document.cookie = "StartDate=" + selectedFromYear + ";" + expires + ";path=/";
+            document.cookie = "EndDate=" + selectedToYear + ";" + expires + ";path=/";
+            document.cookie = "TSType=" + TSType + ";" + expires + ";path=/";
+            //document.cookie = "TSReportBy=" + TSReportBy + ";" + expires + ";path=/";
+            document.cookie = "TSDataBy=" + TSDataBy + ";" + expires + ";path=/";
+            document.cookie = "ProjectName=" + ProjectName + ";" + expires + ";path=/";
+            document.cookie = "ResourceName=" + ResourceName + ";" + expires + ";path=/";
+        }
+
+
+
+        $('[name="btnGenrate"]').click(function () {
+
+            var len = $('#selProjectName :selected').length;
+            var len1 = $('#selResourceName :selected').length;
+            if ($('#DeligateFromDate').val() == "" || $('#DeligateToDate').val() == "") {
+                $('#Alert_msg').html("Please Select Date");
+                $("#errMessage").show();
+                return false;
+            }
+            else if (len <= 0) {
+                $('#Alert_msg').html("Please Select Project");
+                $("#errMessage").show();
+                return false;
+            }
+            else if (len1 <= 0) {
+                $('#Alert_msg').html("Please Select Resource");
+                $("#errMessage").show();
+                return false;
+            }
+            else {
+                $("#errMessage").hide();
+            }
+
+            var TSType = "", TSReportBy = "", TSDataBy = "", ProjectName = "", ResourceName = "";
+            /*----------	TS Type-----------*/
+            var seprator = ",";
+
+            //setCookie(type, appendNames, fromDate, toDate, 1);
+            /*---------TS Report By-----------*/
+
+            //   var selTSReportBy = $('#selTSReportBy :selected').val();
+
+            /*----------	TS Data By-----------*/
+            var selTSDataBy = $('#selTSDataBy').val();
+
+            /*----------	 Project Name -----------*/
+            var selProjectName = $('#selProjectName :selected');
+            selProjectName.each(function (index, item) {
+                ProjectName += seprator + $(item).val();
+            });
+
+            ProjectName = ProjectName + ",";
+            console.log(ProjectName)
+            /*----------	Resource Name -----------*/
+            var selResources = $('#selResourceName :selected');
+            selResources.each(function (index, item) {
+
+                ResourceName += seprator + $(item).val();
+
+            });
+            ResourceName = ResourceName + ",";
+            console.log(ResourceName)
+
+            //setCookie(TSType, TSReportBy, TSDataBy, ProjectName, ResourceName);
+            var finalurl = "";
+            getUser();
+            debugger;
+			if(ResourceName.length>1000)
+			{
+			ResourceName = "ResourceName";
+			}
+            finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//FinanceReportForAll.aspx?login=" + Email + "&start=" + selectedFromYear + "&end=" + selectedToYear + "&ReportStatus=" + selTSDataBy + "&projectname=" + ProjectName + "&Resources=" + ResourceName;
+            //$('#MSOZoneCell_WebPartWPQ3').css("display", "none");
+            return false;
+        });
+
+        $('[name=\'btnClear\']').click(function () {
+            $('#DeligateFromDate').datepicker('setDate', null).datepicker("option", "maxDate", null);
+            $('#DeligateToDate').datepicker('setDate', null).datepicker("option", "minDate", null);
+
+            $("#selTSDataBy").val('All')
+            $('#selTSType')[0].sumo.unSelectAll();
+            $('#selProjectName')[0].sumo.unSelectAll();
+            $('#selResourceName')[0].sumo.unSelectAll();
+            $('#rptTimesheet').attr('src', '');
+        });
+        setTimeout(function () {
+            $('#tblTimesheetReport').css("display", "table")
+        }, 1000);
+        function close_div() {
+            $("#errMessage").css("display", "none");
+        }
+		
+		$(document).ready(function() {
+        document.title = 'Expense Report';
+    });
+    </script>
+</body>
+</html>

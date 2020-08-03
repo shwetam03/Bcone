@@ -1,0 +1,2458 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <!--Style sheet links-->
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style-sharepoint.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css"> </head>
+
+<body>
+    <style>
+    #Early-Release {
+        position: relative;
+        height: 70px;
+    }
+
+    #panel {
+        display: none;
+        width: 100%;
+        padding: 10px;
+        z-index: 99
+    }
+
+    .popup-bg {
+        z-index: 99999;
+        position: absolute;
+        width: 81%;
+        left: 220px
+    }
+	.popup-bgs {
+        z-index: 99999;
+        
+        width: 81%;
+        left: 220px
+    }
+
+    .popup {
+        top: 40%
+    }
+
+    #tblResourceAllocation th:nth-child(7),
+    #tblResourceAllocation td:nth-child(7) {
+        display: none
+    }
+
+    .bggreen {
+        background: #008a00;
+        padding: 0 2px;
+        color: #fff;
+        float: right;
+        font-size: 10px;
+        font-family: calibri;
+    }
+
+    .bgred {
+        background-color: #d43f3a;
+        padding: 0 2px;
+        color: #fff;
+        float: right;
+        font-size: 10px;
+        font-family: calibri;
+    }
+	<!-- #comment -->
+	<!-- { -->
+	 <!-- display: none; -->
+	<!-- } -->
+    </style>
+    <!--Div for loader-->
+    <div class="loader"> </div>
+    <!--Div for Jquery Datatable-->
+    <div class="contain-div">
+		<div class="viewTSNote" style="display:none;padding:2px;margin-bottom:10px;margin-left: 0px;margin-right: 0px;    margin-bottom: 1px;color: black !important;background-color: rgba(251, 185, 0, 0.80);border-radius: 0px !important;border-color: #b1a565 !important;">
+        <strong> <i class="fa fa-exclamation-circle"></i> </strong>
+        NOTE: Project Status is Closed you can not take action
+		</div>
+        <div class="col-md-2 row" style="width:135px"><label>View Resource</label></div>
+        <div class="col-md-3"> <select id="ddlView" class="form-control" onchange="BindData()">
+	<option value="Default">Allocation Ending in Next 15 Days</option>
+		<option value="All">All Active</option>
+	<option value="Pending for Release">Pending for Release</option>
+	<option value="Approved">Approved/Rejected</option>
+	<option value="Features_Allocation">Future Allocation</option>
+
+	</select> </div>
+        <div class="clear"></div>
+        <table id="tblResourceRelease" style="table-layout:fixed">
+            <thead>
+                <tr>
+                    <th class="ToHideOnView" style="width:6% !important; text-align:center"> Action </th>
+                    <th style="text-align:center;Width:7%; min-width:45px !important"> Employee ID </th>
+                    <th style="width:20%"> Employee Name </th>
+                    <th style="width:8%;min-width:65px !important "> Allocation % </th>
+                    <th style="text-align:center; Width:9%;min-width:75px !important"> Allocation Start Date </th>
+                    <th style="text-align:center; Width:9%;min-width:75px !important"> Allocation End Date </th>
+                    <th style="display:none"> Date Diff </th>
+                    <th style="display:none"> Project Location </th>
+                    <th style="display:none"> Feature Allocation </th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th> Employee ID </th>
+                    <th style="width:20%"> Employee Name </th>
+                    <th style="width:7%; text-align:center"> Allocation % </th>
+                    <th> Allocation Start Date </th>
+                    <th> Allocation End Date </th>
+                    <th style="display:none"> Date Diff </th>
+                    <th style="display:none"> Project Location </th>
+                    <th style="display:none"> Feature Allocation </th>
+                </tr>
+            </tfoot>
+            <tbody> </tbody>
+        </table>
+        <table id="tblResourcePedingRelease" style="display:none; width:100%;">
+            <thead>
+                <tr>
+                    <th style="text-align:center;Width:7%; min-width:45px !important"> Employee ID </th>
+                    <th style="width:20%;max-width:200px !important"> Employee Name </th>
+                    <th style="width:8%;min-width:65px !important "> Allocation % </th>
+                    <th style="text-align:center; Width:9%;min-width:75px !important"> Allocation Start Date </th>
+                    <th style="text-align:center; Width:9%;min-width:75px !important"> Allocation End Date </th>
+                    <th style="text-align:center; Width:9%;min-width:75px !important"> Pending With </th>
+                    <th style="width:9%;display:none"> Date Diff </th>
+                    <th style="display:none"> Feature Allocation Flag</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th> Employee ID </th>
+                    <th> Employee Name </th>
+                    <th> Allocation % </th>
+                    <th> Allocation Start Date </th>
+                    <th> Allocation End Date </th>
+                    <th> Pending With </th>
+                    <th style="display:none"> Date Diff </th>
+                    <th style="display:none"> Project Location </th>
+					<th style="display:none"> Feature Allocation Flag</th>
+                </tr>
+            </tfoot>
+            <tbody> </tbody>
+        </table>
+	
+   </div>
+   
+    <!--Layout to enter the Release Date,Project Feedback and Reason for Release-->
+    <div id="Early-Release">
+	<span Id="ErrorMultiple" style="color:red"></span>
+       <div id="panel">
+           
+            <!--Buttons to Submit and Cancel-->
+            <div class="col-md-5">
+                <div class="form-group"> <label for="comment">Reason for Release:</label><span class="mandatory">*</span> <select id="ddlReleaseReason" class="form-control" onchange="GetSelectedValue()"> 
+		  		</select> <span id="DDlCommentBoxErrorMsg" style="color:red"></span>Any Other Comment (If Any)<br> <textarea class="form-control" rows="4" id="comment" maxlength="300" onkeyup="CommentBoxValiddtion(this)" ></textarea> <span id="CommentBoxErrorMsg" style="color:red"></span><br> </div>
+            </div>
+			 <div class="col-md-5">
+                <div class="form-group"> <label id="lblrequirementstartdate">Release Date:<span class="mandatory">*</span></label> <br>
+                    <div class="date" style="width:200px"> <input type="text" id="txtReleaseDate" class="form-control" readonly> </div><span id="ErrorMsg" style="color:red"></span>
+                    <div class="clear"></div> <label for="comment">Consultant’s Performance Feedback:</label><span class="mandatory">*</span> <textarea class="form-control" rows="4" id="Feedback" maxlength="250" onkeyup="FeedBackBoxValiddtion(this)"></textarea> <span id="FeedBackBoxErrorMsg" style="color:red"></span><br> <br> </div>
+            </div>
+            <div class="col-md-2">
+                <div style="margin-top:140px" class="pull-left"> <input type="button" id='btnSubmit' class="btn btn-success test" value="Submit" style="margin:0" /> <input type="button" id='btnCancel' class="btn btn-default" value="Cancel" /> </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!-- PopUp Started-->
+    <div class="popup-bg">
+        <div class="popup">
+            <!-- Div for UnAuthorised Users-->
+            <div id='AuthenticateDiv' style="dispaly:none">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="InvaildUser">Approval Process</h4>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday"> <span id="spnApproval" style="display:none">Sorry,You Cant access this page until the approval process is done,Thank you</span> <span id="spnInvalidUser" style="display:none">Sorry,You are not an authenticate user as you are not the Project Manager for this Project</span> <span id="AlertMsg" style="display:none"></span> </div>
+            </div>
+            <!-- Div to show alert messages after success-->
+            <div id='AlertmsgDiv' style="dispaly:none;width:450px">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="Approve">Approval Process</h4>
+                    </div>
+                    <div class="right-pol">
+                        <div class="p-close">x</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday"> 
+				<span id="AlertMsgVP" style="display:none">Early release request would go to VP for exception approval.</span> 
+				<span id="AlertMsgRMO" style="display:none">Early release request would go to RMO for exception approval.</span> 
+				</div>
+            </div>
+            <!-- Div for disaplying the reson for rejection messages of User by its id-->
+            <!--<div id='CmntReasonForRejection' style="dispaly:none">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="Rejection">Reason for Rejection</h4>
+                    </div>
+                    <div class="right-pol">
+                        <div class="p-close">x</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday"> <span id="spnReasonForRejection" style="display:none"></span> </div>
+                <div class="popup-boday"> <span id="spnReasonForRelease" style="display:none"></span> </div>
+            </div>-->
+            <!-- Div for cancel-->
+			 <div class="popup-bgs">
+        <div class="popup">
+            <div class="popup-head">
+                <div class="panel-head pull-left">
+                    <h4 class="clssPopupHead"></h4>
+                </div>
+                <div class="right-pol">
+                    <div class="p-close">x</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-boday">
+                <div id="divReleaseComment" style="display:none;width: 600px">
+                     <label>Comments</label><br />
+                    <p id="ReleaseComment"></p>
+                </div>
+                <div id="divRefusalComment" style="display:none;width: 600px">
+                    
+                    <p id="RefusalComment"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div id='OnButtonCancel' style="dispaly:none;">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="Cancel">Cancel</h4>
+                    </div>
+                    <div class="right-pol">
+                        <div class="p-close">x</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday"> <span id="spnCancelMessage" style="display:none">Are you sure to cancel?</span> <br/><br/> <input type="button" class="btn btn-default" value="Ok" onclick="BtnOKCancel()" /> </div>
+            </div>
+        </div>
+    </div>
+    <!--Javascript reference files-->
+    <script src="../SiteAssets/RMO/js/jquery-1.11.1.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap-multiselect.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+    <!-- Javascript files reference for login user id function and for Urls-->
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+    <script src="../SiteAssets/RMO/js/ReleaseExtensionConfig.js"></script>
+	<script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+    <!-- Export to excel js file start -->
+    <!-- <script src="https://cdn.datatables.net/buttons/1.4.0/js/dataTables.buttons.min.js"></script> -->
+    <script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jszip.min.js"></script>
+    <script src="../SiteAssets/RMO/js/pdfmake.min.js"></script>
+    <script src="../SiteAssets/RMO/js/vfs_fonts.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+    <!-- Export to excel js file end  -->
+    <!--Javasript Source file reference of this page-->
+    <!-- <script src="../SiteAssets/RMO/js/ResourceRelease.js"></script> -->
+    <script type="text/javascript">
+    //Document ready Function for Setting datepicker for date field 
+    //And
+    //displaying the layout for the user to enter the Release Date,Project Feedback and Reason for Release
+    $(function() {
+        $(document).on("click", "input", function() {
+            $("#txtReleaseDate").datepicker();
+        });
+    });
+    //Global Variales
+    var puid = ""; //Current project GUID
+    var projectName = ""; //Current project Name
+    var userid = ""; //Current Login User userGUID
+    var rmospocID = "";
+    var VPID = "";
+    var RMOID = "";
+    var VpName = "";
+    var RejectionComments = "";
+    var ViewVal = "";
+    var CurProjectCode = "";
+    var functionalStatus = "";
+    var BusinessDaysCount = "";
+    var VPTatDays = "";
+    var RMOTatDays = "";
+    var ProjectManagerName = "";
+    var datevalidationflag = 0;
+    var ResourcePendingListData = [];
+	var RMOorVpEMailPeoplePickerID="";
+	var firstTimeTrigger=0;
+    var rmospocName = "";
+	var AnyOtherComment = "";
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    //array variable to get month value from index value
+    var GetMonth = {
+        "Jan": "January",
+        'Feb': "February",
+        'Mar': "March",
+        'Apr': "April",
+        'May': "May",
+        'Jun': "June",
+        'Jul': "July",
+        'Aug': "August",
+        'Sep': "September",
+        'Oct': "October",
+        'Nov': "November",
+        'Dec': "December"
+    };
+	var RMOSuperUserFlag = "";
+	var projectOwnerId_="";
+	//var projectActiveStatus = 0;
+    //Document Ready function
+    $(document).ready(function() 
+	{
+		//to get current project GUID
+        puid = getUrlVars()["ProjUid"];
+        if (puid == undefined || puid == "") {
+            puid = getUrlVars()["projuid"];
+        }
+		if(puid != "")
+		{
+			var Active_closed = CheckProjectIsActiveOrNot(puid);
+			if(Active_closed == 1)
+			{
+				//projectActiveStatus = 1;
+				//alert("Project is closed");
+				$('.viewTSNote').show();
+				$('#Early-Release').hide();
+			}
+			else
+			{
+				//alert("Active project");
+				$('.viewTSNote').hide();
+			}
+		}
+        //function to get the current login user id,Refer config.js file for code
+        GetCurrentUserGUID("1");
+        //Current login user GUID
+        userid = sessionStorage.CurrentUserGUID;
+        
+		
+		var currentuserloginid = _spPageContextInfo.userId;
+		//checking in _RMOSuperUser
+		//var groupRMOSuperUserURL = getuserinRMOSuperUsergroup(currentuserloginid); 
+		//var gropRMOSuperUserVal = resultset(groupRMOSuperUserURL);
+		//checking in _RMO Group
+		var groupRMO_URL = SharepointOnlineUrlppmuat +"/_api/Web/GetUserById('" + currentuserloginid + "')/Groups?$select=Id,Title&$filter=Title eq '_RMO'"; //checking in _RMOGroup
+		var gropRMO_people = resultset(groupRMO_URL);
+			//checking in _RMO Group
+		var gropAdmin_URL = SharepointOnlineUrlppmuat +"/_api/Web/GetUserById('" + currentuserloginid + "')/Groups?$select=Id,Title&$filter=Title eq 'Flash News'"; //checking in _RMOGroup
+		var gropAdminVal = resultset(gropAdmin_URL);
+		
+		
+		if(gropAdminVal.length > 0)
+		{
+			$('#txtReleaseDate').datepicker({
+				dateFormat: 'dd-M-yy'
+			});
+		}
+		else if(gropRMO_people.length > 0)
+		{
+			//Initialise the field to datepicker field	
+			var Past12_Days_date = Past12_Days();
+			$('#txtReleaseDate').datepicker({
+				dateFormat: 'dd-M-yy',
+				minDate: new Date(Past12_Days_date)
+			});
+		}
+		else
+		{
+			var pass_toDays_date = FilterCurrentDateFormat();
+			$('#txtReleaseDate').datepicker({
+				dateFormat: 'dd-M-yy',
+				minDate: new Date(pass_toDays_date)
+			});
+			
+		}
+		
+		//checking in current project  services he is owner or not
+		/*var valid_project_magaer ="";
+		var valid_RMo_manger ="";
+		var validPerson = CheckPMisPresentOrNot(userid,puid);
+		if(validPerson!="")
+		{
+			valid_project_magaer = validPerson.split(';')[0]; //result 1
+			var valid_Rmo_magaer_id = validPerson.split(';')[1]; //employeeID
+			if(valid_Rmo_magaer_id != "")
+			{
+				valid_RMo_manger = current_employee_check_rmo(userid,valid_Rmo_magaer_id);
+			}
+		}
+		if (gropRMOSuperUserVal.length > 0) 
+		{
+			RMOSuperUserFlag = "1";
+		}
+		else if(gropRMOVal.length > 0)
+		{
+			RMOSuperUserFlag = "1";
+		}
+		else if(valid_project_magaer == "1")
+		{
+			RMOSuperUserFlag = "1";
+		}
+		else if(valid_RMo_manger == "1")
+		{
+			RMOSuperUserFlag = "1";
+		}
+		else if( RMOSuperUserFlag != "1" || RMOSuperUserFlag == "")
+		{
+			alert("Sorry,You are not an authenticate user as you are not the Project Manager or RMO for this Project");
+			GoToHomePage();
+			return false;
+		}
+		else
+		{
+			alert("Sorry,You are not an authenticate user as you are not the Project Manager or RMO for this Project");
+			GoToHomePage();
+			return false;
+		}*/
+		
+       	
+        
+		
+        //To close the pop up on click of X button in popup
+        $('.p-close').on('click', function() {
+            $('.Toppopup-bg,.popup-bg,.popup-bgs').hide();
+        });
+        //For TATdays
+        functionalStatus = getRRFTATdaysbyStatus("Resource Early Release");
+        if (functionalStatus.length > 0) {
+            for (var j = 0; j < functionalStatus.length; j++) {
+                //flag = 2 VP
+                if (functionalStatus[j].Flag == 2) {
+                    VPTatDays = functionalStatus[j].TATDays;
+                }
+                if (functionalStatus[j].Flag == 3) {
+                    //flag = 3 RMO
+                    RMOTatDays = functionalStatus[j].TATDays;
+                }
+            }
+        }
+        //Bind the data by current project GUID and current Login user GUID
+        $('.loader').show();
+        setTimeout(function() {
+            GetResourcePendingDataFromList(puid);
+            GetProjectCode(userid, puid);
+        }, 100);
+        //Validation function when the date is selected in the datepicker field	
+        $('#txtReleaseDate').on('change', function() {
+            //$.each($("input[name='Resources']:checked"), function() 
+            //{
+            var source = $("#tblResourceRelease").DataTable();
+            $("input[type=checkbox]", source.rows().nodes()).each(function() 
+			{
+                var tuisre = $(this).is(":checked");
+                if (tuisre) 
+				{
+                    var SelectedId = $(this)[0].parentNode.parentNode.id;
+                    var CurRow = $(this)[0].parentNode.parentNode;
+                    var ReleaseDate = document.getElementById('txtReleaseDate').value;
+                    var st = ReleaseDate; //date range fromatit is used for IE 9 above format
+                    var split = st.split("-");
+                    var dd = split[0];
+                    var y = split[2];
+                    var mm = GetMonth[split[1]];
+                    var ReleaseDate_ = "";
+                    ReleaseDate_ = mm + " " + dd + "," + y;
+                    var release_Date = new Date(ReleaseDate_);
+                    var EndDate = new Date(CurRow.cells[5].innerText);
+                    var StartDate = new Date(CurRow.cells[4].innerText)
+                    //validation if New selected date is greater than old allocated end date		
+                    if (release_Date > EndDate) {
+                        $('#txtReleaseDate').empty();
+                        $('#ErrorMsg').text("Early release date should be less than allocation end date");
+                        datevalidationflag = 1;
+                        return false;
+                    }
+                    //validation if New selected date is greater than old start date
+                    if (StartDate > release_Date) {
+                        $('#txtReleaseDate').empty();
+                        $('#ErrorMsg').text("Early release date should not be less than allocation start date");
+                        datevalidationflag = 2;
+                        return false;
+                    } else {
+                        datevalidationflag = 0;
+                        $('#ErrorMsg').text("");
+                    }
+                }
+            });
+        });
+        //Onclick Function when the data is submtted by the user
+        $('.loader').show();
+        setTimeout(function() 
+		{
+            $("#btnSubmit").click(function() 
+			{
+                var Status = "";
+                var ReleaseMasterID = 0;
+                var ReasonForRelease = "";
+                var ProjectFeedBack = "";
+                var CurDate = new Date();
+                var ReleaseDate = document.getElementById('txtReleaseDate').value;
+                //validations
+                if (ReleaseDate == "Invalid Date" || ReleaseDate == "") 
+				{
+                    $('#ErrorMsg').text('Please select the Early Release date');
+                    datevalidationflag = 1;
+                    return false;
+                } else 
+				{
+                    $('#ErrorMsg').text('');
+                }
+                var split = ReleaseDate.split("-");
+                var dd = split[0];
+                var y = split[2];
+                var mm = GetMonth[split[1]];
+                var ReleaseDate_ = "";
+                ReleaseDate_ = mm + " " + dd + "," + y;
+                if (datevalidationflag == 1) 
+				{
+                    $('#txtExtensionDate').empty();
+                    $('#ErrorMsg').text("Early release date should be lesser than Allocation End Date");
+                    datevalidationflag = 1;
+                    return false;
+                } 
+				else if (datevalidationflag == 2) 
+				{
+                    $('#txtReleaseDate').empty();
+                    $('#ErrorMsg').text("Early release date should not be less than allocation start date");
+                    datevalidationflag = 2;
+                    return false;
+                }
+                ProjectFeedBack = $('#Feedback').val();
+                if (ProjectFeedBack == '') 
+				{
+                    $('#FeedBackBoxErrorMsg').text('Please enter Project End Feedback');
+                    $('#Feedback').focus();
+                    return false;
+                }
+                var match = /[*|\":<>[\]{}`\\()';@&$]/;
+                if (match.test(ProjectFeedBack)) 
+				{
+                    $('#FeedBackBoxErrorMsg').text("Please avoid/remove special charaters in Feedback box");
+                    return false;
+                } 
+				else 
+				{
+                    $('#FeedBackBoxErrorMsg').text('');
+                }
+                if ($('#ddlReleaseReason').val() == "0") 
+				{
+                    $('#DDlCommentBoxErrorMsg').text('Please select reason for early release');
+                    return false;
+                }
+				else 
+				{
+                    $('#DDlCommentBoxErrorMsg').text('');
+                }
+               // if (RejectionComments == "Additional Comments") 
+				//{
+                   // ReasonForRelease = $('#comment').val();
+                    AnyOtherComment = $('#comment').val();
+					AnyOtherComment = AnyOtherComment.trim();
+					var match = /[*|\":<>[\]{}`\\()';@&$]/;
+					if (match.test(AnyOtherComment)) {
+					document.getElementById("CommentBoxErrorMsg").innerHTML = "Any Other Comment (If Any) contains invalid character";
+					//document.getElementById(comment).focus();
+					return false;
+					} else {
+					document.getElementById("CommentBoxErrorMsg").innerHTML = "";
+					}
+					
+                   /* var match = (new RegExp('[~#%\&{}+\|<>*]|\'\|\\\\|^\\|\\$')).test(AnyOtherComment);
+                    if (match) 
+					{
+                        $('#CommentBoxErrorMsg').text("Please avoid/remove special charaters(~#%&{}|+) in comment box");
+                        return false;
+                    } 
+					else 
+					{
+                        $('#CommentBoxErrorMsg').text('');
+                    }*/
+                 //   ReasonForRelease = RejectionComments + "-" + ReasonForRelease;
+               // }
+			//	else 
+				//{
+				
+                    ReasonForRelease = RejectionComments;
+                //}
+                var SpID = "";
+				
+				<!-- if (ProjectFeedBack.length > 1 && ProjectFeedBack.length <=80) { -->
+                <!-- isValid = false; -->
+                <!-- //$('#Feedback').css({ -->
+
+                    <!-- //"border": "1px solid red", -->
+                    <!-- //"background": "#FFCECE" -->
+               <!-- // }); -->
+				<!-- document.getElementById("FeedBackBoxErrorMsg").innerHTML = "Project End Feedback must be more than 80 Characters"; -->
+                <!-- document.getElementById("Feedback").focus(); -->
+
+                <!-- return isValid; -->
+
+				<!-- } -->
+				
+				var SelectedValue = $('#ddlReleaseReason').val();
+				if(SelectedValue == "Change in Percentage" || SelectedValue == "Internal Assignments and Presales" || SelectedValue == "Training and Certifications")
+				{
+				
+
+				}
+				else{
+				
+				if (ProjectFeedBack.length > 0 && ProjectFeedBack.length <=50) {
+                isValid = false;
+                <!-- $('#Feedback').css({ -->
+
+                    <!-- "border": "1px solid red", -->
+                    <!-- "background": "#FFCECE" -->
+                <!-- }); -->
+				document.getElementById("FeedBackBoxErrorMsg").innerHTML = "Project End Feedback must be more than 50 characters";
+                document.getElementById("Feedback").focus();
+
+                return isValid;
+
+				}
+				}
+				
+                if (confirm("Are you sure to submit resources for early release?")) 
+				{
+					var CurrentLoginMAilID = _spPageContextInfo.userEmail;
+					var TableResourceReleaseCount=0;
+                    var source = $("#tblResourceRelease").DataTable();
+                    $("input[type=checkbox]", source.rows().nodes()).each(function() 
+					{
+						var MailPeoplepickerID="";
+						var sendListIDMAil="";
+                        var tuisre = $(this).is(":checked");
+                        if (tuisre) 
+						{
+							++TableResourceReleaseCount;
+                            var SelectedId = $(this)[0].parentNode.parentNode.id;
+                            var CurRow = $(this)[0].parentNode.parentNode;
+                            var EmployeeId = CurRow.cells[1].innerText;
+                            EmployeeId = EmployeeId.trim();
+                            var RMO_ID=getsubpracticeval(EmployeeId);
+                            rmospocName=RMO_ID.split("#")[1];
+                            RMOID=RMO_ID.split("#")[0];
+                            var SpID = GetUserIDbyGuid(RMOID);
+                            var Name = CurRow.cells[2].innerText;
+				            var ResourceName = Name.indexOf("\r");
+                            if (ResourceName > 0) 
+							{
+                                ResourceName = Name.split('\r')[0];
+                            } 
+							else 
+							{
+								if(Name!=null || Name!="" || Name!=undefined || Name!="undefined" || Name!="null")
+								{
+									//this is used for some time title is binding with resource name ManjunathProject Details View Profile to remove we used split 
+									 Name = Name.split("Project")[0];
+								}
+							    ResourceName = Name;
+                            }
+                            var AllocationPerCentage = CurRow.cells[3].innerText;
+                            var StartDate = CurRow.cells[4].innerText;
+                            var EndDate = CurRow.cells[5].innerText;
+                            var DiffDays = CurRow.cells[6].innerText;
+                            
+                            var ProjectLocation = CurRow.cells[7].innerText.split('+')[0];
+                            var InernalID = CurRow.cells[7].innerText.split('+')[2];
+                            $("input[name='Resources']:checked").closest("tr").css("opacity", 0.5);
+                            $("input[name='Resources']:checked").prop("disabled", true);
+
+							var FeatureAllFlagStatus = CurRow.cells[8].innerText;
+                            var PendingDesig = '';
+							
+                            if (VPID == RMOID) {
+                                PendingDesig = "RMO";
+                            } else {
+                                PendingDesig = "VP";
+                            }
+                            var listName = "ResourceAllocationDetails";
+                            var itemType = GetItemTypeForListName(listName);
+                            var item = "";
+                            if (DiffDays >= 15) 
+							{
+                                SpID = GetUserIDbyGuid(RMOID);
+								RMOorVpEMailPeoplePickerID = SpID;
+								
+                                item = {
+                                    "__metadata": {
+                                        "type": itemType
+                                    },
+                                    "ResourceName": ResourceName,
+                                    "EmployeeID": EmployeeId,
+                                    "AllocationPercentage": AllocationPerCentage,
+                                    "StartDate": StartDate,
+                                    "EndDate": EndDate,
+                                    "ReleaseDate": ReleaseDate,
+                                    "ResourceType": "Resource Early Release",
+                                    "RmoSpocGUID": RMOID,
+                                    "ProjectManagerGUID": userid,
+                                    "RMOApprover": rmospocName,
+                                    "VPApprover": "",
+                                    // ReleaseExtensionMasterIDId": ReleaseMasterID,
+                                    "flag": 2,
+                                    "ApprovalStatus": "Pending",
+                                    "PendingWith": RMOID,
+                                    "PendingWithUserIDId": SpID,
+                                    "SubmittedDate": CurDate,
+                                    "ReasonForRelease": ReasonForRelease,
+                                    "AnyOtherComment": AnyOtherComment,
+                                    "ProjectName": projectName,
+                                    "PendingWithDesig": "RMO",
+                                    "TATDate": CurDate,
+                                    "AllocatedProjectCode": CurProjectCode,
+                                    "ProjectLocation": ProjectLocation,
+                                    "ProjectManagerName": ProjectManagerName,
+                                    "ResourceAllocationID": InernalID,
+                                    "ProjectGUID": puid,
+                                    "ProjectEndFeedBack": ProjectFeedBack,
+									"FeatureAllocationFlag":FeatureAllFlagStatus
+                                };
+								$('#AlertMsgVP').hide();
+								$('#AlertMsgRMO').show();
+                            } 
+							else if (DiffDays < 15) 
+							{
+                                SpID = GetUserIDbyGuid(VPID);
+								RMOorVpEMailPeoplePickerID = SpID;
+                                item = {
+                                    "__metadata": {
+                                        "type": itemType
+                                    },
+                                    "ResourceName": ResourceName,
+                                    "EmployeeID": EmployeeId,
+                                    "AllocationPercentage": AllocationPerCentage,
+                                    "StartDate": StartDate,
+                                    "EndDate": EndDate,
+                                    "ReleaseDate": ReleaseDate,
+                                    "ResourceType": "Resource Early Release",
+                                    "RmoSpocGUID": RMOID,
+                                    "ProjectManagerGUID": userid,
+                                    "RMOApprover": RMOID,//(rmospocID == undefined ? "" : rmospocID.split('|')[1].trim()),
+                                    "VPApprover": VPID,
+                                    // ReleaseExtensionMasterIDId": ReleaseMasterID,
+                                    "flag": 1,
+                                    "ApprovalStatus": "Pending",
+                                    "PendingWith": VPID,
+                                    "PendingWithUserIDId": SpID,
+                                    "SubmittedDate": CurDate,
+                                    "ReasonForRelease": ReasonForRelease,
+                                    "AnyOtherComment": AnyOtherComment,
+                                    "ProjectName": projectName,
+                                    "PendingWithDesig": PendingDesig,
+                                    "TATDate": CurDate,
+                                    "AllocatedProjectCode": CurProjectCode,
+                                    "ProjectLocation": ProjectLocation,
+                                    "ProjectManagerName": ProjectManagerName,
+                                    "ResourceAllocationID": InernalID,
+                                    "ProjectGUID": puid,
+                                    "ProjectEndFeedBack": ProjectFeedBack,
+									"FeatureAllocationFlag":FeatureAllFlagStatus
+                                };
+								//$('#AlertMsg1').text("pending with VP");
+								$('#AlertMsgVP').show();
+								$('#AlertMsgRMO').hide();
+                            }
+                            //Refer ReleaseExtensionConfig.js file
+                            var URl = GetListName(listName);
+                            $.ajax({
+                                url: URl,
+                                async: false,
+                                type: "POST",
+                                contentType: "application/json;odata=verbose",
+                                data: JSON.stringify(item),
+                                headers: {
+                                    "Accept": "application/json;odata=verbose",
+                                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                                },
+                                success: function(data) 
+								{
+                                    Status = "Sucess";
+									if(RMOorVpEMailPeoplePickerID!=null || RMOorVpEMailPeoplePickerID!="" || RMOorVpEMailPeoplePickerID!=undefined || RMOorVpEMailPeoplePickerID!="undefined" || RMOorVpEMailPeoplePickerID!=-1 || RMOorVpEMailPeoplePickerID!="null")
+									{
+										sendListID = data.d.ID;
+										var RMOMAil_hard = CurrentLoginMAilID +";"+ "RMO@bcone.com";
+										insertIntoSendEmailData(RMOorVpEMailPeoplePickerID.toString(), RMOMAil_hard.toString(), '64', '7',sendListID.toString());
+									}
+                                },
+                                error: function(error) {}
+                            });
+                        }
+                    });
+                    if (Status == "Sucess") 
+					{
+                        $('.popup-bg').show();
+                        $('.popup-bgs').hide();
+                        $('#AuthenticateDiv').css('display', 'none');
+                        $('#CmntReasonForRejection').css('display', 'none');
+                        $('#OnButtonCancel').css('display', 'none');
+                        $('#spnCancelMessage').css('display', 'none');
+                        $('#InvaildUser').css('display', 'none');
+                        $('#Approve').css('display', '');
+                        $('#Rejection').css('display', 'none');
+                        $('#Cancel').css('display', 'none');
+                        $('#AlertmsgDiv').css('display', '');
+                        //to clear all the fields
+                        ClearData();
+                    } else {
+                        $('.popup-bg').hide();
+                    }
+                }
+                $('.loader').hide();
+            });
+        }, 100);
+		
+            function getsubpracticeval(EmployeeId)
+            {
+                 var resguid="";
+       var url="https://ppmprod.bcone.com/_api/Resources?$filter=EmployeeID eq '"+EmployeeId+"'";
+        $.ajax({
+            url: url,
+            method: "GET",
+            async: false,
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                if(data.d.results.length > 0)
+                {
+                        var SubPractice=data.d.results[0].SubPractice;
+                            if(SubPractice.indexOf('&amp;') >= 0) 
+                            {
+                                SubPractice = SubPractice.replace('&amp;', '%26');
+                            }
+                            if(SubPractice.indexOf('&') >= 0) 
+                            {
+                                SubPractice = SubPractice.replace('&', '%26');
+                            }
+                        
+                        var url = "../_api/web/lists/GetByTitle('Subpractice_SPOC')/items?$select=ID,RMO_SPOC/Title,RMO_SPOC/EMail,RMO_SPOC/Id&$expand=RMO_SPOC&$filter=Sub_practice eq '" + SubPractice.trim() + "'";
+
+                        $.ajax({
+                        url: url,
+                        method: "GET",
+                        async: false,
+
+                        headers: {
+                        "Accept": "application/json; odata=verbose"
+
+                        },
+                        success: function(res) {
+                    if(res.d.results.length > 0)
+                    {
+                            var RmoSpocEmail=res.d.results[0].RMO_SPOC.EMail; 
+                            var url= "https://ppmprod.bcone.com/_api/Resources?$select=ResourceName,ResourceId&$filter=ResourceEmailAddress eq '"+RmoSpocEmail+"'";
+                            $.ajax({
+                            url: url,
+                            method: "GET",
+                            async: false,
+
+                            headers: {
+                                "Accept": "application/json; odata=verbose"
+                                
+                            },
+                            success: function(data) {
+                                if(data.d.results.length > 0)
+                                {
+                                    var res_guid=data.d.results[0].ResourceId;
+                                    var resourcename=data.d.results[0].ResourceName
+                                    resguid=res_guid + "#" +resourcename;
+                                     //GetUserIDbyGuid(resguid);
+
+                                  
+                                }
+                            }
+                            });
+                    }
+                    }
+                    });
+                }
+            }
+        });
+        return resguid;
+            }
+		function insertIntoSendEmailData(To, Cc, EventId, Flag, TrackingId) 
+		{
+            var item = {
+                __metadata: { "type": "SP.Data.BconeEmailDataListItem" }
+            };
+            $.extend(item, { To: To });
+            $.extend(item, { Cc: Cc });
+            $.extend(item, { EventId: EventId });
+            $.extend(item, { Flag: Flag });
+            $.extend(item, { TrackingId: TrackingId });
+            $.ajax({
+                url: "../_api/Web/Lists/GetByTitle('BconeEmailData')/items",
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+                    //alert('success');
+                },
+                error: function (error) {
+                    //alert(JSON.stringify(error));
+                }
+            });
+        }
+		
+        //Onclick function when the user click on cancel button	  
+        $("#btnCancel").click(function() {
+            $('.popup-bg').show();
+            $('#AuthenticateDiv').css('display', 'none');
+            $('#spnApproval').css('display', 'none');
+            $('#spnInvalidUser').css('display', 'none');
+            $('#CmntReasonForRejection').css('display', 'none');
+            $('#AlertmsgDiv').css('display', 'none');
+            $('#AlertMsg').css('display', 'none');
+            $('#InvaildUser').css('display', 'none');
+            $('#Approve').css('display', 'none');
+            $('#Rejection').css('display', 'none');
+            $('#Cancel').css('display', '');
+            $('#OnButtonCancel').css('display', '');
+            $('#spnCancelMessage').css('display', '');
+            // if(confirm("Are you sure to cancel?"))
+            // {
+            // ClearData();
+            // }
+        });
+    });
+	
+	function CheckProjectIsActiveOrNot(Project_Guid)
+	{
+		var Closed_project = 0;
+		 $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Projects?$select=ProjectStatus,ProjectTitle,ProjectId&$filter=ProjectId eq guid'"+Project_Guid+"'and ProjectStatus eq 'Closed'",
+            method: "GET",
+            async: false,
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                if(data.d.results.length > 0)
+				{
+					Closed_project = 1;
+				}
+            }
+        });
+		return Closed_project;
+	}
+    //Onclick function when the user click on cancel button
+    function BtnOKCancel() {
+        ClearData();
+        $('.Toppopup-bg,.popup-bg,.popup-bgs').hide();
+    }
+    //function to clear all the fileds	
+    function ClearData() {
+        // $.each($("input[name='Resources']:checked"), function() 
+        //{
+        var source = $("#tblResourceRelease").DataTable();
+        $("input[type=checkbox]", source.rows().nodes()).each(function() {
+            $(this).prop('checked', false);
+        });
+        // $("input[name='Resources']:checked")[0].checked = false;
+        // });
+        $('#txtReleaseDate').val('');
+        $('#comment').val('');
+        $("#panel").slideUp("slow").hide();
+        $('#ErrorMsg').text("");
+        $('#CommentBoxErrorMsg').text("");
+        $('#Feedback').text("");
+		ViewVal = 3;
+		BindData();
+    }
+    //function to extract the project GUID query string parameter from url	
+    function getUrlVars() {
+        var vars = [],
+            hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+    //function to get the allocated project code and check for the authenticate login user	
+    function GetProjectCode(UserGUID, PUID) {
+        //AllValRow variable is to store the rows in a varibale,after user selecting All option in View Resources dropdown
+        var AllvalRow = "";
+        //Refer ReleaseExtensionConfig.js file
+        var url = GetProjectDataByPUID(PUID);
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                var data = data.d.results;
+                projectName = data[0].ProjectName;
+                var projectCode = data[0].ProjectCode == undefined ? '' : data[0].ProjectCode;
+                CurProjectCode = projectCode;
+                rmospocID = data[0].RMOSPOC;
+                var rmospocEid = (rmospocID == undefined ? "" : rmospocID.split('|')[0].trim());
+                var projectOwnerId = data[0].ProjectOwnerId;
+                var resGBU = data[0].GBU;
+				//if(resGBU != null && resGBU != 'null') //new
+				//{
+					if(resGBU.indexOf('&amp;') >= 0) 
+					{
+						resGBU = resGBU.replace('&amp;', '%26');
+					}
+					if(resGBU.indexOf('&') >= 0) 
+					{
+						resGBU = resGBU.replace('&', '%26');
+					}
+				//}
+                ProjectManagerName = data[0].ProjectOwnerName == undefined ? '' : data[0].ProjectOwnerName;
+                if (projectOwnerId != undefined) {
+                    projectOwnerId = projectOwnerId;
+                }
+              
+                if (ViewVal != 1) {
+                    $('#tblResourceRelease').css('display', '');
+                }
+                $('.popup-bg').hide();
+                //to bind the resources to tblResourceRelease
+                GetPojectData(projectCode);
+                //to get rmo id by rmo emp id
+                GetRMoIDByRmoEid(rmospocEid);
+                //to get vp id by resource gbu
+                GetResVPByResGBU(resGBU);
+                //}
+            },
+            error: function(error) {
+                result = 'error';
+            }
+        });
+    }
+    //function to bind the data to the tblResourceRelease table		
+    function GetPojectData(ProjectCode) {
+        var CountVal = 1;
+        var AllvalRow = "";
+        var pendingrow = "";
+        var rjval = 0;
+        //Refer ReleaseExtensionConfig.js file
+        var url = "";
+        //if dropdown value eq to All
+        if (ViewVal == 3 || ViewVal == 1) {
+            url = GetResourceDataFromMspByPCode(ProjectCode, 'Early Release', '2');
+        }
+		else if (ViewVal == 5) {//active eq 2 data
+            url = GetResourceDataFromMspByPCode(ProjectCode, 'Early Release', '3');
+        }
+        //page load (15 days data)
+        else { 
+           url = GetResourceDataFromMspByPCode(ProjectCode, 'Early Release', '1');
+        }
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            headers: {
+                "content-Type": "application/json"
+            },
+            success: function(data) {
+                var AllocationData = data.value;
+                var diffDays = 0;
+                var Enddate = "";
+                var CurDate = "";
+                var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                for (var i = 0; i < AllocationData.length; i++) {
+                    var AllocationPerCent = (AllocationData[i].Allocation);
+                    var ResourceName = AllocationData[i].ResourceFullName; //ResourceName;
+                    var Empid = AllocationData[i].EmployeeID;
+                    var StartDate = AllocationData[i].Startdatetime;
+                    StartDate = StartDate.split('T')[0];
+                    StartDate = StartDate.split('-');
+                    StartDate = StartDate[2] + " " + months[StartDate[1] - 1] + " " + StartDate[0];
+                    var FinishDate = AllocationData[i].Finishdatetime;
+                    FinishDate = FinishDate.split('T')[0];
+                    FinishDate = FinishDate.split('-');
+                    FinishDate = FinishDate[2] + " " + months[FinishDate[1] - 1] + " " + FinishDate[0];
+                    Enddate = new Date((AllocationData[i].Finishdatetime).split('T')[0]);
+                    CurDate = new Date();
+                    var timeDiff = Math.abs(Enddate.getTime() - CurDate.getTime());
+                    diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    var ResFlag = AllocationData[i].Flag == undefined ? '' : AllocationData[i].Flag;
+                    var ProjectLocation = AllocationData[i].ProjectLocation == undefined ? '' : AllocationData[i].ProjectLocation;
+                    var InternalID = AllocationData[i].InternalID == undefined ? '' : AllocationData[i].InternalID;
+					var Fearute_allocation_flag = AllocationData[i].Active == "2" ? AllocationData[i].Active : '';
+					
+                    if (ResourceName == '') {
+                        var eid = AllocationData[i].EmployeeID;
+                        //Refer ReleaseExtensionConfig.js file
+                        var url = GetResourceDataByEmpCode(eid, 1);
+                        $.ajax({
+                            url: url,
+                            async: false,
+                            method: "GET",
+                            headers: {
+                                "Accept": "application/json; odata=verbose",
+                                "Content-Type": "application/json; odata=verbose"
+                            },
+                            success: function(data) {
+                                var data = data.d.results;
+                                ResourceName = data[0].ResourceName == undefined ? '' : data[0].ResourceName;
+                            },
+                            error: function(error) {
+                                result = 'error';
+                            }
+                        });
+                    }
+                    var Usrval = "";
+                    var TatDate = "";
+                    var EmpDesig = "";
+                    var indexValue = "";
+                    var ApprovalStatus = "";
+                    var Type = "";
+                    var ReasonForRejection = "";
+                    var Pending_with_Title = "";
+                    if (ResourcePendingListData.length != 0) {
+                        var NewInternalID = InternalID.toString();
+                        var PendingData = checkForPendingRecordsAvailability(ResourcePendingListData, NewInternalID);
+                        PendingData = PendingData.split(';');
+                        indexValue = PendingData[1];
+                        PendingData = PendingData[0];
+                        if (indexValue != 'NA') {
+                            indexValue = indexValue;
+                            var Arraydata = ResourcePendingListData[0];
+                            ApprovalStatus = Arraydata[indexValue].ApprovalStatus;
+                            Type = Arraydata[indexValue].ResourceType;
+                            TatDate = Arraydata[indexValue].TATDate;
+                            EmpDesig = Arraydata[indexValue].PendingWithDesig;
+                            EmpDesig = Arraydata[indexValue].PendingWithDesig;
+                            Pending_with_Title = Arraydata[indexValue].PendingWithUserID.Title;
+                        }
+                    }
+                    if (PendingData == "true") {
+                        if (TatDate != null) {
+                            var TatDateDAta = new Date(TatDate);
+                            if (functionalStatus.length > 0) {
+                                var totalweekdays = 0;
+                                var TodayDate = new Date();
+                                TatDateDAta.setHours(0, 0, 0, 0);
+                                TodayDate.setHours(0, 0, 0, 0);
+                                var timeDiff_ = new Date(TodayDate - TatDateDAta);
+                                var diffDays_ = timeDiff_ / 1000 / 60 / 60 / 24;
+                                for (var k = TatDateDAta; k <= TodayDate;) {
+                                    if (k.getDay() == 0) {
+                                        totalweekdays++;
+                                    }
+                                    if (k.getDay() == 6) {
+                                        totalweekdays++;
+                                    }
+                                    k.setTime(k.getTime() + 1000 * 60 * 60 * 24);
+                                }
+                                var Total_Week_days = parseInt(totalweekdays);
+                                var T_days = 0;
+                                if (EmpDesig == "VP") {
+                                    T_days = parseInt(VPTatDays);
+                                } else if (EmpDesig == "RMO") {
+                                    T_days = parseInt(RMOTatDays);
+                                }
+                                diffDays_ = diffDays_ - Total_Week_days;
+                                if (diffDays_ > T_days) {
+                                    BusinessDaysCount = "<div class='bgred'>" + diffDays_ + " - D</div>";
+                                } else if (diffDays_ != 0) {
+                                    BusinessDaysCount = "<div class='bggreen'>" + diffDays_ + " - D</div>";
+                                }
+                            }
+                        }
+                        //if user request is pending in the list	
+                        Usrval = "true";
+                        EmpiDVal = Usrval;
+                        var AllRowData = "";
+                        //If all option is selected in the view resource dropdown
+                        if (ViewVal == 3) {
+                            if ((EmpiDVal == "true")) 
+							{
+                                AllRowData = "<tr id=" + CountVal + " style='opacity:0.5'><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' disabled='disabled' style='text-align:center'></input></td><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span>" + BusinessDaysCount + "</td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Fearute_allocation_flag + "</td></tr>";
+                            }
+                            AllvalRow += AllRowData + ';';
+                        }
+						else if (ViewVal == 5)
+						{
+							var row_s = "";
+							if (EmpiDVal == "true") 
+							{
+								row_s = "<tr id=" + CountVal + " style='opacity:0.5'><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' disabled='disabled' style='text-align:center'></input></td><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span>" + BusinessDaysCount + "</td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Fearute_allocation_flag + "</td></tr>";
+								$('#tblResourceRelease > tbody').append(row_s);
+							}
+                        }
+                        //if default view i.e., on page load and Allocation Ending in Next 15 Days option is selected in view resource drop down	
+                        else 
+						{
+                            if (diffDays <= 15 && Enddate > CurDate) {
+                                var row = "";
+                                if (EmpiDVal == "true") {
+                                    row = "<tr id=" + CountVal + " style='opacity:0.5'><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' disabled='disabled' style='text-align:center'></input></td><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span>" + BusinessDaysCount + "</td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Fearute_allocation_flag + "</td></tr>";
+                                    $('#tblResourceRelease > tbody').append(row);
+                                }
+                            }
+                        }
+                    }
+                    //if user request is not there in the list
+                    else 
+					{
+                        Usrval = "false";
+                        EmpiDVal = Usrval;
+                        //If all option is selected in the view resource dropdown
+                        if (ViewVal == 3) {
+                            if ((EmpiDVal == "false")) 
+							{
+                                AllRowData = "<tr id=" + CountVal + "><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' style='text-align:center'></input></td><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'>Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'>View Profile</a></div></span></td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Fearute_allocation_flag + "</td></tr>";
+                            }
+                            AllvalRow += AllRowData + ';';
+                        }
+						else if(ViewVal == 5)
+						{
+                            if (EmpiDVal == "false") 
+							{
+								var rows = "";
+								if (ViewVal != 1) 
+								{
+									rows = "<tr id=" + CountVal + "><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' style='text-align:center'></input></td><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'>View Profile</a></div></span></td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Fearute_allocation_flag + "</td></tr>";
+								   
+								}
+							}
+							$('#tblResourceRelease > tbody').append(rows);
+							//to show the action column if hidden 
+							if (ViewVal != 3 && ViewVal != 1) {
+								$("#tblResourceRelease th:nth-child(1),#tblResourceRelease td:nth-child(1)").css("display", "");
+							}
+                        }
+                        //if default view i.e., on page load and Allocation Ending in Next 15 Days option is selected in view resource drop down
+                        else {
+                            if (diffDays <= 15 && Enddate > CurDate) 
+							{
+								var row = "";
+                                if (EmpiDVal == "false") 
+								{
+                                    //if not data is not pending for release
+                                    if (ViewVal != 1) {
+                                        row = "<tr id=" + CountVal + "><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' style='text-align:center'></input></td><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'>View Profile</a></div></span></td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Fearute_allocation_flag + "</td></tr>";
+                                       
+                                    }
+                                }
+                                $('#tblResourceRelease > tbody').append(row);
+                                //to show the action column if hidden 
+                                if (ViewVal != 3 && ViewVal != 1) {
+                                    $("#tblResourceRelease th:nth-child(1),#tblResourceRelease td:nth-child(1)").css("display", "");
+                                }
+                            }
+                        }
+                    }
+                    CountVal++;
+                }
+            },
+           
+            error: function(error) {
+                result = 'error';
+            }
+        });
+        //to intialize the table for Viewval=0 and 15days data
+        if (ViewVal != 3 && ViewVal != 1) {
+            $('#tblResourceRelease').DataTable({
+                "aLengthMenu": [5, 10, 15, 20, 25, 30],
+                "pageLength": 5,
+                "autoWidth": true,
+                "paging": true,
+				"dom": 'lBfrtip',
+				//buttons: [{ extend: 'excelHtml5', exportOptions: { columns: ':visible' } },],
+				                    buttons: [{
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [1,2,3,4,5],
+							format: {
+							body: function ( data, row, column, node ) {
+							   if (column === 1) {
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									var splitData="";
+									var t =data.split('>')[1];
+									if(t!=undefined)
+									{
+										splitData =t.split('<')[0];
+									}
+									
+									/*data = '';
+									for (i=0; i < splitData.length; i++) {
+										//add escaped double quotes around each line
+										data += '\"' + splitData[i] + '\"';
+										//if its not the last line add CHAR(13)
+										if (i + 1 < splitData.length) {
+											data += ', CHAR(13), ';
+										}
+									}
+									//Add concat function
+									data = 'CONCATENATE(' + data + ')';*/
+									return splitData;
+								}
+								
+								return data;
+								}
+							}
+                        }
+                    }, ],
+				
+                "columns": [{
+                    "width": "50px"
+                }, {
+                    "width": "100px"
+                }, {
+                    "width": "350px"
+                }, {
+                    "width": "76px"
+                }, {
+                    "width": "120px"
+                }, {
+                    "width": "120px"
+                }, {
+                    "width": "120px"
+                }, {
+                    "width": "120px"
+                },{
+                    "width": "120px"
+                }]
+            });
+            $('#tblResourceRelease tfoot th').each(function() {
+                var title = $(this).text();
+                if (title != "") {
+                    $(this).html('<input type="text"/>');
+                }
+            });
+            var table = $('#tblResourceRelease').DataTable();
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        }
+       
+		if(firstTimeTrigger ==0 )
+		{
+			$('#ddlView').val('All');
+			BindData();
+			++firstTimeTrigger;
+		}
+        if (ViewVal == 3) {
+            return AllvalRow;
+        }
+        $('.loader').hide();
+    }
+
+    function GetItemTypeForListName(name) {
+        return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+    }
+    //function to get reource email id by its resource GUID
+    function GetUserIDbyGuid(ResGUID) {
+        var Id = "";
+        //Refer ReleaseExtensionConfig.js file
+        var url = GetResourceDataByEmpCode(ResGUID, 3);
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                var data = data.d;
+                var ResourceEmailID = data.ResourceEmailAddress;
+                Id = GetSpIDByEmailID(ResourceEmailID);
+            },
+            error: function(error) {
+                result = 'error';
+            }
+        });
+        return Id;
+    }
+    //function to get reource SP id by its Email id
+    function GetSpIDByEmailID(ResEmailID) {
+        var SPid = "";
+        //Refer ReleaseExtensionConfig.js file
+        var url = GetSpidByResEmailID(ResEmailID);
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                var data = data.d.results;
+                Spid = data[0].Id;
+            },
+            error: function(error) {
+                result = 'error';
+            }
+        });
+        return Spid;
+    }
+    //function to get Resource VP by its GBU
+    function GetResVPByResGBU(ResGBU) {
+        //Refer ReleaseExtensionConfig.js file
+        var url = GetResourseVpByGBU(ResGBU);
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                var data = data.d.results;
+                var EmpEmailId = (data[0].VpEmailID == undefined ? '' : data[0].VpEmailID);
+                if (EmpEmailId == '') {
+                    VPID = RMOID;
+                } else {
+                    //Refer ReleaseExtensionConfig.js file		
+                    var url = GetResourceIDByEmailIDorEmpID(EmpEmailId, 1)
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        method: "GET",
+                        headers: {
+                            "Accept": "application/json; odata=verbose",
+                            "Content-Type": "application/json; odata=verbose"
+                        },
+                        success: function(data) {
+                            var data = data.d.results;
+                            VPID = data[0].ResourceId;
+                        },
+                        error: function(error) {
+                            result = 'error';
+                        }
+                    });
+                }
+            },
+            error: function(error) {
+                result = 'error';
+            }
+        });
+    }
+    //function to get RMO id by its Emp id
+    function GetRMoIDByRmoEid(RMOEid) {
+        //Refer ReleaseExtensionConfig.js file		
+        var url = GetResourceIDByEmailIDorEmpID(RMOEid, 2)
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                var data = data.d.results;
+                RMOID = data[0].ResourceId;
+            },
+            error: function(error) {
+                result = 'error';
+            }
+        });
+    }
+    //Function for Release comment box Validation on 'onkeyup' 
+    function CommentBoxValiddtion(commentID) {
+        commentID = commentID.id;
+        var comment = document.getElementById(commentID).value;
+        if (comment == '') {
+            $('#CommentBoxErrorMsg').text('Please provide reason for early release');
+            $('#comment').focus();
+            return false;
+        }
+       // var match = (new RegExp('[~#%\&{}+\|]|\\.\\.|^\\.|\\.$')).test(comment);
+       /* var match = (new RegExp('[~#%\&{}+\|<>*]|\'\|\\\\|^\\|\\$')).test(comment);
+        if (match) {
+            document.getElementById("CommentBoxErrorMsg").innerHTML = "Comment contains invalid character";
+            document.getElementById(commentID).focus();
+            return false;
+        } else {
+            document.getElementById("CommentBoxErrorMsg").innerHTML = "";
+        }
+		*/
+		 var match = /[*|\":<>[\]{}`\\()';@&$]/;
+        if (match.test(comment)) {
+            document.getElementById("CommentBoxErrorMsg").innerHTML = "Any Other Comment (If Any) contains invalid character";
+            document.getElementById(feedbackID).focus();
+            return false;
+        } else {
+            document.getElementById("CommentBoxErrorMsg").innerHTML = "";
+        }
+    }
+    //function to bind the reason for reason for release drop down
+    function BindReason() {
+        //Refer ReleaseExtensionConfig.js file	
+        var url = GetReasonForRelease();
+        $.ajax({
+            url: url,
+            method: "GET",
+            async: false,
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                $('#ddlReleaseReason').empty();
+                var parentReason = [];
+                var parentFlag = [];
+                var childReason = [];
+                var childFlag = [];
+                $('#ddlReleaseReason').append(new Option("Select Reason of Release", 0));
+                $.each(data.d.results, function(index, value) {
+                    <!-- if (value.Flag.indexOf('Item') >= 0) { -->
+                        <!-- childReason.push(value.ReasonHead); -->
+                        <!-- childFlag.push(value.Flag); -->
+                    <!-- } else { -->
+                        <!-- parentReason.push(value.ReasonHead); -->
+                        <!-- parentFlag.push(value.Flag); -->
+                    <!-- } -->
+					$('#ddlReleaseReason').append("<option data-value = '" + value.Flag + "'>" + value.ReasonHead + "</option>");
+                });
+               // for (var i = 0; i < parentReason.length; i++) {
+                    <!-- $('#ddlReleaseReason').append("<optgroup label = '" + parentReason[i] + "'>" + parentFlag[i] + "</optgroup>"); -->
+                    <!-- for (var j = 0; j < childReason.length; j++) { -->
+                        <!-- if (childFlag[j].indexOf(parentFlag[i]) >= 0) { -->
+                            <!-- $('#ddlReleaseReason').append("<option data-value = '" + childFlag[j] + "'>" + childReason[j] + "</option>"); -->
+                        <!-- } -->
+                    <!-- } -->
+                //}
+            }
+        });
+    }
+    //function to get the selected value from the reason for release dropdown
+    function GetSelectedValue() {
+	document.getElementById("FeedBackBoxErrorMsg").innerHTML = "";
+        var SelectedValue = $('#ddlReleaseReason').val();
+        if ($('#ddlReleaseReason').val() == "0") {
+            $('#DDlCommentBoxErrorMsg').text('Please select reason for early release');
+            return false;
+        } else {
+            $('#DDlCommentBoxErrorMsg').text('');
+        }
+       /* if (SelectedValue == "Additional Comments") {
+            $('#comment').attr('disabled', false);
+        } else {
+            $('#comment').attr('disabled', true);
+        }*/
+        RejectionComments = SelectedValue;
+    }
+    //function on onchange of view resource drodown
+    function BindData() {
+        Clear();
+        var ViewSelectedValue = $('#ddlView').val();
+        if (ViewSelectedValue == "Pending for Release") {
+            $('.loader').show();
+            setTimeout(function() {
+                if (ViewVal != 1) {
+                    $('#tblResourceRelease').dataTable().fnClearTable();
+                    $('#tblResourceRelease').DataTable().destroy();
+                    $('#tblResourceRelease').css('display', 'none');
+                } else {
+                    $('#tblResourcePedingRelease').dataTable().fnClearTable();
+                    $('#tblResourcePedingRelease').DataTable().destroy();
+                }
+                $('#tblResourcePedingRelease > tbody').empty();
+                $('#tblResourcePedingRelease').css('display', '');
+                ViewVal = 1;
+                ResourcePendingListData = [];
+                GetResourcePendingDataFromList(puid);
+                // GetProjectCode(userid, puid);
+            }, 100);
+        } else if (ViewSelectedValue == "Approved") {
+            $('.loader').show();
+            setTimeout(function() {
+                if (ViewVal == 1) {
+                    $('#tblResourcePedingRelease').dataTable().fnClearTable();
+                    $('#tblResourcePedingRelease').DataTable().destroy();
+                    $('#tblResourcePedingRelease').css('display', 'none');
+                } else {
+                    $('#tblResourceRelease').dataTable().fnClearTable();
+                    $('#tblResourceRelease').DataTable().destroy();
+                }
+                $('#tblResourceRelease > tbody').empty();
+                $('#tblResourceRelease').css('display', '');
+                ViewVal = 2;
+                GetApprovedData(puid, '');
+            }, 100);
+        }
+		else if (ViewSelectedValue == "All") 
+		{
+            $('.loader').show();
+            setTimeout(function() {
+                if (ViewVal == 1) {
+                    $('#tblResourcePedingRelease').dataTable().fnClearTable();
+                    $('#tblResourcePedingRelease').DataTable().destroy();
+                    $('#tblResourcePedingRelease').css('display', 'none');
+                } else {
+                    $('#tblResourceRelease').dataTable().fnClearTable();
+                    $('#tblResourceRelease').DataTable().destroy();
+                }
+                $('#tblResourceRelease > tbody').empty();
+                $('#tblResourceRelease').css('display', '');
+                ViewVal = 3;
+                ResourcePendingListData = [];
+                GetResourcePendingDataFromList(puid);
+                var GetRows = GetPojectData(CurProjectCode);
+                GetApprovedData(puid, GetRows);
+            }, 100);
+        }
+		else if (ViewSelectedValue == "Features_Allocation") 
+		{
+            $('.loader').show();
+            setTimeout(function() 
+			{
+                if (ViewVal == 1) {
+                    $('#tblResourcePedingRelease').dataTable().fnClearTable();
+                    $('#tblResourcePedingRelease').DataTable().destroy();
+                    $('#tblResourcePedingRelease').css('display', 'none');
+                } else {
+                    $('#tblResourceRelease').dataTable().fnClearTable();
+                    $('#tblResourceRelease').DataTable().destroy();
+                }
+                $('#tblResourceRelease > tbody').empty();
+                $('#tblResourceRelease').css('display', '');
+                ViewVal = 5;
+                ResourcePendingListData = [];
+                GetResourcePendingDataFromList(puid);
+                var GetRows = GetPojectData(CurProjectCode);
+                GetApprovedData(puid, GetRows);
+            }, 100);
+        }
+		else if (ViewSelectedValue == "Default") {
+            $('.loader').show();
+            setTimeout(function() {
+                if (ViewVal == 1) {
+                    $('#tblResourcePedingRelease').dataTable().fnClearTable();
+                    $('#tblResourcePedingRelease').DataTable().destroy();
+                    $('#tblResourcePedingRelease').css('display', 'none');
+                } else {
+                    $('#tblResourceRelease').dataTable().fnClearTable();
+                    $('#tblResourceRelease').DataTable().destroy();
+                }
+                $('#tblResourceRelease > tbody').empty();
+                $('#tblResourceRelease').css('display', '');
+                ViewVal = 0;
+                ResourcePendingListData = [];
+                GetResourcePendingDataFromList(puid);
+                GetPojectData(CurProjectCode);
+            }, 100);
+        }
+    }
+    //function when the approved/rejected option is selected in the view resource dropdown
+    function GetApprovedData(puid, RequestdataRows) {
+        var CountVal = 1;
+        var Apprvdrow = "";
+        if (ViewVal == 2) 
+		{
+            //Refer ReleaseExtensionConfig.js file
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+           // var DataURL = GetApprovedDataFromSPList(puid, 2);
+            var DataURL = GetApprovedRejectEarlyRelease(puid);
+            $.ajax({
+                url: DataURL,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose",
+                    "Content-Type": "application/json; odata=verbose"
+                },
+                success: function(data) 
+				{
+                    var Apprvdata = data.d.results;
+                    for (var i = 0; i < Apprvdata.length; i++) 
+					{
+                        var StartDate = (Apprvdata[i].NewStartDate == undefined ? "" : Apprvdata[i].NewStartDate.split('T')[0]);
+                        if (StartDate != "") 
+						{
+                            StartDate = StartDate.split('-')[2] + " " + months[StartDate.split('-')[1] - 1] + " " + StartDate.split('-')[0];
+                        }
+                        var ApprovedEndDate = "";
+                        var EndDate = "";
+                        var ItemID = Apprvdata[i].ID;
+                        var Type = Apprvdata[i].ResourceType == undefined ? '' : Apprvdata[i].ResourceType;
+                        var ApprvStatus = Apprvdata[i].ApprovalStatus;
+						var Future_allocation = Apprvdata[i].FeatureAllocationFlag;
+                        var CurDate = new Date();
+                        var ApprvRequest_EndDate = "";
+                        if (Type == "Resource Early Release") 
+						{
+                            if (ApprvStatus == "Approved") 
+							{
+                                ApprovedEndDate = (Apprvdata[i].NewReleaseDate == undefined ? "" : Apprvdata[i].NewReleaseDate.split('T')[0]);
+                                if (ApprovedEndDate != "") {
+                                    ApprovedEndDate = ApprovedEndDate.split('-')[2] + " " + months[ApprovedEndDate.split('-')[1] - 1] + " " + ApprovedEndDate.split('-')[0];
+                                }
+                            }
+							else if (ApprvStatus == "Rejected") 
+							{
+                                EndDate = (Apprvdata[i].NewEndDate == undefined ? "" : Apprvdata[i].NewEndDate.split('T')[0]);
+                                if (EndDate != "") 
+								{
+                                    EndDate = EndDate.split('-')[2] + " " + months[EndDate.split('-')[1] - 1] + " " + EndDate.split('-')[0];
+                                }
+                            }
+                        }
+						else if (Type == "Resource Extension")
+						{
+                            if (ApprvStatus == "Approved") 
+							{
+                                ApprovedEndDate = (Apprvdata[i].NewExtensionDate == undefined ? "" : Apprvdata[i].NewExtensionDate.split('T')[0]);
+                                if (ApprovedEndDate != "") {
+                                    ApprovedEndDate = ApprovedEndDate.split('-')[2] + " " + months[ApprovedEndDate.split('-')[1] - 1] + " " + ApprovedEndDate.split('-')[0];
+                                    ApprvRequest_EndDate = new Date(ApprovedEndDate);
+                                }
+                            }
+                        }
+                        var EmpID = (Apprvdata[i].EmployeeID == undefined ? "" : Apprvdata[i].EmployeeID);
+                        var EmpName = (Apprvdata[i].ResourceName == undefined ? "" : Apprvdata[i].ResourceName);
+                        var AllocationPercent = (Apprvdata[i].AllocationPercentage == undefined ? "" : Apprvdata[i].AllocationPercentage);
+                        if (ApprvStatus == "Approved") 
+						{
+                            if (CurDate > ApprvRequest_EndDate) 
+							{
+                                Apprvdrow = "<tr id=" + CountVal + "  style='opacity:0.5'><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' disabled='disabled' style='text-align:center'></input></td><td style='text-align:center'>" + EmpID + "</td><td><span href='#' id='show-popup' class='action-b'>" + EmpName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span></td><td style='text-align:center'>" + AllocationPercent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + ApprovedEndDate + "</td><td style='display:none'></td><td style='display:none'></td><td style='display:none'>"+Future_allocation+"</td></tr>";
+                            } 
+							else 
+							{
+                                Apprvdrow = "<tr id=" + CountVal + "><td class='ToHideOnView' style='text-align:center'><input type='checkbox' name='Resources' class='chckResourceRelease' onchange='valueChanged()' style='text-align:center'></input></td><td style='text-align:center'>" + EmpID + "</td><td><span href='#' id='show-popup' class='action-b'>" + EmpName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span></td><td style='text-align:center'>" + AllocationPercent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + ApprovedEndDate + "</td><td style='display:none'></td><td style='display:none'></td><td style='display:none'>"+Future_allocation+"</td></tr>";
+                            }
+                        }
+                        if (Type == "Resource Early Release") 
+						{
+                            if (ApprvStatus == "Rejected") 
+							{
+                                var ReasonForRejection = Apprvdata[i].ReasonForReject == "" ? '' : Apprvdata[i].ReasonForReject.split('>')[1].split('<')[0];
+                                var ReasonForRelese = Apprvdata[i].ReasonForRelease;
+                                var Author = Apprvdata[i].Author.Title;
+                                var Editor = Apprvdata[i].Editor.Title;
+                                //var Date = ;
+								var Date1 = convert_date_DDMMYYYY(Apprvdata[i].Created);
+								var Time = Apprvdata[i].Created.split('T')[1];
+								var FinalTime = Time.split('Z')[0];
+								
+								var ModifiedDate1 = convert_date_DDMMYYYY(Apprvdata[i].Modified);
+								var ModifiedTime = Apprvdata[i].Modified.split('T')[1];
+								var ModifiedFinalTime = ModifiedTime.split('Z')[0];
+								var Releaserejection=ReasonForRejection +"#"+ ReasonForRelese +"#"+ Author +"#"+Date1 +"#"+FinalTime +"#"+Editor +"#"+ModifiedDate1 +"#"+ModifiedFinalTime;
+                                Apprvdrow = "<tr id=" + CountVal + "><td class='ToHideOnView' style='text-align:center'><div><div class='tooltip-1' onclick='GetRequestRejectedReason(this," + ItemID + ")'><span class='glyphicon glyphicon-remove-sign' aria-hidden='true' style='text-align:center'></span><div class='tooltiptext-1' style='width:120px'>Comment Log</div></div></div></td><td style='text-align:center'>" + EmpID + "</td><td><span href='#' id='show-popup' class='action-b'>" + EmpName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + EmpID + "&employeename=" + EmpName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span></td><td style='text-align:center'>" + AllocationPercent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + EndDate + "</td><td style='display:none'></td><td style='display:none'>" + Releaserejection + "</td><td style='display:none'>"+Future_allocation+"</td></tr>";
+                            }
+                        }
+                        $('#tblResourceRelease > tbody').append(Apprvdrow);
+                        $("#tblResourceRelease th:nth-child(1),#tblResourceRelease td:nth-child(1)").css("display", "");
+                        CountVal++;
+                    }
+                },
+                error: function(error) {
+                    result = 'error';
+                }
+            });
+        }
+        var RowData = "";
+        //table intialization for approved/rejected option
+        if (ViewVal == 2) {
+            $("#tblResourceRelease th:nth-child(1),#tblResourceRelease td:nth-child(1)").css("display", "");
+            $('#tblResourceRelease').DataTable({
+                "aLengthMenu": [5, 10, 15, 20, 25, 30],
+                "pageLength": 5,
+				"dom": 'lBfrtip',
+				//buttons: [{ extend: 'excelHtml5', exportOptions: { columns: ':visible' } },],
+				  buttons: [{
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [1,2,3,4,5],
+							format: {
+							body: function ( data, row, column, node ) {
+							   if (column === 1) {
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									var splitData="";
+									var t =data.split('>')[1];
+									if(t!=undefined)
+									{
+										splitData =t.split('<')[0];
+									}
+									
+									/*data = '';
+									for (i=0; i < splitData.length; i++) {
+										//add escaped double quotes around each line
+										data += '\"' + splitData[i] + '\"';
+										//if its not the last line add CHAR(13)
+										if (i + 1 < splitData.length) {
+											data += ', CHAR(13), ';
+										}
+									}
+									//Add concat function
+									data = 'CONCATENATE(' + data + ')';*/
+									return splitData;
+								}
+								
+								return data;
+								}
+							}
+                        }
+                    }, ],
+				
+                "columns": [{
+                    "width": "50px"
+                }, {
+                    "width": "100px"
+                }, {
+                    "width": "300px"
+                }, {
+                    "width": "76px"
+                }, {
+                    "width": "127px"
+                }, {
+                    "width": "127px"
+                }, {
+                    "width": "127px"
+                }, {
+                    "width": "120px"
+                },{
+                    "width": "120px"
+                }]
+            });
+            $('#tblResourceRelease tfoot th').each(function() {
+                var title = $(this).text();
+                if (title != "") {
+                    $(this).html('<input type="text"/>');
+                }
+            });
+            var table = $('#tblResourceRelease').DataTable();
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        }
+        // },
+        // error: function (error) {
+        // result = 'error';
+        // }
+        // });
+        // }
+        var RowData = "";
+        //table intialization for all option
+        if (ViewVal == 3) {
+            var RowData = RequestdataRows.split(';');
+            for (var j = 0; j < RowData.length - 1; j++) {
+                $('#tblResourceRelease > tbody').append(RowData[j]);
+                $("#tblResourceRelease th:nth-child(1),#tblResourceRelease td:nth-child(1)").css("display", "");
+            }
+            $("#tblResourceRelease th:nth-child(1),#tblResourceRelease td:nth-child(1)").css("display", "");
+            $('#tblResourceRelease').DataTable({
+                "aLengthMenu": [5, 10, 15, 20, 25, 30],
+                "pageLength": 5,
+				"dom": 'lBfrtip',
+				  buttons: [{
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [1,2,3,4,5],
+							format: {
+							body: function ( data, row, column, node ) {
+							   if (column === 1) {
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									var splitData="";
+									//splitData = data.split('projects');
+									var t =data.split('>')[1];
+									if(t!=undefined)
+									{
+										splitData =t.split('<')[0];
+									}
+									
+									/*data = '';
+									for (i=0; i < splitData.length; i++) {
+										//add escaped double quotes around each line
+										data += '\"' + splitData[i] + '\"';
+										//if its not the last line add CHAR(13)
+										if (i + 1 < splitData.length) {
+											data += ', CHAR(13), ';
+										}
+									}
+									//Add concat function
+									data = 'CONCATENATE(' + data + ')';*/
+									return splitData;
+								}
+								
+								return data;
+								}
+							}
+                        }
+                    }, ],
+				//buttons: [{ extend: 'excelHtml5', exportOptions: { columns: ':visible' } },],
+				
+                "columns": [{
+                    "width": "50px"
+                }, {
+                    "width": "100px"
+                }, {
+                    "width": "300px"
+                }, {
+                    "width": "76px"
+                }, {
+                    "width": "127px"
+                }, {
+                    "width": "127px"
+                }, {
+                    "width": "127px"
+                }, {
+                    "width": "120px"
+                },{
+                    "width": "120px"
+                }]
+            });
+            $('#tblResourceRelease tfoot th').each(function() {
+                var title = $(this).text();
+                if (title != "") {
+                    $(this).html('<input type="text"/>');
+                }
+            });
+            var table = $('#tblResourceRelease').DataTable();
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        }
+        $('.loader').hide();
+    }
+    //Function to refer RRFMAPPING list for the TAT Days by its status
+    function getRRFTATdaysbyStatus(status) {
+        var status_TATMappingDays = "";
+        //Refer ReleaseExtensionConfig.js file
+        var restResoruceAllocation = TaTDates(status);
+        $.ajax({
+            url: restResoruceAllocation,
+            method: "GET",
+            async: false,
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                status_TATMappingDays = data.d.results;
+            }
+        });
+        return status_TATMappingDays;
+    }
+    //funtion to get the reason for reject by on hove on the X in table rows
+    function GetRequestRejectedReason(val, ID) {
+        var CurRow = val.parentNode.parentNode.parentNode;
+        var Reason = CurRow.cells[7].innerText;
+		var Reject_Reason=Reason.split("#")[0];
+		var Release_Reason=Reason.split("#")[1];
+		var Author=Reason.split("#")[2];
+		var Date=Reason.split("#")[3];
+		var FinalTime=Reason.split("#")[4];
+		var Editor=Reason.split("#")[5];
+		var ModifiedDate=Reason.split("#")[6];
+		var ModifiedTime=Reason.split("#")[7];
+        $('.popup-bgs').show();
+        $('#AlertmsgDiv').css('display', 'none');
+        $('#AuthenticateDiv').css('display', 'none');
+        $('#OnButtonCancel').css('display', 'none');
+        $('#spnCancelMessage').css('display', 'none');
+        $('#InvaildUser').css('display', 'none');
+        $('#Approve').css('display', 'none');
+        $('#Rejection').css('display', '');
+        $('#Cancel').css('display', 'none');
+        $('#CmntReasonForRejection').css('display', '');
+        //$('#spnReasonForRelease').css('display', '');
+        //$('#spnReasonForRejection').css('display', '');
+       // $('#spnReasonForRejection').text(Reject_Reason);
+       // $('#spnReasonForRelease').text(Release_Reason);
+		$('.clssPopupHead').text('Comment :');
+                document.getElementById('divReleaseComment').style.display = 'none';
+                document.getElementById('divRefusalComment').style.display = 'block';
+                $("#RefusalComment").empty();
+				
+                var logDeatils = '<div class="user-comments removedata"><div class="com-user-text" style="text-align:center"><label class="pull-left"><b><u>' + Editor + ' | ' + ModifiedDate + ' - ' + ModifiedTime + '</u></b></label></div><br/>';
+                if (Release_Reason != "" && Release_Reason != undefined && Release_Reason != null && Release_Reason != "null") {
+				var feedback="Project End Feedback";
+                    logDeatils += '<div class="clearfix"></div><div class="com-user-text"><i>' + Reject_Reason + '</i></div><hr/></div><div class="com-user-text" style="text-align:center"><label class="pull-left"><b><u>' + Author + ' | ' + Date + ' - ' + FinalTime +' | '+ feedback +'</u></b></label></div><br/><div class="clearfix"></div><div class="com-user-text"><i>' + Release_Reason + '</i></div><hr/></div>';
+                } else {
+                    logDeatils += '<div class="clearfix"></div><div class="com-user-text"><i>' + Reject_Reason + '</i></div><hr/></div>';
+                }
+
+                $("#RefusalComment").append(logDeatils);
+                $('.popup-bg').show();
+                //$('.popup-bgs').hide();
+    }
+    //function for feedback validation
+    function FeedBackBoxValiddtion(feedbackID) {
+        feedbackID = feedbackID.id;
+        var feedback = document.getElementById(feedbackID).value;
+        if (feedback == '') {
+            $('#FeedBackBoxErrorMsg').text('Please enter Project End Feedback');
+            $('#Feedback').focus();
+            return false;
+        }
+        var match = /[*|\":<>[\]{}`\\()';@&$]/;
+        if (match.test(feedback)) {
+            document.getElementById("FeedBackBoxErrorMsg").innerHTML = "Project End Feedback contains invalid character";
+            document.getElementById(feedbackID).focus();
+            return false;
+        } else {
+            document.getElementById("FeedBackBoxErrorMsg").innerHTML = "";
+        }
+    }
+
+    function Clear() {
+        $('#txtReleaseDate')[0].value = "";
+        $('#ErrorMsg')[0].innerText = "";
+        $('#comment')[0].value = "";
+        $('#CommentBoxErrorMsg')[0].innerText = "";
+        $("#panel").slideUp("slow").hide();
+    }
+
+    function GetResourcePendingDataFromList(projectuid) {
+        var url = GetRequestedDataByEmpIdandResType(projectuid, "Resource Early Release");
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+            success: function(data) {
+                var data = data.d.results;
+                var row = "";
+                if (ViewVal == 1) {
+                    var RowID = 0;
+                    for (var i = 0; i < data.length; i++) 
+					{
+                        ++RowID;
+                        var Empid = data[i].EmployeeID == undefined ? '' : data[i].EmployeeID;
+						var Feature_allocations_flag_data= data[i].FeatureAllocationFlag == "2"? '2' : "";
+                        var ResourceName = data[i].ResourceName == undefined ? '' : data[i].ResourceName;
+                        var AllocationPerCent = data[i].AllocationPercentage == undefined ? '' : data[i].AllocationPercentage;
+                        var ProjectLocation = data[i].ProjectLocation == undefined ? '' : data[i].ProjectLocation;
+                        var ReasonForRejection = data[i].ReasonForReject == undefined ? '' : data[i].ReasonForReject;
+                        var InternalID = data[i].ResourceAllocationID == undefined ? '' : data[i].ResourceAllocationID;
+                        var Pending_with_Title = data[i].PendingWithUserID.Title == undefined ? '' : data[i].PendingWithUserID.Title;;
+                        var TatDate = data[i].TATDate == undefined ? '' : data[i].TATDate;
+                        var StartDate = data[i].CalculatedStartDate;
+                        StartDate = StartDate.split('T')[0];
+                        StartDate = StartDate.split('-');
+                        StartDate = StartDate[2] + " " + months[StartDate[1] - 1] + " " + StartDate[0];
+                        var FinishDate = data[i].CalculatedEndDate;
+                        FinishDate = FinishDate.split('T')[0];
+                        FinishDate = FinishDate.split('-');
+                        FinishDate = FinishDate[2] + " " + months[FinishDate[1] - 1] + " " + FinishDate[0];
+                        var Enddate = new Date((data[i].CalculatedEndDate).split('T')[0]);
+                        var CurDate = new Date();
+                        var timeDiff = Math.abs(Enddate.getTime() - CurDate.getTime());
+                        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                        var EmpDesig = data[i].PendingWithDesig == undefined ? '' : data[i].ResourceAllocationID;
+                        if (TatDate != null) {
+                            var TatDateDAta = new Date(TatDate);
+                            if (functionalStatus.length > 0) {
+                                var totalweekdays = 0;
+                                var TodayDate = new Date();
+                                TatDateDAta.setHours(0, 0, 0, 0);
+                                TodayDate.setHours(0, 0, 0, 0);
+                                var timeDiff_ = new Date(TodayDate - TatDateDAta);
+                                var diffDays_ = timeDiff_ / 1000 / 60 / 60 / 24;
+                                for (var k = TatDateDAta; k <= TodayDate;) {
+                                    if (k.getDay() == 0) {
+                                        totalweekdays++;
+                                    }
+                                    if (k.getDay() == 6) {
+                                        totalweekdays++;
+                                    }
+                                    k.setTime(k.getTime() + 1000 * 60 * 60 * 24);
+                                }
+                                var Total_Week_days = parseInt(totalweekdays);
+                                var T_days = 0;
+                                if (EmpDesig == "VP") {
+                                    T_days = parseInt(VPTatDays);
+                                } else if (EmpDesig == "RMO") {
+                                    T_days = parseInt(RMOTatDays);
+                                }
+                                diffDays_ = diffDays_ - Total_Week_days;
+                                if (diffDays_ > T_days) {
+                                    BusinessDaysCount = "<div class='bgred'>" + diffDays_ + " - D</div>";
+                                } else if (diffDays_ != 0) {
+                                    BusinessDaysCount = "<div class='bggreen'>" + diffDays_ + " - D</div>";
+                                }
+                            }
+                        }
+                        row += "<tr id=" + RowID + " style='opacity:0.5'><td style='text-align:center'>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'> View Profile</a></div></span>" + BusinessDaysCount + "</td><td style='text-align:center'>" + AllocationPerCent + "</td><td style='text-align:center'>" + StartDate + "</td><td style='text-align:center'>" + FinishDate + "</td><td>" + Pending_with_Title + "</td><td style='display:none'>" + diffDays + "</td><td style='display:none'>" + ProjectLocation + "+" + ReasonForRejection + "+" + InternalID + "</td><td style='display:none'>" + Feature_allocations_flag_data + "</td></tr>";
+                    }
+                    $('#tblResourcePedingRelease > tbody').append(row);
+                    if (ViewVal == 1) {
+                        $('#tblResourcePedingRelease').DataTable({
+                            "aLengthMenu": [5, 10, 15, 20, 25, 30],
+                            "pageLength": 5,
+                            "autoWidth": false,
+							"dom": 'lBfrtip',
+							  buttons: [{
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: ':visible',
+							format: {
+							body: function ( data, row, column, node ) {
+							   if (column === 1) {
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									var splitData="";
+									var t =data.split('>')[1];
+									if(t!=undefined)
+									{
+										splitData =t.split('<')[0];
+									}
+									
+									/*data = '';
+									for (i=0; i < splitData.length; i++) {
+										//add escaped double quotes around each line
+										data += '\"' + splitData[i] + '\"';
+										//if its not the last line add CHAR(13)
+										if (i + 1 < splitData.length) {
+											data += ', CHAR(13), ';
+										}
+									}
+									//Add concat function
+									data = 'CONCATENATE(' + data + ')';*/
+									return splitData;
+								}
+								
+								return data;
+								}
+							}
+                        }
+                    }, ],
+				//buttons: [{ extend: 'excelHtml5', exportOptions: { columns: ':visible' } },],
+				
+                            "columns": [{
+                                "width": "100px"
+                            }, {
+                                "width": "350px"
+                            }, {
+                                "width": "90px"
+                            }, {
+                                "width": "120px"
+                            }, {
+                                "width": "120px"
+                            }, {
+                                "width": "120px"
+                            }, {
+                                "width": "120px"
+                            }, {
+                                "width": "120px"
+                            },{
+                    "width": "120px"
+                }]
+                        });
+                        $('#tblResourcePedingRelease tfoot th').each(function() {
+                            var title = $(this).text();
+                            if (title != "") {
+                                $(this).html('<input type="text"/>');
+                            }
+                        });
+                        var table = $('#tblResourcePedingRelease').DataTable();
+                        table.columns().every(function() {
+                            var that = this;
+                            $('input', this.footer()).on('keyup change', function() {
+                                if (that.search() !== this.value) {
+                                    that.search(this.value).draw();
+                                }
+                            });
+                        });
+                    }
+                    $('.loader').hide();
+                } else {
+                    if (data.length > 0) {
+                        ResourcePendingListData.push(data);
+                    }
+                }
+            },
+            error: function(error) {
+                result = 'error';
+            }
+        });
+    }
+
+    function checkForPendingRecordsAvailability(arr, val) {
+        var array = arr[0];
+        var flag;
+        var indexval = '';
+        for (var i = 0; i < array.length; i++) {
+            if (array[i].ResourceAllocationID == val) {
+                flag = true;
+                indexval = i;
+                break;
+            } else {
+                flag = false;
+                indexval = 'NA';
+            }
+        }
+        return flag + ';' + indexval;
+        // var arrval="";
+        // return arr.some(function(arrVal) {
+        // return val === arrVal;
+        // });
+    }
+
+    function valueChanged() 
+	{
+        $("#ErrorMsg").text("");
+        $("#txtReleaseDate").val("");
+        $("#FeedBackBoxErrorMsg").text("");
+        $("#Feedback").val("");
+        var CkeckedCount = 0;
+		var Endate_arry = new Array();
+        var source = $("#tblResourceRelease").DataTable();
+		var CheckMultipleRele = true;
+        $("input[type=checkbox]", source.rows().nodes()).each(function() {
+            var tuisre = $(this).is(":checked");
+            if (tuisre) {
+                CkeckedCount++;
+				var CurRow = $(this)[0].parentNode.parentNode;
+				var EndDate = new Date(CurRow.cells[5].innerText);
+				Endate_arry.push(EndDate.toString().trim());
+				if(Endate_arry.length>1)
+				{
+					for(var t=0;t<Endate_arry.length;t++)
+					{
+						if(Endate_arry[t+1]!=undefined)
+						{
+							if(Endate_arry[t]==Endate_arry[t+1])
+							{
+								//$('#ErrorMsg').text("");
+								CheckMultipleRele =true;
+								//$('#ErrorMultiple').text("");
+                                $('#ErrorMultiple').text("Multiples Release Not Allowed!");
+							}
+							else
+							{
+                                $('#ErrorMultiple').text("Multiples Release Not Allowed!");
+								//$('#ErrorMsg').text("For multiple extension allocation end date should be same");
+								//$('#ErrorMultiple').text("For multiple release allocation end date should be same");
+								//alert("For multiple release allocation end date should be same");
+								CheckMultipleRele = false;
+								return false;
+							}
+						}
+					}
+				}
+            }
+        });
+		if(CheckMultipleRele == false)
+		{
+            $('#ErrorMultiple').text("Multiples Release Not Allowed!");
+			//$('#ErrorMultiple').text("For multiple release allocation end date should be same");
+			$('#txtReleaseDate')[0].value = "";
+			$('#ErrorMsg')[0].innerText = "";
+			$('#comment')[0].value = "";
+			$('#CommentBoxErrorMsg')[0].innerText = "";
+			$("#panel").slideUp("slow").hide();
+		}
+		else
+		{
+            if (CkeckedCount >= 2) 
+            {
+            $('#ErrorMultiple').text("Multiples Release Not Allowed!");
+            $("#panel").slideUp("slow").hide();
+            }
+            else if (CkeckedCount >= 1) 
+            {
+            $('#ErrorMultiple').text("");
+            
+            $("#panel").show().slideDown("slow");
+            BindReason();
+            } 
+			
+			else {
+				$('#txtReleaseDate')[0].value = "";
+				$('#ErrorMsg')[0].innerText = "";
+				$('#comment')[0].value = "";
+				$('#CommentBoxErrorMsg')[0].innerText = "";
+				$("#panel").slideUp("slow").hide();
+			}
+		}
+        
+    }
+	
+	  function resultset(Url) 
+	 {
+		var result;
+		$.ajax({
+			url: Url,
+			async: false,
+			method: "GET",
+			headers: {
+				"Accept": "application/json; odata=verbose",
+			    "Content-Type": "application/json; odata=verbose"
+			},
+			success: function (data) {
+				result = data.d.results;
+			},
+			error: function (error) {
+				alert(JSON.stringify(error));
+			}
+		});
+		return result;
+    }
+	function CheckPMisPresentOrNot(UserGUID, PUID) 
+	{
+		var send_data="";
+        //Refer ReleaseExtensionConfig.js file
+        var url = ppmuaturl +"_api/Projects?$select=RMOSPOC,ProjectOwnerName,ProjectOwnerId,RRFDelegation1,RRFDelegation2,RRFDelegation3&$filter=ProjectId eq guid'"+ PUID +"'";
+        $.ajax({
+            url: url,
+            async: false,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            success: function(data) 
+			{
+				if(data.d.results.length>0)
+				{
+					var retrive_data = data.d.results;
+					var Rmo_spoc_id = retrive_data[0].RMOSPOC;
+					if(Rmo_spoc_id !="" || Rmo_spoc_id != null )
+					{
+						Rmo_spoc_id = Rmo_spoc_id.split('|')[0].trim();
+					}
+					else
+					{
+						Rmo_spoc_id = "";
+					}
+					if(UserGUID == retrive_data[0].ProjectOwnerId)
+					{
+						send_data = "1;"+Rmo_spoc_id;
+					}
+					else if(_spPageContextInfo.userEmail == retrive_data[0].RRFDelegation1 || _spPageContextInfo.userEmail == retrive_data[0].RRFDelegation2 || _spPageContextInfo.userEmail == retrive_data[0].RRFDelegation3 )
+					{
+						send_data = "1;"+Rmo_spoc_id;
+					}
+					else
+					{
+						send_data = ";"+Rmo_spoc_id;
+					}
+				}
+			},
+			error: function (error) 
+			{
+				alert(JSON.stringify(error));
+			}
+		});
+		return send_data;
+    }
+	
+	function current_employee_check_rmo(UserGUID,R_Emp_id)
+	{
+	    var send_res ="";
+		var get_res_id_ur = ppmuaturl +"_api/Resources?$select=ResourceId&$filter=EmployeeID eq '"+R_Emp_id+"'";
+		$.ajax({
+			url: get_res_id_ur,
+			async: false,
+			method: "GET",
+			headers: {
+				"Accept": "application/json; odata=verbose"
+			},
+			success: function(repot) 
+			{
+				if(repot.d.results.length>0)
+				{
+					if(UserGUID == repot.d.results[0].ResourceId)
+					{
+						send_res = "1";
+					}
+				}
+			},
+			error: function (error) 
+			{
+				alert(JSON.stringify(error));
+			}
+		});
+		return send_res;
+	}
+	function GoToHomePage() 
+	{
+		window.location.href = "../default.aspx";
+	}
+  //code to formet date
+        function convert_date_DDMMYYYY(date_to_convert) {
+            var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            var MonthName = GetMonthName(arr_dateonly[1]);
+            converted_date = arr_dateonly[2] + "-" + MonthName + "-" + arr_dateonly[0];
+            return converted_date;
+        }
+		 function GetMonthName(monthNumber) {
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[monthNumber - 1];
+        }
+	
+   </script>
+</body>
+
+</html><html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

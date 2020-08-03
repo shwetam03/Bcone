@@ -1,0 +1,756 @@
+<html>
+<head>
+
+    
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jszip.js"></script>
+    <script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+    
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+    <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+
+    
+    <!-- jQuery library -->
+    <script src="../SiteAssets/Timesheet/NewJS/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="../SiteAssets/Timesheet/NewJS/bootstrap.min.js"></script>
+    <script src="../SiteAssets/Timesheet/NewJS/jquery-ui.js"></script>
+    <script src="../SiteAssets/Timesheet/NewJS/jquery-ui.min.js"></script>
+
+
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+    <!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script> -->
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	
+	  
+	  <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+
+    <style>
+	 #dataTables_wrapper{
+	  margin-top:10px;
+	  }
+	#siteIcon{ position:relative; border-right:0px !important;line-height:-1;height:auto; margin:0; padding-right:20px; }
+#s4-titlerow {
+    height: 50px !important;
+}
+#siteIcon::after{ display:none}
+        body
+        {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* The Modal (background) */
+        .modal
+        {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content
+        {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop
+        {
+            from
+            {
+                top: -300px;
+                opacity: 0;
+            }
+
+            to
+            {
+                top: 0;
+                opacity: 1;
+            }
+        }
+
+        @keyframes animatetop
+        {
+            from
+            {
+                top: -300px;
+                opacity: 0;
+            }
+
+            to
+            {
+                top: 0;
+                opacity: 1;
+            }
+        }
+
+        /* The Close Button */
+        .close
+        {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus
+            {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .modal-header
+        {
+            padding: 2px 16px;
+            background-color: #e85e6c!important;
+        }
+
+        .modal-body
+        {
+            padding: 2px 16px;
+        }
+
+        .modal-footer
+        {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+		
+		<!-- table.dataTable{ -->
+	<!-- width: 200% !important; -->
+	<!-- table-layout:fixed; -->
+	<!-- border-collapse: collapse; -->
+<!-- } -->
+    </style>
+
+
+</head>
+<body>
+    <div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+    <div class="container-fluid">
+        <div class="breadcrumb-main">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                    </li>
+                    <li>Shift Allowance
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mid-main">
+        <div class="mid-top" style="margin-bottom: 5px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-5" style="display: none;">
+                        <select id="tableFilter" onchange='filterById(this)'>
+                            <option value="current">Current Month</option>
+                            <option value="Previous">Previous Month</option>
+                            <option value="Next">Next Month</option>
+                            <option value="DateRange">Date Range</option>
+                        </select>
+                        <input type="text" id="TxtToData" hidden class="txtDateInput" placeholder="From Date" style="width: 120px" />
+                        <input type="text" id="TxtFromDate" hidden class="txtDateInput" placeholder="To Date" style="width: 120px" />
+                        <input type="button" style="padding: 4px 10px; font-size: 10px;" id="BtnFilterData" value="GO" hidden class="btnSubmit" onclick='showmydata()' />
+                        <!-- <select id="WeekID" class="Search_WeekIdData" multiple="multiple" placeholder="Select Week" style="width: 270px !important;margin-right: 10px;" > -->
+                        <!-- </select> -->
+                        <!-- <a  href="javascript:void(0)" id="btnAllPeriodsShow" class="blue-btn" onclick="showmydata()"  >Show</a> -->
+                    </div>
+                    <div class="col-md-7" style="margin: 0px -3px 0px 499px;">
+                        <div>
+                            <div>
+                                <!--<ul class="top-btns">
+                                    <li>
+                                        <a href="javascript:void(0)" id="btnAllPeriods" onclick="onStatusBtnClick(this);hideCreateSAdata();">
+                                            <i class="fa fa-flag-o"></i>All Records
+								<span class="highlight_no">0</span>
+                                        </a>
+                                    </li>
+
+                                </ul>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mid-block">
+                <div class="container-fluid">
+                    <!-- <label class="lableHighlight">Go to "CREATE TIMESHEET" Tab to create / view timesheet.</label> -->
+                    <div class="alert alert-warning viewTSNote" style="display: none; padding: 2px; margin-bottom: 10px; margin-top: 5px; color: black !important; background-color: rgba(251, 185, 0, 0.80); border-radius: 0px !important; border-color: #b1a565 !important;"><strong><i class="fa fa-exclamation-circle"></i></strong></div>
+                    <table id="excelsummary" class="table-bordered table-new" style="table-layout: auto !important; display: none;">
+                        <thead>
+                            <tr>
+                                <th id="empemail" >Employee Email</th>
+                                <th class='empname'>Employee Name</th>
+                                <th>Project Code</th>
+                                <th>Project Name</th>
+                                <th >Allowance Type</th>
+                                <th>Remark</th>
+                                <th>Frequency</th>
+                                <th>No. of days</th>
+                                <th>For Date</th>
+                                <th>Day</th>
+                                <th>From Time</th>
+                                <th>To Time</th>
+                                <th>Allowance Ammount</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+
+                            <tr>
+                                <th id="empemail">Employee Email</th>
+                                <th class='empname'>Employee Name</th>
+                                <th>Project Code</th>
+                                <th>Project Name</th>
+                                <th>Allowance Type</th>
+                                <th>Remark</th>
+                                <th>Frequency</th>
+                                <th>No. of days</th>
+                                <th>For Date</th>
+                                <th>Day</th>
+                                <th>From Time</th>
+                                <th>To Time</th>                                
+                                <th>Allowance Ammount</th>
+
+                            </tr>
+
+                        </tfoot>
+                        <tbody id="tblexcelBody">
+                            <!-- <img  src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/BconeExpenseImg/loader.gif" /> -->
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+            </div>
+
+
+
+            <div class="mid-block">
+                <div class="container-fluid">
+                    <!-- <label class="lableHighlight">Go to "CREATE TIMESHEET" Tab to create / view timesheet.</label> -->
+                    <div class="alert alert-warning viewSA" style="display: none; padding: 2px; margin-bottom: 10px; margin-top: 5px; color: black !important; background-color: rgba(251, 185, 0, 0.80); border-radius: 0px !important; border-color: #b1a565 !important;"><strong><i class="fa fa-exclamation-circle"></i></strong></div>
+                     <table id="StatusWiseSummary" class="table-bordered table-new" style="table-layout: auto !important; display: none;"> 
+                    
+                            <thead>
+                            <tr>
+                                <th id="Th1">Employee Email</th>
+                                <th class='empname'>Employee Name</th>
+                                
+                                <th class="clsProjectCode">Project Code</th>
+                                <th >Project Name</th>
+                                <th class="clsAllowanceType">Allowance Type</th>
+                                <th class="clsTempNote">Remark</th>
+                                <th>Frequency</th>
+                                <th>No. of days</th>
+                                <th class="clsForDate">For Date</th>
+                                <th>Day</th>
+                                <th>From Time</th>
+                                <th>To Time</th>
+                                <th>Billable Hours</th>
+                                <th>Non Billable Hours</th>
+                                <th>NB Task Name</th>
+                                <th>Allowance Ammount</th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th id="Th2">Employee Email</th>
+                                <th class='empname'>Employee Name</th>                                
+                                <th class="clsProjectCode">Project Code</th>
+                                <th >Project Name</th>
+                                <th class="clsAllowanceType">Allowance Type</th>
+                                <th class="clsTempNote">Remark</th>
+                                <th>Frequency</th>
+                                <th>No. of days</th>
+                                <th class="clsForDate">For Date</th>
+                                <th>Day</th>
+                                <th>From Time</th>
+                                <th>To Time</th>
+                                <th>Billable Hours</th>
+                                <th>Non Billable Hours</th>
+                                <th>NB Task Name</th>
+                                <th>Allowance Ammount</th>
+
+                            </tr>
+
+                        </tfoot>
+
+                        
+                        <tbody id="tblStatusWiseSummary">
+                            <!-- <img  src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/BconeExpenseImg/loader.gif" /> -->
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="black-bg alert-main" id="yesNoPopup" style="display: none;">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="yesNoPopupMsg"></span></div>
+                <!-- <textarea rows="4" cols="30" class="form-control col-xs-12" placeholder="Comment..."  style="display: inline-block;margin-left: 10px;margin-right: 10pc;margin-top: 10px;width: 95%; margin-bottom: 10px;" id="yesNoPopupComent" maxlength="512" hidden ></textarea> -->
+                <div class="pop-mid">
+                    <textarea rows="4" cols="30" class="form-control col-xs-12" placeholder="Comment..." style="margin-bottom: 10px;" id="yesNoPopupComent" maxlength="512" hidden></textarea>
+                    <label id="Fillerror"><font color="red" style="margin-left: -212px;">Please Enter the Comment</font></label>
+                    <br />
+                    <input type="Button" class="divnewbtn" id="btnYes" value="YES" />
+                    <input type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')" value="NO" />
+                </div>
+            </div>
+        </div>
+
+        <div class="black-bg alert-main" style="display: none;" id="OKPopup">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="okPopupMsg"></span></div>
+                <div class="pop-mid">
+                    <input type="hidden" id="isPagerefresh"></span>
+			<input type="Button" class="divnewbtn" id="btnOkPopup" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />
+                </div>
+            </div>
+        </div>
+
+        <span id="loading-image"></span>
+
+        <!-- Log Pop up -->
+        <div class="allcommentdiv">
+            <div class="allcommentdiv-heading" style="background: rgb(51,122,183);">
+                <span id="LogResource"></span>
+            </div>
+            <div class="allcommentdiv-mid">
+                <h3><span id="LogId"></span></h3>
+                <div class="vertical-scoll">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 150px; background: #00b0f0 !important;">Date</th>
+                                <th style="width: 100px; background: #00b0f0 !important;">Action By</th>
+                                <th style="width: 80px; background: #00b0f0 !important;">Action</th>
+                                <th style="background: #00b0f0 !important;">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bindlog">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="allcommentdiv-foot">
+                <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+            </div>
+        </div>
+        <!-- Log Pop up -->
+        <!-- The Modal -->
+        <div id="myModals" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content" style="height: 400px; width: 700px;">
+                <p style="font-size: large;">Kindly use IE (Version 11 and above) or Chrome (Version 59 and above) in Laptop or Desktop to access PPM</p>
+            </div>
+
+        </div>
+
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header" style="height: 42px;">
+                    <span class="close" onclick="closepopup();return false;">&times;</span>
+                    <h4 style="color: black;">Error List</h4>
+                </div>
+                <div class="modal-body" id="divErrorList">
+                    <p>Some text in the Modal Body</p>
+                    <p>Some other text...</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <script>
+            var APILink = "https://ppmprod.bcone.com";
+            var PageLink = "https://bristleconeonline.sharepoint.com/sites/pwa";
+                           
+
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            function getProjectDetailsByProjectID(ProjectID) {
+
+
+                url = "/_api/ProjectData/Projects(guid'" + ProjectID + "')?$select=ProjectCode,ProjectName";
+
+                var requestHeaders = { "accept": "application/json;odata=verbose" };
+                $.ajax({
+                    url: url,
+                    contentType: "application/json;odata=verbose",
+                    headers: requestHeaders,
+                    success: onSuccess,
+                    error: onError,
+                    async: false
+                });
+
+
+                function onSuccess(data) {
+                    Project = [];
+                    Project.push(data.d);
+                }
+
+                function onError(error) {
+                    // alert("Error on retrieving");
+                }
+
+                return Project;
+            }
+
+
+
+            $(document).ready(function () {
+                var userid = _spPageContextInfo.userId;
+                GetUserId(userid);
+             
+            });
+
+            function GetUserId(userid) {
+                var NewloginName = "";
+                jQuery.ajax({
+                    url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                    type: "GET",
+                    async: false,
+                    headers: { "Accept": "application/json;odata=verbose" },
+                    success: function (data) {
+                        var dataResults = data.d;
+                        //console.log(dataResults);
+                        //get login name  
+                        //  console.log(data);
+                        var loginName = dataResults.LoginName;
+                        //console.log(loginName);
+                        //alert('loginName: '+loginName);
+                        $('#user_name').text(dataResults.Title);
+                        $('#login_name_contain').text(dataResults.Title);
+
+
+                        //get display name
+                        // console.log(dataResults.Title);
+                        NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                        //alert('NewloginName: '+NewloginName);
+                        getResourcesGuid(NewloginName);
+                        // console.log(NewloginName);
+                        //alert('NewloginName :' + NewloginName);
+
+                    },
+                    complete: function () {
+
+                        // var result = getResourcesGuid(NewloginName);
+                        // alert(result);
+                    },
+                });
+            }
+
+            function getResourcesGuid(NewloginName) {
+
+                jQuery.ajax({
+                    url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+
+                    type: "GET",
+                    async: false,
+                    headers: { "Accept": "application/json;odata=verbose" },
+                    success: function (data) {
+                        dataResults = data.d;
+                        Guid = dataResults.results[0].ResourceId;
+                        UserID = Guid;
+                        Emp_ID = dataResults.results[0].EmployeeID;
+               
+
+                    },
+                    complete: function () {
+
+
+                    },
+                });
+
+            }
+
+
+            
+            $(document).ready(function () {
+                //  $('#loading-image').show();
+                $('#yesNoPopupComent').hide();
+                $('#Fillerror').hide();
+                CurrentGuid = GetCurrentUserGUID("1");
+               
+                var username = sessionStorage.getItem("CurrentUsername");
+                if (username == "" || username == undefined) {
+                    $("#login_name_contain").text("");
+                }
+                else {
+                    $("#login_name_contain").text(username);
+                }
+               
+            });
+            
+            $(function () {
+                var userid = _spPageContextInfo.userId;
+                GetUserId(userid);
+                createstatusSummaryTable();
+            });
+            function GetUserId(userid) {
+                var NewloginName = "";
+                jQuery.ajax({
+                    url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                    type: "GET",
+                    async: false,
+                    headers: { "Accept": "application/json;odata=verbose" },
+                    success: function (data) {
+                        var dataResults = data.d;
+                        //console.log(dataResults);
+                        //get login name  
+                        //  console.log(data);
+                        var loginName = dataResults.LoginName;
+                        //console.log(loginName);
+                        //alert('loginName: '+loginName);
+                        $('#user_name').text(dataResults.Title);
+                        $('#login_name_contain').text(dataResults.Title);
+
+                        //get display name
+                        // console.log(dataResults.Title);
+                        NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                        //alert('NewloginName: '+NewloginName);
+                        getResourcesGuid(NewloginName);
+                        // console.log(NewloginName);
+                        //alert('NewloginName :' + NewloginName);
+
+                    },
+                    complete: function () {
+                        // var result = getResourcesGuid(NewloginName);
+                        // alert(result);
+                    },
+                });
+            }
+
+            var txtidIndex = 0;
+            
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            };
+
+            function createstatusSummaryTable() {
+
+                $("#StatusWiseSummary").dataTable().fnDestroy();
+
+                $("#StatusWiseSummary").css("display", "");
+                //$("#tableFilter").children("option[value*='DateRange']").removeAttr('disabled');
+                //$("#tableFilter").children("option[value*='Next']").removeAttr('disabled');
+
+                $("#tblStatusWiseSummary").text("");
+                var innerHtml = "";
+                //var ID = getCookie('ShiftMasterID');
+                var ID = localStorage.getItem("ShiftMasterID");
+             //Ravi
+                var url = APILink+"/api/rmo/GetAllowanceDataDetailByStatus";
+                $.ajax({
+                    url: url,
+                    data: { "ResourceUID": CurrentGuid, "Status": "All", "ShiftMasterID": ID, "Period": "Test" },
+                    async: false,
+                    type: "POST",
+                    dataType: "json",
+                    headers: { "Accept": "application/json; odata=verbose" },
+                    success: function (res) {
+
+                        // alert("success");
+                        if (res.Allowance.length > 0) {
+                            for (var i = 0; i < res.Allowance.length; i++) {
+                                innerHtml += "<tr ><td class='clsAction' >" + res.Allowance[i]["EmployeeEmail"] + "</td><td ><span style='cursor: help;' data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.'> " + res.Allowance[i]["EmployeeName"] + " </span></td><td >" + res.Allowance[0]["ProjectCode"] + "</td><td   class='clsTotalHours'>" + res.Allowance[i]["ProjectName"] + "</td><td  class='clsStatus' >" + res.Allowance[i]["AllowanceType"] + "</td><td style='text-align:center' class='submittedDate'>" + res.Allowance[i]["Tmpfornotes_validation"] + "</td><td class='clsApproveRejct' >" + res.Allowance[i]["Frequency"] + "</td><td class='pendingBy' >" + res.Allowance[i]["NoofDays"] + "</td><td class=''>" + res.Allowance[i]["ForDate"] + "</td><td class='clsApprovedBy'>" + res.Allowance[i]["Dayby"] + "</td><td class=\"clsLog\"><input type=\"hidden\" class=\"ts_name\" value='' >" + res.Allowance[i]["FromTime"] + "</td><td >" + res.Allowance[i]["ToTime"] + "</td><td >" + res.Allowance[i]["BillableHours"] + "</td><td >" + res.Allowance[i]["NonBillableHours"] + "</td><td >" + res.Allowance[i]["NBTaskName"] + "</td><td >" + res.Allowance[i]["AllowanceAmount"] + "</td></tr>";
+                            }
+                        }
+
+                    },
+                    error: function (error) {
+                        console.log(JSON.stringify(error));
+                    }
+                });
+
+
+
+                $("#tblStatusWiseSummary").append(innerHtml);
+                //dataTableLoad();
+                //TableHideShow(status);
+                statussummary_dataTableLoad();
+                //$("#periodsummary").children('thead').children('tr').children('th').length
+                $('#loading-image').hide();
+
+            }
+
+            function filterById(data) {
+                //console.log(JSON.stringfy(data));
+                $('#TxtToData').hide();
+                $('#TxtFromDate').hide();
+                $('#BtnFilterData').hide();
+
+
+                if (data.value == "DateRange") {
+                    $('#TxtToData').show();
+                    $('#TxtFromDate').show();
+                    $('#BtnFilterData').show();
+                }
+                else {
+                    showexceldata();
+                }
+            }
+          
+            function filterByDateRange() {
+
+                var arr = [];
+                var crrDate = new Date();
+                var fDate = new Date(returnDateFormat($('#TxtToData').val()).toString());// new Date(Date($('#TxtToData').val()));
+                var tDate = new Date(returnDateFormat($('#TxtFromDate').val()).toString());// new Date(Date($('#TxtFromDate').val()));
+                summaryTable.Data[0].PeriodInfo.filter
+                (
+                    function (a) {
+                        var sdate = new Date(a.StartDate);
+                        var edate = new Date(a.EndDate);
+                        if (fDate <= sdate && tDate >= edate) {	//console.log(sdate +""+edate);
+                            arr.push(a);
+                            //console.log(a);
+
+                        }
+                    }
+                )
+                displayStatusCount(arr, document.getElementById("tableFilter"));
+                createexcelSummaryTable(arr);
+            }
+
+            function statussummary_dataTableLoad() {
+                var table = $('#StatusWiseSummary').DataTable({
+				
+                    "JQueryUI": true,
+                    "autoWidth": true,
+                    "bAutoWidth": true,
+					//fixedHeader: true,
+                   // fixedColumns: true,
+                    //"bSortable": false,
+                    //"bSort" : false,
+                    "aaSorting": [],
+                    "columnDefs": [{
+                        "defaultContent": "-",
+                        "targets": "_all",
+
+                    }
+                    ]//,
+                    //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+
+                });
+
+                $('#StatusWiseSummary tfoot th').each(function () {
+                    var title = $('#StatusWiseSummary thead th').eq($(this).index()).text();
+
+                    //console.log(title)
+                    if (title != "Action" && title != "Log") {
+                        $(this).html('<input type="text" placeholder="Search" />');
+                    }
+                    else {	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+                    }
+                });
+
+
+                // Apply the search
+                table.columns().every(function () {
+                    var that = this;
+
+                    $('input', this.footer()).on('keyup change', function () {
+                        if (that.search() !== this.value) {
+                            that
+                                .search(this.value)
+                                .columns.adjust().draw();
+                            //.draw();			
+                        }
+                    });
+                });
+
+
+                $("th.empname").css("width", "115px");
+                $("th.clsAllowanceType").css("width", "1px");
+                $("th.clsTempNote").css("width", "40px");
+                $("th.clsProjectCode").css("width", "120px");
+                $("th.clsForDate").css("width", "120px");
+            }
+
+        </script>
+</body>
+</html>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

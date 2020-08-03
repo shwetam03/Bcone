@@ -1,0 +1,15 @@
+26-02-2017 13:09:45    Sync done for Access Requests26-02-2017 13:10:14    Sync done for BconeBillAttachment26-02-2017 13:22:38    Sync done for Access Requests28-02-2017 12:30:37 List Item: '77ba35c8-2ab1-43cd-b7c8-127497554fed'List Appreciation RecordError: System.ArgumentException: Value does not fall within the expected range.
+   at Microsoft.SharePoint.Client.ClientRuntimeContext..ctor(String webFullUrl)
+   at Microsoft.SharePoint.Client.ClientContext..ctor(String webFullUrl)
+   at PSRServices.PSR_NormalData.GetData() in C:\Users\admin\documents\visual studio 2015\Projects\SyncList\PSRServices\PSR_NormalData.cs:line 14528-02-2017 12:30:37    Sync done for Appreciation Record28-02-2017 12:30:37 List Item: List ConfigError: System.ArgumentOutOfRangeException: startIndex cannot be larger than length of string.
+Parameter name: startIndex
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at System.String.Substring(Int32 startIndex)
+   at PSRServices.PSR_NormalData.GetData() in C:\Users\admin\documents\visual studio 2015\Projects\SyncList\PSRServices\PSR_NormalData.cs:line 8528-02-2017 12:30:37    Sync done for Config28-02-2017 13:17:07 List Item: '77ba35c8-2ab1-43cd-b7c8-127497554fed'List Appreciation RecordError: System.ArgumentException: Value does not fall within the expected range.
+   at Microsoft.SharePoint.Client.ClientRuntimeContext..ctor(String webFullUrl)
+   at Microsoft.SharePoint.Client.ClientContext..ctor(String webFullUrl)
+   at PSRServices.PSR_NormalData.GetData() in C:\Users\admin\documents\visual studio 2015\Projects\SyncList\PSRServices\PSR_NormalData.cs:line 14528-02-2017 13:17:07    Sync done for Appreciation Record28-02-2017 13:17:07 List Item: List ConfigError: System.ArgumentOutOfRangeException: startIndex cannot be larger than length of string.
+Parameter name: startIndex
+   at System.String.Substring(Int32 startIndex, Int32 length)
+   at System.String.Substring(Int32 startIndex)
+   at PSRServices.PSR_NormalData.GetData() in C:\Users\admin\documents\visual studio 2015\Projects\SyncList\PSRServices\PSR_NormalData.cs:line 8528-02-2017 13:17:07    Sync done for Config

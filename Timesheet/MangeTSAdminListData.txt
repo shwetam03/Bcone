@@ -1,0 +1,1731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Manage Timesheet Admin List Data</title>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+	<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+	<style>
+		
+		#DeltaTopNavigation{	
+			display: none;
+
+		}
+		.example thead tr th {background: #00b0f0 !important; color: #efe9e9;}
+		.table-new thead tr th {padding: 5px;background: #00b0f0;color: #fff !important;}	
+		.Errormsg { color: red; }
+		.ErrormsgProxy { color: red; }
+		.ErrormsgTSProxyEntry { color: red; }
+		.divnewbtnClose{min-width: 6em; padding: 3px 12px; border: 1px solid #ababab; background-color: #e7e7e7; margin-left: 11px;	font-size: 11px;color: #000204;}
+		.SumoSelect {width:100% !important;}
+		.SumoSelect > .CaptionCont{ border-radius: 0px; border-color:#ccc !important; }
+		.SumoSelect > .optWrapper > .options  li.opt label{ font-weight: normal; }
+		.SumoSelect .select-all { padding: 6px 0 4px 35px; height: auto; }
+		.SumoSelect .select-all label{ font-weight: normal; }
+		.SumoSelect > .CaptionCont > span.placeholder{ font-style: normal; }
+		select[multiple], select[size]{height:30px !important}
+		#loading-image{z-index:9999999}
+	</style>
+</head>
+<body>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+	<div class="container-fluid">
+		<div class="breadcrumb-main">
+			<div class="container-fluid">
+				<ul>
+					<li>
+						 <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a> 
+					</li>
+					<li>Manage Timesheet Administration
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="mid-block">		
+		   <div class="top-refine" style="margin-top:0px; margin-bottom: 10px;">
+                <ul class="pull-left">
+                    <li style="display:inline-block;">Select List Name
+                    </li>
+                    <li style="display:inline-block;">
+                        <select class="resource-view" id="ddllistsName">
+                            <option value="--Select--">--Select--</option>
+                            <option value="PERSONAL_TASK">Personal and Long Leave Task</option>
+							<option value="TS_Proxy_Entry">TS Proxy Submission</option>
+    						<option value="TS_Proxy_Approval">TS Proxy Approval</option>
+						</select>
+                    </li>
+				</ul>
+				<ul class="pull-right">
+					<li style="display:inline-block;">
+						<a href="javascript:void(0)" id="Addtask" data-toggle="modal" data-target="#myModal" onclick="addTaks();" class="Add-more mouseover_date"  style="display:none;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Add New Item</a>
+					</li>
+					<li style="display:inline-block;">
+						<a href="javascript:void(0)" id="AddPrxyApp" data-toggle="modal" data-target="#myModal" onclick="addProxyDataPopUpShow();" class="Add-more mouseover_date"  style="display:none;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Add New Item</a>
+					</li>
+					<li style="display:inline-block;">
+						<a href="javascript:void(0)" id="TSProxyEntryAddPrxyApp" data-toggle="modal" data-target="#myModal" onclick="TSProxyEntryPopUpShow();" class="Add-more mouseover_date"  style="display:none;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Add New TS Entry</a>
+					</li>
+				</ul>
+                <div class="clearfix"></div>
+            </div>
+		</div>
+	</div>
+	<div class="container-fluid" id="tblPersonal">
+		<div class="" id="jqxgrid_container">
+			<table id="ExpenceDataTable" class="display example table table-bordered table-new" cellspacing="0">
+			</table>
+		</div>     
+	</div>
+	<div class="container-fluid" id="tblTSProxy">
+		<div class="" id="jqxgrid_containerTSProxyApproval">
+			<table id="tblTSProxyApproval" class="display example table table-bordered table-new" cellspacing="0">
+			</table>
+		</div>
+	</div>
+	<div class="container-fluid" id="tblTSEntryData">
+		<div class="" id="jqxgrid_tblTSProxyEntryData">
+			<table id="tblTSProxyEntryData" class="display example table table-bordered table-new" cellspacing="0">
+			</table>
+		</div>
+	</div>
+	<div id="myModal" class="modal fade textwidth in" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="display: none; padding-left: 17px;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"  value=""><i class="fa fa-times" aria-hidden="true"></i></button>
+					<h4 class="modal-title" id="hheader">Add New Item</h4>
+				</div>
+				<div class="modal-body">
+					<table id="tblPersonalLongdataTable">
+						<tbody>
+							<tr id="tr1">
+								<td>Task Name<sup id="Sup1"  style="color: #f00; font-size: 14px;">*</sup></td>
+								<td><input type="text" id="idNewTask" maxlength="250" class="form-control" ></td>
+							</tr>
+							<tr class="countLeagl">
+									<td>Country Legal<sup style="color: #f00; font-size: 14px;">*</sup></td>
+									<td>
+										<select class="form-control" id="ddlCountryLeagl">
+										<!-- <option value="ALL">ALL</option> -->
+										<!-- <option value="Bristlecone India Limited">Bristlecone India Limited</option> -->
+										<!-- <option value="Bristlecone United Kingdom">Bristlecone United Kingdom</option> -->
+										<!-- <option value="Bristlecone Middle East">Bristlecone Middle East</option> -->
+										<!-- <option value="Bristlecone Germany">Bristlecone Germany</option> -->
+										<!-- <option value="Bristlecone International AG">Bristlecone International AG</option> -->
+										<!-- <option value="Bristlecone Singapore Pte.Ltd">Bristlecone Singapore Pte.Ltd</option> -->
+										<!-- <option value="Bristlecone Malaysia">Bristlecone Malaysia</option> -->
+										<!-- <option value="Bristlecone Incorporated">Bristlecone Incorporated</option> -->
+										</select>
+									</td>
+								</tr>
+							<tr>
+								<td>Task Type<sup id="Sup1sfd" style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>	
+									<select class="form-control" id="ddlTaskBillNonBill">
+									<option value="Non-Billable">Non-Billable</option>
+									<option value="Billable">Billable</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>IsActive<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<div id="radiobuttons" class="radio-main ClearMsg">
+										<input type="radio" id="rdactiveyes" name="Actives" style="cursor: pointer" value="Yes">Yes
+										<input type="radio" id="rdactiveno" name="Actives" value="No" style="cursor: pointer">No
+									</div>
+								</td>
+							</tr>						
+							<tr>
+								<td></td><td><span class="Errormsg"></span></td>
+							</tr>
+							<tr id="PERSONAL_TASK_saveBtn" hidden>
+								<td></td>
+								<td>
+									<a href="javascript:void(0)" class="blue-btn savePersonal" hidden onclick="ADD_Admin_AddNewLongLeave_and_Personal('PERSONAL_TASK');"><span class="in-stock">Save</span></a>
+									<a href="javascript:void(0)" class="blue-btn UpdatePersonal" hidden onclick="updateTaskDetails('PERSONAL_TASK');"><span class="in-stock">Update</span></a>
+									<a href="javascript:void(0)" class="divnewbtnClose"  data-dismiss="modal" >Cancel</a>
+								</td>
+							</tr>
+							<tr id="LONG_LEAVE_saveBtn" hidden>
+							<td></td> 
+							<td>
+									<a href="javascript:void(0)" class="blue-btn savePersonal" onclick="ADD_Admin_AddNewLongLeave_and_Personal('LONG_LEAVE');"><span class="in-stock">Save</span></a>
+									<a href="javascript:void(0)" class="blue-btn UpdatePersonal" hidden onclick="updateTaskDetails('LONG_LEAVE');"><span class="in-stock">Update</span></a>
+									<a href="javascript:void(0)" class="divnewbtnClose" data-dismiss="modal" >Cancel</a>
+							</td>
+							</tr>					
+						</tbody>
+					</table>
+					<table id="ProxyModalPopup">
+						<tbody>
+							<tr id="PrxAppNameaddShow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Proxy Approver Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<select id="PrxAppName" class="search_test" style="width: 300px !important;" >
+								</td>
+							</tr>
+							<tr id="PrxAppNameUpdateShow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Proxy Approver Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td><input type="text" id="PrxAppNameUpdate" class="form-control" ></td>
+							</tr>
+							<tr id ="OriPrxAppNameMultiple">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Original Approver Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td >
+									<select id="OriPrxAppName" class="search_ProxyapproverResource" multiple="multiple" style="width: 300px !important;" >
+								</td >
+							</tr >
+							<tr id ="OriPrxAppNameMultipleRemove">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Original Approver Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td><input type="text" id="OriPrxAppNameUpdate" class="form-control" ></td>
+							</tr >
+							<tr>
+								<td>Is Active<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<div id="radiobuttons" class="radio-main ClearMsg">
+										<input type="radio" id="Prxactiveyes" name="PrxActives" style="cursor: pointer" value="Yes">Yes
+										<input type="radio" id="Prxactiveno" name="PrxActives" value="No" style="cursor: pointer">No									
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><span class="ErrormsgProxy"></span></td>
+							</tr>
+							<tr id="Proxy_Save_update_btn" >
+								<td></td> 
+								<td>
+									<a href="javascript:void(0)" class="blue-btn saveProxy" onclick="ADDProxyNew();" ><span class="in-stock">Save</span></a>
+									<a href="javascript:void(0)" class="blue-btn UpdateProxy"  onclick="updateProxy();" ><span class="in-stock">Update</span></a>
+									<a href="javascript:void(0)" class="divnewbtnClose" data-dismiss="modal" >Cancel</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>					
+					<table id="TSProxyEntryModalPopup">
+						<tbody>
+							<tr id="TSProxyEntryAddShow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Proxy Submitter Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<select id="TSProxyEntryPrxAppName" class="search_TSProxyEntryPrxAppName" style="width: 300px !important;" >
+								</td>
+							</tr>
+							<tr id="TSProxyEntryEditShow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Proxy Submitter Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<input type="text" id="TSProxyEntryPrxAppNameUPT" class="form-control" >
+								</td>
+							</tr>
+							<tr id="TSProxyEntryOriginalSubAddShow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Original Submitter Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<select id="TSProxyEntryOriSubmitterNameAddShow" class="search_TSProxyEntryPrxAppNameUpdate"  style="width: 300px !important;" >
+								</td>
+							</tr>
+							<tr id="TSProxyEntryOriginalSubEditShow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Original Submitter Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<input type="text" id="TSProxyEntryOriSubmitterNameEditShow" class="form-control" >
+								</td>
+							</tr>
+							<tr id="TSProxyEntryProject">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Project Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<select id="TSProxyEntryProjectData" multiple="multiple" class="search_TSProxyEntryProjectData"  style="width: 300px !important;" >
+								</td>
+							</tr>
+							<tr id="TSProxyEntryProjectEdit">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Project Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<input type="text" id="TSProxyEntryProjectDataEditShow"class="form-control" >
+								</td>
+							</tr>
+							<tr id="WeNameAddshow">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Week Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<select id="TSProxyEntryWeek" multiple="multiple" class="search_TSProxyEntryWeek"  style="width: 300px !important;" >
+								</td>
+							</tr>
+							<tr id="WeNameEdit">
+								<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Week Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+								<td>
+									<input type="text" id="TSProxyEntryWeekEditShow" class="form-control">
+								</td>
+							</tr>
+							<tr>  
+								<td>Is Active<sup style="color: #f00; font-size: 14px;">*</sup></td> 
+								<td> 
+									<div id="radiobuttons" class="radio-main ClearMsg">  
+										<input type="radio" id="WeekNameactiveyes" name="WeekNameActives" style="cursor: pointer" value="Yes">Yes  
+										<input type="radio" id="WeekNameactiveno" name="WeekNameActives" value="No" style="cursor: pointer">No  
+									</div>  
+								</td>
+							</tr>
+							  <tr>  
+								  <td></td>  
+								  <td><span class="ErrormsgTSProxyEntry"></span></td>  
+							  </tr>  
+							<tr id="TS_Proxy_Entry_Save_update_btn" >  
+								<td></td>   
+								<td>  
+									<a href="javascript:void(0)" class="blue-btn saveTsProxy" onclick="ADDProxyNewTSEntry();" ><span class="in-stock">Save</span></a>  
+									<a href="javascript:void(0)" class="blue-btn UpdateTsProxy" onclick="updateProxyTSEntry();" ><span class="in-stock">Update</span></a>  
+									<a href="javascript:void(0)" class="divnewbtnClose" data-dismiss="modal" >Cancel</a>  
+								</td>  
+							</tr>  
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="alertmain" class="alert-main" style="display: none">
+		<div class="black-bg" id="backcolor">
+			<div class="popup-main">
+				<div class="popup-heading"><span id="Alert_msg"></span></div>
+				<div class="pop-mid">
+					<p id="submitValue"></p>
+					<input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--this above div for TS Proxy Submitter add new item -->
+	<div id="alertmainTSEntry" class="alert-main" style="display: none">
+		<div class="black-bg" id="backcolor">
+			<div class="popup-main">
+				<div class="popup-heading"><span id="Alert_msgTSEntry"></span></div>
+				<div class="pop-mid">
+					<div class="vertical-scoll">
+						<table class="table table-bordered">
+							<tbody id="bindlog">
+							</tbody>
+						</table>
+					</div>
+					<input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_divTSProxyEntry()" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+		<div class="popup-main">
+			<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+			<div class="pop-mid">
+				<input type="hidden" id="isPagerefresh" ></span>
+				<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+			</div>			
+		</div>
+	</div>
+	<span id="loading-image"></span>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<script src="../SiteAssets/Timesheet/js/Config.js"></script> 
+<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+
+<script>
+var indexData = new Array();
+var ControlDuplicateProxyToAdd = new Array();
+var ControlDuplicateProxyToCheck = new Array();
+var ControlDuplicateTask = new Array();
+var ControlDuplicateLongLeav = new Array();
+var CaptureOldTaskName='';
+var CaptureOldTaskNamelongleave="";
+$(document).ready(function()
+{
+	disableRightClick();
+	GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	var DDLselValue="";
+	$('#ddllistsName').change(function()
+	{
+		DDLselValue = $('#ddllistsName :selected').val();
+		GetPersonalorLeaveData(DDLselValue);
+	})
+	$('#Addtask').hide();
+	$('#AddPrxyApp').hide();
+	$('.Errormsg').hide();
+	$('.ErrormsgProxy').hide();
+	$('.savePersonal').hide();
+	$('.UpdatePersonal').hide();
+	taskIdUID ="";
+	getAllProxy();
+	GetBconeFinanceApproverMatrix();
+	document.getElementById("TSProxyEntryProjectData").disabled = true;
+	document.getElementById("TSProxyEntryWeek").disabled = true;
+});
+
+function addTaks()
+{
+	addClear();
+	ClearBackGroundColour(); 
+	$('.savePersonal').show();
+	$('.UpdatePersonal').hide();
+	$('#ddlTaskBillNonBill').val("Non-Billable");
+	$('#rdactiveyes').prop('checked', true);
+	$('#ddlCountryLeagl').val("ALL");
+	$('.Errormsg').text("");
+	$('.Errormsg').hide();
+	$('#ProxyModalPopup').hide();
+	$('#TSProxyEntryModalPopup').hide();
+	$('#tblPersonalLongdataTable').show();
+}
+function addProxyDataPopUpShow()
+{
+	$('#ProxyModalPopup').show();
+	$('#TSProxyEntryModalPopup').hide();
+	$('#tblPersonalLongdataTable').hide();
+	$("#OriPrxAppName")[0].sumo.selectItem($("#OriPrxAppName  option[value='Select_Employee']").index());  
+	$("#OriPrxAppName").prop("selectedIndex",-1); //unselect check box  
+	$('#OriPrxAppName')[0].sumo.reload();  
+	$("#PrxAppName").prop("selectedIndex",-1); //unselect check box 
+	$('#PrxAppName')[0].sumo.reload(); 
+	<!-- $("#PrxAppName")[0].sumo.selectItem($("#PrxAppName  option[value='Select_Employee']").index()); -->
+	$("#PrxAppName option:disabled").each(function(e){if($(this).text().trim() != "Select Resource"){$('#PrxAppName')[0].sumo.enableItem($(this).index());}});
+	$("#OriPrxAppName option:disabled").each(function(e){ if($(this).text().trim() != "Select Resource"){$('#OriPrxAppName')[0].sumo.enableItem($(this).index());}});
+	$('#Prxactiveyes').prop('checked', true);
+	$('#hheader').text('Add New Item');
+	$('.saveProxy').show();
+	$('.UpdateProxy').hide();
+	$('#PrxAppNameaddShow').show();
+	$('#PrxAppNameUpdateShow').hide();
+	$('#OriPrxAppNameMultipleRemove').hide();
+	$('#OriPrxAppNameMultiple').show();
+	$('.ErrormsgProxy').text("");
+	$('.ErrormsgProxy').hide();	
+}
+
+document.getElementById("TSProxyEntryPrxAppName").onchange = function()  
+{   
+	 $("#TSProxyEntryOriSubmitterNameAddShow option:disabled").each(function(e){ if($(this).text().trim() != "Select Resource"){$('#TSProxyEntryOriSubmitterNameAddShow')[0].sumo.enableItem($(this).index());}}); 
+	 $("#TSProxyEntryOriSubmitterNameAddShow")[0].sumo.disableItem($("#TSProxyEntryOriSubmitterNameAddShow option[value=\""+$("#TSProxyEntryPrxAppName").val()+"\"]").index()); 
+};  
+
+document.getElementById("TSProxyEntryOriSubmitterNameAddShow").onchange = function() 
+{ 
+	$("#TSProxyEntryPrxAppName option:disabled").each(function(e){if($(this).text().trim() != "Select Resource"){$('#TSProxyEntryPrxAppName')[0].sumo.enableItem($(this).index());}});
+	$("#TSProxyEntryOriSubmitterNameAddShow option:selected").each(function(e){$("#TSProxyEntryPrxAppName")[0].sumo.disableItem($("#TSProxyEntryPrxAppName option[value=\""+$(this).val()+"\"]").index());});
+	$("#ErrormsgTSProxyEntry").text("");
+	getResourceProject();
+}
+
+document.getElementById("TSProxyEntryProjectData").onchange = function()  
+{   
+	var selectedProj=$('#TSProxyEntryProjectData :selected').length;
+	if(selectedProj==0)
+	{
+		document.getElementById("TSProxyEntryProjectData").disabled = false;
+		document.getElementById("TSProxyEntryWeek").disabled = true;
+	}
+	else
+	{
+		document.getElementById("TSProxyEntryWeek").disabled = false;
+		//JSON format like "'1449a80e-ccc3-4afd-9b2d-79e0dbe5cd4e','61444bdc-6953-4aef-aff6-f21acc848112'"
+		var resuid = $("#TSProxyEntryOriSubmitterNameAddShow option:selected").val();
+		var SelectedProj = [];
+		$('#TSProxyEntryProjectData option:selected').each(function(i) 
+		{
+			SelectedProj.push("'" +$(this).val().split("##")[0]+ "'");
+		});
+		if(SelectedProj.length==0)
+		{}
+		else
+		{
+			var SelectedProjectData = SelectedProj.join();
+			var PeriodWeek = SelectedProjectData;
+			var requestProjectData = {"ResourceUID":resuid.split("##")[0],"ProjectsUID": PeriodWeek};
+			ProjectSelectWeek(requestProjectData);
+		}
+	}
+};  
+
+function getResourceProject()
+{
+	var resuid = $("#TSProxyEntryOriSubmitterNameAddShow option:selected").val(); 
+	$('#loading-image').show();
+	$('.ErrormsgTSProxyEntry').text("");
+	var ResID= resuid.split("##")[0];
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/Timesheet/GetProjectListByResource",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:{"ResourceUID":ResID},
+		success:function(data)
+		{	
+			//$("#TSProxyEntryProjectData").append("<option value='Select_Project' index=0>Select Project</option>");
+			test = data;
+			if(test.Projects.length>0)
+			{
+				if($("#TSProxyEntryProjectData").hasClass("SumoUnder")){$("#TSProxyEntryProjectData").html('');$("#TSProxyEntryProjectData")[0].sumo.unload();}
+				test.Projects.forEach(function(u)
+				{
+					var i=0;
+					$("#TSProxyEntryProjectData").append("<option value=\""+u.ProjectId+"##"+u.AllocatedProjectCode+"\" index=\""+(i+1)+"\">"+u.ProjectName+"</option>")
+				});
+				$('.search_TSProxyEntryProjectData').SumoSelect({search: true, searchText: 'Search  Project'});
+				document.getElementById("TSProxyEntryProjectData").disabled = false;
+				document.getElementById("TSProxyEntryWeek").disabled = true;
+				$("#TSProxyEntryProjectData").prop("selectedIndex",-1); //unselect check box  
+				$('#TSProxyEntryProjectData')[0].sumo.reload();
+				var welength = $("#TSProxyEntryWeek :selected").length;
+				if(welength>0)
+				{
+					$("#TSProxyEntryWeek").prop("selectedIndex",-1); //unselect check box  
+					$('#TSProxyEntryWeek')[0].sumo.reload();
+				}
+				$('#loading-image').hide();
+			}
+			else
+			{
+				document.getElementById("TSProxyEntryProjectData").disabled = true;
+				document.getElementById("TSProxyEntryWeek").disabled = true;
+				$('.ErrormsgTSProxyEntry').text("");  
+				$('.ErrormsgTSProxyEntry').text("No Project");  
+				$('.ErrormsgTSProxyEntry').show();  
+				$("#TSProxyEntryProjectData").prop("selectedIndex",-1); //unselect check box  
+				//$('#TSProxyEntryProjectData')[0].sumo.reload();
+				var welength = $("#TSProxyEntryWeek :selected").length;
+				if(welength>0)
+				{
+					$("#TSProxyEntryWeek").prop("selectedIndex",-1); //unselect check box  
+					$('#TSProxyEntryWeek')[0].sumo.reload();
+				}
+				$('#loading-image').hide();
+			}
+			$('#loading-image').hide();
+			
+		},
+		error:function()
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}	
+	});
+}
+
+function TSProxyEntryPopUpShow() //ts proxy entry pop up
+{
+	$('#TSProxyEntryAddPrxyApp').show();
+	$('#loading-image').show();
+	getAllProxyfForTSEntry();
+	$('#TSProxyEntryAddShow').show();
+	$('#TSProxyEntryEditShow').hide();
+	$('#ProxyModalPopup').hide();
+	$('#TSProxyEntryModalPopup').show();
+	$('#TSProxyEntryOriginalSubAddShow').show();
+	$('#TSProxyEntryOriginalSubEditShow').hide();
+	$('.ErrormsgTSProxyEntry').text(""); 
+	$('#TSProxyEntryProject').show();
+	$('#TSProxyEntryProjectEdit').hide();
+	$('#WeNameAddshow').show();
+	$('#WeNameEdit').hide();
+	$('.UpdateTsProxy').hide();
+	$('.saveTsProxy').show();
+	$('#WeekNameactiveyes').prop('checked', true);
+	$('#hheader').text('Add New Item');
+	document.getElementById("TSProxyEntryProjectData").disabled = true;
+	document.getElementById("TSProxyEntryWeek").disabled = true;
+	$("#TSProxyEntryOriSubmitterNameAddShow")[0].sumo.selectItem($("#TSProxyEntryOriSubmitterNameAddShow  option[value='Select_TsPrroxyEntry']").index());  
+	$("#TSProxyEntryOriSubmitterNameAddShow").prop("selectedIndex",-1); //unselect check box  
+	$('#TSProxyEntryOriSubmitterNameAddShow')[0].sumo.reload();  
+	$("#TSProxyEntryPrxAppName").prop("selectedIndex",-1); //unselect check box 
+	$('#TSProxyEntryPrxAppName')[0].sumo.reload(); 
+	$("#TSProxyEntryProjectData").prop("selectedIndex",-1); //unselect check box 
+	$('#TSProxyEntryProjectData')[0].sumo.reload(); 
+	$("#TSProxyEntryWeek").prop("selectedIndex",-1); //unselect check box 
+	$('#TSProxyEntryWeek')[0].sumo.reload(); 
+	$('#tblPersonalLongdataTable').hide();
+}
+
+function ProjectSelectWeek(requestProjectData)
+{
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/Timesheet/GetPeriodListByProjectsAndResource",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:requestProjectData,
+		success:function(data)
+		{	
+			test = data;
+			if(test.Periods.length>0)
+			{
+				if($("#TSProxyEntryWeek").hasClass("SumoUnder")){$("#TSProxyEntryWeek").html('');$("#TSProxyEntryWeek")[0].sumo.unload();}
+				
+				test.Periods.forEach(function(u)
+				{
+					var i=0;
+					$("#TSProxyEntryWeek").append("<option value=\""+u.PeriodId+"\" index=\""+(i+1)+"\">"+u.PeriodDisplayName+"</option>")
+				});
+				$('.search_TSProxyEntryWeek').SumoSelect({search: true, searchText: 'Search  Week'});
+			}
+			$("#TSProxyEntryWeek").prop("selectedIndex",-1); //unselect check box  
+			$('#TSProxyEntryWeek')[0].sumo.reload();
+			$('#loading-image').hide();
+		},
+		error:function()
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}	
+	});
+}
+
+function ADDProxyNewTSEntry() //add new TS proxy submission
+{
+	var Proxy_Appr_TS_Entry = $("#TSProxyEntryPrxAppName option:selected").val();
+	var Original_Sub_Res = $("#TSProxyEntryOriSubmitterNameAddShow option:selected").val();
+	var TSEntryProj = $("#TSProxyEntryProjectData option:selected").val();
+	var TSEntryWeeks = $("#TSProxyEntryWeek option:selected").val();
+	if(Proxy_Appr_TS_Entry == undefined || Proxy_Appr_TS_Entry=="Select_TsPrroxyEntry")
+	{
+		$('.ErrormsgTSProxyEntry').text(""); $('.ErrormsgTSProxyEntry').text("Select Proxy Submitter"); $('.ErrormsgTSProxyEntry').show();  
+		return false; 
+	}
+	else if(Original_Sub_Res == undefined || Original_Sub_Res=="Select_TsPrroxyEntry")
+	{
+		$('.ErrormsgTSProxyEntry').text(""); $('.ErrormsgTSProxyEntry').text("Select Original Submitter"); $('.ErrormsgTSProxyEntry').show();  		
+		return false; 
+	}
+	else if(TSEntryProj== undefined)
+	{
+		$('.ErrormsgTSProxyEntry').text(""); $('.ErrormsgTSProxyEntry').text("Select Project Name"); $('.ErrormsgTSProxyEntry').show();  
+		return false;
+	}
+	else if(TSEntryWeeks== undefined)
+	{
+		$('.ErrormsgTSProxyEntry').text(""); $('.ErrormsgTSProxyEntry').text("Select Week"); $('.ErrormsgTSProxyEntry').show();  
+		return false;
+	}
+	else
+	{
+		var SelectedProj = [];
+		var SelectedPeriod = [];
+		var Proxy_Appr_TS_Entry = $("#TSProxyEntryPrxAppName option:selected").val();
+		var Original_Sub_Res = $("#TSProxyEntryOriSubmitterNameAddShow option:selected").val();
+		var Proxy_Appr_Res_Uid = Proxy_Appr_TS_Entry.split("##")[0];
+		var Proxy_Appr_Res_Name = Proxy_Appr_TS_Entry.split("##")[2];
+		var Original_Sub_Res_Uid = Original_Sub_Res.split("##")[0];
+		var Original_Sub_Res_Name = Original_Sub_Res.split("##")[2];
+		var RadiActiveStatus =  $("input:radio[name=WeekNameActives]:checked").val();
+		$('#TSProxyEntryProjectData option:selected').each(function(i) 
+		{
+			SelectedProj.push($(this).val().split("##")[0]);
+		});
+		$('#TSProxyEntryWeek option:selected').each(function(i) 
+		{
+			SelectedPeriod.push($(this).val().split("##")[0]);
+		});
+		var FinalRecord = [];
+		if(SelectedPeriod.length==0)
+		{}
+		else
+		{
+			for(var t=0;t<SelectedPeriod.length;t++)
+			{
+				for(var s=0;s<SelectedProj.length;s++)
+				{
+					var finalData = {"Res_Uid":Original_Sub_Res_Uid,
+							"Res_Name":Original_Sub_Res_Name,
+							"Proxy_Res_Uid":Proxy_Appr_Res_Uid,
+							"Proxy_Res_Name":Proxy_Appr_Res_Name,
+							"Active":RadiActiveStatus,
+							"Period_UID":SelectedPeriod[t],
+							"ProjectUID":SelectedProj[s]};
+					FinalRecord.push(finalData);
+				}
+			}
+		}
+		$.ajax
+		({
+			url:"https://ppmprod.bcone.com/api/Timesheet/Admin_InsertProxyEntryResData",
+			method:"POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			data:{"Data":FinalRecord},
+			success:function(data)
+			{
+				var recordExist = data.Exists.length;
+				$("#bindlog").text("");
+				var count=0;
+				if(recordExist!=0)
+				{
+					$('#myModal').hide();  
+					$("#alertmainTSEntry").show();  
+					document.getElementById("Alert_msgTSEntry").innerHTML= "Record saved successfully";  
+					var innerLogHTML = "";
+					for(var i=0;i<data.Exists.length;i++)
+					{	
+						innerLogHTML += '<tr>';
+						innerLogHTML += '<td>'+data.Exists[i]+'</td>';
+						innerLogHTML += '<tr>';
+						count++;
+					}
+					if(count==recordExist)
+					{
+						$("#bindlog").append(innerLogHTML);
+						DDLselValue = $('#ddllistsName :selected').val();  
+						$('#myModal').modal('hide');  
+						GetPersonalorLeaveData(DDLselValue);
+					}					
+				}
+				else
+				{
+					$('#myModal').hide();  
+					$("#alertmainTSEntry").show();  
+					document.getElementById("Alert_msgTSEntry").innerHTML= "Record saved successfully";  
+					DDLselValue = $('#ddllistsName :selected').val();  
+					$('#myModal').modal('hide');  
+					GetPersonalorLeaveData(DDLselValue); 
+				}
+			},
+			error:function()
+			{
+				openOKpopup(popUpMessage.ServerError,false);
+				$('#loading-image').hide();
+			}	
+		});
+	}
+}
+					
+function close_divTSProxyEntry()
+{
+	$("#alertmainTSEntry").hide();
+	document.getElementById("Alert_msgTSEntry").innerHTML="";
+	$("#bindlog").text("");
+}
+
+document.getElementById("PrxAppName").onchange = function() 
+{ 
+	$("#OriPrxAppName option:disabled").each(function(e){ if($(this).text().trim() != "Select Resource"){$('#OriPrxAppName')[0].sumo.enableItem($(this).index());}})
+	$("#OriPrxAppName")[0].sumo.disableItem($("#OriPrxAppName option[value=\""+$("#PrxAppName").val()+"\"]").index());
+};
+
+document.getElementById("OriPrxAppName").onchange = function() 
+{ 
+	$("#PrxAppName option:disabled").each(function(e){if($(this).text().trim() != "Select Resource"){$('#PrxAppName')[0].sumo.enableItem($(this).index());}})
+	$("#OriPrxAppName option:selected").each(function(e){$("#PrxAppName")[0].sumo.disableItem($("#PrxAppName option[value=\""+$(this).val()+"\"]").index());})
+}
+
+function ADDProxyNew()
+{
+	$('.ErrormsgProxy').text("");
+	$('.ErrormsgProxy').show();
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var ProxyApprovalresourceid = $('#PrxAppName option:selected').val();
+	var ProxyApprovalResourceName = $('#PrxAppName option:selected').text();
+	var OriginialAppnam = $('#OriPrxAppName  option:selected').val();
+	var PrxAct =  $("input:radio[name=PrxActives]:checked").val();
+	var approvedData = new Object();
+	approvedData.Data = new Array();
+	var obj = [];
+	var valObj = [];
+	$('#OriPrxAppName  option:selected').each(function(i) 
+	{
+		obj.push($(this).val());
+		valObj.push($(this).val());
+	});
+	ControlDuplicateProxyToCheck =[];
+	if(ProxyApprovalresourceid == "Select_Employee")
+	{
+		$('.ErrormsgProxy').text(""); $('.ErrormsgProxy').text("Select proxy Approver Name"); $('.ErrormsgProxy').show();
+		return false;
+	}
+	if(OriginialAppnam == undefined)
+	{
+		$('.ErrormsgProxy').text(""); $('.ErrormsgProxy').text("Select original Approver Name"); $('.ErrormsgProxy').show();
+		return false;
+	}
+	for(var r=0;r<valObj.length;r++)  
+	{  
+		if(valObj[r] == "Select_Employee" || valObj[r] == $('#PrxAppName option:selected').val())  
+		{  
+		  $('.ErrormsgProxy').text(""); $('.ErrormsgProxy').text("Uncheck select resource option"); $('.ErrormsgProxy').show();  
+		  return false;  
+		}  
+	}  
+	for(var v=0;v<obj.length;v++)
+	{
+		var tempData = new Object();
+		tempData.Proxy_Approval_Res_Uid = ProxyApprovalresourceid.split("##")[0].toString();
+		tempData.Proxy_Approval_Res_Name =ProxyApprovalResourceName;
+		tempData.Approval_Res_Uid = obj[v].split("##")[0]; //resid  original
+		tempData.Approval_Res_Name = obj[v].split("##")[2]; //resName original
+		tempData.Active = PrxAct;
+		approvedData.Data.push(tempData);
+		ControlDuplicateProxyToCheck.push(ProxyApprovalResourceName.toUpperCase()+  tempData.Approval_Res_Name.toUpperCase());
+	}
+	var notInSecond = ControlDuplicateProxyToAdd.slice(0); // Creates a clone of array1
+	for (var i = 0, j; i < ControlDuplicateProxyToCheck.length; i++) 
+	{
+		j = notInSecond.indexOf(ControlDuplicateProxyToCheck[i]);
+		if (j > -1)
+		{
+			notInSecond.splice(j, 1);
+			$('.ErrormsgProxy').text(""); $('.ErrormsgProxy').text("Duplicate record found"); $('.ErrormsgProxy').show();
+			return false;
+		}
+	}
+	$.ajax   
+	({   
+	  url:"https://ppmprod.bcone.com/api/timesheet/Admin_InsertProxyApprovalData",   
+	  method:"POST",   
+	  headers: { "Accept": "application/json; odata=verbose" },  
+	  dataType: "json",  
+	  data: approvedData,  
+	  success:function(Resdata)
+		{		  
+		  $('#myModal').hide();  
+		  $("#alertmain").show();  
+		  document.getElementById("Alert_msg").innerHTML= "Proxy Added Successfully";  
+		  DDLselValue = $('#ddllistsName :selected').val();  
+		  $('#myModal').modal('hide');  
+		  GetPersonalorLeaveData(DDLselValue);  
+		},   
+		error:function()   
+		{   
+		  openOKpopup(popUpMessage.ServerError,false);  
+		  $('#loading-image').hide();   
+		}	  
+	});   		
+}
+
+PersonalData = new Object();
+PersonalData.Tasks = new Array();	
+updateInfo = "";
+function GetPersonalorLeaveData(ddlval)
+{	
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	
+	if( ddlval == "--Select--")
+	{
+		$('#tblPersonal').hide();
+		$('#tblLong').hide();
+		$('#tblTSProxy').hide();
+		$('#Addtask').hide();
+		$('#AddPrxyApp').hide();
+		$('#TSProxyEntryAddPrxyApp').hide();
+		$('#tblTSEntryData').hide();
+	}
+	else if(ddlval == "PERSONAL_TASK")
+	{	
+		ControlDuplicateTask=[];
+		$('#loading-image').show();
+		$('.countLeagl').show();
+		cleardata(); 
+		$('#Addtask').show();
+		$('#AddPrxyApp').hide();
+		$('#PERSONAL_TASK_saveBtn').show();
+		$('#LONG_LEAVE_saveBtn').hide();
+		$('#tblPersonal').show();
+		$('#tblLong').hide();
+		$('#tblTSProxy').hide();
+		$('#TSProxyEntryAddPrxyApp').hide();
+		$('#tblTSEntryData').hide();
+		var DataTypevalue= "PERSONAL_TASK";	
+		var Admin_GetLongLeave_and_PersonalTasksURLs = Admin_GetLongLeave_and_PersonalTasks();
+		$.ajax
+		({
+			url:Admin_GetLongLeave_and_PersonalTasksURLs,
+			method: "POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			data: 
+			{
+				"Type":"PERSONAL_TASK"
+			},
+			success: function (data) 
+			{
+				//console.log(data);
+				updateInfo = data;
+				data.Tasks[i];
+				var table_header="";
+				table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+				table_header=table_header +"<th style='width:10%'>Action</th>";
+				table_header=table_header +"<th style='width:10%'>S.No</th>";
+				table_header=table_header +"<th style='width:40%'>Task Name</th>";
+				table_header=table_header +"<th style='width:20%'>Country Legal</th>";
+				table_header=table_header +"<th style='width:10%'>Type</th>"; 
+				table_header=table_header +"<th style='width:10%'>Is Active</th>";
+				table_header=table_header +"</tr></thead>";
+				//footer menu	
+				table_header=table_header +"<tfoot><tr>";
+				table_header=table_header +"<th></th>";
+				table_header=table_header +"<th>S.No</th>";
+				table_header=table_header +"<th>Task Name</th>";
+				table_header=table_header +"<th>Country Legal</th>";
+				table_header=table_header +"<th>Type</th>";
+				table_header=table_header +"<th>Is Active</th>";
+				table_header=table_header +"</tr></tfoot>";
+				table_element="";
+				var  table_body="";
+				table_body="<tbody>"; 	
+				if(data.Tasks.length == 0)
+				{			
+				}
+				else
+				{
+					var status = "";
+					for (var i = 0; i < data.Tasks.length; i++) 
+					{					
+						table_body += "<tr>";				
+						table_body+="<td style='text-align:center;'><a  href='javascript:void(0)' data-toggle='modal' data-target='#myModal' id='timid"+i+"'  onclick='getID(\""+data.Tasks[i].Task_UID+"\",\""+data.Tasks[i].Task_Name+"\",\""+data.Tasks[i].Type+"\",\""+data.Tasks[i].Is_Active+"\",\""+data.Tasks[i].CountryLegal+"\"); '><i class='fa fa-pencil' style='color:#333;font-size: 16px;'></i></a>"; 
+						table_body+="</td>";
+						table_body+="<td>"+(i+1)+"</td>";
+						table_body+="<td>"+data.Tasks[i].Task_Name+"</td>";
+						table_body+="<td>"+data.Tasks[i].CountryLegal+"</td>";
+						table_body += "<td>"+data.Tasks[i].Type+"</td>";
+						table_body+="<td>"+data.Tasks[i].Is_Active+"</td>";
+						table_body += "</tr>";	
+						ControlDuplicateTask.push(data.Tasks[i].Task_Name.toUpperCase()+data.Tasks[i].CountryLegal.toUpperCase());	
+					}
+				}
+				table_body=table_body+"/<tbody>";
+				table_element=table_header+table_body;
+				$('#ExpenceDataTable').html(table_element);
+				bind_dataTable();
+				$('#loading-image').hide();
+			},
+			error: function (data)
+			{
+				alert("failed");
+				$('#loading-image').hide();
+			}
+		});
+	}
+	else if(ddlval == "TS_Proxy_Approval")
+	{
+		ControlDuplicateProxyToAdd=[];
+		$('.countLeagl').hide();
+		$('#loading-image').show();
+		cleardataTSProxyApproval();
+		$('#Addtask').hide();
+		$('#AddPrxyApp').show();
+		$('#tblLong').hide();
+		$('#tblPersonal').hide();
+		$('#tblTSProxy').show();
+		$('#TSProxyEntryModalPopup').hide();
+		$('#TSProxyEntryAddPrxyApp').hide();
+		$('#tblTSEntryData').hide();
+		
+		$.ajax
+		({
+			url:"https://ppmprod.bcone.com/api/timesheet/Admin_GetAllProxyResourceList",
+			method: "POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			success: function (data) 
+			{
+				var	table_header="";
+				table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+				table_header=table_header +"<th style='width:10%'>Action</th>";
+				table_header=table_header +"<th style='width:10%'>S.No</th>";
+				table_header=table_header +"<th style='width:30%'>Proxy Approver Name</th>";
+				table_header=table_header +"<th style='width:30%'>Original Approver Name</th>";
+				table_header=table_header +"<th style='width:10%'>Is Active</th>";
+				table_header=table_header +"<th style='width:10%'>Modified Date</th>";
+				table_header=table_header +"</tr></thead>";
+				//footer menu	
+				table_header=table_header +"<tfoot><tr>";
+				table_header=table_header +"<th ></th>";
+				table_header=table_header +"<th >S.No</th>";
+				table_header=table_header +"<th >Proxy Approver Name</th>";
+				table_header=table_header +"<th >Original Approver Name</th>";
+				table_header=table_header +"<th >Is Active</th>";
+				table_header=table_header +"<th >Modified Date</th>";
+				table_header=table_header +"</tr></tfoot>";
+				table_element="";	
+				var  table_body="";
+				table_body="<tbody>"; 
+				if(data.ProxyResources.length == 0)
+				{
+				}
+				else
+				{
+					var status = "";
+					var SYcount = 1;
+					for (var i = 0; i < data.ProxyResources.length; i++) 
+					{			
+						for(t=0;t<data.ProxyResources[i].Resources.length;t++)
+						{
+							table_body += "<tr>";
+							table_body+="<td style='text-align:center;'><a  href='javascript:void(0)' data-toggle='modal' data-target='#myModal' id='' onclick='updateProxyDetails(\""+data.ProxyResources[i].ProxyResID+"\",\""+data.ProxyResources[i].ProxyResName+"\",\""+data.ProxyResources[i].Resources[t].Approval_Res_Uid+"\",\""+data.ProxyResources[i].Resources[t].Approval_Res_Name+"\",\""+data.ProxyResources[i].Resources[t].Active+"\",\""+data.ProxyResources[i].Resources[t].Modified_Date+"\",\""+(SYcount)+"\")'><i class='fa fa-pencil' style='color:#333;font-size: 16px;'></i></a>"; 
+							table_body+="</td>";
+							table_body+="<td>"+(SYcount++)+"</td>";
+							table_body+="<td>"+data.ProxyResources[i].ProxyResName+"</td>";
+							table_body+="<td>"+data.ProxyResources[i].Resources[t].Approval_Res_Name+"</td>";
+							table_body+="<td>"+data.ProxyResources[i].Resources[t].Active+"</td>";
+							var Modified_Date= data.ProxyResources[i].Resources[t].Modified_Date;
+							var Modified_Dates =  new Date(Modified_Date);
+							if(Modified_Dates == "Invalid Date")
+							{
+								Modified_Dates="";
+							}
+							else
+							{
+								Modified_Dates = ("0" + Modified_Dates.getDate()).slice(-2)+  "-" + monthNames[Modified_Dates.getMonth()] +"-" + Modified_Dates.getFullYear();
+							}
+							table_body+="<td>"+Modified_Dates+"</td>";
+							table_body+="</tr>";
+							ControlDuplicateProxyToAdd.push(data.ProxyResources[i].ProxyResName.toUpperCase()+  data.ProxyResources[i].Resources[t].Approval_Res_Name.toUpperCase());
+						}
+					}
+				}
+				table_body=table_body+"/<tbody>";
+				table_element=table_header+table_body;
+				$('#tblTSProxyApproval').html(table_element);
+				TSProxyApprovalDatatableBind();
+				$('#loading-image').hide();
+			},
+			error: function (data)
+			{
+				openOKpopup(popUpMessage.ServerError,false);
+				$('#loading-image').hide();
+			}
+		});
+	}
+	else if(ddlval == "TS_Proxy_Entry")
+	{
+		$('.countLeagl').hide();
+		$('#Addtask').hide();
+		$('#AddPrxyApp').hide();
+		$('#tblLong').hide();
+		$('#tblPersonal').hide();
+		$('#tblTSProxy').hide();
+		$('#ProxyModalPopup').hide();
+		$('#TSProxyEntryModalPopup').show();
+		$('#tblPersonalLongdataTable').hide();
+		$('#TSProxyEntryAddPrxyApp').show();
+		$('#tblTSEntryData').show();
+		GetProxyEntryResourceList();
+	}
+}
+
+function GetProxyEntryResourceList()	//get ts proxy submission details 
+{
+	$('#loading-image').show();
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	$.ajax
+	({
+		url:" https://ppmprod.bcone.com/api/Timesheet/Admin_GetProxyEntryResourceList",
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		datatype:"json",
+		data:{"ResourceUID":"NA"},
+		success: function (data) 
+		{
+			cleardataTSProxyEntry();
+			var	table_header="";
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th style='width:6%'>Action</th>";
+			table_header=table_header +"<th style='width:6%'>S.No</th>";
+			table_header=table_header +"<th style='width:18%'>Proxy Submitter Name</th>";
+			table_header=table_header +"<th style='width:18%'>Original Submitter Name</th>";
+			table_header=table_header +"<th style='width:20%'>Project Name</th>";
+			table_header=table_header +"<th style='width:17%'>Period</th>";
+			table_header=table_header +"<th style='width:10%'>Is Active</th>";
+			table_header=table_header +"</tr></thead>";	
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th></th>";
+			table_header=table_header +"<th>S.No</th>";
+			table_header=table_header +"<th>Proxy Submitter Name</th>";
+			table_header=table_header +"<th>Original Submitter Name</th>";
+			table_header=table_header +"<th>Project Name</th>";
+			table_header=table_header +"<th>Period</th>";
+			table_header=table_header +"<th>Is Active</th>";
+			table_header=table_header +"</tr></tfoot>";
+			table_element="";	
+			var  table_body="";
+			table_body="<tbody>"; 			
+			if(data.Resources.length == 0)
+			{
+			}
+			else
+			{
+				var status = "";
+				var SYcount = 1;
+				for(i=0;i<data.Resources.length;i++)
+				{
+					table_body += "<tr>";
+					table_body+="<td style='text-align:center;'><a  href='javascript:void(0)' data-toggle='modal' data-target='#myModal' onclick='updateTSProxyEntryDetails(\""+data.Resources[i].Proxy_Res_Uid+"\",\""+data.Resources[i].Proxy_Res_Name+"\",\""+data.Resources[i].Res_Name+"\",\""+data.Resources[i].Res_Uid+"\",\""+data.Resources[i].Period_UID+"\",\""+data.Resources[i].PeriodDisplayName+"\",\""+data.Resources[i].ProjectName+"\",\""+data.Resources[i].ProjectUID+"\",\""+data.Resources[i].Active+"\")'><i class='fa fa-pencil' style='color:#333;font-size: 16px;'></i></a>"; 
+					table_body+="</td>";
+					table_body+="<td>"+(SYcount++)+"</td>";
+					table_body+="<td>"+data.Resources[i].Proxy_Res_Name+"</td>";
+					table_body+="<td>"+data.Resources[i].Res_Name+"</td>";
+					table_body+="<td>"+data.Resources[i].ProjectName+"</td>";
+					var datFomat = data.Resources[i].PeriodDisplayName;
+					//PeriodDisplayName format like  "WK(05-07-2017-05-13-2017)"; 
+					if(datFomat==""||datFomat==undefined)
+					{
+						var FinaldataFormat="";
+						
+					}
+					else
+					{
+						var datFomatStartPreFix = datFomat.slice(0,3);
+						
+						var datFomatStart =datFomat.slice(3,13);
+						var dateStartdate = new Date(datFomatStart);
+						var datFomatEnd = datFomat.slice(14,24);
+						var dateEnddate = new Date(datFomatEnd);
+						var datFomatStartSaFix = datFomat.slice(24,25);
+						var Starts_Dates = ("0" + dateStartdate.getDate()).slice(-2)+  "-" + monthNames[dateStartdate.getMonth()] +"-" + dateStartdate.getFullYear();
+						var Ends_Dates = ("0" + dateEnddate.getDate()).slice(-2)+  "-" + monthNames[dateEnddate.getMonth()] +"-" + dateEnddate.getFullYear();
+							
+						var FinaldataFormat=datFomatStartPreFix+Starts_Dates+" "+Ends_Dates+datFomatStartSaFix;
+					}
+					table_body+="<td>"+FinaldataFormat+"</td>";
+					table_body+="<td>"+data.Resources[i].Active+"</td>";
+					table_body+="</tr>";
+				}
+			}
+			table_body=table_body+"/<tbody>";
+			table_element=table_header+table_body;
+			$('#tblTSProxyEntryData').html(table_element);
+			TsProxyEntryDatatableBind();
+			$('#loading-image').hide();
+		},
+		error: function (data)
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}
+	});
+}
+
+var UpdataFinalData={};
+function updateTSProxyEntryDetails(Proxy_Res_Uid,Proxy_Res_Name,Res_Name,Res_Uid,Period_UID,PeriodDisplayName,ProjectName,ProjectUID,ActiveStatus)
+{
+	$('#TSProxyEntryAddShow').hide();
+	$('#TSProxyEntryEditShow').show();
+	$('#TSProxyEntryAddPrxyApp').show();
+	$('#TSProxyEntryOriginalSubAddShow').hide();
+	$('#TSProxyEntryOriginalSubEditShow').show();
+	$('#TSProxyEntryProject').hide();
+	$('#TSProxyEntryProjectEdit').show();
+	$('#WeNameAddshow').hide();
+	$('#WeNameEdit').show();
+	$('.UpdateTsProxy').show();
+	$('.saveTsProxy').hide();
+	$('#ProxyModalPopup').hide();
+	$('#TSProxyEntryModalPopup').show();
+	$('#tblPersonalLongdataTable').hide();
+	$('#hheader').text('Update Item');
+	document.getElementById("TSProxyEntryPrxAppNameUPT").disabled = true;
+	document.getElementById("TSProxyEntryOriSubmitterNameEditShow").disabled = true;
+	document.getElementById("TSProxyEntryProjectDataEditShow").disabled = true;
+	document.getElementById("TSProxyEntryWeekEditShow").disabled = true;
+	$("#TSProxyEntryPrxAppNameUPT").val(Proxy_Res_Name);
+	$("#TSProxyEntryOriSubmitterNameEditShow").val(Res_Name);
+	$("#TSProxyEntryProjectDataEditShow").val(ProjectName);
+	$("#TSProxyEntryWeekEditShow").val(PeriodDisplayName);
+	$("input[name=WeekNameActives][value="+ActiveStatus+"]").prop('checked', true);
+	UpdataFinalData={"Res_Uid":Res_Uid, "Proxy_Res_Uid":Proxy_Res_Uid, "Period_UID":Period_UID, "ProjectUID":ProjectUID};
+
+}
+function updateProxyTSEntry()
+{
+	var RadiTSProxyEntryActiveStatus =  $("input:radio[name=WeekNameActives]:checked").val();
+	UpdataFinalData.Active=RadiTSProxyEntryActiveStatus;
+	finalOutputData = [];
+	finalOutputData.push({UpdataFinalData:UpdataFinalData});
+	$.ajax
+	({
+		url:" https://ppmprod.bcone.com/api/Timesheet/Admin_UpdateProxyEntryResData",
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		datatype:"json",
+		data:UpdataFinalData,
+		success: function (data) 
+		{
+			$('#myModal').hide();  
+			$("#alertmain").show();  
+			document.getElementById("Alert_msg").innerHTML= "Record update successfully";  
+			DDLselValue = $('#ddllistsName :selected').val();  
+			$('#myModal').modal('hide');  
+			GetPersonalorLeaveData(DDLselValue); 
+		},
+		error: function (data)
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}
+	});
+}
+
+function addClear()
+{
+	$('#hheader').text('Add New Item');
+	$('#idNewTask').val("");
+	$('#rdactiveno').prop('checked', false);
+	$('#rdactiveyes').prop('checked', true);
+}
+
+function ADD_Admin_AddNewLongLeave_and_Personal(typeval)
+{
+$('.savePersonal').show();
+$('.Errormsg').text("");
+updateInfo="";
+var DDLTypeValueSlected =  $('#ddllistsName :selected').val();
+
+	var myTaskName = $('#idNewTask').val().trim();
+	var iChars = "!@#$%^&*+=[]\\\'/{}|\":<>";
+	for (var k = 0; k < myTaskName.length; k++) 
+	{
+		if (iChars.indexOf(myTaskName[k]) != -1)
+		{
+			ClearBackGroundColour(); 
+			$('.Errormsg').text("");
+			$('.Errormsg').text(AdminValidationMsg.tskNameLimtMax);
+			$('.Errormsg').show();
+			//$('#divbcCurrency').css({"border": "1px solid red","background": "#FFCECE","width":"302px"});
+			$('#idNewTask').css({"border": "1px solid red","background": "#FFCECE"});
+			document.getElementById("idNewTask").focus();
+			return false;
+		}
+	}
+	if(typeval=="PERSONAL_TASK")
+	{
+		var checkduplicate=myTaskName.toUpperCase()+$('#ddlCountryLeagl :selected').val().toUpperCase();
+		for(var j=0;j<ControlDuplicateTask.length;j++)
+		{
+			if(ControlDuplicateTask[j]==checkduplicate)
+			{
+				ClearBackGroundColour(); 
+				$('.Errormsg').text(""); $('.Errormsg').text('Task Name and Country Legal already exist'); $('.Errormsg').show();
+				$('#idNewTask').css({"border": "1px solid red","background": "#FFCECE"});
+				$('#ddlCountryLeagl').css({"border": "1px solid red","background": "#FFCECE"});
+				document.getElementById("idNewTask").focus();
+				return false;
+			}
+		}
+	}
+	if(typeval=="LONG_LEAVE")
+	{
+		var checkduplicateLongLeave=myTaskName.toUpperCase();
+		for(var j=0;j<ControlDuplicateLongLeav.length;j++)
+		{
+			if(ControlDuplicateLongLeav[j]==checkduplicateLongLeave)
+			{
+				ClearBackGroundColour(); 
+				$('.Errormsg').text(""); $('.Errormsg').text(AdminValidationMsg.tskNameExisted); $('.Errormsg').show(); 	
+				$('#idNewTask').css({"border": "1px solid red","background": "#FFCECE"});
+				document.getElementById("idNewTask").focus();
+				return false;
+			}
+		}
+	}	
+	var taskidREQ = document.getElementById("idNewTask").value.trim();
+	if (taskidREQ == '' || taskidREQ == undefined)
+	{
+		ClearBackGroundColour(); 
+		$('.Errormsg').text(""); $('.Errormsg').text(AdminValidationMsg.tskNameEmtyMsg); $('.Errormsg').show();
+		$('#idNewTask').css({"border": "1px solid red","background": "#FFCECE"});
+		document.getElementById("idNewTask").focus();
+		return false;
+	}	
+	var RadiREQ =  $("input:radio[name=Actives]:checked").val();
+	if (RadiREQ == '' || RadiREQ == undefined)
+	{
+		ClearBackGroundColour(); 
+		$('.Errormsg').text("");
+		$('.Errormsg').text(AdminValidationMsg.tskActiveEmptyMsg);
+		$('.Errormsg').show();
+		$('#radiobuttons').css({"border": "1px solid red","background": "#FFCECE"});
+		document.getElementById("radiobuttons").focus();
+		return false;
+	}
+	else
+	{	
+		ClearBackGroundColour(); 
+		$('.Errormsg').text("");
+		$('.savePersonal').show();
+		$('.Errormsg').hide();
+		$('.UpdatePersonal').hide();
+		if(typeval == "PERSONAL_TASK")
+		{
+			var Admin_AddNewLongLeave_and_PersonalTasksURLs =  Admin_AddNewLongLeave_and_PersonalTasks();
+			var Task_Name = $('#idNewTask').val().trim();
+			var BillableType=$('#ddlTaskBillNonBill :selected').val();
+			var countryLeg =$('#ddlCountryLeagl :selected').val();
+			var Type = typeval;
+			var Task_Status= $("input:radio[name=Actives]:checked").val();
+			$.ajax
+			({
+				url:Admin_AddNewLongLeave_and_PersonalTasksURLs,
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				data: 
+				{
+					"Task_Status":Task_Status,
+					"Task_Name":Task_Name,
+					"BillableType":BillableType,
+					"Type":Type,
+					"Country_Legal":countryLeg
+				},
+				success: function (data) 
+				{
+					$('#myModal').hide();
+					$("#alertmain").show();
+					document.getElementById("Alert_msg").innerHTML= "New Personal and Long Leave Added Successfully";
+					DDLselValue = $('#ddllistsName :selected').val();
+					$('#myModal').modal('hide');
+					GetPersonalorLeaveData(DDLselValue);
+				},
+				error: function (data)
+				{
+					alert("failed");
+				}
+			});
+		}
+		
+	}
+}
+
+function getID(taskuid,tskName,tskType,activeStaus,countryName)
+{
+	$('#ProxyModalPopup').hide();
+	$('#TSProxyEntryModalPopup').hide();
+	$('#tblPersonalLongdataTable').show();
+	$('#hheader').text('Edit Item');
+	ClearBackGroundColour();
+	$('.Errormsg').text("");
+	$('#idNewTask').val(tskName);
+	CaptureOldTaskName=tskName.toUpperCase()+countryName.toUpperCase();
+	CaptureOldTaskNamelongleave=tskName.toUpperCase();
+	$('#ddlTaskBillNonBill').val(tskType);
+	$('#ddlCountryLeagl').val(countryName);
+	$("input[name=Actives][value="+activeStaus+"]").prop('checked', true);
+	taskIdUID = taskuid;
+	$('.UpdatePersonal').show();
+	$('.savePersonal').hide();
+}
+
+
+var updateProxyObjData={};
+function updateProxyDetails(ProxyResID,ProxyResName,Approval_Res_Uid,Approval_Res_Name,activeStaus,ModifiedDate,POindex)
+{
+	$(".ErrormsgProxy").text("");
+	$('#ProxyModalPopup').show();
+	$('#TSProxyEntryModalPopup').hide();
+	$('#tblPersonalLongdataTable').hide();
+	$('#hheader').text('Edit Item');
+	$('.saveProxy').hide();
+	$('.UpdateProxy').show();
+	$('#PrxAppNameaddShow').hide();
+	$('#PrxAppNameUpdateShow').show();
+	$('#OriPrxAppNameMultiple').hide();
+	$('#OriPrxAppNameMultipleRemove').show();
+	ClearBackGroundColour();
+	document.getElementById("PrxAppNameUpdate").disabled = true;
+	document.getElementById("OriPrxAppNameUpdate").disabled = true;
+	$("#PrxAppNameUpdate").val(ProxyResName);
+	$("#OriPrxAppNameUpdate").val(Approval_Res_Name);
+	$("input[name=PrxActives][value="+activeStaus+"]").prop('checked', true);
+	updateProxyObjData={"Proxy_Approval_Res_Uid":ProxyResID,"Approval_Res_Uid":Approval_Res_Uid};
+}
+function updateProxy()
+{
+	$(".ErrormsgProxy").text("");
+	var activeStaus_data= $("input:radio[name=PrxActives]:checked").val();
+	updateProxyObjData.Active=activeStaus_data;
+	finalOutputData = [];
+	finalOutputData.push({updateProxyObjData:updateProxyObjData});
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/timesheet/Admin_UpdateProxyApprovalData",
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		dataType:"json",
+		data: updateProxyObjData,
+		success: function (data) 
+		{
+			$('#myModal').hide();
+			$("#alertmain").show();
+			document.getElementById("Alert_msg").innerHTML= "Proxy Approver Update Successfully";
+			DDLselValue = $('#ddllistsName :selected').val();
+			$('#myModal').modal('hide');
+			GetPersonalorLeaveData(DDLselValue);
+		},
+		error: function (data)
+		{
+			alert("failed");
+		}
+	});
+}
+
+var summaryData;
+function updateTaskDetails(TypeDta)
+{
+	$('#tblPersonalLongdataTable').show();
+	$('.Errormsg').text("");
+	var taskidREQ = document.getElementById("idNewTask").value.trim();
+	var RadiREQ =  $("input:radio[name=Actives]:checked").val();
+	var myTaskName = $('#idNewTask').val().trim();
+	var iChars = "!@#$%^&*+=[]\\\'/{}|\":<>"; 
+	if(TypeDta=="PERSONAL_TASK")
+	{
+		for(var i=0;i<ControlDuplicateTask.length;i++)
+		{
+			if(ControlDuplicateTask[i]==CaptureOldTaskName)
+			{
+				ControlDuplicateTask.splice(i, 1);
+				break;
+			}
+		}
+	}
+	if (taskidREQ == '' || taskidREQ == undefined)
+	{
+		ClearBackGroundColour();
+		$('.Errormsg').text(""); $('.Errormsg').text(AdminValidationMsg.tskNameEmtyMsg);$('.Errormsg').show();
+ 		$('#idNewTask').css	({"border": "1px solid red","background": "#FFCECE"});
+		document.getElementById("idNewTask").focus();
+		return false;
+	}
+	for (var k = 0; k < myTaskName.length; k++) 
+	{
+		if (iChars.indexOf(myTaskName[k]) != -1)
+		{
+			ClearBackGroundColour(); 
+			$('.Errormsg').text(""); $('.Errormsg').text(AdminValidationMsg.tskNameLimtMax); $('.Errormsg').show(); 
+			$('#idNewTask').css	({"border": "1px solid red",	"background": "#FFCECE"});
+			document.getElementById("idNewTask").focus();
+			return false;
+		}
+	}
+	var  checkduplicate="";
+	if(TypeDta=="PERSONAL_TASK")
+	{
+		checkduplicate=myTaskName.toUpperCase()+$('#ddlCountryLeagl :selected').val().toUpperCase();
+		if(ControlDuplicateTask.indexOf(checkduplicate) > -1 )
+		{
+			ClearBackGroundColour(); 
+			$('.Errormsg').text("");
+			$('.Errormsg').text('Task Name and Country Legal already exist');
+			$('.Errormsg').show();
+			$('#idNewTask').css({"border": "1px solid red",	"background": "#FFCECE"});
+			$('#ddlCountryLeagl').css({"border": "1px solid red",	"background": "#FFCECE"});
+			document.getElementById("idNewTask").focus();
+			ControlDuplicateTask.push(checkduplicate);
+			return false;
+		}
+	}
+	var checkduplicateLongLeave="";
+	if (RadiREQ == '' || RadiREQ == undefined)
+	{
+		ClearBackGroundColour(); 
+		$('.Errormsg').text(""); $('.Errormsg').text(AdminValidationMsg.tskActiveEmptyMsg); $('.Errormsg').show(); 	
+		$('#radiobuttons').css({"border": "1px solid red","background": "#FFCECE"});
+		document.getElementById("radiobuttons").focus();
+		return false;
+	}
+	else
+	{	
+		$('.Errormsg').hide();
+		$('.savePersonal').hide();
+		$('.UpdatePersonal').show();
+		var Admin_UpdateLongLeave_and_PersonalTasksURLs =  Admin_UpdateLongLeave_and_PersonalTasks();
+		var Task_Name = $('#idNewTask').val().trim();
+		var BillableType=$('#ddlTaskBillNonBill :selected').val();
+		var countytype=$('#ddlCountryLeagl :selected').val();
+		var Type = TypeDta;
+		var Task_Status= $("input:radio[name=Actives]:checked").val();
+		if(TypeDta=="PERSONAL_TASK")
+		{
+			$.ajax
+			({
+				url:Admin_UpdateLongLeave_and_PersonalTasksURLs,
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+				data: 
+				{
+					"Task_Status":Task_Status,
+					"Task_Name":Task_Name,
+					"BillableType":BillableType,
+					"Type":Type,
+					"Task_UID":taskIdUID,
+					"CountryLegal":countytype
+				},
+				success: function (data) 
+				{
+					$('#myModal').hide();			
+					$("#alertmain").show();
+					document.getElementById("Alert_msg").innerHTML="Personal and Long Leave Updated Successfully";
+					DDLselValue = $('#ddllistsName :selected').val();
+					$('#myModal').modal('hide');
+					GetPersonalorLeaveData(DDLselValue);
+					
+				},
+				error: function (data)
+				{
+					alert("failed");
+				}
+			});
+		}
+	}
+}
+
+function ClearBackGroundColour() 
+{
+	$('#radiobuttons').css({"border": "","background": ""});
+	$('#idNewTask').css({"border": "","background": ""});
+	$('#ddlCountryLeagl').css({"border": "",	"background": ""});
+}
+
+function close_div()
+{
+	$("#alertmain").hide();
+	document.getElementById("Alert_msg").innerHTML="";
+	$('.modal-backdrop').hide();
+	var DDLselValue=$('#ddllistsName option:selected').val();
+	GetPersonalorLeaveData(DDLselValue);
+}
+
+function getAllProxy() //page loading time binding data to ddl
+{
+	$('#loading-image').show();
+	indexData =[];
+	var Admin_GetPeriodsandUsersDataUrls = Admin_GetPeriodsandUsersDataURLRH();
+	$.ajax
+	({
+		url:Admin_GetPeriodsandUsersDataUrls,
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success:function(Resdata)
+		{	
+			$("#PrxAppName").append("<option value='Select_Employee' index=0>Select Resource</option>");
+			$("#OriPrxAppName").append("<option value='Select_Employee' index=0>Select Resource</option>");
+			test = Resdata;
+			test.Users.forEach(function(u)
+			{
+				var i=0;
+				$("#PrxAppName").append("<option value=\""+u.ResourceId+"##"+u.ResourceEmailAddress+"##"+u.ResourceName+"\" index=\""+(i+1)+"\">"+u.ResourceName+"</option>")
+				indexData.push(u.ResourceId);
+				$("#OriPrxAppName").append("<option value=\""+u.ResourceId+"##"+u.ResourceEmailAddress+"##"+u.ResourceName+"\" index=\""+(i+1)+"\">"+u.ResourceName+"</option>")
+			});		
+			$('.search_test').SumoSelect({search: true, searchText: 'Search Approver'});
+			$('.search_ProxyapproverResource').SumoSelect({search: true, searchText: 'Search  Approver'});
+			$('#loading-image').hide();
+		},
+		error:function()
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}	
+	});
+}
+
+function getAllProxyfForTSEntry() 
+{
+	$('#loading-image').show(); 
+	var Admin_GetPeriodsandUsersDataUrls = Admin_GetPeriodsandUsersDataURLRH();
+	$.ajax
+	({
+		url:Admin_GetPeriodsandUsersDataUrls,
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success:function(Resdata)
+		{	
+			if($("#TSProxyEntryPrxAppName").hasClass("SumoUnder")){$("#TSProxyEntryPrxAppName").html('');$("#TSProxyEntryPrxAppName")[0].sumo.unload();}
+			if($("#TSProxyEntryOriSubmitterNameAddShow").hasClass("SumoUnder")){$("#TSProxyEntryOriSubmitterNameAddShow").html('');$("#TSProxyEntryOriSubmitterNameAddShow")[0].sumo.unload();}
+			$("#TSProxyEntryPrxAppName").append("<option value='Select_TsPrroxyEntry' index=0>Select Resource</option>");
+			$("#TSProxyEntryOriSubmitterNameAddShow").append("<option value='Select_TsPrroxyEntry' index=0>Select Resource</option>");
+			test = Resdata;
+			
+			test.Users.forEach(function(u)
+			{
+				var i=0;
+				$("#TSProxyEntryPrxAppName").append("<option value=\""+u.ResourceId+"##"+u.ResourceEmailAddress+"##"+u.ResourceName+"\" index=\""+(i+1)+"\">"+u.ResourceName+"</option>")
+				$("#TSProxyEntryOriSubmitterNameAddShow").append("<option value=\""+u.ResourceId+"##"+u.ResourceEmailAddress+"##"+u.ResourceName+"\" index=\""+(i+1)+"\">"+u.ResourceName+"</option>")
+			});
+			$('.search_TSProxyEntryPrxAppName').SumoSelect({search: true, searchText: 'Search  Approver'});
+			$('.search_TSProxyEntryPrxAppNameUpdate').SumoSelect({search: true, searchText: 'Search  Approver'});
+			$('#loading-image').hide();
+		},
+		error:function()
+		{
+			openOKpopup(popUpMessage.ServerError,false);
+			$('#loading-image').hide();
+		}	
+	});
+}
+
+function bind_dataTable() //table srearch and column search
+{     
+	$('#ExpenceDataTable').DataTable
+	( {
+		"order": []
+	} );
+	var ExpenceDataTableElement = $('#ExpenceDataTable').DataTable();
+	$('#ExpenceDataTable tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );			
+		}
+	});
+  	ExpenceDataTableElement.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		});
+	});
+//	if($('.dataTables_empty').text()=='No data available in table')
+//	$('#ExpenceDataTable tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+
+function closeaddinfo()
+{
+	$('.addition-info-block').animate({ width: 'toggle'});
+};
+function cleardata()
+{
+	$('#jqxgrid_container').empty();
+	$("#jqxgrid_container").append("<table id='ExpenceDataTable' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+} 
+function cleardataTSProxyApproval() 
+{
+	$('#jqxgrid_containerTSProxyApproval').empty();
+	$("#jqxgrid_containerTSProxyApproval").append("<table id='tblTSProxyApproval' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+}
+
+function cleardataTSProxyEntry() 
+{
+	$('#jqxgrid_tblTSProxyEntryData').empty();
+	$("#jqxgrid_tblTSProxyEntryData").append("<table id='tblTSProxyEntryData' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+}
+
+function TsProxyEntryDatatableBind()
+{
+	$('#tblTSProxyEntryData').DataTable
+	({
+		"order": []
+	});
+	var DataTableTsProxyEntry = $('#tblTSProxyEntryData').DataTable();
+	$('#tblTSProxyEntryData tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	});
+  	DataTableTsProxyEntry.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+}
+
+function TSProxyApprovalDatatableBind()
+{
+	$('#tblTSProxyApproval').DataTable
+	({
+		"order": []
+	});
+	var ExpenceDataTabletblTSProxyApproval = $('#tblTSProxyApproval').DataTable();
+	$('#tblTSProxyApproval tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	});
+   	ExpenceDataTabletblTSProxyApproval.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		});
+	});
+}
+
+function GetBconeFinanceApproverMatrix()
+{
+	 var endpoint = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeFinanceApproverMatrix')/items";
+
+    $.ajax({
+        url: endpoint,
+        async: false,
+        method: "GET",
+        headers:
+            {
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            },
+        success: function (data) 
+		{
+			var CountryLegal_ =data.d.results;
+			$('#ddlCountryLeagl').html('');
+			if(CountryLegal_.length > 0)
+			{
+				$("#ddlCountryLeagl").append("<option value='ALL' >ALL</option>");
+				for(var i=0;i<CountryLegal_.length;i++)
+				{ 
+					$("#ddlCountryLeagl").append("<option value=\""+CountryLegal_[i].CountryLegal+"\" >"+CountryLegal_[i].CountryLegal+"</option>");
+				}
+			}
+		},
+		  error: function (error) {
+            alert('BconeFinanceApproverMatrix error');
+        }
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+
+<script type="text/javascript" src="../SiteAssets/js/datepicker1.js"></script>
+<script type="text/javascript" src="../SiteAssets/js/datepicker2.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Css/datepicker.css" />
+<link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet">
+
+<script>
+    var Email = "ashish";
+    var Region = "";
+    //$("#txtcrstartdate").datepicker("setDate", today);
+    $(function () {
+        $("#txtcrstartdate").datepicker();
+    });
+    var End = new Date();
+    //$("#txtcrEnddate").datepicker("setDate", today);
+    $(function () {
+        $("#txtcrEnddate").datepicker();
+    });
+    $(document).ready(function () {
+        
+		PMOdropdownBind();
+       
+		
+        return false;
+    });
+  
+
+    function getUser() {
+        var userid = _spPageContextInfo.userId;
+        //alert(userid);
+
+        var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        var requestHeaders = { "accept": "application/json;odata=verbose" };
+        $.ajax({
+            url: requestUri,
+            async: false,
+            contentType: "application/json;odata=verbose",
+            headers: requestHeaders,
+            success: onSuccess,
+            error: onError
+        }); function onSuccess(data, request) {
+            debugger;
+            var loginName = data.d.Title;
+            Email = data.d.Email
+            $("#login_name_contain").text(loginName);
+            //alert(Email);
+        } function onError(error) {
+            alert("Error on retrieving current user.");
+        }
+    }
+   
+	function getData(){
+		getUser();
+        finalurl = document.getElementById("rptTimesheet").src = "https://ppmprod.bcone.com//pmodashboard.aspx?Login=" + Email + "&Region=" + $('#ddlRegion option:selected').val() + "&status=" + $('#ddlStatus option:selected').val();
+   
+	}
+	function PMOdropdownBind()
+	{
+	$.ajax
+	({
+		url:"https://ppmprod.bcone.com/api/BCONEReport/GetGBU",
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		dataType: 'json',
+		success:function(data)
+		{
+			$("#ddlRegion").append("<option value='ALL' >ALL</option>");
+			if(data.GBU_Name.length >0)
+			{
+				for(var i=0;i<data.GBU_Name.length;i++)
+				{ 
+					var datavalue= data.GBU_Name[i].GBU;
+					var PMOReplace = datavalue.replace("&", " and ");
+					$("#ddlRegion").append("<option value=\""+PMOReplace+"\" >"+data.GBU_Name[i].GBU+"</option>");
+				}
+			}
+			getData();
+			//$(".loader").hide();
+		},
+		error:function()
+		{
+			alert("failed");
+		}	
+	});	
+	}
+</script>
+<style>
+.ms-core-tableNoSpace .ms-webpart-zone #MSOZoneCell_WebPartWPQ4{
+  display: inline-block;
+    width: 100%;
+}
+.ms-core-tableNoSpace .ms-webpart-zone #MSOZoneCell_WebPartWPQ4 .ms-webpart-chrome-fullWidth{
+  display: inline-block;
+    width: 100%;
+}
+.login_name_contain {
+    float: right;
+    margin: -32px 0px 0px 0px;
+    background: url(https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center;
+    padding: 3px 32px 3px 0px;
+}
+.ms-webpartPage-root {
+    border-spacing: 20px 0px !important;
+}
+/*#s4-workspace{
+  height:auto !important;
+}*/
+#s4-titlerow{
+  padding-bottom:0px;
+  height:auto;
+}
+#siteIcon{
+  height:auto;
+  line-height: 34px;
+}
+#s4-titlerow .ms-breadcrumb-box{
+  display:none;
+}
+#s4-ribbonrow,#SearchBox,#O365_MainLink_Settings{display:none }
+.middle {width: 97%;margin: 0 auto;}
+#sideNavBox{width:0px !important;display: none;}
+#contentBox {margin-right: 0px !important;  margin-left:0px !important; }
+#contentRow {padding-top: 0px !important;}
+.menu-item-text{
+display:none;
+}
+
+.breadcrumb-new ul{
+  margin:0px ;
+  padding:0px;
+  list-style:none;
+}
+.breadcrumb-new {
+  background:#f3f3f3;
+  margin-bottom:10px;
+  overflow: hidden;
+}
+.breadcrumb-new ul li{
+  float:left;
+  padding:10px 5px;
+  /*border-right:1px solid #ccc;*/
+}
+.breadcrumb-new ul.pull-right li{
+  border-right:1px solid #ccc;
+}
+.breadcrumb-new ul.pull-right li:after{
+  display:none;
+}
+.breadcrumb-new ul li:after{
+  content:"\f101";
+  font-family:'FontAwesome';
+  color:#999;
+  font-size: 13px;
+    display: inline-block;
+    margin: 0px 0px 0px 6px;
+}
+.breadcrumb-new ul li:first-child{
+  padding-left:0;
+}
+.breadcrumb-new ul li:last-child:after{
+  content:'';
+}
+.breadcrumb-new ul li:last-child{
+  border-right:0;
+}
+#_invisibleIfEmpty:first-child .ms-webpart-zone{
+  display:inline-block;
+}
+.breadcrumb-new a:visited {
+    color: #337ab7;
+}
+
+#ReportViewer1_ctl09 {height:auto !important;}
+</style>
+<!--<div style="text-align: right;" id="login_name_contain" class="login_name_contain">abc</div>
+<div class="breadcrumb-new">
+  <div class="container-fluid" style="padding:0 15px;">
+    <ul>
+      <li>
+        <a href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+      </li>
+      <li>
+        Client Partner Report and Dashboard
+      </li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </div>
+</div>
+-->
+<div style="float:right;margin-right: 11px;">
+	<font style="font-family: initial; font-size: 15px;">Select Status : </font><select id="ddlStatus" onchange="getData()"> 
+	<option value="ALL">ALL</option>
+	<option value="Baseline">Baseline</option>
+	<option value="No Baseline">No Baseline</option>
+	</select>
+</div>
+<div style="float:right;margin-right: 11px;">
+	<font style="font-family: initial; font-size: 15px;">Select GBU : </font><select id="ddlRegion" onchange="getData()">   </select>
+</div>
+<div style="width:100%">
+	<table width="100%">
+		<tr>
+			<td>
+				<iframe id="rptTimesheet"  width="100%" style="height: 100% !important;overflow: auto !important;min-height: 1299px;" ></iframe>
+			</td>
+		</tr>
+	</table>
+</div>

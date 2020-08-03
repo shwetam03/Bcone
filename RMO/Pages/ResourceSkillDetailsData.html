@@ -1,0 +1,1376 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <!-- <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap-multiselect.css" /> -->
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <style>
+    .SumoSelect {         width: 100% !important;     }
+    .SumoSelect>.CaptionCont {         border-radius: 0px;         border-color: #ccc !important;     }
+    .SumoSelect>.optWrapper>.options li.opt label {         font-weight: normal;     }
+    .SumoSelect .select-all {         padding: 6px 0 4px 35px;         height: auto;     }
+    .SumoSelect .select-all label {         font-weight: normal;     }
+    .SumoSelect>.CaptionCont>span.placeholder {         font-style: normal;     }
+	select[multiple],     select[size] {         height: 30px !important     }
+    .optWrapper>.options li label {         text-align: left !important     }
+    .CaptionCont>span {         text-align: left !important     }
+    </style>
+    <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="loader"> </div>
+    <div class="breadcrumb-new">
+        <ul>
+            <li> <a href="../default.aspx">Home</a> </li>
+            <li> <a style="cursor:default;text-decoration:none; color: #272727;">Employee Skill Repository</a> </li>
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!-----------Breadcrumb End---------->
+    <div class="contain-div">
+        <div class="clearfix"></div>
+        <table id="ResourceMatrixTable" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th style="width:65px">Action</th>
+                    <th style="width:105px">Employee ID</th>
+                    <th style="width:300px">Employee Name</th>
+                    <th>Primary skills</th>
+                    <th style="width:165px">Secondary skills</th>
+                    <th class="HideData" style="display:none">PrimaryGUID</th>
+                    <th class="HideData" style="display:none">SecondaryGUID</th>
+                    <th class="HideData" style="display:none">ResourceGUID</th>
+                    <th class="" style="">Sub Practice</th>
+                    <th class="" style="">Employee Role</th>
+                    <th class="" style="">Location</th>
+                    
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th>Employ ID</th>
+                    <th>Employ Name</th>
+                    <th>Primary skills</th>
+                    <th>Secondary skills</th>
+                    <th class="HideData" style="display:none"></th>
+                    <th class="HideData" style="display:none"></th>
+                    <th class="HideData" style="display:none"></th>
+					<th class="" style="">Sub Practice</th>
+                    <th class="" style="">Employee Role</th>
+                    <th class="" style="">Location</th>
+                    
+                </tr>
+            </tfoot>
+            <tbody></tbody>
+        </table>
+    </div>
+    <!-----------------------------
+            POPUP START
+    ------------------------------>
+    <div class="popup-bg">
+        <div class="popup">
+            <div class="popup-head">
+                <div class="panel-head left-pol">
+                    <h4>Resource Skill Details</h4>
+                </div>
+                <div class="right-pol">
+                    <div class="p-close">x</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-boday" style="width:900px">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+						<!-- <label for="">RES UID</label> -->
+						<input type="text" style="display:none" class="form-control" id="Txt_RES_UIDS" disabled> 
+						<label for="email">Name:</label> <input type="text" class="form-control" id="txtName" disabled>
+						<label for="pwd">Existing Primary Skills:</label> 
+						<textarea class="form-control" id="txtExistingPrimarySkills" style="word-wrap: break-word" disabled></textarea> 
+					</div>
+                    <div class="col-md-6 form-group"> 
+						<label for="pwd">Employee ID:</label> 
+						<input type="text" class="form-control" id="txtEmpId" disabled> 
+						<label for="pwd">Existing Secondary Skills:</label> 
+						<textarea class="form-control" id="txtExistingSecondarySkills" style="word-wrap: break-word" disabled></textarea> 
+					</div>
+                    <div class="col-sm-6"> 
+						<label >Primary Skills Details:</label> 
+						<!-- <select id="ddlPrimary" class="Search_ddlPrimary" multiple="multiple" placeholder="Select Primary Skill" style="width: 100% !important;margin-right: 10px;" > -->
+						<select id="ddlPrimary" class="Search_ddlPrimary" placeholder="Select Primary Skill" style="width: 100% !important;margin-right: 10px;" >
+						</select>
+						<br /><br />
+						<label >primary Skill Stream:</label> 
+						<select class="form-control" class="Search_ddlPrimaryStrm" id="ddlBindPrimarySkillStream" style="width: 100% !important;margin-right: 10px;">
+						</select> 
+					</div>
+					 <div class="col-sm-6"> 
+						<label >Secondary Skills Details:</label> 
+						<select id="ddlSecondary" class="Search_ddlSecondary" multiple="multiple" placeholder="Select Secondary Skill" style="width: 100% !important;margin-right: 10px;" >
+						</select>
+						<br /><br />
+						<label >Secondary Skill Stream:</label> 
+						<select class="form-control" class="Search_ddlSecondaryStrm" id="ddlBindSecondarySkillStream" style="width: 100% !important;margin-right: 10px;">
+						</select> 
+					</div>
+                    <div class="col-md-12 ">
+                        <div class="pull-right"> 
+							<input type="button" class="btn btn-primary" id="btnOk" value="OK" onclick="UpdateResourceSkills()"> 
+							<input type="button" class="btn btn-danger" id="btnCancle" value="CANCEL" onclick="ClosePopupBtn()"> 
+						</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <script src="../SiteAssets/RMO/js/jquery-1.11.1.min.js"></script>
+        <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+        <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+        <!-- <script src="../SiteAssets/RMO/js/bootstrap-multiselect.js"></script> -->
+        <script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+        <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+        <!-- Export to excel js file start -->
+        <script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script>
+        <script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script>
+        <script src="../SiteAssets/RMO/js/jszip.min.js"></script>
+        <script src="../SiteAssets/RMO/js/pdfmake.min.js"></script>
+        <script src="../SiteAssets/RMO/js/vfs_fonts.js"></script>
+        <script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script>
+        <script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+        <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+        <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.js"></script>
+        <!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script> -->
+        <!-- Export to excel js file end  -->
+        <script src="../SiteAssets/RMO/js/ReleaseExtensionConfig.js"></script>
+        <!-- <script src="../SiteAssets/RMO/js/ResourceSkillDetails.js"></script> -->
+        <script>
+        var DataLink = GetEmpSkillsPivot(); //"/_api/EmployeeSkillsPivot";
+        var StoredPrimarySkills = "";
+        var StoredSecondarySkills = "";
+        var RowId = "";
+        var CurPrimarySkillGuids = "";
+        var CurSecondarySkillGuids = "";
+        //var SubPractice ="";
+		//var serviceUrl = getPWAURl();
+		var serviceUrl = ppmuaturl;//getPWAURl();
+		var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $(document).ready(function() 
+		{
+            $("#ResourceMatrixTable td:first-child span").css("cursor", "pointer");
+            $('.p-close').on('click', function() 
+			{
+                $('.popup-bg').hide();
+            });
+            $('#ResourceMatrixTable > tbody').empty();
+            $('#ResourceMatrixTable').css('display', 'none');
+            $('.loader').show();
+            setTimeout(function() 
+			{
+                BindResourceData(DataLink);
+            }, 100);
+            var url = GetSkillData(1, '');
+            // BindSkillStream(url, "{\"On\":\"Skill_Stream\"}");
+            //getPrimay_Details();
+            getSecondry_Details();
+            var PrimarySelectedValues = "";
+            var len = "";
+			
+        });
+        
+
+        function ShowPopUp(id) 
+		{
+            $('.popup-bg').show();
+            Functionality = 'Edit';
+			$("#ddlPrimary").prop("selectedIndex",-1); //unselect check box
+			//$("#ddlPrimary")).prop("selectedIndex",0); //unselect check box
+			//$('#ddlPrimary')[0].sumo.reload();
+			$("#ddlBindPrimarySkillStream").html('');
+			$("#ddlSecondary").prop("selectedIndex",-1); //unselect check box
+			$('#ddlSecondary')[0].sumo.reload();
+			$("#ddlBindSecondarySkillStream").html('');
+			//getPrimay_Details();
+            var CurRowid = id.parentNode.parentNode.id;
+            RowId = CurRowid;
+            var EmpId = id.parentNode.parentNode.cells[1].innerText;
+            var EmpName = id.parentNode.parentNode.cells[2].innerText;
+            var PrimarySkills = id.parentNode.parentNode.cells[3].innerText.trim();
+            var SecondarySkills = id.parentNode.parentNode.cells[4].innerText.trim();
+			var SubPractice = id.parentNode.parentNode.cells[8].innerText.trim();
+            getPrimay_Details(SubPractice);
+            document.getElementById('txtEmpId').value = EmpId;
+            document.getElementById('txtName').value = EmpName;
+            document.getElementById('Txt_RES_UIDS').value = id.parentNode.parentNode.cells[7].innerText.trim();
+            document.getElementById('txtExistingPrimarySkills').value = PrimarySkills;
+
+			var  PreviousSkillsCheced = PrimarySkills;
+			if(PreviousSkillsCheced!= null || PreviousSkillsCheced !="" || PreviousSkillsCheced !== undefined)
+			{
+				if (PreviousSkillsCheced.indexOf(';') > -1) 
+				{
+					var PreviousSkillsCheced_val = PreviousSkillsCheced.split(';').length;
+					for(var y=0;y<PreviousSkillsCheced_val;y++)
+					{
+						var valu_ = PreviousSkillsCheced.split(';')[y];
+						//$("#ddlPrimary")[0].sumo.disableItem($("#ddlPrimary option[value=\""+valu_+"\"]").index());
+						$('#ddlPrimary')[0].sumo.selectItem(valu_);
+					}
+				}
+				else
+				{
+					$('#ddlPrimary')[0].sumo.selectItem(PreviousSkillsCheced);
+				}
+			}
+			
+            document.getElementById('txtExistingSecondarySkills').value = SecondarySkills;
+			var  SecondaryCheced = SecondarySkills;
+			if(SecondaryCheced!= null || SecondaryCheced !="" || SecondaryCheced !== undefined)
+			{
+				if (SecondaryCheced.indexOf(';') > -1) 
+				{
+					var SecondaryCheced_val = SecondaryCheced.split(';').length;
+					for(var y=0;y<SecondaryCheced_val;y++)
+					{
+						var value_ = SecondaryCheced.split(';')[y];
+						$('#ddlSecondary')[0].sumo.selectItem(value_);
+					}
+				}
+				else
+				{
+					$('#ddlSecondary')[0].sumo.selectItem(SecondaryCheced);
+				}
+			}
+			
+            StoredPrimarySkills = PrimarySkills;
+            StoredSecondarySkills = SecondarySkills
+            CurPrimarySkillGuids = id.parentNode.parentNode.cells[5].innerText;
+            CurSecondarySkillGuids = id.parentNode.parentNode.cells[6].innerText;
+        }
+        function DeleteItem(id) 
+        {
+            var CurRowid = id.parentNode.parentNode.id;
+            var EmpId = id.parentNode.parentNode.cells[1].innerText;
+            var EmpName = id.parentNode.parentNode.cells[2].innerText;
+            var status = "";
+        	var PrimarySkills='';
+        	var SecondarySkills='';
+            var PrimarySkillGuids = id.parentNode.parentNode.cells[5].innerText;
+            PrimarySkillGuids = PrimarySkillGuids.split(';');
+            var SecondarySkillGuids = id.parentNode.parentNode.cells[6].innerText;
+			//var RES_Guids = id.parentNode.parentNode.cells[7].innerText;
+			var RES_Guids = "";
+			if(EmpId!="")
+			{
+				var url = serviceUrl + "_api/Resources?$filter=EmployeeID eq (\'" + EmpId + "\')"
+				$.ajax({
+					url: url,
+					async: false,
+					method: "GET",
+					
+					headers: {
+						"Accept": "application/json;odata=verbose"
+					},
+					success: function (data) 
+					{
+						if(data.d.results.length>0)
+						{
+							RES_Guids = data.d.results[0].ResourceId;
+						}
+					},
+					error:function(data)
+					{
+					}
+				});
+			}
+			/*if(RES_Guids=!"" || RES_Guids!=null)
+			{
+				RES_Guids = id.parentNode.parentNode.cells[7].innerText;
+			}*/
+			else
+			{
+				RES_Guids = null;
+			}
+            SecondarySkillGuids = SecondarySkillGuids.split(';');
+            if ((PrimarySkillGuids.length == 1 && PrimarySkillGuids[0] == "") && (SecondarySkillGuids.length == 1 && SecondarySkillGuids[0] == "")) 
+        	{
+                alert('No Skills to Delete');
+                return false;
+            }
+            if (confirm("Are you sure to Delete the Resource Skills?")) 
+        	{
+                for (i = 0; i < PrimarySkillGuids.length; i++) 
+        		{
+                    //var url = "/_api/EmployeeSkills(guid'" + PrimarySkillGuids[i] + "')";
+        			var url=GetEmpSkillsByGuid(PrimarySkillGuids[i],2);	
+					//var Send_data =  "{\"EmployeeID\": \""+EmpId+"\", \"Full_Name\": \""+EmpName+"\", \"Skill_Detail\": "", \"Skill_Type\": "", \"ResourceUID\":\""+RES_Guids+"\", \"ItemUID\": \""+PrimarySkillGuids[i]+"\" }";
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        method: "PUT",
+						
+						data: {
+								"EmployeeID": EmpId,
+								"Full_Name": EmpName,
+								"Skill_Detail": "",
+								"Skill_Type": "",
+								"ResourceUID":RES_Guids, 
+								"ItemUID": PrimarySkillGuids[i] 
+							},   
+						 
+						headers: {
+                            "Accept": "application/json;odata=verbose"
+							// "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+                        },
+                        success: function (data) 
+        				{
+                            if (SecondarySkillGuids.length == 0 && PrimarySkillGuids.length == i) {
+
+                                status = "Success";
+                                //alert('Skills updated successfully');
+                            }
+
+                        },
+                        error: function (error) {
+                            result = 'error';
+                            console.log(JSON.stringify(error));
+                        }
+
+                    });
+
+                }
+
+                for (j = 0; j < SecondarySkillGuids.length; j++) 
+        		{
+                   // var url = "/_api/EmployeeSkills(guid'" + SecondarySkillGuids[j] + "')";
+        			var url=GetEmpSkillsByGuid(SecondarySkillGuids[j],2);
+        				$.ajax({
+                        url: url,
+                        async: false,
+                        method: "PUT",
+                        data: {
+                            "EmployeeID": EmpId,
+                            "Full_Name": EmpName,
+                            "Skill_Detail": "",
+                            "Skill_Type": "",							
+							"ResourceUID":RES_Guids,
+                            "ItemUID": SecondarySkillGuids[j]
+                        },
+                        headers: {
+                            "Accept": "application/json;odata=verbose"
+                        },
+                        success: function (data) {
+                            if (SecondarySkillGuids.length == j) {
+                                status = "Success";
+                                //alert('Skills updated successfully');
+                            }
+                        },
+                        error: function (error) {
+                            result = 'error';
+                            console.log(JSON.stringify(error));
+                        }
+                    });       
+                }
+                if (status == "Success") 
+        		{
+                    alert('Assigned resource skills deleted successfully');
+                }
+        		$('.popup-bg').hide();
+        		$('.loader').show();
+        		setTimeout(function () 
+        		{
+        			Reloadjs();
+        			BindResourceData(DataLink);
+        		}, 100);
+            }
+        	UpdateWorkDayResourceMaster(EmpId,PrimarySkills,SecondarySkills);
+        }
+
+        
+        function BindResourceData(url) 
+		{
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                    //"Content-Type": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    result = data.d.results;
+                    var nextdata = data.d.__next;
+                    for (var i = 0; i < result.length; i++) 
+					{	
+					
+						//var row = "<tr id=" + result[i].EmployeeID + "><td><span title='EDIT' class='glyphicon glyphicon-pencil  btnedit' onclick='ShowPopUp(this)' aria-hidden='true'></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span title='DELETE' class='glyphicon glyphicon-trash btndelete' onclick='DeleteItem(this)' aria-hidden='true'></span></td><td>" + (result[i].EmployeeID == null ? '' : result[i].EmployeeID) + "</td><td>" + (result[i].ResourceName == null ? '' : result[i].ResourceName) + "</td><td>" + (result[i].Primary_skill_Details == null ? '' : result[i].Primary_skill_Details) + "</td><td>" + (result[i].Secondary_skill_Details == null ? '' : result[i].Secondary_skill_Details) + "</td><td class='HideData' style='display:none'>" + (result[i].Primary_skill_Guids == null ? '' : result[i].Primary_skill_Guids) + "</td><td class='HideData' style='display:none'>" + (result[i].Secondary_skill_Guids == null ? '' : result[i].Secondary_skill_Guids) + "</td><td class='HideData' style='display:none'>" + result[i].ResourceUID + "</td><td class='HideData' style=''>" + result[i].SubPractice + "</td><td class='HideData' style=''>" + result[i].EmployeeRole + "</td><td class='HideData' style=''>" + result[i].BaseLocation + "</td></tr>";
+						var row = "<tr id=" + result[i].EmployeeID + "><td><span title='EDIT' class='glyphicon glyphicon-pencil  btnedit' onclick='ShowPopUp(this)' aria-hidden='true'></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span title='DELETE' class='glyphicon glyphicon-trash btndelete' onclick='DeleteItem(this)' aria-hidden='true'></span></td><td>" + (result[i].EmployeeID == null ? '' : result[i].EmployeeID) + "</td><td><span href='#' id='show-popup' class='action-b'>" + (result[i].ResourceName == null ? '' : result[i].ResourceName) + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + result[i].EmployeeID + "&employeename=" + result[i].ResourceName + "' target='_blank'>Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + result[i].EmployeeID + "&employeename=" + result[i].ResourceName + "' target='_blank' >View Profile</a></div></span></td><td>" + (result[i].Primary_skill_Details == null ? '' : result[i].Primary_skill_Details) + "</td><td>" + (result[i].Secondary_skill_Details == null ? '' : result[i].Secondary_skill_Details) + "</td><td class='HideData' style='display:none'>" + (result[i].Primary_skill_Guids == null ? '' : result[i].Primary_skill_Guids) + "</td><td class='HideData' style='display:none'>" + (result[i].Secondary_skill_Guids == null ? '' : result[i].Secondary_skill_Guids) + "</td><td class='HideData' style='display:none'>" + result[i].ResourceUID + "</td><td class='HideData' style=''>" + result[i].SubPractice + "</td><td class='HideData' style=''>" + result[i].EmployeeRole + "</td><td class='HideData' style=''>" + result[i].BaseLocation + "</td></tr>";
+						//var row = "<tr id=" + result[i].EmployeeID + "><td><span title='EDIT' class='glyphicon glyphicon-pencil  btnedit' onclick='ShowPopUp(this)' aria-hidden='true'></span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span title='DELETE' class='glyphicon glyphicon-trash btndelete' onclick='DeleteItem(this)' aria-hidden='true'></span></td><td>" + (result[i].EmployeeID == null ? '' : result[i].EmployeeID) + "</td><span href='#' id='show-popup' class='action-b'>" + result[i].ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + result[i].EmployeeID + "&employeename=" + result[i].ResourceName + "' target='_blank'>Project Detail</a><a href='../SitePages/MyProfile.aspx?employeeID=" + result[i].EmployeeID + "&employeename=" + result[i].ResourceName + "' target='_blank' >View Profile</a></div></span><td>" + (result[i].Primary_skill_Details == null ? '' : result[i].Primary_skill_Details) + "</td><td>" + (result[i].Secondary_skill_Details == null ? '' : result[i].Secondary_skill_Details) + "</td><td class='HideData' style='display:none'>" + (result[i].Primary_skill_Guids == null ? '' : result[i].Primary_skill_Guids) + "</td><td class='HideData' style='display:none'>" + (result[i].Secondary_skill_Guids == null ? '' : result[i].Secondary_skill_Guids) + "</td><td class='HideData' style='display:none'>" + result[i].ResourceUID + "</td><td class='HideData' style=''>" + result[i].ResourceUID + "</td><td class='HideData' style=''>" + result[i].ResourceUID + "</td><td class='HideData' style=''>" + result[i].ResourceUID + "</td><td class='HideData' style=''>" + result[i].ResourceUID + "</td></tr>";
+                     
+                        $('#ResourceMatrixTable > tbody').append(row);
+                    }
+                },
+                error: function(error) {
+                    result = 'error';
+                }
+            });
+            $('#ResourceMatrixTable').dataTable({
+				enableFiltering: true,
+				enableCaseInsensitiveFiltering: true,
+                "dom": 'Rlfrtip',
+                "aLengthMenu": [5, 10, 15, 20, 25, 30],
+                "pageLength": 10,
+                "aaSorting": [
+                    [2, "asc"]
+                ],
+                "destroy": true,
+                "dom": 'lBfrtip',
+                buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                       // columns: ':visible', //old
+						columns: [1, 2,3,4,8,9,10], //new 
+						format: 
+						{
+							body: function ( data, row, column, node ) 
+							{
+								if (column === 1) // to remove tooltip data ex:project detail and myprofile
+								{
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									var t =data.split('>')[1];
+									splitData =t.split('<')[0];
+									return splitData;
+								}
+								if (column === 4) // to remove tooltip data ex:project detail and myprofile
+								{
+									var sdata="";
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									
+									var t=data.split('&amp;');
+									var tt=data.indexOf('&amp;');
+									if(tt>1)
+									{
+										var dd=data.split('&amp;');
+										sdata=dd[0] +'&'+dd[1];
+										return sdata;
+									}
+									
+								}
+								if (column == 5) // to remove tooltip data ex:project detail and myprofile
+								{
+									var ssdata="";
+									//need to change double quotes to single
+									data = data.replace( /"/g, "'" );
+									//split at each new line
+									//splitData = data.split('projects');
+									
+									var t1=data.split('&amp;');
+									var tt1=data.indexOf('&amp;');
+									if(tt1>1)
+									{
+										var dd=data.split('&amp;');
+										ssdata=dd[0] +'&'+dd[1];
+										return ssdata;
+									}
+									
+								}
+								return data;
+							}
+						}
+						
+                    }
+                }, {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4]
+                    }
+                }, ],
+            });
+            $('#ResourceMatrixTable tfoot th').each(function() {
+                var title = $(this).text();
+                if (title != "") {
+                    $(this).html('<input type="text"/>'); // placeholder="Search" 
+                }
+            });
+            var table = $('#ResourceMatrixTable').DataTable();
+            //Apply the search
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+            $(".buttons-excel,.buttons-print").find('span').empty();
+            $(".buttons-excel").find('span').addClass('fa').addClass('fa-file-excel-o');
+            $(".buttons-print").find('span').addClass('fa').addClass('fa-print');
+            $(".buttons-excel").find('span').attr('title', 'Export to Excel');
+            $(".buttons-print").find('span').attr('title', 'Print');
+            $('#ResourceMatrixTable').css('display', '');
+            $('.loader').hide();
+        }
+        //function BindSkillStream(url, requestData)
+        function getPrimay_Details(SubPractice) 
+		{
+			var requestProjectData = "{\"ColumnName\":\"Skill_Details\"}";
+			//var SubPractice = id.parentNode.parentNode.cells[8].innerText.trim();
+                if(SubPractice.indexOf('&amp;') >= 0) 
+                {
+                SubPractice = SubPractice.replace('&amp;', '%26');
+                }
+                if(SubPractice.indexOf('&') >= 0) 
+                {
+                SubPractice = SubPractice.replace('&', '%26');
+                }
+			//console.log(requestProjectData);
+			var Url = "https://ppmprod.bcone.com/_api/Skills?$select=Skill_Details&$filter=Sub_Practice eq '" + SubPractice + "'&$orderby=Skill_Details asc";
+            $.ajax({
+                url: Url ,  //api/Distinct/DistinctSkill",
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose",
+                    "Content-Type": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    var dat = data.d.results;
+					if(dat.length >0)
+					{
+						if($("#ddlPrimary").hasClass("SumoUnder")){$("#ddlPrimary").html('');$("#ddlPrimary")[0].sumo.unload();}
+						//if($("#ddlSecondary").hasClass("SumoUnder")){$("#ddlSecondary").html('');$("#ddlSecondary")[0].sumo.unload();}
+						//$('#ddlPrimary').append("<option value='SelectDetaisVAlue' >Select Skill Details</option>");
+                        for (var i = 0; i < dat.length; i++)
+						{
+                                $('#ddlPrimary').append("<option value=\"" + dat[i].Skill_Details + "\">" + dat[i].Skill_Details + "</option>");
+                                //$('#ddlSecondary').append("<option value=\"" + dat[i] + "\">" + dat[i] + "</option>");
+                            
+                        }
+						$('.Search_ddlPrimary').SumoSelect({search: true, searchText: 'Search Primary Skills'});
+						//$('.Search_ddlSecondary').SumoSelect({search: true, searchText: 'Search Secondary Skills'});
+                    
+					}
+					
+                    count = 1;
+                },
+                error: function(error) {
+                    result = 'error';
+                    console.log(JSON.stringify(error));
+                    count = 0;
+                }
+            });
+           
+        }
+
+         function getSecondry_Details() 
+        {
+            var requestProjectData = "{\"ColumnName\":\"Skill_Details\"}";
+            
+            //console.log(requestProjectData);
+            var Url = GetNewDistinctDataUrl();
+            $.ajax({
+                url: Url ,  //api/Distinct/DistinctSkill",
+                async: false,
+                data: requestProjectData,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    "Accept": "application/json; odata=verbose",
+                    "Content-Type": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    var dat = data.Data;
+                    if(dat.length >0)
+                    {
+                        //if($("#ddlPrimary").hasClass("SumoUnder")){$("#ddlPrimary").html('');$("#ddlPrimary")[0].sumo.unload();}
+                        if($("#ddlSecondary").hasClass("SumoUnder")){$("#ddlSecondary").html('');$("#ddlSecondary")[0].sumo.unload();}
+                        //$('#ddlPrimary').append("<option value='SelectDetaisVAlue' >Select Skill Details</option>");
+                        for (var i = 0; i < dat.length; i++)
+                        {
+                                //$('#ddlPrimary').append("<option value=\"" + dat[i] + "\">" + dat[i] + "</option>");
+                                $('#ddlSecondary').append("<option value=\"" + dat[i] + "\">" + dat[i] + "</option>");
+                            
+                        }
+                        //$('.Search_ddlPrimary').SumoSelect({search: true, searchText: 'Search Primary Skills'});
+                        $('.Search_ddlSecondary').SumoSelect({search: true, searchText: 'Search Secondary Skills'});
+                    
+                    }
+                    
+                    count = 1;
+                },
+                error: function(error) {
+                    result = 'error';
+                    console.log(JSON.stringify(error));
+                    count = 0;
+                }
+            });
+           
+        }
+		
+		//Primary onchange
+		$("#ddlPrimary").on('change', function() 
+		{
+			$('#txtExistingPrimarySkills').val("");
+			var SelectedPeriods = "";
+			$('#ddlPrimary option:selected').each(function(i) 
+			{
+				var pry_value =$(this).val();
+				SelectedPeriods  +=  pry_value +";";
+			});
+			var txtvaluepfPrimary = "";
+			if(SelectedPeriods!="")
+			{
+				txtvaluepfPrimary = SelectedPeriods.slice(0, -1);
+				GetPrimarySkillDetails();
+			}
+			$('#txtExistingPrimarySkills').val(txtvaluepfPrimary);
+		});
+		
+		//secondary onchange
+		$("#ddlSecondary").on('change', function() 
+		{
+			$('#txtExistingSecondarySkills').val("");
+			var SelectedSecondaryPeriods = "";
+			$('#ddlSecondary option:selected').each(function(i) 
+			{
+				var secondry_value =$(this).val();
+				SelectedSecondaryPeriods  +=  secondry_value +";";
+			});
+			var txtvalueSeconadary = "";
+			if(SelectedSecondaryPeriods!="")
+			{
+				txtvalueSeconadary = SelectedSecondaryPeriods.slice(0, -1);
+				GetSecondarySkillDetails();
+			}
+			$('#txtExistingSecondarySkills').val(txtvalueSeconadary);
+		});
+
+        function GetPrimarySkillDetails() 
+		{
+            var PrimarySelected = $('#txtExistingPrimarySkills').val();
+			var SelectedPeriods = "";
+			$('#ddlPrimary option:selected').each(function(i) 
+			{
+				var valw = $(this).val();
+				//valw = valw + ";";
+				SelectedPeriods += valw + ";";
+				//SelectedPeriods.push("" +valw+ "");
+			});
+			var SelectedPeriodsDa = SelectedPeriods;
+			//console.log(SelectedPeriodsDa.toString());
+            var count = 0;
+			var SendData = "{\"ColumnName\":\"Skill_Stream\",\"Value\":\""+SelectedPeriodsDa.toString()+"\"}";
+			//  var url = "/_api/Skills?$filter=Skill_Details eq " + encodeURIComponent("'" + PrimarySelected + "'") + "";
+			var urls = GetDistinctValue_OnParameters();  ///api/Distinct/DistinctSkillValue";
+			$.ajax
+			({
+				url: urls,
+				async: false,
+				type: "POST",
+				dataType: "json",
+				data : SendData,
+				headers: 
+				{
+					"Accept": "application/json; odata=verbose",
+					"Content-Type": "application/json; odata=verbose"
+				},
+				success: function(data) 
+				{
+					var data_Stream = data.Data;
+					$("#ddlBindPrimarySkillStream").html('');
+					if (data_Stream.length > 0) 
+					{
+						for (var k = 0; k < data_Stream.length; k++) 
+						{
+							$("#ddlBindPrimarySkillStream").append("<option value=\"" + data_Stream[k] + "\" >" + data_Stream[k] + "</option>");
+						}
+						$('.Search_ddlPrimaryStrm').SumoSelect({search: true, searchText: 'Search'});
+					}
+				},
+				error: function(error) {
+					result = 'error';
+					console.log(JSON.stringify(error));
+					count = 0;
+				}
+			});
+        }
+
+		function GetSecondarySkillDetails()
+		{
+			var PrimarySelected = $('#txtExistingSecondarySkills').val();
+			var SelectedSecondPeriods = "";
+			$('#ddlSecondary option:selected').each(function(i) 
+			{
+				var valws = $(this).val();
+				SelectedSecondPeriods += valws + ";";
+			});
+			var SelectedPeriodsDa = SelectedSecondPeriods;
+			//console.log(SelectedPeriodsDa.toString());
+            var count = 0;
+			var SendData = "{\"ColumnName\":\"Skill_Stream\",\"Value\":\""+SelectedPeriodsDa.toString()+"\"}";
+			
+			var urlLink = GetDistinctValue_OnParameters(); //api/Distinct/DistinctSkillValue";
+			$.ajax
+			({
+				url: urlLink,
+				async: false,
+				type: "POST",
+				dataType: "json",
+				data : SendData,
+				headers: 
+				{
+					"Accept": "application/json; odata=verbose",
+					"Content-Type": "application/json; odata=verbose"
+				},
+				success: function(data) 
+				{
+					var data_Second = data.Data;
+					$("#ddlBindSecondarySkillStream").html('');
+					if (data_Second.length > 0) 
+					{
+						for (var k = 0; k < data_Second.length; k++) 
+						{
+							$("#ddlBindSecondarySkillStream").append("<option value=\"" + data_Second[k] + "\" >" + data_Second[k] + "</option>");
+						}
+						$('.Search_ddlSecondaryStrm').SumoSelect({search: true, searchText: 'Search'});
+					}
+				},
+				error: function(error) {
+					result = 'error';
+					console.log(JSON.stringify(error));
+					count = 0;
+				}
+			});
+		}
+		
+        function UpdateResourceSkills() 
+		{
+            var PrimarySelectedSkills = ($("#txtExistingPrimarySkills")[0].value == undefined ? '' : $("#txtExistingPrimarySkills")[0].value);
+            var SecondarySelectedSkills = ($("#txtExistingSecondarySkills")[0].value == undefined ? '' : $("#txtExistingSecondarySkills")[0].value);
+            var PrimarySelected = ($("#txtExistingPrimarySkills")[0].value == undefined ? '' : $("#txtExistingPrimarySkills")[0].value.split(';'));
+            var SecondarySelected = ($("#txtExistingSecondarySkills")[0].value == undefined ? '' : $("#txtExistingSecondarySkills")[0].value.split(';'));
+            if (StoredPrimarySkills != '' && StoredSecondarySkills != '') 
+			{
+                DeleteAndCreateData('All');
+            } 
+			else if (StoredPrimarySkills != '') 
+			{
+                DeleteAndCreateData('Primary');
+            } 
+			else if (StoredSecondarySkills != '') 
+			{
+                DeleteAndCreateData('Secondary');
+            }
+            var PrimarySkills = "";
+            var SecondarySkills = "";
+            var StatusVar = "";
+            var EmpID = $('#txtEmpId')[0].value;
+			//var resource_uids = $('#Txt_RES_UIDS').val();
+			var resource_uids ="";
+			if(EmpID != "")
+			{
+				var url = serviceUrl + "_api/Resources?$filter=EmployeeID eq (\'" + EmpID + "\')";
+				$.ajax({
+					url: url,
+					async: false,
+					method: "GET",
+					
+					headers: {
+						"Accept": "application/json;odata=verbose"
+					},
+					success: function (data) 
+					{
+						//EmployeeID=data.d.results[0].EmployeeID;
+						if(data.d.results.length>0)
+						{
+							resource_uids = data.d.results[0].ResourceId;
+						}
+					},
+					error:function(data)
+					{
+					}
+				});
+			}
+            var EmpName = $('#txtName')[0].value;
+			//var url = "/_api/EmployeeSkills";
+            var url = GetEmpSkillsByGuid('', 1);
+            if (PrimarySelected.length == 0 && SecondarySelected.length == 0) 
+			{
+                alert('No Selected Skills to Update');
+                return false;
+            }
+            if (PrimarySelected.length > 0) 
+			{
+                for (var i = 0; i < PrimarySelected.length; i++) 
+				{
+                    var PrimarySkillDetail = PrimarySelected[i];
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        method: "POST",
+                        data: {
+                            "EmployeeID": EmpID,
+                            "Full_Name": EmpName,
+                            "Skill_Detail": PrimarySkillDetail,
+                            "Skill_Type": "Primary",
+							"ResourceUID":resource_uids
+                           // "Created_Date":new Date().toString()
+                        },
+                        headers: {
+                            "Accept": "application/json;odata=verbose"
+                        },
+                        success: function(data) {
+                            StatusVar = "Success";
+                        },
+                        error: function(error) {
+                            result = 'error';
+                            console.log(JSON.stringify(error));
+                        }
+                    });
+                    PrimarySkillDetail = "";
+                }
+            }
+            if (SecondarySelected.length > 0) {
+                for (var j = 0; j < SecondarySelected.length; j++) {
+                    var SecondarySkillDetail = SecondarySelected[j];
+                    //var date = new Date();
+                    //var str = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        method: "POST",
+                        data: {
+                            "EmployeeID": EmpID,
+                            "Full_Name": EmpName,
+                            "Skill_Detail": SecondarySkillDetail,
+                            "Skill_Type": "Secondary",
+							"ResourceUID":resource_uids
+                           // "Created_Date":new Date().toString()
+                        },
+                        headers: {
+                            "Accept": "application/json;odata=verbose"
+                        },
+                        success: function(data) {
+                            StatusVar = "Success";
+                            //alert('Skills updated successfully');
+                        },
+                        error: function(error) {
+                            result = 'error';
+                            console.log(JSON.stringify(error));
+                        }
+                    });
+                    SecondarySkillDetail = "";
+                    //message += $(this).val() + "#";
+                }
+                UpdateWorkDayResourceMaster(EmpID, PrimarySelectedSkills, SecondarySelectedSkills);
+            }
+            if (StatusVar == "Success") {
+                alert('Skills updated successfully');
+            }
+            //window.location.reload();
+            $('.popup-bg').hide();
+            $('.loader').show();
+            setTimeout(function() {
+                Reloadjs();
+                BindResourceData(DataLink);
+            }, 100);
+        }
+
+        function RemoveSelectedSkills(Link, Category) {
+            var Curcontents = '';
+            $.ajax({
+                url: Link,
+                async: false,
+                //data: requestData,
+                type: "GET",
+                dataType: "json",
+                headers: {
+                    //"content-Type": "application/json"
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    var data = data.d.results;
+                    var PreviousSkills = StoredPrimarySkills.split(';');
+                    for (var i = 0; i < data.length; i++) {
+                        if (Category == 'Primary') {
+                            Curcontents = $("#txtExistingPrimarySkills").val();
+                        } else if (Category == 'Secondary') {
+                            Curcontents = $("#txtExistingSecondarySkills").val();
+                        }
+                        var CurSkills = Curcontents.split(';');
+                        var CurSkillLen = CurSkills.length;
+                        for (var j = 0; j < CurSkills.length; j++) {
+                            if (CurSkills[j].trim() == data[i].Skill_Details.trim()) {
+                                if (CurSkillLen == 1) {
+                                    if (Category == 'Primary') {
+                                        $('#txtExistingPrimarySkills').val(Curcontents.replace(CurSkills[j], ""));
+                                    } else if (Category == 'Secondary') {
+                                        $('#txtExistingSecondarySkills').val(Curcontents.replace(CurSkills[j], ""));
+                                    }
+                                } else if (j == 0) {
+                                    if (Category == 'Primary') {
+                                        var ColonappendeddReplaceUnCheckValue = CurSkills[j] + ";";
+                                        $('#txtExistingPrimarySkills').val(Curcontents.replace(ColonappendeddReplaceUnCheckValue, ""));
+                                    } else if (Category == 'Secondary') {
+                                        var ColonappendeddReplaceUnCheckValue = CurSkills[j] + ";";
+                                        $('#txtExistingSecondarySkills').val(Curcontents.replace(ColonappendeddReplaceUnCheckValue, ""));
+                                    }
+                                } else {
+                                    if (Category == 'Primary') {
+                                        var ColonPrependedReplaceUnCheckValue = ";" + CurSkills[j];
+                                        $('#txtExistingPrimarySkills').val(Curcontents.replace(ColonPrependedReplaceUnCheckValue, ""));
+                                    } else if (Category == 'Secondary') {
+                                        var ColonPrependedReplaceUnCheckValue = ";" + CurSkills[j];
+                                        $('#txtExistingSecondarySkills').val(Curcontents.replace(ColonPrependedReplaceUnCheckValue, ""));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function(error) {
+                    result = 'error';
+                    console.log(JSON.stringify(error));
+                    count = 0;
+                }
+            });
+        }
+
+        function DeleteAndCreateData(Value) 
+		{
+            CurPrimarySkillGuids = CurPrimarySkillGuids.split(';');
+           // CurPrimarySkillGuids = CurPrimarySkillGuids;
+            CurSecondarySkillGuids = CurSecondarySkillGuids.split(';');
+            var EmpId = document.getElementById('txtName').value;
+            var EmpName = document.getElementById('txtEmpId').value;
+            if (Value == 'All' || Value == 'Primary') 
+			{
+                for (i = 0; i < CurPrimarySkillGuids.length; i++) 
+				{
+                    var url = GetEmpSkillsByGuid(CurPrimarySkillGuids[i], 2);   //_api/EmployeeSkills(guid'" + guid + "')
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        method: "DELETE",
+                        data: {
+                            "ItemUID": CurPrimarySkillGuids[i]
+                        },
+                        headers: {
+                            "Accept": "application/json;odata=verbose"
+                        },
+                        success: function(data) {
+                           /* if (CurSecondarySkillGuids.length == 0 && CurPrimarySkillGuids.length == i) {
+                                status = "Success";
+                            }*/
+                        },
+                        error: function(error) {
+                            result = 'error';
+                            console.log(JSON.stringify(error));
+                        }
+                    });
+                }
+            }
+            if (Value == 'All' || Value == 'Secondary') 
+			{
+                for (j = 0; j < CurSecondarySkillGuids.length; j++) 
+				{
+                    //var url = "/_api/EmployeeSkills(guid'" + CurSecondarySkillGuids[j] + "')";
+                    var url = GetEmpSkillsByGuid(CurSecondarySkillGuids[j], 2);
+                    $.ajax({
+                        url: url,
+                        async: false,
+                        method: "DELETE",
+                        data: {
+                            "ItemUID": CurSecondarySkillGuids[j]
+                        },
+                        headers: {
+                            "Accept": "application/json;odata=verbose"
+                        },
+                        success: function(data) {
+                            /*if (CurSecondarySkillGuids.length == j) {
+                                status = "Success";
+                            }*/
+                        },
+                        error: function(error) {
+                            result = 'error';
+                            console.log(JSON.stringify(error));
+                        }
+                    });
+                }
+            }
+        }
+
+        function Reloadjs() {
+            if ($.fn.dataTable.isDataTable('#ResourceMatrixTable')) {
+                destroyjs('#ResourceMatrixTable');
+            }
+            //Code to destroy jquery datatable 
+            function destroyjs(tableid) {
+                if ($.fn.dataTable.isDataTable(tableid)) {
+                    $(tableid).DataTable({
+                        "filter": false,
+                        "destroy": true
+                    });
+                    $(tableid).DataTable().destroy();
+                    //clear_tbody();
+                    //$(tableid).html("");
+                    $(tableid + " tbody tr").remove();
+                }
+            }
+        }
+
+        function UpdateWorkDayResourceMaster(Empid, Pskills, Sskills) 
+		{
+			var PrimarySkillTillData = new Object();
+			var SecondarySkillTillData = new Object();
+            if (Pskills == '') 
+			{
+                Pskills = "NA";
+				PrimarySkillTillData = "NA";
+            } 
+			else 
+			{
+                Pskills = Pskills;
+		    }
+            if (Sskills == '') 
+			{
+                Sskills = "NA";
+				SecondarySkillTillData = "NA";
+            } 
+			else 
+			{
+                Sskills = Sskills;
+            }
+				
+			var Recive_Json_Primary_Secondary =  getJsonPrimary(Empid);
+			//var t = JSON.parse(retrive_Pry_json)
+			
+			
+			if(Pskills!="NA")
+			{
+				var cout_pr=0;
+				var storePrimaryName = "";
+				var PrimaryPush= new Array();
+				var store_new_primary= new Array();
+				//if(Recive_Json_Primary_Secondary.split('###')[0]!="NA")
+				//{
+					var retrive_Pry_json = "NA";
+					PrimarySkillTillData.PrimarySkills = new Array();
+					if(Recive_Json_Primary_Secondary.split('###')[0]!="NA")
+					{
+						retrive_Pry_json = JSON.parse(Recive_Json_Primary_Secondary.split('###')[0]);
+					}
+					//Primary JSON
+					
+					//if(retrive_Pry_json!=null && retrive_Pry_json != "null" && retrive_Pry_json != "[object Object]")
+					if(retrive_Pry_json!=null && retrive_Pry_json != "null" && retrive_Pry_json != "NA")
+					{
+						for(var y=0;y<retrive_Pry_json.PrimarySkills.length;y++)
+						{
+							storePrimaryName += retrive_Pry_json.PrimarySkills[y].Name+";";
+							PrimaryPush.push(retrive_Pry_json.PrimarySkills[y].Id+"##"+retrive_Pry_json.PrimarySkills[y].Name+ "##"+retrive_Pry_json.PrimarySkills[y].StartDate+"##"+retrive_Pry_json.PrimarySkills[y].EndDate+ "##"+retrive_Pry_json.PrimarySkills[y].Description+ "##"+retrive_Pry_json.PrimarySkills[y].Modified_Date);
+						}
+						storePrimaryName.slice(0,-1);
+						var PskillsData = Pskills.split(';');
+						var PLengthCount =PrimaryPush.length;
+						if(PskillsData.length>0 && PskillsData!="NA")
+						{
+							for (var t = 0; t < PrimaryPush.length; t++) 
+							{
+								var tempDataPrimary = new Object();
+								tempDataPrimary.Id = ++cout_pr;
+								tempDataPrimary.Name =PrimaryPush[t].split('##')[1];
+								tempDataPrimary.StartDate = PrimaryPush[t].split('##')[2];
+								tempDataPrimary.EndDate =PrimaryPush[t].split('##')[3];
+								tempDataPrimary.Description = PrimaryPush[t].split('##')[4];
+								if(PrimaryPush[t].split('##')[5]!="")
+								{
+									tempDataPrimary.Modified_Date = PrimaryPush[t].split('##')[5];
+								}
+								else
+								{
+									var Resent_Date = new Date();
+									Resent_Date = (("0" + Resent_Date.getDate()).slice(-2)+  "-" + monthNames[Resent_Date.getMonth()] +"-" + Resent_Date.getFullYear());
+									tempDataPrimary.Modified_Date = Resent_Date;
+								}
+								PrimarySkillTillData.PrimarySkills.push(tempDataPrimary);
+							}
+							for(var t=0;t<PskillsData.length;t++)
+							{
+								var tempDataPrimary = new Object();
+								var bar = storePrimaryName.indexOf(PskillsData[t])
+								if ( bar === -1 ) //not found 
+								{
+									tempDataPrimary.Id = ++PLengthCount;
+									tempDataPrimary.Name =PskillsData[t];
+									tempDataPrimary.StartDate = "";
+									tempDataPrimary.EndDate ="";
+									tempDataPrimary.Description = "learn";
+									var Resent_Date = new Date();
+									Resent_Date = (("0" + Resent_Date.getDate()).slice(-2)+  "-" + monthNames[Resent_Date.getMonth()] +"-" + Resent_Date.getFullYear());
+									tempDataPrimary.Modified_Date = Resent_Date;
+									PrimarySkillTillData.PrimarySkills.push(tempDataPrimary);
+									
+								} 
+								else//found
+								{									
+								}
+							}
+							
+						}
+						
+					}
+					//else if(retrive_Pry_json ==null || retrive_Pry_json == "null" || retrive_Pry_json == "[object Object]")
+					if(Recive_Json_Primary_Secondary.split('###')[0] ==null || Recive_Json_Primary_Secondary.split('###')[0] == "null" || Recive_Json_Primary_Secondary.split('###')[0] == "NA")
+					{
+						var PskillsData = Pskills.split(';');
+						var PLengthCount =PrimaryPush.length;
+						if(PskillsData.length>0 && PskillsData != "NA")
+						{
+							for (var t = 0; t < PskillsData.length; t++) 
+							{
+								var tempDataPrimary = new Object();
+								tempDataPrimary.Id = ++cout_pr;
+								tempDataPrimary.Name =PskillsData[t].split('##')[0];
+								tempDataPrimary.StartDate ="";
+								tempDataPrimary.EndDate ="";
+								tempDataPrimary.Description = "learn";
+								var Resent_Date = new Date();
+								Resent_Date = (("0" + Resent_Date.getDate()).slice(-2)+  "-" + monthNames[Resent_Date.getMonth()] +"-" + Resent_Date.getFullYear());
+								tempDataPrimary.Modified_Date = Resent_Date;
+								PrimarySkillTillData.PrimarySkills.push(tempDataPrimary);
+							}
+						}
+						else
+						{
+							PrimarySkillTillData = null;
+						}
+					}
+				//}
+			}
+			
+			
+			if(Sskills!="NA")
+			{
+				//Secondary Json_data
+				var storeSecondaryName = "";
+				var SecondaryPush= new Array();
+				var store_new_Secondary= new Array();
+				var cout_Secr=0;
+				var retrive_Secondary_json = "NA";
+				//if(Recive_Json_Primary_Secondary.split('###')[1]!="NA")
+				//{
+					SecondarySkillTillData.SecondarySkills = new Array();
+					if(Recive_Json_Primary_Secondary.split('###')[1]!="NA")
+					{
+						retrive_Secondary_json = JSON.parse(Recive_Json_Primary_Secondary.split('###')[1]);
+					}
+					//if(retrive_Secondary_json != null && retrive_Secondary_json != "null" && retrive_Secondary_json !="[object Object]")
+					if(retrive_Secondary_json != null && retrive_Secondary_json != "null" && retrive_Secondary_json!="NA")
+					{
+						for(var y=0;y<retrive_Secondary_json.SecondarySkills.length;y++)
+						{
+							storeSecondaryName += retrive_Secondary_json.SecondarySkills[y].Name+";";
+							SecondaryPush.push(retrive_Secondary_json.SecondarySkills[y].Id+"##"+retrive_Secondary_json.SecondarySkills[y].Name+ "##"+retrive_Secondary_json.SecondarySkills[y].StartDate+"##"+retrive_Secondary_json.SecondarySkills[y].EndDate+ "##"+retrive_Secondary_json.SecondarySkills[y].Description+ "##"+retrive_Secondary_json.SecondarySkills[y].Modified_Date);
+						}
+						storeSecondaryName.slice(0,-1);
+						var SecskillsData = Sskills.split(';');
+						var SLengthCount =SecondaryPush.length;
+						if(SecskillsData.length>0 && SecskillsData!="NA")
+						{
+							for (var t = 0; t < SecondaryPush.length; t++) 
+							{
+								var tempDataSecondary = new Object();
+								tempDataSecondary.Id = ++cout_Secr;
+								tempDataSecondary.Name =SecondaryPush[t].split('##')[1];
+								tempDataSecondary.StartDate = SecondaryPush[t].split('##')[2];
+								tempDataSecondary.EndDate =SecondaryPush[t].split('##')[3];
+								tempDataSecondary.Description = SecondaryPush[t].split('##')[4];
+								if(SecondaryPush[t].split('##')[5]!="")
+								{
+									tempDataSecondary.Modified_Date = SecondaryPush[t].split('##')[5];
+								}
+								else
+								{
+									var Resent_Date = new Date();
+									Resent_Date = (("0" + Resent_Date.getDate()).slice(-2)+  "-" + monthNames[Resent_Date.getMonth()] +"-" + Resent_Date.getFullYear());
+									tempDataSecondary.Modified_Date = Resent_Date;
+								}
+								SecondarySkillTillData.SecondarySkills.push(tempDataSecondary);
+							}
+							for(var t=0;t<SecskillsData.length;t++)
+							{
+								var tempDataSecondary = new Object();
+								var Sec_bar = storeSecondaryName.indexOf(SecskillsData[t])
+								if ( Sec_bar === -1 )
+								{
+									//console.log('not found');
+									//console.log(SecskillsData[t]);
+									//store_new_Secondary.push();
+									tempDataSecondary.Id = ++SLengthCount;
+									tempDataSecondary.Name =SecskillsData[t];
+									tempDataSecondary.StartDate = "";
+									tempDataSecondary.EndDate ="";
+									tempDataSecondary.Description = "learn";
+									var Resent_Date = new Date();
+									Resent_Date = (("0" + Resent_Date.getDate()).slice(-2)+  "-" + monthNames[Resent_Date.getMonth()] +"-" + Resent_Date.getFullYear());
+									tempDataSecondary.Modified_Date = Resent_Date;
+									SecondarySkillTillData.SecondarySkills.push(tempDataSecondary);
+									
+								} 
+								else
+								{
+									//console.log("found");
+									//console.log(SecskillsData[t]);
+									//SecondaryPush
+									
+								}
+							}
+							
+						}
+						
+					}
+					//else if(retrive_Secondary_json ==null || retrive_Secondary_json == "null" || retrive_Secondary_json =="[object Object]")
+					
+				//}
+				if(Recive_Json_Primary_Secondary.split('###')[1] ==null || Recive_Json_Primary_Secondary.split('###')[1] == "null" || Recive_Json_Primary_Secondary.split('###')[1] =="NA")
+				{
+					var SecskillsData = Sskills.split(';');
+					var SLengthCount =SecondaryPush.length;
+					if(SecskillsData.length>0 && SecskillsData != "NA")
+					{
+						for (var t = 0; t < SecskillsData.length; t++) 
+						{
+							var tempDataSecondary = new Object();
+							tempDataSecondary.Id = ++cout_Secr;
+							tempDataSecondary.Name =SecskillsData[t].split('##')[0];
+							tempDataSecondary.StartDate = "";
+							tempDataSecondary.EndDate ="";
+							tempDataSecondary.Description = "learn";
+							var Resent_Date = new Date();
+							Resent_Date = (("0" + Resent_Date.getDate()).slice(-2)+  "-" + monthNames[Resent_Date.getMonth()] +"-" + Resent_Date.getFullYear());
+							tempDataSecondary.Modified_Date = Resent_Date;
+							SecondarySkillTillData.SecondarySkills.push(tempDataSecondary);
+						}
+					}
+					else
+					{
+						SecondarySkillTillData = null;
+					}
+				}
+				
+			}
+			
+			
+			var final_PrimarySkillTillData="";
+			var final_SecondarySkillTillData="";
+			if(PrimarySkillTillData!=null && PrimarySkillTillData!="NA")
+			{
+				final_PrimarySkillTillData = JSON.stringify(PrimarySkillTillData);
+			}
+			else
+			{
+				final_PrimarySkillTillData = "NA";
+			}
+			if(SecondarySkillTillData!=null && SecondarySkillTillData!="NA")
+			{
+				final_SecondarySkillTillData = JSON.stringify(SecondarySkillTillData);
+			}
+			else
+			{
+				final_SecondarySkillTillData = "NA";
+			}
+			
+            //var url="_api/WorkdayResourceMaster('"+Empid+"')";
+            var url = UpdateWorkDayMasterByEmpid(Empid);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "PATCH",
+                data: {
+                    "EmployeeID": Empid,
+                    "PrimarySkill": Pskills,
+                    "secondarySkill": Sskills,
+					"PPM":"0",
+					"PrimarySkill_Json":final_PrimarySkillTillData,
+					"SecondarySkill_Json":final_SecondarySkillTillData
+                },
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    StatusVar = "Success";
+                },
+                error: function(error) {
+                    result = 'error';
+                    console.log(JSON.stringify(error));
+                }
+            });
+        }
+		
+		
+		function getJsonPrimary(EmployeeID)
+		{
+			var url = serviceUrl + "_api/WorkdayResourceMaster('" + EmployeeID + "')";
+			var Json_data =null;
+			$.ajax
+			({
+				url: url,
+				async: false,
+				method: "GET",
+				data: {
+					"EmployeeID": EmployeeID,
+				},
+				headers: {
+					"Accept": "application/json;odata=verbose"
+				},
+				success: function (data) 
+				{
+					var result = data.d.results;
+					if(result.length>0)
+					{
+						//Json_data =JSON.parse(result[0].PrimarySkill_Json) +"###"+ JSON.parse(result[0].SecondarySkill_Json);
+						Json_data =result[0].PrimarySkill_Json+"###"+result[0].SecondarySkill_Json;
+					}
+				},
+				error: function (error) 
+				{
+				}
+
+			});
+			return Json_data;
+		}
+		
+		function ClosePopupBtn()
+		{
+			$('.popup-bg').hide();
+		}
+		
+        </script>
+</body>
+
+</html><html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

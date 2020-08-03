@@ -1,0 +1,1069 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Time Reporting Periods</title>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+<style>
+
+#DeltaTopNavigation{	
+    display: none;
+
+}
+  tr.otherstyle 
+{
+    background-color: #c4d0d7;
+    color:#337ab7;
+}
+.dataTables_scrollHead{
+	width: 98% !important;
+}
+.dataTables_scrollBody table{
+	width: 100% !important;
+}
+.active{background-color:#008a00 !important}
+</style>
+</head>
+<body>
+
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+<div class="container-fluid">
+	<div class="breadcrumb-main">
+	    <div class="container-fluid">
+	        <ul>
+	            <li>
+	                <a href="javascript:void(0)"  onclick="URLTimesheetHome();">Home</a>
+	            </li>
+	            <li>Time Reporting Periods
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+</div>
+<div class="mid-block" style="margin-top: 10px;">
+	<div class="container-fluid">
+		<div class="container-fluid">
+			<div class="row">
+				<div calss="col-sm-12">
+					<div class="col-sm-4" style="text-align: justify;" >
+						<b style="font-size: 16px;">Define Bulk Period Parameters</b>    <p>You can simultaneously create multiple periods by 	using the bulk period creation option. Before you 				use the option, specify the parameters in this
+							 section.</p><!-- and (optionally) the naming convention in 				Section 2.</p>  -->
+					</div>
+					<div  class="col-sm-8">
+						<table class="timeperiod-table">  
+							<tr>
+								<td style="width:215px;"><font color="red">*</font>Date the first period Starts:</td>
+								<td>
+									<input type="text"  placeholder="Start Period Date" id="sDatePicker" readonly>
+									<label id="lblSdate" hidden  ><font color="red" style="font-size: 10px;">Select Start Date</font></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<font color="red">*</font>Date the first period Ends:
+								</td>
+							<td><input type="text" placeholder="End Period Date" id="eDatePicker" readonly>
+							<label id="lblEdate" hidden ><font color="red" style="font-size: 10px;">Select End Date</font></label></td>
+							</tr> 
+							<!-- <tr> -->
+								<!-- <td style="width:215px;"><font color="red">*</font>Length of the standard period (days):</td> -->
+								<!-- <td> -->
+									<!-- <input type="text" id="Plength" maxlength="3" onchange="daysValidate()"> -->
+									<!-- <label id="lblPlength" ><font color="red"  style="font-size: 10px;">Enter Period Days</font></label> -->
+								<!-- </td> -->
+							<!-- </tr> -->
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" style="padding-top:20px;">
+				<div calss="col-sm-12">
+				<div class="col-sm-4" style="text-align: justify;"><b style="font-size: 16px;">Define Batch Naming Convention</b>    <p>When you create multiple time reporting periods, 
+					 it is recommended to use a unique name for each period. </p> 
+				</div>
+			<div  class="col-sm-8">    
+			<table class="timeperiod-table"> 
+				<tr>
+					<!-- <th style="width:215px;">Format: Prefix SequenceNumber Suffix</th> -->
+					<th style="width:215px;">Format: Prefix - Suffix</th>
+				</tr>
+				<tr> 
+					<td style="width:160px;">Prefix(3 letters Max):</td>
+					<td><input type="text" id="prefi" maxlength="3" onkeypress="return onlyAlphabets(event);">
+					<!-- <label id="lblprefix"   ><font color="red">Enter Prefix</font></label></td> -->
+				</tr>   
+				<!-- <tr> -->
+					<!-- <td><font color="red">*</font>Next Sequence Number:</td> -->
+					<!-- <td><input type="text" id="seqnumber"> -->
+					<!-- <label id="lblsquence"   ><font color="red">Enter Sequence number</font></label></td> -->
+				<!-- </tr>    -->
+				<tr>
+					<td>Suffix(3 letters Max):</td>
+					<td><input type="text" id="suffi" maxlength="3">
+					<!-- <label id="lblsuffix"><font color="red">Enter Suffix</font></label></td> -->
+				</tr> 
+				<tr>
+					<td ></td>
+					<td>
+						<a href="javascript:void(0)" onclick="masterPeriodValidation()" class="blue-btn">Create Bulk...</a>
+					</td>
+				</tr> 
+				<tr>
+				<td><b>Sample : </b></td>
+				<td><span id="SampleData" ></span></td>
+				<td></td>
+				</tr>	
+		    </table>
+			<!-- <table> -->
+				<!-- <tr> -->
+				<!-- <td></td> -->
+					<!-- <td class="active-add" style="float: right;" >    -->
+						
+					<!-- </td>	 -->
+				<!-- </tr> -->
+			<!-- </table> -->
+			<div class="pull-right add-active">
+						<a href="javascript:void(0)" id="PreYrs" onclick="YearWiseFilter('PreYrs')" class="blue-btn">Previous Year</a>
+						<a href="javascript:void(0)" id="CurYrs" onclick="YearWiseFilter('CurYrs')" class="blue-btn">Current Year</a>
+						<a href="javascript:void(0)" id="NexYrs"  onclick="YearWiseFilter('NexYrs')" class="blue-btn">Next Year</a>
+						</div>
+    </div>
+  </div>
+  </div>
+  </div>
+			
+<br/>
+<div class="row">
+	<div class="col-md-4">
+		<div class="col-md-12"style="text-align: justify;">
+		<b style="font-size: 16px;">Create Periods</b>
+			<!-- <p> -->
+				<!-- Buttons insert one period before or after the currently period. You can simultaneously create multiple time periods by  -->
+				<!-- using the fields above the list. Periods that have associated timesheets cannot be deleted. -->
+			<!-- </p> -->
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div>
+			<table class="table-bordered table-new example-table" id="ResourceTable" style="width: 99.80% !important;">
+				<thead>
+				<tr>
+					<th style="width:40% !important; background-image: none !important; cursor: auto !important;">Timesheet Name</th>
+					<th style="width:20% !important;">Start Period Date</th>
+					<th style="width:20% !important;">End Period Date</th>
+					<th style="width:20% !important;">Status</th>
+				</tr>
+				</thead>
+				<tbody id="tblPeriodBody">
+				<span id="loading-image"></span>
+				</tbody>
+			</table>
+		</div>
+		<!-- <div class="pull-right" style="margin-top:25px;"> -->
+			<!-- <a href="javascript:void(0)" class="blue-btn">Save</a> -->
+			<!-- <a href="javascript:void(0)" class="gray-btn">Cancel</a> -->
+		<!-- </div> -->
+	</div>
+	
+</div>	
+	</div>
+</div>
+
+	<div id="Confirmation_alert" class="alert-main" style="display: none;">
+        <span id="confirmation_type"></span>
+        <span id="delete_expense_id" style="display: none;"></span>
+        <div class="black-bg" id="Div1">
+            <div class="popup-main"> <!-- style="width: 30%;height: 25%;"> -->
+                <div class="popup-heading"><span id="Confirmation_msg">Are You Sure You Want To Create TS Period?</span></div>
+                <div class="pop-mid">
+					<div id="TillDateBodyInfo">
+					</div>
+					<div style="float: left;">			
+						<input type='checkbox' id='selectCheckBox' /><label id="checkToDel" style="    margin: 0 0 0 8px;">Delete Existing Period and Create</label>				
+					</div>
+					<div style="display: inline-block; width: 100%; text-align: left;margin-top: 5px;">
+
+						<!-- <span id="Method_tocall"></span> -->
+						<div style="margin-top: 10px;display: inline-block;">
+							<!-- <input type='text' id='otpID' placeholder="OTP PIN" /> -->
+							<input type='text' id='otpID' placeholder="OTP PIN" />
+						</div>
+						<div style="float: right;margin-top: 5px;">
+
+							<input type="Button" class="divnewbtn" value="Submit" id="ok_click" onclick="CreateBulkPeriodsTimesheet();">
+							<input type="Button" class="divnewbtn" value="Cancel" onclick="confirmation_close();">
+						</div>
+
+					</div>
+					<div style="display: inline-block; width: 100%; text-align: left;margin-top: 5px;">
+						<span id="EmailOtpMsg">Please enter OTP which is sent to you via Email</span>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+	 <div id="alertmain" class="alert-main" style="display: none">
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Alert_msg"></span></div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+		<div class="popup-main">
+			<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+			<div class="pop-mid">
+				<input type="hidden" id="isPagerefresh"></span>
+				<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+			</div>			
+		</div>
+	</div>
+</body>
+</html>
+<script>
+$(document).ready(function()
+{
+	disableRightClick();
+	GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+	$('#lblSdate').hide();
+	$('#lblEdate').hide();
+	//$('#lblPlength').hide();
+	//$('#lblprefix').hide();
+	//$('#lblsquence').hide();
+	//$('#lblsuffix').hide();
+	$('#otpID').hide();
+	$('#EmailOtpMsg').hide();
+
+	YearWiseFilter('CurYrs');
+	
+	$('#sDatePicker').datepicker
+	({
+		dateFormat: 'dd-M-yy',
+		onSelect: function(selected)
+		{
+			$("#eDatePicker").datepicker("option","minDate", selected);
+			var stDat="";
+		var someDate ="";
+		var numberOfDaysToAdd="";
+		var dd="";
+		var mm="";
+		var y= "";
+		var somdatata="";
+		var Sstart =$('#sDatePicker').val();
+	var split=Sstart.split("-")
+
+	var dd = split[0];              
+	var y = split[2];
+
+	var GetMonth =
+	{
+	"Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December"
+	}
+	var Month = 	['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+	var mm = GetMonth[split[1]];
+
+	var Month = 	['January','February','March','April','May','June','July','August','September','October','November','December']
+
+	var EDate1 = "";
+	EDate1= mm + " " + dd + "," + y;
+	var PeriodStartDat = new Date(EDate1);
+	
+		stDat =new Date(PeriodStartDat);
+		someDate = new Date(stDat );
+		numberOfDaysToAdd =6;
+		somdatata =parseInt(someDate.getDate());
+		someDate.setDate(somdatata + numberOfDaysToAdd); 
+		dd = someDate.getDate();
+		mm = someDate.getMonth() + 1;
+		y = someDate.getFullYear();
+		var Mont = 	['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		var someFormattedDate = dd + '-'+Mont[mm-1 ]+ '-'+ y;
+		var pre = $("#prefi").val();
+		var star = $("#sDatePicker").val();
+		var  endss =someFormattedDate;
+		var suf = $("#suffi").val() ;
+
+		$("#SampleData").html(pre + "(" +star+" - "+endss +")"+suf);
+		}
+	});
+	
+	$('#eDatePicker').datepicker
+	({
+		dateFormat: 'dd-M-yy',
+		onSelect: function(selected)
+		{
+			$("#sDatePicker").datepicker("option","maxDate", selected)
+		}
+	});
+	Sample1();
+	//one textbox value to another textbox value 
+	
+	
+	$('#selectCheckBox').change(function() 
+	{
+		var checkLength = $('input[id=selectCheckBox]:checked').length;
+		if(checkLength == 0)
+		{
+			$('#ok_click').hide();
+			$('#otpID').hide();
+			$('#EmailOtpMsg').hide();
+		}
+		else
+		{
+			$('#ok_click').show();
+			$('#otpID').show();
+			$('#EmailOtpMsg').show();
+		}
+	})
+});
+
+<!-- $(document). ready(function() -->
+<!-- { -->
+	<!-- $('.add-active a'). click(function() -->
+	<!-- { -->
+		<!-- $('.add-active a'). removeClass("active"); -->
+		<!-- $(this). addClass("active"); -->
+	<!-- }); -->
+<!-- });         -->
+
+
+function Sample1()
+{
+	<!-- $("#prefi, #Plength, #suffi").change(function()   -->
+		$(" #sDatePicker,#prefi,#suffi").change(function() 
+	{
+		var stDat="";
+		var someDate ="";
+		var numberOfDaysToAdd="";
+		var dd="";
+		var mm="";
+		var y= "";
+		var somdatata="";
+		var Sstart =$('#sDatePicker').val();
+	var split=Sstart.split("-")
+
+	var dd = split[0];              
+	var y = split[2];
+
+	var GetMonth =
+	{
+	"Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December"
+	}
+	var Month = 	['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+	var mm = GetMonth[split[1]];
+
+	var Month = 	['January','February','March','April','May','June','July','August','September','October','November','December']
+
+	var EDate1 = "";
+	EDate1= mm + " " + dd + "," + y;
+	var PeriodStartDat = new Date(EDate1);
+	
+		stDat =new Date(PeriodStartDat);
+		someDate = new Date(stDat );
+		numberOfDaysToAdd =6;
+		somdatata =parseInt(someDate.getDate());
+		someDate.setDate(somdatata + numberOfDaysToAdd); 
+		dd = someDate.getDate();
+		mm = someDate.getMonth() + 1;
+		y = someDate.getFullYear();
+		var Mont = 	['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		var someFormattedDate = dd + '-'+Mont[mm-1 ]+ '-'+ y;
+		var  endss =someFormattedDate;
+		
+		var pre = $("#prefi").val();
+		var star = $("#sDatePicker").val();
+		var suf = $("#suffi").val() ;
+		if( star == "")
+		{
+			star = "";
+			endss="";
+			$("#SampleData").html(pre + "(" +star+" - "+endss +")"+suf);
+		}
+		else
+		{
+			$("#SampleData").html(pre + "(" +star+" - "+endss +")"+suf);
+		}
+	});
+}
+function close_div()
+{
+	$("#alertmain").hide();
+	document.getElementById("Alert_msg").innerHTML="";
+	
+	
+}
+
+<!-- function daysValidate()//TWO dates difference and days showing -->
+<!-- { -->
+	<!-- var Sstart =$('#sDatePicker').val(); -->
+	<!-- var split=Sstart.split("-") -->
+
+	<!-- var dd = split[0];               -->
+	<!-- var y = split[2]; -->
+
+	<!-- var GetMonth = -->
+	<!-- { -->
+		<!-- "Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December" -->
+	<!-- } -->
+	<!-- var Month = 	['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] -->
+
+	<!-- var mm = GetMonth[split[1]]; -->
+
+	<!-- var Month = 	['January','February','March','April','May','June','July','August','September','October','November','December'] -->
+
+	<!-- var EDate1 = ""; -->
+	<!-- EDate1= mm + " " + dd + "," + y; -->
+	<!-- var PeriodStartDat = new Date(EDate1); -->
+
+	<!-- var Eend =$('#eDatePicker').val(); -->
+	<!-- var split=Eend.split("-") -->
+
+	<!-- var dd = split[0];               -->
+	<!-- var y = split[2]; -->
+	<!-- var mm = GetMonth[split[1]];			   -->
+	<!-- var EDate1 = ""; -->
+
+	<!-- EDate1= mm + " " + dd + "," + y; -->
+	<!-- var PeriodEndDat = new Date(EDate1);	 -->
+
+	<!-- var timeDiff = Math.abs(PeriodEndDat.getTime() -PeriodStartDat.getTime()); -->
+	<!-- var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); -->
+	<!-- var pleng = $('#Plength').val(); -->
+	<!-- if(parseInt(diffDays)  <= parseInt(pleng ))  -->
+	<!-- {  -->
+		<!-- $("#alertmain").show();   -->
+		<!-- document.getElementById("Alert_msg").innerHTML=popUpMessage.userGivenPeriodlength;	  -->
+		<!-- $('#Plength').val("");  -->
+	<!-- } -->
+<!-- } -->
+
+function onlyAlphabets(evt)
+{
+	var charCode;
+	if (window.event)
+	charCode = window.event.keyCode;  //for IE
+	else
+	charCode = evt.which;  //for firefox
+	if (charCode == 32) //for &lt;space&gt; symbol
+	return true;
+	if (charCode > 31 && charCode < 65) //for characters before 'A' in ASCII Table
+	return false;
+	if (charCode > 90 && charCode < 97) //for characters between 'Z' and 'a' in ASCII Table
+	return false;
+	if (charCode > 122) //for characters beyond 'z' in ASCII Table
+	return false;
+	return true;
+}
+</script>
+<script>	
+
+function myfunction(id)
+{
+	$("#tblPeriodBody tr").click(function()
+	{
+		$("#tblPeriodBody tr").removeClass("otherstyle");
+		$(this).addClass("otherstyle");
+	});
+
+}
+
+ function OTPpinCode() 
+ { 
+	 var Admin_GenrateOTP_ForPeriodsURLs = Admin_GenrateOTP_ForPeriods(); 
+	 $.ajax 
+	 ({ 
+		url:Admin_GenrateOTP_ForPeriodsURLs, 
+		method: "POST", 
+		 headers: { "Accept": "application/json; odata=verbose" }, 
+		 //data: ,{"ResourceUID": resid }, 
+		 success: function (data)  
+		 { 
+		//console.log(data); 
+		 //pin = data.PIN; 
+		 }, 
+		 error: function (data) 
+		 { 
+			 alert("failed"); 
+		 } 
+	 }); 
+ } 
+function masterPeriodValidation()
+{
+	var result="true";
+	var ssdate = $('#sDatePicker').val();
+	var eedate = $('#eDatePicker').val();
+	var periodLeng = $('#Plength').val();
+	var prefixval = $('#prefi').val();
+	//var seqval= $('#seqnumber').val();
+	var suffixval = $('#suffi').val();
+	
+	if(ssdate == "")
+	{
+		$('#lblSdate').show();
+		result="false";
+	}
+	else
+	{
+		$('#lblSdate').hide();		
+	}
+	if(eedate =="")
+	{
+		$('#lblEdate').show();
+		result="false";
+	}
+	else
+	{
+		$('#lblEdate').hide();	
+	}
+	<!-- if(periodLeng =="")  -->
+	<!-- {  -->
+		 <!-- $('#lblPlength').show();  -->
+		 <!-- result="false";  -->
+	<!-- }  -->
+	 <!-- else  -->
+	<!-- { -->
+		<!-- $('#lblPlength').hide();  -->
+	<!-- } -->
+	 <!-- if(prefixval =="")  -->
+	 <!-- {  -->
+		 <!-- $('#lblprefix').show(); -->
+		 <!-- result="false";  -->
+	 <!-- }  -->
+	 <!-- else  -->
+	 <!-- {  -->
+		 <!-- $('#lblprefix').hide();  -->
+	<!-- }  -->
+	
+	 <!-- if(seqval =="")  -->
+	 <!-- {  -->
+		 <!-- $('#lblsquence').show();  -->
+		 <!-- result="false";  -->
+	 <!-- }  -->
+	<!-- else  -->
+	 <!-- {  -->
+		 <!-- $('#lblsquence').hide();  -->
+	 <!-- }  -->
+	 <!-- if(suffixval =="")  -->
+	 <!-- {  -->
+		 <!-- $('#lblsuffix').show();  -->
+		 <!-- result="false";  -->
+	 <!-- }  -->
+	 <!-- else  -->
+	 <!-- {  -->
+		 <!-- $('#lblsuffix').hide();  -->
+	 <!-- }  -->
+	if(result=="true")
+	{
+		
+		CrtBulPeriods();
+	}
+	else
+	{
+		return "false";
+	}
+}
+function CrtBulPeriods()
+{
+	OTPpinCode(); 
+	document.getElementById("selectCheckBox").checked = false;
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var Start_date = $('#sDatePicker').val();
+	var End_date = $('#eDatePicker').val();
+	var  GetPeriodsStatusURLs = GetPeriodsStatus();
+	$.ajax
+	({	
+		url:GetPeriodsStatusURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		cache: false,
+		data:
+			{ 
+				"Start_Date": Start_date,
+				"End_Date":End_date
+			},
+		success: function (data) 
+		{
+			
+			console.log(data);
+			$("#TillDateBodyInfo").text("");
+			var innerHtml = "";
+			if(data.PeriodStutus.length == 0)
+			{
+				innerHtml += "<tr><td class='text-center' colspan='4'>No Information Found</td></tr>";
+			}
+			else
+			{
+				for (var i = 0; i < data.PeriodStutus.length; i++) 
+				{	
+					var periodCont = data.PeriodStutus[i].Period_Count;
+					<!-- innerHtml += "<td >"+periodCont+"</td>"; -->
+					var StrDate = new Date(data.PeriodStutus[i].min_StartDate);
+					var sdateMin = ("0" + StrDate.getDate()).slice(-2)+  "-" + monthNames[StrDate.getMonth()] +"-" + StrDate.getFullYear();
+					
+					var EnDate =  new Date(data.PeriodStutus[i].Max_EndDate);
+					var EndateMax = ("0" + EnDate.getDate()).slice(-2)+  "-" + monthNames[EnDate.getMonth()] +"-" + EnDate.getFullYear();
+					if(periodCont == 0)
+					{
+						$('.StartDateTD').hide();
+						$('.EndDateTD').hide();
+						$('#selectCheckBox').hide();
+						$('#checkToDel').hide();
+						$('#otpID').show();
+						$('#ok_click').show();
+						$('#EmailOtpMsg').show();
+					}
+					else
+					{
+						$('.StartDateTD').show();
+						$('.EndDateTD').show();
+						$('#selectCheckBox').show();
+						$('#checkToDel').show();
+						$('#ok_click').hide();
+						$('#EmailOtpMsg').hide();
+						<!-- innerHtml += "<td class='StartDateTD'>"+sdateMin+"</td>"; -->
+						<!-- innerHtml += "<td class='EndDateTD'>"+EndateMax+"</td>"; -->
+					}
+					innerHtml += "<span style='font-size: 14px;margin-top: -12px;    margin-left: -20px;'>"+data.PeriodStutus[i].Message+"</span>";
+	
+				}
+			}
+			$("#TillDateBodyInfo").append(innerHtml);
+			$('#Confirmation_alert').show();
+			//$('#selectCheckBox').attr('checked', false);
+			document.getElementById("selectCheckBox").checked = false;
+			
+		},
+		error: function (data)
+		{
+			alert("failed");
+		}
+	});
+}
+
+
+function  CreateBulkPeriodsTimesheet()
+{
+	var Start_date = $('#sDatePicker').val();
+	var End_date = $('#eDatePicker').val();
+	//var NoofDays = $('#Plength').val();
+	var StartFormat = $('#prefi').val().trim();
+	var EndFormat = $('#suffi').val().trim();
+	var PIN = $('#otpID').val().trim();
+	var Delete_Existing = $('input[id=selectCheckBox]:checked').length;
+	
+
+	var Admin_CreateBulkPeriodsURLs = Admin_CreateBulkPeriods();
+	$.ajax
+	({
+		url:Admin_CreateBulkPeriodsURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data: 
+		{
+			"Start_Date": Start_date,
+			"End_Date":End_date,
+			//"NoofDays":NoofDays,
+			"NoofDays":7,
+			"StartFormat":StartFormat,
+			"EndFormat":EndFormat,
+			"Delete_Existing":Delete_Existing,
+			"UserPIN":PIN
+		},
+		success: function (data) 
+		{ 
+			var msg = data.Data;
+			if(msg == 100)
+			{
+				//console.log(data);
+				$("#alertmain").show(); 
+				document.getElementById("Alert_msg").innerHTML=popUpMessage.invalidOtpMsg;	
+				//alert();
+			}
+			if(msg == 200)
+			{
+				//console.log(data);	
+				
+				openOKpopup(popUpMessage.PeriodCreateSucess,"true");
+				$('#otpID').val("");
+				document.getElementById("selectCheckBox").checked = false;
+				confirmation_close();
+				ClearData();
+			}
+		},
+		error: function (data)
+		{
+			alert("failed");
+		}
+	});
+}
+function confirmation_close()
+{
+	$('#Confirmation_alert').hide();
+	document.getElementById("selectCheckBox").checked = false;
+	$('#otpID').val("");
+	$('#otpID').hide();
+}
+function ClearData()
+{
+	$('#sDatePicker').val("");
+	$('#eDatePicker').val("");
+	$('#Plength').val("");
+	$('#prefi').val("");
+	//$('#seqnumber').val("");
+	$('#suffi').val("");
+	document.getElementById("selectCheckBox").checked = false;
+	$('#otpID').val("");
+}
+function YearWiseFilter(dataID)
+{	
+	$('#loading-image').show(); 
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var GetPeriodMasterURLs = GetPeriodMaster();
+	$.ajax
+	({
+		url:GetPeriodMasterURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		//data: ,{"ResourceUID": resid },
+		success: function (data) 
+		{
+			var arr = [];
+			var crrDate = new Date(data.DateTime);
+			if(dataID == "AllData")
+			{
+				var arr = [];
+				var crrDate = new Date();
+				$("#tblPeriodBody").text("");
+				var innerHtml = "";
+				if(data.Data.length == 0)
+				{
+					innerHtml += "<tr><td class='text-center' colspan='4'>No Record Found</td></tr>";
+				}
+				else
+				{
+					
+					for (var i = 0; i < data.Data.length; i++) 
+					{	
+						var status = "";
+						var startDate = new Date(data.Data[i].StartDate)
+						var sdate = ("0" + startDate.getDate()).slice(-2)+  "-" + monthNames[startDate.getMonth()] +"-" + startDate.getFullYear();
+						var endDate = new Date(data.Data[i].EndDate)
+						var edate = ("0" + endDate.getDate()).slice(-2)+ "-" +  monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();		
+						var sts = data.Data[i].PeriodStatusId;
+						if(sts == 0)
+						{
+							status = "Close";
+						}
+						else
+						{
+							status = "Open";
+						}
+						 
+						 var periodIDs = data.Data[i].PeriodId;
+						innerHtml += "<tr>";			
+						innerHtml += "<td onclick='myfunction();'>"+data.Data[i].PeriodName.split('|')[0]+"("+sdate+" - "+edate+ ")</td>";
+						innerHtml += "<td>"+sdate+"</td>";
+						innerHtml += "<td>"+edate+"</td>";
+						innerHtml += "<td>"+status+"</td>";
+						innerHtml += "</tr>";		
+					}
+				}
+				$("#tblPeriodBody").append(innerHtml);
+				$('#loading-image').hide(); 
+			}
+			if ( dataID == "CurYrs") 
+			{
+				$('#CurYrs').css("background-color", "green");
+				$('#NexYrs').css("background-color", "");
+				$('#PreYrs').css("background-color", "");
+				$('#tblPeriodBody').empty();
+				
+				var arr = [];
+				//var crrDate = new Date("05/01/2017");
+								
+				var validateYrs = new Date("03/31/"+crrDate.getFullYear());
+				if(validateYrs < crrDate)
+				{
+					var FirstDay = new Date("04/01/"+(crrDate.getFullYear()));
+					var LastDay = new Date("03/31/"+(crrDate.getFullYear()+1));
+					data.Data.filter
+					(
+						function (a) {
+							var sdate = new Date(a.StartDate);
+							var edate = new Date(a.EndDate);
+							//if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+							if(sdate >= FirstDay && edate <= LastDay )
+							{   
+								arr.push(a);
+							}
+						}
+					)
+				}
+				else
+				{
+					var FirstDay = new Date("04/01/"+(crrDate.getFullYear()-1));
+					var LastDay = new Date("03/31/"+(crrDate.getFullYear()));
+					data.Data.filter
+					(
+						function (a) {
+							var sdate = new Date(a.StartDate);
+							var edate = new Date(a.EndDate);
+							//if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+							if(sdate >= FirstDay && edate <= LastDay )
+							{   
+								arr.push(a);
+							}
+						}
+					)
+				}
+				var innerHtml = "";
+				if(arr.length==0)
+				{
+					
+					innerHtml += "<tr><td class='text-center' colspan='4'>No Record Found</td></tr>";
+				}
+				else
+				{
+					
+					for (var m = 0; m < arr.length; m++) 
+					{	
+						var status = "";
+						var startDate = new Date(arr[m].StartDate)
+						var sdate = ("0" + startDate.getDate()).slice(-2)+  "-" + monthNames[startDate.getMonth()] +"-" + startDate.getFullYear();
+						var endDate = new Date(arr[m].EndDate)
+						var edate = ("0" + endDate.getDate()).slice(-2)+ "-" +  monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();		
+						var sts = arr[m].PeriodStatusId;
+						if(sts == 0)
+						{
+							status = "Close";
+						}
+						else
+						{
+							status = "Open";
+						}
+						 
+						 var periodIDs = arr[m].PeriodId;
+						innerHtml += "<tr>";			
+						innerHtml += "<td onclick='myfunction();'>"+arr[m].PeriodName.split('|')[0]+"("+sdate+" - "+edate+ ")</td>";
+						innerHtml += "<td>"+sdate+"</td>";
+						innerHtml += "<td>"+edate+"</td>";
+						innerHtml += "<td>"+status+"</td>";
+						innerHtml += "</tr>";		
+					}
+				}	
+				$("#tblPeriodBody").append(innerHtml);
+				$('#loading-image').hide(); 
+				
+			}
+			if ( dataID == "PreYrs") 
+			{
+				$('#CurYrs').css("background-color", "");
+				$('#NexYrs').css("background-color", "");
+				$('#PreYrs').css("background-color", "green");
+				var arr = [];
+				$('#tblPeriodBody').empty();
+				var validateYrs="";
+				validateYrs = new Date("03/31/"+crrDate.getFullYear());
+				if(validateYrs < crrDate)
+				{
+					var FirstDay = new Date("04/01/"+(crrDate.getFullYear()-1));
+					var LastDay = new Date("03/31/"+(crrDate.getFullYear()));
+					data.Data.filter
+					(
+						function (a) {
+							var sdate = new Date(a.StartDate);
+							var edate = new Date(a.EndDate);
+							//if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+							if(sdate >= FirstDay && edate <= LastDay )
+							{   
+								arr.push(a);
+							}
+						}
+					)
+				}
+				else
+				{
+					var FirstDay = new Date("04/01/"+(crrDate.getFullYear()-2));
+					var LastDay = new Date("03/31/"+(crrDate.getFullYear()-1));
+					data.Data.filter
+					(
+						function (a) {
+							var sdate = new Date(a.StartDate);
+							var edate = new Date(a.EndDate);
+							//if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+							if(sdate >= FirstDay && edate <= LastDay )
+							{   
+								arr.push(a);
+							}
+						}
+					)
+				}
+				var innerHtml = "";
+				if(arr.length==0)
+				{
+					innerHtml += "<tr><td class='text-center' colspan='4'>No Record Found</td></tr>";
+				}
+				else
+				{
+					for (var t= 0; t < arr.length; t++) 
+					{	
+						var status = "";
+						var startDate = new Date(arr[t].StartDate)
+						var sdate = ("0" + startDate.getDate()).slice(-2)+  "-" + monthNames[startDate.getMonth()] +"-" + startDate.getFullYear();
+						var endDate = new Date(arr[t].EndDate)
+						var edate = ("0" + endDate.getDate()).slice(-2)+ "-" +  monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();		
+						var sts = arr[t].PeriodStatusId;
+						if(sts == 0)
+						{
+							status = "Close";
+						}
+						else
+						{
+							status = "Open";
+						}
+						 
+						 var periodIDs = arr[t].PeriodId;
+						innerHtml += "<tr>";			
+						//innerHtml += "<td onclick='myfunction(\""+periodIDs+"\");'><input type='hidden' id='pid"+i+"' value="+periodIDs+">"+arr[t].PeriodName.split('|')[0]+"("+sdate+" - "+edate+ ")</td>";
+						innerHtml += "<td onclick='myfunction();'>"+arr[t].PeriodName.split('|')[0]+"("+sdate+" - "+edate+ ")</td>";
+						innerHtml += "<td>"+sdate+"</td>";
+						innerHtml += "<td>"+edate+"</td>";
+						innerHtml += "<td>"+status+"</td>";
+						innerHtml += "</tr>";		
+					}
+				}	
+				$("#tblPeriodBody").append(innerHtml);
+				$('#loading-image').hide(); 
+				
+			}
+			if ( dataID == "NexYrs") 
+			{
+				$('#CurYrs').css("background-color", "");
+				$('#NexYrs').css("background-color", "green");
+				$('#PreYrs').css("background-color", "");
+				var arr = [];
+				$('#tblPeriodBody').empty();
+				var validateYrs="";
+				validateYrs = new Date("03/31/"+crrDate.getFullYear());
+				if(validateYrs < crrDate)
+				{
+					var FirstDay = new Date("04/01/"+(crrDate.getFullYear()+1));
+					var LastDay = new Date("03/31/"+(crrDate.getFullYear()+2));
+					data.Data.filter
+					(
+						function (a) {
+							var sdate = new Date(a.StartDate);
+							var edate = new Date(a.EndDate);
+							//if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+							if(sdate >= FirstDay && edate <= LastDay )
+							{   
+								arr.push(a);
+							}
+						}
+					)
+				}
+				else
+				{
+					var FirstDay = new Date("04/01/"+(crrDate.getFullYear()));
+					var LastDay = new Date("03/31/"+(crrDate.getFullYear()+1));
+					data.Data.filter
+					(
+						function (a) {
+							var sdate = new Date(a.StartDate);
+							var edate = new Date(a.EndDate);
+							//if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+							if(sdate >= FirstDay && edate <= LastDay )
+							{   
+								arr.push(a);
+							}
+						}
+					)
+
+				}
+				var innerHtml = "";
+				if(arr.length==0)
+				{
+					innerHtml += "<tr><td class='text-center' colspan='4'>No Record Found</td></tr>";
+				}
+				else
+				{
+					var status = "";
+					for (var q= 0;q < arr.length; q++) 
+					{	
+						var startDate = new Date(arr[q].StartDate)
+						var sdate = ("0" + startDate.getDate()).slice(-2)+  "-" + monthNames[startDate.getMonth()] +"-" + startDate.getFullYear();
+						var endDate = new Date(arr[q].EndDate)
+						var edate = ("0" + endDate.getDate()).slice(-2)+ "-" +  monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();		
+						var sts = arr[q].PeriodStatusId;
+						if(sts == 0)
+						{
+							status = "Close";
+						}
+						else
+						{
+							status = "Open";
+						}
+						 
+						 var periodIDs = arr[q].PeriodId;
+						innerHtml += "<tr>";			
+						innerHtml += "<td onclick='myfunction();'>"+arr[q].PeriodName.split('|')[0]+"("+sdate+" - "+edate+ ")</td>";
+						innerHtml += "<td>"+sdate+"</td>";
+						innerHtml += "<td>"+edate+"</td>";
+						innerHtml += "<td>"+status+"</td>";
+						innerHtml += "</tr>";		
+					}
+				}
+				$("#tblPeriodBody").append(innerHtml);
+				$('#loading-image').hide(); 
+			}
+		},
+		error: function (data)
+		{
+			alert("failed");
+			$('#loading-image').hide(); 
+		}
+	});
+}
+
+<!-- $(document).ready(function() { -->
+	<!-- setTimeout(function(){  -->
+    <!-- $('.example-table').DataTable( { -->
+        <!-- "scrollY":        "300px", -->
+        <!-- "scrollCollapse": false, -->
+        <!-- "paging":         false, -->
+        <!-- "bSort": false, -->
+        <!-- "searching": false, -->
+        <!-- "info":     false -->
+        
+    <!-- } ); -->
+<!-- }, 1000); -->
+<!-- } ); -->
+
+</script>

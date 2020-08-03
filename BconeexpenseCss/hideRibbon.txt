@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<style>   
+#Hero-WPQ4{
+display:none !important;
+}
+.ms-dragDropAttract{display:none !important;}
+#s4-ribbonrow{
+display:none !important;
+}
+th{background-color: #00bcd4;}
+.ms-webpartPage-root {
+    border-spacing: 0px !important;
+}
+#MSOZoneCell_WebPartWPQ4> div> div> table table,#MSOZoneCell_WebPartWPQ5> div> div> table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#MSOZoneCell_WebPartWPQ5> div> div> table table th, #MSOZoneCell_WebPartWPQ5> div> div> table table td,
+#MSOZoneCell_WebPartWPQ4> div> div> table table th, #MSOZoneCell_WebPartWPQ4> div> div> table table td
+ {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+#MSOZoneCell_WebPartWPQ4> div> div> table table td,#MSOZoneCell_WebPartWPQ5> div> div> table table td{ padding:7px !important}
+#MSOZoneCell_WebPartWPQ4> div> div> table table th a,#MSOZoneCell_WebPartWPQ5> div> div> table table th a{color:#fff;}
+#MSOZoneCell_WebPartWPQ4> div> div> table table th:first-child,#MSOZoneCell_WebPartWPQ4> div> div> table table td:first-child,
+#MSOZoneCell_WebPartWPQ5> div> div> table table th:first-child,#MSOZoneCell_WebPartWPQ5> div> div> table table td:first-child{display:none}
+#MSOZoneCell_WebPartWPQ4> div> div> table table th:last-child,#MSOZoneCell_WebPartWPQ5> div> div> table table th:last-child{display:none}
+
+#MSOZoneCell_WebPartWPQ4> div> div> table table th:child(2),#MSOZoneCell_WebPartWPQ5> div> div> table table th:child(2){width:30% !important}
+#MSOZoneCell_WebPartWPQ4> div> div> table table th,#MSOZoneCell_WebPartWPQ5> div> div> table table th{background-color: #00bcd4;}
+.ms-itmHoverEnabled:hover > *
+{background-color:transparent;}
+
+#MSOZoneCell_WebPartWPQ4> div> div> table a.ms-cui-ctl-large,#MSOZoneCell_WebPartWPQ5> div> div> table a.ms-cui-ctl-large{height:21px !important;}
+#MSOZoneCell_WebPartWPQ4> div> div> table,#MSOZoneCell_WebPartWPQ5> div> div> table{width:99%}
+.ms-dlgTitle> .ms-dlgTitleBtns{margin-right:0 !important}
+
+/*.ms-vh-hoverable:hover{
+background-color:transparent!important;
+}*/
+</style>

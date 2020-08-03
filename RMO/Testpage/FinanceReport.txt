@@ -1,0 +1,1137 @@
+<html>
+<head>
+<!-- <link rel="stylesheet" href="../SiteAssets/Css/datepicker.css" /> -->
+<!-- <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet"> -->
+<!-- <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/ResouceHistoryStylesheet.css"> -->
+<!-- <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css"> -->
+<!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script> -->
+
+<!-- <script type="text/javascript" src="../SiteAssets/js/jquery.sumoselect.js"></script> -->
+
+<!-- <script type="text/javascript" src="../SiteAssets/js/datepicker1.js"></script> -->
+<!-- <script type="text/javascript" src="../SiteAssets/js/datepicker2.js"></script> -->
+<!-- <script src="../SiteAssets/Timesheet/js/Config.js"></script> -->
+<!-- <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script> -->
+<!-- <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script> -->
+<!-- <!-- <script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script> --> 
+<link rel="stylesheet" href="../SiteAssets/Css/datepicker.css" />
+<link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css">
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/ResouceHistoryStylesheet.css">
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/jquery-ui.css" />
+<script type="text/javascript" src="../SiteAssets/js/jquery.sumoselect.js"></script>
+  
+    <link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/sumoselect1.css">
+    <script type="text/javascript" src="../SiteAssets/js/jquery.sumoselect.js"></script>
+<script type="text/javascript" src="../SiteAssets/js/datepicker1.js"></script>
+<script type="text/javascript" src="../SiteAssets/js/datepicker2.js"></script>
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+
+
+
+
+
+
+
+
+</head>
+<script type="text/javascript">
+             
+			
+            
+       
+    var Start = new Date();
+    var Email = "";
+    var End = new Date();
+
+    function close_div() {
+        $("#alertmain").hide();
+        document.getElementById("Alert_msg").innerHTML = "";
+    }
+    $(document).ready(function() {
+var GetMonth ={"Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December"}
+        var titlename = $("#ddlreporttype option:selected").val();
+        $("#TilteBar").text(titlename);
+        getUser();
+        $("#txtcrstartdate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+        });
+
+        $("#txtcrEnddate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeMonth: true,
+            changeYear: true,
+        });
+		
+	$("#resourceStartDate").datepicker(
+   {
+    numberOfMonths: 1,
+    dateFormat: 'dd-M-yy' ,
+	changeMonth: true,
+    changeYear: true,
+    onSelect: function (selected)
+    {
+		var st = selected; //date range fromatit is used for IE 9 above format
+		var split=st.split("-");
+		var dd = split[0];              
+		var y = split[2];
+		var mm = GetMonth[split[1]];
+		var EDate1 = "";
+		EDate1= mm + " " + dd + "," + y;
+		var dt = new Date(EDate1);
+		dt.setDate(dt.getDate() + 1);
+		$("#resourceEndDate").datepicker("option", "minDate", dt);
+    }
+   })
+
+	$("#resourceEndDate").datepicker(
+   {
+    numberOfMonths: 1,
+    dateFormat: 'dd-M-yy' ,
+	changeMonth: true,
+    changeYear: true,
+    onSelect: function (selected) 
+    {
+		var st = selected; //date range fromatit is used for IE 9 above format
+		var split=st.split("-");
+		var dd = split[0];              
+		var y = split[2];
+		var mm = GetMonth[split[1]];
+		var EDate2 = "";
+		EDate2= mm + " " + dd + "," + y;
+		var dt = new Date(EDate2);
+		dt.setDate(dt.getDate() - 1);
+		$("#resourceStartDate").datepicker("option", "maxDate", dt);
+    }
+   })
+       
+        // GetAllResource();
+        $("#btnsubmit").click(function() {
+
+            document.getElementById("Alert_msg").innerHTML = "";
+            var StartDate = $("#txtcrstartdate").val();
+            var EndDate = $("#txtcrEnddate").val();
+            if (StartDate == undefined || EndDate == undefined || StartDate == "" || EndDate == "") {
+                $("#alertmain").show();
+                document.getElementById("Alert_msg").innerHTML = "Select Date";
+                return false;
+            }
+			 var GBU = $("#dtpGbuId").val();
+			 var Project = $("#ddlproject").val();
+            if (GBU == undefined || GBU == "") {
+                $("#alertmain").show();
+                document.getElementById("Alert_msg").innerHTML = "Select GBU";
+                return false;
+            }
+			 if (Project == undefined || GBU == "") {
+                $("#alertmain").show();
+                document.getElementById("Alert_msg").innerHTML = "Select Project";
+                return false;
+            }
+			
+			
+            $('.loader').css("display", "block");
+			    var finalurl = "";
+			var rpttype = $("#ddlreporttype option:selected").val();
+			var selProjects = $('#ddlproject :selected');
+                    var seprator = ',', SelProjectName = '', status = '';
+                    selProjects.each(function (index, item) {
+                        SelProjectName += seprator + $(item).val();
+                    });
+
+                    SelProjectName = SelProjectName + ",";
+
+
+			if (rpttype == "Expense Report")
+			{
+           
+                
+            finalurl = document.getElementById("rptTimesheet").src = "https://ppmdev.bcone.com/BconeReport/Report_Pages/Bcone_FinanceReport.aspx?Login=" + Email + "&start=" + StartDate + "&end=" + EndDate + "&type=" + $('#ddlcrType option:selected').val() + "&GBU=" + $('#dtpGbuId option:selected').val() + "&ProjectName=" + SelProjectName +"&Billable="+$('#dtpBillableId option:selected').val() +"&ReportStatus=" +$('#ddlstatus').val();
+			}
+			else
+			{
+			   
+            finalurl = document.getElementById("rptTimesheet").src = "http://ppmdev.bcone.com//BconeReport/Report_Pages/TimeSheetApprovalReport.aspx?Login=" + Email + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&type=" + $('#ddlcrType option:selected').val() + "&gbu=" + $('#dtpGbuId option:selected').val() + "&Projectname=" +  SelProjectName +"&Billable="+$('#dtpBillableId option:selected').val() +"&ReportStatus=" +$('#ddlstatus').val();
+			
+			}
+            var Type = $("#ddlcrType").val();
+            
+            setTimeout(function() {
+                $("#rptTimesheet").css("display", "block");
+                $('.loader').css("display", "none")
+            }, 500);
+            $("#rptTimesheet").css("display", "block");
+            return false;
+        });
+        $("#btnClear").click(function() {
+            $("#ddlcrType").val("Select");
+            $("#ddlProjectCategory").val("ALL");
+            $("#ddlstatus").val("All");
+
+            hideShow();
+            $("#rptTimesheet").css("display", "none");
+            $("#btnClear").hide();
+            $(".ProjCatHide").hide();
+            return false;
+        });
+    })
+	
+	
+
+
+    function getUser() {
+        var userid = _spPageContextInfo.userId;
+        $("#ddlTypeChange").hide();
+        $("#ddlTypeChangeTD").hide();
+        var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        var requestHeaders = {
+            "accept": "application/json;odata=verbose"
+        };
+        $.ajax({
+            url: requestUri,
+            contentType: "application/json;odata=verbose",
+            headers: requestHeaders,
+            success: onSuccess,
+            error: onError
+        });
+
+        function onSuccess(data, request) {
+
+            var loginName = data.d.Title;
+            Email = data.d.Email
+            
+        }
+
+        function onError(error) {
+            alert("Error on retrieving current user.");
+        }
+    }
+    $("#DeltaPlaceHolderPageTitleInTitleArea").css("display", "none");
+
+    //Manohar implemented code
+    <!-- function ReportTypeChange() { -->
+	<!-- $('#resourceStartDate,#resourceEndDate').val('').datepicker('option', {minDate: null, maxDate: null}); -->
+        <!-- var rpttype = $("#ddlreporttype option:selected").val(); -->
+		
+        <!-- if (rpttype == "Resource Report") { -->
+
+            <!-- $("#TilteBar").text(rpttype); -->
+            <!-- $("#resourceStartDate").val(""); -->
+            <!-- $("#resourceEndDate").val(""); -->
+            <!-- GetResourceInformationData(); -->
+            <!-- $('#rptTimesheet').attr('src', ''); -->
+
+        <!-- } else { -->
+            <!-- $("#TilteBar").text(rpttype); -->
+            <!-- $('#rptTimesheet').attr('src', ''); -->
+            <!-- $('#expencerpttypetable').show(); -->
+            <!-- $('#tableresourcetype').hide(); -->
+        <!-- } -->
+    <!-- } -->
+
+    function GetResourceInformationData() {
+        $('.loader').css("display", "block");
+        $('#rptTimesheet').attr('src', '');
+        $('#expencerpttypetable').hide();
+        $('#tableresourcetype').show();
+        var Admin_GetPeriodsandUsersDataUrls = Admin_GetPeriodsandUsersDataURLRH();
+        $.ajax({
+            url: Admin_GetPeriodsandUsersDataUrls,
+            method: "POST",
+            headers: {
+                "Accept": "application/json; odata=verbose"
+            },
+            success: function(Resdata) {
+                if ($("#resourceName").hasClass("SumoUnder")) {
+                    $("#resourceName").html('');
+                    $("#resourceName")[0].sumo.unload();
+                }
+                $("#resourceName").append("<option value='Select_Employee' index=0>Select Resource</option>");
+                for (var i = 0; i < Resdata.Users.length; i++) {
+                    $("#resourceName").append("<option value=\"" + Resdata.Users[i].ResourceId + "##" + Resdata.Users[i].ResourceEmailAddress + "##" + Resdata.Users[i].ResourceName + "\" index=" + (i + 1) + ">" + Resdata.Users[i].ResourceName + "</option>");
+                }
+                $('.search_test').SumoSelect({
+                    search: true,
+                    searchText: 'Search Resource'
+                });
+                $('.loader').css("display", "none");
+
+
+            },
+            error: function(data) {}
+
+        });
+
+    }
+
+    function GetResourceDetailsReports() {
+		var DDLselValue = "";
+        DDLselValue = $('#resourceName :selected').val();
+        if (DDLselValue == "Select_Employee") {
+			$("#alertmain").show();
+			document.getElementById("Alert_msg").innerHTML = "Select Resource";
+            return false;
+
+        }
+        if ($("#resourceStartDate").val() == "") {
+			$("#alertmain").show();
+			document.getElementById("Alert_msg").innerHTML = "Select StartDate";
+            return false;
+        }
+        if ($("#resourceEndDate").val() == "") {
+            $("#alertmain").show();
+			document.getElementById("Alert_msg").innerHTML = "Select EndDate";
+            return false;
+        }
+        
+        $('.loader').css("display", "block");
+        var ResValueId = DDLselValue;
+        var empResUid = ResValueId.split("##")[0];
+        document.getElementById("rptTimesheet").src = "https://ppmdev.bcone.com/BconeReport/Report_Pages/ResourceWiseTimesheetReport.aspx?ResourceName=" + empResUid + "&StartDate=" + $('#resourceStartDate').val() + "&EndDate=" + $('#resourceEndDate').val();
+        $("#rptTimesheet").css("display", "block");
+        $('.loader').css("display", "none");
+
+    }
+    var currDate = new Date();
+    var currYear = currDate.getFullYear();
+    var startDate, endDate;
+    function TypeChange() {
+	      GBUSelection();
+		 
+        $('#tableresourcetype').hide();
+        $("#rptTimesheet").css("display", "none");
+        var Type = $("#ddlcrType").val();
+        hideShow(Type);
+        if (Type != "Weekly" || Type != "Select") {
+            if (Type == "Select") {
+                $("#btnClear").hide();
+                $("#ddlTypeChange").hide();
+                $("#ddlTypeChangeTD").hide();
+                $(".ProjCatHide").hide();
+            } else {
+                $("#btnClear").show();
+                $("#ddlTypeChange").show();
+                document.getElementById("ddlTypeChange").disabled = false;
+                $("#ddlTypeChangeTD").show();
+                $(".ProjCatHide").show();
+            }
+
+        }
+
+        $('#ddlTypeChange').html('');
+
+        if (Type == "Weekly") {
+            $("#onselectData").text("Week");
+              document.getElementById("ddlTypeChange").disabled = true;
+            $("#ddlTypeChange").show();
+            $("#ddlTypeChangeTD").show();
+        } else if (Type == "Monthly") {
+            $("#onselectData").text("Month");
+            var Month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+            for (var i = 0; i < Month.length; i++) {
+                $("#ddlTypeChange").append(new Option(Month[i], i));
+
+            }
+            debugger
+            var month = currDate.getMonth();
+            $("#ddlTypeChange").val(month);
+        } else if (Type == "Quterly") {
+            $("#onselectData").text("Quter");
+            for (var i = 1; i <= 4; i++) {
+
+                $("#ddlTypeChange").append(new Option(i, i));
+            }
+        } else if (Type == "Yearly") {
+            $("#onselectData").text("Year");
+            for (var i = 0; i < 10; i++) {
+
+                $("#ddlTypeChange").append(new Option(parseInt(currDate.getFullYear()) - i, parseInt(currDate.getFullYear()) - i));
+            }
+        }
+
+        TypeValueChange();
+    }
+	
+		
+	
+	function GBUSelection()
+	{
+      	 
+		 
+		  $('#dtpGbuId').empty();
+		      
+	       url = "../_api/web/lists/GetByTitle('RRFGBUMAPPING')/Items?$SELECT=GBU";
+           $.ajax({
+            url: url ,
+            method: "GET",
+            async: false,
+            headers: {
+             "Accept": "application/json; odata=verbose"
+            },
+             success: function(data) 
+                {
+                   result=data.d.results.length;
+                    if(result==0)
+                    {
+                    
+                    }
+                    else
+                    {
+                            $('#dtpGbuId').append('<option selected value="Select All GBU">Select All GBU</option>') 
+						
+						  <!-- if($("#dtpGbuId").hasClass("SumoUnder")){$("#dtpGbuId").html('');$("#dtpGbuId")[0].sumo.unload();}  -->
+            
+                        for (var i = 0; i < result ; i++)
+                        {
+						       var gbu= data.d.results[i].GBU;
+						       if(gbu.indexOf('&') > -1)  
+                              { 
+                             gbu = gbu.replace('&', '%26'); 
+							 }
+                
+                             if(gbu.indexOf(' ') > -1)  
+                               { 
+                               gbu = gbu.replace(' ', '%20'); 
+                               } 
+							   if(gbu.indexOf('-') > -1)  
+                               { 
+                               gbu = gbu.replace('-', '%2D'); 
+                               }
+				             
+							  
+                            $('#dtpGbuId').append('<option selected value="' + gbu + '">' + data.d.results[i].GBU + '</option>')
+                        }
+                        
+                          $('.search-dtpGbuId').SumoSelect({search: true,  searchText: 'Search Project'});
+						  
+                        
+                        $('#dtpGbuId')[0].sumo.enable(); // Enable the SUMO SELECT 
+                        $('#dtpGbuId')[0].sumo.reload();
+                
+                        $('#dtpGbuId')[0].sumo.selectItem(0); //default select first option
+                       $('#dtpGbuId option').each(function(e){if(e != 0){$('#dtpGbuId')[0].sumo.disableItem(e)}}); 
+                      $(".sumo_dtpGbuId li").bind('click', function(event, ui) 
+                        { 
+                          if($(this).find('label').text().trim() == "Select All GBU") 
+                            { 
+                              if($(this).is(".selected"))
+                              { 
+                                     $('#dtpGbuId option').each(function(e){if(e != 0){$('#dtpGbuId')[0].sumo.disableItem(e)}});                                 
+                               } 
+                               else
+                             { 
+                                  $('#dtpGbuId option').each(function(e){$('#dtpGbuId')[0].sumo.enableItem(e)});
+                                 } 
+                             } 
+                          else 
+                            {
+                               $(".sumo_dtpGbuId li").each(function(e){ 
+                                   if(!$(this).is(".selected")) 
+                                    { 
+                                        $('#dtpGbuId')[0].sumo.enableItem(e) 
+                                    } 
+                               }) 
+                             } 
+                            if($(".sumo_dtpGbuId li.selected").length > 10)
+                            { 
+                              $('#dtpGbuId')[0].sumo.unSelectItem($(this).index()); 
+                                $('#Alert_msg').html("you can't select more than 10 projects"); 
+                                 $("#errMessage").css("display", "block"); 
+                            } 
+                        }) 
+                    }
+                }
+            });
+	}
+	
+	
+	
+		
+		function gbufilterproject()
+	{
+            
+	   $('#ddlproject').empty();
+     		var selectgbu=$('#dtpGbuId').val();
+			
+			if(selectgbu =="Select All GBU")
+			{
+			 url ="https://bristleconeonline.sharepoint.com/sites/PPMUAT/_api/ProjectData/Projects?$select=ProjectName,ProjectId";
+			  $('#ddlproject').append('<option selected value="' + data.d.results[i].ProjectId + '">' + data.d.results[i].ProjectName + '</option>')
+			}
+			else{
+			if (!IsNullOrUndefined(selectgbu))
+			{
+     		 if(selectgbu.indexOf('&') > -1)  
+              { 
+               selectgbu = selectgbu.replace('&', '%26'); 
+			   }
+                
+                 if(selectgbu.indexOf(' ') > -1)  
+                 { 
+                  selectgbu = selectgbu.replace(' ', '%20'); 
+                 } 
+				 }
+				
+              }
+     			
+     			url ="https://bristleconeonline.sharepoint.com/sites/PPMUAT/_api/ProjectData/Projects?$select=ProjectName,ProjectId,GBU&$filter=GBU eq '" + selectgbu + "'";
+           $.ajax({
+            url: url ,
+            method: "GET",
+            async: false,
+            headers: {
+             "Accept": "application/json; odata=verbose"
+            },
+             success: function(data) 
+                {
+                   result1=data.d.results.length;
+                    if(result1==0)
+                    {
+                    
+                    }
+                    else
+                    {      $('#ddlproject').append('<option selected value="Select All Project">Select All Project</option>')
+                        <!-- if($("#ddlproject").hasClass("SumoUnder")){$("#ddlproject").html('');$("#ddlproject")[0].sumo.unload();} -->
+            
+                        for (var i = 0; i < result1 ; i++)
+                        {
+
+                            $('#ddlproject').append('<option selected value="' + data.d.results[i].ProjectId + '">' + data.d.results[i].ProjectName + '</option>')
+                        }
+                        $('.search-ddlproject').SumoSelect({search: true, searchText: 'Search Project'});
+                        
+                        $('#ddlproject')[0].sumo.enable(); // Enable the SUMO SELECT 
+                        $('#ddlproject')[0].sumo.reload();
+                
+                        $('#ddlproject')[0].sumo.selectItem(0); //default select first option
+                        $('#ddlproject option').each(function(e){if(e != 0){$('#ddlproject')[0].sumo.disableItem(e)}});
+                        $(".sumo_ddlproject li").bind('click', function(event, ui) 
+                        {
+                            if($(this).find('label').text().trim() == "Select All Project")
+                            {
+                                if($(this).is(".selected"))
+                                {
+                                    $('#ddlproject option').each(function(e){if(e != 0){$('#ddlproject')[0].sumo.disableItem(e)}});                                 
+                                }
+                                else
+                                {
+                                    $('#ddlproject option').each(function(e){$('#ddlproject')[0].sumo.enableItem(e)});
+                                }
+                            }
+                            else
+                            {
+                                $(".sumo_ddlproject li").each(function(e){
+                                    if(!$(this).is(".selected"))
+                                    {
+                                        $('#ddlproject')[0].sumo.enableItem(e)
+                                    }
+                                })
+                            }
+                            if($(".sumo_ddlproject li.selected").length > 10)
+                            {
+                                $('#ddlproject')[0].sumo.unSelectItem($(this).index());
+                                $('#Alert_msg').html("you can't select more than 10 projects");
+                                $("#errMessage").css("display", "block");
+                            }
+                        })
+                    }
+                }
+            });
+	}
+	
+	
+	
+		
+		<!-- function gbufilterproject() -->
+     	<!-- { -->
+		
+     		<!-- $('#ddlproject').empty(); -->
+     		<!-- var selectgbu=$('#dtpGbuId').val(); -->
+     		<!-- if(selectgbu.indexOf('&') > -1)  -->
+                <!-- { -->
+                 <!-- selectgbu = selectgbu.replace('&', '%26'); -->
+                
+                 <!-- if(selectgbu.indexOf(' ') > -1)  -->
+                <!-- { -->
+                 <!-- selectgbu = selectgbu.replace(' ', '%20'); -->
+                 <!-- } -->
+				 <!-- } -->
+
+     			
+     			<!-- url ="https://bristleconeonline.sharepoint.com/sites/PPMUAT/_api/ProjectData/Projects?$select=ProjectName,ProjectId,GBU&$filter=GBU eq '" + selectgbu + "'"; -->
+     		           <!-- $.ajax({ -->
+                        <!-- url: url, -->
+                        <!-- method: "GET", -->
+                        <!-- async: false, -->
+
+                        <!-- headers: { -->
+                        <!-- "Accept": "application/json; odata=verbose" -->
+
+                        <!-- }, -->
+						    
+                            <!-- success: function(data)  -->
+							<!-- { -->
+                                <!-- result1 = data.d.results.length; -->
+								<!-- if($("#ddlproject").hasClass("SumoUnder")){$("#ddlproject").html('');$("#ddlproject")[0].sumo.unload();} -->
+                                <!-- if(result1>0) -->
+                                <!-- { -->
+                               
+                                <!-- $.each(data.d.results, function (index, value)  -->
+								<!-- { -->
+
+                                <!-- $('#ddlproject').append("<option value = '" +value.ProjectId + "'>" + value.ProjectName + "</option>"); -->
+                                <!-- });   -->
+                                    
+                                <!-- } -->
+								
+						<!-- $('.search_test1').SumoSelect({ search: true,csvDispCount:0, searchText: 'Search Project',selectAll: true}); -->
+						
+						<!-- $('#ddlproject')[0].sumo.enable(); // Enable the SUMO SELECT  -->
+						<!-- $('#ddlproject')[0].sumo.reload(); -->
+						<!-- $('#ddlproject')[0].sumo.selectItem(0); //default select first option -->
+			
+                          
+                              <!-- }, -->
+                            <!-- error: function(data)  -->
+							<!-- { -->
+                                <!-- //alert(JSON.stringify(error)); -->
+                                <!-- $('.loader').hide(); -->
+                            <!-- } -->
+                        <!-- }); -->
+ 
+     
+		<!-- } -->
+		
+	
+	
+
+    function hideShow() {
+        var Type = $("#ddlcrType").val();
+        if (Type == "Select") {
+
+            $("#ddlTypeChange").hide();
+            $("#ddlTypeChangeTD").hide();
+            $("#dtpStartDateTD").hide();
+            $("#txtcrstartdate").hide();
+            $("#dtpEndDateTD").hide();
+            $("#txtcrEnddate").hide();
+            $("#dtpStatusTD").hide();
+            $("#ddlstatus").hide();
+            $("#btnsubmit").hide();
+			$("#dtpGbu").hide();
+			$("#dtpGbuId").hide();
+			$("#dtpProject").hide();
+			$("#ddlproject").hide();
+			$("#dtpBillable").hide();
+			$("#dtpBillableId").hide();
+			$(".sumo_dtpGbuId").hide();
+			$(".sumo_ddlproject").hide();
+            
+
+        } else {
+            $("#ddlTypeChange").show();
+            $("#ddlTypeChangeTD").show();
+            $("#dtpStartDateTD").show();
+            $("#txtcrstartdate").show();
+            $("#dtpEndDateTD").show();
+            $("#txtcrEnddate").show();
+            $("#dtpStatusTD").show();
+            $("#ddlstatus").show();
+            $("#btnsubmit").show();
+			$("#dtpGbu").show();
+			$("#dtpGbuId").show();
+			$(".sumo_dtpGbuId").show();
+			$("#dtpProject").show();
+			$("#ddlproject").show();
+			$("#dtpBillable").show();
+			$("#dtpBillableId").show();
+            $(".sumo_ddlproject").show();
+
+        }
+    }
+	 function reportStatus()
+	{
+	 var rpttype = $("#ddlreporttype option:selected").val();
+	
+	 if(rpttype == "Timesheet Report")
+	 {
+	          				
+						
+		                  $('#ddlstatus').find('option').remove().end()
+		                  .append('<option value="-Select-">Select</option>')
+						   .append('<option value="All">All</option>')
+                          .append('<option value="Manager Approved" >Manager Approved</option>') 
+						  .append('<option value="Manager Rejected" >Manager Rejected</option>') 
+                        
+	 }
+	 else
+	 {
+	                                
+							 $('#ddlstatus').find('option').remove().end()
+						    .append('<option value="-Select-">Select</option>')
+	                       .append('<option value="All">All</option>')
+						  .append('  <option value="Reimbursed">Finance Reimbursed</option>')
+						  .append('<option value="Approved" >Finance Approved</option>') 
+						  .append('<option value="Rejected" >Finance Rejected</option>') 
+                          .append('<option value="Manager Approved" >Manager Approved</option>') 
+						  .append('<option value="Manager Rejected" >Manager Rejected</option>') 
+						  <!-- location.reload(); -->
+	 
+	 }
+	}
+
+    function TypeValueChange() {
+      
+
+        var Type = $("#ddlcrType").val();
+        var TypeValue = $('#ddlTypeChange').val();
+
+
+        if (Type == "Weekly") {
+            startDate = "";
+            endDate = "";
+        } else if (Type == "Monthly") {
+            startDate = getFormate(new Date(currDate.getFullYear(), parseInt(TypeValue), 1));
+            endDate = getFormate(new Date(currDate.getFullYear(), parseInt(TypeValue) + 1, 0));
+
+        } else if (Type == "Quterly") {
+            startDate = getFormate(new Date(currYear, TypeValue * 3 - 3, 1));
+            endDate = getFormate(new Date(currYear, TypeValue * 3, 0));
+
+        } else if (Type == "Yearly") {
+            currYear = TypeValue;
+            startDate = getFormate(new Date(currYear, 0, 1))
+            endDate = getFormate(new Date(currYear, 11, 31))
+
+        }
+        $("#txtcrstartdate").val(startDate);
+        $("#txtcrEnddate").val(endDate);
+    }
+
+    function getFormate(Date) {
+        debugger
+        var year = Date.getFullYear();
+        var month = Date.getMonth();
+        var Month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+
+        var month1 = Month[month];
+        var day = Date.getDate();
+
+        if (month1 < 10) {
+            month1 = "0" + month1;
+        }
+
+        if (day < 10) {
+            day = "0" + day;
+        }
+        return day + "-" + month1 + "-" + year;
+    }
+
+    function endDateFix() {
+        var Type = $("#ddlcrType").val();
+        if (Type == "Weekly") {
+            var tt = document.getElementById('txtcrstartdate').value;
+            var split = tt.split("-")
+            var dd = split[0];
+            var y = split[2];
+            var GetMonth = { "Jan": "January", 'Feb': "February", 'Mar': "March", 'Apr': "April", 'May': "May", 'Jun': "June", 'Jul': "July", 'Aug': "August", 'Sep': "September", 'Oct': "October", 'Nov': "November", 'Dec': "December" }
+            var Month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+            var mm = GetMonth[split[1]];
+            var Month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+            var EDate = "";
+            EDate = mm + " " + dd + "," + y;
+            var date = new Date(EDate);
+            date.setDate(date.getDate() + 6);
+            document.getElementById('txtcrEnddate').value = getFormate(date);
+        }
+    }
+	
+</script>
+
+<style>
+    input[type=text],
+    select {
+        padding: 0px 10px !important;
+    }
+
+    .ms-core-tableNoSpace .ms-webpart-zone #MSOZoneCell_WebPartWPQ4 {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .ms-core-tableNoSpace .ms-webpart-zone #MSOZoneCell_WebPartWPQ4 .ms-webpart-chrome-fullWidth {
+        display: inline-block;
+        width: 100%;
+    }
+
+    #MSOZoneCell_WebPartWPQ3 {
+        display: none;
+    }
+
+    #_invisibleIfEmpty:first-child .ms-webpart-zone {
+        display: inline-block;
+    }
+
+    table.P0a2812a749d44fa8aea9e6bed3d620a4_1_r10 {
+        display: none;
+    }
+
+    a:visited {
+        color: #337ab7;
+    }
+
+    .breadcrumb-new ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+    }
+
+    .breadcrumb-new {
+        background: #f3f3f3;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+
+    .breadcrumb-new ul li {
+        float: left;
+        padding: 10px 5px;
+        /*border-right:1px solid #ccc;*/
+    }
+
+    .breadcrumb-new ul.pull-right li {
+        border-right: 1px solid #ccc;
+    }
+
+    .breadcrumb-new ul.pull-right li:after {
+        display: none;
+    }
+
+    .breadcrumb-new ul li:after {
+        content: "\f101";
+        font-family: 'FontAwesome';
+        color: #999;
+        font-size: 13px;
+        display: inline-block;
+        margin: 0px 0px 0px 6px;
+    }
+
+    .breadcrumb-new ul li:first-child {
+        padding-left: 0;
+    }
+
+    .breadcrumb-new ul li:last-child:after {
+        content: '';
+    }
+
+    .breadcrumb-new ul li:last-child {
+        border-right: 0;
+    }
+
+    /*#s4-workspace{
+  height:auto !important;
+}*/
+
+    #s4-titlerow {
+        padding-bottom: 0px;
+        height: auto;
+    }
+
+    #siteIcon {
+        height: auto;
+        line-height: 34px;
+    }
+
+    #s4-titlerow .ms-breadcrumb-box {
+        display: none;
+    }
+
+    #s4-titlerow {
+        height: 18px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .ms-webpartPage-root {
+        border-spacing: 20px 0;
+    }
+
+    /*#s4-titlerow .ms-verticalAlignTop{
+  display:none;
+}*/
+
+    table tr td .form-control {
+        outline: none;
+        width: 96%;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 2px !important;
+    }
+
+    .blue-btn {
+        text-align: center;
+        display: inline-block;
+        padding: 2px 6px 4px 6px !important;
+
+        border: 1px solid #2e6da4 !important;
+        font-family: 'OpenSans';
+        text-decoration: none;
+        color: #fff !important;
+        font-size: 10px;
+        cursor: pointer;
+        text-transform: uppercase !important;
+        margin-bottom: 3px;
+        transition: all 0.2s ease-in-out;
+    }
+
+  .blue-btn {
+        background: rgb(51, 122, 183) !important;
+        display: inline-block;
+    }
+
+    .blue-btn:hover {
+        text-decoration: none;
+    }
+
+
+    .login_name_contain {
+        float: right;
+        margin: -32px 0px 0px 0px;
+        background: url(https://bristleconeonline.sharepoint.com/sites/ppmuat/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center;
+        padding: 3px 32px 3px 0px;
+    }
+</style>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain">abc</div>
+<div class="breadcrumb-new">
+    <div class="container-fluid" style="padding:0 15px;">
+        <ul>
+            <li>
+                <a href="https://bristleconeonline.sharepoint.com/sites/ppmuat/default.aspx">Home</a> 
+            </li>
+            <li>
+               <span>Finance Report</span>
+       
+		</span>
+            </li>
+
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
+Report Type :
+<select id="ddlreporttype" class="txtbox form-control" style="width: 16%;height: 30px;" onchange= "reportStatus()" >
+      <option value="Select">Select</option>
+	<option value="Expense Report">Expense Report</option>
+	<option value="Timesheet Report">Timesheet Report</option> 
+</select>
+<br/>
+<br/>
+<hr>  
+             <table width="100%" id="expencerpttypetable">
+                    <tr>
+
+                    <td style="width:5%">Period : </td>
+                    <td style="width:10%">
+                          <select id="ddlcrType" class="txtbox form-control" onchange="TypeChange()">
+                            <option value="Select">Select</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+							<option value="Yearly">Yearly</option>
+                            
+                          </select>
+                      </td>
+					    <td id="ddlTypeChangeTD"><span id="onselectData">Month : </td>
+					 <td>
+						 <select id="ddlTypeChange" class="txtbox form-control" onchange="TypeValueChange()"></select></td>
+                      </tr>
+					  
+                     <tr>
+	               
+					 <td id="dtpStartDateTD" >From </td>
+    
+					<td><input type="text" id="txtcrstartdate" class="txtbox form-control" style="width:100px;" onchange="endDateFix()"></td>
+	
+					 <td id="dtpEndDateTD" >To </td>
+                    
+                    <td><input type="text" id="txtcrEnddate" class="txtbox form-control" style="width:100px;"></td>
+					
+					 <td id="dtpGbu" style="padding-left:1px;">GBU</td>
+					 
+                     <td>
+                          <!-- <select id="dtpGbuId" multiple = "" class="search-Finance"   style="width:130px;overflow:auto;" onchange="gbufilterproject()"> -->
+                             <!-- <option></option> -->
+                          <!-- <select> -->
+
+						<select id="dtpGbuId" name="dtpGbuId" multiple="multiple" class="search-dtpGbuId" style="width: 100% !important;" onchange="gbufilterproject()">
+                             <!-- <option value="0">Select GBU</option>  -->
+							<!-- <option></option> -->
+                        </select>
+	
+                    </td>
+					</tr>
+					<tr>
+					 <td id="dtpProject" class="SumoSelect open" style="padding-left:1px;">Project</td>
+					 
+                     <td>
+					
+					 <select id="ddlproject" name="ddlproject" multiple="multiple" class="search-ddlproject"  style="width:380px;height:26px;overflow:auto;">
+                            <!-- <option value="0">Select Project</option> -->
+							<option></option>
+                        </select>
+                         <!-- <select id="ddlproject" multiple="multiple" class="search_test1" class="txtbox form-control" style="width:380px;height:26px;overflow:auto;"> -->
+                         
+                             
+                             <!-- <option></option> -->
+                         <!-- </select> -->
+
+                     </td>
+
+					
+					
+					<td id="dtpBillable" style="padding-left:1px;">Billable</td>
+					 
+                    <td>
+                          <select id="dtpBillableId" class="txtbox form-control" style="width:100px;">
+                               <option value="All">All</option>  
+                               <option value="Billable">Yes</option>                         
+                               <option value="NonBillable">No</option>
+						  </select>
+				   </td>
+					
+                   <td id="dtpStatusTD" style="padding-left:1px;">Status</td>
+                   <td>
+                          <select id="ddlstatus" class="txtbox form-control" style="width:100px;">
+								
+							   <option value="All">All</option>  
+                               <option value="Reimbursed">Finance Reimbursed</option>                         
+                               <option value="Approved">Finance Approved</option>
+                               <option value="Rejected">Finance Rejected</option>
+							   <option value="Manager Approved">Manager Approved</option>
+							  
+						 </select>
+					</td>
+					
+				</tr>
+                </table>
+				</br>
+				
+				<input type="Submit" value="Generate Report" id="btnsubmit" class="blue-btn" />
+				
+<!-- <table id="tableresourcetype"> -->
+	<!-- <tr> -->
+		<!-- <td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Resource Name : </td> -->
+		<!-- <td><select id="resourceName" class="search_test" style="width: 300px !important;" ></select> -->
+		<!-- <br><span class="Errormsg"></span></td> -->
+        <!-- <td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Start Date : </td> -->
+
+        <!-- <td> -->
+            <!-- <input type="text" id="resourceStartDate" class="txtbox form-control" style="margin-bottom: 12px;height: 26px;"></td> -->
+        <!-- <td> -->
+
+            <!-- <td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">End Date : </td> -->
+
+            <!-- <td> -->
+                <!-- <input type="text" id="resourceEndDate" class="txtbox form-control" style="margin-bottom: 12px;height: 26px;"></td> -->
+            <!-- <td> -->
+                <!-- <a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;margin-bottom: 15px;" id="GoId" onclick="GetResourceDetailsReports();"><i class=""></i>Generate</a> -->
+            <!-- </td> -->
+
+    <!-- </tr> -->
+<!-- </table> -->
+
+<iframe id="rptTimesheet" height="900px" width="100%" scrolling="yes"></iframe>
+<div id="alertmain" class="alert-main" style="display: none">
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Alert_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+                <input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" style="display: none;"></div>
+
+<style>
+    input[type=text],
+    select {
+        padding: 2px 20px;
+        margin: 0px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        width: 80%;
+    }
+
+    /*input[type=submit] {
+ height:30px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}*/
+
+    /*input[type=submit]:hover {
+    background-color: #45a049;
+}*/
+
+    .ProjCatHide {
+        display: none;
+    }
+</style>
+
+<script>
+       
+$(document).ready(function(){
+ 
+   
+    <!-- window.onload = TypeChange(), hideShow(); -->
+		 
+      TypeChange();
+      hideShow(); 
+    function getUser() {
+        var userid = _spPageContextInfo.userId;
+        //alert(userid);
+
+        var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+        var requestHeaders = {
+            "accept": "application/json;odata=verbose"
+        };
+        $.ajax({
+            url: requestUri,
+            async: false,
+            contentType: "application/json;odata=verbose",
+            headers: requestHeaders,
+            success: onSuccess,
+            error: onError
+        });
+
+        function onSuccess(data, request) {
+            debugger;
+            var loginName = data.d.Title;
+            Email = data.d.Email
+            $("#login_name_contain").text(loginName);
+            
+        }
+
+        function onError(error) {
+            alert("Error on retrieving current user.");
+        }
+    }
+	});	
+
+</script>
+
+</html>

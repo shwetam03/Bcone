@@ -1,0 +1,1156 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Approver Page</title>
+    <script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+    <script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+
+    <script src="../SiteAssets/Timesheet/js/excelexportjs.js"></script>
+    <script type="text/javascript">
+        $.widget.bridge('uitooltip', $.ui.tooltip);
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+    <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+
+
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+
+    <style type="text/css">
+        #s4-ribbonrow
+        {
+            display: none;
+        }
+
+        #siteIcon
+        {
+            position: relative;
+            border-right: 0px !important;
+            line-height: -1;
+            height: auto;
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        #s4-titlerow
+        {
+            height: 50px !important;
+        }
+
+        #siteIcon::after
+        {
+            display: none;
+        }
+
+        #log
+        {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #log td, #log th
+            {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+        .planed-checkbox
+        {
+            margin-top: 0px;
+        }
+
+        .viewTSNote
+        {
+            display: none;
+        }
+
+        .third-block
+        {
+            margin: -10px 0 !important;
+            width: 98% !important;
+            float: right;
+        }
+
+        .openallcomment
+        {
+            color: #d2d2d2;
+        }
+
+        .big-textbox
+        {
+            width: 30%;
+            margin-bottom: 15px;
+            border: 1px solid #e6eba0;
+            outline: 0;
+            background-color: #fafeca;
+            padding: 5px;
+            height: 80px;
+        }
+
+        .tooltip
+        {
+            width: 200px !important;
+            word-wrap: break-word !important;
+        }
+
+        .projectWiseCheckBox
+        {
+        }
+
+        .resourceWiseCheckBox
+        {
+        }
+
+        .projectId
+        {
+        }
+
+        .TimeSheetUID
+        {
+        }
+
+        .resourceUID
+        {
+        }
+
+        #accordion
+        {
+            width: 98%;
+            float: right;
+        }
+
+            #accordion input[type="checkbox"]
+            {
+                position: absolute;
+                left: 1%;
+                margin-top: 10px;
+            }
+
+            #accordion h4 > input[type="checkbox"]
+            {
+                position: absolute;
+                left: 2%;
+            }
+
+            #accordion h4:nth-child(1) input[type="checkbox"]
+            {
+                position: relative;
+                left: -7px;
+            }
+
+        .accordion1 a.accordion-toggle
+        {
+            width: 98% !important;
+        }
+
+        #accordion a.accordion-toggle
+        {
+            width: 100%;
+        }
+
+        .panel-default
+        {
+            margin-bottom: 10px !important;
+        }
+
+        div.accordion-toggle
+        {
+            float: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+    <div class="container-fluid">
+        <div class="breadcrumb-main">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                    </li>
+                    <li>Client Partner Approval
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mid-main">
+        <div class="mid-top">
+            <div class="container-fluid" id="pageHeader" style="display: none">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="pull-left" id="DDtabularOrWeekView" style="margin-right: 5px; display: none">
+                            <option value="tabular">Tabular View</option>
+                            <option value="week">Week View</option>
+                        </select>
+
+                        <ul class="top-btns pull-left btnAllAppRej" style="display: inline-block">
+                            <li class="green-btn">
+                                <a href="javascript:void(0)" id="btnapproveselected" onclick="openApprovedPopup()">APPROVE SELECTED </a>
+                            </li>
+                            <!--  -->
+                            <li class="red-btn" style="display: none">
+                                <a href="javascript:void(0)">REJECT SELECTED</a>
+                            </li>
+                            <!-- onclick="openRejectPopup()" -->
+
+
+                            <li class="blue-btn">
+                                <a href="javascript:void(0)" id="btnReject" onclick="ConditionForCommonPopup()">
+                                    <!--<i class="fa fa-ban"></i>-->
+                                    Reject
+                                    	<!--<span class="highlight_no">0</span> onclick="showstatusdata('Rejected')"-->
+                                </a>
+                            </li>
+                        </ul>
+                        <ul style="display: inline-block; padding-left: 20px;">
+                            <li class="History-btn" style="background: none; padding: 4px 8px 4px 8px; display: none;"><a id="all" class="" style="cursor: pointer; padding: 0;"><i class="fa fa-plus"></i><span>Expand All</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <ul class="top-btns">
+                                <li class="planed-checkbox CheckSummary" style="display: none">
+                                    <input type="checkbox" id="hideShowSummaryColumn" />
+                                    <span>Summary Task</span>
+                                </li>
+                                <li class="planed-checkbox CheckZero" style="display: none">
+                                    <input type="checkbox" id="showZeroActualHrs" />
+                                    <span>Zero Actual Hours</span>
+                                </li>
+                                <li class="planed-checkbox CheckPlan" style="display: none">
+                                    <input type="checkbox" id="onPlannedClick" />
+                                    <span>Planned</span>
+                                </li>
+                                <li class="green-btn">
+                                    <a style="cursor: default;" href="javascript:void(0)" id="pendingCount">PENDING APPROVAL
+                                    	<span class="highlight_no" id="highlight_no1">0</span>
+                                    </a>
+                                </li>
+                                <li class="History-btn">
+                                    <!-- <a href="TimesheetApprovalHistory.aspx">APPROVAL HISTORY -->
+                                    <!-- <span class="highlight_no">0</span> -->
+
+                                    <!-- </a> -->
+                                    <a href="CpAllowanceApprovalHistory.aspx" id="historyCount" target="_blank"><i class="fa fa-history"></i>APPROVAL HISTORY
+                                    <!--  <span class="highlight_no">0</span> -->
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mid-block">
+
+            <div class="container-fluid">
+
+
+                <!--<div id="weekviewSelectAll" style="margin-bottom: 10px; display: none">
+                    <input type="checkbox" id="AllProjectCheck">
+                    <span style="margin-left: 10px; display: inline-block; vertical-align: sub;">Select All</span>
+                </div>
+                <div id="TabularViewSelectAll" style="margin-bottom: 10px; display: none">
+                    <input type="checkbox" id="selectAllCheckTabularView" />
+                    <span style="margin-left: 10px; display: inline-block; vertical-align: sub;">Select All</span>
+                </div>-->
+
+
+                <div class="mid-block" id="divStatusSummary">
+                    <div class="container-fluid">
+                        <!-- <label class="lableHighlight">Go to "CREATE TIMESHEET" Tab to create / view timesheet.</label> -->
+
+                        <div class="alert alert-warning viewSA" style="display: none; padding: 2px; margin-bottom: 10px; margin-top: 5px; color: black !important; background-color: rgba(251, 185, 0, 0.80); border-radius: 0px !important; border-color: #b1a565 !important;"><strong><i class="fa fa-exclamation-circle"></i></strong></div>
+                        <div id="TabularViewSelectAll" style="margin-bottom: 10px;">
+
+                            <input type="checkbox" id="selectAllCheckTabularView" />
+                            <span style="margin-left: 10px; display: inline-block; vertical-align: sub;">Select All</span>
+                        </div>
+
+                        <table id="StatusWiseSummary" class="table-bordered table-new" style="table-layout: auto !important; display: none;">
+                            <thead>
+                                <tr>
+                                    <th class="clsOperation">Action</th>
+                                    <th>S No.</th>
+                                    <th>Period</th>
+                                    <th>File Name</th>
+                                    <th>Project Name</th>
+                                    <th>Created Date</th>
+                                    <th>Status</th>
+                                    <th class="clsSubmited">Submitted By</th>
+                                    <th class="clsSubmited">Submitted On</th>
+                                    <th class="clsApproved">Approved On</th>
+                                    <th class="clsApproved">Approved By</th>
+                                    <th class="clsApproved">Pending</th>
+                                    <th class="clsRejected">Rejected On</th>
+                                    <th class="clsRejected">Rejected By</th>
+                                    <th class="clsRejected">Comment</th>
+                                    <th>Total Employee</th>
+                                    <th>Total Amount</th>
+                                    <th>Log</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th class="clsOperation"></th>
+                                    <th></th>
+                                    <th>Period</th>
+                                    <th>File Name</th>
+                                    <th>Project Name</th>
+                                    <th>Created Date</th>
+                                    <th>Status</th>
+                                    <th class="clsSubmited">Submitted By</th>
+                                    <th class="clsSubmited">Submitted On</th>
+                                    <th class="clsApproved">Approved On</th>
+                                    <th class="clsApproved">Approved By</th>
+                                    <th class="clsApproved">Pending</th>
+                                    <th class="clsRejected">Rejected On</th>
+                                    <th class="clsRejected">Rejected By</th>
+                                    <th class="clsRejected">Comment</th>
+                                    <th>Total Employee</th>
+                                    <th>Total Amount</th>
+                                    <th>Log</th>
+
+                                </tr>
+
+                            </tfoot>
+                            <tbody id="tblStatusWiseSummary">
+                            </tbody>
+                        </table>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="black-bg alert-main" id="yesNoPopup" style="display: none;">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="yesNoPopupMsg"></span></div>
+            <textarea rows="4" cols="40" class="maxlengthValidation" style="margin-top: 10px; margin-bottom: 0px;" id="yesNoPopupComent" onkeydown="return alpha(event)" hidden></textarea>
+            <span id="rejectValidationMsg" style="text-align: left; width: 96%; display: inline-block; color: #b3b3b3 !important;" class="highlight-text CLSmaxTextAreaValidationMsg"></span>
+            <!-- <div class='highlight-text specialCharacterValidation' style='color:#f00;display:none;float: left;    margin-left: 10px;'>Specail character is not allowed.</div> -->
+            <label class="specialCharacterValidation" style="text-align: left; display: none; width: 96%;"><font color="red">Special character in comments are not allowed.</font></label>
+            <label id="Fillerror"><font color="red">Please Enter The Comment.</font></label>
+            <div class="pop-mid">
+                <a href="javascript:void(0)" class="divnewbtn" id="btnYes">YES </a>
+                <a href="javascript:void(0)" type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')">NO</a>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="black-bg alert-main" style="display: none;" id="OKPopup">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="okPopupMsg"></span></div>
+            <div id="divError" style="margin-top: 10px; display: none;">
+                <input type="hidden" id="isError" />
+                <textarea id="errormsg" style="width: 350px; height: 100px;" disabled></textarea>
+            </div>
+            <div class="pop-mid">
+                <input type="hidden" id="isPagerefresh"></span>
+				<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />
+            </div>
+        </div>
+    </div>
+
+    <div class="addition-info-block">
+        <div class="addition-info-block-heading">
+            Additional Information
+        </div>
+        <div class="addition-info-block-mid">
+            <div class="add-info-top-check">
+                <!-- <input type="checkbox" /> -->
+                <!-- <span>Select if this information is related to Incident task.</span> -->
+                <!-- <div class="clearfix"></div> -->
+            </div>
+            <label>Incident Number</label>
+            <input type="text" id="txtIncidentNumber" placeholder="" disabled />
+
+            <label>Comment</label>
+            <textarea placeholder="" id="txtComment1" disabled></textarea>
+
+            <div class="add-info-btns">
+                <input type="Button" class="divnewbtn" value="OK" onclick="closeaddinfo()" />
+                <!-- <input type="Button" class="divnewbtn" value="Cancel" onclick="closeaddinfo()" /> -->
+            </div>
+        </div>
+    </div>
+    <div class="allcommentdiv">
+        <div class="allcommentdiv-heading">
+            Comment Summary
+        </div>
+        <div class="allcommentdiv-mid" id="commentSummary">
+        </div>
+        <div class="allcommentdiv-foot">
+            <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+        </div>
+    </div>
+
+
+    <div class="black-bg alert-main reject-popup" id="yesNoPopup_reject" style="display: none;">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Span6">Please Provide Reason For Rejection Of This Allowance<a class="close" id="closeReject" onclick="okPopupOnOkButton('#yesNoPopup')">×</a></span></div>
+            <textarea rows="4" cols="40" style="margin-top: 10px; margin-bottom: 0px; display: inline-block;" id="txtCommentArea" class="maxlengthValidation" onkeydown="return alpha(event)" hidden="" maxlength="500"></textarea>
+            <span id="Span7" style="text-align: left; width: 96%; display: inline-block; color: rgb(179, 179, 179) !important;" class="highlight-text CLSmaxTextAreaValidationMsg">Max 500 characters and these special characters are not allowed / : | ' &lt; &gt; * # ~ % &amp; { } + </span>
+            <label class="specialCharacterValidation" style="text-align: left; display: none; width: 96%;"><font color="red">Special character in comments are not allowed.</font></label>
+            <label id="Label1" style="display: none;"><font color="red">Please Enter The Comment</font></label>
+            <div class="pop-mid">
+                <a href="javascript:void(0)" class="red-btn" id="btnReject1" onclick="addComment()">Reject </a>
+                <a href="javascript:void(0)" class="blue-btn" id="btnCancel" onclick="confirmation_close('yesNoPopup_reject');">Cancel </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="Confirmation_alert_yesno" class="alert-main" style="display: none;">
+        <span id="Span1"></span>
+        <span id="Span2" style="display: none;"></span>
+        <div class="black-bg" id="Div2">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg_yesno">Are you sure you want to Submit File?</span></div>
+                <div class="pop-mid">
+                    <p id="P2"></p>
+                    <span id="Span4"></span>
+                    <input type="Button" class="divnewbtn" value="YES" id="ok_click_yesno">
+                    <input type="Button" class="divnewbtn" value="NO" onclick="confirmation_close('Confirmation_alert_yesno');">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="Confirmation_alert_submit1" class="alert-main" style="display: none;">
+        <span id="confirmation_type1"></span>
+        <span id="Span3" style="display: none;"></span>
+        <div class="black-bg" id="Div3">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg1">Are you sure you want to Submit File?</span></div>
+                <div class="pop-mid">
+                    <p id="P3"></p>
+                    <span id="Span5"></span>
+                    <input type="Button" class="divnewbtn" value="OK" id="ok_click1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="Confirmation_alert_reject" class="alert-main" style="display: none;">
+        <span id="confirmation_type"></span>
+        <span id="delete_expense_id" style="display: none;"></span>
+        <div class="black-bg" id="Div1">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg">Are you sure you want to Reject File?</span></div>
+                <div class="pop-mid">
+                    <p id="P1"></p>
+                    <span id="Method_tocall"></span>
+                    <input type="Button" class="divnewbtn" value="YES" id="ok_click" onclick="confirmation_ok_reject();">
+                    <input type="Button" class="divnewbtn" value="NO" onclick="confirmation_close('Confirmation_alert_reject');">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="divCommonPopup" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 100%; text-align: center">
+                <div class="modal-header" style="background-color: #0072c6">
+                    <h4 class="modal-title" style="color: white" id="divMsg"></h4>
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white;">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <span id="loading-image"></span>
+
+
+    <!--<div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content" style="width: 50%; margin-left: 150px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Comment</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="txtComment" placeholder="Comment" name="Comment" style="height: 35px; width: 100%;" />
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" style="float: left; background-color: #0072c6; color: white;" onclick="addComment()">Reject</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white;">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>-->
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 100%; text-align: center">
+                <div class="modal-header" style="background-color: #0072c6; padding: 7px !important;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="color: white">Add Comment</h4>
+
+                </div>
+                <div class="modal-body">
+                    <input type="textarea" id="txtComment" placeholder="Comment" name="Comment" style="height: 35px; width: 100%;" />
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <button type="button" class="btn btn-default" style="background-color: #0072c6; color: white; margin-top: 10px;" onclick="addComment()">Reject</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="divLogTable" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="width: 100%; text-align: center">
+                <div class="modal-header" style="background-color: #0072c6; padding: 7px !important;">
+                    <h4 class="modal-title" id="LogHeader" style="color: white; text-align: left; margin-left: 10px;">LOG</h4>
+
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <table id="log">
+                        <tr style="background-color: #00b0f0">
+                            <th>Date</th>
+                            <th>Actor</th>
+                            <th>Action</th>
+                            <th>Comment</th>
+                        </tr>
+                        <tbody id="tblLogRow">
+                        </tbody>
+
+
+                    </table>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #0072c6; color: white; margin-top: 10px;">OK</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <input type="hidden" value="" id="hdCPID" />
+    <input type="hidden" value="" id="hdComment" />
+</body>
+</html>
+
+<script>
+    function openaddinfo() {
+        $('.addition-info-block').animate({ width: 'toggle' });
+
+    }
+    function closeaddinfo() {
+        $('.addition-info-block').animate({ width: 'toggle' });
+    };
+
+</script>
+<script>
+    var comment = "";
+    function checkbox() {
+        if ($("#checkboxId").is(':checked')) {
+            //alert('checked')
+            //$( "#planed-table tbody tr:even" ).css( "background-color", "#bbbbff" );
+            $("#planed-table tbody tr:even td:nth-child(1)").attr("rowspan", "2");
+            $("#planed-table tbody tr:even td:nth-child(2)").attr("rowspan", "2");
+            $("#planed-table tbody tr:even td:nth-child(3)").attr("rowspan", "2");
+            $("#planed-table tbody tr:odd").addClass("hide-td");
+
+            //$("#planed-table").append("<tr><td style='text-align:center;'>Planned</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>");
+
+        } else {
+            //alert('no checked')
+            $("#planed-table tbody tr:even").css("background-color", "#");
+            $("#planed-table tbody tr td:nth-child(1)").attr("rowspan", "");
+            $("#planed-table tbody tr td:nth-child(2)").attr("rowspan", "");
+            $("#planed-table tbody tr td:nth-child(3)").attr("rowspan", "");
+            $("#planed-table tbody tr:odd").removeClass("hide-td");
+        }
+    }
+</script>
+<style>
+    #sideNavBox
+    {
+        Display: none !important;
+        width: 0px !important;
+        margin: 0px !important;
+    }
+
+    #contentBox
+    {
+        margin-left: 0px !important;
+    }
+
+    .static
+    {
+        Display: none !important;
+    }
+
+    #DeltaPlaceHolderPageTitleInTitleArea
+    {
+        Display: none !important;
+    }
+
+    #RibbonContainer
+    {
+        Display: none !important;
+    }
+
+    #ctl00_PlaceHolderSearchArea_ctl01_SmallSearchInputBox1_csr
+    {
+        Display: none !important;
+    }
+
+    .hide-td td:nth-child(1)
+    {
+        display: none;
+    }
+
+    .hide-td td:nth-child(2)
+    {
+        display: none;
+    }
+
+    .hide-td td:nth-child(3)
+    {
+        display: none;
+    }
+
+    .checkbox-heading div.accordion-toggle
+    {
+        width: 98.5% !important;
+        float: right;
+    }
+
+    .accordion3 .panel-heading div.accordion-toggle a[aria-expanded="false"]:before
+    {
+        color: #333 !important;
+    }
+
+    .accordion3 .panel-heading div.accordion-toggle a[aria-expanded="true"]:before
+    {
+        color: #333 !important;
+    }
+
+    .accordion3 .panel-heading div.accordion-toggle .right-ul-summary li
+    {
+        border-color: #fff !important;
+    }
+</style>
+
+<script>
+
+    var APILink = "https://ppmprod.bcone.com";
+    var PageLink = "https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/";
+    var summaryTable = "", Hr_ApproverEmailID = "", comment = "";
+    $(document).ready(function () {
+        getHRApproverDetail();
+        createstatusSummaryTable("Pending");
+      //  hideshow("Pending");
+
+    });
+    function hideshow(status,table) {
+        if (status == "Pending") {
+        //    $('.clsRejected').hide();
+        //    $('.clsApproved').hide();
+            table.column(14).visible(false);//clsApproved
+            table.column(9).visible(false);//clsApproved
+            table.column(10).visible(false);//clsApproved
+            table.column(11).visible(false);//clsRejected
+            table.column(12).visible(false);//clsRejected
+            table.column(13).visible(false);//clsRejected
+            // $('.clsOperation').hide();
+
+        }
+        else if (status == "Rejected") {
+           // $('.clsRejected').show();
+           // $('.clsApproved').hide();
+
+            //clsApproved
+            table.column(9).visible(false);//clsApproved
+            table.column(10).visible(false);//clsApproved
+            table.column(11).visible(false);//clsApproved
+            table.column(12).visible(true);//clsRejected
+            table.column(13).visible(true);//clsRejected
+            table.column(14).visible(true);//clsRejected
+            // $('.clsOperation').hide();
+        }
+        else {
+
+            table.column(9).visible(true);//clsApproved
+            table.column(10).visible(true);//clsApproved
+            table.column(11).visible(false);//clsApproved
+            table.column(12).visible(false);//clsRejected
+            table.column(13).visible(false);//clsRejected
+            table.column(14).visible(false);//clsRejected
+            //$('.clsRejected').hide();
+            //$('.clsApproved').show();
+            // $('.clsOperation').hide();
+        }
+    }
+    monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    GetTimesheetApproverSummaryUrl = GetTimesheetApproverSummary();
+    $(document).ready(function () {
+
+        CurrentGuid = GetCurrentUserGUID("1");
+        var username = sessionStorage.getItem("CurrentUsername");
+        if (username == "" || username == undefined) {
+            $("#login_name_contain").text("");
+        }
+        else {
+            $("#login_name_contain").text(username);
+        }
+
+        $("#btnapproveselected").parent('li').addClass('blue-btn');
+        $("#btnapproveselected").parent('li').removeClass('green-btn');
+        $("#pageHeader").show();
+
+    });
+
+
+
+    function ConditionForCommonPopup() {
+        if ($("input[name='chkProjectWiseCheckbox']:checked").length == 1) {
+
+            $('#Confirmation_alert_reject').show();
+
+        }
+        else if ($("input[name='chkProjectWiseCheckbox']:checked").length > 1) {
+            document.getElementById("Confirmation_msg1").innerHTML = "You Need To Select Only One  File For This Action";
+            $('#ok_click1').attr('onclick', 'HidePopup()');
+            $("#Confirmation_alert_submit1").show();
+        }
+        else {
+            document.getElementById("Confirmation_msg1").innerHTML = "You Need To Select atleast One  File For This Action";
+            $('#ok_click1').attr('onclick', 'HidePopup()');
+            $("#Confirmation_alert_submit1").show();
+
+        }
+    }
+
+    function HidePopup() {
+        $("#Confirmation_alert_submit1").hide();
+    }
+
+
+    function openApprovedPopup() {
+        if ($("input[name='chkProjectWiseCheckbox']:checked").length > 0) {
+            $("#btnapproveselected").parent('li').addClass('blue-btn');
+
+            document.getElementById("Confirmation_msg_yesno").innerHTML = "Are you sure you want to Approve file?";
+            $('#ok_click_yesno').attr('onclick', 'ValidateSuccessfull()');
+            $("#Confirmation_alert_yesno").show();
+
+        }
+        else {
+            openOKpopup(popUpMessage.SlelectleastOneCheckBox, "");
+            $("#btnapproveselected").parent('li').removeClass('green-btn');
+        }
+
+    }
+
+
+    function ValidateSuccessfull() {
+        $("#Confirmation_alert_submit_yesno").hide();
+
+        approveSelectedItems();
+    }
+
+
+    function ReloadPage() {
+        window.location.reload();
+    }
+
+
+    function approveSelectedItems() {
+        okPopupOnOkButton('#yesNoPopup');
+        $('#loading-image').show();
+        var approvedData = new Object();
+        approvedData.Data = new Array();
+        var CurrentRESGuid = GetCurrentUserGUID();
+        flag = false;
+
+        var CP_MASTER = [];
+        $.each($("input[name='chkProjectWiseCheckbox']:checked"), function () {
+            CP_MASTER.push($(this).val());
+            var tempData = new Object();
+            tempData.CPID = $(this).val()
+            tempData.CPUserID = CurrentRESGuid
+            tempData.HREmailID = Hr_ApproverEmailID
+            tempData.Role = flagValues.TeamMember
+            approvedData.Data.push(tempData);
+        });
+
+        flag = true;
+
+        $('#loading-image').hide();
+        if (flag) {
+            //Ravi
+            var ApproveTimesheetUrls = APILink+"/api/RMO/ApproveShiftAllowanceByCP";
+            $.ajax
+            ({
+                url: ApproveTimesheetUrls,
+                headers: { "Accept": "application/json; odata=verbose" },
+                type: "POST",
+                data: approvedData,
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    $("#Confirmation_alert_yesno").hide();
+
+
+                    document.getElementById("Confirmation_msg1").innerHTML = "File approved successfully";
+                    $('#ok_click1').attr('onclick', 'ReloadPage()');
+                    $("#Confirmation_alert_submit1").show();
+
+                    //$('#divMsg').text("File approved successfully");
+                    //$('#divCommonPopup').modal("show");    
+                    //window.location.reload();
+                }
+            });
+            //alert("success");
+        }
+
+    }
+
+
+
+    $('#selectAllCheckTabularView').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        }
+        else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    function createstatusSummaryTable(Status) {
+
+        $("#StatusWiseSummary").dataTable().fnDestroy();
+        $("#StatusWiseSummary").css("display", "");
+        $("#tblStatusWiseSummary").text("");
+        var innerHtml = "";
+
+        CurrentGuid = GetCurrentUserGUID("1");
+        //Ravi
+        var url = APILink+"/api/rmo/GetCPAllowanceDataByStatus";
+        $.ajax({
+            url: url,
+            data: { "ResourceUID": CurrentGuid, "Status": Status },
+            async: false,
+            type: "POST",
+            dataType: "json",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (res) {
+                //alert("success");
+                if (res.Allowance.length > 0) {
+                    for (var i = 0; i < res.Allowance.length; i++) {
+
+                        var priodForExcel = "\"" + res.Allowance[i].ShiftMasterID + "\"";
+                        innerHtml += "<tr ><td><input style='margin: 0px;margin-right: 10px;' type=\"checkbox\" name='chkProjectWiseCheckbox' onclick=\"chkClick('" + res.Allowance[i]["CPID"] + "')\" class=\"left-check projectWiseCheckBox\" id=chkProject_" + i + "' value='" + res.Allowance[i]["CPID"] + "'/>" +
+						"<a href='javascript:void(0)' id='clicExcelDown' class='padding-left: 5px;padding-top:5px;' onclick='ProjectExcelDownload(" + priodForExcel + ")' ><i class='fa fa-file-excel-o'></i></a> </td><td> " + parseInt(i + 1) + "</td><td ><a  onclick='callDetailsPage(" + res.Allowance[i]["ShiftMasterID"] + ")' target=\"_blank\">" + res.Allowance[i]["Period"] + "</a></td><td>" + res.Allowance[i]["CustomData3"] + "</td><td  style='text-align:right' class='.projectname' >" + res.Allowance[i]["ProjectName"] + "</td><td>" + res.Allowance[i]["CreatedDate"] + "</td><td >" + res.Allowance[i]["CP_Status"] + "</td><td class='clsSubmited' >" + res.Allowance[i]["Action"] + "</td><td class='clsSubmited' >" + res.Allowance[i]["SubmittedDate"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedOn"] + "</td><td class='clsApproved'>" + res.Allowance[i]["ApprovedBy"] + "</td><td class=\"clsApproved\">" + res.Allowance[i]["Pending"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedOn"] + "</td><td class='clsRejected'>" + res.Allowance[i]["RejectedBy"] + "</td><td class='clsRejected'>" + res.Allowance[i]["CPComment"] + "</td><td >" + res.Allowance[i]["TotalEmployee"] + "</td><td >" + res.Allowance[i]["TotalAmount"] + "</td><td style='text-align: center;' onclick=createlogTable(" + res.Allowance[i]["ShiftMasterID"] + ")><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i></td></tr>";
+                    }
+                    $('#pendingCount span').text(res.Allowance.length);
+                }
+
+            },
+            error: function (error) {
+                console.log(JSON.stringify(error));
+            }
+        });
+
+
+        $("#tblStatusWiseSummary").append(innerHtml);
+        
+        statussummary_dataTableLoad(Status);
+        $('#loading-image').hide();
+
+    }
+
+    function ProjectExcelDownload(sfId) {
+        console.log(sfId);
+        //Ravi
+        var uri = APILink+"/api/rmo/GetAllowanceDataDetailForExcelByStatus";
+        $.ajax({
+            url: uri,
+            type: "POST",
+            data: {
+                "ResourceUID": CurrentGuid,
+                "Status": "All",
+                "ShiftMasterID": sfId,
+                "Period": "Test"
+            },
+            async: false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+                if (data.Allowance != undefined) {
+
+                    $("").excelexportjs({
+                        containerid: "dvjson"
+                           , datatype: 'json'
+                           , dataset: data.Allowance
+                           , columns: getColumns(data.Allowance)
+                    });
+
+                }
+            }
+        });
+    }
+
+
+    function statussummary_dataTableLoad(status) {
+        var table = $('#StatusWiseSummary').DataTable({
+            "JQueryUI": true,
+            "autoWidth": false,
+            "bAutoWidth": true,
+
+            fixedColumns: true,
+            //"bSortable": false,
+            //"bSort" : false,
+            "aaSorting": [],
+            "columnDefs": [{
+                "defaultContent": "-",
+                "targets": "_all",
+
+            }
+            ]//,
+            //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+
+        });
+
+        $('#StatusWiseSummary tfoot th').each(function () {
+            var title = $('#StatusWiseSummary thead th').eq($(this).index()).text();
+
+            //console.log(title)
+            if (title != "Action" && title != "Log") {
+                $(this).html('<input type="text" placeholder="Search" />');
+            }
+            else {	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+            }
+        });
+
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .columns.adjust().draw();
+                    //.draw();			
+                }
+            });
+        });
+
+
+        $("th.clsAction").css("width", "70px");
+        $("th.clsTotalHours").css("width", "100px");
+        $("th.submittedDate").css("width", "140px");
+        $("th.clsStatus").css("width", "205px");
+        $("th.clsApproveRejct").css("width", "140px");
+        $("th.clsUserComment").css("width", "200px");
+        $("th.clsCpapprover").css("width", "150px");
+        $("th.clsHrapprover").css("width", "150px");
+        $("th.pendingBy").css("width", "150px");
+        $("th.clsApprovedBy").css("width", "150px");
+        $("th.clsApproveName").css("width", "150px");
+        $("th.clsApproveComment").css("width", "200px");
+        $("th.projectName").css("width", "300px");
+        $("th.clsLog").css("width", "50px");
+        hideshow(status,table);
+    }
+
+
+    function chkClick(CPID) {
+        $('#hdCPID').val(CPID);
+    }
+    //$(document).click(function (event) {
+
+    //    $('input:checkbox').click(function () {
+    //        $('input:checkbox').not(this).prop('checked', false);
+    //    });
+    //});
+
+    function rejectFileByCPID() {
+        //Ravi
+        var url = APILink+"/api/rmo/rejectFileByCPID";
+        $.ajax({
+            //api/Timesheet/GetPeriods",
+            url: url,
+            async: false,
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+            data: {
+                "CPUserID": CurrentGuid,
+                "CPID": $('#hdCPID').val(),
+                "Status": "Rejected",
+                "Comment": comment,
+                "Role": flagValues.TeamMember,
+                "HREmailID": Hr_ApproverEmailID
+            },
+            success: function (data) {
+
+                //$('#divMsg').text("File rejected successfully");
+                //$('#divCommonPopup').modal("show");    
+                //window.location.reload();
+
+                document.getElementById("Confirmation_msg1").innerHTML = "File rejected successfully";
+                $('#ok_click1').attr('onclick', 'ReloadPage()');
+                $("#Confirmation_alert_submit1").show();
+            },
+            error: function (data) {
+                alert("failed");
+                $('#loading-image').hide();
+            }
+        });
+
+    }
+
+
+
+    function callDetailsPage(ShiftMasterID) {
+        localStorage.setItem("ShiftMasterID", ShiftMasterID);
+        //document.cookie = "ShiftMasterID=" + ShiftMasterID + " ;expires=Thu, 18 Dec 2050 12:00:00 UTC";
+        window.open(_spPageContextInfo.webAbsoluteUrl + "/SitePages/ProjectsDetails.aspx");
+    }
+    function getHRApproverDetail() {
+        //Ravi
+        url = _spPageContextInfo.webAbsoluteUrl + "/_api/lists/getbytitle('HR_Approver')/items?$top=5000";
+
+        var requestHeaders = {
+            "accept": "application/json;odata=verbose"
+        };
+        $.ajax({
+            url: url,
+            contentType: "application/json;odata=verbose",
+            type: "GET",
+            headers: requestHeaders,
+            success: onSuccess,
+            error: onError,
+            async: false
+        });
+
+        function onSuccess(data) {
+            debugger
+            Hr_ApproverEmailID = data.d.results[0].Email_x0020_ID;
+
+        }
+        function onError(error) {
+            //alert("Error on retrieving");
+        }
+        return Hr_ApproverEmailID;
+    }
+    
+    function createlogTable(ShiftMasterID) {
+        // alert(ShiftMasterID);
+        debugger
+        var innerHtml = "";
+
+        CurrentGuid = GetCurrentUserGUID("1");
+        //Ravi
+        var url = APILink+"/api/rmo/GetShiftMasterLog";
+        $.ajax({
+            url: url,
+            data: { "ResourceUID": CurrentGuid, "ShiftMasterID": ShiftMasterID },
+            async: false,
+            type: "POST",
+            dataType: "json",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (res) {
+                debugger
+                if (res.Allowance.length > 0) {
+                    for (var i = 0; i < res.Allowance.length; i++) {
+
+                        innerHtml += '<tr id="#LogRow"><td>' + res.Allowance[i]["UpdatedDate"] + '</td><td>' + res.Allowance[i]["ResourceName"] + '</td><td>' + res.Allowance[i]["Fullstatus"] + '</td><td>' + res.Allowance[i]["Comment"] + '</td> </tr>';
+                        $('#LogHeader').html("Log : " + res.Allowance[i]["ProjectName"]);
+                    }
+                }
+
+
+            },
+            error: function (error) {
+                console.log(JSON.stringify(error));
+            }
+        });
+
+        $("#tblLogRow").html(innerHtml);
+        $('#divLogTable').modal("show");
+        $('#loading-image').hide();
+
+    }
+
+    function confirmation_show_popup() {
+        $('#Confirmation_alert_reject').show();
+    }
+
+    function addComment() {
+
+        comment = $('#txtCommentArea').val();
+        // $('#hdComment').val();
+        // alert("Comment Added Successfully");
+        //$('#myModal').modal('hide');
+
+        $('#yesNoPopup_reject').hide();
+        rejectFileByCPID();
+
+    }
+
+    function confirmation_close(name) {
+        $('#' + name).hide();
+    }
+    function confirmation_ok_reject() {
+        $('#Confirmation_alert_reject').hide();
+        //$('#myModal').modal('show');
+        $('#yesNoPopup_reject').show();
+    }
+</script>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

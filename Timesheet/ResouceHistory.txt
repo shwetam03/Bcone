@@ -1,0 +1,4404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
+<title>Resouce History</title>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+ <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/ResouceHistoryStylesheet.css">
+</head>
+<body>
+
+<div class="breadcrumb-main">
+	<div class="container-fluid">
+		<ul class="pull-left">
+			<li>
+				<a href="javascript:void(0)" onclick="URLTimesheetHome();" >Home</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">Support One View</a>
+			</li>
+			<li>
+				<span id="Emp_name"> </span>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="pull-left">
+<div style="margin: 15px;display: inline-block;">	
+	<table>
+		<tr>
+			<td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Employee Name : </td>
+			<td><select id="resourceName" class="search_test" style="width: 300px !important;" ></select>
+			<br><span class="Errormsg"></span></td>
+			<td>
+					<a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoId" onclick="abcd();" ><i class=""></i>SHOW</a>
+			</td>
+			<td>
+					<a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoClrId" onclick="ClearTextGetResourcesAllData();" ><i class=""></i>CLEAR</a>
+			</td>
+		</tr>
+	</table>
+	<!-- <span class="loader"></span> -->
+</div>
+</div>
+<div class="pull-right">
+	<div class="mid-top" style="margin-bottom: 5px; ">
+		<ul class="top-btns" style="float:right;margin-right:8px;">
+			<li  class="openall" style="display:none">
+				<a href="javascript:void(0)" class="blue-btn"   ><i class="fa fa-plus"></i>Expand all</a>
+			</li>
+			<li class="closeall" style="display:none" >
+				<a href="javascript:void(0)" class="blue-btn"  ><i class="fa fa-minus"></i>Collapse all</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="clear"></div>
+
+<div class="mid-main">
+	<div class="mid-block">
+		<div class="container-fluid">
+			
+			<div class="panel-group" id="accordion" style="display:none">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#resCenterData">
+								<!-- <span class="row"> -->
+									<span class="col-md-4">PPM Resource Center</span>
+									<span class="col-md-4" style="left:55%;color: #ebf935" id="PPM_Resource_Center_Service_error"></span>
+                            </a>
+						</h4>
+					</div>
+					<!-- (1) PPM Resource Center -->
+					<div id="resCenterData" class="panel-collapse collapse ">
+						<div class="panel-body">
+							<table style="table-layout:fixed; border-collapse: collapse;width: 100%;">
+								<tr>
+									<td class="tdcolor" style="width:14%"><b>Code</b></td><td class="tdcolor"><span  id="Code"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Country Legal</b> </td><td class="tdcolor"><span  id="CountryLegal"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Skill</b> </td><td class="tdcolor"><span  id="Skill"></span></td>
+								</tr><br/>
+								<tr>
+									<td class="tdcolor" style="width:14%" ><b>Name</b></td><td class="tdcolor"><span  id="Name"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Base Location</b></td><td class="tdcolor"><span  id="Location"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Employee Status</b></td><td class="tdcolor"><span id="Status"></span></td>
+								</tr><br/>
+								<tr>
+									<td class="tdcolor" style="width:14%"><b>Email Id</b></td><td class="tdcolor"><span  id="Email_Id"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Role Band </b></td><td class="tdcolor"><span  id="RollBand"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Billable Status</b></td><td class="tdcolor"><span  id="BillabStatus"></span></td>
+								</tr>
+								<tr>
+									<td class="tdcolor" style="width:14%"><b>Reporting Manager</b></td><td class="tdcolor"><span id="RepManager"></span></td>
+									<!-- <td class="tdcolor">Project Location</td><td class="tdcolor"><span  id="ProjLocation"></span></td> -->
+									<td class="tdcolor" style="width:14%"><b>Resouce UID</b></td><td class="tdcolor"><span  id="Res_UID"></span></td>
+									<td class="tdcolor" style="width:14%"><b>PPM Role</b></td><td class="tdcolor"><span  id="Role"></span></td>
+								</tr>
+								<tr>
+								<td class="tdcolor" style="width:14%"><b>RRF NO</b></td><td class="tdcolor"><span  id="RRF_No"></span></td>
+								<td class="tdcolor" style="width:14%"><b>Employee Role</b></td><td class="tdcolor"><span  id="Emp_role"></span></td>
+								<td class="tdcolor" style="width:14%"><b>Sub Practice</b></td><td class="tdcolor"><span  id="SubPractice_id"></span></td>
+								</tr>
+								<tr>
+									<td class="tdcolor" style="width:14%"><b>Phone No</b></td><td class="tdcolor"><span  id="Phone_no"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Date of joining </b></td><td class="tdcolor"><span  id="DOJ_id"></span></td>
+									<td class="tdcolor" style="width:14%"><b>Date of Resignation</b></td><td class="tdcolor"><span  id="DOR_id"></span></td>
+								</tr>
+							</table>
+						</div>	
+					</div>
+                </div>
+				<!-- (2) Project Allocation details of PPM and PHR -->
+				<div class="panel-group" id="ProjectPPMAndPHR">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#ProjectPPMAndPHR" href="#ProjectPPMAndPHRData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Project Allocation</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Project_Allocation_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="ProjectPPMAndPHRData" class="panel-collapse collapse"><!-- Add "in" class Heare -->
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+											<div class="mid-block">		
+												<div class="mid-top" style="margin-bottom: 5px; ">
+
+												<ul class="top-btns" style="float:right;margin-right:8px;" id="PPMPhrHideBtn">
+													<li>
+														<a href="javascript:void(0)" id="DataFromPhr" class="blue-btn" onclick="GetData('DataFromPhr')">
+														<i class="fa fa-folder-o"></i> Data From PHR
+														<span class="highlight_no">0</span>
+														</a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" id="DataFromPpm" class="blue-btn" onclick="GetData('DataFromPpm')" > 
+														<i class="fa fa-folder-o"></i> Data From PPM
+														<span class="highlight_no">0</span>
+														</a>
+													</li>
+												</ul>
+												</div>	
+											</div>
+										</div>
+										<div class="container-fluid" >
+											<div class="" id="jqxgrid_container1">
+												<table id="tblAllcationDetails" class="display example table table-bordered table-new" cellspacing="0">
+												</table>
+											</div>
+											<span id="yrsNote" hidden>NOTE: During integration, year 9999 is converted to 9900.</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				<!-- (3)ProjectDetails -->
+					<div class="panel-group" id="ProjectDetails">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#ProjectDetails" href="#ProjectDetailsData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Project Details</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Project_Details_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="ProjectDetailsData" class="panel-collapse collapse">
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+												<div class="mid-block">		
+													<div class="mid-top" style="margin-bottom: 5px; ">
+
+													<ul class="top-btns" style="float:right;margin-right:8px;" id="ProjNamCntHideId">
+														<li>
+															<a href="javascript:void(0)" id="ProjNamCntId" class="blue-btn">
+															<i class="fa fa-folder-o"></i> Project Count
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														
+													</ul>
+													</div>	
+												</div>
+											</div>
+											<div class="container-fluid">
+												<div class="" id="jqxgrid_containerProjectDetailsData">
+													<table id="tblProjectDetailsData" class="display example table table-bordered table-new" cellspacing="0">
+													</table>
+												</div>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+				<!--(4) TaskAssignment -->
+				<div class="panel-group" id="TaskAssignment">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#TaskAssignment" href="#TaskAssignmentData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Task Assignment</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Task_Assignment_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						
+							<div id="TaskAssignmentData" class="panel-collapse collapse">
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+											<div class="mid-block">		
+												<div class="mid-top" style="margin-bottom: 5px; ">
+													<ul class="top-btns" style="float:left;margin-right:4px;" id="">
+														<li>
+														Period 
+														</li>
+														<li>
+														<select id="periodNameDataId" class="search_periodNameDataId" style="width: 200px !important;" ></select>
+														</li>
+														<li>
+														<a href="javascript:void(0)" id="" class="blue-btn" onclick="ShoWTaskAsigDetail()" >SHOW</a>
+															<!-- <input type="button" id="" class="top-btns" value="SHOW" onclick="ShoWTaskAsigDetail()" /> -->
+														</li>
+														<li>
+															Is Refresh :<input type="checkbox" id="isRefresh" style="margin: 0;" />
+														</li>
+														<li>
+															<!-- <input type="button" id="" class="top-btns" value="Go to Timesheet Entry Page" onclick="goToTimesheetEntryPage()" /> -->
+															<a href="javascript:void(0)" id="" class="gry-btn" onclick="goToTimesheetEntryPage()" >Go to Timesheet Entry Page</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="gogetOData" class="gry-btn" onclick="getOData()" >Get OData</a>
+														</li>
+													</ul>
+												</div>	
+											
+											</div>
+										</div>
+										<div class="container-fluid">
+											<div class="" id="jqxgrid_containerTaskAssignment">
+												<table id="tblTaskAssignment" class="display example table table-bordered table-new" cellspacing="0">
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+			<!-- 5 Exception Project Allocation -->
+				<div class="panel-group" id="ExceptionProjAllocation">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#ExceptionProjAllocation" href="#ExceptionProjAllocationData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Exception Project Allocation</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Exception_Project_Allocation_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="ExceptionProjAllocationData" class="panel-collapse collapse"><!-- Add "in" class Heare -->
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+											<div class="mid-block">		
+												<div class="mid-top" style="margin-bottom: 5px; ">
+													<ul class="top-btns" style="float:left;margin-right:4px;" id="">
+														<li><a href="javascript:void(0)" onclick="ManageAdminListPageUrl()" class="gry-btn" >GO TO MANAGE ADMIN PAGE</a>
+														</li>
+													</ul>
+												</div>	
+											</div>
+										</div>
+										<div class="container-fluid">
+											<div class="" id="jqxgrid_containerExceptionalProjectsDetails">
+												<table id="tblExceptionalProjectsDetails" class="display example table table-bordered table-new" cellspacing="0">
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+				<!-- 6 Exceptional Approval and Delegation -->
+				<div class="panel-group" id="ExcetionAndDelegation">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#ExcetionAndDelegation" href="#ExcetionAndDelegationData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Exceptional Approval and Delegation</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Exceptional_Approval_Delegation_Allocation_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="ExcetionAndDelegationData" class="panel-collapse collapse">
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+									<div class="container-fluid">
+										<div class="mid-block">		
+												<div class="mid-top" style="margin-bottom: 5px; " id="DlegeExcepId">
+													<ul class="top-btns" style="float:left;margin-right:4px;" id="">
+														<li><a href="javascript:void(0)" onclick="ManageAdminListPageUrl()" class="gry-btn" >GO TO MANAGE ADMIN PAGE</a>
+														</li>
+													</ul>
+												<ul class="top-btns" style="float:right;margin-right:20px;">
+													<li>
+														<a href="javascript:void(0)" id="ExceptionId" onclick="GetExceptionAndDelegation('Exception')">
+														<i class="fa fa-folder-o"></i> Exception
+														<span class="highlight_no">0</span>
+														</a>
+													</li>
+													<li>
+														<a href="javascript:void(0)" id="DelegationId" onclick="GetExceptionAndDelegation('Delegation')" > 
+														<i class="fa fa-folder-o"></i> Delegation
+														<span class="highlight_no">0</span>
+														</a>
+													</li>
+												</ul>
+												</div>	
+											</div>
+											</div>
+											<div class="container-fluid">
+											<div class="" id="jqxgrid_containerExceptionDelegation">
+												<table id="tblExceptionDelegation" class="display example table table-bordered table-new" cellspacing="0">
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+				
+				<!-- 7 Proxy Details -->
+				<div class="panel-group" id="ProxyDetails">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#ProxyDetails" href="#ProxyDetailsData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Proxy Details</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Proxy_Details_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="ProxyDetailsData" class="panel-collapse collapse">
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+											<div class="mid-block">		
+												<div class="mid-top" style="margin-bottom: 5px; ">
+													<ul class="top-btns" style="float:left;margin-right:4px;" id="">
+														<li><a href="javascript:void(0)" onclick="ManageAdminListPageUrl()" class="gry-btn"  >GO TO MANAGE ADMIN PAGE</a>
+														</li>
+													</ul>
+													<ul class="top-btns" style="float:right;margin-right:8px;" id="">
+														<li>
+															<a href="javascript:void(0)" id="Expense_Submit_id" class="blue-btn" onclick="proxyDetailsAccorden('Expense_Submit_id')" >
+															<i class="fa fa-folder-o"></i> Expense Submit
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="Expense_Approval_id" class="blue-btn" onclick="proxyDetailsAccorden('Expense_Approval_id')" > 
+															<i class="fa fa-folder-o"></i> Expense Approval
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="TimeSheet_Prxoy_submittor" class="blue-btn" onclick="proxyDetailsAccorden('TimeSheet_Prxoy_submittor')" > 
+															<i class="fa fa-folder-o"></i> TimeSheet Submit
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="TimeSheet_Approval_id" class="blue-btn" onclick="proxyDetailsAccorden('TimeSheet_Approval_id')" > 
+															<i class="fa fa-folder-o"></i> TimeSheet Approval
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+													</ul>
+												</div>	
+											</div>
+										</div>
+										<div class="container-fluid">
+										
+											<div class="" id="jqxgrid_containerProxy">
+												<table id="tblProxy" class="display example table table-bordered table-new" cellspacing="0">
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+				
+			
+				<!-- (8) Timesheet Summary -->
+				<div class="panel-group" id="TSSummary">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#TSSummary" href="#TSSummaryData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Timesheet Summary</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Timesheet_Summary_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="TSSummaryData" class="panel-collapse collapse"><!-- Add "in" class Heare -->
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+											<div class="row">
+												<!-- <div class="col-md-5"> -->
+												<div class="mid-top" style="margin-bottom: 5px; ">
+												<ul class="top-btns" style="float:left;margin-right:5px;" id="">
+													<li>
+														<a href="javascript:void(0)" onclick="ViewAllTimesheetPageUrl()" class="gry-btn"  >GO TO VIEW ALL TIMESHEETS</a>
+													<li>
+													
+												</ul>
+												<!-- </div> -->
+											<!-- 	<div class="col-md-7"> -->
+												
+													
+														<ul class="top-btns" style="float:right;margin-right:5px;" id="TSsummaryLiHideshow">
+															<li>
+																<select id="tableFilter" onchange='filterById(this)'>
+																<option value="current">Current Month</option>
+																<option value="Previous">Previous Month</option>
+																<option value="Next">Next Month</option>
+																<option value="DateRange">Date Range</option>
+																</select>
+																<input type="text" id="TxtFromDate" hidden class="txtDateInput" placeholder="" style="width:120px"/>
+																<input type="text" id="TxtToData" hidden class="txtDateInput" placeholder="" style="width:120px" />
+																<input type="button" style="padding:4px 10px; font-size:10px;" id="BtnFilterData" value="GO" hidden class="btnSubmit" onclick='filterByDateRange()' />
+															<li>
+															<li>
+																<a href="javascript:void(0)" id="btnAllPeriods"  class="blue-btn" onclick="onStatusBtnClick(this)">
+																<i class="fa fa-folder-o"></i> All Records
+																<span class="highlight_no">0</span>
+																</a>
+															</li>
+															
+															<li>
+																<a href="javascript:void(0)" id="btnOpenPeriods" class="blue-btn" onclick="onStatusBtnClick(this)">
+																<i class="fa fa-folder-o"></i> Open
+																		<span class="highlight_no">0</span>
+																</a>
+															</li>
+														
+															<li>
+																<a href="javascript:void(0)" id="btnSubmitPeriods" class="blue-btn" onclick="onStatusBtnClick(this)">
+																<i class="fa fa-send"></i> Submitted
+																		<span class="highlight_no">0</span>
+																</a>
+															</li>
+															<li>
+																<a href="javascript:void(0)" id="btnAppovedCount" class="blue-btn" onclick="onStatusBtnClick(this)">
+																<i class="fa fa-check"></i> Approved
+																		<span class="highlight_no">0</span>
+																</a>
+															</li>
+															<li>
+																<a href="javascript:void(0)" id="btnRejectCount" class="blue-btn" onclick="onStatusBtnClick(this)">
+																<i class="fa fa-ban"></i> Rejected
+																		<span class="highlight_no">0</span>
+																</a>
+															</li>
+														</ul>
+													</div>	
+												
+											<!-- 	</div -->
+											</div>	
+										</div>
+										<div class="container-fluid" >
+											<!-- <div class="" id="jqxgrid_containerProxyTSSummary"> -->
+												<!-- <table id="tblTSSummary" class="table-bordered table-new" style="table-layout: auto !important; display:none;"> -->
+												<!-- </table> -->
+												<table id="periodsummary" class="table-bordered table-new" style="table-layout: auto !important; display:none;">
+													<thead>
+														<tr>
+															<th id="Action"  class='clsAction' style=" text-align: left !important">Action</th>
+															<th class='projectName' style=" text-align: left !important">Timesheet Name</th>
+															<th style=" text-align: left !important">Project Name</th>
+															<th class='clsTotalHours' style=" text-align: left !important">Total Hours</th>
+															<th class='clsStatus' style=" text-align: left !important">Status</th>
+															<th class='submittedDate' style=" text-align: left !important">Submitted Date</th>
+															<th class='clsApproveRejct' style=" text-align: left !important">Appoved Date</th>
+															<th class="pendingBy" style=" text-align: left !important">Pending With</th>
+															<th class="clsUserComment" style=" text-align: left !important">User Comments</th>
+															<th class="clsApprovedBy" style=" text-align: left !important">Approved By</th>
+															<!-- <th>Approver 1 Comments</th>
+															<th>Approver 2 Comments</th> -->
+														</tr>
+													</thead>
+													<tfoot>
+														<tr>
+															<th id="Action"  class='clsAction'></th>
+															<th style=" text-align: left !important">Timesheet Name</th>
+															<th style=" text-align: left !important">Project Name</th>
+															<th style=" text-align: left !important">Total Hours</th>
+															<th class='clsStatus' style=" text-align: left !important">Status</th>
+															<th class='submittedDate' style=" text-align: left !important">Submitted  Date</th>
+															<th class='clsApproveRejct' style=" text-align: left !important">Appoved  Date</th>
+															<th class="pendingBy" style=" text-align: left !important">Pending With</th>
+															<th class="clsUserComment" style=" text-align: left !important">User Comments</th>
+															<th class="clsApprovedBy" style=" text-align: left !important">Approved By</th>
+														</tr>
+													</tfoot>
+													<tbody id="tblPeriodBody">
+														<!-- <span id="loading-image"></span> -->
+													
+													</tbody>
+												</table>
+											<!-- </div> -->
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+				<!-- (9)ExpenseDetails -->
+					<div class="panel-group" id="ExpenseDetails">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#ExpenseDetails" href="#ExpenseDetailsData">
+									<!-- <span class="row"> -->
+										<span class="col-md-4">Expense Summary</span>
+										<span class="col-md-4" style="left:55%;color: #ebf935" id="Expense_Summary_Service_error"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="ExpenseDetailsData" class="panel-collapse collapse">
+							<div class="panel-body pr-0">
+								<div class="panel-group accordion1" id="accordion2">
+									<div class="row">
+										<div class="container-fluid">
+												<div class="mid-block">		
+													<div class="mid-top" style="margin-bottom: 5px; ">
+													<ul class="top-btns" style="float:left;margin-left:8px;" id="">
+													
+														<li>
+															<a href="javascript:void(0)" onclick="ViewAllExpensesPageUrl()" class="gry-btn" >GO TO VIEW ALL EXPENSES</a>
+														<li>
+													</ul>
+													<ul class="top-btns" style="float:right;margin-right:8px;" id="">
+														<li>
+															<a href="javascript:void(0)" id="ExcBtnAllrecords" class="blue-btn" onclick="ExceptionSumDetails('ExcBtnAllrecords')">
+															<i class="fa fa-folder-o"></i> All Records
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="ExcBtnOpen" class="blue-btn" onclick="ExceptionSumDetails('ExcBtnOpen')">
+															<i class="fa fa-folder-o"></i> Open
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="ExcBtnSubmitted" class="blue-btn" onclick="ExceptionSumDetails('ExcBtnSubmitted')">
+															<i class="fa fa-send"></i>  Submitted
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="ExcBtnApproved" class="blue-btn" onclick="ExceptionSumDetails('ExcBtnApproved')">
+															<i class="fa fa-check"></i> Appoved
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="ExcBtnRejected" class="blue-btn" onclick="ExceptionSumDetails('ExcBtnRejected')">
+															<i class="fa fa-ban"></i>Rejected
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" id="ExcBtnReimbursed" class="blue-btn" onclick="ExceptionSumDetails('ExcBtnReimbursed')">
+															<i class="fa fa-usd"></i>Reimbursed
+															<span class="highlight_no">0</span>
+															</a>
+														</li>
+													</ul>
+													</div>	
+												</div>
+											</div>
+											<div class="container-fluid">
+												<div class="" id="jqxgrid_containerExpenseDetails">
+													<table id="tblExpenseDetails" class="display example table table-bordered table-new" cellspacing="0">
+													</table>
+												</div>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			    </div>
+				
+				
+			</div>
+			
+        </div>
+    </div>
+</div>
+
+
+<span id="loading-image"></span>
+<span id="workingonit_image"></span>
+<div class="openDetailsMain">
+	<div class="openDetailsMainInner">
+		<div class="openDetailsMain-heading">
+			Tracking No : <span id="TrackingIdBind">61</span>
+			<a onclick="closedetails()"><i class="fa fa-remove"></i></a>
+		</div>
+		<div class="openDetailsMain-mid">
+			<div class="openDetailsMain-midTop">
+				<table class="table table-bordered" style="table-layout: inherit;  word-break: break-all;  word-wrap: break-word;">
+					<tbody>
+						<tr>
+							<th style="width: 20%;">Project Name</th>
+							<th style="width: 20%;">Expense Report Name</th>
+							<th style="width: 12%;">Advance Amount </th>
+							<th style="width: 10%;">ER Currency</th>
+							<th style="width: 32%;">Description</th>
+						</tr>
+						<tr>
+							<td><span id="ProjectNameBind">03651 - Expense Project 091</span></td>
+							<td><span id="ExpenseReportNameBind">Test</span></td>
+							<td style="text-align: right;"><span id="AdvanceAmountBind">8765.01 </span><span style="color: #ababab;margin-left: 6px;" id="AdvanceCurrency">USD</span></td>
+							<td><span id="Expensecurrency">INR</span></td>
+							<td colspan="5"><span id="DescriptionBind"></span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="openDetailsMain-midBottom">
+				<table id="innertable" class="table example table-bordered" style="width: 99.90% !important; table-layout:fixed; word-break: break-all;  word-wrap: break-word;">
+					<thead>
+						<tr>
+							<th style="width: 1% !important; padding: 10px 5px;" data-orderable="false" class="sorting_asc">Info</th>
+                            <th style="width: 7% !important; padding: 10px 5px;">Ref <br> No</th>
+                            <th style="width: 11% !important; padding: 10px 5px;">Project Phase</th>
+                            <th style="width: 11% !important; padding: 10px 5px;">Item</th>
+                            <th style="width: 9% !important; padding: 10px 5px;">Expense <br> Note</th>
+                            <th style="width: 9% !important; padding: 10px 5px;">Status</th>
+                            <th style="width: 9% !important; padding: 10px 5px;">ER <br> Amount</th>
+                            <th style="width: 9% !important; padding: 10px 5px;">Amount</th>
+                            <th style="width: 9% !important; padding: 10px 5px;">Payment <br> Type</th>
+                            <th style="width: 9.90% !important; padding: 10px 5px;">Expense <br> Date</th>
+                            <th style="width: 4% !important; padding: 10px 5px;">Billable</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Server timeout error pop up-->
+<div class="black-bg alert-main" style="display: none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div> 
+		<div id="divError" style="margin-top: 10px;display:none;">
+			<input type="hidden" id="isError">
+			<textarea id="errormsg" style="width:350px;height:100px;" disabled=""></textarea>
+		</div> 
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh">
+			<input type="Button" class="divnewbtn" id="btnOkPopup" onclick="okPopupOnOkButton('#OKPopup')" value="OK" style="margin-top: 3px;">    
+		</div>   
+	</div>
+</div>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<script src="../SiteAssets/Timesheet/js/Config.js"></script> 
+
+<script type="text/javascript">
+	var selectedFromYear, selectedFromMonth, selectedToYear, selectedToMonth, CountryName;
+	$(document).ready(function () 
+	{
+		//disableRightClick();
+		
+			// Opera 8.0+
+		/*if(navigator.userAgent.match(/mobile/i)) {
+			console.log('Mobile');
+		} else */
+		//if (navigator.userAgent.match(/iPad|Android|Touch/i)) {
+		//var i_ =navigator.userAgent;
+		//alert(i_);
+		
+		var is_iPad = navigator.userAgent.match(/iPad|iPhone/i) != null;
+		if(is_iPad == true)
+		{
+			alert('iPad or iPhone found');
+			//return false;
+			
+			
+		} 
+		if(is_iPad == true)
+		{
+			window.location.href = _spPageContextInfo.webAbsoluteUrl+"/default.aspx";
+		}
+
+		window.asd = $('.SlectBox').SumoSelect({ csvDispCount: 2, captionFormatAllSelected: "Yeah, OK, so everything." });
+		window.test = $('.testsel').SumoSelect({ okCancelInMulti: true, captionFormatAllSelected: "Yeah, OK, so everything." });
+		window.testSelAll = $('.testSelAll').SumoSelect({ okCancelInMulti: true, selectAll: true });
+		window.testSelAlld = $('.SlectBox-grp').SumoSelect({ okCancelInMulti: true, selectAll: true });
+		window.testSelAll2 = $('.testSelAll2').SumoSelect({ csvDispCount: 2, search: true, searchText: 'Enter here.' });
+		window.Search = $('.search-box').SumoSelect({ csvDispCount: 2, search: true, searchText: 'Enter here.', selectAll: true });
+		window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 2, selectAll: true, search: true, searchText: 'Enter here.', okCancelInMulti: true });
+		window.searchSelAll = $('.search-box-open-up').SumoSelect({ csvDispCount: 2, selectAll: true, search: false, searchText: 'Enter here.', up: true });
+		window.groups_eg_g = $('.groups_eg_g').SumoSelect({ selectAll: true, search: true });
+	});
+	
+	<!-- $(function() { -->
+  <!-- $("#resourceName").customselect(); -->
+<!-- }); -->
+</script>
+<script type="text/javascript">
+	
+	$.widget.bridge('uitooltip', $.ui.tooltip);
+	$.widget.bridge('uibutton', $.ui.button);
+	<!-- $(document).ready(function(){ -->
+	<!-- setInterval(function(){  -->
+		<!-- $("[data-toggle='tooltip']").tooltip();  -->
+		<!-- $('[data-toggle="tooltip"]').tooltip();  -->
+	<!-- }, 100); -->
+ <!-- }); -->
+</script>
+   
+
+<script>
+
+ResValueId="";
+empResUid = "";
+EMPPName="";
+var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+$(document).ready(function()
+{
+	$('#loading-image').show();
+	var Admin_GetPeriodsandUsersDataUrls = Admin_GetPeriodsandUsersDataURLRH();
+	$.ajax
+	({
+		//api/Timesheet/Admin_GetPeriodsandUsersData
+		url:Admin_GetPeriodsandUsersDataUrls,
+		method:"POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success:function(Resdata)
+		{	
+			$("#resourceName").append("<option value='Select_Employee' index=0>Select Employee</option>");
+			for(var i=0;i<Resdata.Users.length;i++)
+			{ 
+				$("#resourceName").append("<option value=\""+Resdata.Users[i].ResourceId+"##"+Resdata.Users[i].ResourceEmailAddress+"##"+Resdata.Users[i].ResourceName+"\" index="+(i+1)+">"+Resdata.Users[i].ResourceName+"</option>");
+			}
+			$('.search_test').SumoSelect({search: true, searchText: 'Search Employee'});
+			for(var j=0;j<Resdata.Periods.length;j++)
+			{
+				var sd=new Date(Resdata.Periods[j].StartDate).format('dd-MMM-yy');
+				var ed=new Date(Resdata.Periods[j].EndDate).format('dd-MMM-yy');
+				$("#periodNameDataId").append("<option value="+Resdata.Periods[j].PeriodId+"##"+sd+"##"+ed+" >"+new Date(Resdata.Periods[j].StartDate).format('dd-MMM-yy')+" - "+new Date(Resdata.Periods[j].EndDate).format('dd-MMM-yy')+"</option>");
+			}
+			$('.search_periodNameDataId').SumoSelect({search: true, searchText: 'Search Periods'});
+			$('#loading-image').hide();
+			$('#accordion').hide();
+		},
+		error:function(data)
+		{
+			//alert("error");
+			$('#loading-image').hide();
+			/*if(data.error != undefined)
+			{*/
+				openOKpopup(popUpMessage.ServerError,"false");
+			//}
+			
+		}	
+	});
+	
+	$('.closeall').click(function()
+	{
+		$('.panel-collapse.in').collapse('hide');
+		$('.openall').show();
+		$('.closeall').hide();
+	});
+	$('.openall').click(function()
+	{
+		$('.panel-collapse:not(".in")').collapse('show');
+		$('.closeall').show();
+		$('.openall').hide();
+	});
+	
+	//date Picker
+	$('#TxtToData').datepicker
+	({ 
+		dateFormat: 'dd-M-yy' ,	
+		onSelect: function(selected){$("#TxtFromDate").datepicker("option","maxDate", selected)}
+	});
+	$('#TxtFromDate').datepicker
+	({
+		dateFormat: 'dd-M-yy',
+		onSelect: function(selected)	{$("#TxtToData").datepicker("option","minDate", selected)}
+	});
+	ServiceErrorClear();
+	<!-- setInterval(function() -->
+	<!-- {  -->
+		<!-- $("[data-toggle='tooltip']").tooltip();  -->
+		<!-- $('[data-toggle="tooltip"]').tooltip();  -->
+	<!-- }, 100);  -->
+});
+
+firstDay = "";
+lastDay = "";
+
+function  GetResourceInformationData()
+{
+	$('#TxtFromDate').val("");
+	$('#TxtToData').val("");
+	$('.Errormsg').hide();
+	var DDLselValue="";
+	DDLselValue = $('#resourceName :selected').val();
+	if (DDLselValue=="Select_Employee")
+	{
+		$('.Errormsg').show();
+		$('.Errormsg').text("Select Employee");
+		$('#accordion').hide();
+		$('.openall').hide();
+		$('.closeall').hide();
+		$('#Emp_name').text("");
+		$("#ProjNamCntId span").text("0");
+		$("#DataFromPhr span").text("0");
+		$("#DataFromPpm span").text("0");
+		$("#ExceptionId span").text("0");
+		$("#DelegationId span").text("0");
+		
+		$("#Expense_Submit_id span").text("0");
+		$("#Expense_Approval_id span").text("0");
+		$("#TimeSheet_Approval_id span").text("0");
+		ServiceErrorClear();
+	}
+	else
+	{
+		$('.Errormsg').hide();
+		$('#Emp_name').text("");	
+		$("#ProjNamCntId span").text("0");
+		$("#DataFromPhr span").text("0");
+		$("#DataFromPpm span").text("0");
+		$("#ExceptionId span").text("0");
+		$("#DelegationId span").text("0");
+		
+		$("#Expense_Submit_id span").text("0");
+		$("#Expense_Approval_id span").text("0");
+		$("#TimeSheet_Approval_id span").text("0");
+		$('#accordion').show();
+		$('.openall').hide();
+		$('.closeall').show();
+		$('#accordion .panel-collapse').collapse('show');
+		
+		$("#tblPeriodBody").append("");  // ts summary
+		$("#btnAllPeriods span").text("0");
+		$("#btnOpenPeriods span").text("0");
+		$("#btnSubmitPeriods span").text("0");
+		$("#btnAppovedCount span").text("0");
+		$("#btnRejectCount span").text("0");
+		
+		ResValueId=DDLselValue;
+		empResUid = ResValueId.split("##")[0];
+		empResEmailId=ResValueId.split("##")[1];
+		Employee_Name=ResValueId.split("##")[2];
+		
+		GetResourcesAllData();
+		//GetData('DataFromPhr'); //old one we are not using
+		GetData('DataFromPpm');
+		getPeriodData();
+		getExceptionalid(empResUid);
+		GetExceptionAndDelegation('Exception');
+		getProxy(empResUid,EMPPName,'Expense_Submit_id');
+		getProjectDetailsRes(empResUid) ;
+		//current month first day  and  last day
+		$('#TxtFromDate').val("");
+		$('#TxtToData').val("");
+		var date = new Date(),y = date.getFullYear(),m = date.getMonth();
+		firstDay = new Date(y, m, 1);
+		lastDay = new Date(y, m + 1, 0);
+		getTaskAsignmentsDat(empResUid,firstDay.toDateString(),lastDay.toDateString()) ;
+		
+		GetExceptionSummary();
+		
+		document.getElementById("isRefresh").checked = false;
+		var temp="current"; 
+		$("#tableFilter").val(temp);
+		
+	}
+	
+}
+
+function abcd()
+{
+	$.when($('#workingonit_image').show()).then(function()
+	{
+		
+		GetResourceInformationData();
+		console.log("test");
+		$('#workingonit_image').hide();
+	})
+}
+
+function ClearTextGetResourcesAllData()  //clear
+{
+	location.reload();
+	/*$('#resourceName')[0].sumo.unSelectItem($('#resourceName option:selected').index());
+	$('#Emp_name').text("");
+	$('#accordion').hide();
+	$('.openall').hide();
+	$('.closeall').hide();
+	ServiceErrorClear();*/
+}
+
+function getPeriodData()      //TimeSheet summary (8)
+{
+	$('#Timesheet_Summary_Service_error').text("");
+	$("#periodsummary_wrapper").show();
+	$('#TSsummaryLiHideshow').show();
+	var GetPeriodsUrls=GetPeriods();
+	$.ajax
+	({
+		url: GetPeriodsUrls,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:
+			{ 
+				"ResourceUID": empResUid,
+				"Role" : "TM"
+			}, 
+		success: function (data)
+		{
+			summaryTable = data;
+			maxApprover = data.Data[0].Max_approvers;
+			$("#periodsummary th.clsApproveName").remove();
+			$("#periodsummary td.clsApproveName").remove();
+			for(var i=0;i<maxApprover;i++)
+			{
+				$('#periodsummary thead th:last-child').after('<th class="clsApproveName">Approver Name '+parseFloat(i+1)+'</th>');
+				$('#periodsummary thead th:last-child').after('<th class="clsApproveComment">Approver Comment '+parseFloat(i+1)+'</th>');
+
+				$('#periodsummary tfoot th:last-child').after('<th class="clsApproveName">Approver Name '+parseFloat(i+1)+'</th>');
+				$('#periodsummary tfoot th:last-child').after('<th class="clsApproveComment">Approver Comment '+parseFloat(i+1)+'</th>');
+			}
+			$('#tableFilter').trigger('change');
+			if(queryString.status == "0")
+			{
+				$("#btnCreateTimesheetMain").click();
+			}
+			else if(queryString.status == "3")
+			{
+				$("#btnRejectCount").click();					
+			}
+			else if(queryString.status == "1")
+			{
+				$("#btnSubmitPeriods").click();
+			}
+			else
+			{
+				$("#btnAllPeriods").click();					
+			}
+			////$('#loading-image').hide();
+	
+		},
+		error: function (data) 
+		{
+			//alert("failed");
+			
+			$('#Timesheet_Summary_Service_error').text("Server Error");
+			//$('#loading-image').hide();
+			$("#periodsummary_wrapper").hide();
+			$('#TSsummaryLiHideshow').hide();
+			
+		}
+	});
+}
+
+
+function createSummaryTable(data) 
+{	
+	//cleardataTSSummary();
+	if($("#btnCreateTimesheetMain").parents('li').hasClass('green-btn'))
+	{	
+		$("#createTimesheetMain").css("display","")
+		$("#periodsummary").css("display","none");
+		$("#periodsummary_wrapper").hide();
+		$(".viewTSNote").hide();
+		bindCreateTimesheetMain(data);
+		return;
+	}
+	else
+	{	
+		$("#periodsummary").dataTable().fnDestroy();	
+		$("#createTimesheetMain").css("display","none");
+		$("#periodsummary").css("display","");
+		$("#tableFilter").children("option[value*='DateRange']").removeAttr('disabled');
+		$("#tableFilter").children("option[value*='Next']").removeAttr('disabled');
+	}
+	$(".viewTSNote").show();
+	$("#tblPeriodBody").text("");
+	var innerHtml = "";
+
+	var isCheck = false;
+	var status = "";
+	if($("#btnOpenPeriods").parent("li").hasClass("green-btn"))
+	{
+		status = "0";isCheck = true;
+			
+		$('#btnAllPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnOpenPeriods').removeClass('blue-btn').addClass('green-btn');
+		$('#btnSubmitPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnAppovedCount').removeClass('green-btn').addClass('blue-btn');
+		$('#btnRejectCount').removeClass('green-btn').addClass('blue-btn');
+	}
+	else if($("#btnSavePeriods").parent("li").hasClass("green-btn"))
+	{
+		status = "0";isCheck = true;		
+	}
+	else if($("#btnSubmitPeriods").parent("li").hasClass("green-btn"))
+	{
+		status = "1";isCheck = true;	
+		$('#btnAllPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnOpenPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnSubmitPeriods').removeClass('blue-btn').addClass('green-btn');
+		$('#btnAppovedCount').removeClass('green-btn').addClass('blue-btn');
+		$('#btnRejectCount').removeClass('green-btn').addClass('blue-btn');
+	}
+	else if($("#btnAppovedCount").parent("li").hasClass("green-btn"))
+	{
+		status = "2";isCheck = true;	
+		$('#btnAllPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnOpenPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnSubmitPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnAppovedCount').removeClass('blue-btn').addClass('green-btn');
+		$('#btnRejectCount').removeClass('green-btn').addClass('blue-btn');		
+	}
+	else if($("#btnRejectCount").parent("li").hasClass("green-btn"))
+	{
+		status = "3";isCheck = true;
+		$('#btnAllPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnOpenPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnSubmitPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnAppovedCount').removeClass('green-btn').addClass('blue-btn');
+		$('#btnRejectCount').removeClass('blue-btn').addClass('green-btn');		
+	}
+	else 
+	{
+		$("#btnAllPeriods").parent("li").addClass("green-btn");
+		
+		$('#btnAllPeriods').removeClass('blue-btn').addClass('green-btn');
+		$('#btnOpenPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnSubmitPeriods').removeClass('green-btn').addClass('blue-btn');
+		$('#btnAppovedCount').removeClass('green-btn').addClass('blue-btn');
+		$('#btnRejectCount').removeClass('green-btn').addClass('blue-btn');
+	}		
+	if(isCheck)
+	{	var i=0; 
+		var data1 = data;
+		data = [];  
+		data1.filter(
+			function(e)
+			{	
+				if(status == "0"){
+					if(e.ApprovalStatus == "0" || e.ApprovalStatus == "")
+					{	
+						data[i] = e;  i++;
+					}
+				}
+				else
+				{	
+					if(e.ApprovalStatus == status)
+					{	
+						data[i] = e;  i++;
+					}
+				}					
+			}
+		);
+	}
+	for (var i = 0; i < data.length; i++) 
+	{
+		var startDate = new Date(data[i].StartDate)
+		var sdate = ("0" + startDate.getDate()).slice(-2) + "-" + monthNames[startDate.getMonth()] + "-" + startDate.getFullYear();
+		var endDate = new Date(data[i].EndDate)
+		var edate = ("0" + endDate.getDate()).slice(-2) + "-" + monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();			
+		innerHtml += "<tr>";
+		var TimesheetUIDValue = "";
+		var isPeriodOpen = false;
+		var isOpen = false;
+		
+		if(data[i].TimesheetUID.indexOf("-000000000000") > -1)
+		{
+			TimesheetUIDValue = "";
+			isPeriodOpen = false;				
+		}
+		else
+		{
+			TimesheetUIDValue = data[i].TimesheetUID;
+			isPeriodOpen = true;				
+		}
+		var statusTD = "";
+		var pathStatus = false;
+		if(data[i].ApprovalStatus== "0")
+		{
+			innerHtml += "<td style='text-align:left' class='clsAction'><a title='Delete Timesheet' onclick='openYesNoPOpup(\""+data[i].TimesheetUID+"\",\""+data[i].PeriodId+"\",\""+data[i].RES_UID+"\")' style='cursor: pointer;'><i class='fa fa-trash-o' style='color:#333;font-size: 16px;'></i> 	</a>  </td>";
+			if(data[i].Recall == "1")
+			{	
+				statusTD += "<td style='text-align:left'  class='clsStatus'>Open";	
+			}
+			else
+			{
+				statusTD += "<td style='text-align:left'  class='clsStatus'>Open";				
+			}
+			pathStatus = true;
+		}
+		else if(data[i].ApprovalStatus== "1")
+		{
+			innerHtml += "<td style='text-align:left' class='clsAction'><a title='Edit Timesheet' onclick='openYesNoPOpupRecallFun()' style='cursor: pointer;'>";
+			if(data[i].TS_Period_Open_Close_Flag == "1")
+			{
+				//innerHtml += "<i class='fa fa-pencil' style='font-size: 16px;'></i>";
+				innerHtml += "";
+			}
+			innerHtml+="<input type='hidden' value='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"' class='redirectUrl' /></a>";//</td>";  //<input type='hidden' id='timid"+i+"' value="+timeShetUID+" />
+			innerHtml+="</td>";
+			if(data[i].Recall == "1")
+			{	
+				statusTD += "<td  style='text-align:left' class='clsStatus'>Open";	
+			}
+			else
+			{
+				statusTD += "<td  style='text-align:left' class='clsStatus'>Submitted";				
+			}
+		}
+		else if(data[i].ApprovalStatus== "2")
+		{
+			innerHtml += "<td style='text-align:left' class='clsAction'></td>";
+			statusTD += "<td style='text-align:left' class='clsStatus'>Approved";
+		}
+		else  if(data[i].ApprovalStatus== "3")
+		{
+			innerHtml += "<td  class='clsAction'><a title='Edit Timesheet' onclick='openYesNoPOpupRecallFun()' style='cursor: pointer;'>";
+			if(data[i].TS_Period_Open_Close_Flag == "1")
+			{
+				//innerHtml += "<i class='fa fa-pencil' style='font-size: 16px;'></i>";
+				innerHtml += "";
+			}
+			innerHtml+="<input type='hidden' value='TimesheetEntryPage.aspx?PeriodUID=" + data[i].PeriodId + "&Start=" + data[i].StartDate + "&End=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&ProjectUID="+data[i].ProjectUID+"' class='redirectUrl' /></a>";
+			innerHtml+="</td>";
+			if(data[i].Recall == "1")
+			{
+				statusTD += "<td  style='text-align:left' class='clsStatus'>Open";	
+			}
+			else
+			{
+				statusTD += "<td  style='text-align:left' class='clsStatus'>Rejected";				
+			}
+		}
+		else
+		{				
+			innerHtml += "<td class='clsAction'></td>"				
+			if(data[i].Recall == "1")
+			{	
+				statusTD += "<td style='text-align:left'  class='clsStatus'>Open";	
+			}
+			else
+			{
+				statusTD += "<td style='text-align:left'  class='clsStatus'>Open";				
+			}
+			pathStatus = true;
+		}
+		if(data[i].TS_Period_Open_Close_Flag == "1")
+		{	
+			if((new Date(data[i].StartDate) > (new Date()).valueOf()))
+			{
+				innerHtml += "<td style='text-align:left' ><span style='color: gray;cursor: no-drop;'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span<img src='"+ImgPath.AltImg+"' style='margin-left: 10px; width: 14px;' /></td>";								
+			}
+			else
+			{
+				if(data[i].ProjectName != "" && data[i].Delta == "true")
+				{
+					
+					if(pathStatus == true)
+					{	
+						innerHtml += "<td style='text-align:left' ><span style='cursor: help;'  data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.' >" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span></td>";								
+					}
+					else
+					{
+						innerHtml += "<td style='text-align:left' ><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+empResUid+"&who=1' target='_blank'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+					}
+				}
+				else
+				{			
+					if(pathStatus == true)
+					{	
+						innerHtml += "<td style='text-align:left'><span style='cursor: help;'  data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span></td>";								
+					}
+					else
+					{
+						innerHtml += "<td style='text-align:left'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+empResUid+"&who=1' target='_blank'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";
+					}
+				}
+			}
+		}
+		else
+		{
+			if(TimesheetUIDValue =="")
+			{
+				innerHtml += "<td style='text-align:left'><span style='cursor: help;'  data-toggle='tooltip' data-placement='right' title='Go to \"CREATE TIMESHEET\" Tab to create / view timesheet.'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </span></td>";	
+			}
+			else
+			{
+				innerHtml += "<td style='text-align:left'><a href='ResourceWiseTimesheetDetails.aspx?PeriodUID=" + data[i].PeriodId + "&StartDate=" + data[i].StartDate + "&EndDate=" + data[i].EndDate + "&TimesheetUID="+TimesheetUIDValue+"&RES_UID="+empResUid+"&who=1' target='_blank'>" + data[i].PeriodName.substr(data[i].PeriodName.indexOf('||') + 1, data[i].PeriodName.length) + " (" + sdate + " - " + edate + ") </a></td>";	
+			}
+			statusTD += ' | <span class="red-btn" style="padding: 3px 5px; margin-left: 5px; border-radius: 5px;"  id="">TS Period Closed</span>';
+		}
+		statusTD +="</td>";     
+		innerHtml += "<td style='text-align:left'>"+data[i].ProjectName+"</td>";
+		if(data[i].TotalHours == "")
+		{
+			innerHtml += "<td style='text-align:right' class='clsTotalHours'>"+data[i].TotalHours+"</td>";
+		}
+		else
+		{
+			innerHtml += "<td style='text-align:right' class='clsTotalHours'>"+parseFloat(data[i].TotalHours).toFixed(2)+"</td>";
+		}
+		innerHtml += statusTD;//"<td>"+data[i].ApprovalStatus+"</td>";	
+		if(data[i].LAST_SUBMITTED_DATE == "")
+		{
+			innerHtml += "<td style='text-align:left' class='submittedDate'>"+(new Date(data[i].MOD_DATE)).format('dd-MMM-yy')+"</td>";
+		}
+		else
+		{
+			innerHtml += "<td style='text-align:left' class='submittedDate'>"+(new Date(data[i].LAST_SUBMITTED_DATE)).format('dd-MMM-yy')+"</td>";
+		}
+		if(data[i].MOD_DATE == "")
+		{
+			if(data[i].CREATED_DATE == "")
+			{
+				innerHtml += "<td  style='text-align:left' class='clsApproveRejct'></td>";
+			}
+			else
+			{
+				innerHtml += "<td style='text-align:left'  class='clsApproveRejct'>"+(new Date(data[i].CREATED_DATE)).format('dd-MMM-yy')+"</td>";
+			}
+
+		}
+		else
+		{
+			innerHtml += "<td style='text-align:left' class='clsApproveRejct'>"+(new Date(data[i].MOD_DATE)).format('dd-MMM-yy')+"</td>";
+		}
+		innerHtml += "<td class='pendingBy'>"+data[i].Current_Approver+"</td>";
+		if(data[i].UserComments.length > 22)
+		{
+			innerHtml += "<td style='text-align:left' class='clsUserComment'><span data-toggle='tooltip' data-placement='top' title='"+data[i].UserComments+"' style='word-wrap: break-word; display: inline-block; width: 200px;'>"+data[i].UserComments.substr(0,22)+"...</span></td>";
+		}
+		else
+		{
+			innerHtml += "<td style='text-align:left' class='clsUserComment'><span data-toggle='tooltip' data-placement='top' title='"+data[i].UserComments+"' style='word-wrap: break-word; display: inline-block; width: 200px;'>"+data[i].UserComments.substr(0,22)+"</span></td>";
+		}
+		innerHtml += "<td style='text-align:left' class='clsApprovedBy'>"+data[i].Current_Approver+"</td>";	
+		if(data[i].Approvers_Comments.length != 0)
+		{
+			for(var app =0;app<maxApprover;app++)
+			{	
+				if(data[i].Approvers_Comments[app] == undefined)
+				{	innerHtml += '<td class="clsApproveName">NA</td>';
+					innerHtml += '<td class="clsApproveComment">NA</td>';						
+				}
+				else
+				{	
+					if(status== "3")
+					{
+						if(data[i].Approvers_Comments[app].ApproverStatus == "3")
+						{
+							innerHtml += '<td  class="clsApproveName">'+data[i].Approvers_Comments[app].Approver_Name+'</td>';
+							if(data[i].Approvers_Comments[app].Comment.length > 22)
+							{
+								innerHtml += '<td style="text-align:left"  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment.substr(0,22)+'...</span></td>';		
+							}
+							else
+							{
+								innerHtml += '<td style="text-align:left"  class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment+'</span></td>';		
+							}
+						}
+					}
+					else
+					{
+						if(data[i].Approvers_Comments[app].ApproverStatus == "2")
+						{
+							innerHtml += '<td  class="clsApproveName approvedTimesheet">'+data[i].Approvers_Comments[app].Approver_Name+'</td>';
+							if(data[i].Approvers_Comments[app].Comment.length > 22)
+							{
+								innerHtml += '<td style="text-align:left" class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment.substr(0,22)+'...</span></td>';		
+							}
+							else
+							{
+								innerHtml += '<td style="text-align:left" class="clsApproveComment"><span data-toggle="tooltip" data-placement="top" title="'+data[i].Approvers_Comments[app].Comment+'" style="word-wrap: break-word; display: inline-block; width: 200px;">'+data[i].Approvers_Comments[app].Comment+'</span></td>';		
+							}
+						}
+						else
+						{
+							innerHtml += '<td class="clsApproveName">NA</td>';
+							innerHtml += '<td class="clsApproveComment">NA</td>';
+						}
+					}
+				}															
+			}
+		}
+		else
+		{
+			for(var app =0;app<maxApprover;app++)
+			{	innerHtml += '<td class="clsApproveName">NA</td>';			
+				innerHtml += '<td class="clsApproveComment">NA</td>';					
+			}
+		}     
+		innerHtml += "</tr>";			
+	}
+	if(data.length == 0)
+	{
+		innerHtml += "<tr><td class='text-center'>No record found</td></tr>";	
+		$("#tblPeriodBody").append(innerHtml);	
+	
+		TableHideShow(status);			
+		$("#tblPeriodBody").children('tr').children('td').attr("colspan",$("#periodsummary").children('thead').children('tr').children('th:visible').length)
+	}		
+	else
+	{
+		$("#tblPeriodBody").append(innerHtml);
+		TableHideShow(status);
+	}
+	tblTSSummaryDatatableBind();	
+	////$('#loading-image').hide();
+}
+
+function filterById(data)
+{
+	$('#TxtToData').hide();
+	$('#TxtFromDate').hide();
+	$('#BtnFilterData').hide();
+	var arr = [];
+	var crrDate = new Date();
+	if (data.value == "current")
+	{
+		$('#TxtToData').val('');
+		$('#TxtFromDate').val('');
+		var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 1);
+		var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 0);
+		summaryTable.Data[0].PeriodInfo.filter
+		(
+			function (a)
+			{
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				  if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				{   
+					arr.push(a);						
+				}
+			}
+		)
+		displayStatusCount(arr,data);
+		createSummaryTable(arr);
+        }
+        else if (data.value == "Next")
+	{
+		$('#TxtToData').val('');
+		$('#TxtFromDate').val('');
+		var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 1);
+		var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 2, 0);
+		summaryTable.Data[0].PeriodInfo.filter
+		(
+			function (a) 
+			{
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth())//(crrDate.getMonth() == sdate.getMonth() || && crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				{	
+					arr.push(a);
+				}
+			}
+		)
+		displayStatusCount(arr,data);
+		createSummaryTable(arr);
+        }
+        else if (data.value == "Previous") 
+	{
+		$('#TxtToData').val('');
+		$('#TxtFromDate').val('');
+		var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() - 1, 1);
+		var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 0);
+		summaryTable.Data[0].PeriodInfo.filter
+		(
+			function (a) 
+			{
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//((crrDate.getMonth()+1) == edate.getMonth() || crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				{	
+					arr.push(a);
+				}
+			}
+		)
+		displayStatusCount(arr,data);
+		createSummaryTable(arr);
+	}
+	else if (data.value == "DateRange")
+	{
+		$('#TxtToData').show();
+		$('#TxtFromDate').show();
+		$('#BtnFilterData').show();
+	}
+}
+function filterByDateRange() 
+{
+
+	var arr = [];
+	var crrDate = new Date();
+	 var froDate = $('#TxtFromDate').val();
+	 var TOoDate = $('#TxtToData').val();
+	if(froDate =="")
+	{
+		$('#TxtFromDate').css({"border": "1px solid red","background": "#FFCECE"	});
+		$('#TxtToData').css({"border": "","background": ""});
+		return false;
+	}
+	else if(TOoDate == "")
+	{
+		$('#TxtToData').css({"border": "1px solid red","background": "#FFCECE"});
+		$('#TxtFromDate').css({"border": "",	"background": ""	});
+		return false;
+	}
+	else
+	{
+		$('#TxtToData,#TxtFromDate').css({"border": "","background": ""});	
+		summaryTable.Data[0].PeriodInfo.filter
+		(
+			function (a) 
+			{
+				var st = $('#TxtFromDate').val();
+				var split=st.split("-")
+              
+				var dd = split[0];              
+				var y = split[2];
+
+				var GetMonth ={	"Jan": "January",'Feb':"February",'Mar': "March",'Apr':"April",'May':"May",'Jun':"June",'Jul':"July",'Aug': "August",'Sep': "September",'Oct': "October",'Nov': "November",'Dec':"December"}
+				var Month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+				var mm = GetMonth[split[1]];
+
+				var Month = [	'January','February','March','April','May','June',	'July','August','September','October','November','December'	]
+
+				var EDate1 = "";
+				EDate1= mm + " " + dd + "," + y;
+				var fDate = new Date(EDate1);
+				
+				var et = $('#TxtToData').val();
+				var split=et.split("-")
+
+				var dd = split[0];              
+				var y = split[2];
+				var mm = GetMonth[split[1]];			  
+				var EDate1 = "";
+
+				EDate1= mm + " " + dd + "," + y;
+				var tDate = new Date(EDate1);	
+								
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if ((fDate <= sdate) && (tDate >= edate) )
+				{
+					arr.push(a);
+				}
+			}
+		)
+		displayStatusCount(arr,document.getElementById("tableFilter"));
+		createSummaryTable(arr);
+		
+	}
+}
+	
+function onStatusBtnClick(data)
+{
+	$(data).parent("li").siblings().removeClass("green-btn");
+	$(data).parent("li").addClass("green-btn");
+	var ddOptions = document.getElementById("tableFilter");
+	filterById(ddOptions);
+	if(ddOptions.value == "DateRange")
+	{
+		document.getElementById("BtnFilterData").onclick();			
+	}
+}
+function displayStatusCount(data,control)
+{
+	var openCnt = 0;
+	var SubmitCnt = 0;
+	var ApprovedCnt = 0;
+	var rejectCnt = 0;
+	data.filter
+	(
+		function (a)
+		{
+			if(a.ApprovalStatus == "0" || a.ApprovalStatus == "")
+			{
+				openCnt++;
+				//saveCnt++;
+			}
+			else if(a.ApprovalStatus == "1"){
+				SubmitCnt++;
+			}
+			else if(a.ApprovalStatus == "2"){
+				ApprovedCnt++;
+			}
+			else if(a.ApprovalStatus == "3"){
+				rejectCnt++;
+			}
+		}
+	);
+	$("#btnAllPeriods span").text(data.length);
+	$("#btnOpenPeriods span").text(openCnt);
+	$("#btnSubmitPeriods span").text(SubmitCnt);
+	$("#btnAppovedCount span").text(ApprovedCnt);
+	$("#btnRejectCount span").text(rejectCnt);			
+}
+function TableHideShow(status)
+{
+	if(status== "")
+	{	$(".clsStatus").show();
+		$(".clsAction").hide();		
+		$(".clsUserComment").hide();
+		$(".clsApproveComment").hide();
+		$(".clsApproveName").hide();		
+		$(".submittedDate").hide();
+		$(".clsApprovedBy").hide();
+		$(".pendingBy").hide();
+		$(".clsApproveRejct").hide();
+	}
+	else if(status== "0")
+	{	
+		$(".clsAction").hide();
+		$(".clsApproveRejct").show();
+		$("th.clsApproveRejct").html("Created Date");	
+		$(".clsStatus").hide();
+		$(".clsUserComment").hide();
+		$(".clsApproveComment").hide();
+		$(".clsApproveName").hide();
+		$(".submittedDate").hide();
+		$(".clsApprovedBy").hide();
+		$(".pendingBy").hide();		
+	}
+	else if(status== "1")
+	{	
+		$(".clsAction").hide();
+		$(".clsUserComment").show();
+		$(".submittedDate").show();		
+		$(".pendingBy").show();
+		$("th.pendingBy").text("Pending With");
+		$(".clsStatus").hide();		
+		$(".clsApproveComment").hide();
+		$(".clsApproveName").hide();		
+		$(".clsApprovedBy").hide();
+		$(".clsApproveRejct").hide();				
+	}
+	else if(status== "2")
+	{	$(".clsAction").hide();
+		$(".clsStatus").hide();
+		$(".clsUserComment").hide();
+		$(".clsApproveComment").hide();
+		$(".pendingBy").hide();	
+		$(".clsApproveName").show();
+		$(".submittedDate").show();      
+		$(".clsApproveRejct").show();   
+		$("th.clsApproveRejct").html("Approved Date");
+		$(".clsApprovedBy").show();    
+	}
+	else if(status== "3")
+	{	$(".clsAction").hide();		
+		$(".clsApproveComment").show();		
+		$("th.clsApproveComment").text("Rejection Comments");
+		$(".submittedDate").show();
+		$(".clsApproveRejct").show();
+		$("th.clsApproveRejct").html("Rejected Date");	
+		$(".pendingBy").show();
+		$("th.pendingBy").text("Rejected By");
+		$(".clsStatus").hide();
+		$(".clsUserComment").hide();
+		$(".clsApprovedBy").hide();
+		$(".clsApproveName").hide();
+		$("#periodsummary tr").each(function(){$(this).find('td.clsApproveComment').eq(1).hide();$(this).find('th.clsApproveComment').eq(1).hide();});
+	}	
+}
+
+function ServiceErrorClear() //clear
+{
+	$('#PPM_Resource_Center_Service_error').text("");
+	$('#Project_Allocation_Service_error').text("");
+	$('#Project_Details_Service_error').text("");
+	$('#Task_Assignment_Service_error').text("");
+	$('#Exception_Project_Allocation_Service_error').text("");
+	$('#Exceptional_Approval_Delegation_Allocation_Service_error').text("");
+	$('#Proxy_Details_Service_error').text("");
+	$('#Timesheet_Summary_Service_error').text("");
+	$('#Expense_Summary_Service_error').text("");
+}
+	
+function GetResourcesAllData()  //PPM Resource Center(1)
+{
+	
+	$('#PPM_Resource_Center_Service_error').text("");
+	var GetResourceInfoUrls = GetResourceInfoURLRH();
+	$.ajax
+	({
+		url:GetResourceInfoUrls, //api/Timesheet/GetResourceInfo
+		method:"POST",
+		async:false,
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:{	"ResourceUID":empResUid	},
+		success:function(data)
+		{
+			
+	 		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			EMPPName = data.Data[0].ResourceName;
+			$('#Code').text(data.Data[0].EmployeeID);
+			$('#Name').text(data.Data[0].ResourceName);
+			$('#Email_Id').text(data.Data[0].EmployeeEmailID);
+			$('#RepManager').text(data.Data[0].ReportingManager);
+			$('#Skill').text(data.Data[0].Skill);
+			$('#RollBand').text(data.Data[0].RoleBand);
+			$('#Location').text(data.Data[0].BaseLocation);
+		//	$('#ProjLocation').text(data.Data[0].ProjectLocation);
+			$('#RRF_No').text(data.Data[0].RRFNO);
+			$('#Phone_no').text(data.Data[0].PhoneNumber);
+			$('#Emp_role').text(data.Data[0].EmployeeRole);
+			$('#CountryLegal').text(data.Data[0].CountryLegal);
+			$('#Status').text(data.Data[0].EmployeeStatus);
+			$('#BillabStatus').text(data.Data[0].BillableStatus);
+			$('#Role').text(data.Data[0].Role);
+			$('#Emp_name').text(data.Data[0].ResourceName);
+			$('#Res_UID').text(empResUid);
+			$('#GBU_Id').text(data.Data[0].GBU);
+			//$('#Cluster_id').text(data.Data[0].ClusterBillableorNonBillable);
+			$('#SubPractice_id').text(data.Data[0].SubPractice);
+			$('#Department_Id').text(data.Data[0].ResourceDepartments);
+			var doj=new Date(data.Data[0].OrganisationDOJ);
+			if(doj=="Invalid Date")
+			{
+				$('#DOJ_id').text("");
+			}
+			else
+			{
+				$('#DOJ_id').text(("0" + doj.getDate()).slice(-2)+  "-" + monthNames[doj.getMonth()] +"-" + doj.getFullYear());
+			}
+			var OrganisationEnddat = new Date(data.Data[0].OrganisationEndDate);
+			if(OrganisationEnddat=="Invalid Date")
+			{
+				$('#DOR_id').text("");
+			}
+			else
+			{
+				$('#DOR_id').text(("0" + OrganisationEnddat.getDate()).slice(-2)+  "-" + monthNames[OrganisationEnddat.getMonth()] +"-" + OrganisationEnddat.getFullYear());
+			}
+			getResourceData(empResUid);
+			
+		},
+		error:function()
+		{
+			$('#PPM_Resource_Center_Service_error').text("Service Error");
+		}	
+	});
+}
+function getResourceData(empResUid)
+{
+	
+	 $.ajax({
+         url:_spPageContextInfo.webAbsoluteUrl + "/_api/ProjectData/Resources(guid'"+ empResUid+"')?$select=RRFNO,PhoneNumber,EmployeeRole",
+          method: "GET",
+           async: false,
+           headers: {
+             "Accept": "application/json; odata=verbose"
+               },
+	
+		
+		success:function(data)
+		{
+			$('#Phone_no').text(data.d.PhoneNumber);
+			$('#Emp_role').text(data.d.EmployeeRole);
+			$('#RRF_No').text(data.d.RRFNO);
+			
+					},
+		error:function()
+		{
+			$('#PPM_Resource_Center_Service_error').text("Service Error");
+		}	
+	});
+
+}
+
+function GetData(dataPpmPhr)   //Project Allocation (2)
+{	
+	//$('#loading-image').show();
+	$('#DataFromPhr').hide(); //added because we are not using GetResourceAllocationPHR services
+	$("#yrsNote").hide();
+	$('#PPMPhrHideBtn').show();
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	cleardataAllocation();
+	
+	if(dataPpmPhr=="DataFromPpm")
+	{
+		$('#DataFromPhr').removeClass('green-btn').addClass('blue-btn');
+		$('#DataFromPpm').removeClass('blue-btn').addClass('green-btn');
+		$('#Project_Allocation_Service_error').text("");
+		var GetAllocationDetailsUrl =GetResourceAllocationUri();  // api/Timesheet/GetResourceAllocation";
+		$.ajax
+		({
+			url:GetAllocationDetailsUrl,
+			method: "POST",
+			async:false,
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			data: 
+				{
+					"ResourceUID":empResUid
+				},
+			success: function (data) 
+			{
+				
+				var table_header="";
+				table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+				table_header=table_header +"<th style='width:8%'>Employee ID</th>";
+				table_header=table_header +"<th style='width:10%'>Project Code</th>";
+				table_header=table_header +"<th style='width:25%'>Project Name</th>";
+				table_header=table_header +"<th style='width:9%'>Start Date</th>";
+				table_header=table_header +"<th style='width:9%'>Finish Date</th>";	
+				table_header=table_header +"<th style='width:8%'>Allocation %</th>";	
+				table_header=table_header +"<th style='width:9%'>Created Date</th>";
+				table_header=table_header +"<th style='width:9%'>Modified Date</th>";	
+				table_header=table_header +"<th style='width:8%'>Internal ID</th>";	
+				table_header=table_header +"<th style='width:9%'>Sync Date</th>";
+				table_header=table_header +"</tr></thead>";
+				
+				//footer menu	
+				table_header=table_header +"<tfoot><tr>";
+				table_header=table_header +"<th >Employee ID</th>";
+				table_header=table_header +"<th >Project Code</th>";
+				table_header=table_header +"<th >Project Name</th>";
+				table_header=table_header +"<th >Start Date</th>";
+				table_header=table_header +"<th>Finish Date</th>";	
+				table_header=table_header +"<th >Allocation %</th>";
+				
+				table_header=table_header +"<th >Created Date</th>";
+				table_header=table_header +"<th>Modified Date</th>";	
+				table_header=table_header +"<th >Internal ID</th>";
+				table_header=table_header +"<th >Sync Date</th>";
+				table_header=table_header +"</tr></tfoot>";
+
+				table_element="";
+				var  table_body="";
+				table_body="<tbody>"; 
+				var DataFromPPmCnt=0;
+				if(data.Data.length == 0)
+				{
+					$("#yrsNote").hide();
+				}
+				else
+				{
+					var status = "";
+					for (var i = 0; i < data.Data.length; i++) 
+					{		
+						DataFromPPmCnt++;
+						var AlldatesCreates = data.Data[i].CreatedOn;
+						//if(AlldatesCreates=="")
+						var CreatedDatadate ="";
+						if(AlldatesCreates=="0"|| AlldatesCreates == "undefined" || AlldatesCreates=="")
+						{
+							CreatedDatadate ="";
+						}
+						else if (AlldatesCreates.match(/^-?\d+$/)) 
+						{
+						//	alert("interger");
+							var da=( AlldatesCreates.match(/.{1,4}/g) );
+							var yr =da[0];
+							var mothDate = da[1];
+							var MD=( mothDate.match(/.{1,2}/g) );
+							var months = MD[0];
+							var Dates = MD[1];
+							var creationDates = new Date(yr+"/"+months+"/"+Dates);
+							CreatedDatadate = ("0" + creationDates.getDate()).slice(-2)+  "-" + monthNames[creationDates.getMonth()] +"-" + creationDates.getFullYear();
+						}
+						else
+						{
+							var CREATED_ON_Date = new Date(AlldatesCreates);
+							CreatedDatadate =("0" + CREATED_ON_Date.getDate()).slice(-2)+  "-" + monthNames[CREATED_ON_Date.getMonth()] +"-" + CREATED_ON_Date.getFullYear();
+						}			
+						var AlldatesModified = data.Data[i].LastMod;
+						var modificationDatadate="";
+						if(AlldatesModified==0 || AlldatesModified == "undefined" || AlldatesModified == "")
+						{
+							 modificationDatadate ="";
+						}
+						else if(AlldatesModified.match(/^-?\d+$/))
+						{
+							var da1=( AlldatesModified.match(/.{1,4}/g) );
+							var yr1 =da1[0];
+							var mothDate1 = da1[1];
+							var MD1=( mothDate1.match(/.{1,2}/g) );
+							var months1 = MD1[0];
+							var Dates1 = MD1[1];
+							var ModDates = new Date(yr1+"/"+months1+"/"+Dates1);
+							modificationDatadate = ("0" + ModDates.getDate()).slice(-2)+  "-" + monthNames[ModDates.getMonth()] +"-" + ModDates.getFullYear();
+						}
+						else
+						{
+							var Mod_ON_Date = new Date(AlldatesModified);
+							modificationDatadate =("0" + Mod_ON_Date.getDate()).slice(-2)+  "-" + monthNames[Mod_ON_Date.getMonth()] +"-" + Mod_ON_Date.getFullYear();
+						
+						}
+						table_body += "<tr>";	
+						table_body += "<td style='text-align: left !important; '>"+data.Data[i].EmployeeID+"</td>";
+						table_body += "<td>"+data.Data[i].AllocatedProjectCode+"</td>";
+						table_body += "<td>"+data.Data[i].ProjectName+"</td>";
+						
+						var crtdates = new Date(data.Data[i].Startdatetime);
+						if (crtdates=="Invalid Date" )
+						{
+							var CreatedDate ="";
+							table_body += "<td>"+CreatedDate+"</td>";
+						}
+						else
+						{
+							var CreatedDate = ("0" + crtdates.getDate()).slice(-2)+  "-" + monthNames[crtdates.getMonth()] +"-" + crtdates.getFullYear();
+							table_body += "<td>"+CreatedDate+"</td>";
+						}
+						var endate = new Date(data.Data[i].Finishdatetime);
+						if(endate=="Invalid Date")
+						{
+							var ENDdDate="";
+						}
+						else
+						{
+							var ENDdDate = ("0" + endate.getDate()).slice(-2)+  "-" + monthNames[endate.getMonth()] +"-" + endate.getFullYear();
+						}
+						
+						
+						var sysdate = new Date(data.Data[i].modify_date);
+						if(sysdate=="Invalid Date")
+						{
+							var SysModifiedDate="";
+						}
+						else
+						{
+							var SysModifiedDate = ("0" + sysdate.getDate()).slice(-2)+  "-" + monthNames[sysdate.getMonth()] +"-" + sysdate.getFullYear();
+						}
+						
+						table_body += "<td>"+ENDdDate+"</td>";	
+						table_body += "<td>"+Math.round(data.Data[i].ResourceMaxUnits)+"</td>";	
+						
+						table_body += "<td>"+CreatedDatadate+"</td>";	
+						table_body += "<td>"+modificationDatadate+"</td>";	
+						table_body += "<td>"+data.Data[i].InternalID+"</td>";	
+						table_body += "<td>"+SysModifiedDate+"</td>";
+						table_body += "</tr>";	
+					}
+				}
+				table_body=table_body+"</tbody>";
+				table_element=table_header+table_body;
+				$('#tblAllcationDetails').html(table_element);
+				$("#DataFromPpm span").text(DataFromPPmCnt);
+				AllocationDatatableBind();
+				$("#yrsNote").show();     
+			},
+			error: function (data)
+			{
+				//alert("project allocation failed");
+				$('#Project_Allocation_Service_error').text("Server Error");
+			}
+		});
+	}
+	
+	/*if(dataPpmPhr=="DataFromPhr") // we are not using GetResourceAllocationPHR services
+	{
+		$('#DataFromPpm').removeClass('green-btn').addClass('blue-btn');
+		$('#DataFromPhr').removeClass('blue-btn').addClass('green-btn');
+		var GetResourceAllocationPHRUrl =GetResourceAllocationPHRUri(); //api/Timesheet/GetResourceAllocationPHR";
+		$.ajax
+		({
+			url:GetResourceAllocationPHRUrl,
+			method: "POST",
+			async:false,
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			data: 
+				{
+					"EmployeeEmailID":empResEmailId
+				},
+			success: function (data) 
+			{
+				var table_header="";
+				table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+				table_header=table_header +"<th style='width:7%'>Employee<br>ID</th>";
+				table_header=table_header +"<th style='width:10%'>Project Code</th>";
+				table_header=table_header +"<th style='width:30%'>Project Name</th>";
+				table_header=table_header +"<th style='width:9%'>Start Date</th>";
+				table_header=table_header +"<th style='width:9%'>Finish Date</th>";	
+				table_header=table_header +"<th style='width:7%'>Allocation<br> %</th>";	
+				table_header=table_header +"<th style='width:9%'>Created Date</th>";
+				table_header=table_header +"<th style='width:9%'>Modified Date</th>";	
+				table_header=table_header +"<th style='width:6%'>Internal<br>ID</th>";
+				table_header=table_header +"</tr></thead>";
+				
+				//footer menu	
+				table_header=table_header +"<tfoot><tr>";
+				table_header=table_header +"<th >Employee ID</th>";
+				table_header=table_header +"<th >Project Code</th>";
+				table_header=table_header +"<th >Project Name</th>";
+				table_header=table_header +"<th >Start Date</th>";
+				table_header=table_header +"<th>Finish Date</th>";	
+				table_header=table_header +"<th >Allocation %</th>";
+				table_header=table_header +"<th >Created Date</th>";
+				table_header=table_header +"<th>Modified Date</th>";	
+				table_header=table_header +"<th >Internal ID</th>";
+				table_header=table_header +"</tr></tfoot>";
+
+				table_element="";
+				var  table_body="";
+				table_body="<tbody>"; 
+				var DataFromPhrCnt=0;
+				if(data.Data.length == 0)
+				{
+					$("#yrsNote").hide();
+				}
+				else
+				{
+					var status = "";
+					for (var i = 0; i < data.Data.length; i++) 
+					{		
+						DataFromPhrCnt++;
+						var AlldatesCreates = data.Data[i].CreatedOn;
+						//if(AlldatesCreates=="")
+						var CreatedDatadate="";
+						if(AlldatesCreates=="0"|| AlldatesCreates == "undefined" || AlldatesCreates=="")
+						{
+							CreatedDatadate="";
+						}
+						else if (AlldatesCreates.match(/^-?\d+$/)) 
+						{
+							var da=( AlldatesCreates.match(/.{1,4}/g) );
+							var yr =da[0];
+							var mothDate = da[1];
+							var MD=( mothDate.match(/.{1,2}/g) );
+							var months = MD[0];
+							var Dates = MD[1];
+							var creationDates = new Date(yr+"/"+months+"/"+Dates);
+							CreatedDatadate = ("0" + creationDates.getDate()).slice(-2)+  "-" + monthNames[creationDates.getMonth()] +"-" + creationDates.getFullYear();
+						}
+						else
+						{
+							var Cre_NO_Date = new Date(AlldatesCreates);
+							CreatedDatadate = ("0" + Cre_NO_Date.getDate()).slice(-2)+  "-" + monthNames[Cre_NO_Date.getMonth()] +"-" + Cre_NO_Date.getFullYear();
+						}
+						var AlldatesModified = data.Data[i].LastMod;
+						var modificationDatadate="";
+						if(AlldatesModified==0 || AlldatesModified == "undefined")
+						{
+							 modificationDatadate ="";
+						}
+						else if(AlldatesModified.match(/^-?\d+$/))
+						{
+							var da1=( AlldatesModified.match(/.{1,4}/g) );
+							var yr1 =da1[0];
+							var mothDate1 = da1[1];
+							var MD1=( mothDate1.match(/.{1,2}/g) );
+							var months1 = MD1[0];
+							var Dates1 = MD1[1];
+							var ModDates = new Date(yr1+"/"+months1+"/"+Dates1);
+							modificationDatadate = ("0" + ModDates.getDate()).slice(-2)+  "-" + monthNames[ModDates.getMonth()] +"-" + ModDates.getFullYear();
+						}
+						else
+						{
+							var MD_NO_Date = new Date(AlldatesModified);
+							modificationDatadate = ("0" + MD_NO_Date.getDate()).slice(-2)+  "-" + monthNames[MD_NO_Date.getMonth()] +"-" + MD_NO_Date.getFullYear();
+						}
+						table_body += "<tr>";	
+						table_body += "<td style='text-align: left !important; '>"+data.Data[i].EmployeeID+"</td>";
+						table_body += "<td>"+data.Data[i].AllocatedProjectCode+"</td>";
+						table_body += "<td>"+data.Data[i].ProjectName+"</td>";
+						var crtdates = new Date(data.Data[i].Startdatetime);
+						if(crtdates=="Invalid Date")
+						{
+						var CreatedDate="";
+						}
+						else
+						{
+							var CreatedDate = ("0" + crtdates.getDate()).slice(-2)+  "-" + monthNames[crtdates.getMonth()] +"-" + crtdates.getFullYear();
+						}
+						table_body += "<td>"+CreatedDate+"</td>";
+						
+						var endate = new Date(data.Data[i].Finishdatetime);
+						if(endate=="Invalid Date")
+						{
+							var ENDdDate = "";
+						}
+						else
+						{
+							var ENDdDate = ("0" + endate.getDate()).slice(-2)+  "-" + monthNames[endate.getMonth()] +"-" + endate.getFullYear();
+						}
+						
+						table_body += "<td>"+ENDdDate+"</td>";	
+						table_body += "<td>"+Math.round(data.Data[i].RessourceMaxUnits)+"</td>";	
+						table_body += "<td>"+CreatedDatadate+"</td>";	
+						table_body += "<td>"+modificationDatadate+"</td>";	
+						table_body += "<td>"+data.Data[i].InternalID+"</td>";
+						//table_body += "<td><span  title=''  data-toggle='tooltip' data-placement='left' data-original-title='TS OPEN INFORMATION'><i class='fa fa-info-circle' aria-hidden='true' style='cursor: pointer;'></i></span></td>"
+						table_body += "</tr>";	
+					}
+				}
+				table_body=table_body+"/<tbody>";
+				table_element=table_header+table_body;
+				$('#tblAllcationDetails').html(table_element);
+				$("#DataFromPhr span").text(DataFromPhrCnt);
+				AllocationDatatableBind();
+				$("#yrsNote").show();
+					var GetAllocationDetailsUrl =GetResourceAllocationUri();// "api/Timesheet/GetResourceAllocation";
+				$.ajax
+				({
+					url:GetAllocationDetailsUrl,
+					method: "POST",
+					async:false,
+					headers: { "Accept": "application/json; odata=verbose" },
+					datatype:"json",
+					data: 
+						{
+							"ResourceUID":empResUid
+						},
+					success: function (data) 
+					{
+						$("#DataFromPpm span").text(data.Data.length);
+					},
+					error: function (data)
+					{
+						$('#Project_Allocation_Service_error').text("Server Error");
+					}
+				});
+			},
+			error: function (data)
+			{
+				$('#Project_Allocation_Service_error').text("Server Error");
+				//$('#loading-image').hide();
+			}
+		});
+	}*/
+}
+
+
+function getExceptionalid(empResUid) //Exceptional Project Allocation (5)
+{
+	//$('#loading-image').show();
+	$('#Exception_Project_Allocation_Service_error').text("");
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	cleardataExceptionalProjectsDetails();
+	var siteUrlsData =  siteUrlsDatas();
+	$.ajax
+	({
+		url: siteUrlsData + "/_api/web/lists/getbytitle('BconeExceptionalProjects')/items?$filter=EmployeeGUID eq '" + empResUid + "'&$Top=1000000",
+		method: "GET",
+		async:false,
+		headers: { "Accept": "application/json; odata=verbose" },
+		success: function (data)
+		{
+			var result = data.d.results;
+			var table_header="";
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th style='width:14%'>Resouce Name</th>";
+			table_header=table_header +"<th style='width:50%'>Project Name</th>";
+			
+			table_header=table_header +"<th style='width:8%'>Start Date</th>";
+			table_header=table_header +"<th style='width:8%'>Finish Date</th>";
+			table_header=table_header +"<th style='width:8%'>Is Active</th>";				
+			table_header=table_header +"<th style='width:12%'>Approver</th>";	
+			
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th >Resouce Name</th>";
+			table_header=table_header +"<th >project Name</th>";
+			
+			table_header=table_header +"<th >Start Date</th>";
+			table_header=table_header +"<th>Finish Date</th>";	
+			table_header=table_header +"<th>Is Active</th>";
+			table_header=table_header +"<th>Approver</th>";
+			
+			table_header=table_header +"</tr></tfoot>";
+
+			table_element="";
+			var  table_body="";
+			table_body="<tbody>"; 
+			if(result.length == 0)
+			{
+				//alert("no data");
+			}
+			else
+			{
+				for (var j = 0; j < result.length; j++) 
+				{
+					var activStatus="";
+					var activStatusData="";
+					table_body += "<tr>";	
+					table_body += "<td>"+result[j].EmployeeName+"</td>";
+					table_body += "<td>"+result[j].ProjectName+"</td>";
+					
+					var srtdates = new Date(result[j].Startdatetime);
+					if(srtdates=="Invalid Date")
+					{
+						var StarDate = "";
+					}
+					else
+					{
+						var StarDate = ("0" + srtdates.getDate()).slice(-2)+  "-" + monthNames[srtdates.getMonth()] +"-" + srtdates.getFullYear();
+					}
+					table_body += "<td>"+StarDate+"</td>";	
+					var finsdates = new Date(result[j].Finishdatetime);
+					if(finsdates=="Invalid Date")
+					{
+							var finishDate = "";
+					}
+					else
+					{
+							var finishDate = ("0" + finsdates.getDate()).slice(-2)+  "-" + monthNames[finsdates.getMonth()] +"-" + finsdates.getFullYear();
+					}
+					table_body += "<td>"+finishDate+"</td>";
+					activStatus =result[j].IsActive;
+					activStatusData = (activStatus.toString() == "false") ? "No":"Yes";
+					table_body += "<td>"+activStatusData+"</td>";
+					table_body += "<td>"+result[j].Approver+"</td>";
+					table_body += "</tr>";	
+				}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			$('#tblExceptionalProjectsDetails').html(table_element);
+			ExceptionProjAllocationDatatableBind();
+		},
+		error: function (data)
+		{
+			//alert("Exceptional Projects allocation failed");
+			//$('#loading-image').hide();
+			$('#Exception_Project_Allocation_Service_error').text("Server Error");
+		}
+	});
+}
+
+
+function GetExceptionSummary()    //exception Summary (9)
+{
+	//$('#loading-image').show();
+	$('#Expense_Summary_Service_error').text("");
+	clearExpenseDetails();
+	var siteUrlsData =  siteUrlsDatas();
+	$.ajax
+	({
+		url: siteUrlsData + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items?$filter=EmployeeId eq '"+empResUid+"'&$Top=1000000",
+		type: "GET",
+		async: false,
+		headers: {	"accept": "application/json;odata=verbose"},
+		success: function (data)
+		{
+			var ExcBtnAllrecordsCtn=0;
+			var ExcBtnOpenCtn=0;
+			var ExcBtnSubmittedCtn=0;
+			var ExcBtnApprovedCtn=0;
+			var ExcBtnRejectedCtn=0;
+			var ExcBtnReimbursCtn=0;
+			ExceptionSummaryData = data.d.results;
+			ExceptionSumDetails('ExcBtnAllrecords');
+			$('#ExcBtnAllrecords span').text(ExceptionSummaryData.length);
+			for(var s=0;s<ExceptionSummaryData.length;s++)
+			{
+				var opensts =ExceptionSummaryData[s].ReportStatus;
+				if(opensts=="Approved" || opensts=="Manager Approved" || opensts=="Approver 2 Approved" || opensts=="Approver 1 Approved")
+				{
+					ExcBtnApprovedCtn++;
+				}
+				if(opensts=="Rejected" || opensts=="Manager Rejected" || opensts=="Approver 2 Rejected"  || opensts== "Approver 1 Rejected" )
+				{
+					ExcBtnRejectedCtn++;
+				}
+				if(opensts=="Open")
+				{
+					ExcBtnOpenCtn++;
+				}
+				if(opensts=="Submitted")
+				{
+					ExcBtnSubmittedCtn++;
+				}
+				if(opensts=="Reimbursed")
+				{
+					ExcBtnReimbursCtn++;
+				}
+			}
+			$('#ExcBtnOpen span').text(ExcBtnOpenCtn);
+			$('#ExcBtnSubmitted span').text(ExcBtnSubmittedCtn);
+			$('#ExcBtnApproved span').text(ExcBtnApprovedCtn);
+			$('#ExcBtnRejected span').text(ExcBtnRejectedCtn);
+			$('#ExcBtnReimbursed span').text(ExcBtnReimbursCtn);
+			////$('.loader').hide();
+			////$('#loading-image').show();
+		},
+		error: function (data)
+		{
+			//$('#loading-image').hide();
+			$('#Expense_Summary_Service_error').text("Server Error");
+		}
+	});
+}
+function ExceptionSumDetails(ExeData)
+{
+		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		clearExpenseDetails();
+		if(ExeData=='ExcBtnAllrecords')
+		{		
+			clearExpenseDetails();
+			$('#ExcBtnAllrecords').removeClass('blue-btn').addClass('green-btn');
+			$('#ExcBtnOpen').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnSubmitted').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnApproved').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnRejected').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnReimbursed').removeClass('green-btn').addClass('blue-btn');
+			var table_header="";
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th class='' style='width:5%'>ER No</th>";
+			table_header=table_header +"<th class='Title_TD' style='width:12%'>Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' style='width:11%'>Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' style='width:7%'>ER Amount</th>";
+			table_header=table_header +"<th class='Date_Created_TD' style='width:7%'>Date Created</th>";	
+			table_header=table_header +"<th class='Pending_With_TD' style='width:7%'>Pending With</th>";	
+			table_header=table_header +"<th class='Status_TD' style='width:7%'>Status</th>";	
+			table_header=table_header +"</tr></thead>";
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th class='' >ER No</th>";
+			table_header=table_header +"<th class='Title_TD' >Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' >Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' >ER Amount</th>";
+			table_header=table_header +"<th class='Date_Created_TD' >Date Created</th>";	
+			table_header=table_header +"<th class='Pending_With_TD' >Pending With</th>";
+			table_header=table_header +"<th class='Status_TD' >Status</th>";
+			table_header=table_header +"</tr></tfoot>";
+			
+			table_element="";
+			var  table_body="";
+			table_body="<tbody>"; 
+			for (var f = 0; f < ExceptionSummaryData.length; f++) 
+			{
+				var FinalExpenseValuedata =  ExceptionSummaryData[f].FinalExpenseValue;
+				if (FinalExpenseValuedata==null)
+				{
+					FinalExpenseValuedata="";
+				}
+				var ReportCreatedDate = new Date(ExceptionSummaryData[f].ReportCreatedDate);
+				if(ReportCreatedDate=="Invalid Date")
+				{
+						var ReportCreatedDates = "";
+				}
+				else
+				{
+						var ReportCreatedDates = ("0" + ReportCreatedDate.getDate()).slice(-2)+  "-" + monthNames[ReportCreatedDate.getMonth()] +"-" + ReportCreatedDate.getFullYear();
+				}
+				table_body += "<tr>";	
+				table_body += "<td class='ER_NoTD'>"+ExceptionSummaryData[f].ExpenseTrackingNo+"</td>";
+				table_body += "<td class='Title_TD'><a  href='javascript:void(0)'   onclick='opendetails("+ExceptionSummaryData[f].ID+")'>"+ExceptionSummaryData[f].Title+"</a></td>";
+				table_body += "<td class='Project_Name_TD'>"+ExceptionSummaryData[f].Projectname+"</td>";
+				table_body += "<td style='text-align:right;' class='ER_Amount_TD'>"+FinalExpenseValuedata+"<span style='color: #ababab;margin-left: 6px;'>"+ ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>";
+				table_body += "<td class='Date_Created_TD'>"+ReportCreatedDates+"</td>";
+				table_body += "<td  class='Pending_With_TD'>"+ExceptionSummaryData[f].PendingWithName+"</td>";
+				table_body += "<td class='Status_TD'>"+ExceptionSummaryData[f].ReportStatus+"</td>";
+				table_body += "</tr>";	
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			$('#tblExpenseDetails').html(table_element);
+			ExpenseDetailsDatatableBind();
+		}
+		if(ExeData=='ExcBtnOpen')
+		{	
+			clearExpenseDetails();
+			$('#ExcBtnOpen').removeClass('blue-btn').addClass('green-btn');
+			$('#ExcBtnAllrecords').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnSubmitted').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnApproved').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnRejected').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnReimbursed').removeClass('green-btn').addClass('blue-btn');
+			var table_header="";		
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th class='' style='width:5%'>ER No</th>";
+			table_header=table_header +"<th class='Title_TD' style='width:12%'>Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' style='width:11%'>Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' style='width:7%'>ER Amount</th>";
+			table_header=table_header +"<th class='Date_Created_TD' style='width:7%'>Date Created</th>";	
+			table_header=table_header +"</tr></thead>";
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th class='' >ER No</th>";
+			table_header=table_header +"<th class='Title_TD' >Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' >Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' >ER Amount</th>";
+			table_header=table_header +"<th class='Date_Created_TD' >Date Created</th>";	
+			table_header=table_header +"</tr></tfoot>";
+			
+			table_element="";
+			var  table_body="";
+			table_body="<tbody>"; 
+			for (var f = 0; f < ExceptionSummaryData.length; f++) 
+			{
+				
+				var opensts =ExceptionSummaryData[f].ReportStatus;
+				
+				if(opensts=="Open")
+				{
+			
+					var FinalExpenseValuedata =  ExceptionSummaryData[f].FinalExpenseValue;
+					
+					if (FinalExpenseValuedata==null)
+					{
+						FinalExpenseValuedata="";
+					}
+					var ReportCreatedDate = new Date(ExceptionSummaryData[f].ReportCreatedDate);
+					if(ReportCreatedDate=="Invalid Date")
+					{
+							var ReportCreatedDates = "";
+					}
+					else
+					{
+							var ReportCreatedDates = ("0" + ReportCreatedDate.getDate()).slice(-2)+  "-" + monthNames[ReportCreatedDate.getMonth()] +"-" + ReportCreatedDate.getFullYear();
+					}
+					table_body += "<tr>";	
+					table_body += "<td class='ER_NoTD'>"+ExceptionSummaryData[f].ExpenseTrackingNo+"</td>";
+					table_body += "<td class='Title_TD'><a   href='javascript:void(0)'   onclick='opendetails("+ExceptionSummaryData[f].ID+")'>"+ExceptionSummaryData[f].Title+"</a></td>";
+					table_body += "<td class='Project_Name_TD'>"+ExceptionSummaryData[f].Projectname+"</td>";
+					table_body += "<td style='text-align:right;' class='ER_Amount_TD'>"+FinalExpenseValuedata+"<span style='color: #ababab;margin-left: 6px;'>"+ ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>";
+					table_body += "<td class='Date_Created_TD'>"+ReportCreatedDates+"</td>";
+					table_body += "</tr>";
+					}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			$('#tblExpenseDetails').html(table_element);
+			ExpenseDetailsDatatableBind();
+		}
+		if(ExeData=='ExcBtnSubmitted')
+		{	
+			clearExpenseDetails();
+			$('#ExcBtnSubmitted').removeClass('blue-btn').addClass('green-btn');
+			$('#ExcBtnAllrecords').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnOpen').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnApproved').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnRejected').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnReimbursed').removeClass('green-btn').addClass('blue-btn');
+			var table_header="";		
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th class='ER_NoTD' style='width:5%'>ER No</th>";
+			table_header=table_header +"<th class='Title_TD' style='width:12%'>Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' style='width:11%'>Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' style='width:7%'>ER Amount</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Date Submitted</th>";	
+			table_header=table_header +"<th class='' style='width:7%'>Approver 1</th>";	 
+			table_header=table_header +"<th class='' style='width:7%'>Approver 2</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Finance</th>";				
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th class='ER_NoTD' >ER No</th>";
+			table_header=table_header +"<th class='Title_TD' >Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' >Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' >ER Amount</th>";
+			table_header=table_header +"<th class='' >Date Submitted</th>";	
+			table_header=table_header +"<th class='' >Approver 1</th>"; 
+			table_header=table_header +"<th class='' >Approver 2</th>"; 
+			table_header=table_header +"<th class='' >Finance</th>"; 
+			table_header=table_header +"</tr></tfoot>";
+			
+			table_element="";
+			var  table_body="";
+			var ExcBtnOpenCtn=0;
+			table_body="<tbody>"; 
+			for (var f = 0; f < ExceptionSummaryData.length; f++) 
+			{
+				
+				var opensts =ExceptionSummaryData[f].ReportStatus;
+				
+				if(opensts=="Submitted")
+				{
+					var FinalExpenseValuedata =  ExceptionSummaryData[f].FinalExpenseValue;
+					if (FinalExpenseValuedata==null)
+					{
+						FinalExpenseValuedata="";
+					}
+					var ReportSubmittedDates = new Date(ExceptionSummaryData[f].ReportSubmittedDate);
+					if(ReportSubmittedDates=="Invalid Date")
+					{
+							var ReportSubmitDates = "";
+					}
+					else
+					{
+							var ReportSubmitDates = ("0" + ReportSubmittedDates.getDate()).slice(-2)+  "-" + monthNames[ReportSubmittedDates.getMonth()] +"-" + ReportSubmittedDates.getFullYear();
+					}
+					table_body += "<tr>";	
+					table_body += "<td class='ER_NoTD'>"+ExceptionSummaryData[f].ExpenseTrackingNo+"</td>";
+					table_body += "<td class='Title_TD'><a   href='javascript:void(0)'   onclick='opendetails("+ExceptionSummaryData[f].ID+")' >"+ExceptionSummaryData[f].Title+"</a></td>";
+					table_body += "<td class='Project_Name_TD'>"+ExceptionSummaryData[f].Projectname+"</td>";
+					table_body += "<td style='text-align:right;' class='ER_Amount_TD'>"+FinalExpenseValuedata+"<span style='color: #ababab;margin-left: 6px;'>"+ ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>";
+					table_body += "<td class=''>"+ReportSubmitDates+"</td>";
+					table_body += "<td  class='Pending_With_TD'>"+ExceptionSummaryData[f].Approver1Name+"</td>"; 
+					 table_body += "<td class='Status_TD'>"+ExceptionSummaryData[f].Approver2Name+"</td>"; 
+					  table_body += "<td class='Status_TD'>"+ExceptionSummaryData[f].FinanceName+"</td>"; 
+					table_body += "</tr>";
+				}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			clearExpenseDetails();
+			$('#tblExpenseDetails').html(table_element);
+			ExpenseDetailsDatatableBind();
+		}
+	
+	
+		if(ExeData=='ExcBtnApproved')
+		{	
+			clearExpenseDetails();
+			$('#ExcBtnApproved').removeClass('blue-btn').addClass('green-btn');
+			$('#ExcBtnAllrecords').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnOpen').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnSubmitted').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnRejected').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnReimbursed').removeClass('green-btn').addClass('blue-btn');
+			var table_header="";		
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th class='ER_NoTD' style='width:5%'>ER No</th>";
+			table_header=table_header +"<th class='Title_TD' style='width:12%'>Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' style='width:11%'>Project Name</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Date Submitted</th>";	
+			table_header=table_header +"<th class='' style='width:7%'>Status</th>";	 
+			table_header=table_header +"<th class='' style='width:7%'>Approved By</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Date Approved </th>";	
+			table_header=table_header +"<th class='' style='width:7%'>Pending With </th>";
+			table_header=table_header +"<th class='' style='width:7%'>ER Amount</th>";				
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th class='ER_NoTD' >ER No</th>";
+			table_header=table_header +"<th class='Title_TD' >Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' >Project Name</th>";
+			table_header=table_header +"<th class='' >Date Submitted</th>";	
+			table_header=table_header +"<th class='' >Status</th>"; 
+			table_header=table_header +"<th class='' >Approver By</th>"; 
+			table_header=table_header +"<th class='' >Date Approved</th>"; 
+			table_header=table_header +"<th class='' >Pending With</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' >ER Amount</th>";
+			table_header=table_header +"</tr></tfoot>";
+			
+			table_element="";
+			var  table_body="";
+			var ExcBtnOpenCtn=0;
+			table_body="<tbody>"; 
+			for (var f = 0; f < ExceptionSummaryData.length; f++) 
+			{
+				
+				var opensts =ExceptionSummaryData[f].ReportStatus;
+				
+				if( opensts=="Approved" || opensts=="Manager Approved" || opensts=="Approver 2 Approved" || opensts=="Approver 1 Approved")
+				{
+					var Pending_With="";
+					var approvedby="";
+					var final_status="";
+					if(ExceptionSummaryData[f].ReportStatus=="Approved")
+					{
+						Pending_With=ExceptionSummaryData[f].FinanceName;
+						final_status="Finance "+ExceptionSummaryData[f].ReportStatus;
+						approvedby=ExceptionSummaryData[f].FinanceName;
+					}
+					else if(ExceptionSummaryData[f].ReportStatus=="Approver 2 Approved")
+					{
+						Pending_With=ExceptionSummaryData[f].FinanceName;
+						final_status="Approver2 Approved";
+						approvedby=ExceptionSummaryData[f].Approver2Name;
+					}
+					else if(ExceptionSummaryData[f].ReportStatus=="Approver 1 Approved")
+					{
+						Pending_With=ExceptionSummaryData[f].PendingWithName;
+						final_status="Approver1 Approved";
+						approvedby=ExceptionSummaryData[f].Approver1Name;
+					}
+					else
+					{
+						Pending_With=ExceptionSummaryData[f].FinanceName;
+						final_status="Manager Approved";
+						approvedby=ExceptionSummaryData[f].Approver1Name;
+					}
+					
+					var FinalExpenseValuedata =  ExceptionSummaryData[f].FinalExpenseValue;
+					
+					if (FinalExpenseValuedata==null)
+					{
+						FinalExpenseValuedata="";
+					}
+					var ReportSubmittedDates = new Date(ExceptionSummaryData[f].ReportSubmittedDate);
+					if(ReportSubmittedDates=="Invalid Date")
+					{
+							var ReportSubmitDates = "";
+					}
+					else
+					{
+							var ReportSubmitDates = ("0" + ReportSubmittedDates.getDate()).slice(-2)+  "-" + monthNames[ReportSubmittedDates.getMonth()] +"-" + ReportSubmittedDates.getFullYear();
+					}
+					var ModifiedDat = new Date(ExceptionSummaryData[f].Modified)
+					if(ModifiedDat=="Invalid Date")
+					{
+							var ModifiedDatDates = "";
+					}
+					else
+					{
+							var ModifiedDatDates = ("0" + ModifiedDat.getDate()).slice(-2)+  "-" + monthNames[ModifiedDat.getMonth()] +"-" + ModifiedDat.getFullYear();
+					}
+					
+					table_body += "<tr>";	
+					table_body += "<td class='ER_NoTD'>"+ExceptionSummaryData[f].ExpenseTrackingNo+"</td>";
+					table_body += "<td class='Title_TD'><a  href='javascript:void(0)'   onclick='opendetails("+ExceptionSummaryData[f].ID+")' >"+ExceptionSummaryData[f].Title+"</a></td>";
+					table_body += "<td class='Project_Name_TD'>"+ExceptionSummaryData[f].Projectname+"</td>";
+					
+					table_body += "<td class=''>"+ReportSubmitDates+"</td>";
+					table_body += "<td  class=''>"+final_status+"</td>"; 
+					table_body += "<td class=''>"+approvedby+"</td>"; 
+					table_body += "<td class=''>"+ModifiedDatDates+"</td>"; 
+					table_body += "<td class=''>"+Pending_With+"</td>"; 
+					table_body += "<td style='text-align:right;' class='ER_Amount_TD'>"+FinalExpenseValuedata+"<span style='color: #ababab;margin-left: 6px;'>"+ ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>";
+					table_body += "</tr>";
+				}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			clearExpenseDetails();
+			$('#tblExpenseDetails').html(table_element);
+			ExpenseDetailsDatatableBind();
+		}
+	if(ExeData=='ExcBtnRejected')
+		{	
+			clearExpenseDetails();
+			$('#ExcBtnRejected').removeClass('blue-btn').addClass('green-btn');
+			$('#ExcBtnAllrecords').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnOpen').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnSubmitted').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnApproved').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnReimbursed').removeClass('green-btn').addClass('blue-btn');
+			var table_header="";		
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th class='ER_NoTD' style='width:5%'>ER No</th>";
+			table_header=table_header +"<th class='Title_TD' style='width:12%'>Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' style='width:11%'>Project Name</th>";
+			table_header=table_header +"<th class='' style='width:7%'>ER Amount</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Status</th>";	 
+			table_header=table_header +"<th class='' style='width:7%'>Rejected By</th>";	
+			table_header=table_header +"<th class='' style='width:7%'>Date Rejected</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Rejection Comment </th>";	
+							
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th class='ER_NoTD' >ER No</th>";
+			table_header=table_header +"<th class='Title_TD' >Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' >Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' >ER Amount</th>";
+			table_header=table_header +"<th class='' >Status</th>"; 
+			table_header=table_header +"<th class='' >Rejected By</th>";	
+			table_header=table_header +"<th class='' >Date Rejected</th>"; 
+			table_header=table_header +"<th class='' >Rejection Comment</th>"; 
+
+			table_header=table_header +"</tr></tfoot>";
+			
+			table_element="";
+			var  table_body="";
+			var ExcBtnOpenCtn=0;
+			table_body="<tbody>"; 
+			for (var f = 0; f < ExceptionSummaryData.length; f++) 
+			{
+				
+				var opensts =ExceptionSummaryData[f].ReportStatus;
+				
+				if(opensts=="Rejected" || opensts=="Manager Rejected" || opensts=="Approver 2 Rejected"  || opensts== "Approver 1 Rejected")
+				{
+					var FinalExpenseValuedata =  ExceptionSummaryData[f].FinalExpenseValue;
+					if (FinalExpenseValuedata==null)
+					{
+						FinalExpenseValuedata="";
+					}
+					var Pending_With="";
+					var final_status="";
+					var approved_date="";
+					if(ExceptionSummaryData[f].FinanceExpenseStatus=="Rejected")
+					{
+						Pending_With=ExceptionSummaryData[f].FinanceName;
+						final_status=ExceptionSummaryData[f].ReportStatus;
+					}
+					else if(ExceptionSummaryData[f].ReportStatus=="Approver 2 Rejected")
+					{
+						Pending_With=ExceptionSummaryData[f].PendingWithName;
+						final_status="Approver2 Reject";
+						approved_date=ExceptionSummaryData[f].Modified;
+					}
+					else if(ExceptionSummaryData[f].ReportStatus=="Approver 1 Rejected")
+					{
+						Pending_With=ExceptionSummaryData[f].PendingWithName;
+						final_status="Approver1 Reject";
+						approved_date=ExceptionSummaryData[f].FinanaceActionDate;
+					}
+					else
+					{
+						Pending_With=ExceptionSummaryData[f].PendingWithName;
+						final_status="Manager Reject";
+						approved_date=ExceptionSummaryData[f].FinanaceActionDate;
+					}
+					var ModifiedDates = new Date(ExceptionSummaryData[f].Modified);
+					if(ModifiedDates=="Invalid Date")
+					{
+							var ModifiedDatesRej = "";
+					}
+					else
+					{
+							var ModifiedDatesRej = ("0" + ModifiedDates.getDate()).slice(-2)+  "-" + monthNames[ModifiedDates.getMonth()] +"-" + ModifiedDates.getFullYear();
+					}
+					table_body += "<tr>";	
+					table_body += "<td class='ER_NoTD'>"+ExceptionSummaryData[f].ExpenseTrackingNo+"</td>";
+					table_body += "<td class='Title_TD'><a  href='javascript:void(0)'   onclick='opendetails("+ExceptionSummaryData[f].ID+")'>"+ExceptionSummaryData[f].Title+"</a></td>";
+					table_body += "<td class='Project_Name_TD'>"+ExceptionSummaryData[f].Projectname+"</td>";
+					table_body += "<td style='text-align:right;' class='ER_Amount_TD'>"+FinalExpenseValuedata+"<span style='color: #ababab;margin-left: 6px;'>"+ ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>";
+					table_body += "<td  class=''>"+final_status+"</td>"; 
+					table_body += "<td class=''>"+Pending_With+"</td>";
+					table_body += "<td class=''>"+ModifiedDatesRej+"</td>"; 
+					table_body += "<td class=''>"+ExceptionSummaryData[f].Comment+"</td>"; 
+					table_body += "</tr>";
+				}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			clearExpenseDetails();
+			$('#tblExpenseDetails').html(table_element);
+			ExpenseDetailsDatatableBind();
+		}
+		
+			if(ExeData=='ExcBtnReimbursed')
+		{	
+			clearExpenseDetails();
+			$('#ExcBtnReimbursed').removeClass('blue-btn').addClass('green-btn');
+			$('#ExcBtnAllrecords').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnOpen').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnSubmitted').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnApproved').removeClass('green-btn').addClass('blue-btn');
+			$('#ExcBtnRejected').removeClass('green-btn').addClass('blue-btn');
+			var table_header="";		
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th class='ER_NoTD' style='width:5%'>ER No</th>";
+			table_header=table_header +"<th class='Title_TD' style='width:12%'>Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' style='width:11%'>Project Name</th>";
+			table_header=table_header +"<th class='' style='width:7%'>ER Amount</th>";
+			table_header=table_header +"<th class='' style='width:7%'>Reimbursed By</th>";	 
+			table_header=table_header +"<th class='' style='width:7%'>Date Paid</th>";	
+			table_header=table_header +"<th class='' style='width:7%'>Amount Reimbursed</th>";
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th class='ER_NoTD' >ER No</th>";
+			table_header=table_header +"<th class='Title_TD' >Title</th>";
+			table_header=table_header +"<th class='Project_Name_TD' >Project Name</th>";
+			table_header=table_header +"<th class='ER_Amount_TD' >ER Amount</th>";
+			table_header=table_header +"<th class='' >Reimbursed By</th>"; 
+			table_header=table_header +"<th class='' >Date Paid</th>";	
+			table_header=table_header +"<th class='' >Amount Reimbursed</th>"; 
+			table_header=table_header +"</tr></tfoot>";
+			
+			table_element="";
+			var  table_body="";
+			var ExcBtnOpenCtn=0;
+			table_body="<tbody>"; 
+			for (var f = 0; f < ExceptionSummaryData.length; f++) 
+			{
+				
+				var opensts =ExceptionSummaryData[f].ReportStatus;
+				
+				if(opensts=="Reimbursed")
+				{
+					//ExcBtnOpenCtn++;
+					var FinalExpenseValuedata =  ExceptionSummaryData[f].FinalExpenseValue;
+					
+					if (FinalExpenseValuedata==null)
+					{
+						FinalExpenseValuedata="";
+					}
+					var finalamount = ExceptionSummaryData[f].FinalAmount;
+					if (finalamount==null)
+					{
+						finalamount="";
+					}
+					var ReimbursedDates = new Date(ExceptionSummaryData[f].ReimbursedDate);
+					if(ReimbursedDates=="Invalid Date")
+					{
+							var ReimbursedDatesPaid = "";
+					}
+					else
+					{
+							var ReimbursedDatesPaid = ("0" + ReimbursedDates.getDate()).slice(-2)+  "-" + monthNames[ReimbursedDates.getMonth()] +"-" + ReimbursedDates.getFullYear();
+					}
+					table_body += "<tr>";	
+					table_body += "<td class='ER_NoTD'>"+ExceptionSummaryData[f].ExpenseTrackingNo+"</td>";
+					table_body += "<td class='Title_TD'><a href='javascript:void(0)'   onclick='opendetails("+ExceptionSummaryData[f].ID+")' >"+ExceptionSummaryData[f].Title+"</a></td>";
+					table_body += "<td class='Project_Name_TD'>"+ExceptionSummaryData[f].Projectname+"</td>";
+					table_body += "<td style='text-align:right;' >"+FinalExpenseValuedata+"<span style='color: #ababab;margin-left: 6px;'>"+ ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>";
+					table_body += "<td  class=''>"+ExceptionSummaryData[f].FinanceName+"</td>"; 
+					table_body += "<td class=''>"+ReimbursedDatesPaid+"</td>";
+					table_body += "<td  style='text-align:right;'>"+finalamount+"<span style='color: #ababab;margin-left: 6px;'>"+ExceptionSummaryData[f].ExpenseCurrencyText +"</span></td>"; 
+					table_body += "</tr>";
+				}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			clearExpenseDetails();
+			$('#tblExpenseDetails').html(table_element);
+			ExpenseDetailsDatatableBind();
+		}
+		////$('#loading-image').hide();
+}
+
+
+
+function opendetails(trackingid)
+{
+	//setTimeout(function()
+	//{ 
+	//	$('[data-toggle="tooltip"]').tooltip();  
+	//}, 1000);
+	var siteUrlsData =siteUrlsDatas();
+	$.ajax
+	({
+		url: siteUrlsData + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items(" + trackingid + ")",
+		async: false,
+		method: "GET",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success: function (data) 
+		{
+			var advance = "0.00";
+			var Expenseitem="";
+			var curreuncyvalue="";
+			if (data.d.AmountTaken != null) 
+			{
+				advance = data.d.AmountTaken;
+				if (advance.toString().indexOf(".")) 
+				{
+				}
+				else 
+				{
+					advance = advance + ".00";
+				}
+			} 
+			var ExpenseCurrencyText="-";
+			if(data.d.ExpenseCurrencyText!=null&&data.d.ExpenseCurrencyText!="")
+			{
+				ExpenseCurrencyText=data.d.ExpenseCurrencyText;
+
+				if (ExpenseCurrencyText.indexOf("-")) 
+				{
+					var curr = ExpenseCurrencyText.split("-");
+					ExpenseCurrencyText = curr[0];
+				}
+			}
+			if(data.d.currencytext!=null&& data.d.currencytext!='')	
+			{						
+				Expenseitem = data.d.currencytext;
+				if (Expenseitem.indexOf("-"))
+				{
+					var curr = Expenseitem.split("-");
+					curreuncyvalue = curr[0];
+				}
+				else 
+				{
+				}
+			}
+			var desc="-";
+			if(data.d.Description!=null&&data.d.Description!="")
+			{
+				desc=data.d.Description;
+			}					 
+			GetExpenseDeatil(data.d.ID,ExpenseCurrencyText);
+			document.getElementById("TrackingIdBind").innerHTML=data.d.ExpenseTrackingNo;
+			document.getElementById("ProjectNameBind").innerHTML=data.d.Projectname;
+			document.getElementById("ExpenseReportNameBind").innerHTML=data.d.ExpenseReportName;
+			document.getElementById("AdvanceAmountBind").innerHTML=advance;
+			document.getElementById("AdvanceCurrency").innerHTML=curreuncyvalue;
+			document.getElementById("Expensecurrency").innerHTML=ExpenseCurrencyText;
+			document.getElementById("DescriptionBind").innerHTML= '<a data-toggle="tooltip" title="'+desc+'" style="text-decoration:none;cursor: context-menu;">'+desc+'</a>';
+		},
+		complete: function(data)
+		{
+		},
+		error: function (data)
+		{
+			failure(data);
+			alert(data.responseJSON.error.message.value);
+		}
+	});
+	$('.openDetailsMain').show();
+	//setTimeout(function()
+	//{ 
+	//	$('[data-toggle="tooltip"]').tooltip();  
+	//}, 1000);
+}
+
+function GetExpenseDeatil(id,ExpenseCurrencyText) 
+{
+	////$('.loader').show();
+	var i=1;
+	$('#innertable').dataTable().fnClearTable();
+	//var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+	$.ajax
+	({
+		/*url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+		type: "POST",
+		headers: {
+		"accept": "application/json;odata=verbose",
+		"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+		"content-Type": "application/json;odata=verbose"
+		},
+		data: JSON.stringify({
+			query: {
+				__metadata: {
+					type: "SP.CamlQuery"
+				},
+				ViewXml: query_cml
+			}
+		}),	*/	
+
+		url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + id+"'&$orderby= ExpenseDate asc&$top=100000",
+		type: "GET",
+		async: false,
+		headers: { "Accept": "application/json;odata=verbose" },
+		success: function (data) 
+		{ 				
+		if (data.d.results.length > 0)
+			{
+				$.each(data.d.results, function (key, value) 
+				{													
+					//var convert_date1=convert_date_test(value.ExpenseDate);
+					var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+					var convert_date1 = "";
+					var convert_dat = new Date(value.ExpenseDate);
+					if(convert_dat=="Invalid Date")
+					{
+						convert_date1 = "";
+					}
+					else
+					{
+						convert_date1 = ("0" + convert_dat.getDate()).slice(-2)+  "-" + monthNames[convert_dat.getMonth()] +"-" + convert_dat.getFullYear();
+					}
+					//var convert_date1=convert_date_test(value.ExpenseDate);
+					
+					
+					var Expense_item = value.ExpenceItemText;
+					var payment_type = value.PaymentTypeText;								
+					var Currency=value.ExpenceCurrencyText;								
+
+					 var my_var="";
+					 if (value.Justification==null)
+					 {
+					 var outer="outer";
+					 var count=0;
+					 if(value.FileUploadedCount!=null)
+					 {
+					 count=value.FileUploadedCount;
+					 }
+					 if(count>0)
+					 {									
+			<!-- 		 my_var="<td class='sorting_1 text-center'><a style='display: inline-block;cursor:pointer;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a></td>"; -->
+					 my_var="<td ></td>";
+					 }
+					 else
+					 {
+					 my_var="<td class='sorting_1 text-center'></td>";
+					 }								
+					 var ss = '';
+					// var ss = 'https://bristleconeonline.sharepoint.com/sites//BconeBillAttachment/' + value.BillAttachment;
+					 }
+					 else
+					 {
+					<!--  my_var="<td class='sorting_1 text-center'><a  name="+value.Justification+" data-toggle='tooltip' title="+value.Justification+" style='text-decoration:none;cursor: context-menu;'   ><i  class='fa fa-commenting' style='color:#333;font-size: 16px;'  ></i></a></td>"; -->
+					 my_var="<td ></td>";
+					 }	
+					var ExpenseNote="-";
+					if(value.ExpenseNote!=null&&value.ExpenseNote!="")
+					{
+						ExpenseNote=value.ExpenseNote;
+					}
+										 
+					var FinalExpenseValue="0.00";
+					if (value.FinalExpenseValue != null) 
+					{
+						FinalExpenseValue = value.FinalExpenseValue;
+						if (FinalExpenseValue.toString().indexOf(".")) 
+						{
+							FinalExpenseValue=parseFloat(FinalExpenseValue).toFixed(2);
+						}
+						else 
+						{
+							FinalExpenseValue = FinalExpenseValue + ".00";
+						}
+					}
+					var ExpensceAmount="0.00";
+					if (value.ExpensceAmount != null) 
+					{
+						ExpensceAmount = value.ExpensceAmount;
+						if (ExpensceAmount.toString().indexOf(".")) 
+						{
+							ExpensceAmount=parseFloat(ExpensceAmount).toFixed(2);
+						}
+						else
+						{
+							ExpensceAmount = ExpensceAmount + ".00";
+						}
+					}
+					table1.fnAddData([ 
+					my_var,
+					"<td>"+i+"</td>",
+					"<td>"+value.TaskName+"</td>",
+					"<td>"+Expense_item+"</td>",
+					'<a class="wordellipsis" data-toggle="tooltip" title="'+ExpenseNote+'" style="text-decoration:none;cursor: context-menu;">'+ExpenseNote+'</a>',
+					"<td>"+value.Status +"</td>",
+					"<td style='text-align:right;'><div style='text-align: right;'>" + FinalExpenseValue + "<span style='color: #ababab;margin-left: 6px;'>"+ ExpenseCurrencyText +"</span></div></td>",
+					"<td style='text-align:right;'><div style='text-align: right;'>" + ExpensceAmount + "<span style='color: #ababab;margin-left: 6px;'>"+ Currency +"</span></div></td>",
+					"<td>"+payment_type+"</td>",
+					"<td>"+convert_date1+"</td>",
+					"<td>"+value.BliableToClient+"</td>"  
+					]); 
+					i++;
+				});						
+				//$('.loader').hide();
+			}
+			else
+			{
+				////$('.loader').hide();
+			}
+		},
+		error: function (data)
+		{
+			alert(data.responseJSON.error.message.value);
+			failure(data);
+		}
+	});
+}
+function convert_date_test(date_to_convert){
+		 var arr_dateandtime = date_to_convert.split('T');
+		var arr_dateonly = arr_dateandtime[0].split('-');
+		var arr_timeonly = arr_dateandtime[1].split(':');
+		var Month;
+		 var converted_date;
+		switch ( parseInt(arr_dateonly[1])-1) {
+									case 0:
+									Month = "Jan";
+									break;
+									case 1:
+									Month = "Feb";
+									break;
+									case 2:
+									Month = "Mar";
+									break;
+									case 3:
+									Month = "Apr";
+									break;
+									case 4:
+									Month = "May";
+									break;
+									case 5:
+									Month = "Jun";
+									break;
+									case 6:
+									Month = "Jul";									
+									case 7:
+									Month = "Aug";
+									break;
+									case 8:
+									Month = "Sep";
+									break;
+									case 9:
+									Month = "Oct";
+									break;
+									case 10:
+									Month = "Nov";
+									break;
+									case 11:
+									Month = "Dec";
+									break;
+				}
+				converted_date=arr_dateonly[2]+"-"+Month+"-"+arr_dateonly[0];
+				return converted_date;
+		}
+function closedetails()
+{
+	$('.openDetailsMain').hide();
+}
+
+$(document).ready(function()
+{
+	table1 = $('#innertable').dataTable
+	({
+		"scrollY": "300px",
+		"scrollCollapse": false,
+		"paging": true,
+		"columnDefs": [
+			{ "width": "1%", "targets": 0 },
+			{ "width": "1%", "targets": 1 },
+			{ "width": "15%", "targets": 2 },
+			{ "width": "16%", "targets": 3 },
+			{ "width": "13%", "targets": 4 },
+			{ "width": "9%", "targets": 5 },
+			{ "width": "9%", "targets": 6 },
+			{ "width": "9.50%", "targets": 7 },
+			{ "width": "9%", "targets": 8 },
+			{ "width": "10.50%", "targets": 9 },
+			{ "width": "4%", "targets": 10 },
+			]
+	});
+});
+	
+
+
+
+function GetExceptionAndDelegation(typeDataExpDel)   //exceptional approval and delegation (6)
+{
+	$('#loading-image').show();
+	$('#Exceptional_Approval_Delegation_Allocation_Service_error').text("");
+	cleardataExceptionDelegation();
+	$('#DlegeExcepId').show();
+	var table_header="";
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var siteUrlsData = siteUrlsDatas();
+	if(typeDataExpDel=='Exception')
+	{	
+		cleardataExceptionDelegation();
+		var query_cml="";
+		$('#DelegationId').removeClass('green-btn').addClass('blue-btn');
+		$('#ExceptionId').removeClass('blue-btn').addClass('green-btn');
+		table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+		table_header=table_header +"<th style='width:20%'>Project Name</th>";
+		table_header=table_header +"<th style='width:12%'>Employee Name</th>";
+		table_header=table_header +"<th style='width:11%'>Approver 1 Name</th>";
+		table_header=table_header +"<th style='width:11%'>Approver 2 Name</th>";
+		table_header=table_header +"<th style='width:10%'>Applicable for <br>Expense</th>";	
+		table_header=table_header +"<th style='width:10%'>Applicable for <br>TimeSheet</th>";	
+		table_header=table_header +"<th style='width:7%'>Is Active</th>";	
+		<!-- table_header=table_header +"<th style='width:10%'>Delegation Status</th>"; -->
+		<!-- table_header=table_header +"<th style='width:10%'>Delegated Date</th>"; -->
+		table_header=table_header +"</tr></thead>";
+		
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th >Project Name</th>";
+		table_header=table_header +"<th >Employee Name</th>";
+		table_header=table_header +"<th >Approver 1 Name</th>";
+		table_header=table_header +"<th >Approver 2 Name</th>";
+		table_header=table_header +"<th>Applicable for Expense</th>";	
+		table_header=table_header +"<th >Applicable for Time Sheet</th>";
+		table_header=table_header +"<th >Is Active</th>";
+		<!-- table_header=table_header +"<th >Delegation Status</th>"; -->
+		<!-- table_header=table_header +"<th >Delegated Date</th>"; -->
+		table_header=table_header +"</tr></tfoot>";
+		
+		$.ajax
+		({
+			url: siteUrlsData + "/_api/web/lists/getbytitle('BconeExceptionalApprovals')/items?$filter=ActionType eq 'Exception' and (EmployeeGUID eq '"+empResUid+"' or Apr1GUID eq '"+empResUid+"' or Apr2GUID  eq '"+empResUid+"')&$Top=1000000",
+			type: "GET",
+			async: false,
+			headers: {
+						"accept": "application/json;odata=verbose"
+					},
+			success: function (data)
+			{
+				var ExceptionIdCount=0;
+				var resultData = data.d.results;
+				//console.log(resultData);
+				table_element="";
+				var  table_body="";
+				table_body="<tbody>"; 
+				for (var y = 0; y < resultData.length; y++) 
+				{
+					ExceptionIdCount++;
+					var activStatus="";
+					var activStatusData="";
+					activStatus =resultData[y].IsActive;
+					activStatusData = (activStatus.toString() == "false") ? "No":"Yes";
+					var ForExpense="";
+					var ForExpenseData="";
+					ForExpense=resultData[y].ForExpenseModule;
+					ForExpenseData = (ForExpense.toString() == "false") ? "No":"Yes";
+					var ForTimeSheet="";
+					var ForTimeSheetData="";
+					ForTimeSheet=resultData[y].ForTimeSheetModule;
+					ForTimeSheetData = (ForTimeSheet.toString() == "false") ? "No":"Yes";
+					
+					<!-- var Modifieddates = new Date(resultData[y].Modified); -->
+					<!-- if(Modifieddates=="Invalid Date") -->
+					<!-- { -->
+						<!-- var ModifieddatesDate =""; -->
+					<!-- } -->
+					<!-- else -->
+					<!-- { -->
+						<!-- var ModifieddatesDate = ("0" + Modifieddates.getDate()).slice(-2)+  "-" + monthNames[Modifieddates.getMonth()] +"-" + Modifieddates.getFullYear(); -->
+					<!-- } -->
+					
+					var DelegActiveStatus="";
+					var digStatus = resultData[y].DelegationalStatus;
+					if(digStatus=="Delegable")
+					{
+						DelegActiveStatus="No";
+					}
+					if(digStatus=="Delegated")
+					{
+						DelegActiveStatus="Yes";
+					}
+					table_body += "<tr>";	
+					table_body += "<td>"+resultData[y].ProjectName+"</td>";
+					table_body += "<td>"+resultData[y].EmployeeName+"</td>";
+					table_body += "<td>"+resultData[y].Apr1EmployeeName+"</td>";
+					var app2name = resultData[y].Apr2EmployeeName;
+					if(app2name =="--Select--")
+					{
+					 var approve2name="";
+					}
+					else
+					{
+						var approve2name = app2name;
+					}
+					
+					table_body += "<td>"+approve2name+"</td>";
+					table_body += "<td>"+ForExpenseData+"</td>";
+					table_body += "<td>"+ForTimeSheetData+"</td>";
+					table_body += "<td>"+activStatusData+"</td>";
+					<!-- table_body += "<td>"+DelegActiveStatus+"</td>"; -->
+					<!-- table_body += "<td>"+ModifieddatesDate+"</td>"; -->
+					table_body += "</tr>";	
+				}
+				table_body=table_body+"</tbody>";
+				table_element=table_header+table_body;
+				$('#tblExceptionDelegation').html(table_element);
+				ExceptionDelegationDatatableBind();
+				$('#ExceptionId span').text(ExceptionIdCount);
+				var query_cmlDELGATION="";
+					$.ajax
+					({
+					url: siteUrlsData + "/_api/web/lists/getbytitle('BconeExceptionalApprovals')/items?$filter=ActionType eq 'Delegation' and (EmployeeGUID eq '"+empResUid+"' or Apr1GUID eq '"+empResUid+"')&$Top=1000000",
+						method: "GET",
+						async: false,
+						headers: {
+						"accept": "application/json;odata=verbose"
+						},
+						success: function (data)
+						{
+							var resultData = data.d.results;
+							$('#DelegationId span').text(resultData.length);
+						},
+						error: function (data)
+						{
+							$('#Exceptional_Approval_Delegation_Allocation_Service_error').text("Server Error");
+						}
+					});
+					$('#loading-image').hide();
+			},
+			error: function (data)
+			{
+				//alert("exception no data failed");
+				//$('#loading-image').hide();
+				$('#Exceptional_Approval_Delegation_Allocation_Service_error').text("Server Error");
+			}
+		});
+	}
+	if(typeDataExpDel=='Delegation')
+	{
+		cleardataExceptionDelegation();
+		var query_cml="";
+		$('#ExceptionId').removeClass('green-btn').addClass('blue-btn');
+		$('#DelegationId').removeClass('blue-btn').addClass('green-btn');
+		var table_header="";
+		table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+		table_header=table_header +"<th style='width:30%'>Project Name</th>";
+		table_header=table_header +"<th style='width:12%'>Delegation From</th>";
+		table_header=table_header +"<th style='width:12%'>Delegation To</th>";
+		table_header=table_header +"<th style='width:8%'>Applicable For<br> Expense</th>";
+		table_header=table_header +"<th style='width:8%'>Applicable For<br> Timesheet</th>";	
+		table_header=table_header +"<th style='width:9%'>Start Date</th>";	
+		table_header=table_header +"<th style='width:9%'>Finish Date</th>";
+		table_header=table_header +"<th style='width:7%'>Is Active</th>";	
+		table_header=table_header +"<th style='width:8%'>Delegation Status</th>";
+		table_header=table_header +"<th style='width:9%'>Delegated Date</th>";
+		table_header=table_header +"</tr></thead>";
+		
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th >Project Name</th>";
+		table_header=table_header +"<th >Delegation From</th>";
+		table_header=table_header +"<th >Delegation To</th>";
+		table_header=table_header +"<th >Applicable For Expense</th>";
+		table_header=table_header +"<th>Applicable For Timesheet</th>";	
+		table_header=table_header +"<th >Start Date</th>";
+		table_header=table_header +"<th >Finish Date</th>";
+		table_header=table_header +"<th>Is Active</th>";	
+		
+		table_header=table_header +"<th >Delegation Status</th>";
+		table_header=table_header +"<th >Delegated Date</th>";
+		table_header=table_header +"</tr></tfoot>";
+		$.ajax
+		({
+			url: siteUrlsData + "/_api/web/lists/getbytitle('BconeExceptionalApprovals')/items?$filter=ActionType eq 'Delegation' and (EmployeeGUID eq '"+empResUid+"' or Apr1GUID eq '"+empResUid+"')&$Top=1000000",
+			method: "GET",
+			async: false,
+			headers: {
+			"accept": "application/json;odata=verbose"
+			//"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+			//"content-Type": "application/json;odata=verbose"
+			},
+			success: function (data)
+			{
+				var delegationCount=0;
+				var resultData = data.d.results;
+				console.log(resultData);
+				var resultData = data.d.results;
+				console.log(resultData);
+				table_element="";
+				var  table_body="";
+				table_body="<tbody>"; 
+				for (var k = 0; k < resultData.length; k++) 
+				{	
+					delegationCount++;
+					var activeStatus ="";
+					var activeStatusdata="";
+					var ForExpense="";
+					var ForExpenseData="";
+					ForExpense=resultData[k].ForExpenseModule;
+					ForExpenseData = (ForExpense.toString() == "false") ? "No":"Yes";
+					var ForTimeSheetData="";
+					var ForTimeSheet="";
+					ForTimeSheet=resultData[k].ForTimeSheetModule;
+					ForTimeSheetData = (ForTimeSheet.toString() == "false") ? "No":"Yes";
+					
+					
+					var Modifieddates = new Date(resultData[k].Modified);
+					if(Modifieddates=="Invalid Date")
+					{
+						var ModifieddatesDate ="";
+					}
+					else
+					{
+						var ModifieddatesDate = ("0" + Modifieddates.getDate()).slice(-2)+  "-" + monthNames[Modifieddates.getMonth()] +"-" + Modifieddates.getFullYear();
+					}
+					
+					var DelegActiveStatus="";
+					var digStatus = resultData[k].DelegationalStatus;
+					if(digStatus=="Delegable")
+					{
+						DelegActiveStatus="No";
+					}
+					if(digStatus=="Delegated")
+					{
+						DelegActiveStatus="Yes";
+					}
+					var srtsdates = new Date(resultData[k].Startdatetime);
+					if(srtsdates=="Invalid Date")
+					{
+						var StarsDate = "";
+					}
+					else
+					{
+						var StarsDate = ("0" + srtsdates.getDate()).slice(-2)+  "-" + monthNames[srtsdates.getMonth()] +"-" + srtsdates.getFullYear();
+					}
+					var finshdates = new Date(resultData[k].Finishdatetime);
+					if(finshdates=="Invalid Date")
+					{
+						var finishedDate ="";
+					}
+					else
+					{
+						var finishedDate = ("0" + finshdates.getDate()).slice(-2)+  "-" + monthNames[finshdates.getMonth()] +"-" + finshdates.getFullYear();
+					}
+					
+					activeStatus =resultData[k].IsActive;
+					activeStatusdata = (activeStatus.toString() == "false") ? "No":"Yes";
+					table_body += "<tr>";	
+					table_body += "<td>"+resultData[k].ProjectName+"</td>";
+					table_body += "<td>"+resultData[k].EmployeeName+"</td>";
+					table_body += "<td>"+resultData[k].Apr1EmployeeName+"</td>";
+					table_body += "<td>"+ForExpenseData+"</td>";
+					table_body += "<td>"+ForTimeSheetData+"</td>";
+					table_body += "<td>"+StarsDate+"</td>";	
+					table_body += "<td>"+finishedDate+"</td>";
+					
+					table_body += "<td>"+activeStatusdata+"</td>";
+					table_body += "<td>"+DelegActiveStatus+"</td>";
+					table_body += "<td>"+ModifieddatesDate+"</td>";
+					table_body += "</tr>";	
+					
+					
+					table_body += "</tr>";	
+				}
+				table_body=table_body+"</tbody>";
+				table_element=table_header+table_body;
+				//tblExceptionDelegation
+				$('#tblExceptionDelegation').html(table_element);
+				$('#DelegationId span').text(delegationCount);
+				ExceptionDelegationDatatableBind();
+				
+				$('#loading-image').hide();
+				
+			},
+			error: function (data)
+			{
+				//alert("Delegation no data failed");
+				$('#Exceptional_Approval_Delegation_Allocation_Service_error').text("Server Error");
+				//$('#loading-image').hide();
+			}
+		});
+	}
+}
+
+
+var timesheetProxySubmitter="";
+function getProxy(empResUid,empNam,btnId) //Proxy details (7)
+{
+	//$('#loading-image').show();
+	$('#Proxy_Details_Service_error').text("");
+	resultExpenseSubmit="";
+	ExpenseApprovalDAta="";
+	timesheetApprovlProxy="";
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	if(btnId="Expense_Submit_id")
+	{
+		$('#Expense_Submit_id').removeClass('blue-btn').addClass('green-btn');
+		$('#Expense_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		cleardataProxy();
+		var siteUrlsData = siteUrlsDatas();
+		var Admin_GetProxyDataofResourceUrls = Admin_GetProxyDataofResourceUrl();
+		var Admin_GetProxyEntryResourceListUrls = Admin_GetProxyEntryResourceListUrl();
+		$.ajax //Expense submit
+		({
+			url: siteUrlsData + "/_api/web/lists/getbytitle('BconeProxyMaster')/items?$filter=EmpGuid eq '"+empResUid+"' or ProxyGuid eq '"+empResUid+"'&$Top=1000000",
+			method: "GET",
+			async:false,
+			headers: { "Accept": "application/json; odata=verbose" },
+			success: function (data)
+			{
+				//var result = data.d.results;
+				resultExpenseSubmit = data.d.results;
+				$("#Expense_Submit_id span").text(resultExpenseSubmit.length);
+				proxyDetailsAccorden('Expense_Submit_id');
+			
+			},
+			error: function (data)
+			{
+				//alert("proxy failed");
+				$('#Proxy_Details_Service_error').text("Server Error");
+				//$('#loading-image').hide();
+			}
+		});
+		$.ajax  //timesheet approval
+		({
+			url:Admin_GetProxyDataofResourceUrls,
+			method: "POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			data:{"Proxy_ResourceUID":empResUid},
+			success: function (data) 
+			{
+				$("#TimeSheet_Approval_id span").text("0");
+				for(var y=0;y<data.ProxyResources.length;y++)
+				{
+					$("#TimeSheet_Approval_id span").text(data.ProxyResources[y].Resources.length);
+				}
+				timesheetApprovlProxy = data.ProxyResources;
+			},
+			error: function (data)
+			{
+				//openOKpopup(popUpMessage.ServerError,false);
+				$('#Proxy_Details_Service_error').text("Server Error");
+				$('#loading-image').hide();
+			}
+		});
+		$.ajax  //timesheet Proxy Submission
+		({
+			url:Admin_GetProxyEntryResourceListUrls,
+			method: "POST",
+			headers: { "Accept": "application/json; odata=verbose" },
+			datatype:"json",
+			data:{"ResourceUID":empResUid},
+			success: function (data) 
+			{
+				$("#TimeSheet_Prxoy_submittor span").text("0");
+				for(var y=0;y<data.Resources.length;y++)
+				{
+					$("#TimeSheet_Prxoy_submittor span").text(data.Resources.length);
+				}
+				timesheetProxySubmitter = data.Resources;
+			},
+			error: function (data)
+			{
+				//openOKpopup(popUpMessage.ServerError,false);
+				$('#Proxy_Details_Service_error').text("Server Error");
+				$('#loading-image').hide();
+			}
+		});
+		$.ajax //expense approval
+		({
+			url: siteUrlsData + "/_api/web/lists/getbytitle('BconeProxyApprover')/items?$filter=(EmpGuid eq '"+empResUid+"' or ProxyGuid eq '"+empResUid+"')&$Top=1000000",
+			method: "GET",
+			async: false,
+			headers: {
+						"accept": "application/json;odata=verbose"
+					},
+			success: function (data)
+			{
+				ExpenseApprovalDAta  = data.d.results;
+				$("#Expense_Approval_id span").text(ExpenseApprovalDAta.length);
+			},
+			error: function (data)
+			{
+				//openOKpopup(popUpMessage.ServerError,false);
+				$('#Proxy_Details_Service_error').text("Server Error");
+				$('#loading-image').hide();
+			}
+		});
+	}
+}
+
+function proxyDetailsAccorden(onlickid)
+{
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	if(onlickid=="Expense_Submit_id")
+	{
+		cleardataProxy();
+		$('#Expense_Submit_id').removeClass('blue-btn').addClass('green-btn');
+		$('#Expense_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Prxoy_submittor').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		var table_header="";
+		table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+		table_header=table_header +"<th style='width:20%'>Proxy Employee Name</th>";
+		table_header=table_header +"<th style='width:20%'>Original Employee Name</th>";
+		table_header=table_header +"<th style='width:5%'>Is Active</th>";	
+		table_header=table_header +"<th style='width:10%'>Till Date</th>";		
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th > proxy Employee Namer</th>";
+		table_header=table_header +"<th >Original Employee Namer</th>";
+		table_header=table_header +"<th>Is Active</th>";
+		table_header=table_header +"<th >Till Date</th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";
+		var  table_body="";
+		table_body="<tbody>"; 
+		if(resultExpenseSubmit.length == 0)
+		{
+			//alert("no data");
+		}
+		else
+		{
+			for (var e = 0;e< resultExpenseSubmit.length; e++) 
+			{
+				var activStatus="";
+				var activStatusData="";
+				table_body += "<tr>";	
+				table_body += "<td>"+resultExpenseSubmit[e].ProxyName+"</td>";
+				table_body += "<td>"+resultExpenseSubmit[e].EmpName+"</td>";
+				
+				activStatus =resultExpenseSubmit[e].IsActive;
+				activStatusData = (activStatus.toString() == "false") ? "No":"Yes";
+				table_body += "<td>"+activStatusData+"</td>";
+				var tillsdates = new Date(resultExpenseSubmit[e].ProxyTillDate);
+				if (tillsdates=="Invalid Date" )
+				{
+					var tilledDate ="";
+				}
+				else
+				{
+					var tilledDate = ("0" + tillsdates.getDate()).slice(-2)+  "-" + monthNames[tillsdates.getMonth()] +"-" + tillsdates.getFullYear();
+				}
+				table_body += "<td>"+tilledDate+"</td>";
+				
+				
+				table_body += "</tr>";	
+			}
+		}
+		table_body=table_body+"</tbody>";
+		table_element=table_header+table_body;
+		$('#tblProxy').html(table_element);
+		ProxyDatatableBind();
+				
+	}
+	if(onlickid=="Expense_Approval_id")
+	{
+		cleardataProxy();
+		$('#Expense_Approval_id').removeClass('blue-btn').addClass('green-btn');
+		$('#Expense_Submit_id').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Prxoy_submittor').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		var table_header="";
+		table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+		table_header=table_header +"<th style='width:20%'>Proxy Employee Name</th>";
+		table_header=table_header +"<th style='width:20%'>Original Employee Name</th>";
+		table_header=table_header +"<th style='width:5%'>Is Active</th>";
+		table_header=table_header +"<th style='width:10%'>Modified Date</th>";				
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th > proxy Employee Namer</th>";
+		table_header=table_header +"<th >Original Employee Namer</th>";
+		table_header=table_header +"<th >Is Active</th>";
+		table_header=table_header +"<th>Modified Date</th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";
+		var  table_body="";
+		table_body="<tbody>"; 
+		if(ExpenseApprovalDAta.length == 0)
+		{
+			//alert("no data");
+		}
+		else
+		{
+			for (var h = 0;h< ExpenseApprovalDAta.length; h++) 
+			{
+				var activStatus="";
+				var activStatusData="";
+				table_body += "<tr>";	
+				table_body += "<td>"+ExpenseApprovalDAta[h].ProxyName+"</td>";
+				table_body += "<td>"+ExpenseApprovalDAta[h].EmpName+"</td>";
+				
+				activStatus =ExpenseApprovalDAta[h].IsActive;
+				activStatusData = (activStatus.toString() == "false") ? "No":"Yes";
+				
+				table_body += "<td>"+activStatusData+"</td>";
+				var Modified_Das = new Date(ExpenseApprovalDAta[h].Modified);
+				if (Modified_Das=="Invalid Date" )
+				{
+					var Modified_Datss ="";
+				}
+				else
+				{
+					var Modified_Datss = ("0" + Modified_Das.getDate()).slice(-2)+  "-" + monthNames[Modified_Das.getMonth()] +"-" + Modified_Das.getFullYear();
+				}
+				table_body += "<td>"+Modified_Datss+"</td>";
+				
+				table_body += "</tr>";	
+			}
+		}
+		table_body=table_body+"</tbody>";
+		table_element=table_header+table_body;
+		$('#tblProxy').html(table_element);
+		ProxyDatatableBind();
+	}
+	
+	if(onlickid=="TimeSheet_Approval_id")
+	{
+		cleardataProxy();
+		$('#TimeSheet_Approval_id').removeClass('blue-btn').addClass('green-btn');
+		$('#Expense_Submit_id').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Prxoy_submittor').removeClass('green-btn').addClass('blue-btn');
+		$('#Expense_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		
+		var table_header="";
+		table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+		table_header=table_header +"<th style='width:20%'>Proxy Employee Name</th>";
+		table_header=table_header +"<th style='width:20%'>Original Employee Name</th>";
+		table_header=table_header +"<th style='width:5%'>Is Active</th>";
+		table_header=table_header +"<th style='width:10%'>Modified Date</th>";				
+		table_header=table_header +"</tr></thead>";
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th > proxy Employee Namer</th>";
+		table_header=table_header +"<th >Original Employee Namer</th>";
+		table_header=table_header +"<th >Is Active</th>";
+		table_header=table_header +"<th>Modified Date</th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";
+		var  table_body="";
+		table_body="<tbody>"; 
+		if(timesheetApprovlProxy.length == 0)
+		{
+			//alert("no data");
+		}
+		else
+		{
+			for (var b = 0;b< timesheetApprovlProxy[0].Resources.length; b++) 
+			{
+				var activStatus="";
+				var activStatusData="";
+				table_body += "<tr>";	
+				table_body += "<td>"+timesheetApprovlProxy[0].Resources[b].Proxy_Approval_Res_Name+"</td>";
+				table_body += "<td>"+timesheetApprovlProxy[0].Resources[b].Approval_Res_Name+"</td>";
+				table_body += "<td>"+timesheetApprovlProxy[0].Resources[b].Active+"</td>";
+				var Modified_Da = new Date(timesheetApprovlProxy[0].Resources[b].Modified_Date);
+				if (Modified_Da=="Invalid Date" )
+				{
+					var Modified_Dats ="";
+				}
+				else
+				{
+					var Modified_Dats = ("0" + Modified_Da.getDate()).slice(-2)+  "-" + monthNames[Modified_Da.getMonth()] +"-" + Modified_Da.getFullYear();
+				}
+				table_body += "<td>"+Modified_Dats+"</td>";
+				
+				table_body += "</tr>";	
+			}
+		}
+		table_body=table_body+"</tbody>";
+		table_element=table_header+table_body;
+		$('#tblProxy').html(table_element);
+		ProxyDatatableBind();
+	}
+	
+	if(onlickid=="TimeSheet_Prxoy_submittor")
+	{
+		cleardataProxy();
+		$('#Expense_Submit_id').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Prxoy_submittor').removeClass('blue-btn').addClass('green-btn');
+		$('#Expense_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		$('#TimeSheet_Approval_id').removeClass('green-btn').addClass('blue-btn');
+		var	table_header="";
+		table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+		table_header=table_header +"<th style='width:18%'>Proxy Submitter Name</th>";
+		table_header=table_header +"<th style='width:18%'>Original Submitter Name</th>";
+		table_header=table_header +"<th style='width:20%'>Project Name</th>";
+		table_header=table_header +"<th style='width:17%'>Period</th>";
+		table_header=table_header +"<th style='width:10%'>Is Active</th>";
+		table_header=table_header +"</tr></thead>";	
+		//footer menu	
+		table_header=table_header +"<tfoot><tr>";
+		table_header=table_header +"<th>Proxy Submitter Name</th>";
+		table_header=table_header +"<th>Original Submitter Name</th>";
+		table_header=table_header +"<th>Project Name</th>";
+		table_header=table_header +"<th>Period</th>";
+		table_header=table_header +"<th>Is Active</th>";
+		table_header=table_header +"</tr></tfoot>";
+		table_element="";	
+		var  table_body="";
+		table_body="<tbody>"; 			
+		if(timesheetProxySubmitter.length == 0)
+		{
+		}
+		else
+		{
+			for(i=0;i<timesheetProxySubmitter.length;i++)
+			{
+				table_body+="<td>"+timesheetProxySubmitter[i].Proxy_Res_Name+"</td>";
+				table_body+="<td>"+timesheetProxySubmitter[i].Res_Name+"</td>";
+				table_body+="<td>"+timesheetProxySubmitter[i].ProjectName+"</td>";
+					var datFomat = timesheetProxySubmitter[i].PeriodDisplayName;
+					//PeriodDisplayName format like  "WK(05-07-2017-05-13-2017)"; 
+					if(datFomat==""||datFomat==undefined)
+					{
+						var FinaldataFormat="";
+						
+					}
+					else
+					{
+						var datFomatStartPreFix = datFomat.slice(0,3);
+						
+						var datFomatStart =datFomat.slice(3,13);
+						var dateStartdate = new Date(datFomatStart);
+						var datFomatEnd = datFomat.slice(14,24);
+						var dateEnddate = new Date(datFomatEnd);
+						var datFomatStartSaFix = datFomat.slice(24,25);
+						var Starts_Dates = ("0" + dateStartdate.getDate()).slice(-2)+  "-" + monthNames[dateStartdate.getMonth()] +"-" + dateStartdate.getFullYear();
+						var Ends_Dates = ("0" + dateEnddate.getDate()).slice(-2)+  "-" + monthNames[dateEnddate.getMonth()] +"-" + dateEnddate.getFullYear();
+							
+						var FinaldataFormat=datFomatStartPreFix+Starts_Dates+" "+Ends_Dates+datFomatStartSaFix;
+					}
+				table_body+="<td>"+FinaldataFormat+"</td>";
+				table_body+="<td>"+timesheetProxySubmitter[i].Active+"</td>";
+				table_body+="</tr>";
+			}
+		}
+		table_body=table_body+"</tbody>";
+		table_element=table_header+table_body;
+		$('#tblProxy').html(table_element);
+		ProxyDatatableBind();
+	}
+}
+
+function getProjectDetailsRes(empResUid)   //project Details (3)
+{
+	//$('#loading-image').show();
+	$('#Project_Details_Service_error').text("");
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	cleardataProjectDetails();
+	var  GetResourceProjectsDataURLs = GetResourceProjectsDataURLRH();
+	$.ajax
+	({
+		url: GetResourceProjectsDataURLs,//api/Timesheet/GetResourceProjectsData",
+		method: "POST",
+		async:false,
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:{	
+				"ResourceUID":empResUid
+			},
+		success: function (data)
+		{
+			
+			var table_header="";
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th style='width:14%'>Project Code</th>";
+			table_header=table_header +"<th style='width:37%'>Project Name</th>";
+			table_header=table_header +"<th style='width:20%'>Project Owner Name</th>";
+			table_header=table_header +"<th style='width:20%'>Client Partner</th>";
+			table_header=table_header +"<th style='width:13%'>Role</th>";						
+			table_header=table_header +"<th style='width:12%'>Status</th>";						
+			table_header=table_header +"<th style='width:12%'>Close Date</th>";						
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th >Project Code</th>";		
+			table_header=table_header +"<th >Project Name</th>";	
+			table_header=table_header +"<th >Project Owner Name</th>";
+			table_header=table_header +"<th>Client Partner</th>";	
+			table_header=table_header +"<th>Role</th>";
+			table_header=table_header +"<th>Status</th>";
+			table_header=table_header +"<th>Close Date</th>";
+			table_header=table_header +"</tr></tfoot>";
+
+			table_element="";
+			var  table_body="";
+			table_body="<tbody>"; 
+			
+			var projectNameCount=0;
+			ArrProjDetails=[];
+			if(data.ProjectData.length == 0)
+			{
+				//alert("no data");
+			}
+			else
+			{
+				for (var t = 0;t< data.ProjectData.length; t++) 
+				{
+					table_body += "<tr>";	
+					table_body += "<td style='text-align: left !important; '>"+data.ProjectData[t].ProjectCode+"</td>";
+					table_body += "<td>"+data.ProjectData[t].ProjectName+"</td>";
+					table_body += "<td>"+data.ProjectData[t].ProjectOwnerName+"</td>";
+					table_body += "<td>"+data.ProjectData[t].ClientPartner+"</td>";
+					table_body += "<td>"+data.ProjectData[t].Role+"</td>";
+					
+					var ProStus = data.ProjectData[t].ProjectStatus;
+					if(ProStus=="")
+					{
+						table_body += "<td></td>";
+					}
+					else if(ProStus=="Closed")
+					{
+						table_body += "<td><span class='red-btn' style='border-radius: 5px;'>Closed</span></td>";
+					}
+					else
+					{
+						table_body += "<td>"+data.ProjectData[t].ProjectStatus+"</td>";
+					}
+					
+					//table_body += "<td>"+data.ProjectData[t].ProjectStatus+"</td>";
+					
+					var closreDate = new Date(data.ProjectData[t].Date);
+					var closedDate ="";
+					if(closreDate=="" || closreDate=="Invalid Date" || closreDate==null)
+					{
+						closedDate ="";
+					}
+					else
+					{
+						closedDate = ("0" + closreDate.getDate()).slice(-2) + "-" + monthNames[closreDate.getMonth()] + "-" + closreDate.getFullYear();
+					
+					}
+					
+					
+					table_body += "<td>"+closedDate+"</td>";
+					table_body += "</tr>";	
+					ArrProjDetails.push(data.ProjectData[t].ProjectName);
+				}
+				//projectNameCount = ArrProjDetails.filter((x, i, a) => a.indexOf(x) == i)
+				var n = {},r=[];
+				for(var i = 0; i < ArrProjDetails.length; i++) 
+				{
+					if (!n[ArrProjDetails[i]]) 
+					{
+						n[ArrProjDetails[i]] = true; 
+						r.push(ArrProjDetails[i]); 
+					}
+				}
+				$("#ProjNamCntId span").text(r.length);
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			$('#tblProjectDetailsData').html(table_element);
+			ProjectDetailsDatatableBind();
+		},
+		error: function (data)
+		{
+			$('#Project_Details_Service_error').text("Server Error");
+			//$('#loading-image').hide();
+		}
+	});
+}
+
+
+function goToTimesheetEntryPage()
+{
+	var periodValueDatas = $('#periodNameDataId :selected').val();	
+	var PerId =periodValueDatas.split("##")[0];
+	var StDat =periodValueDatas.split("##")[1];
+	var EnDat =periodValueDatas.split("##")[2];	
+	var isRefresh = "";
+	var  siteUrlsData = siteUrlsDatas();
+	if($("#isRefresh").is(':checked'))
+		{
+			isRefresh = "&isRefresh=1";
+		}
+	var newLink = siteUrlsData +"/SitePages/TimesheetEntryPageAdmin.aspx?PeriodUID="+PerId+"&Start="+StDat+"&End="+EnDat+"&TimesheetUID=&ProjectUID=&ResourceUID="+empResUid+isRefresh; 
+	window.open(newLink);
+ }
+
+function ShoWTaskAsigDetail()
+{
+	var PeriodDatavalues =$('#periodNameDataId :selected').val();
+	var t1 =PeriodDatavalues.split("##")[0];
+	var TAfirstDays =PeriodDatavalues.split("##")[1];
+	var TAlastDays =PeriodDatavalues.split("##")[2];
+	getTaskAsignmentsDat(empResUid,TAfirstDays,TAlastDays);
+}
+ 
+ 
+function getTaskAsignmentsDat(empResUid,TAfirstDays,TAlastDays)  //Task Assignment (4)
+{
+	//$('#loading-image').show();
+	$('#TaskBtwnAndIDDates').show();
+	$('#Task_Assignment_Service_error').text("");
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	clearTaskAssignment();
+	var GetResourceProjectsTasksDataURLs =GetResourceProjectsTasksDataURLRH();
+	$.ajax
+	({
+		
+		url:GetResourceProjectsTasksDataURLs, //api/timesheet/GetResourceProjectsTasksData",
+		method: "POST",
+		async:false,
+		headers: { "Accept": "application/json; odata=verbose" },
+		data:{
+				"ResourceUID":empResUid,
+				"Start":TAfirstDays,
+				"End":TAlastDays
+			},
+		success: function (data)
+		{
+			var table_header="";
+			table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+			table_header=table_header +"<th style='width:35%'>Project Name</th>";
+			table_header=table_header +"<th style='width:23%'>Task Name</th>";
+			table_header=table_header +"<th style='width:10%'>Start Date</th>";
+			table_header=table_header +"<th style='width:10%'>Finish Date</th>";
+			table_header=table_header +"<th style='width:10%'>Billing Type</th>";
+			table_header=table_header +"<th style='width:7%'>Work</th>";				
+			table_header=table_header +"</tr></thead>";
+			
+			//footer menu	
+			table_header=table_header +"<tfoot><tr>";
+			table_header=table_header +"<th >Project Name</th>";		
+			table_header=table_header +"<th >Task Name</th>";	
+			table_header=table_header +"<th >Start Date</th>";
+			table_header=table_header +"<th>Finish Date</th>";	
+			table_header=table_header +"<th>Billing Type</th>";
+			table_header=table_header +"<th>Work</th>";
+			table_header=table_header +"</tr></tfoot>";
+
+			table_element="";
+			var  table_body="";
+			table_body="<tbody>"; 
+			if(data.Projects.length == 0)
+			{
+				//alert("no data");
+			}
+			else
+			{
+				for (var w=0;w<data.Projects.length;w++) 
+				{
+						
+					var ProjNam =data.Projects[w].ProjectName;
+					for(var a=0;a<data.Projects[w].Tasks.length;a++)
+					{
+						table_body += "<tr>";
+						table_body += "<td style='text-align: left !important; '>"+ProjNam+"</td>";
+						table_body += "<td>"+data.Projects[w].Tasks[a].TaskName+"</td>";
+						
+						var TaSKdates =new Date(data.Projects[w].Tasks[a].TaskStartDate);
+						if (TaSKdates=="Invalid Date" || TaSKdates=="" )
+						{
+						var TaSKdatesData ="";
+						}
+						else
+						{
+						var TaSKdatesData = ("0" + TaSKdates.getDate()).slice(-2)+  "-" + monthNames[TaSKdates.getMonth()] +"-" + TaSKdates.getFullYear();
+						}
+						
+						table_body += "<td>"+TaSKdatesData+"</td>";
+						
+						var TaSkFinishDat=new Date(data.Projects[w].Tasks[a].TaskFinishDate);
+						if (TaSkFinishDat=="Invalid Date" || TaSkFinishDat=="" )
+						{
+							var TaSKfishData = "";
+						}
+						else
+						{
+							var TaSKfishData = ("0" + TaSkFinishDat.getDate()).slice(-2)+  "-" + monthNames[TaSkFinishDat.getMonth()] +"-" + TaSkFinishDat.getFullYear();
+						}
+						table_body += "<td>"+TaSKfishData+"</td>";
+						table_body += "<td>"+data.Projects[w].Tasks[a].BillingType+"</td>";
+						table_body += "<td>"+data.Projects[w].Tasks[a].ActualWork+"</td>";
+						table_body += "</tr>";
+					}
+				}
+			}
+			table_body=table_body+"</tbody>";
+			table_element=table_header+table_body;
+			$('#tblTaskAssignment').html(table_element);
+			TaskAssignmentDatatableBind();
+		},
+		error: function (data)
+		{
+			//alert(data);
+			$('#Task_Assignment_Service_error').text("Server Error");
+			//$('#loading-image').hide();
+		}
+	});
+}
+
+function getOData() // get oDATA in task assignment
+ {		
+	var periodValues = $("#periodNameDataId :selected").val().toString().split('##');	
+	var userValues = $("#resourceName :selected").val().toString().split('##');
+	var inputObj = new Object();
+	inputObj.ResourceUID = userValues[0];
+	inputObj.Start = periodValues[1];
+	inputObj.End = periodValues[2];
+	inputObj.ProjectUID = "NA";
+	var getodataURL = Admin_GetResourceOData();
+	callService(getodataURL,inputObj,getOData_success,"");
+ }
+ 
+ function getOData_success(data){
+	window.open(data.Data)
+ }
+function clearExpenseDetails()
+{
+	$('#jqxgrid_containerExpenseDetails').empty();
+	$("#jqxgrid_containerExpenseDetails").append("<table id='tblExpenseDetails' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+
+}
+function ExpenseDetailsDatatableBind()
+{
+	$('#tblExpenseDetails').DataTable
+	( {
+		"order": [],
+	} );
+	var tblExpenseDetailsDataDetailsDatafulls = $('#tblExpenseDetails').DataTable();
+	$('#tblExpenseDetails tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	tblExpenseDetailsDataDetailsDatafulls.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblExpenseDetails tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	
+}
+function clearTaskAssignment()
+{
+	$('#jqxgrid_containerTaskAssignment').empty();
+	$("#jqxgrid_containerTaskAssignment").append("<table id='tblTaskAssignment' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+
+}
+function cleardataAllocation() 
+{
+	$('#jqxgrid_container1').empty();
+	$("#jqxgrid_container1").append("<table id='tblAllcationDetails' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+
+function cleardataExceptionalProjectsDetails() 
+{
+	$('#jqxgrid_containerExceptionalProjectsDetails').empty();
+	$("#jqxgrid_containerExceptionalProjectsDetails").append("<table id='tblExceptionalProjectsDetails' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+
+
+function cleardataProxy() 
+{
+	$('#jqxgrid_containerProxy').empty();
+	$("#jqxgrid_containerProxy").append("<table id='tblProxy' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+
+function cleardataTSSummary() 
+{
+	$('#jqxgrid_containerProxyTSSummary').empty();
+	$("#jqxgrid_containerProxyTSSummary").append("<table id='periodsummary' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+
+function tblTSSummaryDatatableBind()
+{
+	var table = $('#periodsummary').DataTable({
+		"JQueryUI":true,
+		"autoWidth": false,
+		"bAutoWidth": true,
+		
+		fixedColumns: true,
+		//"bSortable": false,
+		//"bSort" : false,
+		"aaSorting": [],
+		"columnDefs": [{
+		"defaultContent": "-",		
+		"targets": "_all",
+		
+		}
+		]//,
+	  //"columns": [ { "width": "25px" }, { "width": "25px" } ],
+	  
+	});
+
+	$('#periodsummary tfoot th').each( function ()
+	{
+		var title = $('#periodsummary thead th').eq( $(this).index() ).text();
+		
+		//console.log(title)
+		if(title != "Action")
+		{
+			$(this).html( '<input type="text" placeholder="Search" />' );
+		}
+		else
+		{	/*this.style.width = "150px";
+			$(this).parents('tfoot').siblings('thead').children().find('th').eq(this.cellIndex).css("width","150px");*/
+		}
+	} );
+
+	
+	// Apply the search
+	table.columns().every( function () {
+		var that = this;
+		
+		$( 'input', this.footer() ).on( 'keyup change', function () {			
+			if ( that.search() !== this.value) {
+				that
+					.search( this.value )
+					.columns.adjust().draw();
+					//.draw();			
+			}
+		} );
+	});
+
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblTSSummary tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	$("th.clsAction").css("width","70px");
+	$("th.clsTotalHours").css("width","100px");
+	$("th.submittedDate").css("width","140px");
+	$("th.clsStatus").css("width","205px");
+	$("th.clsApproveRejct").css("width","140px");
+	$("th.clsUserComment").css("width","200px");
+	$("th.pendingBy").css("width","150px");
+	$("th.clsApprovedBy").css("width","150px");
+	$("th.clsApproveName").css("width","150px");
+	$("th.clsApproveComment").css("width","200px");
+	$("th.projectName").css("width","300px");
+}
+function returnDateFormat(input)
+{
+	var sptdate = String(input).split("-");
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var myMonth = sptdate[1];
+	var myDay = sptdate[0];
+	var myYear = sptdate[2];
+	return (months.indexOf(myMonth)+1).toString() + "-"+  myDay +"-"+myYear;
+}
+function cleardataProjectDetails() 
+{
+	$('#jqxgrid_containerProjectDetailsData').empty();
+	$("#jqxgrid_containerProjectDetailsData").append("<table id='tblProjectDetailsData' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+function TaskAssignmentDatatableBind()
+{
+	$('#tblTaskAssignment').DataTable
+	( {
+		"order": [],
+	} );
+	var tblProjectDetailsDataDetailsDatafulls = $('#tblTaskAssignment').DataTable();
+	$('#tblTaskAssignment tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	tblProjectDetailsDataDetailsDatafulls.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblTaskAssignment tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	
+}
+
+
+
+function ProjectDetailsDatatableBind()
+{
+	$('#tblProjectDetailsData').DataTable
+	( {
+		"order": []
+	} );
+	var tblProjectDetailsDatafulls = $('#tblProjectDetailsData').DataTable();
+	$('#tblProjectDetailsData tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	tblProjectDetailsDatafulls.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblProjectDetailsData tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	
+}
+function ProxyDatatableBind()
+{
+	$('#tblProxy').DataTable
+	( {
+		"order": []
+	} );
+	var ExpenceDataTableElementtblLongLeave = $('#tblProxy').DataTable();
+	$('#tblProxy tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	ExpenceDataTableElementtblLongLeave.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblProxy tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	
+}
+
+
+function cleardataExceptionDelegation() 
+{
+	$('#jqxgrid_containerExceptionDelegation').empty();
+	$("#jqxgrid_containerExceptionDelegation").append("<table id='tblExceptionDelegation' class='display example table table-bordered' cellspacing='0' width='100%'></table>");
+}
+
+function AllocationDatatableBind()
+{
+	$('#tblAllcationDetails').DataTable
+	( {
+		"order": []
+	} );
+	var ExpenceDataTableElementtblLongLeave = $('#tblAllcationDetails').DataTable();
+	$('#tblAllcationDetails tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	ExpenceDataTableElementtblLongLeave.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblAllcationDetails tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+	
+}
+
+function ExceptionProjAllocationDatatableBind()
+{
+	$('#tblExceptionalProjectsDetails').DataTable
+	( {
+		"order": []
+	} );
+	var DataTableExceptionalProjectsDetails = $('#tblExceptionalProjectsDetails').DataTable();
+	$('#tblExceptionalProjectsDetails tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	DataTableExceptionalProjectsDetails.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblExceptionalProjectsDetails tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+
+function ExceptionDelegationDatatableBind()
+{
+	$('#tblExceptionDelegation').DataTable
+	( {
+		"order": []
+	} );
+	var DataTableExceptionDelegation = $('#tblExceptionDelegation').DataTable();
+	$('#tblExceptionDelegation tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+			
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );
+		}
+	} );
+  
+  	DataTableExceptionDelegation.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	//if($('.dataTables_empty').text()=='No data available in table')
+	//$('#tblExceptionDelegation tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+
+
+</script>
+</body>
+</html>

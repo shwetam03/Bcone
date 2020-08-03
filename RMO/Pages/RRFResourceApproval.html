@@ -1,0 +1,1920 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>RMO</title>
+    <!--Style sheet links-->
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/jquery.mCustomScrollbar.css"> </head>
+	<link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css">
+<style>
+	.resource-Btn{position:relative; margin:10px 10px 0 0}
+	.resource-Btn ul li a {text-decoration:none; color:#fff}
+	.resource-Btn ul li{ cursor: pointer; text-align: center; display: inline-block; padding: 1px 6px 1px 6px; position: relative !important; background: #218c3d; text-decoration: none; color: #fff !important; font-size: 11px; text-transform: uppercase; margin-right: 4px; transition: all 0.2s ease-in-out; } 	
+	#action { cursor:pointer; position: relative; display:block; font-size:16px; margin-top: -9px; margin-left: 14px; } 	
+</style>
+<body>
+    <!--Div for loader-->
+    
+    <!--Div for Breadcrum with pending count-->
+    <div class="breadcrumb-new">
+        <ul>
+            <li> <a href="../default.aspx">Home</a> </li>
+            <li> <a style="text-decoration:none; color: #272727;">RESOURCE EXTENSION / EARLY RELEASE</a> </li>
+        </ul>
+        <div class="resource-ext pull-right">
+            <ul>
+                <li class="active">RESOURCE EXTENSION / EARLY RELEASE <span class="red-count" id="RequestCount"></span></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+	<!-- <div class="viewTSNote" style="padding:2px;margin-bottom:10px;margin-left: 15px;margin-right: 15px;margin-top:-10px;color: black !important;display:none;background-color: rgba(251, 185, 0, 0.80);border-radius: 0px !important;border-color: #b1a565 !important;"> <strong> <i class="fa fa-exclamation-circle"></i> </strong>NOTE: You can approve only 10 resources at time </div>  -->
+	<div class="viewTSNote" style="padding:2px;margin-bottom:10px;margin-left: 15px;margin-right: 15px;    margin-bottom: 0px;color: black !important;display:none;background-color: rgba(251, 185, 0, 0.80);border-radius: 0px !important;border-color: #b1a565 !important;"> <strong> <i class="fa fa-exclamation-circle"></i> </strong>NOTE: You can approve only 10 resources at time </div> 
+	<div class="container-fluid">
+		<div class="mid-block">		
+			<div class="mid-top" style="margin-bottom: 5px; ">
+				<div class="resource-Btn pull-right">
+            <ul>
+                 <li class="active"><a href="javascript:void(0)" id="" onclick="filterData()">Approve</a></li> 
+								<span id="SelectedItemCount">0</span> item selected
+				</ul>
+            </ul>
+        </div>
+			</div>	
+		</div>
+	</div>
+	
+    <!--Div for Jquery Datatable-->
+    <div class="contain-div">
+        <div class="clearfix"></div>
+        <table id="tblProjectApprovalData" class="display" width="100%">
+            <thead>
+                <tr>
+                    <th style="width:6%; text-align:center">Action</th>
+                    <th>Project Name</th>
+                    <th style="text-align:center; Width:9%;min-width:75px !important">Request Date</th>
+                    <th>Status</th>
+                    <th style="display:none">RmoSpoc</th>
+                    <th style="display:none">ApprovalFlag</th>
+                    <th>Pending With</th>
+                    <th>Fulfillment Type</th>
+                    <th style="display:none">PendingWith</th>
+                    <th>Requested By</th>
+                </tr>
+            </thead>
+            <tbody> </tbody>
+        </table>
+    </div>
+	<span class="loader"> </span>
+    <!-- PopUp Started-->
+    <div class="popup-bg">
+        <div class="popup">
+            <!-- Div for UnAuthorised Users-->
+            <div id="NotificationMsgDiv" style="dispaly:none;">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="InvaildUser">Approval Process</h4>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday text-center"> 
+				<!-- <span id="spnInvalidUser">Sorry,You are not an authenticate user</span> -->
+				<span id="spnInvalidUser">Sorry, no resource available to approve/reject</span> 
+				<br/><br/> 
+				<input type="button" class="btn btn-default" value="Ok" onclick="GoToHomePage()" /> </div>
+            </div>
+            <!-- Div to enter Reason for Rejection-->
+            <div id="RejectionReason" style="dispaly:none;">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="Rejection">Reason for Rejection:<span class="mandatory">*</span></h4>
+                    </div>
+                    <div class="right-pol">
+                        <div class="p-close">x</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday"> <label for="comment">Please enter Comments:</label>
+				<textarea class="form-control" rows="4" id="RejectComments" maxlength="300" onkeyup="CommentBoxValidation(this)"></textarea>
+				<span id="CommentBoxErrorMsg" style="color:red"></span><br> <span id="rowid" style="display:none"></span> <br/><br/>
+				<input type="button" class="btn btn-default" value="Ok" onclick="InsertReasonForRejection()" /> </div>
+            </div>
+            <!-- Div for Alert messages-->
+            <div id='AlertmsgDiv' style="dispaly:none">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="Approve">Approval Process</h4>
+                    </div>
+                    <div class="right-pol">
+                        <div class="p-close">x</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday">
+				<span id="AlertMsg" style="display:none"></span> </div>
+            </div>
+			 <!-- Div for Alert Multiple approve messages-->
+            <div id='Alert_Multiple' style="dispaly:none">
+                <div class="popup-head">
+                    <div class="panel-head left-pol">
+                        <h4 id="Approve">Approval Process</h4>
+                    </div>
+                    <div class="right-pol">
+                        <div class="p-close">x</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="popup-boday"> <span id="Alert_msgg" style="display:none"></span> </div>
+            </div>
+        </div>
+    </div>
+    <!-------END POP UP--------->
+    <!-- PopUp for Resource Detail View Started-->
+    <div class="Toppopup-bg">
+        <div class="popup">
+            <div class="popup-head">
+                <div class="panel-head left-pol">
+                    <h4 id="popUpHeadertext"></h4>
+                </div>
+                <div class="right-pol">
+                    <div class="p-close">x</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="popup-boday" style="width:1020px">
+                <div class="horizontalcontent">
+                    <table class="tblResourceApprovalData" width="100%" style="white-space: nowrap;">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">Employee ID</th>
+                                <th style="width:10%">Employee Name</th>
+                                <th style="width:5%;max-width:65px !important ">Allocation %</th>
+                                <th style="text-align:center; Width:10%;max-width:85px !important">Current Start Date</th>
+                                <th style="text-align:center; Width:10%;max-width:85px !important">Current End Date</th>
+                                <th style="text-align:center; Width:10%;max-width:85px !important">Revised End Date</th>
+								<th style="text-align:center; Width:10%;max-width:85px !important">SubPractice</th>
+                                <th class="comments" style="width:10%">Reason for Release</th>
+                                
+                                <th style="width:15%">Project End Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody> </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <!-------END POP UP--------->
+    <!-------JS reference files--------->
+    <script src="../SiteAssets/RMO/js/jquery-1.11.1.min.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!-- Javascript files reference for login user id function and for Urls-->
+    <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+    <script src="../SiteAssets/RMO/js/ReleaseExtensionConfig.js"></script>
+    <script src="../SiteAssets/RMO/js/SearchResource.js"></script>
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+	<!--Javasript Source file reference of this page-->
+	<!-- Export to excel js file start -->
+	<script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/jszip.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/pdfmake.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/vfs_fonts.js"></script> 
+	<script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script> 
+	<script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+	<!-- Export to excel js file end  -->
+	<!-- <script src="../SiteAssets/RMO/js/ResourceApproval.js"></script> -->
+    <script>
+
+        $(window).load(function () 
+		{
+            $(".horizontalcontent").mCustomScrollbar({
+                scrollButtons: {
+                    enable: true
+                },
+                horizontalScroll: true,
+                theme: "dark-thick",
+                autoExpandScrollbar: true,
+                advanced: {
+                    autoExpandHorizontalScroll: true
+                }
+            });
+        });
+        var useruid = ""; //To store the current login userid
+        var AllocatedProjectCode = ""; //To store the current project project code
+        var NewlyInsertedInternalID = ""; //To store the value of InternalID i.e.,after the data is finally approved and inserted,newly inserted record internal id is stored
+        var ReloadVal = 0;
+        var ResourceEmailAddressforMail = "";
+        var currentuserloginid = "";
+        var RMOSuperUserFlag = "";
+        //array variable to get month value from index value
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var CurrentLoginMAilID = _spPageContextInfo.userEmail;
+			var ApproveCount=0;
+        //Document Ready function
+        $(document).ready(function () 
+		{
+             //for finding is Current user is super user
+            currentuserloginid = _spPageContextInfo.userId;
+            var groupURL = getuserinRMOSuperUsergroup(currentuserloginid);
+            var gropVal = resultset(groupURL);
+            if (gropVal.length > 0) {
+                RMOSuperUserFlag = "1";
+            }
+
+            //function to get the current login user id,Refer config.js file for code
+            GetCurrentUserGUID("1");
+            //Current login user GUID
+            useruid = sessionStorage.CurrentUserGUID;
+            //function to check if current login user is a authenticate user to access the page
+            CheckIfValidLoginUser(useruid);
+            //To intialize the Table 
+            $('#tblProjectApprovalData').DataTable
+			({
+				"paging":   false,
+				"info":     false,
+			    "dom": 'lBfrtip',
+			    buttons: [{ extend: 'excelHtml5', exportOptions: { columns: ':visible' } }],
+
+			});
+        });
+        //To close the pop up on click of X button in popup
+        $('.p-close').on('click', function () {
+            $('.Toppopup-bg,.popup-bg').hide();
+           /* setTimeout(function () {
+               
+            }, 100);*/
+            if (ReloadVal == 1) 
+			{
+				location.reload(true);
+			}
+        });
+
+        //function to go to home page on click of ok button,if user is not a valid user are after all the approvals are done
+        function GoToHomePage() 
+		{
+            window.location.href = "../default.aspx";
+        }
+        //function to check if current login user is a authenticate user to access the page
+        function CheckIfValidLoginUser(UserUID) 
+		{
+            //Refer ReleaseExtensionConfig.js file
+            var url = GetDataFromApprovalMaster(UserUID, 1);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function (data) 
+				{
+                    var data = data.d.results;
+                    //if invalid user
+                    if (data <= 0 && RMOSuperUserFlag != "1") {
+                        $('.popup-bg').show().css('top', '25%');
+                        $('#RejectionReason').hide();
+                        $('#AlertmsgDiv').hide();
+						$('#Alert_Multiple').hide();
+                        $('#Rejection').css('display', 'none');
+                        $('#Approve').css('display', 'none');
+                        $('#NotificationMsgDiv').show();
+                        $('#InvaildUser').css('display', '');
+                        $('#spnInvalidUser').css('display', '');
+
+                    } //if valid user
+                    else {                        
+                        $('.popup-bg').hide();
+                        GetResourceApprovalItems(UserUID);
+                        //GetApprovalData(UserUID);
+                    }
+                    //if (RMOSuperUserFlag == "1") {
+                    //    $('.popup-bg').hide();
+                    //    GetResourceApprovalItems(UserUID);
+                    //}
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            //$('.loader').hide();
+        }
+        //function to get the data of Pending items of approval from the list
+        function GetApprovalData(UID) {
+            var requestCount = 0;
+            //Refer ReleaseExtensionConfig.js file
+            var url = GetDataFromApprovalMaster(UID, 2);
+
+            //$('#tblProjectApprovalData').dataTable().fnClearTable();
+            $('#tblProjectApprovalData > tbody').empty();
+            $('#tblProjectApprovalData').dataTable().fnClearTable();
+            $('#tblProjectApprovalData').dataTable().fnDestroy();
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                    //"Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var data = data.d.results;
+                    for (var i = 0; i < data.length; i++) 
+					{
+                        var id = data[i].ID;
+                        var ProjectName = data[i].ProjectName;
+                        var Status = data[i].Status;
+                        var ResorceGUID = data[i].RmoSpocGUID;
+                        var ProjectManagerGUID = data[i].RmoSpocGUID;
+                        var Flag = data[i].ApprovalFlag;
+                        var Type = data[i].ResourceType;
+                        var EarlyReleaseComment = data[i].ReasonForEarlyRelease;
+                        var PendingWith = data[i].PendingWithUserID.Title;
+                        AllocatedProjectCode = data[i].AllocatedProjectCode;
+                        //function to get the data of Pending items of approval from the list by the ID
+                        GetResourceApprovalItems(id, ProjectName, Status, Flag, Type, PendingWith);
+                        requestCount += 1;
+                    }
+                    $('#RequestCount')[0].innerText = requestCount;
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+        }
+        //function to get the data of Pending items of approval from the list by the ID
+        function GetResourceApprovalItems(UID) //(ID,pName,status,ApprovalFlag,ResourceType,PendingWithUserName)
+        {
+
+            var ReleaseDate = "";
+            var ExtensionDate = "";
+            var RequestDate = "";
+            var requestCount = 0;
+            var url = "";
+            //Refer ReleaseExtensionConfig.js file
+            if (RMOSuperUserFlag == "1") 
+			{
+               // url = GetApprovaDataBySuperUser();
+                //url = _spPageContextInfo.webAbsoluteUrl +"/_api/web/lists/getbytitle('ResourceAllocationDetails')/items?$select=*,PendingWithUserID/Title,Author/Title,Author/EMail&$expand=PendingWithUserID,Author/EMail&$filter= ApprovalStatus eq 'Pending'&$top=2000";
+				url = _spPageContextInfo.webAbsoluteUrl +"/_api/web/lists/getbytitle('ResourceAllocationDetails')/items?$select=*,PendingWithUserID/Title,Author/Title,Author/EMail&$expand=PendingWithUserID,Author/EMail&$filter=PendingWith eq '"+UID+"' and ApprovalStatus eq 'Pending'";
+            } 
+			else 
+			{
+               //  url = GetApprovalDataByID(UID); //ID);
+                 url = _spPageContextInfo.webAbsoluteUrl +"/_api/web/lists/getbytitle('ResourceAllocationDetails')/items?$select=*,PendingWithUserID/Title,Author/Title,Author/EMail&$expand=PendingWithUserID,Author/EMail&$filter=PendingWith eq '"+UID+"' and ApprovalStatus eq 'Pending'";
+            }
+           
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var data = data.d.results;
+                    //$('#tblProjectApprovalData > tbody').empty();
+
+                    $('#tblProjectApprovalData > tbody').empty();
+                    for (var i = 0; i < data.length; i++) 
+					{
+                        var ID = data[i].ID;
+						var ListItemCreatedBy = data[i].Author.EMail;
+						var RequestedBy = data[i].Author.Title;
+						
+                        var pName = data[i].ProjectName == undefined ? '' : data[i].ProjectName;
+                        var status = data[i].ApprovalStatus == undefined ? '' : data[i].ApprovalStatus;
+                        var ApprovalFlag = data[i].flag == undefined ? '' : data[i].flag;
+                        var ResourceType = data[i].ResourceType == undefined ? '' : data[i].ResourceType;
+                        var PendingWithUserName = data[i].PendingWithUserID.Title == undefined ? '' : data[i].PendingWithUserID.Title;
+                        AllocatedProjectCode = data[i].AllocatedProjectCode;
+                        var NewProjectCode = data[i].AllocatedProjectCode;
+                        var eid = data[i].EmployeeID == undefined ? '' : data[i].EmployeeID;
+                        var PrjLctn = data[i].ProjectLocation == undefined ? '' : data[i].ProjectLocation;
+                        var PrjMngr = data[i].ProjectManagerName == undefined ? '' : data[i].ProjectManagerName;
+                        var Resname = data[i].ResourceName == undefined ? '' : data[i].ResourceName;
+						if (Resname.indexOf("'") > 0)
+						{
+							Resname = Resname.replace("'","");
+						}
+                        var SDate = data[i].StartDate == undefined ? '' : data[i].StartDate;
+                        var AllocPer = data[i].AllocationPercentage == undefined ? '' : data[i].AllocationPercentage;
+                        var RMoId = data[i].RmoSpocGUID == undefined ? '' : data[i].RmoSpocGUID;
+                        var ProjectGuids = data[i].ProjectGUID == undefined ? '' : data[i].ProjectGUID;
+                        var NewEndDate = "";
+                        if (ResourceType == "Resource Early Release") {
+                            NewEndDate = data[i].ReleaseDate;
+                        }
+                        else if (ResourceType == "Resource Extension") {
+                            NewEndDate = data[i].ExtensionDate;
+                        }
+                        //"+eid+","+PrjLctn+","+PrjMngr+","+Resname+","+SDate+","+AllocPer+","+RMoId+","+NewEndDate+"
+                        ReleaseDate = data[i].Created;
+                        ReleaseDate = ReleaseDate.split('T')[0];
+                        ReleaseDate = ReleaseDate.split('-');
+                        var CurMonth = parseInt(ReleaseDate[1] - 1);
+                        ReleaseDate = ReleaseDate[2] + " " + months[CurMonth] + " " + ReleaseDate[0];
+                        RequestDate = ReleaseDate;
+                        var PendingwithDesg = (data[i].PendingWithDesig == undefined ? '' : data[i].PendingWithDesig);
+                        var RMOID = data[i].RmoSpocGUID;
+                        var ResId = data[i].ID;
+						var Feature_Aloocation_flg = data[i].FeatureAllocationFlag;
+						var PendingFlag = data[i].flag;
+						var ResourceTypeData = data[i].ResourceType;
+                        var AllRequiredValues = ResId + ";" + eid + ";" + PrjLctn.trim() + ";" + PrjMngr.trim() + ";" + Resname.trim() + ";" + SDate.trim() + ";" + AllocPer.trim() + ";" + RMoId + ";" + NewEndDate + ";" + ProjectGuids + ";" + pName + ";" + NewProjectCode + ";" + Feature_Aloocation_flg +";" + PendingFlag +";"+ResourceTypeData+";"+ListItemCreatedBy;
+                        requestCount += 1;
+                        //Binding the row data to tblProjectApprovalData table
+                        var row = "<tr id=" + ID + "><td><input style='display:inline-block;' class='checkbox' type='checkbox' name='check[]' id='ApproveAll"+i+"' value=\""+AllRequiredValues+"\" onclick='unchecksingle()' /><div id='action'><i class='fa fa-info-circle' aria-hidden='true'></i><div class='action-view'><div class='tooltip-1' id='" + AllRequiredValues + "' onclick='ApproveRelease(this)'><span class='glyphicon glyphicon-ok-sign' aria-hidden='true'></span><div class='tooltiptext-1'>Approve</div></div><div class='tooltip-1' onclick='RejectRelease(this)'><span class='glyphicon glyphicon-remove-sign' aria-hidden='true''></span><div class='tooltiptext-1' >Reject</div></div><div class='tooltip-1' id='" + ID + "' onclick='GetRequestData(this)'><span class='glyphicon glyphicon-user' aria-hidden='true'></span><div class='tooltiptext-1' style='width:120px'>View Resources</div></div></div></div></td><td>" + pName + "</td><td style='text-align:center'>" + RequestDate + "</td><td>" + status + "</td><td style='display:none'>" + RMOID + "</td><td style='display:none'>" + ApprovalFlag + "</td><td>" + PendingWithUserName + "</td><td>" + ResourceType + "</td><td style='display:none'>" + PendingwithDesg + "</td><td>"+RequestedBy+"</td></tr>";
+                        $('#tblProjectApprovalData > tbody').append(row);
+                    }
+                    $('#RequestCount')[0].innerText = requestCount;
+                },
+                error: function (error) {
+                   alert(JSON.stringify(error));
+                }
+            });
+            //$('.loader').hide();
+        }
+
+	function filterData()
+	{
+		var childCheckboxes = $('#tblProjectApprovalData tbody tr td').find('input[type=checkbox]');
+		var  no_checked1 = childCheckboxes.filter(':checked').length;
+		var source = $("#tblProjectApprovalData").DataTable();
+		var tempDataAllowS = new Array();	
+		$("input[type=checkbox]", source.rows().nodes()).each(function ()
+		{
+			
+			var tuisre = $(this).is(":checked");
+			if (tuisre)
+			{
+				var tempDataAllow = new Object();
+				tempDataAllow.Timesheet_UID = $(this).closest("tr").find("input[id^=ApproveAll]").val();
+				tempDataAllowS.push(tempDataAllow);
+			}
+		});
+		var AllowDataJson = JSON.stringify(tempDataAllowS);
+		var CountCheckboxCount = tempDataAllowS.length;
+		if(tempDataAllowS.length==0)
+		{
+			//$('#Alert_Multiple').show();
+			alert("Please select atleast one resource for approval");
+			return false;
+		}
+		else if(tempDataAllowS.length>0)
+		{
+			var ConfrimMsg="Are yor sure for approve";
+			if (confirm(ConfrimMsg)) 
+			{
+				$('.loader').show();
+				setTimeout(function() 
+				{				
+					for(var y=0;y<tempDataAllowS.length;y++)
+					{
+						BulkApproval(tempDataAllowS[y].Timesheet_UID,CountCheckboxCount);
+					}
+					$('.loader').hide();
+				}, 400);
+			}
+			
+		}
+		
+	}
+	
+	function BulkApproval(rowVal,Select_Length)
+	{
+		//$('.loader').show();
+		var CurrentLoginMAilID = _spPageContextInfo.userEmail;
+		//var ALLDataBinded = rowVal.id.split(';');
+		var ALLDataBinded = rowVal.split(';');
+		var MainItemID = (ALLDataBinded[0] == undefined ? '' : ALLDataBinded[0]);
+		var eid = (ALLDataBinded[1] == undefined ? '' : ALLDataBinded[1]);
+		var PrjLctn = (ALLDataBinded[2] == undefined ? '' : ALLDataBinded[2]);
+		var PrjMngr = (ALLDataBinded[3] == undefined ? '' : ALLDataBinded[3]);
+		var Resname = (ALLDataBinded[4] == undefined ? '' : ALLDataBinded[4]);
+		var SDate = (ALLDataBinded[5] == undefined ? '' : ALLDataBinded[5]);
+		var AllocPer = (ALLDataBinded[6] == undefined ? '' : ALLDataBinded[6]);
+		var RMoId = (ALLDataBinded[7] == undefined ? '' : ALLDataBinded[7]);
+		var NewEndDate = (ALLDataBinded[8] == undefined ? '' : ALLDataBinded[8]);
+		var projectuid = (ALLDataBinded[9] == undefined ? '' : ALLDataBinded[9]);
+		var ProjectName = (ALLDataBinded[10] == undefined ? '' : ALLDataBinded[10]);
+		var ProjectNewCode = (ALLDataBinded[11] == undefined ? '' : ALLDataBinded[11]);
+		var Feature_flag = (ALLDataBinded[12] == undefined ? '' : ALLDataBinded[12]);
+		var ApprovalFlag = (ALLDataBinded[13] == undefined ? '' : ALLDataBinded[13]);
+		var ResType = (ALLDataBinded[14] == undefined ? '' : ALLDataBinded[14]);
+		
+
+		var ListItemCreatedBy_For_MultipleSelect = (ALLDataBinded[15] == undefined ? '' : ALLDataBinded[15]);
+		
+		var PendingWith = "";
+		var flag = "";
+		var ApprovalStatus = "";
+		var PendingID = 0;
+		var SuccessMsg = "";
+		var ConfrimMsg = "";
+		var CurDate = new Date();
+		var ProjectWiseFlag = "";
+		var PendingWithDesig = "";
+		//Current project GUID
+		//For Resource Early Release
+		if (ResType == "Resource Early Release") 
+		{
+			if (ApprovalFlag == 1) 
+			{
+				//PendingWith = RMOId;
+				PendingWith = RMoId;
+				//var SpID = GetUserIDbyGuid(RMOId);
+				var SpID = GetUserIDbyGuid(RMoId);
+				if (SpID != "") {
+					SpID = SpID.split(';')[0] == undefined ? '' : SpID.split(';')[0];
+				}
+				else {
+					SpID = "";
+				}
+				PendingID = SpID;
+
+				flag = 2;
+				++ApproveCount;
+				ApprovalStatus = "Pending";
+				PendingWithDesig = "RMO";
+				var Rmo_har = CurrentLoginMAilID + ";" + "RMO@bcone.com";
+				insertIntoSendEmailData(PendingID, Rmo_har.toString(), '64', '7', MainItemID);
+			}
+				//If Sencond level Approval i.e., if RMO approved
+			else if (ApprovalFlag == 2) {
+				//ApprovalFlag=3;
+				//CurApprovalStatus="Approved";
+				PendingWith = "";
+				PendingID = parseInt(-1);
+				flag = 3;
+				ApprovalStatus = "Approved";
+				PendingWithDesig = "";
+			}
+			ProjectWiseFlag = "Early Release";
+		}
+			//for Resource Extension
+			// oly one level approval in Extension  i.e., RMO approval
+		else if (ResType == "Resource Extension") 
+		{
+			ApprovalFlag = 3;
+			CurApprovalStatus = "Approved";
+			PendingWith = "";
+			PendingID = parseInt(-1);
+			flag = 3;
+			ApprovalStatus = "Approved";
+			ProjectWiseFlag = "Extension";
+		}
+		var DetailslistName = "ResourceAllocationDetails";
+		var DetailsitemType = GetItemTypeForListName(DetailslistName);
+		var Detailsitems = {
+			__metadata: {
+				"type": DetailsitemType
+			},
+			flag: flag,
+			ApprovalStatus: ApprovalStatus,
+			PendingWith: PendingWith,
+			ApproverGUID: useruid,
+			PendingWithUserIDId: PendingID,
+			SubmittedDate: CurDate,
+			TATDate: CurDate,
+			PendingWithDesig: PendingWithDesig
+		};
+		//Refer ReleaseExtensionConfig.js file			
+		var DetailsListurl = GetDataDetailsByID(MainItemID); //maindata.ID);
+		$.ajax
+			({
+			url: DetailsListurl,
+			async: false,
+			type: "POST",
+			contentType: "application/json;odata=verbose",
+			data: JSON.stringify(Detailsitems),
+			headers: {
+				"Accept": "application/json;odata=verbose",
+				"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+				"X-HTTP-Method": "MERGE",
+				"If-Match": "*"
+			},
+			success: function (data)
+			{
+				if (flag == 3)
+				{
+					var ClientPartnerMAil = "";
+					var ProjectOwnerMAil = "";
+					var Cc_Data = "";
+					var ROMMAilID = RMoId;
+					var ClientAndProjectOwner = GetProjectCode(useruid, projectuid);
+					var MROSPcIDMAil = getMAilIDs_Of_projectOwner(RMoId);
+					ClientPartnerMAil = ClientAndProjectOwner.split(";")[0];
+					ProjectOwnerMAil = ClientAndProjectOwner.split(";")[1];
+
+					
+					if (ClientPartnerMAil != "") {
+						Cc_Data = "RMO@bcone.com" +";"+ MROSPcIDMAil + ";" + ClientPartnerMAil + ";" + ProjectOwnerMAil;
+
+					}
+					else {
+						Cc_Data = "RMO@bcone.com" +";"+ MROSPcIDMAil + ";" + ProjectOwnerMAil;
+					}
+					if (ClientPartnerMAil == "" && ProjectOwnerMAil == "" && MROSPcIDMAil == "") {
+						Cc_Data = "RMO@bcone.com";
+					}
+					//To get the Skills of the user assigned
+					//var skills = GetSkillsByProjectID(ProjectNewCode, eid); //get RRFNO
+					var REsourceSkill = GetSkillsByProjectID(ProjectNewCode, eid); //get RRFNO
+					var REsourceCenterData = GetDataFromResourceCenter(eid); //get skills,roleband,loaction form resource center
+					var Pskills = "";
+					var Sskills = "";
+					var RRFNos = "";
+					var AllocationBaseLocation = "";
+					var AllocationRoleBand = "";
+					if(REsourceSkill.length>0)
+					{
+						RRFNos = REsourceSkill[0];
+					}
+					
+					if(REsourceCenterData.length>0)
+					{
+						Pskills = REsourceCenterData[0];
+						Sskills = REsourceCenterData[1];
+						AllocationRoleBand = REsourceCenterData[2];
+						AllocationBaseLocation = REsourceCenterData[3];
+					}
+					if(Pskills == "")
+					{
+						Pskills = null;
+					}
+					if(Sskills == "")
+					{
+						Sskills = null;
+					}
+					if(RRFNos == "")
+					{
+						RRFNos = null;
+					}
+					if(AllocationRoleBand == "")
+					{
+						AllocationRoleBand = null;
+					}
+					if(AllocationBaseLocation == "")
+					{
+						AllocationBaseLocation = null;
+					}
+					
+					// //to get the previous record of the resource of same project code and update the record active flag to 0 as before it will be 1
+					//for code refer searchresource.js file. for understanding contact varsha
+					
+					var returnValue = getActiveByResourceWiseProjectAllocation(ProjectNewCode, eid, CurrentLoginMAilID,Feature_flag);
+					//Insert the record in Project wise resource allocation table after the request final approval with active flag 1
+					if (returnValue == 1)
+					{
+						++ApproveCount;
+						GetResourceData(eid, NewEndDate, ProjectNewCode, PrjLctn, PrjMngr, ProjectName, Resname, SDate, AllocPer, RMoId, Pskills, Sskills, ProjectWiseFlag, MainItemID, RRFNos,Feature_flag,AllocationRoleBand,AllocationBaseLocation,ListItemCreatedBy_For_MultipleSelect);
+						var MailofEmployeeMailID ="";
+						MailofEmployeeMailID = GetEmployeeMailIDs(eid);
+
+						if (MailofEmployeeMailID != -1 || MailofEmployeeMailID != "" || MailofEmployeeMailID != null || MailofEmployeeMailID != "null" || MailofEmployeeMailID != undefined || MailofEmployeeMailID != "undefined") {
+							//Cc_Data contains RMOScop ,Clientpartner and ProjectOwner MAil ID
+							//MailofEmployeeMailID contains REsourceMAil ID and MainItemID Contains List ID
+							if (ResType == "Resource Early Release") {
+								insertIntoSendEmailData(MailofEmployeeMailID, Cc_Data.toString(), '65', '9', MainItemID);
+							}
+							else if (ResType == "Resource Extension") {
+								insertIntoSendEmailData(MailofEmployeeMailID, Cc_Data.toString(), '56', '9', MainItemID);
+							}
+						}
+					} 
+					else 
+					{
+						$('.loader').hide();
+						alert(' error inserting/updating dependencies');
+					}
+				}
+				if(Select_Length==ApproveCount)
+				{
+					$('.loader').hide();
+					var t =$('#SelectedItemCount').text();
+					alert(t+" Resources approved sucessfully");
+					location.reload(true);
+				}
+			},
+			error: function (error) {
+				alert(JSON.stringify(error));
+			}
+		});
+	}
+		
+	function unchecksingle()
+	{
+		//var childCheckboxes = $('#tblProjectApprovalData tbody tr td').find('input[type=checkbox]');
+		//var  no_checked1 = childCheckboxes.filter(':checked').length;
+		var no_checked=0;
+		var allDisbleIDs = new Array();
+		allDisbleIDs=[];
+		var allIDs = new Array();
+		allIDs=[];
+		var source = $("#tblProjectApprovalData").DataTable();
+        $("input[type=checkbox]", source.rows().nodes()).each(function() 
+		{
+		
+		//var sources = $("#tblProjectApprovalData").DataTable();           
+		//$("input[type=checkbox]", sources.rows().nodes()).each(function ()
+		//{
+			$('.viewTSNote').hide();
+			var ys = $(this)[0].id;
+			var yys = "#"+ys;
+			$(yys).prop("disabled", false);
+			var tuisre = $(this).is(":checked");
+			if (tuisre)
+			{
+				no_checked++;
+				var remIdd = $(this)[0].id;
+				var ids_d = "#"+remIdd;
+				//$(ids_d).prop("disabled", true);
+				allIDs.push(ids_d);
+			}
+			else
+			{
+				var remIdd = $(this)[0].id;
+				var ids_d = "#"+remIdd;
+				//$(ids_d).prop("disabled", true);
+				allDisbleIDs.push(ids_d);
+			}
+			if(no_checked == 10)
+			{
+				$('.viewTSNote').show();
+				for(var t=0;t < allDisbleIDs.length ; t++)
+				{
+					$(allDisbleIDs[t]).prop("disabled", true);
+				}
+			}
+			if( no_checked > 10)
+			{
+				var remIds_ = $(this)[0].id;
+				var ids_ = "#"+remIds_;
+				$(ids_).prop("checked", false);
+				$(ids_).prop("disabled", true);
+				$('.viewTSNote').show();
+			}
+			
+			if(no_checked>0)
+			{
+				$('#SelectedItemCount').text(no_checked);
+			}
+			else
+			{
+				$('#SelectedItemCount').text(no_checked);
+			}
+		});
+	}
+	function ApproveRelease(rowVal) //,MainItemID)
+	{
+		var CurrentLoginMAilID = _spPageContextInfo.userEmail;
+		
+		
+		var ALLDataBinded = rowVal.id.split(';');
+		
+		var MainItemID = (ALLDataBinded[0] == undefined ? '' : ALLDataBinded[0]);
+		var eid = (ALLDataBinded[1] == undefined ? '' : ALLDataBinded[1]);
+		var PrjLctn = (ALLDataBinded[2] == undefined ? '' : ALLDataBinded[2]);
+		var PrjMngr = (ALLDataBinded[3] == undefined ? '' : ALLDataBinded[3]);
+		var Resname = (ALLDataBinded[4] == undefined ? '' : ALLDataBinded[4]);
+		
+							
+		var SDate = (ALLDataBinded[5] == undefined ? '' : ALLDataBinded[5]);
+		var AllocPer = (ALLDataBinded[6] == undefined ? '' : ALLDataBinded[6]);
+		var RMoId = (ALLDataBinded[7] == undefined ? '' : ALLDataBinded[7]);
+		var NewEndDate = (ALLDataBinded[8] == undefined ? '' : ALLDataBinded[8]);
+		var projectuid = (ALLDataBinded[9] == undefined ? '' : ALLDataBinded[9]);
+		var ProjectName = (ALLDataBinded[10] == undefined ? '' : ALLDataBinded[10]);
+		var ProjectNewCode = (ALLDataBinded[11] == undefined ? '' : ALLDataBinded[11]);
+		var Feature_flag = (ALLDataBinded[12] == undefined ? '' : ALLDataBinded[12]);
+
+		var ListItemCreatedByAuthor =  (ALLDataBinded[13] == undefined ? '' : ALLDataBinded[15]);
+		
+		var CurRow = rowVal.parentNode.parentNode.parentNode.parentNode;
+		var CurRowID = CurRow.id;
+		//var CurApprovalStatus="InProgress";
+		var RMOId = CurRow.cells[4].innerText;
+		var ApprovalFlag = CurRow.cells[5].innerText;
+		var PendingWith = "";
+		var flag = "";
+		var ApprovalStatus = "";
+	   
+		var ResType = CurRow.cells[7].innerText;
+		var PendingDesg = CurRow.cells[8].innerText;
+		var PendingID = 0;
+		var SuccessMsg = "";
+		var ConfrimMsg = "";
+		var CurDate = new Date();
+		var ProjectWiseFlag = "";
+		var PendingWithDesig = "";
+		//Current project GUID
+		//For Resource Early Release
+		if (ResType == "Resource Early Release") 
+		{
+			ConfrimMsg = "Are you sure to approve resources for early release?";
+			if (PendingDesg == "VP")
+			{
+				SuccessMsg = "Early release of resources than allocated is approved by VP-Delivery as an exception.";
+			} 
+			else 
+			{
+				SuccessMsg = "Early release of resources than allocated is approved by RMO.";
+			}
+			//If first level Approval i.e., if VP-Delivery approved
+			if (ApprovalFlag == 1) 
+			{
+				PendingWith = RMOId;
+				var SpID = GetUserIDbyGuid(RMOId);
+				if (SpID != "")
+				{
+					SpID = SpID.split(';')[0] == undefined ? '' : SpID.split(';')[0];
+				}
+				else 
+				{
+					SpID = "";
+				}
+				PendingID = SpID;
+
+				flag = 2;
+				ApprovalStatus = "Pending";
+				PendingWithDesig = "RMO"
+				
+				var Rmo_har = "RMO@bcone.com" +";"+ CurrentLoginMAilID;
+				insertIntoSendEmailData(PendingID, Rmo_har.toString(), '64', '7', MainItemID);
+			}
+				//If Sencond level Approval i.e., if RMO approved
+			else if (ApprovalFlag == 2) {
+				//ApprovalFlag=3;
+				//CurApprovalStatus="Approved";
+				PendingWith = "";
+				PendingID = parseInt(-1);
+				flag = 3;
+				ApprovalStatus = "Approved";
+				PendingWithDesig = "";
+			}
+			ProjectWiseFlag = "Early Release";
+		}
+			//for Resource Extension
+			// oly one level approval in Extension  i.e., RMO approval
+		else if (ResType == "Resource Extension") 
+		{
+			ConfrimMsg = "Are you sure to approve resources for Extension?"
+			ApprovalFlag = 3;
+			CurApprovalStatus = "Approved";
+			PendingWith = "";
+			PendingID = parseInt(-1);
+			flag = 3;
+			ApprovalStatus = "Approved";
+			ProjectWiseFlag = "Extension";
+			SuccessMsg = "Extension of resources in the Project completed successfully";
+		}
+		if (confirm(ConfrimMsg)) 
+		{
+			var DetailslistName = "ResourceAllocationDetails";
+			var DetailsitemType = GetItemTypeForListName(DetailslistName);
+			var Detailsitems = {
+				__metadata: {
+					"type": DetailsitemType
+				},
+				flag: flag,
+				ApprovalStatus: ApprovalStatus,
+				PendingWith: PendingWith,
+				ApproverGUID: useruid,
+				PendingWithUserIDId: PendingID,
+				SubmittedDate: CurDate,
+				TATDate: CurDate,
+				PendingWithDesig: PendingWithDesig
+			};
+			//Refer ReleaseExtensionConfig.js file			
+			var DetailsListurl = GetDataDetailsByID(MainItemID); //maindata.ID);
+			$.ajax({
+				url: DetailsListurl,
+				async: false,
+				type: "POST",
+				contentType: "application/json;odata=verbose",
+				data: JSON.stringify(Detailsitems),
+				headers: {
+					"Accept": "application/json;odata=verbose",
+					"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+					"X-HTTP-Method": "MERGE",
+					"If-Match": "*"
+				},
+				success: function (data)
+				{
+					if (flag == 3)
+					{
+						var ClientPartnerMAil = "";
+						var ProjectOwnerMAil = "";
+						var Cc_Data = "";
+						var ROMMAilID = "";
+						ROMMAilID = RMoId;
+						var ClientAndProjectOwner = "";
+						ClientAndProjectOwner = GetProjectCode(useruid, projectuid);
+						var MROSPcIDMAil = "";
+						MROSPcIDMAil = getMAilIDs_Of_projectOwner(RMoId);
+						ClientPartnerMAil = ClientAndProjectOwner.split(";")[0];
+						ProjectOwnerMAil = ClientAndProjectOwner.split(";")[1];
+
+						
+						if (ClientPartnerMAil != "") {
+							Cc_Data = "RMO@bcone.com" +";"+ MROSPcIDMAil + ";" + ClientPartnerMAil + ";" + ProjectOwnerMAil;
+
+						}
+						else {
+							Cc_Data = "RMO@bcone.com" +";"+ MROSPcIDMAil + ";" + ProjectOwnerMAil;
+						}
+						if (ClientPartnerMAil == "" && ProjectOwnerMAil == "" && MROSPcIDMAil == "") {
+							Cc_Data = "RMO@bcone.com";
+						}
+						//To get the Skills of the user assigned
+						var skills = GetSkillsByProjectID(ProjectNewCode, eid);
+						var REsourceCenterData = GetDataFromResourceCenter(eid);
+						var Pskills = "";
+						var Sskills = "";
+						var RRFNos = "";
+						var AllocationRoleBand_ = "";
+						var AllocationBaseLocation_ = "";
+						if(skills.length>0)
+						{
+							//Pskills = skills[0];
+							//Sskills = skills[1];
+							RRFNos = skills[0];
+							//AllocationRoleBand_ = skills[3];
+							//AllocationBaseLocation_ = skills[4];
+						}
+						if(REsourceCenterData.length>0)
+						{
+							Pskills = REsourceCenterData[0];
+							Sskills = REsourceCenterData[1];
+							AllocationRoleBand_ = REsourceCenterData[2];
+							AllocationBaseLocation_ = REsourceCenterData[3];
+						}
+						
+						if(Pskills == "")
+						{
+							Pskills = null;
+						}
+						if(Sskills == "")
+						{
+							Sskills = null;
+						}
+						if(AllocationRoleBand_ == "")
+						{
+							AllocationRoleBand_ = null;
+						}
+						if(AllocationBaseLocation_ == "")
+						{
+							AllocationBaseLocation_ = null;
+						}
+						//to get the previous record of the resource of same project code and update the record active flag to 0 as before it will be 1
+						//for code refer searchresource.js file. for understanding contact varsha
+						
+						var returnValue = getActiveByResourceWiseProjectAllocation(ProjectNewCode, eid, CurrentLoginMAilID,Feature_flag);
+						//Insert the record in Project wise resource allocation table after the request final approval with active flag 1
+						if (returnValue == 1)
+						{
+							GetResourceData(eid, NewEndDate, ProjectNewCode, PrjLctn, PrjMngr, ProjectName, Resname, SDate, AllocPer, RMoId, Pskills, Sskills, ProjectWiseFlag, MainItemID, RRFNos,Feature_flag,AllocationRoleBand_,AllocationBaseLocation_,ListItemCreatedByAuthor);
+							var MailofEmployeeMailID = "";
+							MailofEmployeeMailID = GetEmployeeMailIDs(eid);
+
+							if (MailofEmployeeMailID != -1 || MailofEmployeeMailID != "" || MailofEmployeeMailID != null || MailofEmployeeMailID != "null" || MailofEmployeeMailID != undefined || MailofEmployeeMailID != "undefined") 
+							{
+								//Cc_Data contains RMOScop ,Clientpartner and ProjectOwner MAil ID
+								//MailofEmployeeMailID contains REsourceMAil ID and MainItemID Contains List ID
+								if (ResType == "Resource Early Release") {
+									insertIntoSendEmailData(MailofEmployeeMailID, Cc_Data.toString(), '65', '9', MainItemID);
+								}
+								else if (ResType == "Resource Extension") {
+									insertIntoSendEmailData(MailofEmployeeMailID, Cc_Data.toString(), '56', '9', MainItemID);
+								}
+							}
+						} 
+						else 
+						{
+							alert(' error inserting/updating dependencies');
+						}
+				
+					}
+					$('.popup-bg').show().css('top', '25%');
+					$('#RejectionReason').hide();
+					$('#NotificationMsgDiv').hide();
+					$('#InvaildUser').css('display', 'none');
+					$('#spnInvalidUser').css('display', 'none');
+					$('#Rejection').css('display', 'none');
+					$('#AlertmsgDiv').show();
+					$('#Alert_Multiple').hide();
+					$('#Approve').css('display', '');
+					$('#AlertMsg').css('display', '');
+					$('#AlertMsg').text(SuccessMsg);
+
+					ReloadVal = 1;
+				},
+				error: function (error) {
+					alert(JSON.stringify(error));
+				}
+			});
+		}
+	}
+        //function will trigger when the reject option is clicked.Reason for reject popup will open
+        function RejectRelease(rowID) {
+            var CurRow = rowID.parentNode.parentNode.parentNode.parentNode;
+            var CurRowID = CurRow.id;
+            var RMOId = CurRow.cells[4].innerText;
+            var ApprovalFlag = CurRow.cells[5].innerText;
+            var ResType = CurRow.cells[7].innerText;
+            var PendingDesg = CurRow.cells[8].innerText;
+            var CellCol = CurRowID + ";" + RMOId + ";" + ApprovalFlag + ";" + ResType + ";" + PendingDesg;
+            var ConfrimMsg = "";
+            if (ResType == "Resource Early Release") {
+                ConfrimMsg = "Are you sure to reject resources for early release?";
+            } else
+                if (ResType == "Resource Extension") {
+                    ConfrimMsg = "Are you sure to reject resources for extension?";
+                }
+            if (confirm(ConfrimMsg)) {
+                $('.popup-bg').show().css('top', '25%');
+                $('#NotificationMsgDiv').hide();
+                $('#InvaildUser').css('display', 'none');
+                $('#spnInvalidUser').css('display', 'none');
+                $('#AlertmsgDiv').hide();
+				$('#Alert_Multiple').hide();
+                $('#Approve').css('display', 'none');
+                $('#AlertMsg').css('display', 'none');
+                $('#Rejection').css('display', '');
+                $('#RejectionReason').show();
+                $('#rowid').text(CellCol);
+            }
+        }
+        //function will trigger when the view resource option is clicked.Display the selected resource details
+        //$('.loader').show();
+        //setTimeout(function () {
+        function GetRequestData(val) //,Id)
+        {
+            $('.Toppopup-bg').show();
+            var Id = val.id;
+            var CurType = val.parentNode.parentNode.parentNode.parentNode.cells[7].innerText;
+            var NewDate = "";
+            //Refer ReleaseExtensionConfig.js file	
+            var url = GetDataByRowId(Id, 2);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                  //  "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var data = data.d;
+
+                    $('.tblResourceApprovalData > tbody').empty();
+                    $('.tblResourceApprovalData').dataTable().fnClearTable();
+                    $('.tblResourceApprovalData').DataTable().destroy();
+
+                    //for(var i=0;i<data.length;i++)
+                    {
+                        if (CurType == "Resource Early Release") {
+                            $("h4#popUpHeadertext").text("Resource Early Release");
+                            var ReleaseDate = data.CalculatedReleaseDate;
+                            ReleaseDate = ReleaseDate.split('T');
+                            ReleaseDate = ReleaseDate[0];
+                            ReleaseDate = ReleaseDate.split('-');
+                            var curMonth = parseInt(ReleaseDate[1] - 1);
+                            ReleaseDate = ReleaseDate[2] + " " + months[curMonth] + " " + ReleaseDate[0];
+                            NewDate = ReleaseDate;
+                        } else
+                            if (CurType == "Resource Extension") {
+                                $("h4#popUpHeadertext").text("Resource Extension");
+                                ExtensionDate = data.CalculatedExtensionDate;
+                                ExtensionDate = ExtensionDate.split('T');
+                                ExtensionDate = ExtensionDate[0];
+                                ExtensionDate = ExtensionDate.split('-');
+                                var curMonth = parseInt(ExtensionDate[1] - 1);
+                                ExtensionDate = ExtensionDate[2] + " " + months[curMonth] + " " + ExtensionDate[0];
+                                NewDate = ExtensionDate;
+                            }
+							
+                        var ResourceName = data.ResourceName;
+						if (ResourceName.indexOf("'") > 0)
+						{
+							ResourceName = ResourceName.replace("'","");
+						}
+                        var Empid = (data.EmployeeID == undefined ? '' : data.EmployeeID);
+						var subpractice=getresourcesubparctice(Empid);
+                        var AllocationPercent = data.AllocationPercentage;
+                        var OldStartDate = data.CalculatedStartDate;
+                        OldStartDate = OldStartDate.split('T');
+                        OldStartDate = OldStartDate[0];
+                        OldStartDate = OldStartDate.split('-');
+                        var curSDMonth = parseInt(OldStartDate[1] - 1);
+                        OldStartDate = OldStartDate[2] + " " + months[curSDMonth] + " " + OldStartDate[0];
+                        var OldEndDate = data.CalculatedEndDate;
+                        OldEndDate = OldEndDate.split('T');
+                        OldEndDate = OldEndDate[0];
+                        OldEndDate = OldEndDate.split('-');
+                        var curEDMonth = parseInt(OldEndDate[1] - 1);
+                        OldEndDate = OldEndDate[2] + " " + months[curEDMonth] + " " + OldEndDate[0];
+                        var ProjectFeedback = data.ProjectEndFeedBack == undefined ? "" : data.ProjectEndFeedBack; //.split('>')[1].split('</')[0];		
+                        var ID = data.ID;
+                        var Type = data.ResourceType == undefined ? '' : data.ResourceType;
+                        var ReleaseComment = data.ReasonForRelease == undefined ? "" : data.ReasonForRelease; //.split('>')[1].split('</')[0];
+                        //Binding the data to tblResourceApprovalData table
+                        var row = "<tr id=" + ID + "><td>" + Empid + "</td><td><span href='#' id='show-popup' class='action-b'>" + ResourceName + "<div class='action-b-view'><a href='../SitePages/ResourceProjectInformation.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7'>Project Detail</a><a href='../SitePages/Myprofile.aspx?employeeID=" + Empid + "&employeename=" + ResourceName + "' target='_blank' style='color:#337ab7' >View Profile</a></div></span></td><td>" + AllocationPercent + "</td><td style='text-align:center'>" + OldStartDate + "</td><td style='text-align:center'>" + OldEndDate + "</td><td style='text-align:center'>" + NewDate + "</td><td>" + subpractice + "</td><td class='comments'>" + ReleaseComment + "</td><td>" + ProjectFeedback + "</td></tr>";
+                        $('.tblResourceApprovalData > tbody').append(row);
+                        //to display release comments if Early release else hide 
+                        if (Type == "Resource Early Release") {
+                            $('.tblResourceApprovalData td:nth-child(6),.tblResourceApprovalData th:nth-child(6)').show();
+                            $('.tblResourceApprovalData td:nth-child(7),.tblResourceApprovalData th:nth-child(7)').show();
+                            $('.tblResourceApprovalData td:nth-child(8),.tblResourceApprovalData th:nth-child(8)').show();
+                        } else {
+                            $('.tblResourceApprovalData th:nth-child(6),.tblResourceApprovalData td:nth-child(6)').show(); //new end date
+                            
+                            $('.tblResourceApprovalData th:nth-child(8),.tblResourceApprovalData td:nth-child(8)').hide();
+                           
+                        }
+                        $('.tblResourceApprovalData').DataTable
+						({
+						    //"aLengthMenu": [5, 10, 15, 20, 25, 30],
+						    //"pageLength": 5,
+						    //"autoWidth": true,
+						    //"paging": true,
+							
+						    "dom": 'lBfrtip',
+						    buttons: [{ extend: 'excelHtml5', exportOptions: { columns: ':visible' } }, ],
+						});
+
+                    }
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            // $('.tblResourceApprovalData').DataTable();
+            //$('.loader').hide();
+        }
+        //}, 100);
+        function GetItemTypeForListName(name) {
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+		
+		function getresourcesubparctice(R_Emp_id)
+		{
+		var subpractice="";
+		var url = "https://ppmprod.bcone.com/_api/Resources?$select=SubPractice&$filter=EmployeeID eq '"+R_Emp_id+"'"
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                    //"Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) 
+				{
+				subpractice=data.d.results[0].SubPractice;
+				},
+				error:function(data)
+				{
+				}
+			});
+			return subpractice;
+		}
+        //var RRFNO_Data = "";
+        //function return skills by its project code
+        function GetSkillsByProjectID(PName, eid) {
+            var Skillresult = new Array();
+            //Refer ReleaseExtensionConfig.js file	
+			var RRFNO_Data = "";
+            var url = GetskillsDataByPid(PName, eid);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                    //"Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) 
+				{
+                    var data = data.d.results;
+					Skillresult = [];
+                    if (data.length > 0) 
+					{
+                       // Skillresult.push(data[0].PrimarySkills);
+                       // Skillresult.push(data[0].SecondarySkills);
+                        Skillresult.push(data[0].RRFNO);
+						//Skillresult.push(data[0].AllocationRoleBand);
+						//Skillresult.push(data[0].AllocationBaseLocation);
+                    }
+					if (data.length == 0) //made chages because active 1 no record
+					{
+						var URLSS = ppmuaturl+"/_api/ProjectWiseResourceAllocation?$top=1&$filter=Active eq 0 and EmployeeID eq '"+eid+"' and AllocatedProjectCode eq '"+PName+"'&order by modify_date desc";
+						$.ajax({
+							url: URLSS,
+							async: false,
+							method: "GET",
+							headers: {
+								"Accept": "application/json; odata=verbose"
+								//"Content-Type": "application/json; odata=verbose"
+							},
+							success: function (dataReSs) 
+							{
+								 var dataReS = dataReSs.d.results;
+								if (dataReS.length > 0) 
+								{
+									//Skillresult.push(dataReS[0].PrimarySkills);
+									//Skillresult.push(dataReS[0].SecondarySkills);
+									Skillresult.push(dataReS[0].RRFNO);
+									//Skillresult.push(dataReS[0].AllocationRoleBand);
+									//Skillresult.push(dataReS[0].AllocationBaseLocation);
+								}
+							},
+							error: function (dataReS)
+							{
+								alert(JSON.stringify(dataReS));
+							}
+						});
+                    }
+					
+
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return Skillresult;
+        }
+		
+		function GetDataFromResourceCenter(REsourceEmpID)
+		{
+			var ResourceCenterResult = new Array();
+			var URLSS = _spPageContextInfo.webAbsoluteUrl+"/_api/ProjectData/Resources?$select=EmployeeID,RRFNO,ResourceId,PrimarySkill,Skill,BaseLocation,RoleBand,EmployeeStatus&$filter=EmployeeID eq '"+REsourceEmpID+"'and EmployeeStatus ne 'Terminated'";
+			$.ajax({
+				url: URLSS,
+				async: false,
+				method: "GET",
+				headers: {
+					"Accept": "application/json; odata=verbose"
+					//"Content-Type": "application/json; odata=verbose"
+				},
+				success: function (dataSetResouce) 
+				{
+					var dataSetResult = dataSetResouce.d.results;
+					if (dataSetResult.length > 0) 
+					{
+						ResourceCenterResult.push(dataSetResult[0].PrimarySkill);
+						ResourceCenterResult.push(dataSetResult[0].Skill);
+						ResourceCenterResult.push(dataSetResult[0].RoleBand);
+						ResourceCenterResult.push(dataSetResult[0].BaseLocation);
+					}
+				},
+				error: function (dataSetResouce)
+				{
+					alert(JSON.stringify(dataSetResouce));
+				}
+			});
+			return ResourceCenterResult;
+		}
+		
+		
+		
+        //function to insert the final approved data into project wise resource allocation table by active flag 1	  
+        function GetResourceData(EmpID, EndDate, ProjectCode, ProjectLocation, ProjectManagerName, ProjName, ResourceName, StartDate, AllocationPercentage, RmoSpocGUID, PrimarySkills, SecondarySkills, FlagValue, ItemID, RRFNO,Feature_flag_Allocation,Allocation_RoleBand,AllocationBase_Location,ListItemCreatedByAuthor_MailId) {
+            //Refer ReleaseExtensionConfig.js file	
+            var Masterurl = GetResourceDetails();
+            var GetRMOName = GetUserIDbyGuid(RmoSpocGUID); //ResourceName
+            var RMO_Name = "";
+            if (GetRMOName != "") {
+                RMO_Name = GetRMOName.split(';')[1];
+            } else {
+                RMO_Name = "";
+            }
+            if (RRFNO == "" || RRFNO == undefined || RRFNO == null || RRFNO == "null" || RRFNO == "undefined") {
+                RRFNO = null;
+            }
+			if(Feature_flag_Allocation == "2" || Feature_flag_Allocation == 2)
+			{
+				active_Flag = 2;
+			}
+			else if(Feature_flag_Allocation != "2" || Feature_flag_Allocation != 2)
+			{
+				active_Flag = 1;
+			}
+			var BillableData = GetBillableStatus(EmpID);
+            $.ajax({
+                url: Masterurl,
+                async: false,
+                method: "POST",
+                data: {
+                    "ProjectName": ProjName,
+                    "ResourceFullName": ResourceName,
+                    "EmployeeID": EmpID,
+                    "BookingType": "Committed",
+                    "Startdatetime": StartDate,
+                    "Finishdatetime": EndDate,
+                    "Allocation": AllocationPercentage,
+                    "RMOSPOC": RMO_Name,
+                    "Flag": FlagValue,
+                    "PrimarySkills": PrimarySkills,
+                    "SecondarySkills": SecondarySkills,
+                    "Active": active_Flag,
+                    "AllocatedProjectCode": ProjectCode,
+                    "Reporting_Manager": ProjectManagerName,
+                    "ProjectLocation": ProjectLocation,
+					"BillableStatus":BillableData,
+                    "RRFNO": RRFNO,
+                    "RA_Modify_By": CurrentLoginMAilID,
+                    "RA_created_by": ListItemCreatedByAuthor_MailId,
+					"AllocationRoleBand":Allocation_RoleBand,
+					"AllocationBaseLocation":AllocationBase_Location
+                },
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+					//"Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    //to get inserted record internal id
+                    NewlyInsertedInternalID = (data.d.InternalID == undefined ? '' : data.d.InternalID);
+                    //to update the newly inserted internal id for the approved item in the list
+                    InsertNewRelatedInternalIdByID(NewlyInsertedInternalID, ItemID);
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                },
+            });
+        }
+		
+		function GetBillableStatus(EmplID)
+		{
+			var billAbleUrl = getPWAURl()+ "_api/Resources?$filter=EmployeeID%20eq%20('"+EmplID+"')";
+			var BilStatusReturn = null;
+			$.ajax
+			({
+                url: billAbleUrl,
+                async: false,
+                method: "GET",
+				 headers: {
+                    "Accept": "application/json;odata=verbose",
+                },
+                success: function (data) 
+				{
+					if(data.d.results.length>0)
+					{
+						//BilStatusReturn = data.d.results[0].BillableStatus; // ashis told use employee role for billable status
+						BilStatusReturn = data.d.results[0].EmployeeRole;
+					}
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                },
+            });
+			return BilStatusReturn;
+		}
+		
+        //function to get user Email id by its id
+        function GetUserIDbyGuid(ResGUID) {
+            var Id_Name = "";
+            //Refer ReleaseExtensionConfig.js file
+            var url = GetResourceDataByEmpCode(ResGUID, 3);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var data = data.d;
+                    var ResourceEmailID = (data.ResourceEmailAddress == undefined ? '' : data.ResourceEmailAddress);
+                    var ResourceName = (data.ResourceName == undefined ? '' : data.ResourceName);
+					if (ResourceName.indexOf("'") > 0)
+						{
+							ResourceName = ResourceName.replace("'","");
+						}
+                    //to get user SPid by its Email id
+                    Id_Name = GetSpIDByEmailID(ResourceEmailID);
+                    Id_Name = Id_Name + ";" + ResourceName;
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return Id_Name;
+        }
+        //function to get user SPid by its Email id
+        function GetSpIDByEmailID(ResEmailID) {
+            var SPid = "";
+            //Refer ReleaseExtensionConfig.js file
+            var url = GetSpidByResEmailID(ResEmailID);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                  //  "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var data = data.d.results;
+                    Spid = data[0].Id;
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return Spid;
+        }
+        //function to insert reason for rejection and update the list item of rejected reource in the list
+        //$('.loader').show();
+        //	setTimeout(function () {
+        function InsertReasonForRejection()
+		{
+            var CellValues = $('#rowid')[0].innerText.split(';');
+            var RejectionComments = $('#RejectComments').val();
+            //Validations
+            if (RejectionComments == '') 
+			{
+                $('#CommentBoxErrorMsg').text('Please provide Reason for Rejection');
+                $('#RejectComments').focus();
+                return false;
+            }
+           // var match = (new RegExp('[~#%\&{}+\|]|\\.\\.|^\\.|\\.$')).test(RejectionComments);//old
+            var match = (new RegExp('[~#%\&{}+\|]|\\\\|^\\|\\$')).test(RejectionComments);
+            if (match) 
+			{
+                $('#CommentBoxErrorMsg').text("Comments contain invalid characters");
+                return false;
+            } 
+			else 
+			{
+                $('#CommentBoxErrorMsg').text("");
+            }
+            var CurRowID = CellValues[0];
+            var CurApprovalStatus = "Rejected";
+            var RMOId = CellValues[1];
+            var ApprovalFlag = CellValues[2];
+            var PendingWith = "";
+            var flag = "";
+            var ApprovalStatus = "";
+            var PendingID = parseInt(-1);
+            var SuccessMsg = "";
+            var ResType = CellValues[3];
+            var ConfrimMsg = "";
+            var PendingWithDesg = (CellValues[4] == undefined ? '' : CellValues[4]);
+            ApprovalFlag = 0;
+            CurApprovalStatus = CurApprovalStatus;
+            flag = 0;
+            ApprovalStatus = "Rejected";
+            //Rejected messages for Early release
+            if (ResType == "Resource Early Release") 
+			{
+                ConfrimMsg = "Are you sure to reject resources for early release?";
+                if (PendingWithDesg == "VP") {
+                    SuccessMsg = "Early release of resources than allocated is rejected by VP-Delivery.";
+                } else {
+                    SuccessMsg = "Early release of resources than allocated is rejected by RMO.";
+                }
+            }
+                //Rejected messages for Resource Extension
+            else if (ResType == "Resource Extension")
+			{
+                ConfrimMsg = "Are you sure to reject resources for extension?";
+                SuccessMsg = "Extension of resources rejected by RMO";
+            }
+            
+            var DetailslistName = "ResourceAllocationDetails";
+            var DetailsitemType = GetItemTypeForListName(DetailslistName);
+            var Detailsitems = {
+                __metadata: {
+                    "type": DetailsitemType
+                },
+                flag: flag,
+                ApprovalStatus: ApprovalStatus,
+                PendingWith: PendingWith,
+                RejectedBYGUID: useruid,
+                PendingWithUserIDId: PendingID,
+                ReasonForReject: RejectionComments,
+                PendingWithDesig: ""
+            };
+            var url = GetDataByRowId(CurRowID, 2);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function (data) 
+				{
+                    var data = data.d; //results;
+                    //for(var i=0;i<data.length;i++)
+                    	var RejcetedForEmployee = GetEmployeeMailIDs(data.EmployeeID);
+						var ClientPartnerMAil = "";
+						var ProjectOwnerMAil_Rej = "";
+						var Cc_Data_Rej = "";
+						var ROMMAilID_Rej = RMOId;
+						var ClientAndProjectOwner = GetProjectCode(useruid,data.ProjectGUID);// projectuid);
+						var MROSPcIDMAil = getMAilIDs_Of_projectOwner(RMOId);
+						//ClientPartnerMAil = ClientAndProjectOwner.split(";")[0];
+						ProjectOwnerMAil_Rej = ClientAndProjectOwner.split(";")[1];
+
+						//var Rejected_mail_TO = ProjectOwnerMAil_Rej; 
+						var Rejected_mail_TO = data.AuthorId; //item createdby
+						//Cc_Data_Rej = RejcetedForEmployee +";"+ MROSPcIDMAil;
+						Cc_Data_Rej = "RMO@bcone.com" +";"+ RejcetedForEmployee +";"+MROSPcIDMAil;
+						var list_internal_ID = data.ID;
+						var DetailsListurl = GetDataDetailsByID(data.ID);
+						if (ResType == "Resource Early Release") // rejection mail for release
+						{
+							//insertIntoSendEmailData(Rejected_mail_TO.toString(), Cc_Data_Rej.toString(), '68', '20', list_internal_ID.toString()); //data.ID list id
+							insertIntoSendEmailData(Rejected_mail_TO.toString(), Cc_Data_Rej.toString(), '68', '40', list_internal_ID.toString()); //data.ID list id
+							
+						}
+						else
+						{
+							if (ResType == "Resource Extension") // rejection mail for extension
+							{
+								insertIntoSendEmailData(Rejected_mail_TO.toString(), Cc_Data_Rej.toString(), '69', '41', list_internal_ID.toString()); //data.ID list id
+							}
+						}
+						
+						$.ajax
+						({
+							url: DetailsListurl,
+							async: false,
+							type: "POST",
+							contentType: "application/json;odata=verbose",
+							data: JSON.stringify(Detailsitems),
+							headers: {
+								"Accept": "application/json;odata=verbose",
+								"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+								"X-HTTP-Method": "MERGE",
+								"If-Match": "*"
+							},
+							success: function (data) 
+							{
+								$('.popup-bg').show().css('top', '25%');
+								$('#RejectionReason').hide();
+								$('#NotificationMsgDiv').hide();
+								$('#InvaildUser').css('display', 'none');
+								$('#spnInvalidUser').css('display', 'none');
+								$('#Rejection').css('display', 'none');
+								$('#AlertmsgDiv').show();
+								$('#Alert_Multiple').hide();
+								$('#Approve').css('display', '');
+								$('#AlertMsg').css('display', '');
+								$('#AlertMsg').text(SuccessMsg);
+								ReloadVal = 1;
+							},
+							error: function (error) {
+								alert(JSON.stringify(error));
+							}
+						});
+					
+				},
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+        }
+        //}, 100);
+        //Function for Reject comment box Validation on 'onkeyup' 
+        function CommentBoxValidation(commentID) {
+            commentID = commentID.id;
+            var comment = document.getElementById(commentID).value;
+            if (comment == '') {
+                $('#CommentBoxErrorMsg').text('Please provide reason for early release');
+                $('#comment').focus();
+                return false;
+            }
+           // var match = (new RegExp('[~#%\&{}+\|]|\\.\\.|^\\.|\\.$')).test(comment);//old
+            var match = (new RegExp('[~#%\&{}+\|<>*]|\\\\|^\\|\\$')).test(comment); //new
+            if (match) {
+                document.getElementById("CommentBoxErrorMsg").innerHTML = "Comment contains invalid character";
+                document.getElementById(commentID).focus();
+                return false;
+            } else {
+                document.getElementById("CommentBoxErrorMsg").innerHTML = "";
+            }
+        }
+        //function to update the newly inserted internal id for the approved item in the list
+        function InsertNewRelatedInternalIdByID(NewInternalID, ResItemID) {
+            var listName = "ResourceAllocationDetails";
+            var itemType = GetItemTypeForListName(listName);
+            //New internal id of newly inserted record in Project wise resource allocation table
+            var NewRelatedInternalIDValue = NewInternalID.toString();
+            var item = {
+                __metadata: {
+                    "type": itemType
+                },
+                NewInsertedInternalIDVal: NewRelatedInternalIDValue
+            };
+            //Refer ReleaseExtensionConfig.js file
+            var url = GetDataDetailsByID(ResItemID, 2);
+            $.ajax({
+                url: url,
+                async: false,
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "X-HTTP-Method": "MERGE",
+                    "If-Match": "*"
+                },
+                success: function (data) { },
+                error: function (error) {
+                   alert(JSON.stringify(error));
+                }
+            });
+        }
+		
+		
+
+        function insertIntoSendEmailData(To, Cc, EventId, Flag, TrackingId) {
+            var item = {
+                __metadata: { "type": "SP.Data.BconeEmailDataListItem" }
+            };
+            $.extend(item, { To: To });
+            $.extend(item, { Cc: Cc });
+            $.extend(item, { EventId: EventId });
+            $.extend(item, { Flag: Flag });
+            $.extend(item, { TrackingId: TrackingId });
+            $.ajax({
+                url: "../_api/Web/Lists/GetByTitle('BconeEmailData')/items",
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+                   // alert('success');
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+        }
+
+        function GetEmployeeMailID(EmployID) {
+            //var url = serviceUrl + "_api/Resources?$select=ResourceEmailAddress&$filter=EmployeeID eq (\'" + EmpMailID + "\')";
+            //var url = GetMailForGivenResourceEmployeeID(EmployID);
+            var url = GetMailForGivenResourceGuid(EmployID);
+            var returndt = "";
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                /*data: {
+					"ResourceEmailAddress": CurrentLoginMailID,
+				},*/
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        returndt = data.d.results[0].ResourceEmailAddress;
+                    }
+
+                },
+                error: function (error) {
+					alert(JSON.stringify(error));
+                }
+
+            });
+            return returndt;
+        }
+
+        function GetEmployeeMailID(EmployID) {
+            //var url = serviceUrl + "_api/Resources?$select=ResourceEmailAddress&$filter=EmployeeID eq (\'" + EmpMailID + "\')";
+            //var url = GetMailForGivenResourceEmployeeID(EmployID);
+            var url = GetMailForGivenResourceEmployeeID(EmployID);
+            var ResourceEmailAddressforMails = "";
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                /*data: {
+					"ResourceEmailAddress": CurrentLoginMailID,
+				},*/
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        ResourceEmailAddressforMails = data.d.results[0].ResourceEmailAddress;
+                    }
+
+                },
+                error: function (data) {
+					alert(JSON.stringify(data));
+                }
+
+            });
+            return ResourceEmailAddressforMails;
+        }
+        function GetEmployeeMailIDs(EmployID) 
+		{
+			ResourceEmailAddressforMail = "";
+            var url = GetMailForGivenResourceEmployeeID(EmployID);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                /*data: {
+					"ResourceEmailAddress": CurrentLoginMailID,
+				},*/
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function (data) {
+                    if (data.d.results.length > 0) {
+                        ResourceEmailAddressforMail = data.d.results[0].ResourceEmailAddress;
+                    }
+
+                },
+                error: function (data) {
+					alert(JSON.stringify(data));
+                }
+            });
+            return ResourceEmailAddressforMail;
+        }
+
+
+        //function to get the RMOSpoc and ClentPArtner and ProjectManager EmailID
+
+        function GetProjectCode(UserGUID, PUID) 
+		{
+            var url = GetProjectDataByPUID(PUID);
+            var finalValue = ";";
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) 
+				{
+					var ClientPartnerMAil_ = "";
+                    var ProjectOwnerMAil_ = "";
+                    var data = data.d.results;
+                    var rmospocID = data[0].RMOSPOC;
+                    var rmospocEid = (rmospocID == undefined ? "" : rmospocID.split('|')[0].trim());
+                    var ClientPartnerID = data[0].ClientPartner;
+					if(data[0].EnterpriseProjectTypeName == "Staffing Project" || data[0].EnterpriseProjectTypeName == "SAP Implementation" || data[0].EnterpriseProjectTypeName == "AMS Project")
+					{
+						var ClientPartnerIDS = (ClientPartnerID == undefined ? "" : ClientPartnerID.split('|')[0].trim());
+						//get ClientPartner MAil ID
+						ClientPartnerMAil_ = getMAilIDs(ClientPartnerIDS);
+					}
+                    var projectOwnerId = data[0].ProjectOwnerId;
+                    if (projectOwnerId != undefined) 
+					{
+                        projectOwnerId = projectOwnerId;
+                    }
+                    //get ProjectOwnerId MAil ID
+                    ProjectOwnerMAil_ = getMAilIDs_Of_projectOwner(projectOwnerId);
+                    finalValue = ClientPartnerMAil_ + ";" + ProjectOwnerMAil_;
+
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return finalValue;
+        }
+        function getMAilIDs(MailsID) 
+		{
+            var returnResults = "";
+            var url = GetMailForGivenResourceEmployeeID(MailsID);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var datas = data.d.results;
+                    if (datas.length > 0) {
+                        returnResults = datas[0].ResourceEmailAddress;
+                    }
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return returnResults;
+        }
+        function getMAilIDRMOs(MailsID) {
+            var returnResults = "";
+            var url = GetMailForGivenResourceEmployeeID(MailsID);
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                  //  "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var datas = data.d.results;
+                    if (datas.length > 0) {
+                        returnResults = datas[0].ResourceEmailAddress;
+                    }
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return returnResults;
+        }
+
+        function getMAilIDs_Of_projectOwner(GuiID) {
+            var url = GetMailForGivenResourceGuid(GuiID);
+            //GetMailForGivenResourceEmployeeID
+            var returnResult = "";
+            $.ajax({
+                url: url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    var datas = data.d.results;
+
+                    if (datas.length > 0) {
+                        returnResult = datas[0].ResourceEmailAddress;
+                    }
+
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return returnResult;
+        }
+        function destroyjs(tableid) {
+            if ($.fn.dataTable.isDataTable(tableid)) {
+                $(tableid).DataTable({
+                    "filter": false,
+                    "destroy": true
+                });
+                $(tableid).DataTable().destroy();
+                //clear_tbody();
+                $(tableid).html("");
+                //$(tableid + " tbody tr").remove();
+            }
+        }
+        function resultset(Url) {
+            var result;
+            $.ajax({
+                url: Url,
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                   // "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (data) {
+                    result = data.d.results;
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+            return result;
+        }
+    </script>
+</body>
+
+</html><html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>

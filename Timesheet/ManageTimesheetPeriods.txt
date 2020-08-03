@@ -1,0 +1,667 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TimePeriodMaster</title>
+<script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+<script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+
+<script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+
+<script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+
+
+<script src="../SiteAssets/Timesheet/js/Config.js"></script>
+
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css"  />
+<link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+<style>
+
+#DeltaTopNavigation{	
+    display: none;
+
+}
+  tr.otherstyle 
+{
+    background-color: #c4d0d7;
+    color:#fbfbfb;
+}
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    display: inline-block;
+    text-align: left;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 1px solid #ccc; border-radius: 10px;
+    margin-bottom: 0px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height:26px;
+    font-size: 11px; color: white; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "OPEN";
+    padding-left: 10px;
+    /*background-color: #0A891A;*/ color: #505050;
+}
+.onoffswitch-inner:after {
+    content: "CLOSE";
+    padding-right: 10px;
+    /*background-color: #EEEEEE; */color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block;
+    width: 18px;
+    margin: 5px 6px 6px 6px;
+    background: #0a891a;
+    position: absolute;
+    top: 0;
+    /* bottom: 0; */
+    height: 18px;
+    right: 59px;
+    /* border: 1px solid #999999; */
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+.closeBtn .onoffswitch-switch{
+	background: #d9534f !important;
+}
+.dataTables_wrapper tfoot input[type="text"] {
+    font-weight: normal !important;
+    width: 100% !important;
+}
+table.dataTable{
+	table-layout: auto !important;
+}
+table.dataTable tfoot {
+    display: table-header-group;
+}
+</style>
+</head>
+<body>
+<div style="text-align: right;" id="login_name_contain" class="login_name_contain"></div>
+<div class="container-fluid">
+	<div class="breadcrumb-main">
+	    <div class="container-fluid">
+	        <ul>
+	            <li>
+	                <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+					<!-- <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/AdminManageTimesheetPeriods.aspx">Home</a> -->
+	            </li>
+	            <li>Manage Timesheet Period 
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+</div>
+<div class="mid-block" >
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<select id="tableFilter" onchange='filterById(this)'>
+					<option value="current">Current Month</option>
+					<option value="Previous">Previous Month</option>
+					<option value="Next">Next Month</option>
+					<option value="DateRange">Date Range</option>
+				</select>
+				<input type="text" id="TxtFromDate" hidden class="txtDateInput" placeholder="From Date" style="width:120px" readonly/>
+				<input type="text" id="TxtToData" hidden class="txtDateInput" placeholder="To Date" style="width:120px" readonly/>
+				<input type="button" style="padding:4px 10px; font-size:10px;" id="BtnFilterData" value="GO" hidden class="btnSubmit" onclick='filterByDateRange()' />
+			</div>
+			<div class="col-md-12" style="margin-top: 10px;">
+				<!-- <div class="vertical-scoll" style="max-height:600px;"> -->
+		
+				
+				<div class="" id="tblPersonal">
+					<div class="" id="jqxgrid_container">
+						<table id="tblPeriodBody" class="display example table table-bordered table-new" cellspacing="0">
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+
+<div class="black-bg alert-main" id="yesNoPopup" style="display:none;">
+		<div class="popup-main">
+		<div class="popup-heading"><span id="yesNoPopupMsg"></span></div>
+		<div class="pop-mid">
+			<input type="Button" class="divnewbtn" id="btnYes" value="CLOSE"  /> 
+			<input type="Button" class="divnewbtn" id="btnNo" onclick="okPopupOnOkButton('#yesNoPopup')"  value="CANCEL" />					
+		</div>
+	</div>
+</div>
+
+	
+<div class="black-bg alert-main" style="display:none;" id="OKPopup">
+	<div class="popup-main">
+		<div class="popup-heading"><span id="okPopupMsg"></span></div>			
+		<div class="pop-mid">
+			<input type="hidden" id="isPagerefresh" ></span>
+			<input type="Button" class="divnewbtn" onclick="okPopupOnOkButton('#OKPopup')" value="OK" />    
+		</div>			
+	</div>
+</div>
+	<div id="Confirmation_alert" class="alert-main" style="display: none;">
+		<span id="confirmation_type"></span>
+		<span id="delete_expense_id" style="display: none;"></span>
+		<div class="black-bg" id="Div1">
+			<div class="popup-main">
+				<div class="popup-heading"><span id="Confirmation_msg">Are You Sure You Want To Open/Close ?</span></div>
+				<div class="pop-mid">
+					<p id="P1"></p>
+					<span id="Method_tocall"></span>
+					<input type="Button" class="divnewbtn" value="OK" id="ok_click" onclick="done();">
+					<input type="Button" class="divnewbtn" value="Cancel" onclick="confirmation_close();">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+$(document).ready(function()
+{
+	disableRightClick();
+	GetCurrentUserGUID("1");
+	var username = sessionStorage.getItem("CurrentUsername");
+	if(username  == "" || username == undefined)
+	{
+		$("#login_name_contain").text("");
+	}
+	else
+	{
+		$("#login_name_contain").text(username);
+	}
+
+	GetPeriodMasterData();
+	$('#TxtToData').datepicker
+	({ 
+		dateFormat: 'dd-M-yy' ,	
+		onSelect: function(selected)
+		{
+			$("#TxtFromDate").datepicker("option","maxDate", selected)
+		}
+	});
+	$('#TxtFromDate').datepicker
+	({
+		dateFormat: 'dd-M-yy',
+		onSelect: function(selected)
+		{
+			$("#TxtToData").datepicker("option","minDate", selected)
+		}
+	});
+
+
+	setInterval(function()
+	{ 
+		$('.onoffswitch input[title="off"]').parent().addClass('closeBtn');
+		$('.onoffswitch input[title="on"]').parent().removeClass('closeBtn');
+	}, 100);
+
+});
+PPid="";
+OObject="";
+function cleardata()
+{
+	$('#jqxgrid_container').empty();
+	$("#jqxgrid_container").append("<table id='tblPeriodBody' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+} 
+</script>
+<script>	
+
+function GetPeriodMasterData()
+{	
+	$('#loading-image').show();
+	monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var GetPeriodMasterURLs = GetPeriodMaster();
+	$.ajax
+	({
+		url:GetPeriodMasterURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		success: function (data) 
+		{
+			summaryTable = data;
+			$('#tableFilter').trigger('change');
+			$('#loading-image').hide();
+		},
+		error: function (data)
+		{
+			alert("failed");
+			$('#loading-image').hide();
+		}
+	});
+}
+function AlertopenclosePopUp(object,Pid,flagSatus)
+{
+	OObject = object;
+	PPid = Pid;
+	if(flagSatus == 0 )
+	{
+		$('#Confirmation_alert').show();
+		document.getElementById("Confirmation_msg").innerHTML= popUpMessage.AdminOrgOpenPopUp;
+	}
+	if(flagSatus == 1)
+	{
+		$('#Confirmation_alert').show();
+		document.getElementById("Confirmation_msg").innerHTML= popUpMessage.AdminOrgClosePopUp;
+	
+	}
+}
+function createSummaryTable(data)
+{
+	$('#loading-image').show();
+	cleardata();
+	var table_header="";
+	table_header="<thead style=' padding: 5px; background: #00b0f0;color: #fff;'><tr>";
+	table_header=table_header +"<th style='width:10%'>Action</th>";
+	table_header=table_header +"<th style='width:60%'>Timesheet Name</th>";
+	table_header=table_header +"<th style='width:15%'>Timesheet Period Status</th>";
+	table_header=table_header +"</tr></thead>";
+	//footer menu	
+	table_header=table_header +"<tfoot><tr>";
+	table_header=table_header +"<th></th>";
+	table_header=table_header +"<th>Timesheet Name</th>";
+	table_header=table_header +"<th>Timesheet Period Status</th>";
+	table_header=table_header +"</tr></tfoot>";
+
+	table_element="";
+	var  table_body="";
+	table_body="<tbody>"; 
+	
+	if(data.length == 0)
+	{
+		table_element += "<tr><td class='text-center' colspan='4'>No Record Found</td></tr>";
+	}
+	else
+	{
+		var status = "";
+		for (var i = 0; i < data.length; i++) 
+		{		
+			var startDate = new Date(data[i].StartDate)
+			var sdate = ("0" + startDate.getDate()).slice(-2)+  "-" + monthNames[startDate.getMonth()] +"-" + startDate.getFullYear();
+			var endDate = new Date(data[i].EndDate)
+			var edate = ("0" + endDate.getDate()).slice(-2)+ "-" +  monthNames[endDate.getMonth()] + "-" + endDate.getFullYear();		
+			var sts = data[i].PeriodStatusId;
+			if(sts == 0)
+			{
+				status = "TS Period Closed";
+			}
+			else
+			{
+				status = "TS Period Open";
+			}
+
+			periodIDs = data[i].PeriodId;
+			var FlagStatus = data[i].PeriodStatusId;
+			table_body += "<tr>";
+			if(FlagStatus == "1")
+			{
+				//table_body+="<td style='text-align:center;'><div class='onoffswitch' onclick='done(this,\""+periodIDs+"\");'> <input type='checkbox' name='onoffswitch' class='onoffswitch-checkbox' id='myonoffswitch"+i+"'  checked='true' title='on'><label class='onoffswitch-label' for='myonoffswitch'>    <span class='onoffswitch-inner' ></span> <span class='onoffswitch-switch'></span>    </label></div></td>";
+				table_body+="<td style='text-align:center;'><div class='onoffswitch' onclick='AlertopenclosePopUp(this,\""+periodIDs+"\",\""+FlagStatus+"\");'> <input type='checkbox' name='onoffswitch' class='onoffswitch-checkbox' id='myonoffswitch"+i+"'  checked='true' title='on'><label class='onoffswitch-label' for='myonoffswitch'>    <span class='onoffswitch-inner' ></span> <span class='onoffswitch-switch'></span>    </label></div></td>";
+		
+			}
+			else
+			{
+				//table_body+="<td style='text-align:center;'><div class='onoffswitch' onclick='done(this,\""+periodIDs+"\");'> <input type='checkbox' name='onoffswitch' class='onoffswitch-checkbox' id='myonoffswitch"+i+"' title='off'><label class='onoffswitch-label' for='myonoffswitch'><span class='onoffswitch-inner' ></span> <span class='onoffswitch-switch'></span>    </label></div></td>";
+				table_body+="<td style='text-align:center;'><div class='onoffswitch' onclick='AlertopenclosePopUp(this,\""+periodIDs+"\",\""+FlagStatus+"\");'> <input type='checkbox' name='onoffswitch' class='onoffswitch-checkbox' id='myonoffswitch"+i+"' title='off'><label class='onoffswitch-label' for='myonoffswitch'><span class='onoffswitch-inner' ></span> <span class='onoffswitch-switch'></span>    </label></div></td>";
+				
+				$("#myonoffswitch"+i+"").prop('checked', false);
+			}
+			var getPeriodName = data[i].PeriodName.split('|')[0];
+			//innerHtml += "<td onclick='myfunction(\""+periodIDs+"\");'><input type='hidden' id='pid"+i+"' value="+periodIDs+">"+getPeriodName+"("+sdate+" - "+edate+ ")</td>";
+			table_body += "<td>"+getPeriodName+"("+sdate+" - "+edate+ ")</td>";
+			table_body += "<td>"+status+"</td>";
+			table_body += "</tr>";
+		
+		}
+	}
+	table_body=table_body+"</tbody>";
+	table_element=table_header+table_body;
+	$('#tblPeriodBody').html(table_element);
+	bind_dataTable();
+	$('#loading-image').hide();
+			
+}
+function confirmation_close()
+{
+	$('#Confirmation_alert').hide();
+}
+function bind_dataTable() //table srearch and column search
+{     
+	$('#tblPeriodBody').DataTable
+	( {
+		"order": []
+	} );
+	var ExpenceDataTableElement = $('#tblPeriodBody').DataTable();
+	$('#tblPeriodBody tfoot th').each( function ()
+	{
+		var title = $(this).text();
+		if(title == "")
+		{
+			$(this).html();
+		}
+		else
+		{
+			$(this).html( '<input type="text" placeholder="Search"/>' );			
+		}
+	} );
+  
+	ExpenceDataTableElement.columns().every( function ()
+	{
+		var that = this;
+		$( 'input', this.footer() ).on( 'keyup change', function ()
+		{
+			$("#checkRem").removeClass("sorting");
+			if ( that.search() !== this.value ) 
+			{
+				that
+				.search( this.value )
+				.draw();
+			}
+		} );
+	} );
+	if($('.dataTables_empty').text()=='No data available in table')
+	$('#ExpenceDataTable tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+}
+function done()
+{
+
+	var istoggle="";
+	if($(OObject).find('.onoffswitch-checkbox').attr('title')== 'on')
+	{
+		$(OObject).find('.onoffswitch-checkbox').removeAttr('checked');
+		$(OObject).find('.onoffswitch-checkbox').attr('title','off');
+		istoggle='0';
+	}
+	else if($(OObject).find('.onoffswitch-checkbox').attr('title')== 'off')
+	{
+		$(OObject).find('.onoffswitch-checkbox').attr('checked',true);
+		$(OObject).find('.onoffswitch-checkbox').attr('title','on');
+		istoggle='1';
+	}
+	var  OpenCloseOrgTimesheetURLs= OpenCloseOrgTimesheet();
+	$.ajax
+	({	
+		url:OpenCloseOrgTimesheetURLs,
+		method: "POST",
+		headers: { "Accept": "application/json; odata=verbose" },
+		cache: false,
+		data:
+		{ 
+			"PeriodUID": PPid,
+			"Status":istoggle
+		},
+		success: function (data) 
+		{
+			$('#Confirmation_alert').hide();
+			//location.reload();
+			GetPeriodMasterData();
+		},
+		error: function (data)
+		{
+			alert("failed");
+		}
+	});
+}	
+function filterById(data)
+{
+	$('#TxtToData').hide();
+	$('#TxtFromDate').hide();
+	$('#BtnFilterData').hide();
+	var arr = [];
+	var crrDate = new Date();
+	
+	if (data.value == "current") 
+	{
+		$('#TxtToData').val("");
+		$('#TxtFromDate').val("");
+		var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 1);
+		var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 0);
+
+		summaryTable.Data.filter
+		(
+			function (a) {
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth() && crrDate.getMonth() == edate.getMonth() && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				{   
+					arr.push(a);
+				}
+			}
+		)
+		
+		createSummaryTable(arr);
+		
+	}
+	else if (data.value == "Next") 
+	{
+		$('#TxtToData').val("");
+		$('#TxtFromDate').val("");
+		var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 1, 1);
+		var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth() + 2, 0);
+		summaryTable.Data.filter
+		(
+			function (a) {
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//(crrDate.getMonth() == sdate.getMonth())//(crrDate.getMonth() == sdate.getMonth() || && crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				{	
+					arr.push(a);			
+				}
+			}
+		)
+		
+		createSummaryTable(arr);
+	}
+	else if (data.value == "Previous") 
+	{
+		$('#TxtToData').val("");
+		$('#TxtFromDate').val("");
+		var FirstDay = new Date(crrDate.getFullYear(), crrDate.getMonth() - 1, 1);
+		var LastDay = new Date(crrDate.getFullYear(), crrDate.getMonth(), 0);
+		summaryTable.Data.filter
+		(
+			function (a) {
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if (FirstDay <= sdate && LastDay >= sdate && FirstDay.getFullYear() == sdate.getFullYear())//((crrDate.getMonth()+1) == edate.getMonth() || crrDate.getMonth() == edate.getMonth()) && crrDate.getFullYear() == sdate.getFullYear() && crrDate.getFullYear() == edate.getFullYear())
+				{	
+					arr.push(a);
+				}
+			}
+		)
+		createSummaryTable(arr);
+	}
+	else if (data.value == "DateRange") 
+	{
+		$('#TxtToData').show();
+		$('#TxtFromDate').show();
+		$('#BtnFilterData').show();
+		filterByDateRange();
+		//$('#TxtFromDate').css('border-color', '#b9b9b9');
+		$('#TxtFromDate').css({
+		"border": "",
+		"background": ""
+		});
+	}
+}
+function filterByDateRange() 
+{
+	var arr = [];
+	var crrDate = new Date();
+	//var fDate = new Date($('#TxtFromDate').val());
+	//var tDate = new Date($('#TxtToData').val());
+	 var froDate = $('#TxtFromDate').val();
+	 var TOoDate = $('#TxtToData').val();
+	if(froDate =="")
+	{
+		//$('#TxtFromDate').css('border', '1px solid red','background','#FFCEAA');
+		$('#TxtFromDate').css
+		({
+			"border": "1px solid red",
+			"background": "#FFCECE"
+			
+		});
+	
+		//$('#TxtToData').css('border-color', '#b9b9b9');
+		$('#TxtToData').css
+		({
+			"border": "",
+			"background": ""
+		});
+		return false;
+	}
+	else if(TOoDate == "")
+	{
+	//	$('#TxtToData').css('border', '1px solid red','background','#FFCEAA');
+		$('#TxtToData').css
+		({
+			"border": "1px solid red",
+			"background": "#FFCECE"
+			
+		});
+		//$('#TxtFromDate').css('border-color', '#b9b9b9');
+		$('#TxtFromDate').css
+		({
+			"border": "",
+			"background": ""
+		});
+		//alert("select date range");
+		return false;
+	}
+	else
+	{
+		$('#TxtToData,#TxtFromDate').css
+		({
+			"border": "",
+			"background": ""
+		});
+		//$('#TxtFromDate').css('border-color', '#b9b9b9');
+		//$('#TxtToData').css('border-color', '#b9b9b9');
+		summaryTable.Data.filter
+		(
+			function (a) 
+			{
+				var st = $('#TxtFromDate').val();
+				var split=st.split("-")
+              
+				var dd = split[0];              
+				var y = split[2];
+
+				var GetMonth =
+				{
+					"Jan": "January",
+					'Feb':"February",
+					'Mar': "March",
+					'Apr':"April",
+					'May':"May",
+					'Jun':"June",
+					'Jul':"July",
+					'Aug': "August",
+					'Sep': "September",
+					'Oct': "October",
+					'Nov': "November",
+					'Dec':"December"
+				}
+				var Month = 
+				[
+					'Jan',
+					'Feb',
+					'Mar',
+					'Apr',
+					'May',
+					'Jun',
+					'Jul',
+					'Aug',
+					'Sep',
+					'Oct',
+					'Nov',
+					'Dec'
+				]
+				var mm = GetMonth[split[1]];
+
+				var Month = 
+				[
+					'January',
+					'February',
+					'March',
+					'April',
+					'May',
+					'June',
+					'July',
+					'August',
+					'September',
+					'October',
+					'November',
+					'December'
+				]
+
+				var EDate1 = "";
+				EDate1= mm + " " + dd + "," + y;
+				var fDate = new Date(EDate1);
+				
+				var et = $('#TxtToData').val();
+				var split=et.split("-")
+
+				var dd = split[0];              
+				var y = split[2];
+				var mm = GetMonth[split[1]];			  
+				var EDate1 = "";
+
+				EDate1= mm + " " + dd + "," + y;
+				var tDate = new Date(EDate1);	
+				
+			
+				var sdate = new Date(a.StartDate);
+				var edate = new Date(a.EndDate);
+				if ((fDate <= sdate) && (tDate >= edate) )
+				{
+					arr.push(a);
+				}
+
+			}
+			
+		)
+		createSummaryTable(arr);
+		
+	}
+}
+function onStatusBtnClick(data)
+{
+	//$(data).siblings().removeClass('green-btn');
+	$(data).parent("li").siblings().removeClass("green-btn");
+	$(data).parent("li").addClass("green-btn");
+	var ddOptions = document.getElementById("tableFilter");
+	filterById(ddOptions);
+	if(ddOptions.value == "DateRange")
+	{
+	//BtnFilterData is (id of input GO) and Onclick="filterByDateRange()"
+		document.getElementById("BtnFilterData").onclick(); 
+	}
+}
+
+</script>

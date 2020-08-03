@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="Font Awesome, the iconic font and CSS framework">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RMO</title>
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/CSS/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/font-awesome.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/sumoselect.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="../SiteAssets/RMO/css/style.css">
+
+    <script src="../SiteAssets/RMO/js/jquery-1.11.1.min.js"></script>
+    <script src="../SiteAssets/RMO/js/RRFConfig.js"></script>
+    <script src="../_layouts/15/callout.js"></script>
+    <!--<script src="../SiteAssets/RMO/js/jquery.min.js"></script>-->
+    <script src="../SiteAssets/RMO/js/jquery-ui.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.sumoselect.js"></script>
+    <script src="../SiteAssets/RMO/js/bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.dataTables.min.js"></script>
+    <script src="../SiteAssets/RMO/js/dataTables.bootstrap.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jquery.mCustomScrollbar.concat.min.js"></script>
+   
+	
+	<!-- Export to excel js file start -->
+    <script src="../SiteAssets/RMO/js/dataTables.buttons.min.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.flash.min.js"></script>
+    <script src="../SiteAssets/RMO/js/jszip.min.js"></script>
+    <script src="../SiteAssets/RMO/js/pdfmake.min.js"></script>
+    <script src="../SiteAssets/RMO/js/vfs_fonts.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.html5.min.js"></script>
+    <script src="../SiteAssets/RMO/js/buttons.print.min.js"></script>
+    <!-- Export to excel js file end  -->
+</head>
+<style>
+
+</style>
+<body>
+<div class="contain-div" style="position: absolute; width: 100%">
+<div class="loader" style="display: block;"></div>
+	<div class="clearfix"></div>
+	<div class="container-fluid">
+		<div class="horizontalcontent-3">
+			<table id="profileAttachment" class="display" style="width: 100%; max-width: 1550px !important; white-space: nowrap;">
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+var pwaurl = getPWAURl();
+$(document).ready(function() {
+    DisplayColumnTsDetails();
+});
+
+function DisplayColumnTsDetails() {
+    $(".loader").show();
+   // var fileurl = pwaurl+"/_api/EmployeeProfileAttechment";
+    var fileurl = "https://ppmdev.bcone.com/_api/EmployeeProfileAttechment";
+    $.ajax({
+        url: fileurl,
+        async: false,
+        method: "GET",
+        headers: {
+            "Accept": "application/json;odata=verbose"
+        },
+        success: function(ColumnsDataTsDetails) {
+            //cleardata();
+            $('#profileAttachment').html('');
+            destroyjs('#RRFForm');
+            table_header = "<thead><tr>";
+            //Table binding for ALL Record
+            StatusFlag = "allrecord"; //
+            table_header = table_header + "<th>Employee ID</th>";
+            table_header = table_header + "<th style='width:7%'>Full Name</th>";
+            table_header = table_header + "<th style='width:8%'>PPT</th>";
+            table_header = table_header + "<th style='width:8%%'>Word</th>";
+            table_header = table_header + "<th style='width:9%'>DOJ</th>";
+            table_header = table_header + "<th style='width:9%'>Location</th>";
+            table_header = table_header + "<th style='width:8%' id='sord-disable'>Department</th>";
+            table_header = table_header + "<th style='width:8%' id=''>RMO Spoc</th>";
+            table_header = table_header + "<th style='width:8%' id='sord-disable'>Employee Role</th>";
+            table_header = table_header + "<th style='width:8%'>Role-Band</th>";
+            table_header = table_header + "<th style=''>Email-Work</th>";
+            table_header = table_header + "<th style=''>Last updated on (Log)</th>";
+           // table_header = table_header + "<th style=''>Modified By</th>";
+            table_header = table_header + "</tr></thead>";
+            //footer menu
+            table_header = table_header + "<tfoot><tr>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            table_header = table_header + "<th></th>";
+            //table_header = table_header + "<th></th>";
+            table_header = table_header + " </tr></tfoot>";
+            table_body = "<tbody>";
+            var results_data = ColumnsDataTsDetails;
+            if (results_data.d.results.length > 0) 
+			{
+                for (var j = 0; j < results_data.d.results.length; j++) 
+				{		
+					
+					var modifiedate = results_data.d.results[j].Modified;
+					if( modifiedate != null && modifiedate != "null" && modifiedate != "" && modifiedate != undefined)
+					{
+						modifiedate = convert_date_DDMMYYYY(results_data.d.results[j].Modified);
+					}
+					else
+					{
+						modifiedate = "";
+					}
+					
+					var DateofJoining=results_data.d.results[j].OrganisationDOJ;
+					if( DateofJoining != null && DateofJoining != "null" && DateofJoining != "" && DateofJoining != undefined)
+					{
+						DateofJoining = convert_date_DDMMYYYY(results_data.d.results[j].OrganisationDOJ);
+					}
+					else
+					{
+						DateofJoining = "";
+					}
+					var PPTFound = "No";
+					var MsWordFound = "No";
+					if(results_data.d.results[j].PPT == 1 && results_data.d.results[j].PPT != null)
+					{
+						PPTFound = "Yes";
+					}
+					else
+					{
+						PPTFound = "No";
+					}
+					if(results_data.d.results[j].WORD == 1 && results_data.d.results[j].WORD != null)
+					{
+						MsWordFound = "Yes";
+					}
+					else
+					{
+						MsWordFound = "No";
+					}
+					table_body += "<tr>";
+					table_body += '<td>' + results_data.d.results[j].EmployeeID + '</td>';
+					table_body += '<td>' + results_data.d.results[j].ResourceName + '</td>';
+					table_body += '<td>' + PPTFound + '</td>';
+					table_body += '<td>' + MsWordFound + '</td>';
+					table_body += '<td>' + DateofJoining + '</td>';
+					table_body += '<td>' + results_data.d.results[j].BaseLocation + '</td>';
+					table_body += '<td>' + results_data.d.results[j].SubPractice + '</td>';
+					table_body += '<td>' + results_data.d.results[j].RMO_Name + '</td>';
+					table_body += '<td>' + results_data.d.results[j].EmployeeRole + '</td>';
+					table_body += '<td>' + results_data.d.results[j].RoleBand + '</td>';
+					table_body += '<td>' + results_data.d.results[j].ResourceEmailAddress + '</td>';
+					table_body += '<td>' + modifiedate + '</td></tr>';              
+					//table_body += '<td></td></tr>';              
+                }
+            }
+            table_body += "</tbody>";
+            table_element = table_header + table_body;
+            $("#profileAttachment").append(table_element);
+            RRF_Table = $('#profileAttachment').DataTable({
+                // "autoWidth": false,
+                "dom": 'Rlfrtip',
+                "iDisplayLength": 10,
+                "lengthMenu": [
+                    [5, 15, 35, -1],
+                    [5, 15, 35, "All"]
+                ],
+                "dom": 'lBfrtip',
+                buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                }, ],
+            });
+            $('#profileAttachment tfoot th').each(function() {
+                var title = $(this).text();
+                if (title != 'Action' && title != 'Indicators') {
+                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                } else {
+                    $(this).html('');
+                }
+            });
+            // DataTable
+            var table = $('#profileAttachment').DataTable();
+            // Apply the search
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+            $("th#sord-disable").off("click").removeClass("sorting");
+        },
+        error: function(error) {
+            $(".loader").hide();
+            alert(JSON.stringify(error));
+        }
+    });
+    $(".loader").hide();
+}
+//Code to destroy jquery datatable 
+function destroyjs(tableid) {
+    if ($.fn.dataTable.isDataTable(tableid)) {
+        $(tableid).DataTable({
+            "filter": false,
+            "destroy": true
+        });
+        $(tableid).DataTable().destroy();
+        //clear_tbody();
+        $(tableid).html("");
+        $(tableid + " tbody tr").remove();
+    }
+}
+
+function convert_date_DDMMYYYY(date_to_convert) {
+
+	try{
+		var arr_dateandtime = date_to_convert.split('T');
+		var arr_dateonly = arr_dateandtime[0].split('-');
+		var MonthName = GetMonthName(arr_dateonly[1]);
+		converted_date = arr_dateonly[2] + "-" + MonthName + "-" + arr_dateonly[0];
+		return converted_date;
+	}
+	catch(err) {
+	 alert(err.message);
+	}
+}
+
+function GetMonthName(monthNumber) {
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months[monthNumber - 1];
+}
+	</script>
+</body>
+</html>

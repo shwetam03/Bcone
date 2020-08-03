@@ -1,0 +1,57 @@
+ <script src="../SiteAssets/RMO/js/jquery.min.js"></script>
+ 
+ <script>
+ var url="../_api/web/lists/getbytitle('RRFTemplate')/items";
+			$.ajax({
+            url: url,
+            type: "GET",
+            headers: {
+                "Authorization" : "Basic " +  btoa("user:pw")
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            mimeType: "text/plain; charset=x-user-defined"
+        }).done(function( data, textStatus, jqXHR ) {
+           console.log('src', 'data:image/jpeg;base64,' + base64Encode(data));
+        }).fail(function( jqXHR, textStatus, errorThrown ) {
+            alert("fail: " + errorThrown);
+        });
+		
+function base64Encode(str) {
+        var CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        var out = "", i = 0, len = str.length, c1, c2, c3;
+        while (i < len) {
+            c1 = str.charCodeAt(i++) & 0xff;
+            if (i == len) {
+                out += CHARS.charAt(c1 >> 2);
+                out += CHARS.charAt((c1 & 0x3) << 4);
+                out += "==";
+                break;
+            }
+            c2 = str.charCodeAt(i++);
+            if (i == len) {
+                out += CHARS.charAt(c1 >> 2);
+                out += CHARS.charAt(((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4));
+                out += CHARS.charAt((c2 & 0xF) << 2);
+                out += "=";
+                break;
+            }
+            c3 = str.charCodeAt(i++);
+            out += CHARS.charAt(c1 >> 2);
+            out += CHARS.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+            out += CHARS.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+            out += CHARS.charAt(c3 & 0x3F);
+        }
+        return out;
+    }		
+ </script><html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>
