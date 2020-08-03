@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+	
+	<link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+   <!--  <link href="../SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" /> -->
+	<script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+	<script type="text/javascript" language="javascript" class="init">
+
+
+$(document).ready(function() {
+	//$('table tr').hide();
+	//setTimeout(function(){ 
+		// Setup - add a text input to each footer cell
+		$('#example tfoot th').each( function () {
+			var title = $('#example thead th').eq( $(this).index() ).text();
+			$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+		} );
+
+
+
+		// DataTable
+		var table = $('#example').DataTable({
+            "iDisplayLength": 10, // 20 is just an example
+            "scrollCollapse" : true,
+            "paging" : true,
+            "searching" : true,
+            "ordering" :  true,
+            "processing": true,
+		});
+		//var table1 = $('#innertable').DataTable();
+  
+//var count = $('#example tbody').children('tr').length;
+//alert(count);
+
+	$('#innertable').dataTable( {
+        "scrollY": "340px",
+        //"scrollCollapse": true,
+      //  "paging": true
+    } );
+
+		// Apply the search
+		table.columns().every( function () {
+			var that = this;
+
+			$( 'input', this.footer() ).on( 'keyup change', function () {
+				that
+					.search( this.value )
+					.draw();
+			} );
+		} );
+
+		//var rowCount = $('#example >tbody >tr').length;
+
+		$('#checkAll').click(function(){
+			$('#example tbody tr td input[type="checkbox"]').attr("checked", "checked");
+			//alert(rowCount);
+		});
+		//alert("Hello"); 
+	//}, 3000);
+});
+
+
+
+
+	</script>
+	
+</head>
+
+<body class="dt-example">
+	<div class="container">
+		<section class="middle">
+	        <div class="breadcrumb-new">
+	            <div class="container-fluid">
+	                <ul>
+	                    <li>
+	                        <a href="https://bristleconeonline.sharepoint.com/sites/ppmuat/default.aspx">Home</a>
+	                    </li>
+	                    <li>
+	                        <a href="javascript:void(0)" style="cursor:default;">My Expense</a>
+							
+	                    </li>
+						<li>
+	                        <a href="javascript:void(0)" style="cursor:default;color:black;"><span id="navigation_span">All Record</span></a>
+							
+	                    </li>
+						
+	                </ul>
+	                <div class="clearfix"></div>
+	            </div>
+	        </div>
+	        <div class="container-fluid">
+	            <div class="row">
+				<div class="top-refine" style="margin-top:0px; margin-bottom:10px;">
+	                    <ul class="pull-left">
+	                        <li>
+								<a href="javascript:void(0)" class="blue-btn">Approved</a>
+								<a href="javascript:void(0)" class="blue-btn">Rejected</a>
+								<a href="javascript:void(0)" class="blue-btn" style="margin-right:0px;">clarification</a>
+	                        </li>
+	                        <li><span>10</span> item selected</li>
+	                    </ul>
+						
+						<ul class="pull-right">
+							
+	                    </ul>
+	                    <div class="clearfix"></div>
+	            </div>
+
+				<table id="example" class="display example table table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th data-orderable="false" class="sorting_disabled"><input type="checkbox" id="checkAll" name=""></th>
+							<th>Position</th>
+							<th>Office</th>
+							<th>Age</th>
+							<th>Start date</th>
+							<th>Salary</th>
+						</tr>
+					</thead>
+
+					<tfoot>
+						<tr>
+							<th>Name</th>
+							<th>Position</th>
+							<th>Office</th>
+							<th>Age</th>
+							<th>Start date</th>
+							<th>Salary</th>
+						</tr>
+					</tfoot>
+
+					<tbody>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>System Architect</td>
+							<td>Edinburgh</td>
+							<td><a href="javascript:void(0)" onclick="opendetails()">61</a></td>
+							<td>2011/04/25</td>
+							<td>$320,800</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Accountant</td>
+							<td>Tokyo</td>
+							<td>63</td>
+							<td>2011/07/25</td>
+							<td>$170,750</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Junior Technical Author</td>
+							<td>San Francisco</td>
+							<td>66</td>
+							<td>2009/01/12</td>
+							<td>$86,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Senior Javascript Developer</td>
+							<td>Edinburgh</td>
+							<td>22</td>
+							<td>2012/03/29</td>
+							<td>$433,060</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Accountant</td>
+							<td>Tokyo</td>
+							<td>33</td>
+							<td>2008/11/28</td>
+							<td>$162,700</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Integration Specialist</td>
+							<td>New York</td>
+							<td>61</td>
+							<td>2012/12/02</td>
+							<td>$372,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Sales Assistant</td>
+							<td>San Francisco</td>
+							<td>59</td>
+							<td>2012/08/06</td>
+							<td>$137,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Integration Specialist</td>
+							<td>Tokyo</td>
+							<td>55</td>
+							<td>2010/10/14</td>
+							<td>$327,900</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Javascript Developer</td>
+							<td>San Francisco</td>
+							<td>39</td>
+							<td>2009/09/15</td>
+							<td>$205,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Software Engineer</td>
+							<td>Edinburgh</td>
+							<td>23</td>
+							<td>2008/12/13</td>
+							<td>$103,600</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Office Manager</td>
+							<td>London</td>
+							<td>30</td>
+							<td>2008/12/19</td>
+							<td>$90,560</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Support Lead</td>
+							<td>Edinburgh</td>
+							<td>22</td>
+							<td>2013/03/03</td>
+							<td>$342,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Regional Director</td>
+							<td>San Francisco</td>
+							<td>36</td>
+							<td>2008/10/16</td>
+							<td>$470,600</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Senior Marketing Designer</td>
+							<td>London</td>
+							<td>43</td>
+							<td>2012/12/18</td>
+							<td>$313,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Regional Director</td>
+							<td>London</td>
+							<td>19</td>
+							<td>2010/03/17</td>
+							<td>$385,750</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Marketing Designer</td>
+							<td>London</td>
+							<td>66</td>
+							<td>2012/11/27</td>
+							<td>$198,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Chief Financial Officer (CFO)</td>
+							<td>New York</td>
+							<td>64</td>
+							<td>2010/06/09</td>
+							<td>$725,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Systems Administrator</td>
+							<td>New York</td>
+							<td>59</td>
+							<td>2009/04/10</td>
+							<td>$237,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Software Engineer</td>
+							<td>London</td>
+							<td>41</td>
+							<td>2012/10/13</td>
+							<td>$132,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Personnel Lead</td>
+							<td>Edinburgh</td>
+							<td>35</td>
+							<td>2012/09/26</td>
+							<td>$217,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Development Lead</td>
+							<td>New York</td>
+							<td>30</td>
+							<td>2011/09/03</td>
+							<td>$345,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Chief Marketing Officer (CMO)</td>
+							<td>New York</td>
+							<td>40</td>
+							<td>2009/06/25</td>
+							<td>$675,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Pre-Sales Support</td>
+							<td>New York</td>
+							<td>21</td>
+							<td>2011/12/12</td>
+							<td>$106,450</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Sales Assistant</td>
+							<td>Sidney</td>
+							<td>23</td>
+							<td>2010/09/20</td>
+							<td>$85,600</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Chief Executive Officer (CEO)</td>
+							<td>London</td>
+							<td>47</td>
+							<td>2009/10/09</td>
+							<td>$1,200,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Developer</td>
+							<td>Edinburgh</td>
+							<td>42</td>
+							<td>2010/12/22</td>
+							<td>$92,575</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Regional Director</td>
+							<td>Singapore</td>
+							<td>28</td>
+							<td>2010/11/14</td>
+							<td>$357,650</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Software Engineer</td>
+							<td>San Francisco</td>
+							<td>28</td>
+							<td>2011/06/07</td>
+							<td>$206,850</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Chief Operating Officer (COO)</td>
+							<td>San Francisco</td>
+							<td>48</td>
+							<td>2010/03/11</td>
+							<td>$850,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Regional Marketing</td>
+							<td>Tokyo</td>
+							<td>20</td>
+							<td>2011/08/14</td>
+							<td>$163,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Integration Specialist</td>
+							<td>Sidney</td>
+							<td>37</td>
+							<td>2011/06/02</td>
+							<td>$95,400</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Developer</td>
+							<td>London</td>
+							<td>53</td>
+							<td>2009/10/22</td>
+							<td>$114,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Technical Author</td>
+							<td>London</td>
+							<td>27</td>
+							<td>2011/05/07</td>
+							<td>$145,000</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Team Leader</td>
+							<td>San Francisco</td>
+							<td>22</td>
+							<td>2008/10/26</td>
+							<td>$235,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Post-Sales support</td>
+							<td>Edinburgh</td>
+							<td>46</td>
+							<td>2011/03/09</td>
+							<td>$324,050</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Marketing Designer</td>
+							<td>San Francisco</td>
+							<td>47</td>
+							<td>2009/12/09</td>
+							<td>$85,675</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Office Manager</td>
+							<td>San Francisco</td>
+							<td>51</td>
+							<td>2008/12/16</td>
+							<td>$164,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Secretary</td>
+							<td>San Francisco</td>
+							<td>41</td>
+							<td>2010/02/12</td>
+							<td>$109,850</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Financial Controller</td>
+							<td>San Francisco</td>
+							<td>62</td>
+							<td>2009/02/14</td>
+							<td>$452,500</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Office Manager</td>
+							<td>London</td>
+							<td>37</td>
+							<td>2008/12/11</td>
+							<td>$136,200</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>Director</td>
+							<td>New York</td>
+							<td>65</td>
+							<td>2008/09/26</td>
+							<td>$645,750</td>
+						</tr>
+						
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</section>
+	</div>
+	<style type="text/css" class="init">
+	tfoot input {
+		width: 100%;
+		padding: 3px;
+		box-sizing: border-box;
+	}
+	tfoot {
+	    display: table-header-group;
+	}
+	.example thead th[data-orderable="false"]{
+		background-image:none !important;
+		cursor: auto;
+		text-align: left !important;
+	}
+	.example tbody tr td:first-child{
+		text-align: center;
+	}
+	.example tfoot th:first-child input[type="text"]{
+		display: none;
+	}
+#innertable_wrapper .dataTables_length{
+	float: left !important;
+    margin: 0px;
+    text-align: left;
+}
+#innertable_wrapper .dataTables_filter{
+	margin-top:0px;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 7px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+}
+.table>caption+thead>tr:first-child>td, .table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>td, .table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+}
+
+.table > thead > tr > th {
+    text-align: center;
+}
+.table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border-bottom-width: 2px;
+}
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border: 1px solid #ddd;
+}*/
+
+.ms-core-pageTitle, .ms-core-pageTitle a{
+ color:#fff;
+ display:none;
+}
+.container-fluid {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.btn-group-vertical>.btn-group:after, .btn-group-vertical>.btn-group:before, .btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before, .container-fluid:after, .container-fluid:before, .container:after, .container:before, .dl-horizontal dd:after, .dl-horizontal dd:before, .form-horizontal .form-group:after, .form-horizontal .form-group:before, .modal-footer:after, .modal-footer:before, .modal-header:after, .modal-header:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before {
+    display: table;
+    content: " ";
+	clear:both;
+}
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.pull-left {
+    float: left!important;
+}
+.pull-right {
+    float: right!important;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+    display: block;
+}
+.ms-webpartPage-root{
+	border-spacing: 0;
+}
+.ms-breadcrumb-box {
+	display:none;
+}
+#siteIcon{
+	height:45px;
+}
+.ms-siteicon-img {
+	max-height: 40px;
+}
+#s4-titlerow {
+	height:45px;
+}
+#login_name_contain{
+	padding: 3px 32px 3px 0px !important;
+}
+
+/*table.dataTable{
+    border-collapse: collapse;
+}*/
+.dataTables_filter{
+	margin-bottom:15px;
+}
+.example thead tr th{
+	background:#e8e8e8;
+	color:#333;
+}
+
+.breadcrumb-new a {
+    color: #337ab7;
+}
+.breadcrumb-new a:visited {
+    color: #337ab7 !important;
+}
+.breadcrumb-new .ms-link:visited {
+    color: #337ab7 !important;
+}
+
+/*.example{
+	    font-family: 'Conv_calibri';
+	color:#333;
+}
+table.dataTable thead .sorting{
+	font-size:12px;
+	text-align:left;
+}
+table.dataTable tbody{
+	font-size:12px;
+}*/
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	    font-family: 'Conv_calibri';
+	font-size:12px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+	    font-family: 'Conv_calibri';
+	font-size:12px;
+}
+:-ms-input-placeholder { /* IE 10+ */
+	    font-family: 'Conv_calibri';
+	font-size:12px;
+}
+:-moz-placeholder { /* Firefox 18- */
+	    font-family: 'Conv_calibri';
+	font-size:12px;
+}
+.dataTables_length{
+    float: right !important;
+    width: 50%;
+    text-align: right;
+    margin: -50px 0px 0px 0px;
+}
+.dataTables_filter{
+    display: block;
+    width: 50%;
+    margin: -20px 0px 10px 0px;
+}
+.top-refine ul li{
+	float:none;
+	margin-bottom: 10px;
+}
+.top-refine ul li:last-child{
+	margin-bottom:0px;
+}
+
+	.openDetailsMain{
+		background: rgba(255, 255, 255, 0.57);
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		z-index: 999;
+		width: 100%;
+		height: 100%;
+		display: none;
+	}
+	.openDetailsMainInner{
+		width: 85%;
+		margin: 60px auto;
+		border-radius: 5px;
+    	border: 1px solid #0072c6;
+    	background: #fff;
+	}
+	.openDetailsMain-heading{
+	    padding: 5px 8px;
+	    font-family: 'Conv_calibri';
+	    background: #0072c6;
+	    font-size: 14px;
+	    color: #fff;
+	    line-height: 1.6;
+	}
+	.openDetailsMain-heading a{
+		color:#fff;
+		float: right;
+		cursor: pointer;
+	}
+	.openDetailsMain-mid{
+		padding: 10px;
+	}
+	.openDetailsMain-midTop{
+		margin-bottom: 15px;
+	}
+	.openDetailsMain-midTop table{
+		width: 100%;
+	}
+	.openDetailsMain-midTop table tbody tr td{
+		padding: 5px;
+	}
+	.openDetailsMain-midTop table tbody tr th{
+	   padding: 5px;
+	    text-align: left;
+	    background: #efefef;
+	    color: #333;
+	    font-weight: 600;
+	}
+	/*.openDetailsMain-midBottom table{
+		margin-bottom: 0px !important;
+	}
+	.openDetailsMain-midBottom table thead tr th{
+		vertical-align: middle;
+		background: #e8e8e8;
+	}*/
+</style>
+
+<div class="openDetailsMain">
+	<div class="openDetailsMainInner">
+		<div class="openDetailsMain-heading">
+			Tracking No : 61
+
+			<a onclick="closedetails()"><i class="fa fa-remove"></i></a>
+		</div>
+		<div class="openDetailsMain-mid">
+			<div class="openDetailsMain-midTop">
+				<table class="table table-bordered" style="table-layout: inherit;  word-break: break-all;  word-wrap: break-word;">
+					<tbody>
+						<tr>
+							<th style="width: 20%;">Project Name</th>
+							<th style="width: 20%;">Expense Report Name</th>
+							<th style="width: 12%;">Advance Amount Taken</th>
+							<th style="width: 10%;">Expense currency</th>
+							<th style="width: 32%;">Description</th>
+						</tr>
+						<tr>
+							<td>03651 - Expense Project 091</td>
+							<td>Test</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>INR</td>
+							<td colspan="5">Loren lipsum  Loren lipsum Loren lipsum</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="openDetailsMain-midBottom">
+				<table id="innertable" class="table example table-bordered" style="table-layout: inherit;  word-wrap: break-word;">
+					<thead>
+						<tr>
+							<th data-orderable="false" class="sorting_asc">Attachment</th>
+							<th>Ref No</th>
+							<th>Project Phase</th>
+							<th>Item</th>
+							<th>Expense Note</th>
+							<th>Amount</th>
+							<th>Payment Type</th>
+							<th>Expense Date</th>
+							<th>Billable</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>1</td>
+							<td>Sample AMS project schedule</td>
+							<td>Travelling</td>
+							<td>RECALL MAIL CHECK</td>
+							<td>8765.01 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>2</td>
+							<td>Service Strategy</td>
+							<td>Travelling</td>
+							<td>DGJGTTJ</td>
+							<td>876.01 <span style="color: #ababab;margin-left: 6px;">INR </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="javascript:void(0)"><i class="fa fa-commenting" style="color:#333;font-size: 16px;"></i></a>
+							</td>
+							<td>3</td>
+							<td>Financial Management</td>
+							<td>Dinner</td>
+							<td>GDJFYK</td>
+							<td>36536 <span style="color: #ababab;margin-left: 6px;">USD </span></td>
+							<td>Company Paid</td>
+							<td>4-Jan-2017</td>
+							<td>No</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+ 	function opendetails(){
+ 		$('.openDetailsMain').show();
+ 	}
+ 	function closedetails(){
+ 		$('.openDetailsMain').hide();
+ 	}
+</script>
+	
+</body>
+</html>

@@ -1,0 +1,31 @@
+<style>
+.stiled{width: 150px;height: 150px; margin:0 10px 0 0; background:#31752F;position: relative;font-fmily:"Segoe UI" !important; font-size:14px;display: inline-block;overflow: hidden;}
+.inner-stiled{color: #fff;background-color: rgba(0, 0, 0, 0.60);position: absolute;top:100px; padding:10px; width:100%; height:150px;}
+.stiled:hover .inner-stiled{top:0;transition: all 150ms ease; cursor:pointer;}
+.yellow-bg{background-color: #f09609;}
+.blue-bg{background-color: #1c4269;}
+</style>
+<div class="stiled yellow-bg ">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/Programming-Add-Property-icon.png" style="left:0;
+    top:0px;
+    position: absolute;" />
+	<div class="inner-stiled">test:<span>50</span></div>
+</div>
+<div class="stiled yellow-bg">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/approvedicon.png" style="left:0px;
+    top:0px;
+    position: absolute;" />
+	<div class="inner-stiled">test:<span>50</span></div>
+</div>
+<div class="stiled yellow-bg">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/Check_Status.png" style="left:0px;
+    top:0px;
+    position: absolute;" />
+	<div class="inner-stiled">test:<span>50</span></div>
+</div>
+<div class="stiled yellow-bg">
+<img src="/sites/Dev/SiteAssets/BconeExpenseImg/Check_Status.png" style="left:0px;
+    top:0px;
+    position: absolute;" />
+	<div class="inner-stiled">test:<span>50</span></div>
+</div>

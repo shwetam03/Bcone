@@ -1,0 +1,108 @@
+<script src="https://bristleconeonline.sharepoint.com/sites/PWA/SiteAssets/jquery.min.js"></script>
+<script src="https://bristleconeonline.sharepoint.com/sites/PWA/SiteAssets/jquery-ui.js"></script>
+<div style="background-color: #e8f0f7;line-height: 10px;"> <marquee direction="left" style="font-size: 20px;" onmouseover="this.stop();" onmouseout="this.start();">
+<!-- <span id="FlashNewsComment"></span> -->
+<ul id="FlashNewsComment" class="marquee" style="display: inline-flex;" />
+</marquee></div>
+
+<script>
+
+	$(document).ready(function()
+	{
+		//disableRightClick();
+		jQuery.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl+"/_api/Web/Lists/getbytitle('FlashNews')/Items",
+            type: "GET",
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                var dataResults_ = data.d.results;
+				var bodyHtml ="";
+				if(dataResults_.length > 0)
+				{              
+					for(var i=0;i<dataResults_.length;i++)
+					{
+						//$('#FlashNewsComment').text(dataResults_[0].Message);
+						bodyHtml = bodyHtml+ "<li style='padding-right:45px;color: red;'>" + dataResults_[i].Message+ "</li>";
+					}
+					
+				}
+				$("#FlashNewsComment").append(bodyHtml);
+				
+            },
+            error: function (error) {
+                alert(error);
+
+            },
+        });
+		
+		
+	});
+	function disableRightClick()
+{
+
+	document.onkeydown = function(e) 
+	{
+		if(event.keyCode == 123) {
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'E'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'F'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'H'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'A'.charCodeAt(0)){
+		return false;
+		}
+		if(e.ctrlKey && e.keyCode == 'E'.charCodeAt(0)){
+		return false;
+		}
+	}
+	if (document.layers) 
+	{
+		//Capture the MouseDown event.
+		document.captureEvents(Event.MOUSEDOWN);
+
+		//Disable the OnMouseDown event handler.
+		document.onmousedown = function () {
+			return false;
+		};
+	}
+	else 
+	{
+		//Disable the OnMouseUp event handler.
+		document.onmouseup = function (e) {
+			if (e != null && e.type == "mouseup") {
+				//Check the Mouse Button which is clicked.
+				if (e.which == 2 || e.which == 3) {
+					//If the Button is middle or right then disable.
+					return false;
+				}
+			}
+		};
+	}
+
+	//Disable the Context Menu event.
+	document.oncontextmenu = function () 
+	{
+		return false;
+	};
+}
+	
+</script>
+	

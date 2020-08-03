@@ -1,0 +1,26 @@
+<div>
+<input type="button" value="Submit" onclick="SendDate()"/>
+</div>
+
+<script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+
+
+ <script>
+   var FromCurrency="USD";
+   var ToCurrency="INR";
+   var Date="2017-01-12";
+	jQuery.ajax({
+                url: "https://apilayer.net/api/convert?access_key=0fa27d4f905c308302afee6da2103f30&from='"+FromCurrency+"'&to='"+ToCurrency+"'&amount=1&date='"+Date+'"",
+                type: "GET",
+				async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    console.log(data.result);
+                },
+                complete: function (){
+                },
+            });
+	
+	
+		//https://apilayer.net/api/convert?access_key=0fa27d4f905c308302afee6da2103f30&from=INR&to=USD&amount=1&date=2017-01-12
+</script> 

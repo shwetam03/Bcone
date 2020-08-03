@@ -1,0 +1,1528 @@
+<style>
+    .stiled {
+        width: 150px;
+        height: 150px;
+        margin: 0 4px 0px 3px;
+        position: relative;
+        font-family: "Segoe UI" !important;
+        font-size: 14px;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .innerShiled {
+        top: 100px;
+        padding: 10px;
+        width: 100%;
+        height: 150px;
+    }
+
+    .stiled:hover .ms-tileview-tile-detailsBox {
+        top: 0;
+        transition: all 150ms ease;
+        cursor: pointer;
+    }
+
+    .titlefontstyle {
+        font-family: "Segoe UI Semilight","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+        color: #7695a3;
+        overflow: hidden;
+        text-align: justify;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: normal;
+        font-size: 1.46em;
+        padding-bottom: 11px;
+    }
+	.titleshiftAllowance
+	{
+        font-family: "Segoe UI Semilight","Segoe UI","Segoe",Tahoma,Helvetica,Arial,sans-serif;
+        color: #7695a3;
+        overflow: hidden;
+        text-align: justify;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: normal;
+        font-size: 1.46em;
+        padding-bottom: 11px;
+    }
+	
+	/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 150px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 10px;
+  border: 5px solid #888;
+  width: 50%;
+  text-align: center;
+  margin-top: 20%;
+}
+
+</style>
+
+<div>
+
+	 <div class="titlefontstyle">
+       Track your Resource Requests
+    </div>
+    <div>
+        <div class="stiled ms-tileview-tile-content">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/CreateRRF.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/RRFForm.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                   Create/Check RRF Status
+                </div>
+            </a>
+        </div>
+	</div>
+
+	
+    <div style="padding: 20px 0px 10px 0px;" class="titlefontstyle">
+        Track Your Timesheet
+    </div>
+    <div>
+        <div class="stiled ms-tileview-tile-content" id="divCreateTimeSheet">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/TeamMemberSummaryPage.aspx?status=0">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Create Timesheet
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divMyTimeSheet">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheetCheckStatus.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/TeamMemberSummaryPage.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Check Timesheet 
+		   <div>Status</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divAllocation">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheetCheckStatus.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/AllocationDetails.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Check Allocation 
+		   <div>Details</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divCreateProxyTs" style="display: none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/ProxyTeamMemberSummaryPage.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Create Proxy  
+		   <div>Timesheet</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divTimeSheetAppr" style="display: none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheetApproval.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/ApproveSummaryPage.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Timesheet Approval: 
+                    <div>
+                        <span
+                            id="timeSheetApprovalCount"></span> Pending
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divViewAllTimeDetail" style="display: none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/viewAllTimesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+            <!-- <a href="/sites/pwa/SitePages/ManageExceptionTimesheetPeriod.aspx"> -->
+            <a href="/sites/pwa/SitePages/TimesheetDetails.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Timesheet Details
+                </div>
+            </a>
+        </div>
+        <div class="stiled ms-tileview-tile-content" id="TSViewALLRMOROLE" style="display: none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/viewAllTimesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+            <!-- <a href="/sites/pwa/SitePages/ManageExceptionTimesheetPeriod.aspx"> -->
+            <a href="/sites/pwa/SitePages/ViewAllTimesheet.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    View All Timesheet 
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="tsproxyapproval" style="display: none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheetApproval.png" style="left: 0; top: 0px; position: absolute;" />
+            <a href="/sites/pwa/SitePages/ProxySummaryPage.aspx">
+                <div class="innerShiled ms-tileview-tile-detailsBox">
+                    Proxy Timesheet
+                        <div>Approval:
+                    <span id="proxytimeshhetcount"></span>
+					<span>Pending</span>
+					</div>
+                </div>
+            </a>
+        </div>
+        <div class="stiled ms-tileview-tile-content" id="timesheetdumpOther" style="display: none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="/sites/pwa/SitePages/Timesheetdump.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Timesheet Dump Report 
+                </div>
+            </a>
+        </div>
+        <div class="stiled ms-tileview-tile-content">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="/sites/pwa/SitePages/Timesheet Report.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Timesheet Report 
+                </div>
+            </a>
+        </div>
+
+
+
+        <div>
+            <div class="titlefontstyle" style="padding: 20px 0px 10px 0px;">Track Your Expenses</div>
+            <div class="stiled ms-tileview-tile-content ">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/createExpense.png" style="left: 0; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/MyExpense.aspx?Default=Open">
+                    <div class="innerShiled ms-tileview-tile-detailsBox">
+                        Create Expense<span></span>
+                    </div>
+                </a>
+            </div>
+            <div class="stiled ms-tileview-tile-content">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/expenseStatus.png" style="left: 0px; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/MyExpense.aspx">
+                    <div class="ms-tileview-tile-detailsBox innerShiled">
+                        Check Expense Status<span></span><div>Approved: <span id="ApprovedCount"></span></div>
+                        <div>Open: <span id="OpenCount"></span></div>
+                        <div>
+                            Submitted: <span
+                                id="SubmittedCount"></span>
+                        </div>
+                        <div>Rejected: <span id="RejectedCount"></span></div>
+                        <div>Reimbursed: <span id="ReimbursedCount"></span></div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="stiled ms-tileview-tile-content ">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/FinanceReportForAll.aspx">
+                    <div class="innerShiled ms-tileview-tile-detailsBox">
+                        Expense Report<span></span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="stiled ms-tileview-tile-content" id="divProxy" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/createExpense.png" style="left: 0; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/ProxyExpense.aspx?Default=Open">
+                    <div class="innerShiled ms-tileview-tile-detailsBox">
+                        Create Proxy
+                        <div>Expense</div>
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="stiled ms-tileview-tile-content" id="divProxyStatus" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/expenseStatus.png" style="left: 0; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/ProxyExpense.aspx">
+                    <div class="innerShiled ms-tileview-tile-detailsBox">
+                        Check Proxy
+                        <div>Expense Status</div>
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="stiled ms-tileview-tile-content" id="expenseapproval" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/expenseappoval.png" style="left: 0px; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/ExpenseApproval.aspx">
+                    <div class="ms-tileview-tile-detailsBox innerShiled">
+                        Expense Approval: <span
+                            id="expenseCount"></span>
+                        <div>Pending</div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div class="stiled ms-tileview-tile-content" id="divproxyExpense" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/expenseappoval.png" style="left: 0; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/ProxyExpenseApproval.aspx">
+                    <div class="innerShiled ms-tileview-tile-detailsBox">
+                        Proxy Expense
+                         <div>Approval : <span id="proxyExpenseApprovalCount"></span></div>
+                    </div>
+                </a>
+            </div>
+
+
+
+            <div class="stiled ms-tileview-tile-content" id="financeapproval" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/expenseappoval.png" style="left: 0px; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/FinanceApproval.aspx">
+                    <div class="ms-tileview-tile-detailsBox innerShiled">
+                        Finance Approval: <span
+                            id="financeCount"></span>
+                        <div>Pending</div>
+                    </div>
+                </a>
+            </div>
+			
+			<div class="stiled ms-tileview-tile-content" id="ResourceSAPIdid" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/expenseappoval.png" style="left: 0px; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/ResourceSAPId.aspx">
+                    <div class="ms-tileview-tile-detailsBox innerShiled">
+                        SAP ID Update
+                    </div>
+                </a>
+            </div>
+
+            <div class="stiled ms-tileview-tile-content" id="financeRemapproval" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/Reimbursement.png" style="left: 0px; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/FinanceReimburse.aspx">
+                    <div class="ms-tileview-tile-detailsBox innerShiled">
+                        Reimbursement: <span
+                            id="financeRemCount"></span>
+                        <div>Pending</div>
+                    </div>
+                </a>
+            </div>
+
+
+            <div id="dashboard" style="display: none">
+                <div class="stiled ms-tileview-tile-content">
+                    <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0px; top: 0px; position: absolute;" />
+                    <a href="/sites/pwa/SitePages/ExpenseDashboard.aspx">
+                        <div class="ms-tileview-tile-detailsBox innerShiled">
+                            Expense Dashboard
+            
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div id="financedashboard" style="display: none">
+                <div class="stiled ms-tileview-tile-content">
+                    <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0px; top: 0px; position: absolute;" />
+                    <a href="/sites/pwa/Sitepages/ExpenseDetailReport.aspx">
+                        <div class="ms-tileview-tile-detailsBox innerShiled">
+                            Finance Reports
+            
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="stiled ms-tileview-tile-content" id="orgExpenseRMOROLE" style="display: none">
+                <img src="/sites/pwa/SiteAssets/BconeExpenseImg/view-all.png" style="left: 0px; top: 0px; position: absolute;" />
+                <a href="/sites/pwa/SitePages/ViewAllExpenses.aspx">
+                    <div class="ms-tileview-tile-detailsBox innerShiled">
+                        View All Expense 
+                    </div>
+                </a>
+            </div>
+
+            <br />
+            <div id="manageinvoice" style="display: none">
+                <div class="titlefontstyle" style="padding: 20px 0px 0px 0px;">
+                    Manage Invoice
+                </div>
+                <div style="margin-top: 10px;">
+                    <div id="InvoiceCreate">
+                        <div class="stiled ms-tileview-tile-content">
+                            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/invoice-A.png" style="left: 0px; top: 0px; position: absolute;" />
+                            <a href="/sites/pwa/Sitepages/InvoiceProcessStep1.aspx">
+                                <div class="ms-tileview-tile-detailsBox innerShiled">
+                                    Create Invoice For
+             <div>Expense</div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="InvoiceSummary">
+                        <div class="stiled ms-tileview-tile-content">
+                            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/invoice-B.png" style="left: 0px; top: 0px; position: absolute;" />
+                            <a href="/sites/pwa/Sitepages/InvoiceProcessStep3.aspx">
+                                <div class="ms-tileview-tile-detailsBox innerShiled">
+                                    Expense Invoice  
+						    <div>Status Summary</div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/invoice-D.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/Sitepages/TimesheetInvoiceStep1.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Create Invoice For
+             <div>Timesheet</div>
+
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/invoice-C.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/Sitepages/TimesheetInvoiceStep3.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Timesheet Invoice  
+						    <div>Status Summary</div>
+
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="masterInvoice">
+                        <div class="stiled ms-tileview-tile-content">
+                            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/invoice-E.png" style="left: 0px; top: 0px; position: absolute;" />
+                            <a href="/sites/pwa/Sitepages/ManageInvoiceDetails.aspx">
+                                <div class="ms-tileview-tile-detailsBox innerShiled">
+                                    Manage Invoice
+						    <div>Master</div>
+
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div id="TSAdmin" style="display: none">
+                <div class="titlefontstyle" style="padding: 20px 0px 0px 0px;">
+                    Manage Timesheet Administration
+                </div>
+
+                <div style="margin-top: 10px;">
+
+                    <div class="stiled ms-tileview-tile-content" id="TSViewALL">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/viewAllTimesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <!-- <a href="/sites/pwa/SitePages/ManageExceptionTimesheetPeriod.aspx"> -->
+                        <a href="/sites/pwa/SitePages/ViewAllTimesheet.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                View All Timesheet 
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="stiled ms-tileview-tile-content" id="TSAdministration">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/ManageTimesheetPeriod.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/MangeTimesheetAdminListData.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Manage Timesheet Administration
+                            </div>
+                        </a>
+                    </div>
+                    <div class="stiled ms-tileview-tile-content" id="TimDelegation">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/TimesheetDelegation.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/ProjectDelegatesTimesheet.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Manage Timesheet Delegation 
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content" id="TSMngPeriod">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/ManageTimesheetPeriod.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/ManageTimesheetPeriods.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Manage Timesheet 
+                                Period
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content" id="TSCreateBulk">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/ManageTimesheetPeriod.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/CreateBulkTimesheetPeriods.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Create Bulk
+                                 Period
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content" id="timesheetdump" style="display: none">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/Timesheetdump.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Timesheet Dump Report 
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div id="admin" style="display: none">
+                <div class="titlefontstyle" style="padding: 20px 0px 0px 0px;">
+                    Manage Expense Administration
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <div class="stiled ms-tileview-tile-content" id="orgExpense" style="display: none">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/view-all.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/ViewAllExpenses.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                View All Expense 
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content" id="ManageExp" style="display: none">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/ExpenseReportGear.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/Manage%20Admin%20List.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Manage Expense Administration
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="stiled ms-tileview-tile-content" id="ExpDelegation" style="display: none">
+                        <img src="/sites/pwa/SiteAssets/BconeExpenseImg/ExpenseReportDelegation.png" style="left: 0px; top: 0px; position: absolute;" />
+                        <a href="/sites/pwa/SitePages/ProjectDelegates.aspx">
+                            <div class="ms-tileview-tile-detailsBox innerShiled">
+                                Manage Expense Delegation 
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+			<br>
+			<div style="padding: 20px 0px 10px 0px;" class="titleshiftAllowance" style="display:block">
+        Shift Allowance
+    </div>
+    <div>
+        <div class="stiled ms-tileview-tile-content" id="divCreateShiftAllowance" style="display:inline-block;">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheet.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/PMSACreatePage.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                    Create Shift Allowance
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divCPApproval" style="display:none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheetCheckStatus.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/cp_approval.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+            CP Approval Pending
+
+
+                </div>
+            </a>
+        </div>
+
+        <div class="stiled ms-tileview-tile-content" id="divHRApproval" style="display:none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/timesheetCheckStatus.png" style="left: 0px; top: 0px; position: absolute;" />
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/hr_appproval.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                 HR Approval Pending
+                </div>
+            </a>
+        </div>
+		
+		<div class="stiled ms-tileview-tile-content" id="divAllowanceReport" style="display:none">
+            <img src="/sites/pwa/SiteAssets/BconeExpenseImg/chart-icon.png" style="left: 0px; top: 0px; position: absolute;" data-themekey="#">
+            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/HR_Report.aspx">
+                <div class="ms-tileview-tile-detailsBox innerShiled">
+                 Shift Allowance Report 
+                </div>
+            </a>
+        </div>
+			<br/>
+        </div>
+        <div>
+        </div>
+    </div>
+</div>
+<script src="https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+<script src="https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <p style="font-size: large;">Kindly use IE (Version 11 and above) or Chrome (Version 59 and above) in Laptop or Desktop to access PPM</p>
+  </div>
+
+</div>
+
+<script>
+    var userid = "";
+    var NewloginName = "";
+    var displayName = "";
+    var resGuid = "";
+    var ResourceGuid = ""
+    var EmployeeID = "";
+    var EmployeeUserID = "";
+    var FinalShow = "";
+    var PARole = "";
+	var TotalItemCount=0;
+    //Code to Get Current login user ID
+    $(document).ready(function () 
+	{
+		//disableRightClick();
+		var is_iPad = navigator.userAgent.match(/iPhone/i) != null;
+		if(is_iPad == true)
+		{
+			var modal = document.getElementById('myModal');
+			modal.style.display = "block";
+		}
+		
+        userid = _spPageContextInfo.userId;
+        EmployeeUserID = userid;
+        GetUserId(userid);  //Get User Id
+    });
+
+
+    function GetUserId(userid) {
+
+        jQuery.ajax({
+            url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+            type: "GET",
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                var dataResults = data.d;
+                displayName = dataResults.Title;
+                NewloginName = encodeURIComponent(dataResults.LoginName); //encoding loginName from special charater to normal text
+                console.log()
+            },
+            complete: function () {
+                resGuid = getResourcesGuid(NewloginName); //Code to get login user GUID
+
+            },
+        });
+    }
+
+    function getResourcesGuid(NewloginName) {
+        jQuery.ajax({
+
+            url: "/sites/pwa/_api/ProjectData/Resources?$select=Role,ResourceNTAccount,ResourceId,EmployeeID&$filter=ResourceNTAccount eq('" + NewloginName + "')",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                setTimeout(function () {
+                    ResourceGuid = data.d.results[0].ResourceId;
+                    EmployeeID = data.d.results[0].EmployeeID;
+					checkHRTeam(EmployeeUserID, ResourceGuid);
+                    CheckLoginUserRole(ResourceGuid);
+                    checkFinanceTeam(EmployeeUserID, ResourceGuid);
+					
+                    ShowExpenseAdminisatrationTile(EmployeeUserID);
+					ShowFinanceAdminTail(EmployeeUserID);
+                    ShowTSADministrationTile(EmployeeUserID);
+                    checkProxyUser(ResourceGuid);
+                    checkProxyApproval(ResourceGuid);
+                    checkProxyTimesheetApproval(ResourceGuid);
+                    countTotalTimeSheetApprovalStatus(ResourceGuid);
+                    getAllRecord(ResourceGuid);
+                    ExpenseCount(ResourceGuid);
+                    PendingRemCount(ResourceGuid);
+                    checkCreateProxyTimesheet(ResourceGuid);
+					ProxycountTotalTimeSheetApprovalStatus(ResourceGuid);
+					ProxyApprovalCount();
+                    PARole = data.d.results[0].Role;
+                    if (PARole != null) {
+                        CheckPAUserRole(PARole);
+                    }
+                }, 1000);
+            }
+        });
+        return ResourceGuid;
+
+    }
+
+
+    function CheckPAUserRole(PARole) {
+
+        if (PARole == "PA" || PARole == "APM") {
+            document.getElementById("expenseapproval").style.display = "inline-block";
+            document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+            document.getElementById("dashboard").style.display = "inline-block";
+            document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+        }
+        if (PARole == "TS Admin" || PARole == "RMO" || PARole == "PMO") {
+            document.getElementById("timesheetdumpOther").style.display = "inline-block";
+        }
+        if (PARole == "TS Admin") {
+            document.getElementById("divViewAllTimeDetail").style.display = "inline-block";
+        }
+        if (PARole == "RMO") {
+            document.getElementById("divViewAllTimeDetail").style.display = "inline-block";
+
+        }
+        if (PARole == "AF") {
+            document.getElementById("TSViewALLRMOROLE").style.display = "inline-block";
+            document.getElementById("timesheetdumpOther").style.display = "inline-block";
+            document.getElementById("orgExpenseRMOROLE").style.display = "inline-block";
+
+        }
+        if (PARole == "TSRV") {
+            document.getElementById("timesheetdumpOther").style.display = "inline-block";
+        }
+    }
+
+    function checkCreateProxyTimesheet(ResourceGuid) {
+        var TSCount = "";
+        $.ajax
+        ({
+            url: "https://ppmprod.bcone.com/api/Timesheet/Admin_GetProxyEntryResourceList",
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+            data: { "ResourceUID": ResourceGuid },
+            success: function (data) {
+
+                $.each(data.Resources, function (key, value) {
+                    if (value.Proxy_Res_Uid == ResourceGuid) {
+                        if (data.Resources.length > 0) {
+                            document.getElementById("divCreateProxyTs").style.display = "inline-block";
+                        }
+                    }
+                });
+
+            },
+            complete: function () {
+
+            },
+            error: function (data) {
+                //alert("failed");
+            }
+        });
+    }
+
+    function checkProxyUser(ResourceGuid) {
+        var ProxyDataCount = "";
+        var query_cmlNew = '<View><Query><Where><And><Eq><FieldRef Name="ProxyGuid" /><Value Type="Text">' + ResourceGuid + '</Value></Eq><Eq><FieldRef Name="IsActive" /><Value Type="Boolean">1</Value></Eq></And></Where></Query></View>';
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeProxyMaster')/GetItems",
+            type: "POST",
+            async: false,
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "content-Type": "application/json;odata=verbose"
+            },
+            data: JSON.stringify({
+                query: {
+                    __metadata: {
+                        type: "SP.CamlQuery"
+                    },
+                    ViewXml: query_cmlNew
+                }
+            }),
+
+            success: function (data) {
+                ProxyDataCount = data.d.results.length;
+            },
+            complete: function () {
+                if (ProxyDataCount > 0) {
+                    document.getElementById("divProxyStatus").style.display = "inline-block";
+                    document.getElementById("divProxy").style.display = "inline-block";
+                } else {
+                    document.getElementById("divProxyStatus").style.display = "none";
+                    document.getElementById("divProxy").style.display = "none";
+                }
+            },
+            error: function (data) {
+                alert(data.responseJSON.error.message.value);
+                failure(data);
+
+            }
+        });
+    }
+
+
+    function CheckLoginUserRole(ResourceGuid) {
+        $.ajax
+        ({
+            url: "https://ppmprod.bcone.com/api/BCONE/GetLoginUserRole",
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+            //data: { "ResourceUID":"467B2620-D6B2-E611-BEF9-E50A825364A1" },
+            data: { "ResourceUID": ResourceGuid },
+            success: function (data) {
+                data.SubOptions[0].LoginUserRole.filter
+                (
+                 function (CheckRole) {
+                     if (CheckRole.ROLE == "CP") {
+                         document.getElementById("expenseapproval").style.display = "inline-block";
+                         document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+                         document.getElementById("dashboard").style.display = "inline-block";
+                         document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+						 document.getElementById("divCPApproval").style.display = "inline-block";
+						 $('.titleshiftAllowance').show();
+                     }
+                     if (CheckRole.ROLE == "PM") {
+                         document.getElementById("expenseapproval").style.display = "inline-block";
+                         document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+                         document.getElementById("dashboard").style.display = "inline-block";
+                         document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+						//  document.getElementById("divCreateShiftAllowance").style.display = "inline-block";
+						  $('.titleshiftAllowance').show();
+                     }
+                     if (CheckRole.ROLE == "RM") {
+                         document.getElementById("expenseapproval").style.display = "inline-block";
+                         document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+                     }
+					 
+					 
+                 }
+             )
+            },
+            complete: function () {
+
+            },
+            error: function (data) {
+                //alert("failed");
+            }
+        });
+    }
+
+
+
+    function checkProxyApproval(ResourceGuid) {
+        var query_cmlNew = '<View><Query><Where><And><Eq><FieldRef Name="ProxyGuid" /><Value Type="Text">' + ResourceGuid + '</Value></Eq><And><Eq><FieldRef Name="IsActive" /><Value Type="Boolean">1</Value></Eq><Eq><FieldRef Name="ProxyApproverType" /><Value Type="Text">Manager Approval</Value></Eq></And></And></Where></Query></View>';
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeProxyApprover')/GetItems",
+            type: "POST",
+            async: false,
+            headers: {
+                "accept": "application/json;odata=verbose",
+                "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                "content-Type": "application/json;odata=verbose"
+            },
+            data: JSON.stringify({
+                query: {
+                    __metadata: {
+                        type: "SP.CamlQuery"
+                    },
+                    ViewXml: query_cmlNew
+                }
+            }),
+            success: function (data) {
+                document.getElementById("divproxyExpense").style.display = "inline-block";
+            },
+            error: function (data) {
+                alert(data.responseJSON.error.message.value);
+                //failure(data);
+            }
+        });
+    }
+
+
+
+
+    function checkProxyTimesheetApproval(ResourceGuid) {
+        var TSCount = "";
+        $.ajax
+        ({
+            url: "https://ppmprod.bcone.com/api/timesheet/Admin_GetAllProxyResourceList",
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+            success: function (data) {
+
+                $.each(data.ProxyResources, function (key, value) {
+                    if (value.ProxyResID == ResourceGuid) {
+                        if (data.ProxyResources[0].Resources.length > 0) {
+                            document.getElementById("tsproxyapproval").style.display = "inline-block";
+                        }
+                    }
+                });
+
+            },
+            complete: function () {
+
+            },
+            error: function (data) {
+                //alert("failed");
+            }
+        });
+    }
+
+
+
+    function countTotalTimeSheetApprovalStatus(ResourceGuid) {
+        var TSCount = "";
+        $.ajax
+        ({
+            url: "https://ppmprod.bcone.com/api/Timesheet/GetApprovalPendingCount",
+            method: "POST",
+            async: false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            //data: { "ResourceUID":"467B2620-D6B2-E611-BEF9-E50A825364A1" },
+            data: { "ResourceUID": ResourceGuid },
+            success: function (data) {
+                if (data.Data.length != "0") {
+                    TSCount = data.Data[0].Pending_Count;
+                }
+            },
+            complete: function () {
+                if (TSCount > 0) {
+                    document.getElementById("timeSheetApprovalCount").innerHTML = TSCount;
+                }
+                else {
+                    document.getElementById("timeSheetApprovalCount").innerHTML = "0";
+                }
+            },
+            error: function (data) {
+                //alert("failed");
+            }
+        });
+    }
+
+function checkHRTeam(EmployeeUserID, ResourceGuid) {
+var HRTeamCount = "";
+jQuery.ajax({
+
+            url: "/sites/pwa/_api/Web/GetUserById('" + EmployeeUserID + "')/Groups?$select=Id,Title&$filter=Title eq 'ShiftAllowanceHRTeam'",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                HRTeamCount = data.d.results.length;
+            },
+            complete: function () {
+                if (HRTeamCount > 0) {
+						
+                    
+					document.getElementById("divAllowanceReport").style.display = "inline-block";
+					document.getElementById("divHRApproval").style.display = "inline-block";
+					$('.titleshiftAllowance').show();
+                    
+                } else {
+				document.getElementById("divAllowanceReport").style.display = "none";
+					document.getElementById("divHRApproval").style.display = "none";
+					// document.getElementById("divCreateShiftAllowance").style.display = "none";
+					document.getElementById("divCPApproval").style.display = "none";
+					$('.titleshiftAllowance').hide();
+					
+                }
+            }
+
+        });
+}
+
+    //Code to check finance from finance Team 
+    function checkFinanceTeam(EmployeeUserID, ResourceGuid) {
+        var FinanceTeamCount = "";
+        jQuery.ajax({
+
+            url: "/sites/pwa/_api/Web/GetUserById('" + EmployeeUserID + "')/Groups?$select=Id,Title&$filter=Title eq 'Finance%20Team'",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                FinanceTeamCount = data.d.results.length;
+            },
+            complete: function () {
+                if (FinanceTeamCount > 0) {
+                    document.getElementById("financeapproval").style.display = "inline-block";
+                    document.getElementById("financeRemapproval").style.display = "inline-block";
+                    document.getElementById("divTimeSheetAppr").style.display = "inline-block";
+                    document.getElementById("financedashboard").style.display = "inline-block";
+                    document.getElementById("InvoiceSummary").style.display = "inline-block";
+                    document.getElementById("InvoiceCreate").style.display = "inline-block";
+                    document.getElementById("manageinvoice").style.display = "inline-block";
+                    document.getElementById("masterInvoice").style.display = "inline-block";
+                } else {
+                    document.getElementById('financeapproval').style.display = "none";
+                    document.getElementById("financeRemapproval").style.display = "none";
+                    document.getElementById("divTimeSheetAppr").style.display = "none";
+                    document.getElementById("financedashboard").style.display = "none";
+                    document.getElementById("InvoiceSummary").style.display = "none";
+                    document.getElementById("InvoiceCreate").style.display = "none";
+                    document.getElementById("manageinvoice").style.display = "none";
+                    document.getElementById("masterInvoice").style.display = "none";
+                }
+            }
+
+        });
+
+        var FinDataCount = "";
+		var sixtyday =getSixtyDayPastFormat();
+		var todayFormt = getTodayDAteFormat();
+		getExpenseForFinance();
+        //var query_cmlNew = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">' + ResourceGuid + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></Or></Or></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';
+        //var query_cmlNew = '<View><Query><Where><And><IsNull><FieldRef Name="PendingWithId" /></IsNull><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">' + ResourceGuid + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></Or></Or></And></And></Where><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+        
+	/*$.ajax({
+            //url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/Items?$Filter=(ReportStatus eq 'Manager Approved' or ReportStatus eq 'Approver 1 Approved' or ReportStatus eq 'Approver 2 Approved') and FinanceId eq '" + ResourceGuid + "'&$Top=100000",
+           url:_spPageContextInfo.webAbsoluteUrl +"/_api/Web/Lists/getbytitle('BconeExpenceMaster')/Items?$Filter=((Modified ge datetime'"+ sixtyday +"') and (Modified le datetime'"+ todayFormt +"')) and (FinanceId eq '" + ResourceGuid + "' or FinanceApprover2Id eq '" + ResourceGuid + "') and (ReportStatus eq 'Manager Approved' or ReportStatus eq 'Approver 1 Approved' or ReportStatus eq 'Approver 2 Approved')&$Top=100000",
+	    type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+
+
+            success: function (data) {
+                FinDataCount = data.d.results.length;
+            },
+            complete: function () {
+                if (FinDataCount > 0) {
+                    document.getElementById('financeCount').innerHTML = FinDataCount;
+                } else {
+                    document.getElementById('financeCount').innerHTML = "0";
+                }
+            },
+            error: function (data) {
+                alert(data.responseJSON.error.message.value);
+                failure(data);
+
+            }
+        });*/
+    }
+
+    function ExpenseCount(ResourceGuid) {
+        var ExpenseCount = "";
+        // var query_cmlNew = '<View><Query><Where><And><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">' + ResourceGuid + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><And><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Submitted</Value></Eq><Neq><FieldRef Name="ReportStatus" /><Value Type="Text">Approved</Value></Neq></And></Or></Or></Or></And></Where></Query></View>';
+
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/Items?$Filter=PendingWithId eq '" + ResourceGuid + "' and (ReportStatus eq 'Approver 1 Approved' or ReportStatus eq 'Approver 2 Approved' or ReportStatus eq 'Manager Approved' or ReportStatus eq 'Submitted' or ReportStatus eq 'Approved')&$Top=100000",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+
+            success: function (data) {
+                ExpenseCount = data.d.results.length;
+
+
+            },
+            complete: function () {
+                if (ExpenseCount > 0) {
+
+                    document.getElementById('expenseCount').innerHTML = ExpenseCount;
+
+                } else {
+
+                    document.getElementById('expenseCount').innerHTML = "0";
+                }
+            },
+            error: function (data) {
+                alert(data.responseJSON.error.message.value);
+                failure(data);
+
+            }
+        });
+    }
+function ProxycountTotalTimeSheetApprovalStatus(ResourceGuid) {
+        var resource_count = 0;
+        $.ajax
+        ({
+            url: "https://ppmprod.bcone.com/api/Timesheet/GetProxyResourceList",
+            method: "POST",
+			async:false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            data: { "ResourceUID": ResourceGuid },
+            success: function (data) {
+                if (data.Data.length != "0") {
+				for(var i=0;i<data.Resources.length;i++)
+				{
+					var proxyResourceGuid= data.Resources[i].Approval_Res_Uid;
+					var resource_counts = ProxycountTotalTimeSheetApproval(proxyResourceGuid);
+					resource_count = resource_count+resource_counts;
+				}
+                   
+                }
+            },
+            complete: function () {
+                if (resource_count > 0) {
+                    document.getElementById("proxytimeshhetcount").innerHTML = resource_count;
+                }
+                else {
+                    document.getElementById("proxytimeshhetcount").innerHTML = "0";
+                }
+            },
+            error: function (data) {
+                //alert("failed");
+            }
+        });
+    }
+	function ProxycountTotalTimeSheetApproval(proxyResourceGuid) {
+        var Proxy_Count = 0;
+        $.ajax
+        ({
+            url: "https://ppmprod.bcone.com/api/Timesheet/GetTimesheetSummary",
+            method: "POST",
+			async:false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            data: { "ResourceUID": proxyResourceGuid },
+            success: function (data) {
+                if (data.Data.length != "0") 
+				{
+				
+					Proxy_Count=data.Data.length;
+                   
+                }
+            },
+            error: function (data) {
+                //alert("failed");
+            }
+        });
+		return Proxy_Count;
+    }
+
+    //Code to check finance from finance Team 
+    function ShowExpenseAdminisatrationTile(EmployeeUserID) {
+        jQuery.ajax({
+
+            url: "/sites/pwa/_api/Web/GetUserById('" + EmployeeUserID + "')/Groups?$select=Id,Title&$filter=Title eq 'Expense Admin'",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                datacount = data.d.results.length;
+            },
+            complete: function () {
+                if (datacount > 0) {
+                    document.getElementById("admin").style.display = "inline-block";
+                    document.getElementById("orgExpense").style.display = "inline-block";
+                    document.getElementById("ManageExp").style.display = "inline-block";
+
+                    document.getElementById("ExpDelegation").style.display = "inline-block";
+					//document.getElementById("ResourceSAPIdid").style.display = "inline-block";
+
+                } else {
+                    document.getElementById('admin').style.display = "none";
+                    document.getElementById("orgExpense").style.display = "none";
+                    document.getElementById("ManageExp").style.display = "none";
+                    document.getElementById("ExpDelegation").style.display = "none";
+					 document.getElementById("ResourceSAPIdid").style.display = "none";
+                }
+            }
+
+        });
+    }
+	
+	//Code to check finance admin
+    function ShowFinanceAdminTail(EmployeeUserID) 
+	{
+		var currentuserloginid = _spPageContextInfo.userId;	
+		var groupRMO_URL = _spPageContextInfo.webAbsoluteUrl +"/_api/Web/GetUserById('" + currentuserloginid + "')/Groups?$select=Id,Title&$filter=Title eq 'Finance Admin'";
+		var groupFlash_URL = _spPageContextInfo.webAbsoluteUrl +"/_api/Web/GetUserById('" + currentuserloginid + "')/Groups?$select=Id,Title&$filter=Title eq 'Flash News'";
+		var gropRMOVal = resultset(groupRMO_URL);
+		var gropFlashNews = resultset(groupFlash_URL);
+		if(gropRMOVal.length > 0)
+		{
+			//document.getElementById("admin").style.display = "inline-block";
+			//document.getElementById("orgExpense").style.display = "inline-block";
+			//document.getElementById("ManageExp").style.display = "inline-block";
+			//document.getElementById("ExpDelegation").style.display = "inline-block";
+			document.getElementById("ResourceSAPIdid").style.display = "inline-block";
+		}
+		else if(gropFlashNews.length > 0)
+		{		 
+			//document.getElementById("admin").style.display = "inline-block";
+			//document.getElementById("orgExpense").style.display = "inline-block";
+			//document.getElementById("ManageExp").style.display = "inline-block";
+			//document.getElementById("ExpDelegation").style.display = "inline-block";
+			document.getElementById("ResourceSAPIdid").style.display = "inline-block";                   
+       	}
+		/*else
+		{
+			document.getElementById('admin').style.display = "none";
+			document.getElementById("orgExpense").style.display = "none";
+			document.getElementById("ManageExp").style.display = "none";
+			document.getElementById("ExpDelegation").style.display = "none";
+			document.getElementById("ResourceSAPIdid").style.display = "none";
+		}*/
+	
+
+	
+       /* jQuery.ajax({
+
+            url: "/sites/pwa/_api/Web/GetUserById('" + EmployeeUserID + "')/Groups?$select=Id,Title&$filter=Title eq 'Finance Admin'",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                datacount = data.d.results.length;
+            },
+            complete: function () {
+                if (datacount > 0) {
+                    //document.getElementById("admin").style.display = "inline-block";
+                   // document.getElementById("orgExpense").style.display = "inline-block";
+                    //document.getElementById("ManageExp").style.display = "inline-block";
+
+                    //document.getElementById("ExpDelegation").style.display = "inline-block";
+					document.getElementById("ResourceSAPIdid").style.display = "inline-block";
+
+                } //else {
+                    //document.getElementById('admin').style.display = "none";
+                    //document.getElementById("orgExpense").style.display = "none";
+                    //document.getElementById("ManageExp").style.display = "none";
+                    //document.getElementById("ExpDelegation").style.display = "none";
+					 //document.getElementById("ResourceSAPIdid").style.display = "none";
+                //}
+            }
+
+        });*/
+    }
+	function resultset(Url) 
+	{
+		var result;
+		$.ajax({
+			url: Url,
+			async: false,
+			method: "GET",
+			headers: {
+				"Accept": "application/json; odata=verbose",
+				"Content-Type": "application/json; odata=verbose"
+			},
+			success: function (data) {
+				result = data.d.results;
+			},
+			error: function (error) {
+				alert(JSON.stringify(error));
+			}
+		});
+		return result;
+	}
+
+
+    function ShowTSADministrationTile(EmployeeUserID) {
+        jQuery.ajax({
+
+            url: "/sites/pwa/_api/Web/GetUserById('" + EmployeeUserID + "')/Groups?$select=Id,Title&$filter=Title eq 'Timesheet Admin'",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                datacount = data.d.results.length;
+            },
+            complete: function () {
+                if (datacount > 0) {
+                    document.getElementById("TSAdmin").style.display = "inline-block";
+                    document.getElementById("TSAdministration").style.display = "inline-block";
+                    document.getElementById("TimDelegation").style.display = "inline-block";
+                    document.getElementById("TSMngPeriod").style.display = "inline-block";
+                    document.getElementById("TSCreateBulk").style.display = "inline-block";
+                    document.getElementById("timesheetdump").style.display = "inline-block";
+
+
+                } else {
+                    document.getElementById('TSAdmin').style.display = "none";
+
+                    document.getElementById("TSAdministration").style.display = "none";
+                    document.getElementById("TimDelegation").style.display = "none";
+                    document.getElementById("TSMngPeriod").style.display = "none";
+                    document.getElementById("TSCreateBulk").style.display = "none";
+                    document.getElementById("timesheetdump").style.display = "inline-block";
+
+
+                }
+            }
+
+        });
+    }
+
+
+    function PendingRemCount(ResourceGuid) {
+        var FinRemDatacount = "";
+        // var query_cmlFinREMStatus = '<View> <Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">' + ResourceGuid + '</Value></Eq><And><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approved</Value></Eq><Eq><FieldRef Name="FinanceExpenseStatus" /><Value Type="Text">Approved</Value></Eq></And></And></Where></Query></view>';
+
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/Items?$Filter=ReportStatus eq 'Approved' and FinanceId eq '" + ResourceGuid + "' and FinanceExpenseStatus eq 'Approved'&$Top=100000",
+            async:false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                $.each(data.d.results, function (key, value) {
+                    FinRemDatacount = data.d.results.length;
+
+                });
+
+            },
+            complete: function () {
+                if (FinRemDatacount > 0) {
+                    document.getElementById('financeRemCount').innerHTML = FinRemDatacount;
+                }
+                else {
+
+                    document.getElementById('financeRemCount').innerHTML = "0";
+                }
+            },
+            error: function (data) {
+                alert(data.responseJSON.error.message.value);
+                failure(data);
+            }
+        });
+    }
+
+    function getAllRecord(ResourceGuid) {
+        var openstatus_count = 0;
+        var submittedstatus_count = 0;
+        var approvedstatus_count = 0;
+        var rejectedstatus_count = 0;
+        var reimburesedstatus_count = 0;
+        //var query_cml = '<View><Query><Where><Eq><FieldRef Name="EmployeeId"/><Value Type="Text">' + ResourceGuid + '</Value></Eq></Where><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+
+        //alert(query_cml);
+
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/Items?$Filter=EmployeeId eq '" + ResourceGuid + "'&$Top=100000",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                $.each(data.d.results, function (key, value) {
+                    if (value.ReportStatus == "Open") {
+                        openstatus_count++;
+                    }
+
+                    if (value.ReportStatus == "Submitted") {
+                        submittedstatus_count++;
+                    }
+                    if (value.ReportStatus == "ReSubmitted") {
+
+                    }
+
+
+                    if (value.ReportStatus == "Rejected" || value.ReportStatus == "Approver 2 Rejected" || value.ReportStatus == "Approver 1 Rejected" || value.ReportStatus == "Manager Rejected") {
+                        rejectedstatus_count++;
+                    }
+
+                    if (value.ReportStatus == "Approved" || value.ReportStatus == "Approver 2 Approved" || value.ReportStatus == "Approver 1 Approved" || value.ReportStatus == "Manager Approved") {
+                        approvedstatus_count++;
+
+                    }
+
+                    if (value.ReportStatus == "Reimbursed") {
+                        reimburesedstatus_count++;
+                    }
+
+
+
+                });
+
+                document.getElementById('OpenCount').innerHTML = openstatus_count;
+                document.getElementById('SubmittedCount').innerHTML = submittedstatus_count;
+                document.getElementById('RejectedCount').innerHTML = rejectedstatus_count;
+                document.getElementById('ApprovedCount').innerHTML = approvedstatus_count;
+                document.getElementById('ReimbursedCount').innerHTML = reimburesedstatus_count;
+            }
+
+        });
+
+    }
+	
+	
+	var proxy_for = [];
+    function ProxyApprovalCount() {
+		owner_id =userid;
+        var query_cml = 'Items?$filter=IsActive eq \'1\' and Proxysharepointid eq \'' + owner_id + '\' and ProxyApproverType eq \'Manager Approval\' &$orderby= Modified desc';
+
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeProxyApprover')/" + query_cml,
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                //console.log(data.d.results.length);
+                var i = 0;
+                $.each(data.d.results, function (key, value) {
+
+                    proxy_for.push(data.d.results[i].EmpGuid);
+                    i++;
+
+                });
+                if (data.d.results.length == 1) {
+                }
+            },
+            error: function (data) {
+                failure(data);
+            },
+            complete: function (data) {
+                var PendingWithId = "";
+				if(proxy_for.length >0)
+				{
+					$.each(proxy_for, function (index, value) {
+						if (index == "0")
+							PendingWithId += '(PendingWithId eq (\'' + value + '\')';
+						else
+							PendingWithId += ' or (PendingWithId eq \'' + value + '\')';
+
+					});
+					PendingWithId += ' )';
+				}
+                //console.log(PendingWithId);
+				if(proxy_for.length >0) //manju made changes because BconeProxyApprover list no item then no need of taking count in getProxyExpenseCount
+				{
+					getProxyExpenseCount(PendingWithId)
+				}
+            }
+        });
+    }
+    function getProxyExpenseCount(PendingWithId) {
+
+        var query_cml = 'Items?$filter=' + PendingWithId + '  and  ((ReportStatus eq \'Manager Approved\') or (ReportStatus eq \'Submitted\') or (ReportStatus eq \'Approver 2 Approved\') or (ReportStatus eq \'Approver 1 Approved\')) &$orderby= ProjectId desc'; 
+ 
+
+        $.ajax({
+            url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeExpenceMaster')/" + query_cml,
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+
+            success: function (data) {
+				document.getElementById('proxyExpenseApprovalCount').innerHTML=data.d.results.length;
+            },
+            error: function (data) {
+
+            }
+        });
+
+    }
+	
+	function getSixtyDayPastFormat()
+		{
+			var ToDay_Date = new Date();
+			var Date_year = ToDay_Date.getFullYear();
+			var Date_month = ToDay_Date.getMonth()+1;
+			var ToDay_Date_Format= Date_year+"-"+("0" +Date_month).slice(-2)+"-"+("0" + ToDay_Date.getDate()).slice(-2);
+			var fiteenDays = new Date(ToDay_Date_Format);
+			fiteenDays.setDate(fiteenDays.getDate()-75);
+			var Date_year1 = fiteenDays.getFullYear();
+			var Date_month1 = fiteenDays.getMonth()+1;
+			var fiteenDays_Format= Date_year1+"-"+("0" + Date_month1).slice(-2)+"-"+("0" + fiteenDays.getDate()).slice(-2)+"T00:00:00";
+			return fiteenDays_Format;
+		}
+		
+		function getTodayDAteFormat()
+		{
+			var ToDay_Date = new Date();
+			var Date_year = ToDay_Date.getFullYear();
+			var Date_month = ToDay_Date.getMonth()+1;
+			var ToDay_Date_Format= Date_year+"-"+("0" +Date_month).slice(-2)+"-"+("0" + ToDay_Date.getDate()).slice(-2)+"T00:00:00";
+			return ToDay_Date_Format;
+		}
+
+		
+		function getExpenseForFinance() {
+
+            //Remove datatable warnings on loading
+            //$.fn.dataTable.ext.errMode = 'none';
+
+            var siteurl = _spPageContextInfo.webAbsoluteUrl;
+
+            var ItemCount = GetItemCount(siteurl, 'BconeExpenceMaster');
+
+            createRestUrl(siteurl, ItemCount, 'BconeExpenceMaster');
+
+        }
+		
+		//Step 1. get total item count of threshold exceed list.
+        function GetItemCount(siteurl, ListName) {
+            var ItemCount = '';
+            $.ajax({
+                url: siteurl + "/_api/web/lists/GetByTitle('" + ListName + "')/ItemCount",
+                method: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    ItemCount = data.d.ItemCount;
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+            return ItemCount;
+        }
+		function createRestUrl(siteurl, ItemCount, ListName) {
+
+            if (ItemCount <= 5000) {
+                //Item count less than 5000 so we limit it as usual 5000
+                var listServiceUrl = siteurl + "/_api/web/lists/GetByTitle('" + ListName + "')/Items?$top=5000&$orderby=ID%20desc";
+            } else {
+                //Item count more than 5000 so we split it in 1000 item per call
+                var listServiceUrl = siteurl + "/_api/web/lists/GetByTitle('" + ListName + "')/Items?$top=1000&$orderby=ID%20desc";
+            }
+
+            //Step 3: Rest call to procerss each items of list
+            $.when(processList(listServiceUrl, ItemCount)).done(function() {});
+        }
+		function processList(nextUrl, ItemCount) {
+				var i = 0;
+				var d=0;
+            var dfd = new $.Deferred();
+
+            if (nextUrl == undefined) {
+                dfd.resolve();
+                return;
+            }
+
+            //Step 4: Repetative call to getJSONDataFromUrl() to get Ajax Json object.
+            getJSONDataFromUrl(nextUrl).done(function(listItems) {
+
+                TotalItemCount = TotalItemCount + listItems.d.results.length;
+
+                var items = listItems.d.results;
+                var next = listItems.d.__next;
+
+                $.when(processList(next, ItemCount)).done(function() {
+
+                    dfd.resolve();
+
+                });
+
+               
+                
+                //Create datatable object
+                
+                $.each(items, function(index, value) {
+                    if ((value.ReportStatus == "Manager Approved" || value.ReportStatus == "Approver 1 Approved" || value.ReportStatus == "Approver 2 Approved") && ((value.FinanceId == ResourceGuid || value.FinanceApprover2Id == ResourceGuid) && (value.PendingWithId == null)))
+                    {
+						i++;
+                    }
+                });
+				
+               
+			document.getElementById('financeCount').innerHTML = i;
+
+            });
+			
+            return dfd.promise();
+        }
+
+		 //Step 4: Repetative call to getJSONDataFromUrl() to get Ajax Json object.
+        function getJSONDataFromUrl(endpoint) {
+            return jQuery.ajax({
+                url: endpoint,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose",
+                    "Content-Type": "application/json; odata=verbose"
+                }
+            });
+        }
+</script>

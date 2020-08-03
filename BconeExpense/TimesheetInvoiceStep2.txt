@@ -1,0 +1,2978 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home</title>
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" />
+	<script src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+    <script type="text/javascript">
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+	<link href="../SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+    <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+    <script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+	<script type="text/javascript" src="https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseJs/jquery.sumoselect.js"></script>
+	<link rel="stylesheet" href="https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseCss/sumoselect.css">
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+
+	
+	
+    <style>
+			.gray-btn{cursor:no-drop;}
+			.tooltip-inner{word-wrap: break-word;}.wordellipsis{display: inline-block; cursor: pointer; text-decoration: none; display: inline-block;text-overflow: ellipsis; white-space: nowrap; max-width: 200px;overflow: hidden;}.ms-core-pageTitle, .ms-core-pageTitle a {color: #fff; display: none; } #login_name_contain {float: right; margin: -32px 20px 0px 0px; background: url(https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center; padding: 2px 32px 2px 0px; } .table > thead > tr > th {text-align: center; } .displayblock {display: block; } .displaynone {display: none; } a, a:visited, a:active, a:link {text-decoration: none; } a:visited {color: #337ab7; } input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {-webkit-box-shadow: 0 0 0px 50px white inset; } #jqxWidget1d584650 {display: none !important; } .jqx-clear > span {display: none !important; } /*.fk-suc-msg {background: url('http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png') no-repeat scroll 5px 10px #cfc; border: 1px solid #696; color: green; font-size: 13px; padding: 10px 0 10px 30px; text-align: left; }*/ .fk-suc-msg {background: url(http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png) no-repeat scroll 5px 2px #337ab7; border: 1px solid #2e6da4; color: #fff; font-size: 13px; padding: 2px 0 2px 28px; text-align: left; width: 91%; } .new-th {border: 0; border-top: 1px solid #000; } #s4-workspace {width: 100% !important; } #ui-id-1, #ui-id-2, #ui-id-3, #ui-id-4 {height: auto !important; }.readonlycolor {background: #F2F2F2 !important; } .body {margin: 0px; padding: 0px; font-size: 12px; } .black-bg {width: 100%; height: 100%; top: 0; position: fixed; background-color: rgba(22,22,22,0.5); z-index: 9999; left: 0; } .popup-main {background-color: #fff; width: 350px; margin: 19% auto; text-align: center; } .green-btn {<!-- padding: 5px 10px; --> border-radius: 3px; color: #fff; background: #0A891A; text-decoration: none; display: inline-block; } .grey-btn {padding: 5px 10px; border-radius: 3px; color: #333; background: #ccc; text-decoration: none; display: inline-block; } .popup-heading {width: 100%; text-align: center; font-size: 15px; color: #fff; padding: 8px 0; } .alert-main .popup-heading {background-color: #0072c6; } .success-main .popup-heading {background-color: #090; } .pop-mid {padding: 0 15px 15px 15px; } .pop-mid p {margin-bottom: 20px; } .divnewbtn {background-color: #e7e7e7 !important; color: black; } .jqx-grid-column-filterbutton {display: none !important; } tfoot input {width: 100%; padding: 3px; box-sizing: border-box; font-weight: normal; } tfoot {display: table-header-group; } .black-bg {width: 100%; height: 100%; top: 0; position: fixed; background-color: rgba(22,22,22,0.5); z-index: 9999; left: 0; } .popup-main {background-color: #fff; width: 350px; margin: 19% auto; text-align: center; } .grey-btn {padding: 5px 10px; border-radius: 3px; color: #333; background: #ccc; text-decoration: none; display: inline-block; } .popup-heading {width: 100%; text-align: center; font-size: 15px; color: #fff; padding: 8px 0; } .middle {width: 100%; } .alert-main .popup-heading {background-color: #0072c6; } .success-main .popup-heading {background-color: #090; } .pop-mid {padding: 0 15px 15px; } .pop-mid p {margin-bottom: 20px; } .divnewbtn {background-color: #e7e7e7!important; color: #000; } .newpopupdiv .modal-header {padding: 5px 8px; background: #0072c6; } .newpopupdiv .modal-title {color: #fff; font-size: 15px; } .newpopupdiv .close {opacity: 1; color: #fff; } .newpopupdiv .modal-dialog {margin: 190px auto; } tfoot input {width: 100%; padding: 3px; box-sizing: border-box; } tfoot {display: table-header-group; } .example thead th[data-orderable="false"] {background-image: none!important; cursor: auto; }.example tfoot th:first-child input[type="text"] {display: block; } #innertable_wrapper .dataTables_length {float: left!important; margin: 0; text-align: left; } #innertable_wrapper .dataTables_filter {margin-top: 0; }/* .table-bordered {border: 1px solid #ddd; } .table {width: 100%; max-width: 100%; margin-bottom: 20px; background-color: transparent; border-spacing: 0; border-collapse: collapse; } .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {padding: 7px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; } .table > thead > tr > th {vertical-align: bottom; border-bottom: 2px solid #ddd; } .table > caption + thead > tr:first-child > td, .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > td, .table > thead:first-child > tr:first-child > th {border-top: 0; } .table > thead > tr > th {text-align: center; } .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {border-bottom-width: 2px; } .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {border: 1px solid #ddd; }*/ .ms-core-pageTitle, .ms-core-pageTitle a {color: #fff; display: none; } /*.container-fluid {padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: auto; } .btn-group-vertical > .btn-group:after, .btn-group-vertical > .btn-group:before, .btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before, .container-fluid:after, .container-fluid:before, .container:after, .container:before, .dl-horizontal dd:after, .dl-horizontal dd:before, .form-horizontal .form-group:after, .form-horizontal .form-group:before, .modal-footer:after, .modal-footer:before, .modal-header:after, .modal-header:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before {display: table; content: " "; clear: both; } .row {margin-right: -15px; margin-left: -15px; } .pull-left {float: left!important; } .pull-right {float: right!important; } article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {display: block; } */.ms-webpartPage-root {border-spacing: 0; } .ms-breadcrumb-box {display: none; } #siteIcon {height: 45px; } .ms-siteicon-img {max-height: 40px; } #login_name_contain {padding: 3px 32px 3px 0 !important; } table.dataTable {border-collapse: collapse; } .dataTables_filter {margin-bottom: 15px; } .example thead tr th {background: #e8e8e8; color: #333; text-align: left; vertical-align: middle; font-size: 12px!important; } .breadcrumb-new a {color: #337ab7; } .breadcrumb-new a:visited {color: #337ab7!important; } .breadcrumb-new .ms-link:visited {color: #337ab7!important; } .example {color: #333; } table.dataTable thead .sorting {font-size: 12px; text-align: left; } table.dataTable tbody {font-size: 12px; } ::-webkit-input-placeholder {font-size: 11px; font-weight: normal !important; } ::-moz-placeholder {font-size: 11px; font-weight: normal !important; } :-ms-input-placeholder {font-size: 11px; font-weight: normal !important; } :-moz-placeholder {font-size: 11px; font-weight: normal !important; } .dataTables_length {} .dataTables_filter {} .top-refine ul li {margin-bottom: 10px; } .top-refine ul li:last-child {margin-bottom: 0; } .openDetailsMain {background: rgba(255,255,255,0.57); position: fixed; top: 0; left: 0; z-index: 999; width: 100%; height: 100%; display: none; } .openDetailsMainInner {width: 85%; margin: 60px auto; border-radius: 5px; border: 1px solid #0072c6; background: #fff; } .openDetailsMain-heading {padding: 5px 8px; background: #0072c6; font-size: 14px; color: #fff; line-height: 1.6; } .openDetailsMain-heading a {color: #fff; float: right; cursor: pointer; } .openDetailsMain-mid {padding: 10px; } .openDetailsMain-midTop {margin-bottom: 15px; } .openDetailsMain-midTop table {width: 100%; } .openDetailsMain-midTop table tbody tr td {padding: 5px; } .openDetailsMain-midTop table tbody tr th {padding: 5px; text-align: left; background: #efefef; color: #333; } .openDetailsMain-midBottom table {margin-bottom: 0!important; } .openDetailsMain-midBottom table thead tr th {vertical-align: middle; background: #e8e8e8; } .dataTables_scrollHeadInner {width: 100%!important; } .dataTables_scrollHeadInner table {width: 98.6%!important; } .wordWrap {overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; } table {font-size: 12px!important; text-align: left!important; } label {font-weight: normal; } #siteIcon {min-width: 64px; height: 64px; line-height: 64px; text-align: center; margin-right: 20px; float: left; }.Amount-right-side { border:0px; position: relative;}.SumoSelect > .CaptionCont > span {padding-right:0px;}.SumoSelect .CaptionCont label{display:none;}.SumoSelect > .CaptionCont{height:34px; line-height:32px;}.SumoSelect.open .search-txt{height:31px;}.SumoSelect > .optWrapper > .options li.opt {padding: 3px;position: relative;margin: 0px;width: 100%;}textarea{width:100%;}#myModal .form-control {height: 30px;}#myModal .modal-body table tr td {padding: 5px 8px;}.validation_active{border:1px solid red !important; background:#FFCECE !important; } .validation_Inactive{border:''; background:''; } .new_btn_a{margin-left: 0px !important; background: #337ab7 !important; border: 1px solid #2e6da4 !important; color: #fff !important; text-transform: uppercase !important; padding: 2px 10px !important; font-size: 11px !important; } #AlertMsg{height: 10px; margin-bottom: -10px; display: block; }.Amount-right-side:before{content: ''; border: 5px solid #333; position: absolute; top: 15px; right: 8px; z-index: 9; border-bottom-color: transparent; border-right-color: transparent; border-left-color: transparent;} table.dataTable thead th, table.dataTable thead td{padding: 8px;}.top-refine {margin-top: 0px; }</style> </head> <body>
+<div style="text-align: right;" id="login_name_contain"></div>
+  <div class="container-fluid">
+	<div class="breadcrumb-new">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="javascript:void(0)" style="cursor: default; color: black;"><span id="navigation_span">Generate Invoice</span></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div id="alertmain" class="alert-main" style="display: none">
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Alert_msg">Invoice Data Saved Successfully !</span></div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Confirmation_alert" class="alert-main" style="display: none;">
+        <span id="confirmation_type"></span>
+        <span id="delete_expense_id" style="display: none;"></span>
+        <div class="black-bg" id="Div1">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg">Are you sure you want To Reject Expense?</span></div>
+                <div class="pop-mid">
+                    <p id="P1"></p>
+                    <span id="Method_tocall"></span>
+                    <input type="Button" class="divnewbtn" value="OK" id="ok_click" onclick="deleteexpense();">
+                    <input type="Button" class="divnewbtn" value="Cancel" onclick="confirmation_close();">
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>
+    </header>
+    
+	<div class="container-fluid">
+	
+	<section class="middle">
+        
+        <div class="container-fluid">
+            <div class="row">
+                <div class="top-refine">
+                    <ul class="pull-left">
+                        <li>
+						Select Project:
+                            <div class="Amount-right-side">
+                                    <select class="search-box form-control ClearMsg" id="ddlprojectnameEA" style="padding-bottom: 0px; padding-top: 0px; width: 300px;" >
+                                    </select>
+							</div>
+                        </li>
+						 <li>From Date:  <div style="position: relative; width:206px" >
+                                        <input type="text" id="TxtFromDate" class="form-control dateselect"  readonly="true"  />
+                                        <span class="right-icon">
+                                            <i class="fa fa-calendar" id="iconcalender" style="cursor: pointer;"></i>
+                                            <i  class="fa fa-remove" id="frmdt" style="cursor: pointer;"></i>
+                                        </span>
+                                        </div></li>
+						 <li>To Date:  <div style="position: relative; width:206px" >
+                                        <input type="text" id="TxtToDate" class="form-control dateselect"  readonly="true"  />
+                                        <span class="right-icon">
+                                            <i class="fa fa-calendar" id="iconcalender" style="cursor: pointer;"></i>
+                                            <i class="fa fa-remove" id="todt" style="cursor: pointer;"></i>
+                                        </span>
+                                        </div></li>
+						
+                    </ul>
+					
+<ul class="pull-right" style="margin-top: 21px;">
+<li>
+					<a href="javascript:void(0)" class="blue-btn" id="btnGetTimesheetRecords"><i class="fa fa-flag"></i> Show Timesheet Records</a>
+									<a href="javascript:void(0)" class="blue-btn" id="btnClear" ><i class="fa fa-remove"></i> Clear</a>
+                                    </li>
+</ul>
+                                        <div class="clearfix"></div>
+                </div>
+				
+				<script>
+				
+				//new ready
+				
+				var table_body_main="";
+				var all_record_count=0;
+				var billable_record_count=0;
+				var non_billable_record_count=0;
+				var trackingNo_arr=[];
+				var CustomerCode="1000000";
+				var login_guid="cc49912d-5da2-e611-80cb-00155d042916";
+				var table ="";
+				
+				var pathname = window.location.pathname; // Returns path only
+				var current_url = window.location.href;  //Return full url
+				var Invoice_Currency="";
+				
+				
+				
+				function clearAllInputs(selector,selector_type) 
+							{
+								if(selector_type=='class')
+								{
+									selector="."+selector;
+								}
+								else if(selector_type=='id')
+								{
+									selector="#"+selector;
+								}
+									$(selector).find(':input').each(function () {
+
+										// alert(this.type);
+
+										if (this.type == 'submit') {
+											//do nothing
+										}
+										else if (this.type == 'checkbox') {
+											this.checked = false;
+										}
+										else if (this.type == 'file') {
+											var control = $(this);
+											control.replaceWith(control = control.clone(true));
+										}
+										else if (this.type == 'select-one') {
+											var control = $(this);
+											this.selectedIndex = 0;
+											
+											$('#ddlprojectnameEA')[0].sumo.reload();
+										}
+										else if (this.type == 'radio') {
+											//this.checked = false;
+										}
+										else if (this.type == 'text') {
+											$(this).val('');
+										}
+
+										else {
+											//$(this).val('');
+										}
+									});
+							}
+				
+					
+		
+				
+				
+				function getDataByTrackingNo(TrackingNo,From_date,To_date,ExpenseTrackingNo,EmployeeId,EmployeeName,ERCurrency)
+				{
+				
+				isINRCurrency=true;
+			//if(save_type=='save-close'|| save_type=='save-create' || save_type=='save-copy')
+			//{
+			//add_success_exp_msg('Expense Item Added Successfully!',save_type);
+           // }
+			// else if(save_type=='update')
+			 //{
+			 //add_success_exp_msg('Expense Item Updated Successfully!',save_type);
+			// }
+			
+           // $('.loader').show();
+            jsonObj = [];
+            var trackingno = '';
+            var title = '';
+
+            var status = '';
+            
+
+            var list_name = "";
+            var i = "0";
+            var url1 = "";
+            var rowhide = "";
+
+            var Project_Name = "Project Name";
+            var Pending_With = "Pending With";
+            var Reimbursed_Total_Money = "Reimbursed_Total_Money";
+            var Balance = "Balance";
+            var fromdate = "";
+            var ReportCreatedDate = "";
+            var converted_date = "";
+
+            var ModifiedDate = "";
+
+            var openstatus_count = 0;
+            var submittedstatus_count = 0;
+            var approvedstatus_count = 0;
+            var rejectedstatus_count = 0;
+            var reimburesedstatus_count = 0;
+            var ReSubmittedExpenceCount = 0;
+            var curreuncyvalue = 0;
+            var advance_amount = "";
+            var tooltip_date = "";
+            var allrecord_count = 1;
+            var redirect_tolink = "";
+            var expenceid = '';
+            var curr = '';
+
+            var data = '';
+            var condition_report_status="";
+			
+			
+            var table_header="";
+            var table_body="";
+            var table_element="";
+            var query_cml="";
+			
+           // condition_report_status=Expense_Status;
+           // cleardata();
+          //  query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + TrackingNo + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+           
+            //table_header="<thead><tr>";
+			
+			var query_cml="";
+									if(From_date!='' && To_date!='')
+									{
+									 query_cml="<View>"+
+													"<Query>"+
+													   "<Where>"+
+													   "<And>"+
+													  " <Eq><FieldRef Name='TrackingNo' /><Value Type='Number'>" + TrackingNo + "</Value></Eq>"+
+															"<And>"+
+																"<Geq><FieldRef Name='ExpenseDate'/><Value IncludeTimeValue='FALSE' Type='DateTime'>"+From_date+"</Value></Geq>"+															
+																"<Leq><FieldRef Name='ExpenseDate'/><Value IncludeTimeValue='FALSE' Type='DateTime'>"+To_date+"</Value></Leq>"+
+															"</And>"+
+														"</And>"+
+														
+													   "</Where>"+
+													"</Query>"+
+												"</View>";
+									}
+									else
+									{
+									query_cml="<View>"+
+													"<Query>"+
+													   "<Where>"+
+													  " <Eq><FieldRef Name='TrackingNo' /><Value Type='Number'>" + TrackingNo + "</Value></Eq>"+
+													   "</Where>"+
+													"</Query>"+
+												"</View>";
+									}
+												//alert(query_cml);
+												
+										$.ajax({
+               
+														url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+														type: "POST",
+														async:false,
+														headers: {
+															"accept": "application/json;odata=verbose",
+															"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+															"content-Type": "application/json;odata=verbose"
+														},
+														data: JSON.stringify({
+															query: {
+																__metadata: {
+																	type: "SP.CamlQuery"
+																},
+																ViewXml: query_cml
+															}
+														}),
+
+														 success: function (data) {
+				
+                    //console.log(data);
+				
+				
+                    //alert('success');
+                    var curreny_amt_array=[];
+					
+					var curr_arr1=[];
+					var results = [];
+					curr_arr=[];
+					
+                    var rowhide;
+                    var i = "0";
+                    var table_tr = "";
+					var advanceamount = '';
+
+                    var table_tr_edit = "";
+					var MoveDataParameter="";
+                    if (data.d.results.length > 0) {
+                        FinalExpenseValue="0";
+						
+                        $.each(data.d.results, function (key, value) { 
+                            FinalExpenseValue = Number(value.FinalExpenseValue) + Number(FinalExpenseValue);
+                            if(value.ExpenceCurrencyId!='1')
+                            {
+                                if(isINRCurrency)
+                                {
+                                    isINRCurrency=false;
+                                }
+								
+                            }
+								
+						
+						
+                            rowhide = "rowhideslow" + value.ID + "";
+                           // $('#refine_currency_Bind').show();
+                            i++;
+                            var action="";
+							var file_upload_count=0;
+                            var ref_no=i;
+                            var projectpahse=value.TaskName;
+                            var Expense_item = value.ExpenceItemText;
+                            var expense_note=value.ExpenseNote;
+                            var exp_amount = "0.00";
+                            var payment_type = value.PaymentTypeText;
+                            var expensedate=convert_date_DDMMYYYY(value.ExpenseNewDate);
+                            var billabletoclient=value.BliableToClient;
+							var Currency="";
+							 var curr_val;
+							 
+							if(value.ExpenceCurrencyText!=null)
+							{
+                             Currency= value.ExpenceCurrencyText;
+							}
+                           
+                            if(Currency.indexOf("-"))
+                            {
+                                var curr=Currency.split("-");
+			
+                                curr_val=curr[0]; 
+                            } else {
+                                curr_val=Currency;
+                            }
+							
+							file_upload_count=value.FileUploadedCount;
+							
+							
+							
+							
+							
+							//if(save_type=='FirstTimeLoad' || save_type=='delete' )
+							//{
+							//file_upload_count=value.FileUploadedCount;
+							//}
+							//else
+							//{
+							//file_upload_count=getUploadedFiles_Count(value.ID);
+							//}
+							
+							
+                            allrecord_count++;
+                            ReportCreatedDate = value.Modified;
+
+                            rowhide = "rowhideslow" + i + "";
+
+                            curreuncyvalue = "";
+                            //advance = "0.00";
+
+
+                            if (value.ExpensceAmount != null) {
+                                advanceamount = value.ExpensceAmount;
+                                //console.log(advanceamount);
+								var aaa=advanceamount.toString().indexOf('.');
+                                if (aaa!="-1") {
+                                    //if(advance.includes('.')){
+                                   // console.log(advanceamount);
+                                    //advance = advance + ".00";
+									advance=advanceamount.toString().split('.');
+									var length1=advance[1];
+									if(length1.length==1)
+									{
+									 advanceamount = advanceamount + "0";
+									}
+									
+                                }
+                                else {
+								
+                                    advanceamount = advanceamount + ".00";
+
+                                }
+
+
+
+                            }
+
+                            curreuncyvalue = value.currencytext;
+
+                            if (curreuncyvalue == null) {
+                                curreuncyvalue = "";
+
+                            }
+                            else {
+
+                                Expenseitem = curreuncyvalue;
+
+
+                                if (Expenseitem.indexOf("-")) {
+                                    curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                }
+                                else {
+                                }
+
+                            }
+                            expenceid = value.ID;
+							
+                            curreny_amt_array.push(curr_val+"-"+value.ExpensceAmount+"-"+value.ExpenceCurrencyId);
+							
+							
+							curr_arr.push(curr_val+"-"+value.ExpensceAmount);
+							
+							
+                           
+                            
+                            if(condition_report_status=="Open")
+                            {
+                               // $("#Add_item").show();
+                                
+                                if(value.Justification==null)
+                                {
+                                    var inner="inner";
+                                    var outer="outer";
+									
+                                   // var count=getUploadedFiles_Count(value.ID);
+								    //var count=0;
+                                    if(file_upload_count>0)
+                                    {
+                                        action = "<a style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='display:inline-block;margin:0 3px;cursor:pointer;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='openouterfileattach(\"event\",\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 14px;' ></i></a>";
+                                    }
+                                    else
+                                    {
+                                        action = "<a  style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a>";
+                                    }
+
+                                }							
+                                else 
+                                {
+                                    action = "<a style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='cursor:pointer;margin:0 3px;display:inline-block;' data-toggle='tooltip' data-placement='top'  title=\""+value.Justification+"\"><i class='fa fa-commenting' style='color:#333;font-size: 14px;'></i></a>";
+                                }
+							  
+							 
+							  
+                            }
+                            else
+                            {
+                              
+                                $("#Add_item").hide();
+								
+                                if(value.Justification==null)
+                                {
+                                    var inner="inner";
+                                    var outer="outer";
+									
+                                   // var count=getUploadedFiles_Count(value.ID);
+								  //  var count=0;
+                                    if(file_upload_count>0)
+                                    {
+                                        action = "<a style='cursor:pointer;' onclick='openouterfileattach(\"event\",\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a>";
+                                    }
+                                    else
+                                    {
+                                        action = "";
+                                    }
+
+                                }							
+                                else 
+                                {
+                                    action = "<a style='cursor:pointer;' data-toggle='tooltip' data-placement='top'  title=\""+value.Justification+"\"><i class='fa fa-commenting' style='color:#333;font-size: 16px;'></i></a>";
+                                }
+							 
+                            }
+							
+							
+                            if (value.FinalExpenseValue != null) {
+                                exp_amount = value.FinalExpenseValue;
+                                if (exp_amount.toString().indexOf(".")) 
+                                {
+                                    exp_amount=parseFloat(exp_amount).toFixed(2);
+                                }
+                                else {
+                                    exp_amount = exp_amount + ".00";
+                                }
+                            }
+							var InvoiceItemAmount="0.00";
+							if (value.InvoiceItemAmount != null) {
+                                InvoiceItemAmount = value.InvoiceItemAmount;
+                                if (InvoiceItemAmount.toString().indexOf(".")) 
+                                {
+                                    InvoiceItemAmount=parseFloat(InvoiceItemAmount).toFixed(2);
+                                }
+                                else {
+                                    InvoiceItemAmount = InvoiceItemAmount + ".00";
+                                }
+                            }
+							
+							//var expense_note_text=expense_note;
+						//	if(expense_note.length>20)
+							//{
+							//expense_note_text
+						//	}
+							
+                            var ERAmount_Currency='';
+                            ERAmount_Currency="<div style='text-align:right;'>"+InvoiceItemAmount +"<span style='color: #ababab;margin-left: 6px;'>"+value.InvoiceCurrencyText+"</span></div>";
+							$('#SelectedFinalAmtCur').text(value.InvoiceCurrencyText);
+                            //exp_amount="<div style='text-align:right;'>"+exp_amount+"</div>";
+                            curr_val="<div style='text-align:right;'>"+advanceamount +"<span style='color: #ababab;margin-left: 6px;'>"+ curr_val +"</span></div>";
+							
+                            expense_note="<a class='wordellipsis' style='display: inline-block;cursor:pointer; text-decoration:none;' data-toggle='tooltip' data-placement='top'  title=\""+expense_note+"\">"+ expense_note +"</a>";
+                            expensedate="<span>"+ expensedate +"</span>";
+							
+							all_record_count++;
+							if(billabletoclient=="Yes")
+							{
+							billable_record_count++;
+							action="<input style='display:inline-block;' type='checkbox' FinalInvAmt="+InvoiceItemAmount+" checked onchange='onchildcheck()' name="+value.ID+" title="+value.ID+" />";
+							}
+							else
+							{
+							non_billable_record_count++;
+							action="<input style='display:inline-block;' type='checkbox' FinalInvAmt="+InvoiceItemAmount+" onchange='onchildcheck()' name="+value.ID+" title="+value.ID+" />";
+							}
+							
+							
+							
+							var MasterDataParmaetrs=ExpenseTrackingNo+"/"+EmployeeId+"/"+EmployeeName+"/"+ERCurrency;
+							var ItemDataParameter=value.TaskId+"/"+value.MissingPeparReciept+"/"+value.Justification+"/"+value.ExpenceCurrencyText+"/"+value.ExpensceAmount+"/"+value.FinalExpenseValue+"/"+value.PaymentTypeText+"/"+value.ExpenseNote+"/"+value.InvoiceItemAmount;
+							
+                            table_body=table_body+"<tr>";
+                           table_body=table_body+"<td>"+action+"</td>";
+							//table_body=table_body+"<td>"+all_record_count+"</td>";
+                           table_body=table_body+"<td class='trkNO'>"+ExpenseTrackingNo+"</td>";
+							table_body=table_body+"<td >"+EmployeeName+"</td>";
+							 table_body=table_body+"<td>"+projectpahse+"</td>";
+							 table_body=table_body+"<td>"+Expense_item+"</td>";
+							 table_body=table_body+"<td>"+expensedate+"</td>";
+							  table_body=table_body+"<td>"+curr_val+"</td>";
+							    table_body=table_body+"<td>"+ERAmount_Currency+"</td>";
+							//table_body=table_body+"<td>"+expense_note+"</td>";
+							//  table_body=table_body+"<td>"+payment_type+"</td>";
+							  table_body=table_body+"<td>"+billabletoclient+"</td>";
+							
+                          
+							 table_body=table_body+"<td style='display:none;'>"+MasterDataParmaetrs+"</td>";
+							 table_body=table_body+"<td style='display:none;'> "+ItemDataParameter+"</td>";
+							
+                            table_body=table_body+"</tr>"
+                        });
+                        
+						
+						
+					
+							
+							
+                       
+                    }
+                    
+                    table_element=table_header+table_body;
+                },
+														complete:function(data){
+														//alert(table_element);
+														
+														$('#ExpenceTable_Tbody').append(table_element);
+														
+														//if(all_record_count==trackingNo_arr.length)
+														//{
+														//load_datatable_js();
+														//}
+														
+														
+														}
+														
+												});
+				
+				}
+				
+				
+				
+        function validateExpenseSearch() {
+            var isValid = true;
+            var ProjectId = $('#ddlprojectnameEA option:selected').val();
+			var From_date = document.getElementById("TxtFromDate").value;
+			var To_date = document.getElementById("TxtToDate").value;
+            if (ProjectId == '0') {
+                isValid = false;
+                $('#ddlprojectnameEA + p').addClass('validation_active').removeClass('validation_Inactive');
+				//$( "#ddlprojectnameEA" ).closest( "p" ).addClass('validation_active').removeClass('validation_Inactive');
+				//$( "#ddlprojectnameEA" ).nextUntil( "div" ).addClass('validation_active').removeClass('validation_Inactive');
+				 //$('#ddlprojectnameEA + p').css({ "border": "1px solid red", "background-color": "#FFCECE" });
+
+                //document.getElementById("AlertMsg").innerHTML = "Please select the Project";
+                //document.getElementById("ddlProjects").focus();
+                return isValid;
+
+            }
+			
+			if(From_date!='' || To_date!='')
+			{
+					if (From_date == '') {
+						isValid = false;
+					    $('#TxtFromDate').addClass('validation_active').removeClass('validation_Inactive');
+						//$( "#ddlprojectnameEA" ).closest( "p" ).addClass('validation_active').removeClass('validation_Inactive');
+						//$( "#ddlprojectnameEA" ).nextUntil( "div" ).addClass('validation_active').removeClass('validation_Inactive');
+						// $('#TxtFromDate').css({ "border": "1px solid red", "background-color": "#FFCECE" });
+
+						//document.getElementById("AlertMsg").innerHTML = "Please select the Project";
+						//document.getElementById("ddlProjects").focus();
+						return isValid;
+
+					}
+					else if(To_date == '')
+					{
+							isValid = false;
+					    $('#TxtToDate').addClass('validation_active').removeClass('validation_Inactive');
+						//$( "#ddlprojectnameEA" ).closest( "p" ).addClass('validation_active').removeClass('validation_Inactive');
+						//$( "#ddlprojectnameEA" ).nextUntil( "div" ).addClass('validation_active').removeClass('validation_Inactive');
+						 //$('#TxtToDate').css({ "border": "1px solid red", "background-color": "#FFCECE" });
+
+						//document.getElementById("AlertMsg").innerHTML = "Please select the Project";
+						//document.getElementById("ddlProjects").focus();
+						return isValid;
+					
+					}
+			
+			}
+			
+
+            return isValid;
+        }
+		
+		function validateGenerateReport(selector) {
+					var isValid = true;
+										var textBox_Id="";
+										var Contain = "";
+										$('#'+selector+' :text,select,textarea').each(function(){
+												Contain = $(this).val() ;
+												var validation = $(this).attr("validation");
+												if((Contain=='' || Contain=='Select') && textBox_Id=='')
+												{
+													textBox_Id=this.id;
+													//return false;
+													
+													if(textBox_Id=='txtCredit' || textBox_Id=='txtReasonTerms' || textBox_Id=='txtAdditionalText')
+													{
+													textBox_Id='';
+													}
+													else
+													{
+													isValid = false;
+													$('#'+textBox_Id).addClass('validation_active').removeClass('validation_Inactive');
+													$('#AlertMsg').text(validation);
+													}
+													return isValid;
+												}
+												
+												
+											});
+
+					return isValid;
+        }
+		
+		
+		function InsertInvoiceDetail(action_type,NewMasterID)
+		{
+			
+			
+			var MasterDataParmaetrs_arr = {
+					Data: []
+				};
+				
+				var InvoiceMasterId=NewMasterID;
+				
+				
+			var scan_row_id="";
+			var row_checked=false;
+			  
+			  
+			  $("input:checkbox:checked", table.rows().nodes()).each(function () {
+						var tuisre = $(this).is(":checked");
+						var row = $(this).closest('tr');
+						var new_row_id=row.attr('id');
+						if(scan_row_id==new_row_id)
+						{
+						row_checked=true;
+						}
+						else
+						{
+						row_checked=false;
+						scan_row_id=new_row_id;
+						}
+			
+            if (!(row_checked)) {
+						//all_checkbox++;
+						
+						
+						var TS_UID=row.find('td:eq(0)').attr("TS_UID");
+						var RES_UID=row.find('td:eq(0)').attr("RES_UID");
+						var PROJ_UID=row.find('td:eq(0)').attr("PROJ_UID");
+						var TASK_UID=row.find('td:eq(0)').attr("TASK_UID");
+						var ASSN_UID=row.find('td:eq(0)').attr("ASSN_UID");
+						var START=row.find('td:eq(0)').attr("START");
+						var END=row.find('td:eq(0)').attr("END");
+						var TS_ACTUAL=row.find('td:eq(0)').attr("TS_ACTUAL");
+						var TASK_TABLE=row.find('td:eq(0)').attr("TASK_TABLE");
+						var FinalAmount=row.find('td:eq(0)').attr("FinalAmount");
+						var billable_amount=row.find('td:eq(0)').attr("billable_amount");
+					
+						var classname=$(this).attr('class');
+						classname=classname.split(' ')[0];
+						if(classname=='actual')
+						{
+						
+								MasterDataParmaetrs_arr.Data.push({ 
+												"InvoiceMasterId" : InvoiceMasterId,
+												"TS_UID" : TS_UID,
+												"RES_UID"  : RES_UID,
+												"PROJ_UID"       : PROJ_UID ,
+												"TASK_UID" : TASK_UID,
+												"ASSN_UID":ASSN_UID,
+												"START"  : START,
+												"END"       : END, 
+												"TS_ACTUAL" : TS_ACTUAL,
+												"TASK_TABLE"  : TASK_TABLE,
+												"FINAL_AMOUNT":FinalAmount,
+												"BILLING_HOURS_FLAG":"1"
+								});
+						}
+						else if(classname=='billable')
+						{
+						
+								if($("."+$(this).attr("actual_chk")).is(":checked"))
+								{
+								}
+								else
+								{
+								
+									MasterDataParmaetrs_arr.Data.push({ 
+													"InvoiceMasterId" : InvoiceMasterId,
+													"TS_UID" : TS_UID,
+													"RES_UID"  : RES_UID,
+													"PROJ_UID"       : PROJ_UID ,
+													"TASK_UID" : TASK_UID,
+													"ASSN_UID":ASSN_UID,
+													"START"  : START,
+													"END"       : END, 
+													"TS_ACTUAL" : TS_ACTUAL,
+													"TASK_TABLE"  : TASK_TABLE,
+													"FINAL_AMOUNT":billable_amount,
+													"BILLING_HOURS_FLAG":"2"
+									});
+								}
+						//billablecheckbox++;
+						}
+						
+						else if(classname=='bilnot')
+						{
+							if($("."+$(this).attr("actual_chk")).is(":checked"))
+								{
+								}
+								else
+								{
+								
+									MasterDataParmaetrs_arr.Data.push({ 
+													"InvoiceMasterId" : InvoiceMasterId,
+													"TS_UID" : TS_UID,
+													"RES_UID"  : RES_UID,
+													"PROJ_UID"       : PROJ_UID ,
+													"TASK_UID" : TASK_UID,
+													"ASSN_UID":ASSN_UID,
+													"START"  : START,
+													"END"       : END, 
+													"TS_ACTUAL" : TS_ACTUAL,
+													"TASK_TABLE"  : TASK_TABLE,
+													"FINAL_AMOUNT":billable_amount,
+													"BILLING_HOURS_FLAG":"2"
+									});
+								}
+						}
+						
+				
+                } 	
+        });
+			  
+			  
+			  
+			  console.log(MasterDataParmaetrs_arr);
+			  
+			  
+			  
+			  
+			  
+			  $.ajax({
+											url: "https://ppmprod.bcone.com/api/Invoice/Add_NewTimesheetInvoiceDetail",
+											method: "POST",
+											headers: { "Accept": "application/json; odata=verbose" },
+											data:MasterDataParmaetrs_arr,
+											success: function (data) 
+											{
+											if(data.Data=="200")
+											{
+												var InvoiceReportLayoutCode=$('#ddlInvoicedetailLayout :selected').val();
+												var no_Invc=$('#txtInvoiceNumber').val();
+												if(action_type=='report')
+													{
+													openReport(NewMasterID,InvoiceReportLayoutCode,no_Invc);
+													}
+											}
+													//alert('success occurred');
+											},
+											error: function (data) 
+											{
+													alert('error occurred');
+											},
+											complete: function(data)
+											{
+											
+											
+											}
+									});
+			  
+			// console.log(MasterDataParmaetrs_arr);
+		
+		}
+		
+		 function cleardata() {
+                $('#jqxgrid_container').empty();
+				
+				var table_structure="<table id='ExpenceDataTable' class='display example table table-bordered' cellspacing='0' width='100%'>";
+
+						table_structure=table_structure+"<thead>";
+						table_structure=table_structure+"<tr>";
+						table_structure=table_structure+"<th >Week Name</th>";
+						table_structure=table_structure+"<th>Resource Name</th>";
+						table_structure=table_structure+"<th>Date of Timesheet</th>";
+						table_structure=table_structure+"<th>Task Name</th>";
+						table_structure=table_structure+"<th><input type='checkbox' data-orderable='false'  id='checkactual' name=''><br/>Actual Hours </th>";
+						table_structure=table_structure+"<th><input type='checkbox' data-orderable='false'  id='checkbillable' name=''><br/>Billable 8 Hours</th>";
+						table_structure=table_structure+"<th><input type='checkbox' data-orderable='false'  id='checkbeyondbillable' name=''><br/>Billable beyond 8 Hours</th>";
+						table_structure=table_structure+"<th><input type='checkbox' data-orderable='false'  id='checknonbillable' name=''><br/>Non-billable 8 Hours</th>";
+						table_structure=table_structure+"<th><input type='checkbox' data-orderable='false'  id='checknonbillablebeyond' name=''><br/>Non-billable beyond 8 Hours</th>";
+						table_structure=table_structure+"<th>Billable</th>";
+						table_structure=table_structure+"<th>Billing Rate<br/>Per Hour</th>";
+						table_structure=table_structure+"<th>Total Amount<br/>Based on Actual Hours</th>";
+						table_structure=table_structure+"<th>Total Amount<br/>Based on Billable/Non-Billable 8 Hours</th>";						
+						table_structure=table_structure+"</tr></thead>";
+					
+						table_structure=table_structure+"<tfoot><tr>";
+						
+						table_structure=table_structure+"<th >Week Name</th>";
+						table_structure=table_structure+"<th>Resource Name</th>";
+						table_structure=table_structure+"<th>Date of Timesheet</th>";
+						table_structure=table_structure+"<th>Task Name</th>";
+						table_structure=table_structure+"<th>Actual Hours</th>";
+						table_structure=table_structure+"<th>Billable<br/>8 Hours</th>";
+						table_structure=table_structure+"<th>Billable<br/>beyond 8 Hours</th>";
+						table_structure=table_structure+"<th>Non-billable<br/>8 Hours</th>";
+						
+						table_structure=table_structure+"<th>Non-billable<br/>beyond 8 Hours</th>";
+						table_structure=table_structure+"<th>Billable</th>";
+						table_structure=table_structure+"<th>Billing Rate<br/>Per Hour</th>";
+						table_structure=table_structure+"<th>Total Amount<br/>Based on Actual Hours</th>";
+						table_structure=table_structure+"<th>Total Amount<br/>Based on Billable/Non-Billable 8 Hours</th>";	
+						table_structure=table_structure+"</tr></tfoot>";
+					
+						table_structure=table_structure+"<tbody id='ExpenceTable_Tbody'>";
+						table_structure=table_structure+"</tbody>";
+						table_structure=table_structure+"</table>";
+
+                $("#jqxgrid_container").append(table_structure)
+               
+            }
+			var jsonDataPayment=[];
+        function showmodal1(type) {
+		
+		$( "#AllRecord" ).trigger( "click" );
+		
+		
+		$('#SelectedFinalAmtPop').text($('#SelectedFinalAmt').text()+ " "+ $('#SelectedFinalAmtCur').text() );
+		
+		$("#myModal :text,select,textarea").each(function(){
+						$(this).removeClass('validation_active').addClass('validation_Inactive');
+						$('#AlertMsg').text('');
+				});
+		
+            var length = $('#ddlcurrency > option').length;
+            //alert(length);
+            if(length=='1')
+            {
+               
+              // getReportingManagerByGuid(GUID);
+               //getProjectsByGUID(GUID);
+				getCurrencyListData(current_url, 'BconeCurrency');
+				GetPayment_and_InvoiceTypes();
+            }	
+				
+       
+            $('#project_type').text('');
+            $('#ddlExpensecurrency').attr("disabled", false);
+				
+            $('#Role_assign').text('');
+            if (type == 'add') {
+                $('#myModal').modal('show');
+                $('.modal-backdrop.in').show();
+				
+           
+			}
+        
+}
+
+function Get_InvoiceCurrencyMaster(ProjectUID)
+{
+$.ajax({
+            url: "https://ppmprod.bcone.com/api/Invoice/Get_InvoiceCurrencyMaster",
+   //url: GetPeriodsUrls,
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+			async:false,
+            //data: { "ResourceUID": "dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6" },
+			
+   data: { 
+			"ProjectUID":ProjectUID
+   },
+            success: function (data) {
+			//alert('gg');
+			$("#ddlcurrency option:contains('USD')").prop('selected', 'selected');
+			 $.each(data.InvoiceDetails, function (key, value) {
+			
+			//data.ClientPartnerID;
+			$("#ddlcurrency option:contains(" + value.InvoiceCurrency + ")").prop('selected', 'selected');
+			
+			var element = document.getElementById('ddlPaymentTerms');
+                        element.value = value.PaymentTermscode;
+						
+						element = document.getElementById('ddlInvoicedetailLayout');
+                        element.value = value.InvoiceReportLayoutcode;
+			
+			});
+			
+			
+			
+            },
+            error: function (data) {
+            },
+			complete: function(data){
+			$('#ddlcurrency').prop("disabled", true); 
+			$('#ddlcurrency').prop("readonly", true); 
+			}
+        });
+
+}
+
+function getCustomerCodeByProjectGUID(ProjectGUID)
+{
+$.ajax({
+            url: "https://ppmprod.bcone.com/api/Invoice/Get_ProjectClientID",
+   //url: GetPeriodsUrls,
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+			async:false,
+            //data: { "ResourceUID": "dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6" },
+			
+   data: { 
+			"ProjectGUID":ProjectGUID
+   },
+            success: function (data) {
+			
+			if(data.Data=="200")
+													CustomerCode=data.ClientPartnerID;
+													else
+													console.log(data.Error);
+													
+													if(CustomerCode=='')
+													{
+													CustomerCode="JACKLINK";
+													}
+			
+			
+			
+            },
+            error: function (data) {
+            }
+        });
+
+}
+
+ function onchildcheck(record_type)
+	{
+	
+	
+		
+		
+		
+		
+		var FinalInvAmt=0.00;
+		var no_checked=0;
+		var all_checkbox=0;
+		var scan_row_id="";
+		var row_checked=false;
+
+		$("input:checkbox:checked", table.rows().nodes()).each(function () {
+            var tuisre = $(this).is(":checked");
+			var row = $(this).closest('tr');
+			var new_row_id=row.attr('id');
+			if(scan_row_id==new_row_id)
+			{
+			row_checked=true;
+			}
+			else
+			{
+			row_checked=false;
+			scan_row_id=new_row_id;
+			}
+			
+            if (!(row_checked)) {
+				all_checkbox++;
+			
+				var classname=$(this).attr('class');
+				classname=classname.split(' ')[0];
+				if(classname=='actual')
+				{
+				
+				no_checked++;
+				FinalInvAmt+=parseFloat($(this).attr("myval"));
+				
+				//actualcheckbox++;
+				}
+				else if(classname=='billable')
+				{
+				
+						if($("."+$(this).attr("actual_chk")).is(":checked"))
+						{
+						}
+						else
+						{
+						
+						no_checked++;
+						FinalInvAmt+=parseFloat($(this).attr("myval"));
+						}
+				//billablecheckbox++;
+				}
+				
+				else if(classname=='bilnot')
+				{
+					if($("."+$(this).attr("actual_chk")).is(":checked"))
+						{
+						}
+						else
+						{
+						
+						no_checked++;
+						FinalInvAmt+=parseFloat($(this).attr("myval"));
+						}
+				}
+				
+				
+            }
+        });
+		
+		
+		//$('#SelectedItemCount').text(no_checked);
+		//$('#SelectedFinalAmt').text(FinalInvAmt.toFixed(2));
+		
+		if(no_checked>0)
+	{
+	$('#InvoiceSum').show();
+	$('#SelectedItemCount').text(no_checked);
+	$('#addmore').removeClass("gray-btn").addClass("blue-btn");
+	$('#addmore').attr('onclick','showmodal1("add");');
+	$("#addmore").prop('disabled',false);
+	
+	$('#SelectedFinalAmt').text(FinalInvAmt.toFixed(2));
+	//$('#SelectedFinalAmtCur').text('INR');
+	//("\"+xyz+"\")
+	}
+	else
+	{
+	$('#InvoiceSum').hide();
+	$('#SelectedFinalAmt').text('0');
+	//$('#SelectedFinalAmtCur').text('');
+	$('#SelectedItemCount').text(no_checked);
+	$("#addmore").prop('disabled',true);
+	//$('#BtnUpdateStatus').toggleClass("green-btn gray-btn");
+	$('#addmore').removeClass("blue-btn").addClass("gray-btn");
+	document.getElementById("addmore").removeAttribute("onclick");
+	}
+		
+		
+		
+		
+			  
+			  hide_show_column(record_type);
+			  
+			 
+			  
+	
+			  
+			  
+	}
+	
+	 function hide_show_column(record_type)
+			  {
+			  
+			  
+			  if(record_type=='billable_record')
+			  {
+								 table
+						.columns( 9 )
+						.search( 'Yes' )
+						.draw();
+						
+						//table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+						table.columns( [7,8] ).visible( false );
+						$( "input[type=checkbox]" ).prop('disabled', false);
+						//onchildcheck('billable_record');
+			  
+			  }
+			  else if(record_type=='non_billable_record')
+			  {
+							  table
+						.columns( 9 )
+						.search( 'No' )
+						.draw();
+						
+						//table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+						table.columns( [5,6] ).visible( false );
+						$( "input[type=checkbox]" ).prop('disabled', false);
+						//onchildcheck('non_billable_record');
+			  }
+			  else if(record_type=='all_record')
+			{
+											 table
+					 .search( '' )
+					 .columns().search( '' )
+					 .draw();
+					 
+					 //table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+							$( "input[type=checkbox]" ).prop('disabled', true);
+							//onchildcheck('all_record');
+			  }
+			  
+			  checkUNcheckParentcheckboxex();
+			  
+			  }
+			  
+			  function checkUNcheckParentcheckboxex()
+			  {
+			   var actualcheckbox = 0;
+		var billablecheckbox = 0;
+		var billablebeyondcheckbox = 0;
+		var nonbillablecheckbox = 0;
+		var nonbillablebeyondcheckbox =0;
+		
+		
+	   var total_actualcheckbox = $('input:checkbox.actual').length;
+		var total_billablecheckbox = $('input:checkbox.billable').length;
+		var total_billablebeyondcheckbox = $('input:checkbox.billablebeyond').length;
+		var total_nonbillablecheckbox = $('input:checkbox.bilnot').length;
+		var total_nonbillablebeyondcheckbox = $('input:checkbox.bilnotover').length;
+	 
+		
+		 actualcheckbox = $('input:checkbox.actual:checked').length;
+		
+		
+			  if(total_actualcheckbox == actualcheckbox && actualcheckbox > 0)
+			  { 
+				$("#checkactual,#checkbillable,#checkbeyondbillable,#checknonbillable,#checknonbillablebeyond").prop( "checked", true );
+			  }
+			   else
+			  {
+				$("#checkactual,#checkbillable,#checkbeyondbillable,#checknonbillable,#checknonbillablebeyond").prop( "checked", false );
+			  
+			  }
+			  
+			  
+			  //total_checkbox = $('input:checkbox.billable').length;
+			  billablecheckbox = $('input:checkbox.billable:checked').length;
+			  
+			  if(total_billablecheckbox == billablecheckbox && billablecheckbox >0)
+			  { 
+				$("#checkbillable").prop( "checked", true );
+			  }
+			   else
+			  {
+				$("#checkbillable").prop( "checked", false );
+			  
+			  }
+			  
+			  nonbillablecheckbox= $('input:checkbox.bilnot:checked').length;
+			  
+			   if(total_nonbillablecheckbox == nonbillablecheckbox && nonbillablecheckbox > 0)
+			  { 
+				$("#checknonbillable").prop( "checked", true );
+			  }
+			   else
+			  {
+				$("#checknonbillable").prop( "checked", false );
+			  
+			  }
+			  
+			  
+			//  total_checkbox = $('input:checkbox.billablebeyond').length;
+			  billablebeyondcheckbox = $('input:checkbox.billablebeyond:checked').length;
+			  
+			  if(billablebeyondcheckbox == total_billablebeyondcheckbox && total_billablebeyondcheckbox> 0)
+			  { 
+				$("#checkbeyondbillable").prop( "checked", true );
+				
+			  }
+			   else
+			  {
+				$("#checkbeyondbillable").prop( "checked", false );
+			  
+			  }
+			  
+			  
+			  nonbillablebeyondcheckbox = $('input:checkbox.bilnotover:checked').length;
+			  
+			  if(nonbillablebeyondcheckbox == total_nonbillablebeyondcheckbox && total_nonbillablebeyondcheckbox> 0)
+			  { 
+				$("#checknonbillablebeyond").prop( "checked", true );
+				
+			  }
+			   else
+			  {
+				$("#checknonbillablebeyond").prop( "checked", false );
+			  
+			  }
+			  }
+	
+	
+	function getInvoiceMasterDetailBYInvoice(InvoiceNumber)
+	{
+	
+	
+						
+	
+	
+	 $.ajax({
+            url: "https://ppmprod.bcone.com/api/Invoice/Get_InvoiceMaster_DATA",
+		
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+           async:false,
+			data: { 
+			"InvoiceMasterId":InvoiceNumber
+		
+			},
+            success: function (data) {
+			 $.each(data.Invoice, function (key, value) {
+						var element = document.getElementById('ddlprojectnameEA');
+                        element.value = value.ProjectCode;
+						$('#ddlprojectnameEA').prop('disabled',true);
+						if(value.From_Date!='01-Jan-1900')
+						{
+						$('#TxtFromDate').val(value.From_Date);
+						$('#TxtToDate').val(value.To_Date);
+						}
+					//	element = document.getElementById('ddlcurrency');
+                      //  element.value = value.InvoiceCurrency;
+						
+						$("#ddlcurrency option:contains(" + value.InvoiceCurrency + ")").prop('selected', 'selected');
+						
+						$('#ddlcurrency').prop("disabled", true); 
+						$('#ddlcurrency').prop("readonly", true); 
+						
+						$('#txtInvoiceNumber').val(value.InvoiceNumber);
+						
+						//$('#txtInvoiceNumber').prop('readonly',true);
+						//$('#txtInvoiceMonth').val(value.InvoiceMonth);
+						$('#txtInvoiceMonthActual').val(value.InvoiceMonth);
+						
+						
+						var date=value.InvoiceMonth;
+				 //  $('#txtInvoiceMonthActual').val(date);
+				   date=date.split('-');
+				   $('#txtInvoiceMonth').val(date[1]+"-"+date[2]);
+						
+						$('#txtInvoiceDate').val(value.InvoiceDate);
+						
+						element = document.getElementById('ddlPaymentTerms');
+                        element.value = value.PaymentTermsCode;
+						
+						$('#txtCredit').val(value.InvoiceCredit);
+						$('#txtReasonTerms').val(value.ReasonForCredit);
+						
+						element = document.getElementById('ddlInvoicedetailLayout');
+                        element.value = value.InvoiceReportLayoutCode;
+						
+						 $("input[name=rbinvoiceStatus][value="+value.InvoiceStatus+"]").prop('checked', 'checked');
+						//InvoiceStatus  
+						
+						$('#txtAdditionalText').val(value.AdditionalInvoiceText);
+						
+						
+						
+			 
+			 });
+                 
+		 },
+            error: function (data) {
+                alert("failed");
+				
+            },
+			complete: function(data)
+			{
+				
+			}
+        });
+	
+	}
+function getQueryStringValue(key) {
+            return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+		
+		function getInvoiceItemDetailBYInvoice(InvoiceMasterId){
+		
+		 if(validateExpenseSearch())
+								 {
+											//setTimeout(function(){
+													$('.loader').show();
+											//},100);
+										
+								 
+										var ProjectID="";
+											  ProjectID=$('#ddlprojectnameEA option:selected').val();
+											  
+										var From_date ="NA";
+										var To_date ="NA";
+										
+										if(document.getElementById("TxtFromDate").value!="")
+										{
+										 From_date = document.getElementById("TxtFromDate").value;
+										 To_date = document.getElementById("TxtToDate").value;
+										}
+										
+										all_record_count=0;
+										billable_record_count=0;
+										non_billable_record_count=0;
+										cleardata();
+										var table_body="";
+										var table_element="";
+										Invoice_Currency="USD";
+										
+										var actual_checkbox="";
+										var billable_checkbox="";
+										var billable_beyond_checkbox="";
+										var nonbillable_checkbox="";
+										var nonbillable_beyond_checkbox="";
+										var classtoadd="";
+										$.ajax({
+											url: "https://ppmprod.bcone.com/api/Invoice/Get_InvoiceTimesheetDetails_DATA",
+											method: "POST",
+											headers: { "Accept": "application/json; odata=verbose" },
+											data: { 
+													"InvoiceMasterId":InvoiceMasterId,
+													"View_For":"UPDATE",
+													"ProjectUID":ProjectID,
+													"StartDate":From_date,
+													"EndDate":To_date
+											},
+											success: function (data) {
+											var action="";
+											var Parameter_data="";
+											var start="";
+											var end="";
+											var actual_chk="";
+											var billable_chk="";
+											var beyondbillable_chk="";
+											var nonbillable_chk="";
+											var beyondnonbillable_chk="";
+											var billing_amountonbill_non_bill=0.00;
+											var checkbox_value=0.00;
+											var set_actual_checked=false;
+											var set_billable_checked=false;
+											var set_nonbillable_checked=false;
+											
+												$.each(data.TSInvoiceDetails,function(key,value){
+												
+															set_actual_checked=false;
+															set_billable_checked=false;
+															set_nonbillable_checked=false;
+															if(value.In_Status.toUpperCase()=='YES' && value.Billing_Hours_Flag=="1")
+															{
+															set_actual_checked=true;
+															}
+															
+												
+														start=value.START;
+														end=value.END;
+														all_record_count++;
+														if(value.Billable.toUpperCase()=="YES")
+														{
+															if(value.In_Status.toUpperCase()=='YES' && value.Billing_Hours_Flag=="2")
+															{
+															set_billable_checked=true
+															}
+														billable_record_count++;
+														billing_amountonbill_non_bill=value.BillingRate * value.ACTUALWORKBILLABLE;
+														//action="<input style='display:inline-block;' type='checkbox'  onchange='onchildcheck()' FinalInvAmt="+value.TotalAmount+"    />";
+														}
+														else
+														{
+														if(value.In_Status.toUpperCase()=='YES' && value.Billing_Hours_Flag=="2")
+															{
+															set_nonbillable_checked=true
+															}
+														non_billable_record_count++;
+														billing_amountonbill_non_bill=value.BillingRate * value.ACTUALWORKNONBILLABLE;
+														//action="<input style='display:inline-block;' type='checkbox' onchange='onchildcheck()' FinalInvAmt="+value.TotalAmount+"    />";
+														}
+														actual_chk="actual"+key;
+														classtoadd="actual "+actual_chk;
+														
+														billable_chk="billable"+key;
+														beyondbillable_chk="billablebeyond"+key;
+														nonbillable_chk="bilnot"+key;
+														beyondnonbillable_chk="bilnotover"+key;
+														checkbox_value=value.TotalAmount;
+														if(set_actual_checked)
+														{
+														actual_checkbox="<input checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" billable_chk=\""+billable_chk+"\" beyondbillable_chk=\""+beyondbillable_chk+"\" nonbillable_chk=\""+nonbillable_chk+"\"  beyondnonbillable_chk=\""+beyondnonbillable_chk+"\" style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+														}
+														else
+														{
+														actual_checkbox="<input myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" billable_chk=\""+billable_chk+"\" beyondbillable_chk=\""+beyondbillable_chk+"\" nonbillable_chk=\""+nonbillable_chk+"\"  beyondnonbillable_chk=\""+beyondnonbillable_chk+"\" style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+														}
+														classtoadd="billable "+billable_chk;
+														checkbox_value=value.BillingRate * value.ACTUALWORKBILLABLE;
+														if(set_billable_checked)
+														{
+														billable_checkbox="<input checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" beyondbillable_chk=\""+beyondbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+														}
+														else
+														{
+															if(set_actual_checked)
+															{
+															billable_checkbox="<input  checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" beyondbillable_chk=\""+beyondbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+															else
+															{
+															billable_checkbox="<input  myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" beyondbillable_chk=\""+beyondbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+														}
+														classtoadd="billablebeyond "+beyondbillable_chk;
+														checkbox_value=value.BillingRate * value.ACTUALOVERTIMEWORKBILLABLE;
+														if(set_actual_checked)
+															{
+															billable_beyond_checkbox="<input checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" billable_chk=\""+billable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+															else
+															{
+															billable_beyond_checkbox="<input myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" billable_chk=\""+billable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+														
+														
+														
+														classtoadd="bilnot "+nonbillable_chk;
+														checkbox_value=value.BillingRate * value.ACTUALWORKNONBILLABLE;
+														if(set_nonbillable_checked)
+														{
+														nonbillable_checkbox="<input checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" beyondnonbillable_chk=\""+beyondnonbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+														}
+														else
+														{
+															if(set_actual_checked)
+															{
+															nonbillable_checkbox="<input checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" beyondnonbillable_chk=\""+beyondnonbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+															else
+															{
+															nonbillable_checkbox="<input myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" beyondnonbillable_chk=\""+beyondnonbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+														}
+														
+														
+														classtoadd="bilnotover "+beyondnonbillable_chk;
+														checkbox_value=value.BillingRate * value.ACTUALOVERTIMEWORKNONBILLABLE;
+														if(set_actual_checked)
+															{
+															nonbillable_beyond_checkbox="<input checked myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" nonbillable_chk=\""+nonbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+															else
+															{
+															nonbillable_beyond_checkbox="<input myval=\""+checkbox_value+"\" class=\""+classtoadd+"\" actual_chk=\""+actual_chk+"\" nonbillable_chk=\""+nonbillable_chk+"\"  style='display:inline-block;margin-top:0px;' type='checkbox'    />";
+															}
+														table_body=table_body+"<tr id=\""+actual_chk+"\">";
+														//table_body=table_body+"<td TS_UID="+value.TS_UID+" RES_UID="+value.RES_UID+" PROJ_UID="+value.PROJ_UID+" TASK_UID="+value.TASK_UID+" ASSN_UID="+value.ASSN_UID+" START=\""+start+"\" END=\""+end+"\" TS_ACTUAL="+value.TS_ACTUAL+" TASK_TABLE="+value.TASK_TABLE+" FinalAmount="+value.TotalAmount+"  >"+action+"</td>";
+														table_body=table_body+"<td  TS_UID="+value.TS_UID+" RES_UID="+value.RES_UID+" PROJ_UID="+value.PROJ_UID+" TASK_UID="+value.TASK_UID+" ASSN_UID="+value.ASSN_UID+" START=\""+start+"\" END=\""+end+"\" TS_ACTUAL="+value.TS_ACTUAL+" TASK_TABLE="+value.TASK_TABLE+" FinalAmount="+value.TotalAmount+" billable_amount="+billing_amountonbill_non_bill+" class='trkNO'>"+value.Period_Name+"</td>";
+														table_body=table_body+"<td >"+value.ResourceName+"</td>";
+														table_body=table_body+"<td>"+value.DATE+"</td>";
+														table_body=table_body+"<td>"+value.TASK_NAME+"</td>";
+														table_body=table_body+"<td>"+actual_checkbox+"<div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.TS_ACTUAL+"</div></td>";
+														
+														
+														if(value.ACTUALWORKBILLABLE=='0.00')
+														table_body=table_body+"<td><div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.ACTUALWORKBILLABLE+"</div></td>";
+														else
+														table_body=table_body+"<td>"+billable_checkbox+"<div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.ACTUALWORKBILLABLE+"</div></td>";
+														
+														if(value.ACTUALOVERTIMEWORKBILLABLE=='0.00')
+														table_body=table_body+"<td><div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.ACTUALOVERTIMEWORKBILLABLE+"</div></td>";
+														else
+														table_body=table_body+"<td>"+billable_beyond_checkbox+"<div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.ACTUALOVERTIMEWORKBILLABLE+"</div></td>";
+														
+														
+														if(value.ACTUALWORKNONBILLABLE=='0.00')
+														table_body=table_body+"<td><div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.ACTUALWORKNONBILLABLE+"</div></td>";
+														else
+														table_body=table_body+"<td>"+nonbillable_checkbox+"<div style='text-align:right;display:inline-block;margin-left: 5px;'>"+value.ACTUALWORKNONBILLABLE+"</div></td>";
+														
+														
+														if(value.ACTUALOVERTIMEWORKNONBILLABLE=='0.00')
+														table_body=table_body+"<td><div style='text-align:right;'>"+value.ACTUALOVERTIMEWORKNONBILLABLE+"</div></td>";
+														else
+														table_body=table_body+"<td>"+nonbillable_beyond_checkbox+"<div style='text-align:right;'>"+value.ACTUALOVERTIMEWORKNONBILLABLE+"</div></td>";
+														
+														table_body=table_body+"<td>"+value.Billable+"</td>";
+														table_body=table_body+"<td><div style=text-align:right;'>"+value.BillingRate+"<span style='color: #ababab;margin-left: 6px;'>"+Invoice_Currency+"</span></div></td>";
+														table_body=table_body+"<td><div style=text-align:right;'>"+value.TotalAmount+"<span style='color: #ababab;margin-left: 6px;'>"+Invoice_Currency+"</span></div></td>";
+														table_body=table_body+"<td><div style=text-align:right;'>"+billing_amountonbill_non_bill+"<span style='color: #ababab;margin-left: 6px;'>"+Invoice_Currency+"</span></div></td>";
+														
+														table_body=table_body+"</tr>"
+												
+												});
+												table_element=table_body;
+											},
+											error: function (data) {
+													alert('error occurred');
+											},
+											complete: function(data){
+											
+											$('.loader').hide();
+											$('#ExpenceTable_Tbody').append(table_element);
+											$('#SelectedFinalAmtCur').text(Invoice_Currency);
+											$('#AllRecord_Span').text(all_record_count);
+											$('#billable_record_Span').text(billable_record_count);
+											$('#non_billable_record_Span').text(non_billable_record_count);
+											load_datatable_js();
+											}
+									});
+										
+										
+												
+									}
+		
+		}
+	
+	function Bindprojectdata() {
+		
+							$.ajax({
+											url: "https://ppmprod.bcone.com/api/Invoice/Get_AllProjects",
+											method: "POST",
+											async:false,
+											headers: { "Accept": "application/json; odata=verbose" },
+											data: { 
+											},
+											success: function (data) {
+													if(data.Data=="200")
+													{	
+														$('#ddlprojectnameEA').append(new Option("--Select--", 0));													
+													$.each(data.Projects, function(key, value) {
+														$('#ddlprojectnameEA').append("<option value = '" + value.ProjectId + "'>" + value.ProjectName + "</option>");
+													});
+													}
+													
+											},
+											error: function (data) {
+													alert('error occurred');
+											},
+											complete: function(data){
+											
+											var InvoiceMasterId = getQueryStringValue("InvoiceMasterId");
+			  if(InvoiceMasterId!='')
+			  {
+						getCurrencyListData(current_url, 'BconeCurrency');
+						GetPayment_and_InvoiceTypes();
+						//bindPaymentTerms();
+						getInvoiceMasterDetailBYInvoice(InvoiceMasterId);
+						getInvoiceItemDetailBYInvoice(InvoiceMasterId);
+			  }
+											
+											}
+									});
+    }
+
+function openReport(Invoice,ReportType,InvoiceNumber){
+
+		$('#myModal').modal('hide');
+		var gobackURl="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/TimesheetInvoiceStep2.aspx?InvoiceMasterId="+Invoice;
+		var iFrameSrc="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/TimesheetBilling.aspx?InvoiceNumber="+Invoice+"&InvoiceReportLayoutCode="+ReportType+"&billing=Yes";
+		$('#goback_a').attr('href',gobackURl);
+		$('#reportIframe').attr('src',iFrameSrc);
+		$('#gotoStatusUpdate_a').attr('href',"https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/TimesheetInvoiceStep3.aspx");
+		
+		
+    $('.openDetailsMain').show();
+	
+	$('#InvoiceNoSpan').text(InvoiceNumber);
+	
+	
+	InsertIntoInvoiceLog(Invoice,'Invoice updated',login_guid);
+}
+   function InsertIntoInvoiceLog(InvoiceNumber,Action,Actor)
+  {
+         
+        $.ajax({
+           url: "https://ppmprod.bcone.com/api/Invoice/AddNewInvoicveLog",
+           method: "POST",
+           headers: { "Accept": "application/json; odata=verbose" },
+           data: { 
+             "InvoiceMasterId":InvoiceNumber,
+             "Action":Action,
+             "Actor":Actor
+                               
+           },
+           success: function (data) {
+            
+            // alert('log added successfully.');
+           
+           },
+           error: function (data) {
+             alert('error occurred');
+           }
+         });
+         
+  
+  }
+				 function convert_date1(date_to_convert) 
+						{
+							var arr_date = date_to_convert.split('T');
+							var updated_date = arr_date[0] + " " + arr_date[1];
+							
+							var m_names = new Array("Jan", "Feb", "Mar",
+										"Apr", "May", "Jun", "Jul", "Aug", "Sep",
+										"Oct", "Nov", "Dec");
+							var d = new Date(updated_date);
+
+							var curr_date = d.getDate();
+							var curr_month = d.getMonth();
+							var curr_year = d.getFullYear();
+
+							var converted_date = curr_date + "-" + m_names[curr_month] + "-" + curr_year;
+
+							return converted_date;
+
+						}
+						
+			function load_datatable_js() {
+
+
+						 table = $('#ExpenceDataTable').DataTable({
+										 "columnDefs": [ {
+					  "targets": [ 4,5,6,7,8 ],
+					  "bSortable": false
+					} ]
+						 });
+						 
+						 table
+    .rows( '.ready' )
+    .nodes()
+    .to$()      // Convert to a jQuery object
+    .removeClass( 'ready' );
+
+						 
+			//$('#AllRecord_Span').text(all_record_count);
+			//$('#billable_record_Span').text(billable_record_count);
+			//$('#non_billable_record_Span').text(non_billable_record_count);
+			$('#main-div').show();
+			
+			$('#checkactual,#checkbillable,#checkbeyondbillable,#checknonbillable,#checknonbillablebeyond').click(function(){		
+			
+			table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+			var id=$(this).prop('id');
+			//if(id=='checkactual')
+			//{
+				if ($(this).is(':checked')) 
+				{	if(id=='checkactual')
+					{
+						$(".actual").prop( "checked", true );
+						if(!($("#checkbillable").is(':checked')))
+						$("#checkbillable").trigger("click");
+						if(!($("#checkbeyondbillable").is(':checked')))
+						$("#checkbeyondbillable").trigger("click");
+						
+						if(!($("#checknonbillable").is(':checked')))
+						$("#checknonbillable").trigger("click");
+						if(!($("#checknonbillablebeyond").is(':checked')))
+						$("#checknonbillablebeyond").trigger("click");
+						
+					}
+					else if(id=='checkbillable')
+					{   	
+					  $(".billable").prop( "checked", true );
+					  if($("#checkbeyondbillable").is(':checked'))
+					  {
+						  if(!($("#checkactual").is(':checked')))
+						  $("#checkactual").trigger("click");
+					  }
+					  //$(".actual").prop( "checked", false );
+					}
+					else if(id=='checkbeyondbillable')
+					{   	
+					  $(".billablebeyond").prop( "checked", true );
+					  if($("#checkbillable").is(':checked'))
+					  {
+						  if(!($("#checkactual").is(':checked')))
+						  $("#checkactual").trigger("click");
+					  }
+					  //$(".actual").prop( "checked", false );
+					}
+					
+					else if(id=='checknonbillable')
+					{   	
+					  $(".bilnot").prop( "checked", true );
+					  if($("#checknonbillablebeyond").is(':checked'))
+					  {
+						  if(!($("#checkactual").is(':checked')))
+						  $("#checkactual").trigger("click");
+					  }
+					  //$(".actual").prop( "checked", false );
+					}
+					
+					else if(id=='checknonbillablebeyond')
+					{   	
+					  $(".bilnotover").prop( "checked", true );
+					  if($("#checknonbillable").is(':checked'))
+					  {
+						  if(!($("#checkactual").is(':checked')))
+						  $("#checkactual").trigger("click");
+					  }
+					  //$(".actual").prop( "checked", false );
+					}
+					
+					
+				}
+				else
+				{
+					if(id=='checkactual')
+					{
+						$(".actual,.billable,.billablebeyond,.bilnot,.bilnotover").prop( "checked", false );
+						$("#checkbillable,#checkbeyondbillable,#checknonbillable,#checknonbillablebeyond").prop( "checked", false );
+						//$("#checkbeyondbillable").prop( "checked", false );
+					}
+					else if(id=='checkbillable')
+					{   	
+					  $(".billable,.billablebeyond").prop( "checked", false );
+					  $(".actual").prop( "checked", false );
+					  $("#checkactual,#checkbeyondbillable").prop( "checked", false );
+					 // $("#checkactual").trigger("click");
+					//  $("#checkbeyondbillable").trigger("click");
+					 // $(".actual").prop( "checked", false );
+					}
+					else if(id=='checkbeyondbillable')
+					{   	
+					  $(".billablebeyond").prop( "checked", false );
+					  //$(".actual").prop( "checked", false );
+					  //$("#checkactual").trigger("click");
+					}
+					else if(id=='checknonbillable')
+					{   	
+					  $(".bilnot,.bilnotover").prop( "checked", false );
+					  $(".actual").prop( "checked", false );
+					  $("#checkactual,#checknonbillablebeyond").prop( "checked", false );
+					 // $("#checkactual").trigger("click");
+					//  $("#checkbeyondbillable").trigger("click");
+					 // $(".actual").prop( "checked", false );
+					}
+					else if(id=='checknonbillablebeyond')
+					{   	
+					  $(".bilnotover").prop( "checked", false );
+					  //$(".actual").prop( "checked", false );
+					  //$("#checkactual").trigger("click");
+					}
+					
+				
+				}
+				
+			
+			//}
+			
+			//onchildcheck('none');
+			 var record_type=$('.green-btn').attr('id');
+				 if(record_type=='AllRecord')
+				 record_type='all_record';
+				 //alert(record_type);
+				 
+				 onchildcheck(record_type);
+		});
+			
+			
+			setTimeout(function(){
+			$('.loader').hide();
+			},100);
+			
+			if(billable_record_count>0)
+			{
+				$('#addmore').prop('disabled',false);
+			}
+			else
+			{
+			$('#addmore').prop('disabled',true);
+			}
+
+            $('#ExpenceDataTable tfoot th').each(function () {
+                var title = $(this).text();
+               
+                if (title != '') {
+                    $(this).html('<input type="text" placeholder="Search" />');
+                }
+            });
+
+
+            
+
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            $('.dataTables_wrapper #ExpenceDataTable').wrapAll(document.createElement('div'));
+            //$('.dataTables_wrapper #ExpenceDataTable').parent('div').addClass('table-responsive');
+          
+            //$('.dataTables_wrapper .table-responsive').css("width", "1030px");
+
+           
+
+            $(".sorting").on("click", function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+
+			
+			$(" .right-btn a").on( 'click', function () {
+					$(".right-btn a").removeClass("green-btn").addClass("blue-btn");
+						$(this).addClass("green-btn").removeClass("blue-btn");
+			} );
+			
+			
+			
+			
+			$('#billable_record').on( 'click', function () {
+			table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+			onchildcheck('billable_record');
+			Intilize_checkbox();
+    
+		
+} );
+$('#non_billable_record').on( 'click', function () {
+table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+onchildcheck('non_billable_record');
+Intilize_checkbox();
+   
+		//onchildcheck();
+} );
+
+$('#AllRecord').on( 'click', function () {
+table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+onchildcheck('all_record');
+Intilize_checkbox();
+ 
+} );
+
+
+			
+			
+		//onchildcheck();
+		
+		
+				
+				
+				$( "#billable_record" ).trigger( "click" );	
+				
+		
+
+        }
+		
+		function Intilize_checkbox()
+		{
+		
+		var class_name="";
+		$( "input[type=checkbox]" ).click(function(){
+    
+				 //alert("Id: " + $(this).attr("id") + " class: " + $(this).attr("class"));
+				 if($(this).attr('id')!='checkactual' && $(this).attr('id')!='checkbillable' && $(this).attr('id')!='checkbeyondbillable' && $(this).attr('id')!='checknonbillable' && $(this).attr('id')!='checknonbillablebeyond' )
+				 {
+				 table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12] ).visible( true );
+				 if($(this).is(':checked'))
+				 {
+				  if($(this).attr("class").indexOf('actual')!=-1)
+				  {
+				  $("."+$(this).attr("billable_chk")).prop( "checked", true );
+				  $("."+$(this).attr("beyondbillable_chk")).prop( "checked", true );
+				  
+				  $("."+$(this).attr("nonbillable_chk")).prop( "checked", true );
+				  $("."+$(this).attr("beyondnonbillable_chk")).prop( "checked", true );
+				  
+				  }
+				  else if($(this).attr("class").indexOf('beyond')!=-1)
+				  {
+						  if( $('.'+$(this).attr("billable_chk")).is(':checked'))
+						  {
+						  $("."+$(this).attr("actual_chk")).prop( "checked", true );
+						  }
+						  else
+						  {
+						  $(this).prop("checked",false);
+						  }
+				  
+				  
+				  }
+				  else if($(this).attr("class").indexOf('billable')!=-1)
+				  {
+						  if( $('.'+$(this).attr("beyondbillable_chk")).is(':checked'))
+						  $("."+$(this).attr("actual_chk")).prop( "checked", true );
+						  
+				  }
+				  
+				  else if($(this).attr("class").indexOf('bilnotover')!=-1)
+				  {
+					  if( $('.'+$(this).attr("nonbillable_chk")).is(':checked'))
+						  {
+						  $("."+$(this).attr("actual_chk")).prop( "checked", true );
+						  }
+						  else
+						  {
+						  $(this).prop("checked",false);
+						  }
+				  
+				  }
+				  else if($(this).attr("class").indexOf('bilnot')!=-1)
+				  {
+				   if( $('.'+$(this).attr("beyondnonbillable_chk")).is(':checked'))
+						  $("."+$(this).attr("actual_chk")).prop( "checked", true );
+				  
+				  }
+				 
+				 }
+				 else
+				 {
+				 
+					 if($(this).attr("class").indexOf('actual')!=-1)
+					  {
+					  $("."+$(this).attr("billable_chk")).prop( "checked", false );
+					  $("."+$(this).attr("beyondbillable_chk")).prop( "checked", false );
+					  
+					  $("."+$(this).attr("nonbillable_chk")).prop( "checked", false );
+					 $("."+$(this).attr("beyondnonbillable_chk")).prop( "checked", false );
+					  
+					  
+					  
+					  }
+					  else if($(this).attr("class").indexOf('beyond')!=-1)
+					  {
+					  if( $('.'+$(this).attr("billable_chk")).is(':checked'))
+					  $("."+$(this).attr("actual_chk")).prop( "checked", false );
+					  
+					  
+					  }
+					  else if($(this).attr("class").indexOf('billable')!=-1)
+					  {
+					  //if( $('.'+$(this).attr("beyondbillable_chk")).is(':checked'))
+					  $("."+$(this).attr("actual_chk")).prop( "checked", false );
+					  $("."+$(this).attr("beyondbillable_chk")).prop( "checked", false );
+					  
+					  }
+					  
+					  else if($(this).attr("class").indexOf('bilnotover')!=-1)
+						{
+							  if( $('.'+$(this).attr("nonbillable_chk")).is(':checked'))
+								$("."+$(this).attr("actual_chk")).prop( "checked", false );
+				  
+						}
+					  else if($(this).attr("class").indexOf('bilnot')!=-1)
+					  {
+								 $("."+$(this).attr("actual_chk")).prop( "checked", false );
+								$("."+$(this).attr("beyondnonbillable_chk")).prop( "checked", false );
+					  
+					  }
+				 
+				 }
+				  var record_type=$('.green-btn').attr('id');
+				 if(record_type=='AllRecord')
+				 record_type='all_record';
+				 //alert(record_type);
+				 
+				 onchildcheck(record_type);
+				}
+				
+				
+				
+				});
+		
+		}
+		
+		 function getCurrencyListData(url, listname) {
+            ////alert("gfhkltnyklhmdtykhtkh");
+            ////alert("getListItem1");
+            ////alert("show();");
+            //$('.loader').show();
+			
+            var query_cml='';
+			
+            query_cml = '<View><Query><Where><Eq><FieldRef Name="IsActive" /><Value Type="Boolean">1</Value></Eq></Where></Query></View>';
+            // alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('"+listname+"')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+                success: function (data) {
+				
+
+
+
+
+                    $.each(data.d.results, function (key, value) {
+
+                        var class1 = "";
+                        // alert(value.ID);
+                        // alert(value.Currency);
+                        $("#ddlcurrency").append($("<option></option>").val(value.ID).html(value.Currency));
+                      
+
+                    });
+                    //loginuser();
+
+
+
+                },
+                error: function (data) {
+                    failure(data);
+                }
+            });
+        }
+		
+		function GetUserId(userid) {
+            var NewloginName = "";
+			var result;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+			     async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    var loginName = dataResults.LoginName;
+				$('#login_name_contain').text(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                     result =  getResourcesGuid(NewloginName);
+                },
+                complete: function () {
+                },
+            });
+			return result;
+        }
+		
+		function getResourcesGuid(NewloginName) {
+            var GUID;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    GUID = data.d.results[0].ResourceId;
+					 FLoginname=data.d.results[0].ResourceName;
+	                   FloginId=data.d.results[0].ResourceId;
+                    return GUID;
+                }
+            });
+           return GUID;
+        }
+		
+		
+		
+		
+		 $(function(){
+				disableRightClick();
+				$('.fa-remove').click(function(){
+				if(this.id=='frmdt')
+				{
+				$('#TxtFromDate').val('');
+				}
+				else
+				{
+				$('#TxtToDate').val('');
+				}
+				});
+				
+				$("#myModal :text,select,textarea").click(function(){
+						$(this).removeClass('validation_active').addClass('validation_Inactive');
+						
+						setTimeout(function(){$('#AlertMsg').text('');},1000)
+						
+				});
+				$(".top-refine :text,select,textarea").click(function(){
+						$(this).removeClass('validation_active').addClass('validation_Inactive');
+						if(this.id=='ddlprojectnameEA')
+						{
+						$('#ddlprojectnameEA + p').addClass('validation_Inactive').removeClass('validation_active');
+						}
+				});
+				 $('#txtInvoiceNumber').keydown(function(e) {
+               if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+            });
+
+
+			$("input[id*='txtCredit']").keydown(function (event) {
+
+
+                if (event.shiftKey == true) {
+                    event.preventDefault();
+                }
+
+                if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                    (event.keyCode >= 96 && event.keyCode <= 105) ||
+                    event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                    event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+
+                } else {
+                    event.preventDefault();
+                }
+
+                if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190 || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)
+                    event.preventDefault();
+                //if a decimal has been added, disable the "."-button
+
+            });
+				
+								function convertDate(date)
+								{
+								
+																var today = new Date(date);
+																	  // today=$('#TxtFromDate').val();
+																	var dd = today.getDate();
+																	var mm = today.getMonth()+1; //January is 0!
+																	var yyyy = today.getFullYear();
+
+																	if(dd<10) {
+																		dd='0'+dd
+																	} 
+
+																	if(mm<10) {
+																		mm='0'+mm
+																	} 
+
+																	today = yyyy+'-'+mm+'-'+dd;
+																	
+																	return today;
+								
+								}
+								
+								
+								
+	function DeleteInvoiceItemDetailBYInvoice(InvoiceMasterId)
+	{
+	
+			$.ajax
+                 ({       
+                  url: "https://ppmprod.bcone.com/api/Invoice/Delete_TimesheetInvoices",
+                  headers: { "Accept": "application/json; odata=verbose" },
+                  method: "POST",
+                  data:
+                  {
+                   "InvoiceMasterId" : InvoiceMasterId,
+				   "Delete_Type":"Item"
+                   
+                  },
+                  dataType: 'json',
+                  success: function(data)
+                 {
+              //  getMasterInvoiceData();
+				  if(data.Message=="Success")
+				  {
+						InsertInvoiceDetail('report',InvoiceMasterId);
+					//$("#alertmain").show();
+					//document.getElementById("Alert_msg").innerHTML='Invoice Deleted successfully !';
+				  }
+					else
+					{
+					//alert('error while deleting invoice');
+					}
+					
+                 },
+				 complete:function(data){
+				 
+				 }
+                });	
+	
+	}
+				
+								 $('#btnGetTimesheetRecords').click(function (e) {
+								 
+								 if(validateExpenseSearch())
+								 {
+								 
+								 }
+								 
+							});
+							
+							$('#btnGenerateReport').click(function(e){
+							if(validateGenerateReport('myModal'))
+								{
+								
+								//setTimeout(function(){
+													$('.loader').show();
+											//},100);
+								//alert('');
+								var InvoiceMasterId = getQueryStringValue("InvoiceMasterId");
+								var ProjectId=$('#ddlprojectnameEA option:selected').val();
+								//ProjectId = ProjectId.split("&");
+								var InvoiceNumber=$('#txtInvoiceNumber').val();
+								var InvoiceMonth=$('#txtInvoiceMonthActual').val();
+								var ProjectCode=ProjectId;
+								getCustomerCodeByProjectGUID(ProjectCode);
+								var InvoiceDate=$('#txtInvoiceDate').val();
+								var InvoiceCurrency=$('#ddlcurrency :selected').text();
+								var InvoiceCredit=$('#txtCredit').val();
+								if(InvoiceCredit=='')
+                                  {
+                                  InvoiceCredit="0";
+                                  }
+								var ReasonForCredit=$('#txtReasonTerms').val();
+								var PaymentTermsCode=$('#ddlPaymentTerms :selected').val();
+								var InvoiceReportLayoutCode=$('#ddlInvoicedetailLayout :selected').val();
+								var InvoiceStatus= 'Sent';
+								var AdditionalInvoiceText=$('#txtAdditionalText').val();
+								var FinalStatus="Pending";
+								var InvoiceFor="Timesheet";
+								var From_date="1900-01-01";
+								var To_date="1900-01-01";
+								
+								if(document.getElementById("TxtFromDate").value!="")
+										{
+										 From_date = document.getElementById("TxtFromDate").value;
+										 To_date = document.getElementById("TxtToDate").value;
+										}
+							
+								$.ajax({
+											url: "https://ppmprod.bcone.com/api/Invoice/Update_Invoice",
+											method: "POST",
+											headers: { "Accept": "application/json; odata=verbose" },
+											data: { 
+													"InvoiceMasterId":InvoiceMasterId,
+													"InvoiceNumber":InvoiceNumber,
+													"InvoiceMonth":InvoiceMonth,
+													"ProjectCode":ProjectCode,
+													"CustomerCode":CustomerCode,
+													"InvoiceDate":InvoiceDate,
+													"InvoiceCurrency":InvoiceCurrency,
+													"InvoiceCredit":InvoiceCredit,
+													"ReasonForCredit":ReasonForCredit,
+													"PaymentTermsCode":PaymentTermsCode,
+													"InvoiceReportLayoutCode":InvoiceReportLayoutCode,
+													"InvoiceStatus":InvoiceStatus,
+													"AdditionalInvoiceText":AdditionalInvoiceText,
+													"FinalStatus":FinalStatus,
+													"InvoiceFor":InvoiceFor,
+													"From_Date":From_date,
+													"To_Date":To_date,
+													"Actor":login_guid
+
+										   
+											},
+											success: function (data) {
+													if(data.Data=="200")
+													{
+												//	alert('Data updated successfully.');
+													DeleteInvoiceItemDetailBYInvoice(InvoiceMasterId);
+													
+													
+													}
+													else if(data.Data=="500")
+													{
+													
+													//$('.loader').hide();
+													//console.log(data.Error);
+													if(data.Message=='InvoiceNumber already exists..!!!')
+													{
+														//console.log('Invoice Number Already Exists.');
+														$('#AlertMsg').text('InvoiceNumber already exists..!!!');
+														$('#txtInvoiceNumber').removeClass('validation_Inactive').addClass('validation_active');
+														
+													}
+													else
+													{
+													alert('error in Update_Invoice');
+													}
+													}
+													else
+													{
+													alert('error in Update_Invoice');
+													}
+													$('.loader').hide();
+											},
+											error: function (data) {
+													alert('error occurred');
+											}
+									});
+									}
+							
+							});
+							
+							$('#btnSaveClose').click(function(e){
+							
+							if(validateGenerateReport('myModal'))
+								{
+								
+								setTimeout(function(){
+													$('.loader').show();
+											},100);
+							//alert('');
+								var ProjectId=$('#ddlprojectnameEA option:selected').val();
+								ProjectId = ProjectId.split("&");
+								var InvoiceNumber=$('#txtInvoiceNumber').val();
+								var InvoiceMonth=$('#txtInvoiceMonthActual').val();
+								var ProjectCode=ProjectId[1];
+								var From_date="1900-01-01";
+								var To_date="1900-01-01";
+								
+								getCustomerCodeByProjectGUID(ProjectCode);
+								
+										if(document.getElementById("TxtFromDate").value!="")
+										{
+										 From_date = document.getElementById("TxtFromDate").value;
+										 To_date = document.getElementById("TxtToDate").value;
+										}
+										
+										
+								
+								var InvoiceDate=$('#txtInvoiceDate').val();
+								var InvoiceCurrency=$('#ddlcurrency :selected').text();
+								var InvoiceCredit=$('#txtCredit').val();
+								if(InvoiceCredit=='')
+								{
+								InvoiceCredit="0";
+								}
+								var ReasonForCredit=$('#txtReasonTerms').val();
+								var PaymentTermsCode=$('#ddlPaymentTerms :selected').val();
+								var InvoiceReportLayoutCode=$('#ddlInvoicedetailLayout :selected').val();
+								//var InvoiceStatus= ($('input[name=rbinvoiceStatus]:checked', '#InvoiceStatus').val());
+								var InvoiceStatus='Sent';
+								var AdditionalInvoiceText=$('#txtAdditionalText').val();
+								var FinalStatus="Pending";
+								var InvoiceFor="Expense";
+							
+								$.ajax({
+											url: "https://ppmprod.bcone.com/api/Invoice/add_newInvoice",
+											method: "POST",
+											headers: { "Accept": "application/json; odata=verbose" },
+											data: 
+												{ 
+													"InvoiceNumber":InvoiceNumber,
+													"InvoiceMonth":InvoiceMonth,
+													"ProjectCode":ProjectCode,
+													"CustomerCode":CustomerCode,
+													"InvoiceDate":InvoiceDate,
+													"InvoiceCurrency":InvoiceCurrency,
+													"InvoiceCredit":InvoiceCredit,
+													"ReasonForCredit":ReasonForCredit,
+													"PaymentTermsCode":PaymentTermsCode,
+													"InvoiceReportLayoutCode":InvoiceReportLayoutCode,
+													"InvoiceStatus":InvoiceStatus,
+													"AdditionalInvoiceText":AdditionalInvoiceText,
+													"FinalStatus":FinalStatus,
+													"InvoiceFor":InvoiceFor,
+													"From_Date":From_date,
+													"To_Date":To_date
+
+										   
+												},
+											success: function (data) 
+											{
+													if(data.Data=="200")
+													{
+													//alert('Data added successfully.');
+													
+													
+													InsertInvoiceDetail('report',data.NewMasterID);
+													
+													
+													}
+													else if(data.Data=="500")
+													{
+													
+													//$('.loader').hide();
+													//console.log(data.Error);
+													if(data.Message=='InvoiceNumber already exists..!!!')
+													{
+														//console.log('Invoice Number Already Exists.');
+														//$('.loader').hide();
+														$('#AlertMsg').text('InvoiceNumber already exists..!!!');
+														$('#txtInvoiceNumber').removeClass('validation_Inactive').addClass('validation_active');
+														
+													}
+													else
+													{
+													alert('error in add_newInvoice');
+													}
+													}
+													else
+													{
+													alert('error in add_newInvoice');
+													}
+													setTimeout(function(){
+													$('.loader').hide();
+											},1000);
+											},
+											error: function (data) 
+											{
+													alert('error occurred');
+											}
+									});
+									}
+							
+							});
+							
+							
+							$('#btnClear').click(function(e){
+									clearAllInputs('top-refine','class');
+									$('#main-div').hide();
+							});
+							
+							
+							
+							
+							//InsetInvoice();
+							
+							
+							 
+		
+		Bindprojectdata();
+		 setInterval(function(){ 
+        $('[data-toggle="tooltip"]').tooltip();
+    }, 3000);
+		 window.Search = $('.search-box').SumoSelect({ csvDispCount: 3, search: true, searchText: 'Type Name', placeholder: 'Type Name' });
+		 
+		 $(".dateselect").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: new Date() ,
+				
+                onSelect: function(selected,evnt) {
+                   // hideerror('TxtDate');
+                }
+            }); 
+			//$(".dateselect").datepicker("setDate", new Date());
+			
+			$(".dateselect1").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: new Date() ,
+                onSelect: function(selected,evnt) {
+                   var date=$('#txtInvoiceMonth').val();
+				   $('#txtInvoiceMonthActual').val(date);
+				   date=date.split('-');
+				   $('#txtInvoiceMonth').val(date[1]+"-"+date[2]);
+                }
+            }); 
+
+			
+			
+				var userid = _spPageContextInfo.userId;
+				login_guid=GetUserId(userid);
+				
+				//console.log(userid);
+							
+							
+									
+					
+
+				});
+				
+				function showAlertMain()
+				{
+					$('#myModal').modal('hide');
+					$('#alertmain').show();
+				}
+				function close_div()
+				{
+					$('#alertmain').hide();
+					$( "#btnClear" ).trigger( "click" );
+					
+				}
+				
+				function GetPayment_and_InvoiceTypes()
+				{
+				
+				
+				$.ajax({
+											url: "https://ppmprod.bcone.com/api/Invoice/GetPayment_and_InvoiceTypes",
+											method: "POST",
+											async:false,
+											headers: { "Accept": "application/json; odata=verbose" },
+											data: { 
+													
+											},
+											success: function (data) {
+													if(data.Data=="200")
+													{
+																			
+								 $.each(data.Invoice, function(key, value) {
+									 //alert(value.InvoiceReportLayoutCode);
+									 //alert(value.InvoiceReportLayoutName);
+									   $("#ddlInvoicedetailLayout").append($("<option></option>").val(value.InvoiceReportLayoutCode).html(value.InvoiceReportLayoutName));
+								});
+								
+								 $.each(data.Payments, function(key, value) {
+									// alert(value.PaymentTermsCode);
+									// alert(value.PaymentTermsName);
+									  $("#ddlPaymentTerms").append($("<option></option>").val(value.PaymentTermsCode).html(value.PaymentTermsName));
+								});
+
+													}
+													else
+													{
+													
+													
+													}
+											},
+											error: function (data) {
+													alert('error occurred');
+											}
+									});
+				
+				
+				
+				
+				}
+				
+		
+	
+				
+				//new ready end
+				function convert_date_DDMMYYYY(date_to_convert){
+             var arr_dateandtime = date_to_convert.split(' ');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            //  var arr_timeonly = arr_dateandtime[1].split(':');
+			
+			var m_names = new Array("Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                        "Oct", "Nov", "Dec");
+            var MonthNo=''; 
+            var MonthName=arr_dateonly[1];
+			//m_names[MonthName]
+			
+			
+            if(MonthName=='01')
+            {
+                MonthNo='Jan';
+			
+            }
+            else if(MonthName=='02')
+            {
+                MonthNo='Feb';
+            }
+            else if(MonthName=='03')
+            {
+                MonthNo='Mar';
+            }
+            else if(MonthName=='04')
+            {
+                MonthNo='Apr';
+            }
+            else if(MonthName=='05')
+            {
+                MonthNo='May';
+            }
+            else if(MonthName=='06')
+            {
+                MonthNo='Jun';
+            }
+            else if(MonthName=='07')
+            {
+                MonthNo='Jul';
+            }
+            else if(MonthName=='08')
+            {
+                MonthNo='Aug';
+            }
+            else if(MonthName=='09')
+            {
+                MonthNo='Sep';
+            }
+            else if(MonthName=='10')
+            {
+                MonthNo='Oct';
+            }
+            else if(MonthName=='11')
+            {
+                MonthNo='Nov';
+            }
+            else if(MonthName=='12')
+            {
+                MonthNo='Dec';
+            }
+			
+            
+				
+            converted_date=arr_dateonly[2]+"-"+MonthNo+"-"+arr_dateonly[0];
+            return converted_date;
+            //alert(converted_date);
+				
+			
+		
+        }
+				</script>
+
+
+            </div>
+
+
+
+            <div class="clearfix"></div>
+            <div class="row" id="main-div" hidden>
+
+
+				<div class="top-refine" style="margin-top:10px;">
+                    <ul class="pull-left">
+                        <li>
+                            <!-- <input type="button" disabled="disabled" class="new_btn_a" id="addmore" onclick="showmodal1('add')" value="Proceed To Invoice"/> -->
+                             
+							<a href="javascript:void(0)" class="blue-btn" id="addmore" onclick="showmodal1('add')">
+                                <i class="fa fa-file-text"></i> Proceed To Invoice
+                            </a> 
+                        </li>
+						 <li >
+                            <span id="SelectedItemCount">0</span> item selected   <div style="border:1px solid #544a4a; padding: 2px 4px; display:inline-block;" id="InvoiceSum"> <span id="SelectedFinalAmt" > </span><span id="SelectedFinalAmtCur"></span></div> 
+                         </li>
+						 <li></li>
+						
+                    </ul>
+                    <ul class="pull-right right-btn" >
+                        <li>
+                            <a href="javascript:void(0)" class="green-btn" id="AllRecord" ><i class="fa fa-flag-o" aria-hidden="true"></i>All Record <span class="red-count" id="AllRecord_Span"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="billable_record" ><i class="fa fa-folder-o"></i>Billable <span class="red-count" id="billable_record_Span"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="non_billable_record" ><i class="fa fa-send"></i>Non-Billable<span class="red-count" id="non_billable_record_Span"></span></a>	
+
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+
+
+                <div class="" id="jqxgrid_container">
+                   
+				<table id="ExpenceDataTable" class="display example table table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<th style="text-align: center;" data-orderable="false" class="sorting_disabled"><input type="checkbox" id="checkAll" name=""></th>
+						<th style='width:40px !important;'>Ref No</th>
+						<th >ER No</th>
+						<th>Project Phase</th>
+						<th>Item</th>
+						<th style="width: 80px !important;">ER <br> Amount</th>
+						<th>Expense Note</th>
+						<th>Amount</th>
+						<th style='width:67px !important;'>Payment Type</th>
+						<th style='width:85px !important;'>Expense Date</th>
+						<th>Billable</th>
+						<th style='display:none;'>MDATA</th>
+						<th style='display:none;'>IDATA</th>
+					</thead>
+					<tfoot><tr>
+					<th ></th>
+						<th >Ref No</th>
+						<th >ER No</th>
+						<th>Project Phase</th>
+						<th>Item</th>
+						<th >ER Amount</th>
+						<th>Expense Note</th>
+						<th>Amount</th>
+						<th>Payment Type</th>
+						<th >Expense Date</th>
+						<th>Billable</th>
+						<th style='display:none;'>MDATA</th>
+						<th style='display:none;'>IDATA</th>
+					</tr></tfoot>
+					<tbody id="ExpenceTable_Tbody">
+					</tbody>
+					</table>
+				
+                </div>
+
+                
+
+
+
+
+            </div>
+        </div>
+    </section>
+	</div>
+	<div class="container-fluid">
+    <section class="middle">
+        
+        <div class="container-fluid">
+            <div class="row">
+                
+
+
+            </div>
+
+
+
+            <div class="clearfix"></div>
+            <div class="">
+
+
+
+
+
+
+
+
+             
+
+                
+
+
+
+
+            </div>
+        </div>
+        
+    </section>
+    </div>
+    <div class="export-to-exl">
+
+        <div class="clearfix"></div>
+    </div>
+
+    <style>
+        .textwidth .modal-body table tr td .form-control {
+            width: 100% !important;
+        }
+    </style>
+    <div id="myModal" class="modal fade textwidth" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Invoice Parameter Form - <span id="SelectedFinalAmtPop"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tbody>
+                           
+                            <tr>
+                                <td style="vertical-align: top;">Invoice Currency<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="ddlcurrency" validation="Please select currency">
+                                        <option>Select</option>
+
+                                    </select>
+                                </td>
+
+                                <td style="width: 195px;">Invoice Number<sup style="color: #f00; font-size: 14px;">*</sup>
+                                
+                                    
+                                    <input type="text" id="txtInvoiceNumber"  maxlength="10" class="form-control" validation="Please enter invoice detail number" />
+                                    <sup style="color: #ababab; font-size: 11px;"> Max 10 digit allowed</sup>
+                                </td>
+                            </tr>
+							
+							<tr>
+
+                                <td style="width: 195px;">Invoice Month<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <div style="position: relative; width: 100%;" >
+                                        <input type="text" id="txtInvoiceMonth" readonly  class="form-control dateselect1" validation="Please select invoice month" />
+                                       <input type="text" style="display:none;" id="txtInvoiceMonthActual"  readonly  class="form-control dateselect1" validation="Please select invoice month" />
+                                       <span class="right-icon" style="top: 6px;">
+                                            <i class="fa fa-calendar" id="iconcalender" style="cursor: pointer;"></i>
+                                            <!-- <i class="fa fa-remove" id=""></i> -->
+                                        </span>
+                                    </div>
+                                </td>
+                                <td style="width: 195px;">Invoice Date<sup style="color: #f00; font-size: 14px;">*</sup><br>
+                                   
+                                   <div style="position: relative; width: 100%;" >
+                                    <input type="text" id="txtInvoiceDate" readonly  class="form-control dateselect" validation="Please select date" />
+                                        <span class="right-icon" style="top: 6px;">
+                                            <i class="fa fa-calendar" id="iconcalender" style="cursor: pointer;"></i>
+                                            <!-- <i class="fa fa-remove" id=""></i> -->
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+							
+							 <tr>
+                                <td>Payment Terms<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="ddlPaymentTerms"  validation="Please select payment terms">
+                                        <option>Select</option>
+
+                                    </select>
+                                </td>
+
+                                <td style="width: 195px; vertical-align: top;">Credit<br>
+                                   
+                                    <input type="text" id="txtCredit"  maxlength="10" class="form-control" validation="Please enter credit amount" />
+                                </td>
+                            </tr>
+							
+							<tr>
+                                <td colspan="2" style="vertical-align: top;">Reason For Credit 
+                                    <sup style="color: #ababab; font-size: 11px;"> (# Max 500 character allowed)</sup>
+                                    <textarea  width="100%" rows="4" cols="45" id="txtReasonTerms" validation="Please enter reason terms"></textarea>
+                                </td>
+                            </tr>
+							
+							 <tr>
+                                <td>Invoice Layout<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="ddlInvoicedetailLayout"  validation="Please select invoice detail layout">
+                                        <option>Select</option>
+
+                                    </select>
+                                </td>
+                                <!-- <td>Invoice Status<sup style="color: #f00; font-size: 14px;">*</sup><br> -->
+                                    <!-- <div id="InvoiceStatus" class="radio-main"> -->
+
+                                        <!-- <input type="radio" name="rbinvoiceStatus" value="Yes"> -->
+                                        <!-- Sent -->
+                                    <!-- <input type="radio" name="rbinvoiceStatus" checked="checked" value="No"> -->
+                                        <!-- Not Sent -->
+                                    
+                                    <!-- </div> -->
+
+                                <!-- </td> -->
+                            </tr>
+                            
+							<tr>
+                                <td colspan="2" style="vertical-align: top;">Additional Text To Print On Invoice
+                                    <sup style="color: #ababab; font-size: 11px;">(# Max 500 character allowed)</sup>
+                                    <textarea  width="100%" rows="4" cols="45" id="txtAdditionalText"  validation="Please enter addtion text to print"></textarea>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td colspan="2">
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                    <span id="user_id" style="display: none;"></span>
+                                    <span id="user_name" style="display: none;"></span>
+                                    <span id="resourse_id" style="display: none;"></span>
+                                    <span id="ClientPartnerEmployeeId" style="display: none;"></span>
+                                    <span id="ClientPartnerEmployeeName" style="display: none;"></span>
+                                    <span id="Span3"></span>
+                                    <span id="ReportingManager" style="display: none;"></span>
+                                    <span id="ReportingManagerGuid" style="display: none;"></span>
+                                    <span id="ReportingManagerName" style="display: none;"></span>
+                                    <span id="EmpBaseLocation" style="display: none;"></span>
+
+                                </td>
+                            </tr>
+                            <tr id="add_tr">
+                                <td colspan="2">
+									<span id="AlertMsg" style="color: red;"></span></br>
+                                    <a href="javascript:void(0)" class="blue-btn" id="btnGenerateReport">Update & Generate Report</a>
+                                    <!-- <a href="javascript:void(0)" class="blue-btn" id="btnSaveClose">Update & Close</a> -->
+                                    <a href="javascript:void(0)" style="cursor:pointer;" class="gray-btn" data-dismiss="modal">Cancel</a>
+
+
+                                </td>
+                            </tr>
+
+
+
+
+                            <tr id="update_tr" style="display: none;">
+                                <td></td>
+                                <td>
+                                    <span id="edit_id" style="display: none;"></span>
+									<span id="edit_ExpenseTrackingNo" style="display: none;"></span>
+                                    <span id="tr_editid" style="display: none"></span>
+                                    <a href="javascript:void(0)" class="blue-btn" id="btn_update" onclick="updateListItem('BconeExpenceMaster','https://bristleconeonline.sharepoint.com/sites/pwa/');">Update</a>
+
+                                    <a href="javascript:void(0)" class="blue-btn" id="Item_log_detail">Update Item Detail</a>
+                                    <a href="javascript:void(0)"  class="gray-btn" data-dismiss="modal">Cancel</a>
+
+
+                                </td>
+                            </tr>
+
+                           <tr id="mytr">
+						   
+							<td colspan="2"><sup style="color: #ababab;font-size: 11px;/* margin-left: 29px; */">(# Special characters:  !@#$%^&amp;*()+=[]\\\';/{}|\":&lt;&gt;? are not allowed.)</sup></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader" style="display:none;"></div>
+
+<div class="openDetailsMain">
+    <div class="openDetailsMainInner">
+        <div class="openDetailsMain-heading">
+            Invoice Number : <span id="InvoiceNoSpan"></span>
+            <!-- <a onclick="closedetails()"><i class="fa fa-remove"></i></a> -->
+        </div>
+        <div class="openDetailsMain-mid">
+            <div class="openDetailsMain-midBottom">
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6 text-right">
+                        <a  id="goback_a" class="blue-btn">Go Back & Modify</a>
+                        <a  id="gotoStatusUpdate_a" class="blue-btn">Go To Status Update</a>
+                    </div>
+                </div>
+                <iframe id="reportIframe"  border="0" style="width: 100%; height: 450px;"></iframe> <!-- scrolling="no" -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

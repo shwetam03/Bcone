@@ -1,0 +1,421 @@
+
+<style>
+   
+    .ExpnsInfo table th, .nice-table table td {
+    }
+
+           .break {
+        display: block;
+        clear: both;
+        page-break-after: always !important;
+        page-break-before: always !important;
+    }
+        .clear {
+            height:300px;
+        }
+
+    .sections {
+        width:93%;
+        margin:40px;
+        font-family:Arial,Helvetica,sans-serif;
+        font-size:12px;
+       
+    }
+
+    .Expense {
+        padding:5px;
+         border:1px solid;
+         border-color:black;
+         width:98%;
+    }
+    .FromData {
+        padding:5px; 
+        border:1px solid;
+        border-color:black; 
+        border-bottom:0px; 
+        border-top:0px;
+        width:98%;
+    }
+
+    .ExpenseDetail {
+       vertical-align:top;
+    }
+
+</style>
+
+  <div id="part1" style="width:93%; margin:40px 40px 40px 5px; font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+	<div style="margin-bottom:15px;">
+    	<a href="javascript:void(0)">
+        	<img src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/Bristlecone_logo.png" style="width:200px;" />
+        </a>
+    </div>
+    <div style="">
+        <div style="padding:5px; border:1px solid;border-color:black;width:98%;"> <!--solid #ccc;-->
+            <b>Expenses</b><br />
+            Tracking number:<span id="spnTracknum"></span> <br />
+            Date:<span id="spndate"></span> <br />
+            Name: <span id="expenseName"></span> <br />
+            Description: <span id="spndescp"></span> <br />
+            Status: <span id="spnStatus"></span>
+        </div>
+        <div style="padding:5px; border:1px solid;border-color:black; border-bottom:0px; border-top:0px;width:98%;">
+            <b>From</b> <br />
+            ganesh ahire <br />
+            Employee Num: B10799 <br />
+            Employment Type: India <br />
+            User location: Pune
+        </div>
+        <div>
+        <table border="1" style="width:100%; padding:0; word-break: break-all;"><!--bordercolor="#CCCCCC" cellpadding="0" cellspacing="0" -->
+        	<tr>
+            	<td colspan="16" style="padding:5px; ">
+                	<b>Daily summary of reimbursable expense items</b>
+                </td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;" colspan="14">
+                	<b>Expense item </b>
+                </td>
+                <td style="padding:5px; text-align:right;">
+                	<b>06/04/14</b>
+                </td>
+                <td style="padding:5px; text-align:right;">
+                	<b>Total</b>
+                </td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;" colspan="14">Cab/Shuttle/Bus/Train/AutoRickshaw</td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;" colspan="14">Daily totals</td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;" colspan="14">Non-billable totals</td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+            </tr>
+            <tr>
+                <td colspan="16" style="padding:5px;">
+                    <b>Reimbursable expense item(s)</b>
+                </td>
+            </tr>
+            <tr style="vertical-align:top;">
+                <th style="width:80px; padding:5px;">Reference #</th>
+                <th style="width:73px; padding:5px;">Date</th>
+                <th style="width:66px; padding:5px;">Customer</th>
+                <th style="width:103px; padding:5px;">Project</th>
+                <th style="width:75px; padding:5px;">Phase</th>
+                <th style="width:175px; padding:5px;">Description</th>
+                <th style="width:75px; padding:5px;">Notes</th>
+                <th style="width:92px; padding:5px;">Reimbursable</th>
+                <th style="width:76px; padding:5px;">SAP Account Number</th>
+                <th style="width:60px; padding:5px;">Billable</th>
+                <th style="width:75px; padding:5px;">Amount</th>
+                <th style="width:60px; padding:5px;">Foreign currency price</th>
+                <th style="width:60px; padding:5px;">Foreign currency symbol</th>
+                <th style="width:60px; padding:5px;">Missing paper receipt</th>
+                <th style="width:124px; padding:5px;">Expense item</th>
+                <th style="width:124px; padding:5px;">SAP Project Number</th>
+            </tr>
+            <tr>
+                <td style="padding:5px; text-align:center;">1</td>
+                <td style="padding:5px;">06/04/14</td>
+                <td style="padding:5px;">BCONE</td>
+                <td style="padding:5px;">21G-998BCI029: Business Information and Application 21G-998BCI029</td>
+                <td style="padding:5px;">G&A: Business Information & Applications</td>
+                <td style="padding:5px; word-wrap: break-word;">Cab/Shuttle/Bus/Train/AutoRickshaw</td>
+                <td style="padding:5px;">Bus ticket from Pune to Mumbai 415 and  Cab fare from Mumbai to Pune (for Me and Suchita)</td>
+                <td style="padding:5px;">Y </td>
+                <td style="padding:5px;">441000</td>
+                <td style="padding:5px;">N</td>
+                <td style="padding:5px;">2,415.00 Rs</td>
+                <td style="padding:5px;">0.000</td>
+                <td style="padding:5px;"></td>
+                <td style="padding:5px;">No</td>
+                <td style="padding:5px; word-wrap: break-word;">Cab/Shuttle/Bus/Train/AutoRickshaw</td>
+                <td style="padding:5px;">21G-998BCI029</td>
+            </tr>
+        </table>
+            </div>
+    </div>
+</div>
+
+<div id="part2" style="width:93%; margin:40px 40px 40px 5px; font-family:Arial, Helvetica, sans-serif; font-size:12px;color:black">
+	<div style="margin-bottom:15px;">
+    	<a href="javascript:void(0)">
+        	<img src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/Bristlecone_logo.png" style="width:200px;" />
+        </a>
+    </div>
+    <div style="">
+        <div style="padding:5px; border:1px solid;border-color:black;width:98%;">
+            <b>Expenses</b><br />
+            Tracking number: 72953 <br />
+            Date: 06/04/14 <br />
+            Name: Pune Mumbai travel <br />
+            Description: Travel to discuss projects <br />
+            Status: Approved
+        </div>
+        <div style="padding:5px; border:1px solid;border-color:black; border-bottom:0px; border-top:0px;width:98%;">
+            <b>From</b> <br />
+            ganesh ahire <br />
+            Employee Num: B10799 <br />
+            Employment Type: India <br />
+            User location: Pune
+        </div>
+        <table border="1" style="width:100%; padding:0; word-break: break-all;"> <!--bordercolor="#CCCCCC" cellpadding="0" cellspacing="0"-->
+        	<tr>
+            	<td style="padding:5px;">
+                	Total of all expense items
+                </td>
+                <td style="width:100px; text-align:right; padding:5px;">
+                	2,415.00 Rs
+                </td>
+                <td style="width:100px; padding:5px;">
+                </td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;">
+                	Non-reimbursable expense items
+                </td>
+                <td style="padding:5px; text-align:right;">
+                	0.00 Rs
+                </td>
+                <td style="padding:5px; text-align:right;">
+                	
+                </td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;">Cash advance</td>
+                <td style="padding:5px; text-align:right;">0.00 Rs</td>
+                <td style="padding:5px; text-align:right;"></td>
+            </tr>
+        	<tr>
+            	<td style="padding:5px;">Total due </td>
+                <td style="padding:5px; text-align:right;">2,415.00 Rs</td>
+                <td style="padding:5px; text-align:right;"></td>
+            </tr>
+            <tr>
+                <td colspan="16" style="padding:5px;">
+                    <b>Approval history </b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="16" style="padding:5px;">
+                    <b>Status: </b>Approved
+                </td>
+            </tr>
+            <tr style="vertical-align:top;">
+                <th style="width:60px; padding:5px;">Date/Time</th>
+                <th style="width:200px; padding:5px;">Action</th>
+                <th style="padding:5px;">Notes</th>
+            </tr>
+            <tr>
+                <td style="padding:5px;">06/05/14 <br /> 14:57</td>
+                <td style="padding:5px;">Submitted for approval by ganesh ahire</td>
+                <td style="padding:5px;"></td>
+            </tr>
+            <tr>
+                <td style="padding:5px;">06/05/14 <br /> 14:57</td>
+                <td style="padding:5px;">Approved by [Manager] For project entries associated with 'BCONE:21G-998BCI029: Business Information and Application 21G-998BCI029'</td>
+                <td style="padding:5px;">Automatic approval: [Manager] does not exist</td>
+            </tr>
+            <tr>
+                <td style="padding:5px;">06/05/14 <br /> 14:57</td>
+                <td style="padding:5px;">Approved by ganesh ahire</td>
+                <td style="padding:5px;">Automatic approval: The approver is the same user as the submitter</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+  
+<!--<div>
+    <input type="button" id="btncmd" value="save"/>
+</div>-->
+
+<script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+<!--<script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jspdf.debug.js"></script>
+
+
+<script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/html2canvas.js"></script>-->
+
+<script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jquery.SPServices-2013.01.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        
+        $('#DeltaPlaceHolderPageTitleInTitleArea').hide();
+        $('#DeltaSiteLogo').hide();
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+
+        var Tid = getUrlVars()["TrackingID"];
+        //var ppid = getUrlVars()["ProjectPid"];
+
+      
+        $().SPServices({
+            operation: 'GetListItems',
+            async: false,
+            listName: 'BconeExpenceMaster',
+            CAMLQuery: '<Query><Where><Eq><FieldRef Name="ID"/><Value Type="Counter">' + Tid + '</Value></Eq></Where></Query>',
+            completefunc: function (xData, Status) {
+                var count = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                if (count > 0) {
+
+                    $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                        
+                        var TrackingNum = $(this).attr('ows_ID') == undefined ? '' : $(this).attr('ows_ID');
+                        var Date = $(this).attr('ows_ReportCreatedDate') == undefined ? '' : $(this).attr('ows_ReportCreatedDate');
+                        var Splitvalue = Date.split('-');
+                        var splitvalueDate = Splitvalue[2].split(' ');
+                        var SplitbyTime = splitvalueDate[1].substring(0, splitvalueDate[1].lastIndexOf(':'));
+                        Date = splitvalueDate[0] + '/' + Splitvalue[1] + '/' + Splitvalue[0];
+
+                        var Name = $(this).attr('ows_ExpenseReportName') == undefined ? '' : $(this).attr('ows_ExpenseReportName');
+                        var Description = $(this).attr('ows_Description') == undefined ? '' : $(this).attr('ows_Description');
+                        var Status = $(this).attr('ows_ReportStatus') == undefined ? '' : $(this).attr('ows_ReportStatus');
+
+
+                        $('#spnTracknum').text(TrackingNum);
+                        $('#spndate').text(Date);
+                        $('#expenseName').text(Name);
+                        $('#spndescp').text(Description);
+                        $('#spnStatus').text(Status);
+
+                    });
+
+                }
+            }
+        });
+
+        //setTimeout(function () { window.print(); }, 0);
+        //window.onload = function () { setTimeout(function () { window.close(); }, 0); }
+
+
+    });
+
+
+        //$('#part1').hide();
+        //$('#part2').hide();
+
+
+        //window.close();
+
+        // window.onfocus = function () { setTimeout(function () { window.close(); }, 500); }
+
+        //$("#btncmd").click(function () {
+        // window.open('https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/TestPdf.aspx','_blank').focus();
+        //window.print();
+        //setTimeout(window.close, 100);
+        //});
+
+        //setTimeout(window.close, 0);
+        //    //var pdf = new jsPDF('p', 'pt', 'letter');
+
+        //    ////    var firstPartPage = $('#section1')[0];
+        //    ////    // //secondPartPage = $('#part2')[0];
+
+        //    ////    //var options = {
+        //    ////    //            //format: 'JPEG',
+        //    ////    //            //                    pagesplit: true,
+        //    ////    //            background: '#fff' 
+        //    ////    //        };
+
+        //    ////    ////specialElementHandlers = {
+
+        //    ////    ////    '#bypassme': function (element, renderer) {
+
+        //    ////    ////        return true
+        //    ////    ////    }
+        //    ////    ////};
+        //    ////    //margins = {
+        //    ////    //    top: 80,
+        //    ////    //    bottom: 60,
+        //    ////    //    left: 60,
+        //    ////    //    width: 522
+        //    ////    //};
+
+        //    ////    ////pdf.addHTML(firstPartPage, 15,
+        //    ////    ////20,function(){pdf.addPage()},options);
+
+        //    ////    //pdf.addHTML(firstPartPage, 15, 20,
+        //    ////    //function (dispose) {
+
+        //    ////    //    pdf.save('fileNameOfGeneretedPdf.pdf');
+        //    ////    //}, margins,options);
+
+        //    ////    html2canvas(firstPartPage, {
+        //    ////        onrendered: function (canvas) {
+        //    ////            // Note: instead of canvas.toBlob, you could do var imageUrl = canvas.toDataURL('image/png');
+        //    ////            // then you wouldn't need to include the polyfill.  However, your file size will be massive
+        //    ////            canvas.toBlob(function (blob) {
+        //    ////                var urlCreator = window.URL || window.webkitURL;
+        //    ////                var imageUrl = urlCreator.createObjectURL(blob);
+        //    ////                var img = new Image();
+        //    ////                img.src = imageUrl;
+        //    ////                img.onload = function () {
+        //    ////                    var pdf = new jsPDF('p', 'px', [img.height, img.width]);
+        //    ////                    pdf.addImage(img, 0, 0, img.width, img.height);
+        //    ////                    pdf.save('myPdf.pdf');
+        //    ////                };
+        //    ////            });
+        //    ////        }
+        //    ////    });
+        //    ////});
+
+
+
+        //    //var pdf = new jsPDF('p', 'pt', 'letter');
+            
+       
+
+        //    //var firstPartPage = $('#part1')[0],
+        //    //SecondPartPage = $('#part2')[0];
+        //    ////thirdPartPage = $('#sectionpart3')[0];
+        //    //    //test = $('#testsection')[0];
+        
+        //    //margins = {
+        //    //    top: 80,
+        //    //    bottom: 60,
+        //    //    left: 40,
+        //    //    width: 522
+        //    //};
+        //    //// all coords and widths are in jsPDF instance's declared units
+        //    //// 'inches' in this case
+        //    /////pdf.addHTML(firstPartPage, 15,20,function(){pdf.addPage()});
+
+
+        //    ////pdf.addHTML(firstPartPage, 15, 20, function () { pdf.addPage() });
+        //    //pdf.addHTML(firstPartPage, 15, 20, function () { pdf.addPage() });
+        //    //pdf.addHTML(SecondPartPage, 15, 20, function (dispose) {
+
+        //    //        pdf.save('divtesting.pdf');
+        //    //    }, margins);
+        //});
+
+  
+
+   
+</script>
+

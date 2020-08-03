@@ -1,0 +1,3430 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>New Expence</title>
+   <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+    <link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+	 <script src="../SiteAssets/BconeExpenseJs/jquery.mCustomScrollbar.concat.min.js"></script>
+	
+	 <link href="../SiteAssets/BconeExpenseCss/jquery.mCustomScrollbar(3).css" rel="stylesheet" />
+	 
+	 
+	 <!--  <script src="https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseJs/jquery.SPServices-0.7.2.min.js"></script> -->
+	 <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/LINQ_JS.js"></script>
+	   <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/LINQ_JS_MIN.js"></script>
+	<!-- https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseJs/jinqjs.min.js -->
+	
+	<!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/enumerable.js"></script> -->
+	  	<link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/jqx.base.css" type="text/css" />	
+			<!-- <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxcore.js"></script>
+			<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxwindow.js"></script>  
+			<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxtooltip.js"></script> -->
+			
+	 <script src="https://rawgit.com/fordth/jinqJs/master/jinqjs.min.js"></script>
+	 
+	  <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+	  <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+	 <style>
+.ms-core-pageTitle, .ms-core-pageTitle a{
+ color:#fff;
+ display:none;
+}
+#login_name_contain{
+	float: right;
+    margin: -32px 20px 0px 0px;
+    background: url(https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center;
+    padding: 2px 32px 2px 0px;
+	}
+	#accordion a.accordion-toggle{
+		width:98.5%;
+	}
+	#accordion .panel-body{
+		width:98.5%;
+	}
+	#accordion .panel-body .new-checkbox{
+		margin: 10px 10px 10px -5px !important;
+	}
+	.breadcrumb-new a:visited {
+		color:#337ab7 !important;
+	}
+</style>
+<style type="text/css">
+#pageTitle{
+  display:none;
+  }
+.ms-breadcrumb-top{
+	display:none;
+}
+}
+.ms-core-pageTitle{
+	margin:0px;
+}
+    
+#WebPartWPQ2_ChromeTitle{display:none !important;}
+.nodatadiv{
+    width: 96.8%;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 0;
+    border-radius: 3px;
+    margin: 0 20px;}
+
+
+.blue_text:visited{color:#fff;
+}
+.spanbor{border-right:1px solid #fff;padding: 0 2px;}
+.spanbor:last-child{border-right:0;}
+                    </style>
+					
+   <style>
+    #ui-id-1, #ui-id-2, #ui-id-3, #ui-id-4 {
+        height: auto !important;
+    }
+
+    .SumoSelect {
+        margin-bottom: 10px;
+    }
+
+    .readonlycolor {
+        background: #F2F2F2 !important;
+    }
+      .body {
+        margin: 0px;
+        padding: 0px;
+        font-size: 13px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .black-bg {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        position: fixed;
+        background-color: rgba(22,22,22,0.5);
+        z-index: 9999;
+        left: 0;
+    }
+
+
+    .popup-main {
+        background-color: #fff;
+        width: 350px;
+        margin: 19% auto;
+        text-align: center;
+    }
+
+    .green-btn {
+        <!-- padding: 5px 10px; -->
+        border-radius: 3px;
+        color: #fff;
+        background: #0A891A;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .grey-btn {
+        padding: 5px 10px;
+        border-radius: 3px;
+        color: #333;
+        background: #ccc;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .popup-heading {
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+        color: #fff;
+        padding: 8px 0;
+    }
+
+    .alert-main .popup-heading {
+        background-color: #0072c6;
+    }
+
+    .success-main .popup-heading {
+        background-color: #090;
+    }
+
+    .pop-mid {
+        padding: 0 15px 15px 15px;
+    }
+
+        .pop-mid p {
+            margin-bottom: 20px;
+        }
+		.divnewbtn {
+    background-color: #e7e7e7 !important;color:black;}
+	
+	#bindcurrencydata{
+	  
+    padding: 0px;
+    background: #f3f3f3;
+    /* margin-top: 5px; */
+    display: inline-block;
+    background-color: white;
+}
+	#bindcurrencydata span{
+	        border-right: 1px solid #fff;
+    padding: 3px 5px;
+    display: inline-block;
+    background: #ccc;  
+cursor:default;		
+    font-size: 11px;}
+	#bindcurrencydata span:last-child{border:0;}
+	.bgcolorrow tr th{background: #e8e8e8;}
+	
+	
+	a, a:visited , a:active, a:link {
+    text-decoration: none;
+	
+}
+
+a:visited {
+color:#337ab7;
+}
+
+
+</style>
+</head>
+
+<body>
+
+
+<div style="text-align:right;" id="login_name_contain"></div>
+<section class="middle">
+        <div class="breadcrumb-new">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a style="cursor:default;text-decoration:none;" href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+                    </li>
+					   <li>
+                        <a style="cursor:default;text-decoration:none;  color: #272727;">Finance Approval</a>
+                    </li>
+                   
+                   
+                </ul>
+				
+               <!-- <ul class="pull-right">
+                    <li>
+                        <a style="cursor:default;text-decoration:none;">Finance Approval page</a>
+                    </li>
+                    <li>
+                        <a style="cursor:default;text-decoration:none;">Resource wise Expense view</a>
+                    </li>
+                </ul>-->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="container-fluid" id="Upper_strip">
+            <div class="row">
+                <div class="top-refine">
+                    <ul class="pull-left">
+                        <li>
+                            <a href="javascript:void(0)" style="display:none;" id="approve_acnhor_btn" class="blue-btn" onclick="getinagcheckboxvalue()">Approve</a>
+
+                            
+					 <!--<a href="javascript:void(0)" class="green-btn" onclick="loaddata1('101')">check</a>
+							<a href="javascript:void(0)" class="green-btn" onclick="nilam()">test</a>  -->
+						
+                        </li>
+						<li>
+						<div class="bedcrumdiv"><div class="pull-left" id="bindcurrencydata" style="display:none;" ></div></div>
+						</li>
+                    </ul>
+					
+                    <ul class="pull-right">
+					<li>
+						<a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/FinanceApproval.aspx" class="blue-btn blue_text" style="position:relative;display:none;">Pending Approval <span class="red-count" id="PendingExpenseCount"></span></a>
+					</li>
+                        <li style="display:none;">
+                            <select class="resource-view" Id="Project_Resource_View" onchange="ProjectResourceView()" >
+                                <option value="Project_view">Project View</option>
+								<option value="Resource_view" >Resource View</option>								
+                            </select>
+                        </li>
+						
+                      <!--   <li>
+                            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/Reimbursement.aspx" class="History-btn">
+                                <i class="fa fa-usd"></i>Pending Reimbursable
+                            </a>
+                        </li>  -->
+						
+						
+						 <li>
+                            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/HistoryFinanceApproval.aspx" class="History-btn">
+                                <i class="fa fa-history"></i>My Approval History
+                            </a>
+                        </li> 
+                    </ul>
+                    
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                
+            </div>
+
+        </div>
+				    <div class="container-fluid" style="display:none" id="Upper_strip1">
+            <div class="row">
+                <div class="top-refine">
+                    <!-- <ul class="pull-left"> -->
+                        <!-- <li> -->
+                            <!-- <a href="javascript:void(0)" id="approve_acnhor_btn" class="blue-btn" onclick="getinagcheckboxvalue()">Approve</a> -->
+
+                            
+					 <!-- <!--<a href="javascript:void(0)" class="green-btn" onclick="loaddata1('101')">check</a> -->
+							<!-- <a href="javascript:void(0)" class="green-btn" onclick="nilam()">test</a>  --> 
+						
+                        <!-- </li> -->
+						<!-- <li> -->
+						<!-- <div class="bedcrumdiv"><div class="pull-left" id="bindcurrencydata" ></div></div> -->
+						<!-- </li> -->
+                    <!-- </ul> -->
+					
+                    <ul class="pull-right">
+					<!-- <li> -->
+						<!-- <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/ExpenseApproval.aspx" class="blue-btn blue_text" style="position:relative;">Pending Approval <span class="red-count" id="PendingExpenseCount"></span></a> -->
+					<!-- </li> -->
+                        <!-- <li> -->
+                            <!-- <select class="resource-view" Id="Project_Resource_View" onchange="ProjectResourceView()" > -->
+                                <!-- <option value="Project_view">Project View</option> -->
+								<!-- <option value="Resource_view" >Resource View</option>								 -->
+                            <!-- </select> -->
+                        <!-- </li> -->
+						  <!--  <li>
+                            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/Reimbursement.aspx" class="History-btn">
+                                <i class="fa fa-usd"></i>Pending Reimbursable
+                            </a>
+                        </li> --> 
+                        </li> 
+                        <li >
+                            <a href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/HistoryFinanceApproval.aspx" class="History-btn">
+                                <i class="fa fa-history"></i>My Approval History
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                
+            </div>
+
+        </div>
+		
+		 <div class="panel-group" id="accordion"></div>
+		
+    </section>
+  
+ 
+
+  <div id="myModal" class="modal fade newpopup-table" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" onclick="Clear_Span()"  >&times;</button>
+       <h4 class="modal-title">Expense Approval Summary</h4>
+                            </div>
+            <div class="modal-body" style="padding:0 5px 5px 5px;">
+             
+                <div >
+                    <!--code here-->
+										
+                    <style>
+                     .blockdiv a{color:#000 !important;  font-size: 13px; border-bottom: 1px solid #d2d2d2;  padding-bottom: 5px;width:100%;display:inline-block;}
+					 .blockdiv a:last-child{    border: none; padding-bottom: 0;}
+      .scrolldiv{    float: left;    width: 100%;}
+      .blockdiv{      border-bottom: 1px solid #ddd;   margin-bottom: 0px;    padding: 5px;  border-radius: 3px;}
+      .blockdiv h4{color: #fff; background: #203864 !important; padding: 2px 5px;font-size: 14px;border-radius: 3px 3px 0px 0;width: 100%;  
+    display: inline-block;}
+      .blockdiv i{ margin-right: 4px; font-size: 5px;vertical-align: middle;  display: inline-block;}
+      .msgdiv{color: #2fa934;font-weight: 600;}
+	  .mldiv{margin-left:8px;border-right:1px solid #ddd;}
+	  .mldiv:last-child{border:none;}
+	  .curdiv{float:right;margin-right:10px;font-size: 12px;}
+	  .namediv{float:left;;width:200px;}
+	  .cureencydiv{     text-align: right;}	
+.topstrip{background: #ddd; width: 96%; padding: 3px 5px; margin-left: 8px;}	
+.curdiv_main{float: left;  margin-right: 301px; font-size: 12px;}
+                    </style>
+					 <div class="text-left topstrip"   >
+					<div class="namediv">Total Approved Currency Amount: </div>
+					<div class="cureencydiv" id="Popup_currency">
+					
+					
+					</div>
+					</div> 
+                     <div class="scrolldiv">
+					   <div class="content1 mCustomScrollbar wow fadeIn animated" id="" >
+					   <div id="Modal_Div" class="mCSB_container">
+
+                                                 
+					</div>
+				</div>
+                    <!--code here end-->
+                </div>
+               </div>
+                 <div>
+                 <p class="msgdiv" style="display:none;" >Updated Successfully!!!</p>
+                <div id="ApproveAllBtn">                
+     <a href="javascript:void(0)" class="blue-btn" onclick="ApproveAll()" >Approve All</a> 
+      <a href="javascript:void(0)" class="blue-btn" data-dismiss="modal" onclick="Clear_Span()" >Cancel</a>
+	  </div>
+	  
+        <span id="AllApproval_id" style="display:none;" ></span> 
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<style>
+	.newpopupdiv .modal-header{padding: 5px 8px; font-family: 'Conv_calibri'; background: #0072c6;}
+	.newpopupdiv .modal-title{color: #fff;font-size: 15px;}
+	 .newpopupdiv .close{opacity: 1;color: #fff;}
+	 .newpopupdiv .modal-dialog{margin: 190px auto;}
+	</style>
+	<div id="alertmain" class="alert-main" style="display:none" >
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Alert_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+                <input type='Button' class="divnewbtn" value="OK" onclick="close_div()" />               
+            </div>
+        </div>
+    </div>
+</div>
+	 <div id="Confirmation_alert" class="alert-main" style="display:none;"  >
+	  <span id="confirmation_type"></span>
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Confirmation_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+				<span id="Method_tocall"></span>
+                <input type='Button' class="divnewbtn" value="OK" id="ok_click" /> 
+                <input type='Button' class="divnewbtn" value="Cancel" onclick='confirmation_close();' /> 				
+            </div>
+        </div>
+    </div>
+   </div>
+	   <div id="myModal2" class="modal fade newpopup-table newpopupdiv" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                     <a class="close" data-dismiss="modal">&times;</a>
+                   <h4 class="modal-title">Please Provide Reason For Rejection Of This Expense.</h4>
+                </div>
+                <div class="modal-body">
+				   <table class="tabledivnew">
+                        <tbody>
+                            
+                            <tr>
+
+                                <td colspan="2" style="width: 195px;">
+                                   <!--  <input type="text" id="TxtexpenseNote" onkeyup="hideerror('TxtexpenseNote')" class="form-control" style="height: 54px;" /> -->
+									<textarea rows="4" class="form-control" cols="45" id="Txt_Comment" onkeyup="hideerror('Txt_Comment')" ></textarea>
+									<br>
+								<sup style="color: #ababab; font-size: 12px;">(Max 500 characters and these special characters are not allowed !@#$%^&amp;*()+=[]'/{}|\":&lt;&gt;)</sup>
+                                </td>
+                            </tr>
+							 <tr>
+                                <td colspan="2">
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                </td>
+                            </tr>
+							
+						
+							 <tr>
+                                
+                                <td colspan="2">
+                                    <span id="Expense_Comment_Id" style="display:none"></span>
+									 <span id="Expense_Tracking_No" style="display:none"></span>
+                                       <span id="Reject_Hide" style="display:none"></span>
+                                                                                                  
+
+                               </td>
+							    
+							   
+                            </tr>
+                       <!--   <tr><td> <a href="javascript:void(0)" class="blue-btn" id="Save_comment" onclick="Rejectcomment('Rejected')" >Save</a>    </td></tr> -->
+                         <tr><td colspan="2"> <a href="javascript:void(0)" class="red-btn" id="Save_comment" onclick="Rejectcomment('Rejected')" style="margin-right:10px;">Reject</a><a class="blue-btn" data-dismiss="modal" href="javascript:void(0)"  >Cancel</a>     </td></tr>
+						</tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+	<style>
+	.tabledivnew{width:100%;}
+	.tabledivnew tr td{padding:2px;}
+	</style>
+  <div class="loader"></div>
+
+  
+  <script>
+  
+      var web_url = "https://bristleconeonline.sharepoint.com/sites/pwa/";
+	  var userid = _spPageContextInfo.userId;
+	  var people=[];
+	  var TrackingIds=[];
+	  var Summary_TrackingIds=[];
+	  var FLoginname="";
+	  var FloginId="";
+	  var finalCc="";
+      var finalTo="";
+	  var expense_creater_id="";
+	  var Approver2Id="";
+	  var ExpenseApproveType="";
+      var Approver1Id="";
+	  var PathUrl="";
+	  
+	  
+
+						////alert("userid"+userid);
+	var owner_id=GetUserId(userid);
+	
+	
+	
+	
+	
+        function loaddata(id,resourse) {
+		//alert('loaddatacall');
+              //var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenceCurrencyId" /><Value ></Value></OrderBy></Query></View>';
+
+            $.ajax({
+               url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + id+"'&$orderby= ExpenceCurrencyId asc&$top=100000",
+               type: "GET",
+                async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                       var curreny_amt_array=[];
+                    
+                    if (data.d.results.length > 0) {
+
+                        var list_name = "BconeExpenceLogDetail";
+                        var i = "0";
+                        //var url1 = "https://e2eprojects.sharepoint.com/sites/pwa/";
+                        var rowhide = "";
+                       
+                        $.each(data.d.results, function (key, value) {
+
+                                 var Currency= getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);
+								 
+								 var curr_val;
+								 
+								 			   if(Currency.indexOf("-"))
+			                                 {
+			                                 var curr=Currency.split("-");
+			
+                                             curr_val=curr[0]; 
+											 } else {
+				                              curr_val=Currency;
+											  }
+											  
+											curreny_amt_array.push(curr_val+"-"+value.ExpensceAmount+"-"+value.ExpenceCurrencyId);
+	                                 
+
+                        });
+						
+						////alert("curreny_amt_array"+curreny_amt_array);
+						 
+						//Currency_refine(web_url,'BconeExpenceLogDetail',id,curreny_amt_array,resourse);
+                    }
+                    else {
+			
+                    }
+                    // alert(table_tr);
+              
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			
+			
+        }
+		
+		function Clear_Span()
+		{
+		////alert("Clear_Span");
+		//AllApproval_id
+		$("#AllApproval_id").text("");
+		$(".msgdiv").hide();
+		
+		}
+			 function GetExpenseAmtSumByCurrencyId(url, listname,id,ExpenceCurrencyId) {
+		
+          // //alert("GetExpenseAmtSumByCurrencyId");
+           // alert(ExpenceCurrencyId);
+          //  $('.loader').show();
+
+             var temp1="0";
+				
+				//var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq><Eq><FieldRef Name="ExpenceCurrency" /><Value Type="Number">' + ExpenceCurrencyId + '</Value></Eq></And></Where><OrderBy><FieldRef Name="ExpenceCurrency" Ascending="True"/><Value Type="Number" ></Value></OrderBy></Query></View>';
+				//alert(query_cml);
+				
+				
+				
+           
+						
+            // alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" +id+"'and ExpenceCurrency eq '"+ExpenceCurrencyId+"'&$orderby= ExpenceCurrency asc&$top=100000",
+                type: "GET",
+                async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                       
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+                       
+                        $.each(data.d.results, function (key, value) {
+                    
+						temp1 = parseInt(temp1) +value.ExpensceAmount;                          
+  
+                        });
+					//document.getElementById('Curreny_data628').innerHTML =	temp1;
+						
+                    }
+                    else {
+					
+					
+                    }
+                   
+                  //  $('.loader').hide();
+                  //  $('#student_data').append(table_tr);                                 
+                  // load_datatable_js();
+                   
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			return temp1;
+        }
+		function ApproveAll()
+		{
+		var temp=$("#AllApproval_id").text();
+		var myString=temp.split(",");
+		var bool=false;
+		for(i=1;i<myString.length;i++)
+		{		
+		//alert(myString.length);		
+		UpdateExpenseStatus(myString[i],"Approved","","Project_View","MultiApprove");
+
+		}
+				
+        var	alert_var="Expence Approved sucessfully";
+		
+		//calling_alert(alert_var);
+	
+		setTimeout(function(){
+        calling_alert(alert_var);
+        },3000);
+			
+		}
+		function calling_alert(temp)
+		{
+		//alert(temp);
+		//$(".msgdiv").show();
+		$("#ApproveAllBtn").hide();
+		$('#myModal').modal('hide');
+	
+	    document.getElementById("Alert_msg").innerHTML="Selected Expence's Approved sucessfully";	
+			$("#alertmain").show();
+		
+		
+		}
+		function Currency_refine(url, listname, id,Temp,reource)
+		{
+	
+		var temp="";
+		var myString=Temp.sort();		
+       var rowhide = "";
+      var ul_div="";
+      for(i = 0; i < myString.length; i++){	
+	   //alert(myString[i]);
+	   var ss=myString[i];
+	   var b=ss.split("-");
+	  // alert(b[2]);
+	    if(temp==b[0])
+	  { 
+	  }
+		  else
+			 { 											  
+				  temp=b[0];
+				// alert(b[2]);
+				  var Sum_amount= GetExpenseAmtSumByCurrencyId(url, listname, id,b[2]);
+				  ////alert("Sum_amount"+  Sum_amount);
+														  
+				 //ul_div= ul_div +"<a style='color:white;cursor: pointer;' id="+b[0]+" class='blue-btn'  >"+Sum_amount+" - "+b[0]+"</a>";
+				 //ul_div= ul_div +"<li>Tracker ID : "+Sum_amount+" - "+b[0]+"  </li>";
+				 //alert('Curreny_data'+id);
+				 document.getElementById('Curreny_data').innerHTML =Sum_amount+" - "+b[0] ;
+													   
+			  }
+      }
+        ////alert("id"+id+   "ul_div"+ul_div);
+	 // $('#Currency_div555').append(ul_div);
+		
+		}
+   		 function GetExpenseByResourceid( listname, reourse_id,type) {
+		//alert(listname);
+		
+             var count="0";
+          //SPList list = SPContext.Current.Site.RootWeb.Lists["TableA"];
+         // SPQuery query = new SPQuery();
+          if(type=="Resource_View")
+		  {
+          // var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="ProjectOwnerId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+			 //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+			
+			// var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+            //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And><Neq><FieldRef  Name="FinanceExpenseStatus"  /><Value Type="Text">Approved</Value></Neq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+		 
+		 //var query_cml='<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">' + reourse_id + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></Or></Or></And></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';		
+		var query_cml='Items?$filter=FinanceId eq \''+ owner_id +'\' and EmployeeId eq \''+ reourse_id +'\' and  ((ReportStatus eq \'Manager Approved\') or (ReportStatus eq \'Approver 1 Approved\') or (ReportStatus eq \'Approver 2 Approved\') ) &$orderby=EmployeeId desc';
+
+		}
+		   else
+		   {
+		   
+		    //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="ProjectOwnerId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="Projectname" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+			 
+			 //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="Projectname" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+		    
+			//var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="Projectname" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+		  // var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><And><Eq><FieldRef Name="Projectname" /><Value Type="Text">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And><Neq><FieldRef  Name="FinanceExpenseStatus"  /><Value Type="Text">Approved</Value></Neq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+		  // var query_cml='<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="Projectname" /><Value Type="Text">' + reourse_id + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></Or></Or></And></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';		
+		  
+		 var query_cml='Items?$filter=FinanceId eq \''+ owner_id +'\' and Projectname eq \''+ reourse_id +'\' and  ((ReportStatus eq \'Manager Approved\') or (ReportStatus eq \'Approver 1 Approved\') or (ReportStatus eq \'Approver 2 Approved\') ) &$orderby=EmployeeId desc';
+		   
+		   }
+		  // alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/"+query_cml,
+                type: "GET",
+				async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                  var  resource_div_data="";
+				
+                    // alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+					//console.log(data);
+					 $.each(data.d.results, function (key, value) {
+					  var temp=value.ID;
+					TrackingIds.push({Tracking:temp,EmployeeId:value.EmployeeId,ProjectId:value.ProjectId}) ;
+					loaddata1(value.ID);
+					  
+					   });
+					   //console.log(TrackingIds);
+				
+					count=data.d.results.length; 
+
+					
+                           
+                     return count;						
+						
+                    }
+					
+                    else {
+
+                      //  table_tr = table_tr + "<tr id='ss' style='color:red' style='text-decoration:underline;'><td colspan='15'><a href='javascript:void(0)' style='color:#d9534f;'>No Record Found</a></td></tr>";
+                           return count;
+                    }
+                  
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			return count;
+			
+        }
+		
+		
+		 function GetCurrencyDetail(listname, reourse_id) {
+		//alert(listname);
+		
+             var count="0";
+
+
+            var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Number">'+reourse_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></Where></Query></View>';
+            // alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('"+listname+"')/GetItems",
+                type: "POST",
+				async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                  var  resource_div_data="";
+				
+                    // alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+					//console.log(data);
+					
+					  $.each(data.d.results, function (key, value) {
+					  
+					  ////alert("value.TrackingNoId" + value.TrackingNoId);
+					  
+					   });
+					count=data.d.results.length; 
+
+					
+                           
+                     return count;						
+						
+                    }
+					
+                    else {
+
+                      //  table_tr = table_tr + "<tr id='ss' style='color:red' style='text-decoration:underline;'><td colspan='15'><a href='javascript:void(0)' style='color:#d9534f;'>No Record Found</a></td></tr>";
+                           return count;
+                    }
+                  
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			return count;
+			
+        }
+		 function getResources(url, listname,owner_id,type1,id) 
+		{
+		people=[];
+		TrackingIds=[];
+		//SPQuery query = new SPQuery();
+		//SPServices ss=new SPServices();
+		 var view_type=document.getElementById("Project_Resource_View").value ;
+		////alert("view_type"  +view_type);
+		
+		var type=view_type;
+		//alert(type);
+         $('#accordion').empty();
+	       // alert(owner_id);
+		 // //alert("getResources");
+	         $('.loader').show();
+		  var Resourcediv_Main = "";
+          var Resourcediv_Id = "";
+          var Resource_sub_div = "";
+		  var checkbox_id="";
+		  var anchor_tagid="";
+          var count = 0;
+		  var PendingExpenseCount="0";
+	 
+        //alert(listname);
+		
+	
+      // var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="ProjectOwnerId" /><Value Type="Text">'+owner_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Submitted</Value></Eq></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';
+		
+		//var query_cml = '<View><Query><Where><And><Eq><FieldRef  Name="PendingWithId"  /><Value Type="Text">'+owner_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Submitted</Value></Eq></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';
+		
+		//var query_cml = '<View><Query><Where><And><Eq><FieldRef  Name="FinanceId"  /><Value Type="Text">'+owner_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approved</Value></Eq></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';
+		//var query_cml = '<View><Query><Where><And><And><Eq><FieldRef  Name="FinanceId"  /><Value Type="Text">'+owner_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approved</Value></Eq></And><Neq><FieldRef  Name="FinanceExpenseStatus"  /><Value Type="Text">Approved</Value></Neq></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';
+		
+		
+		//var query_cml='<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><And><Eq><FieldRef Name="ID" /><Value Type="Counter">1</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></And></Or></Or></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';		
+      
+ 
+	 var query_cml="<View>"+
+"<Query>"+
+   "<Where>"+
+    "<And>"+
+  
+    "<Or>"+
+    "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approver 2 Approved</Value></Eq>"+
+    "<Or>"+
+    "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approver 1 Approved</Value></Eq>"+
+    "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Manager Approved</Value></Eq>"+
+     "</Or>"+
+      "</Or>"+
+     "<And>"+
+       "<Eq><FieldRef Name='FinanceId' /><Value Type='Text'>"+owner_id+"</Value></Eq>"+
+      "<Eq><FieldRef Name='ID' /><Value Type='Counter'>"+id+"</Value></Eq>"+
+      "</And>"+
+    
+      
+    "</And>"+
+ "</Where>"+
+"</Query>"+
+"</View>";
+
+
+query_cml='Items?$filter=FinanceId eq \''+ owner_id +'\' and ID eq \''+ id +'\' and  ((ReportStatus eq \'Manager Approved\') or (ReportStatus eq \'Approver 1 Approved\') or (ReportStatus eq \'Approver 2 Approved\') ) ';
+
+
+	 // alert(query_cml);
+          $.ajax({
+             // url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('" + listname + "')/GetItems",
+			  url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/"+query_cml,
+              type: "GET",
+                 headers: { "Accept": "application/json;odata=verbose" },
+
+              success: function (data) {
+
+			  //console.log(data);
+			  
+			  var temp;
+			  var temp_amount="";
+			  var temp_currency="";
+   
+                 //alert(data.d.results.length);
+				 
+				 if (data.d.results.length > 0) {
+				 
+				 
+				 
+				   $.each(data.d.results, function (key, value) {
+				   
+				   ////alert("value"+value.ID);
+				 if(type=="Resource_view")
+				 {
+				 
+				// //alert("Resource"+type);
+				   if(value.EmployeeId!=temp)
+				   {
+				   
+				   temp=value.EmployeeId;
+				  // alert(temp);
+				 // console.log(data);
+				  
+				  
+				  
+				 
+				  ////alert("value.EmployeeName0Id  "+value.EmployeeName0Id);
+				
+					
+					  checkbox_id="Resource";
+					  Resourcediv_Id="Resource";
+					  Resource_sub_div="Resource_child";
+                      count++;
+                      Resource_sub_div = Resource_sub_div + count;
+                      Resourcediv_Id = Resourcediv_Id + value.EmployeeId;
+					  checkbox_id=checkbox_id+count+"checkbox";
+					  anchor_tagid="Resource"+count+"anchor";
+                     var expense_count;
+					 expense_count=GetExpenseByResourceid('BconeExpenceMaster',value.EmployeeId,'Resource_View');
+					// //alert("expense_count"+expense_count);
+					 PendingExpenseCount=parseInt(expense_count)+parseInt(PendingExpenseCount);
+					 document.getElementById("PendingExpenseCount").innerHTML =PendingExpenseCount;
+					 
+					var attrname=value.EmployeeName+":"+Resourcediv_Id;
+					//alert(attrname);
+					 var nilam=Mymethod();
+					// //alert("nilam"+nilam);
+					 //alert(value.CurrencyId);
+					  var testtt="";
+					 for(i=0;i<nilam.length;i++)
+					 {
+					 testtt=testtt+"<span>"+nilam[i].Amount+"-"+nilam[i].CurrencyId+"</span>"
+					 //alert(nilam[i].Amount);
+					 //alert(nilam[i].CurrencyId);
+					 //alert(testtt);
+					 
+					 }
+					 $('#bindcurrencydata').html(testtt);
+					 
+					 var currencybyproject=Mymethod1(value.EmployeeId,"Emp");
+					 var testtt1="";
+					 for(i=0;i<currencybyproject.length;i++)
+					 {
+					 testtt1=testtt1+"<span class='spanbor'>"+currencybyproject[i].Amount+"-"+currencybyproject[i].CurrencyId+"</span>"
+					 //alert(nilam[i].Amount);
+					 //alert(nilam[i].CurrencyId);
+					 //alert(testtt);
+					 
+					 }
+					 if(expense_count!=0)
+					 
+                      {
+					 // getExpenseByResourceId( web_url ,'BconeExpenceMaster', Resourcediv_Id , value.EmployeeId ,Resource_sub_div,anchor_tagid,checkbox_id,'Resource_View');
+					  
+                      Resourcediv_Main=Resourcediv_Main+"<div class='panel panel-default MainDiv' name='ss'>";
+                      Resourcediv_Main=Resourcediv_Main+" <div class='panel-heading'>";
+                      Resourcediv_Main=Resourcediv_Main+"<h4 class='panel-title'>";
+                      Resourcediv_Main=Resourcediv_Main+"<h4 class='panel-title'>";
+                    Resourcediv_Main=Resourcediv_Main+"<input style='display:none;' type='checkbox' name=\""+attrname+"\" class='new-checkbox  Parencheckbox "+Resourcediv_Id+"' id="+checkbox_id+" onchange='checkchild_checkboxex(\"" + Resourcediv_Id + "\",\""+checkbox_id+"\")' onclick='getExpenseByResourceId(\"" + web_url + "\",\"BconeExpenceMaster\", \"" + Resourcediv_Id + "\", \"" + value.EmployeeId + "\",\""+Resource_sub_div+"\",\""+anchor_tagid+"\",\""+checkbox_id+"\",\"Resource_View\")'  />";
+                      Resourcediv_Main = Resourcediv_Main + "<a style='padding: 8px 10px 1px 10px;' class='accordion-toggle' aria-expanded='true' data-toggle='collapse' data-parent='#accordion' id="+anchor_tagid+" href='#" + Resource_sub_div + "' onclick='getExpenseByResourceId(\"" + web_url + "\",\"BconeExpenceMaster\", \"" + Resourcediv_Id + "\", \"" + value.EmployeeId + "\",\""+Resource_sub_div+"\",\""+anchor_tagid+"\",\""+checkbox_id+"\",\"Resource_View\")'>";
+                      Resourcediv_Main=Resourcediv_Main+"<span class='row' style='display: inline-block; width: 100%;'>";
+					  Resourcediv_Main=Resourcediv_Main+"<span class='col-md-4'>";
+                      //Resourcediv_Main=Resourcediv_Main+"<li> </li>";
+                      Resourcediv_Main = Resourcediv_Main + "" +  value.EmployeeName  + "";
+                      Resourcediv_Main=Resourcediv_Main+"</span>";
+			          Resourcediv_Main=Resourcediv_Main+"<span class='col-md-4 text-center' style='font-size:11px;'>";					 
+                      Resourcediv_Main=Resourcediv_Main+ "" + testtt1 + "";
+                      Resourcediv_Main=Resourcediv_Main+"</span>";
+                      Resourcediv_Main=Resourcediv_Main+"<span class='col-md-4' style='text-align:right; padding-right:0px;'>";					 
+                      //Resourcediv_Main=Resourcediv_Main+ "" + expense_count + "–  Expense Request";
+                      Resourcediv_Main=Resourcediv_Main+"</span>";
+					  Resourcediv_Main=Resourcediv_Main+"</span>";
+                      Resourcediv_Main=Resourcediv_Main+"</a>";
+                      Resourcediv_Main=Resourcediv_Main+"</h4>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main = Resourcediv_Main + "<div id=" + Resource_sub_div + " class='panel-collapse collapse'><!-- Add 'in' class Heare -->";
+                      Resourcediv_Main=Resourcediv_Main+"<div class='panel-body' style='padding-right: 0;'>";
+                      Resourcediv_Main = Resourcediv_Main + "<div class='panel-group accordion1' id='" + Resourcediv_Id + "'>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main = Resourcediv_Main + "</div>";
+					  
+                      } 
+                  }
+				  }else
+				  {
+				  
+				 // //alert("project"+type);
+				  
+				     if(value.ProjectId!=temp)
+				   {
+				   
+				   temp=value.ProjectId;
+				 // console.log(data);
+				  
+				  
+				  
+				  ////alert("value"+value.ID);
+				  ////alert("value.EmployeeName0Id  "+value.EmployeeName0Id);
+				
+					
+					  checkbox_id="Resource";
+					  Resourcediv_Id="Resource";
+					  Resource_sub_div="Resource_child";
+                      count++;
+                      Resource_sub_div = Resource_sub_div + count;
+                      Resourcediv_Id = Resourcediv_Id + value.ProjectId;
+					  checkbox_id=checkbox_id+count+"checkbox";
+					  anchor_tagid="Resource"+count+"anchor";
+                     var expense_count;
+					 expense_count=GetExpenseByResourceid('BconeExpenceMaster',value.Projectname,'Project_view');
+					 ////alert("expense_count"+expense_count);
+					 PendingExpenseCount=parseInt(expense_count)+parseInt(PendingExpenseCount);
+					 document.getElementById("PendingExpenseCount").innerHTML =PendingExpenseCount;
+					// var Projectname=value.Projectname;
+					 ////alert("Projectname"+Projectname);
+					 //alert(value.CurrencyId);
+					 var attrname=value.Projectname +":"+Resourcediv_Id;
+					 //alert(attrname);
+
+					 var nilam=Mymethod();
+					 //alert(nilam);
+					 var testtt="";
+					 for(i=0;i<nilam.length;i++)
+					 {
+					 testtt=testtt+"<span>"+nilam[i].Amount+"-"+nilam[i].CurrencyId+"</span>"
+					 //alert(nilam[i].Amount);
+					 //alert(nilam[i].CurrencyId);
+					 //alert(testtt);
+					 
+					 }
+					 $('#bindcurrencydata').html(testtt);
+					 
+					 var currencybyproject=Mymethod1(value.ProjectId,"Proj");
+					 var testtt1="";
+					 for(i=0;i<currencybyproject.length;i++)
+					 {
+					 testtt1=testtt1+"<span class='spanbor'>"+currencybyproject[i].Amount+"-"+currencybyproject[i].CurrencyId+"</span>"
+					 //alert(nilam[i].Amount);
+					 //alert(nilam[i].CurrencyId);
+					 //alert(testtt);
+					 
+					 }
+                      {
+					 // getExpenseByResourceId( web_url ,'BconeExpenceMaster', Resourcediv_Id , value.EmployeeId ,Resource_sub_div,anchor_tagid,checkbox_id,'Project_View');
+					  					 if(expense_count!=0)
+										 
+									
+                      Resourcediv_Main=Resourcediv_Main+"<div class='panel panel-default MainDiv' name='ss'>";
+                      Resourcediv_Main=Resourcediv_Main+" <div class='panel-heading'>";
+                      Resourcediv_Main=Resourcediv_Main+"<h4 class='panel-title'>";
+                      Resourcediv_Main=Resourcediv_Main+"<h4 class='panel-title'>";
+                      Resourcediv_Main=Resourcediv_Main+"<input type='checkbox' style='display:none;'  name=\""+attrname+"\" class='new-checkbox  Parencheckbox "+Resourcediv_Id+"' id="+checkbox_id+" onchange='checkchild_checkboxex(\"" + Resourcediv_Id + "\",\""+checkbox_id+"\")' onclick='getExpenseByResourceId(\"" + web_url + "\",\"BconeExpenceMaster\", \"" + Resourcediv_Id + "\", \"" + value.ProjectId + "\",\""+Resource_sub_div+"\",\""+anchor_tagid+"\",\""+checkbox_id+"\",\"Project_View\",\""+value.ID+"\")'  />";
+                      Resourcediv_Main = Resourcediv_Main + "<a class='accordion-toggle' aria-expanded='true' data-toggle='collapse' data-parent='#accordion' id="+anchor_tagid+" href='#" + Resource_sub_div + "' onclick='getExpenseByResourceId(\"" + web_url + "\",\"BconeExpenceMaster\", \"" + Resourcediv_Id + "\", \"" + value.ProjectId + "\",\""+Resource_sub_div+"\",\""+anchor_tagid+"\",\""+checkbox_id+"\",\"Project_View\",\""+value.ID+"\")' style='padding: 8px 10px 1px 10px;'>";
+                      
+					  getExpenseByResourceId(web_url ,'BconeExpenceMaster', Resourcediv_Id ,value.ProjectId ,Resource_sub_div,anchor_tagid,checkbox_id,'Project_View',value.ID);
+					  Resourcediv_Main=Resourcediv_Main+"<span class='row' style='display: inline-block; width: 100%;'>";
+					  Resourcediv_Main=Resourcediv_Main+"<span class='col-md-4'>";
+                      //Resourcediv_Main=Resourcediv_Main+"<li> </li>";
+                      Resourcediv_Main = Resourcediv_Main + "" +  value.Projectname  + "";
+                      Resourcediv_Main=Resourcediv_Main+"</span>";
+			          Resourcediv_Main=Resourcediv_Main+"<span class='col-md-4 text-center'  style='font-size:11px;display:none'>";					 
+                      Resourcediv_Main=Resourcediv_Main+ "" + testtt1 + "";
+                      Resourcediv_Main=Resourcediv_Main+"</span>";
+                      Resourcediv_Main=Resourcediv_Main+"<span class='col-md-4' style='text-align:right; padding-right:0px;'>";					 
+                     // Resourcediv_Main=Resourcediv_Main+ "" + expense_count+ "–  Expense Request";
+                      Resourcediv_Main=Resourcediv_Main+"</span>";
+					  Resourcediv_Main=Resourcediv_Main+"</span>";
+                      Resourcediv_Main=Resourcediv_Main+"</a>";
+                      Resourcediv_Main=Resourcediv_Main+"</h4>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main = Resourcediv_Main + "<div id=" + Resource_sub_div + " class='panel-collapse collapse in'><!-- Add 'in' class Heare -->";
+                      Resourcediv_Main=Resourcediv_Main+"<div class='panel-body' style='padding-right:0;'>";
+                      Resourcediv_Main = Resourcediv_Main + "<div class='panel-group accordion1' id='" + Resourcediv_Id + "'>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main=Resourcediv_Main+"</div>";
+                      Resourcediv_Main = Resourcediv_Main + "</div>";
+                      } 
+                  }
+				  
+				  
+				  }
+				  
+
+                  });
+				  }
+				  else
+				  {
+				  Resourcediv_Main = Resourcediv_Main +"<div class='nodatadiv'>";
+				  Resourcediv_Main = Resourcediv_Main +"<h3 style='color:#2EA0E6;'>This Expense Is Already Approved</h3>";
+				   Resourcediv_Main = Resourcediv_Main +"</div>";
+				 $("#Upper_strip").hide();
+				  $("#Upper_strip1").show();
+				  //alert(Resourcediv_Main);  
+				  
+				  }
+                   // alert(Resourcediv_Main);
+                  $('#accordion').html(Resourcediv_Main);
+                  $('.loader').hide();
+                    
+
+              },
+              error: function (data) {
+                  alert(data.responseJSON.error.message.value);
+                  failure(data);
+              }
+          });
+      }
+		
+
+      function getExpenseByResourceId(url, listname, datatobind_divid,Resource_id,dataparent_div,parent_anchor,parent_checkbox,type,id) {
+	 //alert("getExpenseByResourceId");
+	 
+	 //people=[];
+	   $('.loader').show();
+	   if(type=="Resource_View")
+	   {
+      //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="ProjectOwnerId" /><Value Type="Text">' + owner_id + '</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where><OrderBy><FieldRef Name="ID" Ascending="False"/><Value Type="Number" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+      //  var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">' + owner_id + '</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where><OrderBy><FieldRef Name="ID" Ascending="False"/><Value Type="Number" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+		 
+		 
+		 //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">' + owner_id + '</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And></And></Where><OrderBy><FieldRef Name="ID" Ascending="False"/><Value Type="Number" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+		//var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">'+Resource_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And><Neq><FieldRef  Name="FinanceExpenseStatus"  /><Value Type="Text">Approved</Value></Neq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+		var query_cml='<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="EmployeeId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></Or></Or></And></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';		
+		
+		
+		}
+		else
+		{
+		//var query_cml='<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><Eq><FieldRef Name="ProjectId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Manager Approved</Value></Eq><Or><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 1 Approved</Value></Eq><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approver 2 Approved</Value></Eq></Or></Or></And></And></Where><OrderBy><FieldRef Name="EmployeeId" Ascending="False"/><Value ></Value></OrderBy></Query></View>';		
+	//var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="ProjectOwnerId" /><Value Type="Text">' + owner_id + '</Value></Eq><And><Eq><FieldRef Name="ProjectId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where><OrderBy><FieldRef Name="ID" Ascending="False"/><Value Type="Number" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+		//var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="PendingWithId" /><Value Type="Text">' + owner_id + '</Value></Eq><And><Eq><FieldRef Name="ProjectId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Submitted</Value></Eq></And></And></Where><OrderBy><FieldRef Name="ID" Ascending="False"/><Value Type="Number" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+		//var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">' + owner_id + '</Value></Eq><And><Eq><FieldRef Name="ProjectId" /><Value Type="Text">' + Resource_id + '</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And></And></Where><OrderBy><FieldRef Name="ID" Ascending="False"/><Value Type="Number" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+		
+		var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq><And><And><Eq><FieldRef Name="ProjectId" /><Value Type="Text">'+Resource_id+'</Value></Eq><Eq><FieldRef Name="ReportStatus"/><Value Type="Text" >Approved</Value></Eq></And><Neq><FieldRef  Name="FinanceExpenseStatus"  /><Value Type="Text">Approved</Value></Neq></And></And></Where></Query><Join Type="INNER" ListAlias="test"><Eq><FieldRef List="BconeExpenceMaster"  RefType="Id"/><FieldRef List="BconeExpenceLogDetail" Name="TrackingNo"/></Eq></Join></View>';
+		}
+		    var query_cml="<View>"+
+"<Query>"+
+   "<Where>"+
+    "<And>"+
+  
+    "<Or>"+
+    "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approver 2 Approved</Value></Eq>"+
+    "<Or>"+
+    "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approver 1 Approved</Value></Eq>"+
+    "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Manager Approved</Value></Eq>"+
+     "</Or>"+
+      "</Or>"+
+     "<And>"+
+       "<Eq><FieldRef Name='ProjectId' /><Value Type='Text'>" + Resource_id + "</Value></Eq>"+
+      
+      
+	  
+	  "<And>"+
+	   "<Eq><FieldRef Name='FinanceId' /><Value Type='Text'>"+owner_id+"</Value></Eq>"+
+      "<Eq><FieldRef Name='ID' /><Value Type='Counter'>"+id+"</Value></Eq>"+
+	  "</And>"+
+	  "</And>"+
+    
+      
+    "</And>"+
+ "</Where>"+
+"</Query>"+
+"</View>"; 
+
+
+
+var query_cml='Items?$filter=FinanceId eq \''+ owner_id +'\' and ID eq \''+ id +'\' and   ProjectId eq \''+ Resource_id +'\' and ((ReportStatus eq \'Manager Approved\') or (ReportStatus eq \'Approver 1 Approved\') or (ReportStatus eq \'Approver 2 Approved\') )&$top=100000 ';
+
+
+
+		//alert(query_cml);
+          var expense_div_data = "";
+		  //alert(parent_anchor);
+		  //alert($('#'+parent_checkbox).prop("checked"));
+			var parentcheck=$('#'+parent_checkbox).prop("checked");
+			var childanchor="";
+
+          var expense_data_div_id = "expense_data_div";
+		  var check_boxex_class="Resource"+Resource_id+"checkboxex";
+          var i = 0;
+          $.ajax({
+              //url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('" + listname + "')/GetItems",
+			   url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" + listname + "')/"+query_cml,
+             // type: "POST",
+			 
+			 type: "GET",
+             headers: { "Accept": "application/json;odata=verbose" },
+
+              success: function (data) {
+
+                  i = 0;
+				 
+				  
+                  
+                // //alert("getExpenseByResourceId"+data.d.results.length);
+                  if (data.d.results.length > 0) {
+                      $.each(data.d.results, function (key, value) {
+	              var currval="_";
+						
+						  if(value.ExpenseCurrencyText!=null&&value.ExpenseCurrencyText!="")
+						  {
+						  if(value.ExpenseCurrencyText.indexOf("-"))
+								{
+								var curr=value.ExpenseCurrencyText.split("-");
+								//alert(curr[0]);
+								currval=curr[0]; 
+								}
+								else
+								{
+								currval=value.ExpenseCurrencyText;
+								
+							}
+						  
+						  }
+					   var currencybyproject=GroupByTrackingNo(value.ID);
+					 var testtt1="";
+					 var curr_values="";
+					 for(j=0;j<currencybyproject.length;j++)
+					 {
+					 testtt1=testtt1+"<span class='spanbor'>"+currencybyproject[j].Amount+"-"+currencybyproject[j].CurrencyId+"</span>"
+					 //alert(nilam[i].Amount);
+					 //alert(nilam[i].CurrencyId);
+					 //alert(testtt);
+					 if(curr_values!="")
+					 {
+					 curr_values=curr_values+","+currencybyproject[j].Amount+"-"+currencybyproject[j].CurrencyId+"";
+					 }
+					 else
+					 {
+					 curr_values=currencybyproject[j].Amount+"-"+currencybyproject[j].CurrencyId+"";
+					 }
+					 }
+                         
+                          i = i + 1;
+						   childanchor=parent_anchor+"child_"+i;
+                          expense_data_div_id = datatobind_divid + "_" + "expense_data_div";
+                        //  alert(count);
+                          expense_data_div_id = expense_data_div_id +"_"+i;
+                          //alert(expense_data_div_id);
+
+                          expense_div_data=expense_div_data+"<div class='panel panel-default' id='FadeoutDiv"+value.ID +"' >";
+                          expense_div_data=expense_div_data+"<div class='panel-heading'>";
+                          expense_div_data=expense_div_data+"<h4 class='panel-title'>";
+						  if(parentcheck)
+						  {
+                          expense_div_data=expense_div_data+"<input type='checkbox' style='display:none;'  checked='checked' name='"+ value.ID+":"+value.ExpenseReportName+"' class='new-checkbox "+check_boxex_class+" ChildCheckbox' onchange='checkparent_checkboxex(\"" + Resource_id + "\")' />";
+						  }
+						  else
+						  {
+						  expense_div_data=expense_div_data+"<input type='checkbox' style='display:none;'  class='new-checkbox "+check_boxex_class+" ChildCheckbox'  name='"+ value.ID+":"+value.ExpenseReportName+"' onchange='checkparent_checkboxex(\"" + Resource_id + "\")' />";
+						  }
+						 // //alert("parentcheck");
+						//  alert('"+ value.ID+"'-'"+value.ExpenseReportName+"');
+						
+					
+                          expense_div_data = expense_div_data + " <a aria-expanded='true' style='display: inline-block; width: 99%; padding-bottom:1px; margin-left: -5px; margin-right: -13px;' class='accordion-toggle' id="+childanchor+" data-toggle='collapse' data-parent='#" + datatobind_divid + "' href='#" + expense_data_div_id + "' onclick='getExpenseItemByExpenseID(\"" + value.ID + "\",\"" + expense_data_div_id + "\",\""+childanchor+"\",\""+type+"\",\""+value.ExpenseTrackingNo+"\",\""+currval+"\",\""+value.ExpenseTrackingNo+"\",\""+value.EmployeeId+"\")'>";
+                          
+						  getExpenseItemByExpenseID(value.ID ,expense_data_div_id ,childanchor,type,value.ExpenseTrackingNo,currval,value.ExpenseTrackingNo,value.EmployeeId);
+                          
+						  expense_div_data=expense_div_data+" <span class='row' style='display:inline-block; width: 99%; margin-left: -5px;'>";
+						  expense_div_data=expense_div_data+" <ul class='pull-left col-md-6'>";
+                          //expense_div_data=expense_div_data+" <li>ID : " + value.ID + " </li>";
+						  expense_div_data=expense_div_data+" <li>" + value.ExpenseTrackingNo + " </li>";
+                          expense_div_data = expense_div_data + " <li> | ExpName: "+value.ExpenseReportName+"</li>";
+						  if(type!="Resource_View")
+	                      {
+						   expense_div_data = expense_div_data + " <li> | ResName: "+value.EmployeeName+"</li>";
+						  } 
+						  else
+						  {
+						   expense_div_data = expense_div_data + " <li> | PrjName: "+value.Projectname+"</li>";
+						  }
+						  
+                           
+						  
+						  
+						  expense_div_data = expense_div_data + " <li> | ER Currency: "+currval+"</li>";
+                          expense_div_data=expense_div_data+"</ul>";
+						  <!-- expense_div_data=expense_div_data+"<ul class='col-md-6 text-right' style='font-size:11px;'>";						 -->
+                          <!-- expense_div_data=expense_div_data+" <li>"+testtt1+"</li>"; -->
+						  
+                          <!-- expense_div_data=expense_div_data+" </ul>"; -->
+						  var exp_amount="";
+						  if (value.FinalExpenseValue != null) {
+                                exp_amount = value.FinalExpenseValue;
+                                if (exp_amount.toString().indexOf(".")) {
+								
+								exp_amount=parseFloat(exp_amount).toFixed(2);
+                                }
+                                else {
+                                    exp_amount = exp_amount + ".00";
+
+                                }
+
+
+
+                            }
+                          expense_div_data=expense_div_data+"<ul class='col-md-6 text-right' style='font-size:11px;'>";						
+                          expense_div_data=expense_div_data+" <li>"+exp_amount+"   "+currval+"</li>";
+						  
+                          expense_div_data=expense_div_data+" </ul>";
+						  //expense_div_data=expense_div_data+"<div class='pull-right col-md-3' id='Currency_div"+value.ID +"'>";
+                          
+                          //expense_div_data=expense_div_data+" </div>";
+                          //expense_div_data=expense_div_data+"<ul class='col-md-2' style='text-align:right;'>";
+						  //expense_div_data=expense_div_data+" <li id='Curreny_data'></li>";
+                          //expense_div_data=expense_div_data+" <li>Pending Approval</li>";
+						  
+                          //expense_div_data=expense_div_data+" </ul>";
+						  expense_div_data=expense_div_data+" </span>";
+                          expense_div_data=expense_div_data+" </a>";
+                          expense_div_data=expense_div_data+"</h4>";
+                          expense_div_data=expense_div_data+" </div>";
+                          expense_div_data =expense_div_data + " <div id=" + expense_data_div_id + " class='panel-collapse collapse in' >";
+                          //expense_div_data = expense_div_data + "<div class='panel-body'>";
+
+                          //expense_div_data=expense_div_data+"<table class='table table-striped table-bordered dataTable no-footer bgcolorrow' id='student_datatable' role='grid' aria-describedby='student_datatable_info'>";
+                          //expense_div_data=expense_div_data+"<thead>";
+                          //expense_div_data=expense_div_data+" <tr role='row'><th class='sorting_asc' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-sort='ascending' aria-label='Attachment: activate to sort column descending' style='width: 84px;'>Attachment</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Ref No.: activate to sort column ascending' style='width: 60px;'>Ref No.</th><th>Project Phase</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Item: activate to sort column ascending' style='width: 91px;'>Item</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Status: activate to sort column ascending' style='width: 123px;'>Status</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Amount: activate to sort column ascending' style='width: 79px;'>Amount</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Payment Type: activate to sort column ascending' style='width: 110px;'>Payment Type</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Expense Date: activate to sort column ascending' style='width: 136px;'>Expense Date</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Billable To Client: activate to sort column ascending' style='width: 112px;'>Billable</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Edit: activate to sort column ascending' style='width: 42px;'>Edit</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Delete: activate to sort column ascending' style='width: 68px;'>Delete</th></tr>";
+                          //expense_div_data=expense_div_data+" </thead>";
+                          //expense_div_data=expense_div_data+" <tbody id='student_data'>";
+                          //expense_div_data=expense_div_data+" <tr id='rowhideslow6' class='deleteall6 odd' value='6' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/Add_Expence_bindInline.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>6</a></td><td>Dinner</td><td>Active</td><td>500</td><td>Employee Paid</td><td>15-Sep-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;6&quot;,&quot;rowhideslow6&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(6,&quot;rowhideslow6&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow7' class='deleteall7 even' value='7' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/AddExpenceNew.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>7</a></td><td>Dinner</td><td>Active</td><td>1500</td><td>Company Paid</td><td>22-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;7&quot;,&quot;rowhideslow7&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(7,&quot;rowhideslow7&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow9' class='deleteall9 odd' value='9' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/expenseitemdeatil11.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>9</a></td><td>Travling</td><td>Active</td><td>1500</td><td>Company Paid</td><td>16-Sep-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;9&quot;,&quot;rowhideslow9&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(9,&quot;rowhideslow9&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow10' class='deleteall10 even' value='10' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/expenseitemdeatil11.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>10</a></td><td>Dinner</td><td>Active</td><td>20000</td><td>Employee Paid</td><td>22-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;10&quot;,&quot;rowhideslow10&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(10,&quot;rowhideslow10&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow122' class='deleteall122 odd' value='122' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/AddExpenceNew (4).txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>122</a></td><td>Travling</td><td>Active</td><td>15</td><td>Employee Paid</td><td>27-Sep-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;122&quot;,&quot;rowhideslow122&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(122,&quot;rowhideslow122&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow123' class='deleteall123 even' value='123' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/AddExpenceNew (4).txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>123</a></td><td>Dinner</td><td>Active</td><td>24000</td><td>Employee Paid</td><td>27-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;123&quot;,&quot;rowhideslow123&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(123,&quot;rowhideslow123&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow135' class='deleteall135 odd' value='135' role='row'><td class='sorting_1'><a onclick='noattchment()'><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>135</a></td><td>Dinner</td><td>Active</td><td>0</td><td>Employee Paid</td><td>10-Jun-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;135&quot;,&quot;rowhideslow135&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(135,&quot;rowhideslow135&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow137' class='deleteall137 even' value='137' role='row'><td class='sorting_1'><a onclick='noattchment()'><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>137</a></td><td>Travling</td><td>Active</td><td>0</td><td>Employee Paid</td><td>6-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;137&quot;,&quot;rowhideslow137&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(137,&quot;rowhideslow137&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow138' class='deleteall138 odd' value='138' role='row'><td class='sorting_1'><a onclick='noattchment()'><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>138</a></td><td>Travling</td><td>Active</td><td>0</td><td>Employee Paid</td><td>27-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;138&quot;,&quot;rowhideslow138&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(138,&quot;rowhideslow138&quot;)'><i class='fa fa-trash'></i></a></td></tr></tbody>";
+                          //expense_div_data=expense_div_data+"</table>";
+                          //expense_div_data=expense_div_data+" <div class='bottom-btns'>";
+                          //expense_div_data=expense_div_data+" <a class='green-btn'>Approve</a>";
+                          //expense_div_data=expense_div_data+"<a class='red-btn'>Reject</a>";
+                          //expense_div_data=expense_div_data+"</div>";
+
+                          //expense_div_data=expense_div_data+"</div>";
+                          expense_div_data=expense_div_data+" </div>";
+                          expense_div_data = expense_div_data + "</div>";
+
+                      });
+                    
+
+                      $('#' + datatobind_divid).html(expense_div_data);
+					  
+					  $('#'+parent_anchor).prop('onclick',null).off('click');
+					  $('#'+parent_checkbox).prop('onclick',null).off('click');
+					  
+                       $('.loader').hide();
+                    
+                  }
+                  else {
+
+                    $('.loader').hide();
+                  }
+				  
+				  //showtooltip();
+                      // console.log(people);
+       
+   //console.log(youngsters);
+              },
+              error: function (data) {
+                  alert(data.responseJSON.error.message.value);
+                  failure(data);
+              }
+          });
+      }
+	 
+    function getcurrencyValueById(listname, id) {
+            // //alert("id" + id);
+            ////alert("getListItem1");
+            ////alert("show();");
+            //$('.loader').show();
+            var ss;
+            $.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+
+                success: function (data) {
+
+
+
+
+                    //alert(data.d);
+                    $.each(data, function (key, value) {
+                        ////alert("value"+value.Currency);
+						
+						if(listname!="BconeCurrency")
+						{
+                        ss = value.Item;
+						
+                        return ss;
+						}else
+						{
+						ss = value.Currency;
+						
+                        return ss;
+						
+						}
+						
+
+                    });
+
+                },
+                error: function (data) {
+                    //failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }
+		
+				function convert_date(date_to_convert) {
+            //alert(date_to_convert);
+            var m_names = new Array("Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                        "Oct", "Nov", "Dec");
+
+            var d = new Date(date_to_convert);
+            
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            var converted_date = curr_date + "-" + m_names[curr_month] + "-" + curr_year;
+
+            return converted_date;
+
+        }
+		
+			 function getListItemForUpdate(url, listname, Id, complete) {
+            //alert(Id);
+            ////alert("getListItembyid");
+
+            $.ajax({
+
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+                    complete(data);
+
+
+
+
+
+                },
+                error: function (data) {
+                    //  //alert("false");   
+                }
+            });
+        }
+			 function getListprotocol(name) {
+            //alert(name);
+
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+		
+	  function UpdateExpenseStatusTemp(id,status,expense_item_table_tbody_id,type,approve_type,ExpenseTrackingNo)
+		    {
+		   ////alert("Confirmation_alert");
+			 
+			// Method_tocall=UpdateExpenseStatus(id,status,expense_item_table_tbody_id,type,approve_type);
+			//var  hiddenInput = document.getElementById("#ok_click");
+			//alert(hiddenInput);
+            // hiddenInput.setAttribute("value", "test");
+			//var test=UpdateExpenseStatusTemp(id,status,expense_item_table_tbody_id,type,approve_type);
+			document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to approve expense?";
+			$('#ok_click').attr('onclick','UpdateExpenseStatus("'+id+'","'+status+'","'+expense_item_table_tbody_id+'","'+type+'","'+approve_type+'","'+ExpenseTrackingNo+'")');
+			$("#Confirmation_alert").show();
+
+		
+		}
+			function UpdateExpenseStatus(id,status,expense_item_table_tbody_id,type,approve_type,ExpenseTrackingNo)
+		    {
+			$('.loader').show();
+			   var currentdate = new Date();
+
+                    var date = currentdate;
+					expense_creater_id="";
+					 Approver2Id=""; 
+					 Approver1Id=""; 
+				    ExpenseApproveType="";
+					GetApprovalFinaceDetail(id);
+		      $("#Confirmation_alert").hide();
+			  var listName="BconeExpenceMaster";
+		  
+                //$('.loader').show();
+                var itemType = getListprotocol(listName);
+               var PendingWithId="ApprovedSuccessfully";
+			  var PendingWithName="";
+                  <!--  "ReportStatus": status       -->
+
+                var item = {
+                    "__metadata": { "type": itemType },
+                   
+                          //"PendingWithId":PendingWithId,
+						 // "PendingWithName":PendingWithName,
+						  "FinanaceActionDate":date,
+						  "FinanceExpenseStatus":status,
+                           "ReportStatus": status, 
+						   "LastActionBy":FLoginname,
+                         "LastActionById":FloginId
+						   
+                };
+                
+
+                getListItemForUpdate(web_url, listName, id, function (data) {
+                   
+                       
+
+			    $.ajax({
+									url: data.d.__metadata.uri,
+									type: "POST",
+									contentType: "application/json;odata=verbose",
+									data: JSON.stringify(item),
+									headers: {
+									"Accept": "application/json;odata=verbose",
+									"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+									"X-HTTP-Method": "MERGE",
+									"If-Match": data.d.__metadata.etag
+									},
+									success: function (data) {
+									  //FLoginname=data.d.results[0].ResourceName;
+	                   ///FloginId=data.d.results[0].ResourceId;
+					            
+					          InsertIntoLog(web_url, "BconeExpenseLogHistory",id,"04",FLoginname,FloginId,"Finance Approved");
+							    
+                                 if(Approver2Id!="Na"&&Approver2Id!=null&&Approver2Id!="")
+				                     {									 
+									 finalCc=FloginId+";"+Approver1Id+";"+Approver2Id;
+                                     }
+                                    else
+                                     {
+									  finalCc=FloginId+";"+Approver1Id;
+									 }								 
+
+								
+								 
+					             finalTo=expense_creater_id;
+								PathUrl="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/MyExpense.aspx?status=Approved";
+							     //GetEmailData(id,'05');
+								  InsertIntoMailLog('BconeEmailData',finalTo,finalCc,PathUrl,'05',id);
+									if(approve_type!="MultiApprove")
+									{
+									////alert("Expence Approved sucessfully");
+                                     									
+                                     $("#alertmain").show();
+	
+	                                 document.getElementById("Alert_msg").innerHTML=""+ExpenseTrackingNo+" | Approved sucessfully";	
+                                        									 
+									}
+									//alert('FadeoutDiv'+id);							
+									$('#FadeoutDiv'+id).fadeOut();
+                                      if(type=="Resource View")	
+									  {
+									  getResources(web_url, 'BconeExpenceMaster',owner_id,'Resource_view',id);
+									  }
+									  else
+									  {
+									  getResources(web_url, 'BconeExpenceMaster',owner_id,'Project_view',id);
+									  }
+									},
+									error: function (data) {
+									alert(data.responseJSON.error.message.value);
+									////alert("false");
+									// failure(data);
+									 $('.loader').hide();
+									},
+									complete:function(){
+									
+									$('.loader').hide();
+									}
+									
+					});
+
+                },        function (data) {
+                    failure(data);
+                });
+            
+
+		
+		}
+		
+		
+		function RejectExpense(id,status,expense_item_table_tbody_id,type,ExpenseTrackingNo)
+				{
+					$('#Txt_Comment').css({
+
+                        "border": "",
+                        "background": ""
+                    });
+					document.getElementById("AlertMsg").innerHTML="";
+					document.getElementById("Txt_Comment").value="";
+				//$('#myModal2').modal('show');	
+              // document.getElementById("Expense_Comment_Id").innerHTML = id;	
+			  // document.getElementById("Reject_Hide").innerHTML=expense_item_table_tbody_id;
+			   	document.getElementById("Confirmation_msg").innerHTML="Are you sure you want To Reject Expense?";
+			    //$('#ok_click').attr('onclick','RejectExpenseOkClick("'+id+'","'+status+'","'+expense_item_table_tbody_id+'","'+type+'")');
+			   // $("#Confirmation_alert").show();
+			   
+			   	$("#Confirmation_alert").hide();
+				$('#myModal2').modal('show');	
+               document.getElementById("Expense_Comment_Id").innerHTML = id;
+               document.getElementById("Expense_Tracking_No").innerHTML = ExpenseTrackingNo;			   
+			   document.getElementById("Reject_Hide").innerHTML=expense_item_table_tbody_id;
+				}
+				
+				function RejectExpenseOkClick(id,status,expense_item_table_tbody_id,type)
+				{
+				$("#Confirmation_alert").hide();
+				$('#myModal2').modal('show');	
+               document.getElementById("Expense_Comment_Id").innerHTML = id;	
+			   document.getElementById("Reject_Hide").innerHTML=expense_item_table_tbody_id;
+			   
+				}
+				
+				
+				
+				function Rejectcomment(status)
+				{
+			 var Expense_Tracking_No=document.getElementById("Expense_Tracking_No").innerHTML ;		
+				 var currentdate = new Date();
+                   Approver2Id=""; 
+					 Approver1Id=""; 
+				    ExpenseApproveType="";
+					
+                    var date = currentdate;
+			  var Expense_Comment_Id=document.getElementById("Expense_Comment_Id").innerHTML ;	
+			  GetApprovalFinaceDetail(Expense_Comment_Id);
+			  var Reject_Hide=document.getElementById("Reject_Hide").innerHTML;
+				 
+				  var Comment = document.getElementById("Txt_Comment").value;
+				  if (Comment == '') {
+                    isValid = false;
+                    $('#Txt_Comment').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "Please Enter the Comment";
+                    document.getElementById("Txt_Comment").focus();
+
+                }
+				
+				else if (Comment.length > 500) {
+                isValid = false;
+                $('#Txt_Comment').css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+
+
+
+                document.getElementById("AlertMsg").innerHTML = "Description can be max 500 character ";
+                document.getElementById("Txt_Comment").focus();
+
+              }
+				else
+				{
+				 $('#Txt_Comment').css({
+
+                "border": "",
+                "background": ""
+               });
+			   }
+if((validation_data(Comment)))
+ {
+                document.getElementById("AlertMsg").innerHTML = "";
+				  var listName="BconeExpenceMaster";
+		  
+                $('.loader').show();
+                var itemType = getListprotocol(listName);
+              
+                
+
+                var item = {
+                    "__metadata": { "type": itemType },
+                   
+                       "ReportStatus":status ,
+					   "FinanceExpenseStatus":status ,
+					   "FinanaceActionDate":date,
+                       "Comment":Comment,
+                       "LastActionBy":FLoginname,
+                       "LastActionById":FloginId					   
+
+                };
+                
+
+                getListItemForUpdate(web_url, listName, Expense_Comment_Id, function (data) {
+                   
+                       
+
+			    $.ajax({
+									url: data.d.__metadata.uri,
+									type: "POST",
+									contentType: "application/json;odata=verbose",
+									data: JSON.stringify(item),
+									headers: {
+									"Accept": "application/json;odata=verbose",
+									"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+									"X-HTTP-Method": "MERGE",
+									"If-Match": data.d.__metadata.etag
+									},
+									success: function (data) {
+									
+									InsertIntoLog(web_url, "BconeExpenseLogHistory",Expense_Comment_Id,"07",FLoginname,FloginId,"Finance Rejected");				
+								 if(Approver2Id!="Na"&&Approver2Id!=null&&Approver2Id!="")
+				                     {									 
+									 finalCc=FloginId+";"+Approver1Id+";"+Approver2Id;
+                                     }
+                                    else
+                                     {
+									  finalCc=FloginId+";"+Approver1Id;
+									 }	
+					            finalTo=expense_creater_id;
+								PathUrl="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/MyExpense.aspx?status=Rejected";
+							   //GetEmailData(Expense_Comment_Id,'06');
+							   InsertIntoMailLog('BconeEmailData',finalTo,finalCc,PathUrl,'06',Expense_Comment_Id);
+									$('#FadeoutDiv'+Expense_Comment_Id).fadeOut();	
+                                    document.getElementById("Txt_Comment").value="";
+                                    $('#myModal2').modal('hide');	
+                                    ////alert("Expence Rejected sucessfully");	
+									 $("#alertmain").show();
+	
+	                                 document.getElementById("Alert_msg").innerHTML=""+Expense_Tracking_No+" | Rejected sucessfully";	
+                                    getResources(web_url, 'BconeExpenceMaster',owner_id,'Project_view',Expense_Comment_Id); 
+                                    $('.loader').hide();									
+									},
+									error: function (data) {
+									alert(data.responseJSON.error.message.value);
+								
+									 $('.loader').hide();
+									}
+					});
+
+                },        function (data) {
+                    failure(data);
+                });
+            
+
+				}
+				
+				
+				}
+					function validation_data(mystring){
+  
+  var iChars = "!@#$%^&*()+=[]\\\'/{}|\":<>";
+
+   for (var i = 0; i < mystring.length; i++) {
+    if (iChars.indexOf(mystring[i]) != -1) {
+	  $('#Txt_Comment').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+     //alert ("Your username has special characters. \nThese are not allowed.\n Please remove them and try again.");
+	  document.getElementById("AlertMsg").innerHTML = "You have entered an invalid following characters: !@#$%^&*()+=[]\'/{}|\\\":<>";
+                    document.getElementById("Txt_Comment").focus();
+     return false;
+    }
+   }
+   return true;
+  }
+         function hideerror(val) {
+
+
+            $('#' + val).css({
+
+                "border": "",
+                "background": ""
+            });
+
+            document.getElementById("AlertMsg").innerHTML = "";
+        }
+		
+      function getExpenseItemByExpenseID(expense_id, datatobind_divid,expenseanchorid,type,ExpenseTrackingNo,currval1,ExpenseTrackingNo,EmployeeId) {
+	 // alert(getExpenseItemByExpenseID);
+	  var checkbox_checked=false;
+	 $("[data-toggle='tooltip']").tooltip(); 
+	//checkbox_checked=$('.new-checkbox').prop("checked");
+	
+	 $('.ChildCheckbox:checkbox:checked').each(function(){
+						  checkbox_checked=true;
+						  ////alert("true");
+						  });
+						  
+						  
+	 // //alert("ekdach click");
+	   $('.loader').show();
+          //var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + expense_id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+          var Expense_item_div_data = "";
+          var expense_item_table_id = datatobind_divid + "_table";
+          var expense_item_table_tbody_id = datatobind_divid + "_table_tbody";
+
+          Expense_item_div_data = Expense_item_div_data + "<div class='panel-body' >";
+          Expense_item_div_data = Expense_item_div_data + "<table class='table table-striped table-bordered dataTable no-footer bgcolorrow' id=" + expense_item_table_id + " role='grid' aria-describedby='student_datatable_info'>";
+          Expense_item_div_data = Expense_item_div_data + "  <thead>";
+         // Expense_item_div_data = Expense_item_div_data + "<tr role='row'><th class='sorting_asc' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-sort='ascending' aria-label='Attachment: activate to sort column descending' style='width: 84px;'>Attachment</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Ref No.: activate to sort column ascending' style='width: 60px;'>Ref No.</th><th>Project Phase</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Item: activate to sort column ascending' style='width: 91px;'>Item</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Status: activate to sort column ascending' style='width: 123px;'>Status</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Amount: activate to sort column ascending' style='width: 79px;'>Amount</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Payment Type: activate to sort column ascending' style='width: 110px;'>Payment Type</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Date Created: activate to sort column ascending' style='width: 95px;'>Date Created</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Billable: activate to sort column ascending' style='width: 112px;'>Billable</th></tr>";
+        // Expense_item_div_data = Expense_item_div_data + "<tr role='row'><th class='sorting_asc' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-sort='ascending' aria-label='Attachment: activate to sort column descending' style='width: 84px;'>Attachment</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Ref No.: activate to sort column ascending' style='width: 60px;'>Ref No.</th><th>Project Phase</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Item: activate to sort column ascending' style='width: 91px;'>Item</th><th>ER Amount</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Status: activate to sort column ascending' style='width: 123px;'>Status</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Amount: activate to sort column ascending' style='width: 79px;'>Amount</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Payment Type: activate to sort column ascending' style='width: 110px;'>Payment Type</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Date Created: activate to sort column ascending' style='width: 95px;'>Date Created</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Billable To Client: activate to sort column ascending' style='width: 112px;'>Billable</th></tr>";
+           Expense_item_div_data = Expense_item_div_data + "<tr role='row'><th class='sorting_asc' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-sort='ascending' aria-label='Attachment: activate to sort column descending' style='width: 84px;'>Info</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Ref No.: activate to sort column ascending' style='width: 60px;'>Ref No.</th><th>Project Phase</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Item: activate to sort column ascending' style='width: 91px;'>Item</th><th style='text-align:left;'>Expense Note</th><th>ER Amount</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Status: activate to sort column ascending' style='width: 123px;'>Status</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Amount: activate to sort column ascending' style='width: 79px;'>Amount</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Payment Type: activate to sort column ascending' style='width: 110px;'>Payment Type</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Date Created: activate to sort column ascending' style='width: 95px;'>Date Created</th><th class='sorting' tabindex='0' aria-controls='student_datatable' rowspan='1' colspan='1' aria-label='Billable To Client: activate to sort column ascending' style='width: 112px;'>Billable</th></tr>";
+         
+		 Expense_item_div_data = Expense_item_div_data + " <tbody id=" + expense_item_table_tbody_id + "></tbody>";
+
+
+          //Expense_item_div_data=Expense_item_div_data+" <tbody id='student_data'>";
+         // Expense_item_div_data=Expense_item_div_data+" <tr id='rowhideslow6' class='deleteall6 odd' value='6' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/Add_Expence_bindInline.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>6</a></td><td>Dinner</td><td>Active</td><td>500</td><td>Employee Paid</td><td>15-Sep-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;6&quot;,&quot;rowhideslow6&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(6,&quot;rowhideslow6&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow7' class='deleteall7 even' value='7' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/AddExpenceNew.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>7</a></td><td>Dinner</td><td>Active</td><td>1500</td><td>Company Paid</td><td>22-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;7&quot;,&quot;rowhideslow7&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(7,&quot;rowhideslow7&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow9' class='deleteall9 odd' value='9' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/expenseitemdeatil11.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>9</a></td><td>Travling</td><td>Active</td><td>1500</td><td>Company Paid</td><td>16-Sep-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;9&quot;,&quot;rowhideslow9&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(9,&quot;rowhideslow9&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow10' class='deleteall10 even' value='10' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/expenseitemdeatil11.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>10</a></td><td>Dinner</td><td>Active</td><td>20000</td><td>Employee Paid</td><td>22-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;10&quot;,&quot;rowhideslow10&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(10,&quot;rowhideslow10&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow122' class='deleteall122 odd' value='122' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/AddExpenceNew (4).txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>122</a></td><td>Travling</td><td>Active</td><td>15</td><td>Employee Paid</td><td>27-Sep-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;122&quot;,&quot;rowhideslow122&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(122,&quot;rowhideslow122&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow123' class='deleteall123 even' value='123' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/AddExpenceNew (4).txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>123</a></td><td>Dinner</td><td>Active</td><td>24000</td><td>Employee Paid</td><td>27-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;123&quot;,&quot;rowhideslow123&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(123,&quot;rowhideslow123&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow135' class='deleteall135 odd' value='135' role='row'><td class='sorting_1'><a onclick='noattchment()'><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>135</a></td><td>Dinner</td><td>Active</td><td>0</td><td>Employee Paid</td><td>10-Jun-2016</td><td>Yes</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;135&quot;,&quot;rowhideslow135&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(135,&quot;rowhideslow135&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow137' class='deleteall137 even' value='137' role='row'><td class='sorting_1'><a onclick='noattchment()'><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>137</a></td><td>Travling</td><td>Active</td><td>0</td><td>Employee Paid</td><td>6-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;137&quot;,&quot;rowhideslow137&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(137,&quot;rowhideslow137&quot;)'><i class='fa fa-trash'></i></a></td></tr><tr id='rowhideslow138' class='deleteall138 odd' value='138' role='row'><td class='sorting_1'><a onclick='noattchment()'><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>138</a></td><td>Travling</td><td>Active</td><td>0</td><td>Employee Paid</td><td>27-Sep-2016</td><td>No</td> <td><a href='javascript:void(0)' onclick='getListItemByIdForUpdate(&quot;https://bristleconeonline.sharepoint.com/sites/pwa/&quot;,&quot;BconeExpenceLogDetail&quot;,&quot;138&quot;,&quot;rowhideslow138&quot;);showmodal();'><i class='fa fa-pencil'></i></a></td> <td><a onclick='DeleteExpenseLog(138,&quot;rowhideslow138&quot;)'><i class='fa fa-trash'></i></a></td></tr></tbody>";
+
+
+          
+
+          //alert(Expense_item_div_data);
+
+         // $('#' + datatobind_divid).html(Expense_item_div_data);
+
+
+          
+         
+              $.ajax({
+              url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + expense_id+"'&$orderby=Created asc&$top=100000",
+			  type: "GET",
+               // async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+
+              success: function (data) {
+			  ////alert("success");
+			  //alert(data.d.results.length);
+			  $('#'+expenseanchorid).prop('onclick',null).off('click'); 
+			   var i = "1";
+                
+                  if (data.d.results.length > 0) {
+                      $.each(data.d.results, function (key, value) {
+
+                         		//var Expense_item = getcurrencyValueById('BconeItemMaster', value.ExpenceItemId);
+								//var payment_type = getcurrencyValueById('BconeItemMaster', value.PaymentTypeId);
+								//var Currency= getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);
+								//var convert_date1=convert_date(value.ExpenseDate);
+								//var curr_val;
+								//if(Currency.indexOf("-"))
+								//{
+								//var curr=Currency.split("-");
+								////alert(curr[0]);
+								//curr_val=curr[0]; 
+								//} else {
+								//curr_val=Currency;
+								//}
+								var Expense_item = value.ExpenceItemText;
+								var payment_type = value.PaymentTypeText;								
+								var Currency=value.ExpenceCurrencyText;
+								
+								var convert_date1=convert_date(value.ExpenseNewDate);
+								var curr_val=Currency;
+								Expense_item_div_data=Expense_item_div_data+"<tr id='rowhideslow6' class='deleteall6 odd' value='6' role='row'>";
+
+								if (value.Justification==null) {
+								
+								
+								var inner="inner";
+									var outer="outer";
+									
+									//var count=getUploadedFiles_Count(value.ID);
+									
+									//console.log(count);
+									var count=0;
+								if(value.FileUploadedCount!=null)
+								{
+								 count=value.FileUploadedCount;
+								}
+									
+									if(count>0)
+									{
+									
+									Expense_item_div_data=Expense_item_div_data+"<td class='sorting_1 text-center'><a style='display: inline-block;cursor:pointer;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\",\""+expense_id+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a></td>";
+                                   // item["action"] = "<a  style='display:inline-block; margin-right:12px;cursor:pointer;'  onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal();'><i class='fa fa-pencil'></i></a> <a    style='display:inline-block;margin-right: 12px;cursor:pointer;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='display: inline-block;margin-left: 12px;cursor:pointer;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a>";
+									}
+									else
+									{
+									Expense_item_div_data=Expense_item_div_data+"<td class='sorting_1 text-center'></td>";
+									//item["action"] = "<a  style='display:inline-block; margin-right:12px;cursor:pointer;'  onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal();'><i class='fa fa-pencil'></i></a> <a    style='display:inline-block;margin-right: 12px;cursor:pointer;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a>";
+									}
+								
+								var ss = 'https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/' + value.BillAttachment;
+
+								//table_tr = table_tr + "<td><a  href='" + ss + "' download><i  class='fa fa-chain' style='color:green;' ></i></a></td>";
+								//Expense_item_div_data=Expense_item_div_data+"<td class='sorting_1'><a href='" + ss + "' download><i class='fa fa-paperclip' style='color:#5cb85c;font-size: 18px;'></i></a></td>";
+								}
+								else {
+								//Expense_item_div_data=Expense_item_div_data+"<td class='sorting_1 text-center'><a  name='"+value.Justification+"'  ><i  class='fa fa-commenting11' style='color:#333;font-size: 16px;'  ></i></a></td>";
+									
+									Expense_item_div_data=Expense_item_div_data+"<td class='sorting_1 text-center'><a data-toggle='tooltip' title=\""+value.Justification+"\" style='text-decoration:none;cursor: context-menu;'><i  class='fa fa-commenting' style='color:#333;font-size: 16px;'  ></i></a></td>";
+								
+									
+								
+								}	
+                              if (value.FinalExpenseValue != null) {
+                                exp_amount = value.FinalExpenseValue;
+                                if (exp_amount.toString().indexOf(".")) 
+								{
+								exp_amount=parseFloat(exp_amount).toFixed(2);
+                                }
+                                else {
+                                    exp_amount = exp_amount + ".00";
+
+                                }
+
+                            }
+							
+							var ExpensceAmount_amount = "-";
+
+							var ExpenseNote="-";
+                                 if(value.ExpenseNote!=null&&value.ExpenseNote!="")
+                                 {
+								   ExpenseNote=value.ExpenseNote;
+                                 }
+
+                            if (value.ExpensceAmount != null) {
+                                ExpensceAmount_amount = value.ExpensceAmount;
+                                if (ExpensceAmount_amount.toString().indexOf(".")) 
+								{
+								ExpensceAmount_amount=parseFloat(ExpensceAmount_amount).toFixed(2);
+                                }
+                                else {
+                                    ExpensceAmount_amount = ExpensceAmount_amount + ".00";
+
+                                }
+                            }
+								Expense_item_div_data=Expense_item_div_data+"<td>"+i+"</td><td>"+value.TaskName+"</td><td>"+Expense_item+"</td><td class='sorting_1 text-center' style='text-align:left;' ><a  data-toggle='tooltip' title='"+ExpenseNote+"' style='text-decoration: none;' >"+ExpenseNote+"</a></td><td style='text-align: right;'>"+exp_amount+"<span style='color: #ababab;margin-left: 6px;'>"+ currval1 +"</span></td><td>"+value.Status +" </td><td >" +ExpensceAmount_amount + "<span style='color: #ababab;margin-left: 6px;'>"+ curr_val +"</span></td><td>"+payment_type+"</td><td>"+convert_date1+"</td><td>"+value.BliableToClient+"</td></tr>";
+								i++;
+                        
+                                //Expense_item_div_data=Expense_item_div_data+" <tr id='rowhideslow6' class='deleteall6 odd' value='6' role='row'><td class='sorting_1'><a href='NaNBconeBillAttachment/Add_Expence_bindInline.txt' download=''><i class='fa fa-chain'></i></a></td> <td><a href='javascript:void(0)' style='text-decoration:underline;'>6</a></td><td>Dinner</td><td>Active</td><td>500</td><td>Employee Paid</td><td>15-Sep-2016</td><td>Yes</td></tr>";
+
+                      });
+							Expense_item_div_data = Expense_item_div_data + " </table>";
+							
+							
+							
+							
+							
+							
+							if(!(checkbox_checked))
+							{
+							Expense_item_div_data = Expense_item_div_data + " <div class='bottom-btns' style='margin-top: 10px;' >";
+							Expense_item_div_data = Expense_item_div_data + " <a class='green-btn' style='cursor: pointer;'  onclick='UpdateExpenseStatusTemp(\"" + expense_id + "\",\"Approved\",\"" + datatobind_divid + "\",\"" + type + "\",\"SingleApprove\",\""+ExpenseTrackingNo+"\")'>Approve</a>";
+							Expense_item_div_data = Expense_item_div_data + " <a class='red-btn' style='cursor: pointer;' onclick='RejectExpense(\"" + expense_id + "\",\"Reject\",\"" + datatobind_divid + "\",\"" + type + "\",\""+ExpenseTrackingNo+"\")' >Reject</a>";
+							Expense_item_div_data = Expense_item_div_data + " <a class='green-btn' style='cursor: pointer;'  onclick='Clarification(\""+expense_id+"\",\""+ExpenseTrackingNo+"\",\""+EmployeeId+"\")' >Clarification</a>";
+							Expense_item_div_data = Expense_item_div_data + " </div>";
+							
+							
+							Expense_item_div_data = Expense_item_div_data + " <div class='bottom-btns1' style='display:none;margin-top: 10px'>";
+							Expense_item_div_data = Expense_item_div_data + " <button class='green-btn btn disabled' type='button' style='margin-right:5px;border-radius:0;'>Approve</button>";
+							Expense_item_div_data = Expense_item_div_data + "<button class='red-btn btn disabled' style='border-radius:0;' type='button'>Reject</button>";
+							Expense_item_div_data = Expense_item_div_data + " <a class='green-btn' style='cursor: pointer;' onclick='Clarification(\""+expense_id+"\",\""+ExpenseTrackingNo+"\",\""+EmployeeId+"\")' >Clarification</a>";
+							Expense_item_div_data = Expense_item_div_data + " </div>";
+							
+							}
+							else
+							{
+							
+							Expense_item_div_data = Expense_item_div_data + " <div class='bottom-btns' style='display:none;margin-top: 10px;' >";
+							Expense_item_div_data = Expense_item_div_data + " <a class='green-btn' style='cursor: pointer;'  onclick='UpdateExpenseStatusTemp(\"" + expense_id + "\",\"Approved\",\"" + datatobind_divid + "\",\"" + type + "\",\"SingleApprove\",\""+ExpenseTrackingNo+"\")'>Approve</a>";
+							Expense_item_div_data = Expense_item_div_data + " <a class='red-btn' style='cursor: pointer;' onclick='RejectExpense(\"" + expense_id + "\",\"Reject\",\"" + datatobind_divid + "\",\"" + type + "\",\""+ExpenseTrackingNo+"\")' >Reject</a>";
+							Expense_item_div_data = Expense_item_div_data + " <a class='green-btn' style='cursor: pointer;' onclick='Clarification(\""+expense_id+"\",\""+ExpenseTrackingNo+"\",\""+EmployeeId+"\")' >Clarification</a>";
+							
+							Expense_item_div_data = Expense_item_div_data + " </div>";
+							
+							
+							Expense_item_div_data = Expense_item_div_data + " <div class='bottom-btns1' style='margin-top: 10px;'>";
+							Expense_item_div_data = Expense_item_div_data + " <button class='green-btn btn disabled' type='button' style='margin-right:5px;border-radius:0;'>Approve</button>";
+							Expense_item_div_data = Expense_item_div_data + "<button class='red-btn btn disabled' style='border-radius:0;' type='button'>Reject</button>";
+							Expense_item_div_data = Expense_item_div_data + " </div>";
+							
+							}
+							Expense_item_div_data = Expense_item_div_data + "</div>";
+                            $('#' + datatobind_divid).html(Expense_item_div_data);
+							
+							
+							// alert('called');
+							var parentcheck=false;
+							$('.Parencheckbox:checkbox:checked').each(function(){
+							parentcheck=true;
+
+							});
+
+							if(parentcheck){
+							$('.bottom-btns').css('display','none');
+							$('.bottom-btns1').css('display','block');
+							}
+							else
+							{
+							$('.bottom-btns').css('display','block');
+							$('.bottom-btns1').css('display','none');
+
+							}
+						
+					           $('.loader').hide();
+                  }
+                  else {
+                      $('.loader').hide();
+                     
+                  }
+
+               // showtooltip();
+
+              },
+              error: function (data) {
+                  alert(data.responseJSON.error.message.value);
+                  failure(data);
+              }
+          });
+      }
+
+	  
+  
+
+     function GetUserId(userid) {
+            var NewloginName = "";
+			var result;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+			     async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    //get login name  
+                    //console.log(data);
+                    var loginName = dataResults.LoginName;
+                   // console.log(loginName);
+                    //get display name
+                    //console.log(dataResults.Title);
+					$('#login_name_contain').text(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                     result =  getResourcesGuid(NewloginName);
+                    // console.log(NewloginName);
+                   // alert('result :' + result);
+
+                },
+                complete: function () {
+
+                    var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+			return result;
+        }
+ function getResourcesGuid(NewloginName) {
+  
+  ////alert("NewloginName"+ NewloginName)
+            var GUID;
+            jQuery.ajax({
+
+                url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                   // console.log(data);
+                    GUID = data.d.results[0].ResourceId;
+					  FLoginname=data.d.results[0].ResourceName;
+	                   FloginId=data.d.results[0].ResourceId;
+                    //alert('GUID' +     GUID);
+
+                   // getProjectsByGUID(GUID);
+
+                    return GUID;
+
+                }
+            });
+           return GUID;
+        }
+	  function getinagcheckboxvalue()
+	  {
+	  
+	  Summary_TrackingIds=[];
+	  
+	  
+	  //Mymethod();
+	   $("#approve_acnhor_btn").removeClass('blue-btn');
+       $("#approve_acnhor_btn").addClass('green-btn');
+	  var modal_data="";
+	  ////alert("getinagcheckboxvalue");
+	  var selected = [];
+     $('.Parencheckbox').each(function() {
+	////alert("checked");
+
+   
+	    var Id= $(this).attr('id');	
+        //alert(Id);		
+         var emp_name= $(this).attr('name');
+		 //alert(emp_name);
+		 
+		 var deatil_record=emp_name.split(":");
+		 var main_id='accor'+Id;
+		// //alert("main_id"+   main_id);
+		// modal_data=modal_data+"<div class='blockdiv'><h4 data-toggle='collapse' data-parent='#accordion'  href='#"+main_id+"' aria-expanded='true'><div class='namediv'>"+deatil_record[0]+"</div><div class='cureencydiv'><span class='curdiv'>80 USD</span><span class='curdiv'>100 INR</span><span class='curdiv'>100 USD</span></div></h4><div id=" +main_id+ " class='panel-collapse collapse-in' role='tabpanel' aria-labelledby='headingThree'>";
+	
+		 
+		 //alert(modal_data);
+        var para_div=Getchildcheckboxvalues(deatil_record[1]);
+		
+		if(para_div!="</div></div>")
+		{
+			modal_data=modal_data+"<div class='blockdiv'><h4 style='cursor:pointer;' data-toggle='collapse' data-parent='#accordion'  href='#"+main_id+"' aria-expanded='true'><div class='namediv' style='cursor:pointer;'>"+deatil_record[0]+"</div></h4><div id=" +main_id+ " class='panel-collapse collapse-in' role='tabpanel' aria-labelledby='headingThree'>"
+		////alert("para_div"+para_div);
+		  modal_data=modal_data+para_div;
+		}
+	    
+	  
+	 // modal_data=modal_data+"<div style='margin-bottom: 6px;'><a>"+ss+"</a></div>";
+	 // $('#FadeoutDiv'+ss).fadeOut(); 
+	  
+     });
+	$("#Modal_Div").html(modal_data);
+	if(modal_data!="")
+	{
+	$('#myModal').modal('show');
+	}
+	else
+	{
+	////alert("Please Select Expense To Approve.");
+	
+	$("#alertmain").show();
+	
+	document.getElementById("Alert_msg").innerHTML="Please Select Expense To Approve.";
+	}
+	var testtt1="";
+	var currencybyproject= ApproveCurrencySummary();
+	 for(i=0;i<currencybyproject.length;i++)
+					 {
+					 testtt1=testtt1+"<span class='mldiv'>"+currencybyproject[i].Amount+"-"+currencybyproject[i].CurrencyId+"</span>"
+					 }
+					 
+					$("#Popup_currency").html(testtt1); 
+	 }
+	 
+	 
+	 function nilam()
+	 {
+	 
+	 $('.ChildCheckbox:checkbox:checked').each(function(){
+							
+       var emp_name= $(this).attr('name');
+	   alert(emp_name);
+	});
+	 }
+	  function close_div()
+	  {
+	  $("#alertmain").hide();
+	  document.getElementById("Alert_msg").innerHTML="";
+	  window.location="https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/FinanceApproval.aspx";
+	  
+	  }
+	
+	  
+	  function confirmation_close()
+	  {
+	  $('#Confirmation_alert').hide();
+	  }
+	  
+	  function Getchildcheckboxvalues(temp)
+	  {
+	  var para_div="";
+	  var my_var=temp+"checkboxex";
+	  var span_id="";
+	  
+	  
+	 //  var my_var="Resource307ebf4a-742b-47ca-b16f-283fa384a817checkboxex";
+	  // //alert("my_var"+ my_var);
+	  
+	  
+	   $('.'+my_var+':checked').each(function() {
+	   
+	    var ss= $(this).attr('name');
+	   ////alert("child_attr"+ss);
+		var name_id=ss.split(":")
+		
+		para_div=para_div+"<p><a style='cursor:default;text-decoration:none;' ><i class='fa fa-circle' ></i> Tracker ID : "+name_id[0]+" Expense name:"+name_id[1]+"  </a></p>";
+		//document.getElementById("AllApproval_id").innerHTML=document.getElementById("AllApproval_id").innerHTML+","+name_id[0];
+		$("#AllApproval_id").append(","+name_id[0]);
+		Summary_TrackingIds.push(name_id[0]);
+	    });
+		para_div=para_div+"</div></div>";
+		
+		return para_div;
+	  }
+	
+	  function checkchild_checkboxex(parentclass,parentcheckboxID)
+	  {
+	//  //alert("checkchild_checkboxex called");
+	
+	
+	if($('#'+parentcheckboxID).prop('checked'))
+	{
+	$('input:checkbox#'+parentcheckboxID).next().css("background", "linear-gradient(#0a891a,#0a891a)");
+	}
+	else
+	{
+	$('input:checkbox#'+parentcheckboxID).next().css("background", "linear-gradient(#587ecb,#3265be)");
+	}
+	  
+	                     var parentcheck=false;
+						  $('.Parencheckbox:checkbox:checked').each(function(){
+						  parentcheck=true;
+						  ////alert("true");
+						  });
+						  
+						  if(parentcheck){
+						  $('.bottom-btns').css('display','none');
+						  $('.bottom-btns1').css('display','block');
+						  }
+						  else
+						  {
+							$('.bottom-btns').css('display','block');
+						  $('.bottom-btns1').css('display','none');
+						  
+						  }
+	  
+	 // //alert("checkchild_checkboxex");
+		var childclass=parentclass+"checkboxex";
+		
+		//alert(childclass);
+		
+		////alert("parentcheckboxID"+parentcheckboxID);
+		////alert("parentclass"+parentclass);
+		////alert("childclass"+childclass);
+		//alert(this.checked);
+		//alert($('#'+parentcheckboxID).prop("checked"));
+		$("."+childclass).prop('checked', $('#'+parentcheckboxID).prop("checked"));
+	  }
+	  
+	  function checkparent_checkboxex(ResourceID)
+	  {
+	  //alert(ResourceID);
+		var childclass="Resource"+ResourceID+"checkboxex";
+		var parentclass="Resource"+ResourceID;
+		//console.log(childclass);
+		//childclass=childclass.trim();
+		//alert(childclass);
+		//alert(childclass);
+		
+		//alert(parentclass);
+		
+		//childclass="Resource307ebf4a-742b-47ca-b16f-283fa384a817checkboxex";
+		
+		//$.each( $('.'+parentclass  input:checkbox), function(key,value) {
+		
+		//alert('hi');
+		//$('div', left).each(function() {
+
+		//});
+		//});
+		
+		// $('.Resource1 > input[type=checkbox]').each(function(){
+		 //alert('hi');
+			//$(this).doSomething();//this is the checked checkbox
+		//});
+		var parentcheck=true;
+			var child_check=false;
+		
+		
+		//$('.Resource307ebf4a-742b-47ca-b16f-283fa384a817checkboxex input:checkbox').each(function() {
+		//alert(this.checked);
+		//});
+		
+		
+		$('input:checkbox.'+childclass).each(function () {
+   //var sThisVal = (this.checked ? $(this).val() : "");
+   // alert('hi');
+   //alert(this.checked);
+   
+    if(this.checked)
+   {
+		child_check=true;
+   }
+   
+   
+   if(!(this.checked))
+   {
+    parentcheck=false;
+    $("."+parentclass).prop("checked", parentcheck);
+	$('.bottom-btns').css('display','block');
+       $('.bottom-btns1').css('display','none');
+	   
+	   $('input:checkbox.'+parentclass).next().css("background", "linear-gradient(#587ecb,#3265be)");
+
+   }
+   
+  });
+  
+    if(child_check ){
+       $('.bottom-btns').css('display','none');
+       $('.bottom-btns1').css('display','block');
+	   
+	    $('input:checkbox.'+parentclass).next().css("background", "linear-gradient(#0a891a,#0a891a)");
+       }
+		
+		
+		
+		if(parentcheck)
+		{
+			$("."+parentclass).prop("checked", parentcheck);
+			 var parentcheck1=false;
+       $('.Parencheckbox:checkbox:checked').each(function(){
+       parentcheck1=true;
+
+       });
+
+       if(parentcheck1){
+       $('.bottom-btns').css('display','none');
+       $('.bottom-btns1').css('display','block');
+	   
+	    $('input:checkbox.'+parentclass).next().css("background", "linear-gradient(#0a891a,#0a891a)");
+       }
+       
+       
+
+       
+		}
+		
+		
+		
+		//alert(childclass);
+		//alert(this.checked);
+		//alert($('#'+parentcheckboxID).prop("checked"));
+		//$("."+childclass).prop("checked", $('#'+parentcheckboxID).prop("checked"));
+	  }
+
+	  function ProjectResourceView()
+	  {
+	  var view_type=document.getElementById("Project_Resource_View").value ;
+	  //alert(view_type);
+	  
+	  if(view_type=="Resource_view")
+	  {
+	  getResources(web_url, 'BconeExpenceMaster',owner_id,'Resource_view');
+	  }
+	  else
+	  {
+	  
+	   getResources(web_url, 'BconeExpenceMaster',owner_id,'Project_view');
+	  }
+	  
+	  }
+    function loaddata1(id) {
+	////alert("loaddata1");
+		      
+				//var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';								          
+            $.ajax({
+                  url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + id+"'&$orderby=Created asc&$top=100000",
+                type: "GET",
+                async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                       var curreny_amt_array=[];
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+					
+	
+                        $.each(data.d.results, function (key, value) {
+
+                               //alert(people);
+							 
+                            
+							 
+                            var curreuncyvalue = "";
+
+                            var expenceid = value.TrackingNoId;
+
+                             var Currency= getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);
+								 
+								 var curr_val;
+								 
+								 			   if(Currency.indexOf("-"))
+			                                 {
+			                                 var curr=Currency.split("-");
+			   
+                                             curr_val=curr[0]; 
+											 } else {
+				                              curr_val=Currency;
+											  }
+											people.push({CurrencyId: curr_val,Amount:value.ExpensceAmount,Tracking:value.TrackingNoId}) ;  
+											//curreny_amt_array.push(curr_val+"-"+value.ExpensceAmount+"-"+value.ExpenceCurrencyId);
+								
+                      // console.log(people);
+                           
+
+                        });
+						
+						//console.log(people);
+						//alert(curreny_amt_array);
+						// document.getElementById("TxtDate").value 
+						//Currency_refine(web_url, 'BconeExpenceLogDetail', id,curreny_amt_array);
+						
+						
+						
+                    }
+                    else {
+				
+                    }
+ 
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			
+			
+        }
+       function loaddataTemp(id) {
+	////alert("loaddata1");
+		      
+				//var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';								          
+            $.ajax({
+                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + id+"'&$orderby= ExpenseDate asc&$top=100000",
+                 type: "GET",
+                async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                       var curreny_amt_array=[];
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+					
+	
+                        $.each(data.d.results, function (key, value) {
+
+	                    //people.push({CurrencyId: curr_val,Amount:value.ExpensceAmount,Tracking:value.TrackingNoId}) ;  
+											
+								
+                    
+
+                        });
+						
+					
+						
+						
+                    }
+                    else {
+				
+                    }
+ 
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			
+			
+        }
+		 function getQueryStringValue(key) {
+            return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+
+      $(function () {
+	  disableRightClick();
+		  // alert('amol is here');
+					////alert("clicked");	
+						////alert("owner_id"+owner_id);	
+						 var TrackingNo = getQueryStringValue("TrackingNo");
+						//alert(TrackingNo);
+						getResources(web_url, 'BconeExpenceMaster',owner_id,'Project_view',TrackingNo);
+
+						//$(".Resource1").change(function(){
+						//$(".Resource1ckeckboxex").prop("checked", $(this).prop("checked"));
+						//});
+                   
+
+    
+ 
+      });
+                            
+      </script>
+
+<script>
+function msss()
+{
+var people1 = [
+              { Tracking: 101 },
+              { Tracking: 102 },
+              { Tracking: 103 }
+        ];
+
+        var population = [
+                      { Currency: 'USD', Tracking: 103,Amount:200},
+                      { Currency: 'INR', Tracking: 102,Amount:100},
+					  { Currency: 'INR', Tracking: 102,Amount:300},
+					  { Currency: 'INR', Tracking: 101,Amount:300}
+        ];
+
+       <!--  var result = new jinqJs() -->
+           <!--  .from(people) -->
+         <!--   .groupBy('CurrencyId').sum('amount').select('amount', 'CurrencyId'); -->
+    var result = new jinqJs()
+           .from(people1)
+        .leftJoin(population1)
+           .on(function (left, right) {
+                 return (left.Tracking === right.Tracking);
+            })
+       .groupBy('Currency').sum('Amount').select('Amount', 'Currency');
+
+        //console.log(result);
+       // console.log(result);
+//var whereExample1 = JSLINQ(people).Where(function(item){ return item.age == "1"; });
+   
+}
+
+function Mymethod()
+{
+////alert("Mymethod");
+
+
+       
+       <!--  var result = new jinqJs() -->
+           <!--  .from(people) -->
+         <!--   .groupBy('CurrencyId').sum('amount').select('amount', 'CurrencyId'); -->
+		 
+		 //console.log(people);
+		// console.log(TrackingIds);
+    var result = new jinqJs()
+           .from(people)
+        .leftJoin(TrackingIds)
+           .on(function (left, right) {
+                 return (left.Tracking === right.Tracking);
+            })
+       .groupBy('CurrencyId').sum('Amount').select('Amount', 'CurrencyId');
+	   
+//alert(result.length);
+
+
+       // console.log(result);
+       //console.log(result);
+
+return result;
+}
+
+function Mymethod1(Id,type)
+{
+
+		 if(type=="Proj")
+		 {
+		// console.log(people);
+		// console.log(TrackingIds);
+        var result = new jinqJs()
+           .from(people)
+        .leftJoin(TrackingIds)
+           .on(function (left, right) {
+                 return (left.Tracking === right.Tracking);
+            })  
+			.where(function (left, right) {
+                 return (left.ProjectId ==Id);
+            })			
+       .groupBy('CurrencyId').sum('Amount').select('Amount', 'CurrencyId');
+	   }
+	   else
+	   {
+	  //  console.log(people);
+		// console.log(TrackingIds);
+        var result = new jinqJs()
+           .from(people)
+        .leftJoin(TrackingIds)
+           .on(function (left, right) {
+                 return (left.Tracking === right.Tracking);
+            })  
+			.where(function (left, right) {
+                 return (left.EmployeeId ==Id);
+            })			
+       .groupBy('CurrencyId').sum('Amount').select('Amount', 'CurrencyId');
+	   
+	   }
+//alert(result);
+
+
+       // console.log(result);
+       // console.log(result);
+
+return result;
+}
+
+function GroupByTrackingNo(Id)
+{
+
+		 
+	 var result = new jinqJs()
+           .from(people)
+        .leftJoin(TrackingIds)
+           .on(function (left, right) {
+                 return (left.Tracking === right.Tracking);
+            })  
+			.where(function (left, right) {
+                 return (left.Tracking ==Id);
+            })			
+       .groupBy('CurrencyId').sum('Amount').select('Amount', 'CurrencyId');
+ console.log(result);
+return result;
+}
+
+function ApproveCurrencySummary()
+{
+//var test=[612,632];
+var arrayOfNumbers = Summary_TrackingIds.map(Number);
+console.log(arrayOfNumbers);
+	 console.log(TrackingIds);
+	  console.log(people);
+	// var Id=[307ebf4a-742b-47ca-b16f-283fa384a817,72eb9451-65c0-438a-9c00-0ed404e144b8];
+	 var result = new jinqJs()
+           .from(people)  
+		   .leftJoin(TrackingIds)
+		   .on(function (left, right) {
+                 return (left.Tracking === right.Tracking);
+            })
+		 .in(arrayOfNumbers,'Tracking')
+       .groupBy('CurrencyId').sum('Amount').select('Amount', 'CurrencyId');
+ console.log(result);
+ //alert(result)
+return result;
+}
+
+function showtooltip()
+{
+
+}
+
+$(window).load(function(){
+  showtooltip();
+ });
+</script>
+<script>
+$(document).ready(function(){
+ $('.ms-rte-layoutszone-inner p:first').hide();
+ $('.ms-rte-layoutszone-inner p:nth-child(2)').hide();
+ $('.ms-rte-layoutszone-inner p:nth-child(3)').hide();
+ $('.ms-rte-layoutszone-inner p:nth-child(4)').hide();
+ $('.ms-rte-layoutszone-inner p:last').hide();
+});
+
+ function GetNoteById(Action)
+ {
+ 
+      var notes="";
+        var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="NotesID"/><Value Type="Text">' + Action + '</Value></Eq><Eq><FieldRef Name="IsActive"/><Value Type="Boolean">1</Value></Eq></And></Where></Query></View>';
+
+            $.ajax({
+                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeExpenceNotesMaster')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                beforeSend: function () {
+                  //  $('.loader').show();
+					//$('[data-toggle="tooltip"]').tooltip();
+                },
+
+                success: function (data) {
+
+          
+                    if (data.d.results.length > 0) {
+                        notes=data.d.results[0].Notes;
+                    }
+                 
+
+                },
+                error: function (data) {
+
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                    } 
+
+            });
+			return notes;
+ }
+ 
+ 
+ function InsertIntoLog(url, listname,TrackingNo,Action,ActorName,ActorID,Type)
+ {
+ 
+ 
+        ////alert("InsertIntoLog");
+		//alert(TrackingNo);
+		var Note=GetNoteById(Action);
+		//alert(Note);
+		
+		var TrackingNo_temp=TrackingNo.toString();
+            var item = "";
+            var item_collections = getListprotocol(listname);
+	       
+                item = {
+                    "__metadata": { "type": item_collections},
+                   "TrackingNo":TrackingNo_temp,
+                   "Notes":Note,
+                   "ActorName":ActorName,
+                   "ActorID":ActorID,
+				   "Action":Type                                 
+                };
+            
+      
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+				async:false,
+                contentType: "application/json;odata=verbose",
+			  // contenType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+			//alert("log added sucessfully");
+
+                },
+                complete: function () {
+
+                    //cleardata();
+                  //  var EmployeeId = $('#resourse_id').text();
+                   // getDataByListName(current_url, 'BconeExpenceMaster', 'load1', EmployeeId);
+
+                },
+                error: function (data) {
+                    ////alert("error");
+                    alert(data.responseJSON.error.message.value);
+                    //return false;
+
+                }
+            });
+ 
+ }
+ 
+ 
+ 
+ 	
+		//mail function
+		
+		  var To = "";
+        var Cc = "";
+        var Subject = "";
+        var Body = "";
+        var Filepath = "";
+        var result = "";
+        var subjectcontents = "";
+		
+		function GetEmailData(Trackingid,emailEventId) {
+		
+        
+       
+
+        $().SPServices({
+            operation: "GetListItems",
+            async: false,
+            listName: "BconeEmailConfiguration",
+            CAMLQuery: "<Query><Where><Eq><FieldRef Name='EventID'/><Value Type='Text'>" + emailEventId + "</Value></Eq></Where></Query>",
+            completefunc: function (xData, Status) {
+                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                    Subject = $(this).attr("ows_Subject");
+                    Body = $(this).attr("ows_Body");
+                    formatSubject(Subject,Trackingid);
+                    formatBodyValues(Body,Trackingid);
+                });
+            }
+        });
+        function formatSubject(Subject,ListID) {
+            var startString = "{";
+            var endString = "}";
+            var count = 0;
+            var indexStart = 0, indexEnd = 0;
+            var exit = false;
+            while (!exit) {
+                indexStart = Subject.indexOf(startString);
+                indexEnd = Subject.indexOf(endString);
+                if (indexStart != -1 && indexEnd != -1) {
+
+                    matchedstring = Subject.substring(Subject.indexOf('{') + 1, Subject.indexOf('}'));
+
+                    $().SPServices({
+                        operation: "GetListItems",
+                        async: false,
+                        listName: "BconeEmailvariablemapping",
+                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                        completefunc: function (xData, Status) {
+                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                            $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                var fieldvalue = $(this).attr("ows_FieldValue");
+                                var str_ows = "ows_" + fieldvalue;
+                                $().SPServices({
+                                    operation: "GetListItems",
+                                    async: false,
+                                    listName: "BconeExpenceMaster",
+                                    CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                    completefunc: function (xData, Status) {
+                                        raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                        $(xData.responseXML).SPFilterNode("z:row").each(function () {
+
+                                            var element = $(this).attr(str_ows);
+                                            if (element.indexOf('#') >= 0) {
+                                                element = $(this).attr(str_ows).split('#')[1];
+                                            } else {
+                                                element = $(this).attr(str_ows);
+
+                                            }
+
+                                            // alert(ccID);
+                                            if (element != "" && element != undefined && element != "0") {
+                                                if (count == 0) {
+                                                    subjectcontents = element;
+                                                } else {
+                                                    subjectcontents = subjectcontents + (";" + element);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+
+                    Subject = Subject.substring(indexEnd + endString.length);
+                    count++;
+                }
+                else
+                    exit = true;
+            }
+            // var result = Body.substring(Body.indexOf('{') + 1, Body.indexOf('}'))
+            //alert(subjectcontents);
+        }
+
+
+        function formatBodyValues(Body,ListID) {
+            var startString = "&#123;";
+            var endString = "&#125;";
+            var count = 0;
+            var indexStart = 0, indexEnd = 0;
+            var exit = false;
+            while (!exit) {
+                indexStart = Body.indexOf(startString);
+                indexEnd = Body.indexOf(endString);
+                if (indexStart != -1 && indexEnd != -1) {
+
+                    matchedstring = Body.substring(Body.indexOf('&#123;') + 6, Body.indexOf('&#125;'));
+                    //if (count == 0) {
+                    //    result = matchedstring;
+                    //} else {
+                    //    result = result + (";" + matchedstring);
+                    //}
+                    $().SPServices({
+                        operation: "GetListItems",
+                        async: false,
+                        listName: "BconeEmailvariablemapping",
+                     
+                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                        completefunc: function (xData, Status) {
+                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                            $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                var fieldvalue = $(this).attr("ows_FieldValue");
+                                var str_ows = "ows_" + fieldvalue;
+                                $().SPServices({
+                                    operation: "GetListItems",
+                                    async: false,
+                                    listName: "BconeExpenceMaster",
+                                    CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                    completefunc: function (xData, Status) {
+                                        raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                        $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                            var element = $(this).attr(str_ows);
+											if($(this).attr(str_ows) == "ows_Comment" && element == undefined)
+										   {
+										   element="Recalled from submit status";
+										   }
+										   else if(element == undefined)
+										   {
+										   element="-";
+										   }
+                                          if (fieldvalue == "Editor" || fieldvalue == "Author") {
+                                                        element = $(this).attr(str_ows).split('#')[1];
+                                                    }
+                                                    else {
+                                                        element = $(this).attr(str_ows);
+                                                    }
+                                            // alert(ccID);
+                                            if (element != "" && element != undefined && element != "0") {
+                                                if (count == 0) {
+                                                    result = element;
+                                                } else {
+                                                    result = result + (";" + element);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+
+                    Body = Body.substring(indexEnd + endString.length);
+                    count++;
+                }
+                else
+                    exit = true;
+            }
+
+            // var result = Body.substring(Body.indexOf('&#123;') + 1, Body.indexOf('&#125;'))
+            //alert(result);
+        }
+
+        //PathUrl = "https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/ExpenseApproval.aspx";
+
+        sendEmail(finalTo, finalCc, Subject, Body, Filepath, result, subjectcontents, PathUrl);
+
+    }
+    function sendEmail(To, Cc, Subject, Body, Filepath, bodyFormat, subjectcontents, PathUrl) {
+	
+		//console.log(To);
+		//console.log(Cc);
+		//console.log(Subject);
+		//console.log(Body);
+		//console.log(Filepath);
+		//console.log(bodyFormat);
+		//console.log(subjectcontents);
+		//console.log(PathUrl); 
+        var url = "https://ppmprod.bcone.com/api/BCONE/SendEmail"
+        var EmailRequestData = {
+            "To": To, "Subject": Subject, "Body": Body, "cc": Cc, "BodyFormat": bodyFormat, "SubjectContent": subjectcontents, "URL": PathUrl
+        };
+        $.ajax({
+            url: url,
+			async:false,
+            data: EmailRequestData,
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+             //alert("EmailSend");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert(errorThrown);
+            }
+        });
+
+    }
+    function GetApprovalFinaceDetail(id) {
+	////alert("loaddata1");
+		      
+				<!-- var query_cml = '<View><Query><Where><Eq><FieldRef Name="ID" /><Value Type="Counter">' + id + '</Value></Eq></Where></Query></View>';								           -->
+            <!-- $.ajax({ -->
+                <!-- url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/Items", -->
+                <!-- type: "POST", -->
+			    <!-- async: false, -->
+                <!-- headers: { -->
+                    <!-- "accept": "application/json;odata=verbose", -->
+                    <!-- "X-RequestDigest": $("#__REQUESTDIGEST").val(), -->
+                    <!-- "content-Type": "application/json;odata=verbose" -->
+                <!-- }, -->
+                <!-- data: JSON.stringify({ -->
+                    <!-- query: { -->
+                        <!-- __metadata: { -->
+                            <!-- type: "SP.CamlQuery" -->
+                        <!-- }, -->
+                        <!-- ViewXml: query_cml -->
+                    <!-- } -->
+                <!-- }), -->
+				  var query_cml = '<View><Query><Where><Eq><FieldRef Name="ID"/><Value Type="Counter">'+id+'</Value></Eq></Where></Query></View>';
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl +"/_api/web/lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                   
+                    Approver2Id=data.d.results[0].Approver2; 
+					Approver1Id=data.d.results[0].Approver1; 
+				    ExpenseApproveType=data.d.results[0].ExpenseApproveType; 
+		           <!-- Approver2Name=data.d.results[0].Approver2Name; -->
+				    
+		           <!-- Approver1Name=data.d.results[0].Approver1Name; -->
+				    <!-- finance_approver_id=data.d.results[0].FinanceId; -->
+	                <!-- finance_approver_name=data.d.results[0].FinanceName; -->
+					<!-- pending_with_id=data.d.results[0].PendingWithId; -->
+					<!-- pending_with_name=data.d.results[0].PendingWithName; -->
+				
+				   
+				   
+                     //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+				expense_creater_id=data.d.results[0].EmployeeId;
+						
+                    }
+                    else {
+				
+                    }
+ 
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+			
+			
+        }
+		
+		
+	function getUploadedFiles_Count(ExpenseItemId) {
+
+            var docurl = "/sites/Dev/BconeBillAttachment/1234";
+			
+            var raisedDocument = "0";
+            
+			var url="https://bristleconeonline.sharepoint.com/sites/pwa/_api/web/Lists/getbytitle('BconeBillAttachment')/items?$filter=ExpenseItemId eq \'"+ExpenseItemId+"\'&$select=FileLeafRef";
+			
+			 $.ajax({
+                url: url ,
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                
+
+                beforeSend: function () {
+                    $('.loader').show();
+                 
+                },
+
+                success: function (data) {
+				if(data.d.results.length>0)
+				{
+				raisedDocument=data.d.results.length;
+				}
+				
+				},
+				 error: function (data) {
+
+                    alert(data.responseJSON.error.message.value);
+                },
+				complete: function () {},
+				});
+
+            return raisedDocument.toString();
+
+        }
+		  
+		   function openouterfileattach(reff_no){
+ 
+ $('#reff_no').text('Ref No. '+reff_no);
+ // event.stopPropagation();
+  $('#openouterfileattach').show({ width: 'toggle'});
+ }
+ //$(document).click(function (event) {
+  //if (!$(event.target).is('#openouterfileattach, #openouterfileattach *')) {
+   //$('#openouterfileattach').hide({ width: 'toggle'});
+  //}
+ //});
+ function closeouterfileattach(){
+  $('#openouterfileattach').hide({ width: 'toggle'});
+ }
+ 
+ function getUploadedFiles(ExpenseItemId, type,TrackingNo) {
+
+            // alert('getUploadedFiles');
+			
+		var Folder_name="Expense"+TrackingNo;
+		
+
+	var url="https://bristleconeonline.sharepoint.com/sites/pwa/_api/web/Lists/getbytitle('BconeBillAttachment')/items?$filter=ExpenseItemId eq \'"+ExpenseItemId+"\'&$select=FileLeafRef,ID";
+            var docurl = "/sites/Dev/BconeBillAttachment/1234";
+            $.ajax({
+                url: url ,
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                 success: function (data) {
+                    if (type == 'inner') {
+					
+					
+					
+					
+                        var file_ids = '';
+                        $('#delete_file_ids').text('');
+                        
+                        $(".raisedDocumnts").remove();
+                        $("#uploaded_files").empty();
+
+                        var upload_file_id = 0;
+                        var remove_id = '';
+                       $.each(data.d.results,function(key,val){
+                            upload_file_id++;
+                            remove_id = 'remove' + upload_file_id;
+
+                            ID = val.Id;
+
+                            if (file_ids == '') {
+                                file_ids = ID;
+                            }
+                            else {
+                                file_ids = file_ids + "," + ID;
+                            }
+                            //var href = "https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl='https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/Expense928/OlaShare_25th_Inward_27-3-2017_11-9-7.pdf";
+							var href = "https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl=https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/"+Folder_name+"/"+val.FileLeafRef+"";
+							//https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl='https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/Expense100/OlaShare_25th_Inward_27-3-2017_11-9-7.pdf'
+                            //alert(href);
+
+                            var file_html = "<tr id=" + remove_id + "><td>" + val.FileLeafRef + "</td>";
+                            file_html = file_html + "<td class='text-center' style='width:30px;'><a href=\"" + href + "\" download ><i class='fa fa-download'></i></a></td>";
+
+                            file_html = file_html + "<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\"" + remove_id + "\",\"" + ID + "\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+                            file_html = file_html + " </tr>";
+
+                            //alert(file_html);
+                            var liHtml = "<li class='raisedDocumnts'><a href=\"" + href + "\">" + val.FileLeafRef + "</a></li>";
+                            $("#uploaded_files").append(file_html);
+                            //console.log(liHtml);
+                          //  currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                        });
+
+                        //console.log(file_ids);
+                        $('#delete_file_ids').text(file_ids);
+
+                        $('#uploaded_file_count').text(upload_file_id);
+                        //alert(raisedDocument);
+                        if (upload_file_id > 0) {
+                            $('#outer-popup-a').show();
+                            //   document.getElementById('imgQueryRaisedDoc').style.visibility = 'visible';
+                            //  document.getElementById('imgQueryRaisedDoc').title = currentQuery;
+                        } else {
+                            var file_html = "<tr><td colspan='3' style='text-align:center'>No file found</td>";
+                            file_html = file_html + " </tr>";
+                            $("#uploaded_files").append(file_html);
+                            $('#outer-popup-a').hide();
+                            // document.getElementById('imgQueryRaisedDoc').style.visibility = 'hidden';
+                        }
+                    }
+                    else if (type == 'outer') {
+
+
+                        //alert($(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount"));
+                       // raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                        
+                        var ID = '';
+                        //alert(temp);
+                        $(".raisedDocumnts").remove();
+                        $("#inner_tbody").empty();
+
+                        var upload_file_id = 0;
+                        var remove_id = '';
+                        $.each(data.d.results,function(key,val){
+                            upload_file_id++;
+                            remove_id = 'remove' + upload_file_id;
+
+                            ID = val.Id;
+                            //alert(ID);
+
+                            var href = "https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl=https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/"+Folder_name+"/"+val.FileLeafRef+"";
+                            //alert(href);
+
+                           var file_html = "<tr id=" + remove_id + "><td>" + val.FileLeafRef + "</td>";
+                            file_html = file_html + "<td class='text-center' style='width:30px;'><a href=\"" + href + "\"><i class='fa fa-download'></i></a></td>";
+
+                           // file_html = file_html + "<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\"" + remove_id + "\",\"" + ID + "\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+                            file_html = file_html + " </tr>";
+
+                            //alert(file_html);
+                            var liHtml = "<li class='raisedDocumnts'><a href=\"" + href + "\">" + val.FileLeafRef + "</a></li>";
+                            $("#inner_tbody").append(file_html);
+                           // currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                        });
+
+                        $('#uploaded_file_count').text(upload_file_id);
+                        if (upload_file_id > 0) {
+                        } else {
+                            var file_html = "<tr><td colspan='3' style='text-align:center'>No file found</td>";
+                            file_html = file_html + " </tr>";
+                            $("#inner_tbody").append(file_html);
+                        }
+                    }
+                }
+            });
+
+
+        }
+		  
+		  
+		  function InsertIntoMailLog(listname,Too,Ccc,PathURL,EventId,TrackingId)
+        {
+ 
+            var item = "";
+            var item_collections = getListprotocol(listname);
+	       
+            item = {
+                "__metadata": { "type": item_collections},
+                "To":Too,
+                "Cc":Ccc,
+               "PathURL":PathURL,
+			   "EventId":EventId,
+                "Flag":"1",
+              "TrackingId":	TrackingId			
+            };
+            
+      
+            $.ajax({
+                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+                async:false,
+                contentType: "application/json;odata=verbose",
+                // contenType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+                    // alert("log added sucessfully");
+
+                },
+                complete: function () {
+
+                },
+                error: function (data) {
+                   
+                    alert(data.responseJSON.error.message.value);
+                    
+
+                }
+            });
+ 
+        }
+        
+        		    function InsertIntoMailLog(listname,To,Cc,PathURL,EventId,TrackingId)
+        {
+ 
+            var item = "";
+            var item_collections = getListprotocol(listname);
+	       
+            item = {
+                "__metadata": { "type": item_collections},
+                "To":To,
+                "Cc":Cc,
+               "PathURL":PathURL,
+			   "EventId":EventId,
+                "Flag":"1",
+              "TrackingId":	TrackingId			
+            };
+            
+      
+            $.ajax({
+                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+                async:false,
+                contentType: "application/json;odata=verbose",
+                // contenType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+                    // alert("log added sucessfully");
+
+                },
+                complete: function () {
+
+                },
+                error: function (data) {
+                   
+                    alert(data.responseJSON.error.message.value);
+                    
+
+                }
+            });
+ 
+        }
+		function GetEmailidbyaGuid(Guid) {  
+            var emailid;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceId eq (guid'" + Guid + "')",
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+				//alert('guid');
+                   console.log(data);
+                    emailid = data.d.results[0].ResourceEmailAddress;
+                    return emailid;
+                }
+            });
+           return emailid;
+        }
+		 function Clarification(trackingid ,ExpenseTrackingNo,EmployeeId)
+   {
+
+	   // var emp_guid=GetEmployeeGuidByTrackingId(trackingid);
+		var GetEmailidbyaGuid11=GetEmailidbyaGuid(EmployeeId);
+		var subject="Tracking "+ExpenseTrackingNo+" | Clarification From Finance Team";
+		//$('#BtnClarification').attr('href',"mailto:"+GetEmailidbyaGuid11+"?subject="+subject+"&body=");
+		window.location.href="mailto:"+GetEmailidbyaGuid11+"?subject="+subject+"&body=";
+	 
+   }	
+		function GetEmployeeGuidByTrackingId(trackingid)
+	{
+	var emp_guid="";
+	$.ajax({
+                url: url + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items(" + trackingid + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {				
+								emp_guid=data.d.EmployeeId;
+                },
+				complete: function(data){				
+				},
+                error: function (data) {
+                    failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+ 		return emp_guid;
+ 	}
+</script>
+<script>
+
+
+setInterval(function(){ 
+	//$('[data-toggle="tooltip"]').tooltip(); 
+	$("[data-toggle='tooltip']").tooltip();  
+ }, 1000);
+
+</script>
+<div class="allcommentdiv-main " id="openouterfileattach"> <!-- inner-popup outer-popup add class -->
+<div class="allcommentdiv outer-popup ">
+ <div class="allcommentdiv-heading">
+  Uploaded File List
+ </div>
+ <div class="allcommentdiv-mid">
+ <h3 id="reff_no">Ref No. 1</h3>
+  <div class="vertical-scoll">
+   <table class="table table-bordered text-left">
+    <tbody id="inner_tbody">
+    
+    </tbody>
+   </table>
+  </div>
+ </div>
+ <div class="allcommentdiv-foot">
+  <a href="javascript:void(0)" class="blue-btn" onclick="closeouterfileattach()">Got it</a>
+ </div>
+</div>
+</div>
+
+
+
+  </body>
+
+
+</html>

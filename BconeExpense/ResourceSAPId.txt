@@ -1,0 +1,453 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Employee History</title>
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/stylesheet.css" />
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/sumoselect.css">
+    <link rel="stylesheet" href="../SiteAssets/Timesheet/css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/Timesheet/css/ResouceHistoryStylesheet.css">
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+</head>
+
+<body>
+    <div class="breadcrumb-main" style="margin-top: 10px;">
+        <div class="container-fluid">
+            <ul class="pull-left">
+                <li>
+                    <a href="javascript:void(0)" onclick="URLTimesheetHome();">Home</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">Update Employee SAP ID</a>
+                </li>
+                <li>
+                    <span id="Emp_name"> </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="alert alert-warning viewTSNote" style="padding: 2px; margin-bottom: 10px; margin-left: 15px; margin-right: 15px; background-color: rgba(251, 185, 0, 0.8); color: black !important; border-radius: 0px !important; border-color: rgb(177, 165, 101) !important;"><strong><i class="fa fa-exclamation-circle"></i></strong>NOTE: Any Update in Employee SAP ID will Reflect in System after 4 hour of Sync</div>
+    <div class="pull-left">
+        <div style="margin: 15px;display: inline-block;">
+            <table>
+                <tr>
+                    <td style="display:inline-table;padding: 1px 6px 2px 6px;margin-bottom: -10px;">Employee Name : </td>
+                    <td><select id="resourceName" class="search_test" style="width: 300px !important;"></select>
+                        <br><span class="Errormsg"></span></td>
+                    <td>
+                        <a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoId" onclick="GetResourceInformationData();"><i class=""></i>SHOW</a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="blue-btn" style="margin-left:12px;" id="GoClrId" onclick="ClearTextGetResourcesAllData();"><i class=""></i>CLEAR</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="mid-main">
+        <div class="mid-block">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="">
+                        <table style="table-layout:fixed; border-collapse: collapse;width: 100%;">
+                            <tr>
+                                <td class="tdcolor" style="width:14%"><b>Code<sup style="color: #f00; font-size: 14px;">*</sup></b></td>
+                                <td class="tdcolor"><span id="Code"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Country Legal</b> </td>
+                                <td class="tdcolor"><span id="CountryLegal"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Primary Skill</b> </td>
+                                <td class="tdcolor"><span id="Skill"></span></td>
+                            </tr><br />
+                            <tr>
+                                <td class="tdcolor" style="width:14%"><b>Name</b></td>
+                                <td class="tdcolor"><span id="Name"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Base Location</b></td>
+                                <td class="tdcolor"><span id="Location"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Employee Status</b></td>
+                                <td class="tdcolor"><span id="Status"></span></td>
+                            </tr><br />
+                            <tr>
+                                <td class="tdcolor" style="width:14%"><b>Email Id</b></td>
+                                <td class="tdcolor"><span id="Email_Id"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Role Band </b></td>
+                                <td class="tdcolor"><span id="RollBand"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Billable Status</b></td>
+                                <td class="tdcolor"><span id="BillabStatus"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="tdcolor" style="width:14%"><b>Reporting Manager</b></td>
+                                <td class="tdcolor"><span id="RepManager"></span></td>
+                                <!-- <td class="tdcolor">Project Location</td><td class="tdcolor"><span  id="ProjLocation"></span></td> -->
+                                <td class="tdcolor" style="width:14%"><b>Employee UID</b></td>
+                                <td class="tdcolor"><span id="Res_UID"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>PPM Role</b></td>
+                                <td class="tdcolor"><span id="Role"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="tdcolor" style="width:14%"><b>GBU</b></td>
+                                <td class="tdcolor"><span id="GBU_Id"></span></td>
+                                <!-- <td class="tdcolor" style="width:14%"><b>Cluster</b></td> -->
+                                <td class="tdcolor" style="width:14%"><b>Employee Role</b></td>
+                                <td class="tdcolor"><span id="Cluster_id"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Sub Practice</b></td>
+                                <td class="tdcolor"><span id="SubPractice_id"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="tdcolor" style="width:14%"><b>SAP ID</b></td>
+                                <!-- <td class="tdcolor"><span id="SAPID_Data"></span></td> -->
+                                <td class="tdcolor"><input id="SAPID_Data" type="text" maxlength="36"></td>
+                                <td class="tdcolor" style="width:14%"><b>Date of joining </b></td>
+                                <td class="tdcolor"><span id="DOJ_id"></span></td>
+                                <td class="tdcolor" style="width:14%"><b>Date of Resignation</b></td>
+                                <!-- <td class="tdcolor"><span id="DOR_id"></span></td> -->
+                                <td class="tdcolor"><input id="DOR_id" type="text" readonly="true"></td>
+                            </tr>
+                        </table>
+                        <table style="margin-top: 10px;margin-left: 15px;">
+                            <tr>
+                                <td class="pull-left">
+                                    <a href="javascript:void(0)" class="blue-btn pull-right" id="" onclick="SubmitData();"><i class=""></i>UPDATE</a>
+                                </td>
+                            </tr>
+							
+							<tr>
+								<td>
+									<span id="WDSapiData"></span>
+								</td>
+							</tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span id="loading-image"></span>
+        <span id="workingonit_image"></span>
+        <script src="../SiteAssets/Timesheet/js/jquery.min.js"></script>
+        <script src="../SiteAssets/Timesheet/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../SiteAssets/Timesheet/js/jquery.sumoselect.min.js"></script>
+        <script src="../SiteAssets/Timesheet/js/jquery-ui.js"></script>
+        <script type="text/javascript" language="javascript" src="../SiteAssets/Timesheet/js/jquery.dataTables.js"></script>
+        <script src="../SiteAssets/Timesheet/js/Config.js"></script>
+		
+
+        <script>
+            var ResValueId = "";
+            var empResUid = "";
+            var EMPPName = "";
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			
+			
+            $(document).ready(function() 
+			{
+				//disableRightClick();
+				$("#DOR_id").datepicker
+				({
+					dateFormat: 'yy-m-dd'					
+				});
+				var currentuserloginid = _spPageContextInfo.userId;	
+				var groupRMO_URL = _spPageContextInfo.webAbsoluteUrl +"/_api/Web/GetUserById('" + currentuserloginid + "')/Groups?$select=Id,Title&$filter=Title eq 'Finance Admin'";
+				var groupFlash_URL = _spPageContextInfo.webAbsoluteUrl +"/_api/Web/GetUserById('" + currentuserloginid + "')/Groups?$select=Id,Title&$filter=Title eq 'Flash News'";
+				var gropRMOVal = resultset(groupRMO_URL);
+				var gropFlashNews = resultset(groupFlash_URL);
+				if(gropRMOVal.length > 0)
+				{
+					ShowData();
+				}
+				else if(gropFlashNews.length > 0)
+				{
+					ShowData();
+				}
+				else
+				{
+					alert("you are not authorised to view this page");
+					URLTimesheetHome();
+				}
+            });
+			
+			
+			
+			function ShowData()
+			{
+				$('#loading-image').show();
+				var Admin_GetPeriodsandUsersDataUrls = Admin_GetPeriodsandUsersDataURLRH();
+				$.ajax({
+					url: Admin_GetPeriodsandUsersDataUrls,
+					method: "POST",
+					headers: {
+						"Accept": "application/json; odata=verbose"
+					},
+					success: function(Resdata) {
+						$("#resourceName").append("<option value='Select_Employee' index=0>Select Employee</option>");
+						for (var i = 0; i < Resdata.Users.length; i++) {
+							$("#resourceName").append("<option value=\"" + Resdata.Users[i].ResourceId + "##" + Resdata.Users[i].ResourceEmailAddress + "##" + Resdata.Users[i].ResourceName + "\" index=" + (i + 1) + ">" + Resdata.Users[i].ResourceName + "</option>");
+						}
+						$('.search_test').SumoSelect({
+							search: true,
+							searchText: 'Search Employee'
+						});
+						$('#loading-image').hide();
+					},
+					error: function(data) {
+						$('#loading-image').hide();
+						alert(data);
+					}
+				});			
+			}
+			
+			function resultset(Url) 
+			{
+				var result;
+				$.ajax({
+					url: Url,
+					async: false,
+					method: "GET",
+					headers: {
+						"Accept": "application/json; odata=verbose",
+						"Content-Type": "application/json; odata=verbose"
+					},
+					success: function (data) {
+						result = data.d.results;
+					},
+					error: function (error) {
+						alert(JSON.stringify(error));
+					}
+				});
+				return result;
+			}
+
+            function GetResourceInformationData() {
+                $.when($('#workingonit_image').show()).then(function() {
+                    $('.Errormsg').hide();
+                    var DDLselValue = "";
+                    DDLselValue = $('#resourceName :selected').val();
+                    if (DDLselValue == "Select_Employee") {
+                        $('.Errormsg').show();
+                        $('.Errormsg').text("Select Employee");
+                        $('#workingonit_image').hide();
+                        return false;
+                    } else {
+                        $('.Errormsg').hide();
+                        ResValueId = DDLselValue;
+                        empResUid = ResValueId.split("##")[0];
+                        empResEmailId = ResValueId.split("##")[1];
+                        Employee_Name = ResValueId.split("##")[2];
+                        GetResourcesAllData();
+                    }
+                    $('#workingonit_image').hide();
+                });
+            }
+
+            function GetResourcesAllData() {
+				$('#WDSapiData').text("");
+              //  var GetResourceInfoUrls = GetResourceInfoURLRH();
+                $.ajax({
+                    url: _spPageContextInfo.webAbsoluteUrl + "/_api/ProjectData/Resources(guid'" + empResUid + "')",
+                    method: "GET",
+                    async: false,
+                    headers: {
+                        "Accept": "application/json; odata=verbose"
+                    },
+                    success: function(data) {
+                        monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        EMPPName = data.d.ResourceName;
+                        $('#Code').text(data.d.EmployeeID);
+                        $('#Name').text(data.d.ResourceName);
+                       // $('#Email_Id').text(data.d.EmployeeEmailID);
+                        $('#Email_Id').text(data.d.ResourceEmailAddress);
+                        $('#RepManager').text(data.d.ReportingManager);
+                       // $('#Skill').text(data.d.Skill);
+                        $('#Skill').text(data.d.PrimarySkill);
+                        $('#RollBand').text(data.d.RoleBand);
+                        $('#Location').text(data.d.BaseLocation);
+                        //	$('#ProjLocation').text(data.d.ProjectLocation);
+                        $('#CountryLegal').text(data.d.CountryLegal);
+                        $('#Status').text(data.d.EmployeeStatus);
+                        $('#BillabStatus').text(data.d.BillableStatus);
+                        $('#Role').text(data.d.Role);
+                        $('#Emp_name').text(data.d.ResourceName);
+                        $('#Res_UID').text(empResUid);
+                        $('#GBU_Id').text(data.d.GBU);
+                       // $('#Cluster_id').text(data.d.ClusterBillableorNonBillable);
+                        $('#Cluster_id').text(data.d.EmployeeRole);
+                        $('#SubPractice_id').text(data.d.SubPractice);
+                        $('#SAPID_Data').val(data.d.SAPID);
+                        var doj = data.d.OrganisationDOJ;
+                        if (doj == "Invalid Date" || doj == "" || doj == null || doj == undefined ) {
+                            $('#DOJ_id').text("");
+                        } 
+						else 
+						{
+							var date_join = doj.toString();
+							var d1 = date_join.split('(')[1];
+							var d2 = d1.split(')')[0];
+							var doj = new Date(parseInt(d2));
+							$('#DOJ_id').text(("0" + doj.getDate()).slice(-2) + "-" + monthNames[doj.getMonth()] + "-" + doj.getFullYear());
+                           
+                        }
+                        var OrganisationEnddat = data.d.OrganisationEndDate;
+                        if (OrganisationEnddat == "Invalid Date" || OrganisationEnddat == "" || OrganisationEnddat == null || OrganisationEnddat == undefined) {
+                            $('#DOR_id').val("");
+                        } 
+						else 
+						{
+							var date_join = OrganisationEnddat.toString();
+							var d1 = date_join.split('(')[1];
+							var d2 = d1.split(')')[0];
+							var OrganisationEnddat = new Date(parseInt(d2));
+                            $('#DOR_id').val(("0" + OrganisationEnddat.getDate()).slice(-2) + "-" + monthNames[OrganisationEnddat.getMonth()] + "-" + OrganisationEnddat.getFullYear());
+                        }
+                        $('#workingonit_image').hide();
+                    },
+                    error: function(data) {
+                        $('#workingonit_image').hide();
+                        alert(data);
+                    }
+                });
+            
+				var emp_idd = $('#Code').text();
+				if(emp_idd != "" && emp_idd != null && emp_idd != undefined)
+				{
+					$.ajax({
+						url: "https://" + ajaxProductionName + ".bcone.com/_api/WorkdayResourceMaster?$filter=EmployeeID eq '"+emp_idd+"'",
+						method: "GET",
+						async: false,
+						headers: {
+							"Accept": "application/json; odata=verbose"
+						},
+						success: function(data) {
+							if(data.d.results.length > 0)
+							{
+								var WDSap = data.d.results[0].SapID;
+								if(WDSap != null && WDSap != "" && WDSap != undefined && emp_idd != null && emp_idd != "" && emp_idd != undefined )
+								{
+									if(WDSap.toLowerCase() != emp_idd.toLowerCase())
+									{
+										var finalMsg = "Employee SAP ID is '"+WDSap+"' and Date of Resignation is  '"+data.d.results[0].End_EmployeementDate+"' will Reflect in System after 4 hour of Sync. ";
+										$('#WDSapiData').text(finalMsg);
+									}
+								}
+							}
+						},
+						error: function(data) {
+							$('#workingonit_image').hide();
+							alert(data);
+						}
+					});
+				}
+			
+			}
+            $('#SAPID_Data').keypress(function(e) {
+                var regex = new RegExp("^[a-zA-Z0-9]+$");
+                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+                if (regex.test(str)) {
+                    return true;
+                }
+                e.preventDefault();
+                return false;
+            });
+            document.getElementById("resourceName").onchange = function() {
+                $('.Errormsg').hide();
+                $('.Errormsg').text("");
+            };
+
+            function SubmitData() 
+			{
+                var DDLselValue = "";
+                DDLselValue = $('#resourceName :selected').val();
+                if (DDLselValue == "Select_Employee" || DDLselValue == "" || DDLselValue == undefined) 
+				{
+                    $('.Errormsg').show();
+                    $('.Errormsg').text("Select Employee ");
+                    $('#workingonit_image').hide();
+                    return false;
+                }
+				else 
+				{
+                    $('.Errormsg').hide();
+                    $('.Errormsg').text("");
+                    var resource_Empid = $("#Code").text();
+                    if (resource_Empid != "" && resource_Empid != null && resource_Empid != "null" && resource_Empid != undefined) 
+					{
+                        var sap_ids = $("#SAPID_Data").val().trim();
+						var Org_end_date = $('#DOR_id').val().trim();
+                       // if (sap_ids != "" && sap_ids != null && sap_ids != undefined && sap_ids != "null" && sap_ids != "undefined") 
+                        if (sap_ids != "" || Org_end_date != "") 
+						{
+							
+                            var tempData = new Object();
+                            tempData.EmployeeID = resource_Empid;
+                            tempData.SapID = sap_ids;
+                            tempData.End_EmployeementDate = Org_end_date;
+							
+                            //var ure = "https://"+ajaxProductionName+".bcone.com/_api/WorkdayResourceMaster('"+resource_Empid+"')";
+                            var ure = "https://" + ajaxProductionName + ".bcone.com/api/BCONEReport/UpdateSapID";
+                            $.ajax({
+                                url: ure,
+                                async: false,
+                                type: "POST",
+                                data: tempData,
+                                headers: {
+                                    "Accept": "application/json;odata=verbose"
+                                },
+                                success: function(data) {
+                                    //updateProjectCf(resource_Empid);
+                                    alert("SAP ID Updated Successfully");
+									GetResourcesAllData();
+                                },
+                                error: function(err) {
+                                    alert(err);
+                                }
+                            });
+                        } 
+						/*else 
+						{
+                            //$('#SAPID_Data ').css({"border": "1px solid red","background": "#FFCECE"});
+                            document.getElementById("SAPID_Data").focus();
+                            alert("Please Enter SAP ID");
+                        }*/
+                    } 
+					else 
+					{
+                        alert("Employee ID is not their please contact admin");
+                    }
+                }
+            }
+
+            function ClearTextGetResourcesAllData() //clear
+            {
+                $('#resourceName')[0].sumo.unSelectItem($('#resourceName option:selected').index());
+                $('#Emp_name').text("");
+                $('#Code').text("");
+                $('#Name').text("");
+                $('#Email_Id').text("");
+                $('#RepManager').text("");
+                $('#Skill').text("");
+                $('#RollBand').text("");
+                $('#Location').text("");
+                //	$('#ProjLocation').text(data.d.ProjectLocation);
+                $('#CountryLegal').text("");
+                $('#Status').text("");
+                $('#BillabStatus').text("");
+                $('#Role').text("");
+                $('#Emp_name').text("");
+                $('#Res_UID').text("");
+                $('#GBU_Id').text("");
+                $('#Cluster_id').text("");
+                $('#SubPractice_id').text("");
+               // $('#SAPID_Data').val();
+                $('#DOJ_id').text("");
+                $('#DOR_id').val("");
+                $('#WDSapiData').text("");
+                $("#SAPID_Data").val("");
+				ResValueId = "";
+				empResUid = "";
+				EMPPName = "";
+            }
+        </script>
+</body>
+
+</html>

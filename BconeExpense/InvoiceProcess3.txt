@@ -1,0 +1,1850 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+	<link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet">
+	<link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+<script src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+<link href="../SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />
+	<script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+ <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+ <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+</head>
+<body class="dt-example">
+<div style="text-align:right;" id="login_name_contain"></div>
+<div id="myModal2" class="modal fade newpopup-table newpopupdiv" style="padding-left: 17px;" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                     <a class="close" data-dismiss="modal">&times;</a>
+                   <h4 class="modal-title">Please Provide Reason For Rejection Of This Expense</h4>
+                </div>
+                <div class="modal-body">
+				   <table class="tabledivnew">
+                        <tbody>                            
+                            <tr>
+                                <td colspan="2" style="width: 195px;">
+									<textarea rows="4" class="form-control" cols="45" id="Txt_Comment" onkeyup="hideerror('Txt_Comment')" style="margin-bottom:15px;" ></textarea>
+									<br>
+								<sup style="color: #ababab; font-size: 12px;">(Max 500 characters and these special characters are not allowed /:;|?'<>*#~%&{}+)</sup>
+								<sup style="color: #ababab; font-size: 12px;">(Max 500 characters and these special characters are not allowed /:;|?'<>*#~%&{}+)</sup>
+                                </td>
+                            </tr>
+							 <tr>
+                                <td colspan="2">
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                </td>
+                            </tr>
+							 <tr>
+                                <td colspan="2">
+                                    <span id="Expense_Comment_Id" style="display:none" ></span>
+									<span id="Reject_Display_id" style="display:none" ></span>
+                                       <span id="Reject_Hide" style="display:none"   ></span>
+                               </td>
+                            </tr>
+                         <tr><td colspan="2"> <a href="javascript:void(0)" class="red-btn" id="Save_comment" onclick="Rejectcomment('Rejected')" style="margin-right:10px;">Reject</a><a class="blue-btn" data-dismiss="modal" href="javascript:void(0)"  >Cancel</a>     </td></tr>
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="alertmain" class="alert-main" style="display:none" >
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Alert_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+                <input type='Button' class="divnewbtn" value="OK" onclick="close_div()" />               
+            </div>
+        </div>
+    </div>
+</div>
+	 <div id="Confirmation_alert" class="alert-main" style="display:none;"  >
+	  <span id="confirmation_type"></span>
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Confirmation_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+				<span id="Method_tocall"></span>
+                <input type='Button' class="divnewbtn" value="OK" id="ok_click" /> 
+                <input type='Button' class="divnewbtn" value="Cancel" onclick='confirmation_close();' /> 				
+            </div>
+        </div>
+    </div>
+   </div>
+	<div class="container-fluid">
+		<section class="middle">
+	        <div class="breadcrumb-new">
+	            <div class="container-fluid">
+	                <ul>
+	                    <li>
+	                        <a href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+	                    </li>
+	                   
+						 <li>
+	                        <a > Invoice Status Summary</a>
+	                    </li>
+	                </ul>
+	                <div class="clearfix"></div>
+	            </div>
+	        </div>
+	        <div class="container-fluid">
+	            <div class="row">
+				<div class="top-refine" style="margin-bottom:24px;">
+	                    <ul class="pull-left">
+	                        <li>
+								<a href="javascript:void(0)" class="gray-btn" id="BtnUpdateStatus"><i class="fa fa-pencil-square-o"></i> Update Status</a>
+								<a href="javascript:void(0)" class="gray-btn" id="BtnRework"  ><i class="fa fa-refresh"></i> Reset to Pending</a>
+							</li>
+	                        <li id="SelectedItemCount_li"><span id="SelectedItemCount">0</span> item selected</li>
+	                    </ul>
+						<ul class="pull-right">
+						
+						<li>
+						<a href="javascript:void(0)" class="green-btn" id="Pending_a" rel="123" ><i class="fa fa-history"></i>Pending<span id="pending_countspan" class="red-count">0</span></a>
+						<a href="javascript:void(0)" class="blue-btn" id="completed_a" rel="123" ><i class="fa fa-check"></i>completed<span id="completed_countspan" class="red-count">0</span></a>
+						</li>
+	                    </ul>
+						<ul class="pull-right">
+						<li style="margin-right: 10px;">
+							<a id="gotostep1" href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/InvoiceProcessStep1.aspx" target="_blank" class="History-btn"><i class="fa fa-location-arrow"></i>GO To Generate Invoice</a>                  </li>
+						<li>
+						</ul>
+	                    <div class="clearfix"></div>
+	            </div>
+				<div class="" id="jqxgrid_container">
+				<table id="InvoiceDataTable" class="display example table table-bordered" cellspacing="0" width="100%">
+					<thead>
+						<th style="text-align: center;" data-orderable="false" class="sorting_disabled"><input type="checkbox" id="checkAll" name=""></th>
+						<th class="sorting_disabled" >Action</th>
+						<th> Invoice <br> Month</th>
+						<th >Invoice Number</th>
+						<th>Project Name</th>
+						<th>Customer Name</th>
+						<th >Invoice Date</th>
+						<th>Invoice Currency</th>
+						<th>Invoice Amount</th>
+						<th >Status</th>
+						<th >Invoice For</th>
+					</thead>
+					<tfoot><tr>
+					<th ></th>
+					<th >Action</th>
+						<th > Invoice Month</th>
+						<th >Invoice Number</th>
+						<th>Project Name</th>
+						<th>Customer Name</th>
+						<th >Invoice Date</th>
+						<th>Invoice Currency</th>
+						<th>Invoice Amount</th>
+						<th >Status</th>
+						<th >Invoice For</th>
+					</tr></tfoot>
+					<tbody id="InvoiceTable_Tbody">
+					</tbody>
+					</table>
+				<div>
+				
+				</div>
+			</div>
+		</section>
+	</div>	
+	<script>
+	var login_guid;
+	
+	function onLoadHandler() {
+		$(".loader").hide();
+   // alert('loaded');
+}
+ var table2 = $('#InvoiceItemTable').DataTable();
+	</script>
+	<!-- New Pop Up Start Here -->
+	
+	<style type="text/css" class="init">
+	.gray-btn{cursor:no-drop;}
+	.openDetailsMainInner{margin:50px auto !important;}
+.btn-sm{padding: 0px 3px; font-size: 10px; min-width: auto;}	.black-bg{width:100%;height:100%;top:0;position:fixed;background-color:rgba(22,22,22,0.5);z-index:9999;left:0}.popup-main{background-color:#fff;width:350px;margin:19% auto;text-align:center}.green-btn{<--padding:5px 10px;--border-radius:3px;color:#fff;background:#0A891A;text-decoration:none;display:inline-block}.grey-btn{padding:5px 10px;border-radius:3px;color:#333;background:#ccc;text-decoration:none;display:inline-block}.popup-heading{width:100%;text-align:center;font-size:15px;color:#fff;padding:8px 0}.middle{width:100%}.alert-main .popup-heading{background-color:#0072c6}.success-main .popup-heading{background-color:#090}.pop-mid{padding:0 15px 15px}.pop-mid p{margin-bottom:20px}.divnewbtn{background-color:#e7e7e7!important;color:#000}.newpopupdiv .modal-header{padding:5px 8px;background:#0072c6}.newpopupdiv .modal-title{color:#fff;font-size:15px}.newpopupdiv .close{opacity:1;color:#fff}.newpopupdiv .modal-dialog{margin:190px auto}tfoot input{width:100%;padding:3px;box-sizing:border-box; font-weight: normal;}tfoot{display:table-header-group}.example thead th[data-orderable="false"]{background-image:none!important;cursor:auto}.example tbody tr td:first-child{text-align:center}.example tfoot th:first-child input[type="text"]{display:none}#InvoiceItemTable_wrapper .dataTables_length{float:left!important;margin:0;text-align:left}#InvoiceItemTable_wrapper .dataTables_filter{margin-top:0}.ms-core-pageTitle,.ms-core-pageTitle a{color:#fff;display:none}.ms-webpartPage-root{border-spacing:0}.ms-breadcrumb-box{display:none}#siteIcon{height:45px}.ms-siteicon-img{max-height:40px}#s4-titlerow{height:45px}#login_name_contain{padding:3px 32px 3px 0 !important}table.dataTable{border-collapse:collapse}.dataTables_filter{margin-bottom:15px}.example thead tr th{background:#e8e8e8;color:#333;text-align:left;font-size:12px!important;vertical-align: middle;}.breadcrumb-new a{color:#337ab7}.breadcrumb-new a:visited{color:#337ab7!important}.breadcrumb-new .ms-link:visited{color:#337ab7!important}.example{color:#333}table.dataTable thead .sorting{font-size:13px;text-align:left}table.dataTable tbody{font-size:13px}::-webkit-input-placeholder{font-size:12px}::-moz-placeholder{font-size:12px}:-ms-input-placeholder{font-size:12px}:-moz-placeholder{font-size:12px}/*.dataTables_length{float:right!important;width:50%;text-align:right;margin:-50px 0 0}.dataTables_filter{display:block;width:50%;margin:-20px 0 10px}*/.top-refine ul li{float:none;margin-bottom:10px}.top-refine ul li:last-child{margin-bottom:0}.openDetailsMain{background:rgba(255,255,255,0.57);position:fixed;top:0;left:0;z-index:999;width:100%;height:100%;display:none;overflow: auto;}.openDetailsMainInner{width:85%;margin:60px auto;border-radius:5px;border:1px solid #0072c6;background:#fff}.openDetailsMain-heading{padding:5px 8px;background:#0072c6;font-size:14px;color:#fff;line-height:1.6}.openDetailsMain-heading a{color:#fff;float:right;cursor:pointer}.openDetailsMain-mid{padding:10px}.openDetailsMain-midTop{margin-bottom:15px}.openDetailsMain-midTop table{width:100%}.openDetailsMain-midTop table tbody tr td{padding:5px}.openDetailsMain-midTop table tbody tr th{padding:5px;text-align:left;background:#efefef;color:#333;font-weight:600}.openDetailsMain-midBottom table{margin-bottom:0!important}.openDetailsMain-midBottom table thead tr th{vertical-align:middle;background:#e8e8e8}/*.dataTables_scrollHeadInner{width:98.6% !important}.dataTables_scrollHeadInner table{width:98.6%!important}*/.wordWrap{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}table{font-size:13px!important;text-align:left!important;}label{font-weight:normal;}.innertable td{overflow:hidden;text-overflow: ellipsis;}/*.blue-btn{float: left;margin-right: 4px !important;padding: 3px 6px 3px 6px;}*/.wordellipsis{display: inline-block; cursor: pointer; text-decoration: none; display: inline-block; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; overflow: hidden;}.paid{padding: 3px 5px; border-radius: 5px; margin-bottom: 0px;text-align: center; display: inline-block; padding: 2px 8px 3px 8px; background: #d9534f !important;    text-decoration: none; color: #fff; font-size: 10px; text-transform: uppercase; margin-bottom: 3px; transition: all 0.2s ease-in-out;}#login_name_contain{float: right; margin: -32px 20px 0px 0px; background: url(https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center; padding: 2px 32px 2px 0px;}.example tbody tr td:nth-child(1){text-align: center !important;}.dataTables_scrollHeadInner{width:100% !important;}.openDetailsMain-midBottom .dataTables_scrollBody table{width: 99.85% !important;}
+	</style>
+
+<script type="text/javascript">
+/*function cleardata()
+{
+ $('#jqxgrid_container').empty();
+var table_structure="<table id='InvoiceDataTable' class='display example table table-bordered' cellspacing='0' width='100%'>";
+table_structure=table_structure+"<thead>";
+table_structure=table_structure+"<tr><th style='text-align: center;' data-orderable='false' class='sorting_disabled'><input type='checkbox' id='checkAll' name=''></th>";
+table_structure=table_structure+"<th style='width:69px !important;' data-orderable='false' class='sorting_disabled'>Action</th>";
+table_structure=table_structure+"<th style='width:70px !important;'> Invoice <br> Month</th>";
+table_structure=table_structure+"<th>Invoice Number</th>";
+
+table_structure=table_structure+"<th>Customer Name</th>";
+table_structure=table_structure+"<th style='width:120px !important;'>Project Name</th>";
+table_structure=table_structure+"<th style='width:90px !important;'>Invoice <br> Date</th>";
+table_structure=table_structure+"<th style='width:80px !important;'>Invoice Currency</th>";
+table_structure=table_structure+"<th style='width:80px !important;'>Invoice <br> Amount</th>";
+table_structure=table_structure+"<th style='width:80px !important;'>Invoice Status</th>";
+table_structure=table_structure+"<th style='width:90px !important;'>Invoice For</th>";
+table_structure=table_structure+"<th style='width:50px !important;' data-orderable='false' class='sorting_disabled'>Log</th>";
+
+table_structure=table_structure+"</tr></thead>";
+table_structure=table_structure+"<tfoot><tr>";
+table_structure=table_structure+"<th></th>";
+table_structure=table_structure+"<th>Action</th>";
+table_structure=table_structure+"<th> Invoice Month</th>";
+table_structure=table_structure+"<th>Invoice Number</th>";
+
+table_structure=table_structure+"<th>Customer Name</th>";
+table_structure=table_structure+"<th>Project Name</th>";
+table_structure=table_structure+"<th>Invoice Date</th>";
+table_structure=table_structure+"<th>Invoice Currency</th>";
+table_structure=table_structure+"<th>Invoice Amount</th>";
+table_structure=table_structure+"<th>Invoice Status</th>";
+table_structure=table_structure+"<th>Invoice For</th>";
+table_structure=table_structure+"<th >Log</th>";
+
+table_structure=table_structure+"</tr></tfoot>";
+table_structure=table_structure+"<tbody id='InvoiceTable_Tbody'>";
+table_structure=table_structure+"</tbody>";
+table_structure=table_structure+"</table>";
+
+$("#jqxgrid_container").append(table_structure)
+
+}*/
+
+function cleardataInner(finalstatus)
+{
+ $('.openDetailsMain-midBottom').empty();
+var table_structure="<table id='InvoiceItemTable' class='display example table table-bordered' cellspacing='0' width='100%' style='table-layout:fixed;'>";
+
+						table_structure=table_structure+"<thead>";
+						//table_structure=table_structure+"<tr><th style='text-align: center;' data-orderable='false' class='sorting_disabled'><input type='checkbox' id='checkAll' name=''></th>";
+						//table_structure=table_structure+"<th style='width:40px !important;'>Ref No</th>";
+						table_structure=table_structure+"<th>Expense Report (ER) No</th>";
+						table_structure=table_structure+"<th>Resource Name</th>";
+						table_structure=table_structure+"<th style='width:100px !important;'>Project Phase</th>";
+						table_structure=table_structure+"<th>Expense Item (EI)</th>";
+							table_structure=table_structure+"<th>Payment <br>Type</th>";
+						table_structure=table_structure+"<th style='width:90px !important;'>EI Date</th>";
+						table_structure=table_structure+"<th>EI Amount</th>";
+						<!-- table_structure=table_structure+"<th style='width:130px !important;'>Expense Note</th>"; -->
+						table_structure=table_structure+"<th>Invoice EI Amount</th>";
+						<!-- table_structure=table_structure+"<th style='width:67px !important;'>Payment Type</th>";
+						 -->
+						 table_structure=table_structure+"<th>Final EI</th>";
+						 table_structure=table_structure+"<th style='width:90px !important;'>Final EI Date</th>";
+						 table_structure=table_structure+"<th >Final Inv EI Amount</th>";
+						table_structure=table_structure+"<th style='width:65px !important;'>Billable</th>";
+						if(finalstatus!='Completed')
+						{
+						table_structure=table_structure+"<th data-orderable='false' class='sorting_disabled' class='hidetd' style='width:70px !important;'>Action</th>"
+						}
+						table_structure=table_structure+"</tr></thead>";
+					
+						
+					
+						table_structure=table_structure+"<tbody id='InvoiceItemTable_Tbody'>";
+						table_structure=table_structure+"</tbody>";
+						table_structure=table_structure+"</table>";
+
+$(".openDetailsMain-midBottom").append(table_structure)
+
+}
+
+function closedetails(){
+ 		$('#div_openDetailsMain_invoice').hide();
+ 	}
+	
+</script>
+	<!-- New Pop Up End Here -->
+	 <div class="loader"></div>	
+<script type="text/javascript" language="javascript" class="init">
+
+	
+	  var IsEmpPresentInGroup=false;
+	  function getMasterInvoiceData()
+		{
+		$(".loader").show();
+		var pending_count=0;
+		var completed_count=0;
+		var allrecord_count=0;
+	
+		
+		var table_body="";
+		var log="";
+		var action="";
+		var action_edit_delete="";
+		var InvoiceNo="";
+		//cleardata();
+        $.ajax({
+            url: "https://ppmprod.bcone.com/api/Invoice/Get_InvoiceMasterDataBy_Type",
+		
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+           
+			data: { 
+			"InvoiceFor":"Expense"
+		
+			},
+            success: function (data) {
+				console.log(data)
+				//console.log(data.Invoices.length);
+				var i=0;
+                 $.each(data.Invoices, function (key, value) {
+				 
+				 //console.log(data);
+				 allrecord_count++
+				 if(value.FinalStatus=='Pending')
+				 {
+				  action="<input style='display:inline-block;' type='checkbox'  onchange='onchildcheck()' name="+value.InvoiceMasterId+" title="+value.InvoiceNumber+" />";
+							
+				 action_edit_delete = "<a data-toggle='tooltip' data-placement='top' title='Edit' href='javascript:void(0)' onclick='EditInvoice(\"" + value.InvoiceMasterId + "\",\"" + value.FinalStatus + "\"); '><i class='fa fa-pencil'></i></a><a data-toggle='tooltip' data-placement='top' title='Delete'  href='javascript:void(0)' onclick='DeleteInvoice(\"" + value.InvoiceMasterId + "\");'><i class='fa fa-trash' style='margin-left: 10px; margin-right: 10px;'></i></a><a data-toggle='tooltip' data-placement='top' title='Report' href='javascript:void(0)' onclick='InvoiceReport(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceReportLayoutCode+"\",\""+value.InvoiceNumber+"\");'><i style='font-size:11px;' class='fa fa-file-text'></i></a><a  data-toggle='tooltip' data-placement='top' title='Excel' href='javascript:void(0)' onclick='DownloadInvoiceReport(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceReportLayoutCode+"\",\""+value.InvoiceNumber+"\");'><i style='font-size:11px;     margin: 4px -6px 0px 8px' class='fa fa-file-excel-o'></i></a>";
+				  pending_count++;
+				 }
+				
+				 else if(value.FinalStatus=='Completed')
+				 {
+				 if(IsEmpPresentInGroup)
+				 {
+				  action="<input style='display:inline-block;' type='checkbox'  onchange='onchildcheck()' name="+value.InvoiceMasterId+" title="+value.InvoiceNumber+" />";
+					}
+            else
+             {
+       action="";
+
+              }	
+
+         if(IsEmpPresentInGroup)
+				 {			  
+				 action_edit_delete = "<a data-toggle='tooltip' data-placement='top' title='Edit' href='javascript:void(0)' onclick='EditInvoice(\"" + value.InvoiceMasterId + "\",\"" + value.FinalStatus + "\"); '><i class='fa fa-pencil'></i></a><a data-toggle='tooltip' data-placement='top' title='Report' href='javascript:void(0)' onclick='InvoiceReport(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceReportLayoutCode+"\",\""+value.InvoiceNumber+"\");'><i style='margin-left: 10px; font-size:11px;' class='fa fa-file-text'></i></a><a data-toggle='tooltip' data-placement='top' title='Excel' href='javascript:void(0)' onclick='DownloadInvoiceReport(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceReportLayoutCode+"\",\""+value.InvoiceNumber+"\");'><i style='font-size:11px;     margin: 4px -6px 0px 8px' class='fa fa-file-excel-o'></i></a>";
+				  }
+				  else
+				  {
+				  
+				   action_edit_delete = "<a data-toggle='tooltip' data-placement='top' title='Report' href='javascript:void(0)' onclick='InvoiceReport(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceReportLayoutCode+"\",\""+value.InvoiceNumber+"\");'><i style='margin-left: 10px; font-size:11px;' class='fa fa-file-text'></i></a><a data-toggle='tooltip' data-placement='top' title='Excel' href='javascript:void(0)' onclick='DownloadInvoiceReport(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceReportLayoutCode+"\",\""+value.InvoiceNumber+"\");'><i style='font-size:11px;     margin: 4px -6px 0px 8px' class='fa fa-file-excel-o'></i></a>";
+				
+				  }
+				  completed_count++;
+				
+				}
+				
+log = "<a href='javascript:void(0)' onclick='GetInvoiceLog(\"" + value.InvoiceMasterId + "\",\""+value.InvoiceNumber+"\")' ><i class='fa fa-info-circle'  aria-hidden='true'></i></a>";
+								
+							
+							
+							 InvoiceNo="<a href='javascript:void(0);' style='text-decoration:underline;color: #337ab7;' onclick='opendetails(\""+value.InvoiceMasterId+"\",\""+value.FinalStatus+"\",\""+value.InvoiceNumber+"\")'>"+value.InvoiceNumber+"</a>";
+				 
+							table_body=table_body+"<tr>";
+							
+							
+                            table_body=table_body+"<td>"+action+"</td>";
+							 table_body=table_body+"<td>"+action_edit_delete+"</td>";
+							table_body=table_body+"<td>"+value.InvoiceMonth+"</td>";
+							table_body=table_body+"<td>"+InvoiceNo+"</td>";
+							table_body=table_body+"<td>"+value.CustomerName+"</td>";
+                            table_body=table_body+"<td>"+value.ProjectName+"</td>";
+                            
+                            table_body=table_body+"<td>"+value.InvoiceDate+"</td>";
+                            table_body=table_body+"<td>"+value.InvoiceCurrency+"</td>";
+                            table_body=table_body+"<td>"+value.FinalAmount+"</td>";
+                            table_body=table_body+"<td>"+value.FinalStatus+"</td>";
+                            table_body=table_body+"<td>"+value.InvoiceFor+"</td>";
+							table_body=table_body+"<td>"+log+"</td>";
+                            table_body=table_body+"</tr>"
+			
+                  });
+		 },
+            error: function (data) {
+                alert("failed");
+				
+            },
+			complete: function(data)
+			{
+			$(".loader").hide();
+				$('#InvoiceTable_Tbody').append(table_body);
+				$('#pending_countspan').text(pending_count);
+				$('#completed_countspan').text(completed_count);
+
+
+				load_datatable_js();
+				
+			}
+        });
+}
+
+ function getInvoiceDetailData(InvoiceMasterId,finalstatus)
+		{
+		
+	
+		
+		//var table_body="";
+		//var action="";
+			isINRCurrency=true;
+			//if(save_type=='save-close'|| save_type=='save-create' || save_type=='save-copy')
+			//{
+			//add_success_exp_msg('Expense Item Added Successfully!',save_type);
+           // }
+			// else if(save_type=='update')
+			 //{
+			 //add_success_exp_msg('Expense Item Updated Successfully!',save_type);
+			// }
+			
+           // $('.loader').show();
+            jsonObj = [];
+            var trackingno = '';
+            var title = '';
+
+            var status = '';
+            
+
+            var list_name = "";
+            var i = "0";
+            var url1 = "";
+            var rowhide = "";
+
+            var Project_Name = "Project Name";
+            var Pending_With = "Pending With";
+            var Reimbursed_Total_Money = "Reimbursed_Total_Money";
+            var Balance = "Balance";
+            var fromdate = "";
+            var ReportCreatedDate = "";
+            var converted_date = "";
+
+            var ModifiedDate = "";
+
+            var openstatus_count = 0;
+            var submittedstatus_count = 0;
+            var approvedstatus_count = 0;
+            var rejectedstatus_count = 0;
+            var reimburesedstatus_count = 0;
+            var ReSubmittedExpenceCount = 0;
+            var curreuncyvalue = 0;
+            var advance_amount = "";
+            var tooltip_date = "";
+            var allrecord_count = 1;
+            var redirect_tolink = "";
+            var expenceid = '';
+            var curr = '';
+
+            var data = '';
+            var condition_report_status="";
+			
+			
+            var table_header="";
+            var table_body="";
+            var table_element="";
+            var query_cml="";
+			var FinalExpenseValue=0;
+			var all_record_count=0;
+		
+		cleardataInner(finalstatus);
+        $.ajax({
+            url: "https://ppmprod.bcone.com/api/Invoice/Get_InvoiceExpenseDetails_DATA",
+		
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+           
+			data: { 
+			"InvoiceMasterId":InvoiceMasterId,
+			"ProjectUID":"NA",
+			"View_For":"VIEW",
+			"StartDate":"NA",
+			"EndDate":"NA"
+		
+			},
+            success: function (data) {
+				//console.log(data)
+				//console.log(data.Invoices.length);
+				var i=0;
+				var inv_Currency=$('#inv_Currency').text();
+                 $.each(data.InvoiceDetails, function (key, value) { 
+                            FinalExpenseValue = Number(value.FinalExpenseValue) + Number(FinalExpenseValue);
+                            if(value.ExpenceCurrencyId!='1')
+                            {
+                                if(isINRCurrency)
+                                {
+                                    isINRCurrency=false;
+                                }
+								
+                            }
+								
+						
+						
+                            rowhide = "rowhideslow" + value.ID + "";
+                           // $('#refine_currency_Bind').show();
+                            i++;
+                            var action="";
+							var file_upload_count=0;
+                            var ref_no=i;
+                            var projectpahse=value.TaskName;
+                            var Expense_item = value.ExpenceItemText;
+                            var expense_note=value.ExpenseNote;
+                            var exp_amount = "0.00";
+							var exp_amount1 = "0.00";
+                            var payment_type = value.PaymentTypeText;
+                            var expensedate=value.ExpenseDate;
+                            var billabletoclient=value.BliableToClient;
+							var Currency="";
+							 var curr_val;
+							 
+							if(value.ExpenceCurrencyText!=null)
+							{
+                             Currency= value.ExpenceCurrencyText;
+							}
+                           
+                            if(Currency.indexOf("-"))
+                            {
+                                var curr=Currency.split("-");
+			
+                                curr_val=curr[0]; 
+                            } else {
+                                curr_val=Currency;
+                            }
+							
+							file_upload_count=value.FileUploadedCount;
+							
+							
+							
+							
+							
+							//if(save_type=='FirstTimeLoad' || save_type=='delete' )
+							//{
+							//file_upload_count=value.FileUploadedCount;
+							//}
+							//else
+							//{
+							//file_upload_count=getUploadedFiles_Count(value.ID);
+							//}
+							
+							
+                            allrecord_count++;
+                            ReportCreatedDate = value.Modified;
+
+                            rowhide = "rowhideslow" + i + "";
+
+                            curreuncyvalue = "";
+                            //advance = "0.00";
+
+
+                            if (value.ExpensceAmount != null) {
+                                advanceamount = value.ExpensceAmount;
+                                //console.log(advanceamount);
+								var aaa=advanceamount.toString().indexOf('.');
+                                if (aaa!="-1") {
+                                    //if(advance.includes('.')){
+                                   // console.log(advanceamount);
+                                    //advance = advance + ".00";
+									advance=advanceamount.toString().split('.');
+									var length1=advance[1];
+									if(length1.length==1)
+									{
+									 advanceamount = advanceamount + "0";
+									}
+									
+                                }
+                                else {
+								
+                                    advanceamount = advanceamount + ".00";
+
+                                }
+
+
+
+                            }
+
+                            curreuncyvalue = value.currencytext;
+
+                            if (curreuncyvalue == null) {
+                                curreuncyvalue = "";
+
+                            }
+                            else {
+
+                                Expenseitem = curreuncyvalue;
+
+
+                                if (Expenseitem.indexOf("-")) {
+                                    curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                }
+                                else {
+                                }
+
+                            }
+                            expenceid = value.ID;
+							
+                         	
+                           
+                            
+                            if(condition_report_status=="Open")
+                            {
+                               // $("#Add_item").show();
+                                
+                                if(value.Justification==null)
+                                {
+                                    var inner="inner";
+                                    var outer="outer";
+									
+                                   // var count=getUploadedFiles_Count(value.ID);
+								    //var count=0;
+                                    if(file_upload_count>0)
+                                    {
+                                        action = "<a style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='display:inline-block;margin:0 3px;cursor:pointer;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='openouterfileattach(\"event\",\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 14px;' ></i></a>";
+                                    }
+                                    else
+                                    {
+                                        action = "<a  style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a>";
+                                    }
+
+                                }							
+                                else 
+                                {
+                                    action = "<a style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='cursor:pointer;margin:0 3px;display:inline-block;' data-toggle='tooltip' data-placement='top'  title=\""+value.Justification+"\"><i class='fa fa-commenting' style='color:#333;font-size: 14px;'></i></a>";
+                                }
+							  
+							 
+							  
+                            }
+                            else
+                            {
+                              
+                                $("#Add_item").hide();
+								
+                                if(value.Justification==null)
+                                {
+                                    var inner="inner";
+                                    var outer="outer";
+									
+                                   // var count=getUploadedFiles_Count(value.ID);
+								  //  var count=0;
+                                    if(file_upload_count>0)
+                                    {
+                                        action = "<a style='cursor:pointer;' onclick='openouterfileattach(\"event\",\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a>";
+                                    }
+                                    else
+                                    {
+                                        action = "";
+                                    }
+
+                                }							
+                                else 
+                                {
+                                    action = "<a style='cursor:pointer;' data-toggle='tooltip' data-placement='top'  title=\""+value.Justification+"\"><i class='fa fa-commenting' style='color:#333;font-size: 16px;'></i></a>";
+                                }
+							 
+                            }
+							
+							
+                            if (value.InvoiceItemAmount != null) {
+                                exp_amount = value.InvoiceItemAmount;
+                                if (exp_amount.toString().indexOf(".")) 
+                                {
+                                    exp_amount=parseFloat(exp_amount).toFixed(2);
+                                }
+                                else {
+                                    exp_amount = exp_amount + ".00";
+                                }
+                            }
+							
+							 if (value.FinalExpensceAmount != null) {
+                                exp_amount1 = value.FinalExpensceAmount;
+                                if (exp_amount1.toString().indexOf(".")) 
+                                {
+                                    exp_amount1=parseFloat(exp_amount1).toFixed(2);
+                                }
+                                else {
+                                    exp_amount1 = exp_amount1 + ".00";
+                                }
+                            }
+							//var expense_note_text=expense_note;
+						//	if(expense_note.length>20)
+							//{
+							//expense_note_text
+						//	}
+							
+                            var ERAmount_Currency='';
+                            ERAmount_Currency="<div style='text-align:right;'>"+exp_amount +"<span style='color: #ababab;margin-left: 6px;'>"+inv_Currency+"</span></div>";
+							
+							var ERAmount_Currency1='';
+                            ERAmount_Currency1="<div style='text-align:right;'>"+exp_amount1 +"<span style='color: #ababab;margin-left: 6px;'>"+inv_Currency+"</span></div>";
+                            //exp_amount="<div style='text-align:right;'>"+exp_amount+"</div>";
+                            curr_val="<div style='text-align:right;'>"+advanceamount +"<span style='color: #ababab;margin-left: 6px;'>"+ curr_val +"</span></div>";
+							
+                            expense_note="<a class='wordellipsis' style='display: inline-block;cursor:pointer; text-decoration:none;' data-toggle='tooltip' data-placement='top'  title=\""+expense_note+"\">"+ expense_note +"</a>";
+                            expensedate="<span>"+ expensedate +"</span>";
+							
+							all_record_count++;
+							if(billabletoclient=="Yes")
+							{
+							//billable_record_count++;
+							action="<input style='display:inline-block;' type='checkbox' checked onchange='onchildcheck()' name="+value.ID+" title="+value.ID+" />";
+							}
+							else
+							{
+							//non_billable_record_count++;
+							action="<input style='display:inline-block;' type='checkbox' onchange='onchildcheck()' name="+value.ID+" title="+value.ID+" />";
+							}
+							var finaldate='';
+							if(value.FinalExpenseDate!=null)
+							{
+							// finaldate=convert_date_amol(value.FinalExpenseDate);
+							 var d = new Date(value.FinalExpenseDate);
+var finaldate = $.datepicker.formatDate('dd-M-yy', d);
+							}
+							
+							 var inv_Amount_Currency="<div style='text-align:right;'>"+advanceamount +"<span style='color: #ababab;margin-left: 6px;'>"+value.Currency+"</span></div>";
+							var achro="<button type='button' class='roweditable_row btn btn-sm btn-warning' style='min-width: auto;'><i class='fa fa-pencil'></i></button><a href='javascript:void(0)' style='margin-left: 10px;' ><i class='fa fa-info-circle' aria-hidden='true'></i></a>";
+                            table_body=table_body+"<tr id="+value.ID+">";
+                           // table_body=table_body+"<td>"+action+"</td>";
+							//table_body=table_body+"<td>"+all_record_count+"</td>";
+                            table_body=table_body+"<td class='trkNO'>"+value.ExpenseTrackingNo+"</td>";
+							table_body=table_body+"<td>"+value.EmployeeName+"</td>";
+                            table_body=table_body+"<td style='height:70px;'>"+projectpahse+"</td>";
+							
+                            table_body=table_body+"<td>"+value.ExpenceItemText+"</td>";
+							 table_body=table_body+"<td>"+value.PaymentTypeText+"</td>";
+							 var d = new Date(value.ExpenseDate);
+var ExpenseDate = $.datepicker.formatDate('dd-M-yy', d);
+							table_body=table_body+"<td>"+ExpenseDate+"</td>";
+                            table_body=table_body+"<td>"+inv_Amount_Currency+"</td>";
+                            //table_body=table_body+"<td>"+Expense_currecny+"</td>";
+                           // table_body=table_body+"<td>"+expense_note+"</td>";
+                            table_body=table_body+"<td>"+ERAmount_Currency+"</td>";
+                           // table_body=table_body+"<td>"+value.PaymentType+"</td>";
+						   table_body=table_body+"<td>"+value.FinalExpenseItem+"</td>";
+                           table_body=table_body+"<td>"+finaldate+"</td>";
+							table_body=table_body+"<td>"+ERAmount_Currency1+"</td>";
+                            table_body=table_body+"<td>"+value.BliableToClient+"</td>";
+							if(finalstatus!='Completed')
+							{
+							table_body=table_body+"<td>"+achro+"</td>";
+							}
+							
+							//alert("xx"+xx);
+                            table_body=table_body+"</tr>"
+							
+                        });
+		 },
+            error: function (data) {
+                alert("failed");
+				
+            },
+			complete: function(data)
+			{
+				
+				$('#InvoiceItemTable').append(table_body);
+				 
+				//$('#pending_countspan').text(pending_count);
+				//$('#completed_countspan').text(completed_count);
+         
+ //var table = $('#InvoiceItemTable').DataTable();
+//table.column( 11 ).visible( false );     
+
+
+				//load_datatable_js1();
+				$('#InvoiceItemTable').DataTable({
+		            "scrollY": "250px",
+		            "scrollCollapse": false,
+		            "paging": true,
+		        });
+				
+			  my_ready();	
+		}
+        });
+}
+
+	
+        function convert_date_amol(date_to_convert){
+            var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            var arr_timeonly = arr_dateandtime[1].split(':');
+            var Month;
+            var converted_date;
+            switch ( parseInt(arr_dateonly[1])-1) {
+                case 0:
+                    Month = "Jan";
+                    break;
+                case 1:
+                    Month = "Feb";
+                    break;
+                case 2:
+                    Month = "Mar";
+                    break;
+                case 3:
+                    Month = "Apr";
+                    break;
+                case 4:
+                    Month = "May";
+                    break;
+                case 5:
+                    Month = "Jun";
+                    break;
+                case 6:
+                    Month = "Jul";
+									break;
+                case 7:
+                    Month = "Aug";
+                    break;
+                case 8:
+                    Month = "Sep";
+                    break;
+                case 9:
+                    Month = "Oct";
+                    break;
+                case 10:
+                    Month = "Nov";
+                    break;
+                case 11:
+                    Month = "Dec";
+                    break;
+								
+									
+            }
+				
+            converted_date=arr_dateonly[2]+"-"+Month+"-"+arr_dateonly[0];
+            return converted_date;
+            //alert(converted_date);
+				
+			
+		
+        }
+var temp_count=0;
+function isNumber(evt, element) {
+
+        var charCode = (evt.which) ? evt.which : event.keyCode
+
+        if (
+            (charCode != 45 || $(element).val().indexOf('-') != -1) &&      // “-” CHECK MINUS, AND ONLY ONE.
+            (charCode != 46 || $(element).val().indexOf('.') != -1) &&      // “.” CHECK DOT, AND ONLY ONE.
+            (charCode < 48 || charCode > 57))
+            return false;
+			
+
+        return true;
+    } 
+function my_ready()
+{
+//alert(temp_count);
+//$('.roweditable_row').click(function()
+$("body").on("keypress blur",".myInput",function (event) {
+            //this.value = this.value.replace(/[^0-9\.]/g,'');
+			
+    return isNumber(event, this);
+	});
+	
+
+$('body').on('click', '.roweditable_row', function(event)
+{
+
+//alert('roweditable_row');
+if(temp_count==1)
+{
+
+event.preventDefault();
+//alert("Please Save/Cancel Item Edit.");
+}
+else
+{
+
+temp_count=1
+
+   var row = $(this).closest('tr');
+   var Item=row.find('td:eq(8)').text();
+   var expdate=row.find('td:eq(9)').text();
+   var amout=row.find('td:eq(10)').text();
+
+   var str = amout.slice(0, -3);
+
+   var lastChar = amout.slice(-3);
+    $('#InvoiceSpan_itemedit').text(Item);
+	 $('#InvoiceSpan_dateedit').text(expdate);
+	  $('#InvoiceSpan_amountedit').text(str);
+	   $('#InvoiceSpan_currencyedit').text(lastChar);
+   
+
+   row.find('td:eq(8)').html('<input type="text" value="'+Item+'" style="width: 100%;" >');
+   row.find('td:eq(9)').html('<input type="text" readonly  class="dateselect" value="'+expdate+'" style="width: 100%;" >');
+   row.find('td:eq(10)').html('<input type="text" class="myInput" value="'+str+'" style="width: 100%;" > <span>'+lastChar+'</span>');
+ 
+ //$(".myInput").bind('keyup', function (event) {
+  //var $this = $(this);
+   // $this.val($this.val().replace(/[^\d.]/g, ''));
+
+        
+//});
+ 
+  row.find('td:eq(12)').html('<button type="button"  class="btn btn-sm btn-success saveitem" style="display:inline-block;"><i class="fa fa-check"></i> Save </button>   <button type="button" style="display:inline-block; min-width:auto;" class="btn btn-sm btn-danger cancelitem"><i class="fa fa-times"></i></button>');
+ // htmlbind();
+  $(".dateselect").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: new Date() ,
+                onSelect: function(selected,evnt) {
+                   // hideerror('TxtDate');
+                }
+            }); 
+$('.saveitem').click(function()
+ //$('body').on('click', '.saveitem', function()
+ {
+ $(".loader").show();
+ temp_count=0;
+// alert('saveitem');
+  // alert($(this).html());  
+   var row = $(this).closest('tr');
+      var row2 = $(this).closest('tr').attr('id');
+	 // alert(row2);
+	  var item=row.find('td:eq(8) input').val();
+   var date=row.find('td:eq(9) input').val();
+   var currency=row.find('td:eq(10) input').val();
+   var currency_spam=row.find('td:eq(10) span').text();
+	  
+			  //alert(date);
+			  //alert((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear());
+			  var FinalExpensceAmount=currency;
+			  $.ajax({
+				url: "https://ppmprod.bcone.com/api/Invoice/Update_InvoiceDetailsData",
+			
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+			   
+				data: { 
+				  "ID":row2,
+				 "FinalExpenseItem":item,
+			      "FinalExpensceAmount":currency,
+				  "FinalExpenseDate":date
+				  
+			
+				},
+				success: function (data) {
+				//alert('Item Updated Successfully.');
+			 
+   //alert(currency);
+   //alert(currency_spam);
+   //var str = currency.slice(0, -3);
+
+   //var lastChar = currency.slice(-3);
+   if(data.Data=="200")
+													{
+
+			row.find('td:eq(8)').html(item);
+			row.find('td:eq(9)').html(date);
+			row.find('td:eq(10)').html(currency + '<span style="color: #ababab;margin-left: 6px;">'+currency_spam+'</span>');
+			row.find('td:eq(12)').html('<button type="button"  class="roweditable_row btn btn-sm btn-warning" style="min-width: auto;"><i class="fa fa-pencil"></i></button><a href="javascript:void(0)" style="margin-left: 10px;" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>');
+     
+				//console.log('updated');
+				getMasterInvoiceData();
+				}
+				$(".loader").hide();
+				
+			 },
+				error: function (data) {
+					alert("failed");
+					$(".loader").hide();
+					
+				},
+				complete: function(data)
+				{
+				}
+			});
+  
+ });
+$('.cancelitem').click(function()
+   //$('body').on('click', '.cancelitem', function()
+ {
+ temp_count=0;
+ //alert("cancelitem");
+  // alert($(this).html());  
+   var row = $(this).closest('tr');
+   var item=document.getElementById("InvoiceSpan_itemedit").innerHTML;
+   var date=document.getElementById("InvoiceSpan_dateedit").innerHTML;
+   var currency=document.getElementById("InvoiceSpan_amountedit").innerHTML;
+   var currency_spam=document.getElementById("InvoiceSpan_currencyedit").innerHTML;
+  
+  
+  
+   row.find('td:eq(8)').html(item);
+   row.find('td:eq(9)').html(date);
+   row.find('td:eq(10)').html(currency + '<span style="color: #ababab;margin-left: 6px;">'+currency_spam+'</span>');
+   row.find('td:eq(12)').html('<button type="button"  class="roweditable_row btn btn-sm btn-warning" style="min-width: auto;"><i class="fa fa-pencil"></i></button><a href="javascript:void(0)" style="margin-left: 10px;" ><i class="fa fa-info-circle" aria-hidden="true"></i></a>');
+   
+
+
+ });
+ 
+
+}		
+});
+
+ 
+}
+function htmlbind()
+{
+
+ $("#InvoiceItemTable tbody tr").each(function(){ 
+  var row = $(this).closest('tr');
+ var text1=row.find('td:eq(8) input').val();
+ alert(text1);
+ //row.find('td:eq(7)').html(text1);
+  //row.find('td:eq(11)').html('<td><a href="javascript:void(0)" class="roweditable_row"><i class="fa fa-pencil"></i></td>');
+ 
+    });
+	
+	
+	
+}
+function update_Status_confirm()
+{
+
+ document.getElementById("Confirmation_msg").innerHTML="Are you sure, you want To Update Invoice Status ?";
+ $('#ok_click').attr('onclick','update_Status()');
+  $("#Confirmation_alert").show();
+}
+
+function update_Status()
+{
+$("#Confirmation_alert").hide();
+$("#InvoiceDataTable tbody tr td input[type='checkbox']:checked").each(function(){  
+
+			  var  InvoiceNumber=($(this).attr("name"));
+			  var FinalStatus="Completed";
+			   var record_type=$('a.green-btn[rel="123"]').attr('id');
+ //alert(record_type);
+     if(record_type=='completed_a')
+			  {
+			  FinalStatus="Pending";
+			  record_type='Status Changed From Completed To Pending';
+			  
+			  }
+			  else if(record_type=='Pending_a')
+			  {
+			  FinalStatus="Completed";
+			  record_type='Status Changed From Pending To Completed';
+			  
+			  }
+			  
+			  $.ajax({
+				url: "https://ppmprod.bcone.com/api/Invoice/Update_InvoiceStatus",
+			
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+			   
+				data: { 
+				"InvoiceMasterId":InvoiceNumber,
+				"FinalStatus":FinalStatus
+			
+				},
+				success: function (data) {
+				InsertIntoInvoiceLog(InvoiceNumber,record_type,login_guid);
+				console.log('updated');
+				
+				
+			 },
+				error: function (data) {
+					alert("failed");
+					
+				},
+				complete: function(data)
+				{
+				}
+			});
+			  
+});
+
+//alert('Status Updated successfully..');
+   $("#alertmain").show();
+   document.getElementById("Alert_msg").innerHTML='Status Updated successfully !';
+
+
+
+
+	
+
+}
+
+
+ function load_datatable_js() {
+
+
+			//$('#AllRecord_Span').text(all_record_count);
+			//$('#billable_record_Span').text(billable_record_count);
+			//$('#non_billable_record_Span').text(non_billable_record_count);
+			//$('#main-div').show();
+			
+			$('#checkAll').click(function(){		
+			if ($("#checkAll").is(':checked')) {
+			 $("#InvoiceDataTable tbody tr td input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+			
+			  }
+			  else 
+			  {   		  
+               $("#InvoiceDataTable tbody tr td input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });            
+                 }
+			onchildcheck();
+		});
+			
+			
+			setTimeout(function(){
+			$('.loader').hide();
+			},100);
+			
+			//if(billable_record_count>0)
+		//	{
+				//$('#addmore').prop('disabled',false);
+			//}
+			//else
+			//{
+			//$('#addmore').prop('disabled',true);
+			//}
+
+            $('#InvoiceDataTable tfoot th').each(function () {
+                var title = $(this).text();
+               
+                if (title != ''&& title != 'Action' && title != 'Log') {
+                    $(this).html('<input type="text" placeholder="Search" />');
+                }
+				else
+				{
+				$(this).html('');
+				}
+            });
+
+
+            var table = $('#InvoiceDataTable').DataTable();
+
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            $('.dataTables_wrapper #InvoiceDataTable').wrapAll(document.createElement('div'));
+            //$('.dataTables_wrapper #InvoiceDataTable').parent('div').addClass('table-responsive');
+          
+            //$('.dataTables_wrapper .table-responsive').css("width", "1030px");
+
+           
+
+            $(".sorting").on("click", function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+
+			
+			$(" .pull-right a").on( 'click', function () {
+					//$(".pull-right a").not('#gotostep1').removeClass("green-btn").addClass("blue-btn");
+						//$(this).addClass("green-btn").removeClass("blue-btn");
+			} );
+			
+			$('#Pending_a').on( 'click', function () {
+			$('#BtnUpdateStatus').show();
+			$('#BtnRework').hide();
+			$('#Pending_a').removeClass("blue-btn").addClass("green-btn");
+			$('#completed_a').removeClass("green-btn").addClass("blue-btn");
+				$('#SelectedItemCount_li').show();
+			$('#checkAll').prop('checked', false);
+			//$( "#checkAll" ).trigger( "click" );
+			 $("#InvoiceDataTable tbody tr td input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+			table.columns( [0,1,2,3,4,5,6,7,8,9,10,11] ).visible( true );
+			onchildcheck();
+			
+    table
+        .columns( 9 )
+        .search( 'Pending' )
+        .draw();
+		onchildcheck();
+} );
+$('#completed_a').on( 'click', function () {
+if(IsEmpPresentInGroup)
+				 {
+			$('#BtnRework').show();
+			}
+			else
+			{
+			$('#BtnRework').hide();
+			}
+			$('#BtnUpdateStatus').hide();
+			//$('#BtnRework').hide();
+			$('#completed_a').removeClass("blue-btn").addClass("green-btn");
+			$('#Pending_a').removeClass("green-btn").addClass("blue-btn");
+			$('#checkAll').prop('checked', false);
+			$('#SelectedItemCount_li').show();
+//table.columns( [1,2,3,4,5,6,7,8,9,10,11] ).visible( true );
+	//table.columns( [0] ).visible( false );
+			//$( "#checkAll" ).trigger( "click" );
+			//$('#checkAll').prop('checked', false);
+			$("#InvoiceDataTable tbody tr td input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+			onchildcheck();
+    table
+        .columns( 9 )
+        .search( 'Completed' )
+        .draw();
+} );
+
+
+
+$( "#Pending_a" ).trigger( "click" );
+
+
+
+        }
+		
+		function  onchildcheck()
+	  {
+	 		var childCheckboxes = $('#InvoiceDataTable tbody tr td').find('input[type=checkbox]'),
+    no_checked = childCheckboxes.filter(':checked').length;
+	if(no_checked>0)
+	{
+	$('#SelectedItemCount').text(no_checked);
+	$('#BtnUpdateStatus ,#BtnRework').removeClass("gray-btn").addClass("green-btn");
+	$('#BtnUpdateStatus,#BtnRework').attr('onclick','update_Status_confirm();');
+	}
+	else
+	{
+	$('#SelectedItemCount').text(no_checked);
+	//$('#BtnUpdateStatus').toggleClass("green-btn gray-btn");
+	$('#BtnUpdateStatus ,#BtnRework').removeClass("green-btn").addClass("gray-btn");
+	document.getElementById("BtnUpdateStatus").removeAttribute("onclick");
+	document.getElementById("BtnRework").removeAttribute("onclick");
+	
+	}
+  
+ // document.getElementById("SelectedItemCount").innerHTML=no_checked; 
+  if(childCheckboxes.length == no_checked){ 
+  //$("#checkAll").prop('checked',true);
+   }
+   else
+   {
+    $("#checkAll").prop('checked',false);
+   }
+}
+
+$(document).ready(function() {
+disableRightClick();
+var userid = _spPageContextInfo.userId;
+ login_guid=GetUserId(userid);
+getMasterInvoiceData();
+
+
+IsPresentInGroup(userid);
+
+});
+ function IsPresentInGroup(EmployeeUserID)
+	{
+	var datacount=0;
+	
+	jQuery.ajax({
+
+            url: "/sites/pwa/_api/Web/GetUserById('" + EmployeeUserID + "')/Groups?$select=Id,Title&$filter=Title eq 'Finance Admin'",
+            type: "GET",
+            async: false,
+            headers: { "Accept": "application/json;odata=verbose" },
+            success: function (data) {
+                datacount = data.d.results.length;
+            },
+            complete: function () {
+                if (datacount > 0) {
+						//alert('present ');
+						IsEmpPresentInGroup=true;
+	
+                } else {
+                    //alert('not present ');
+                }
+            }
+
+        });
+	
+	}
+         
+	</script>	
+	  <div class="allcommentdiv-main " id="openouterfileattach"> <!-- inner-popup outer-popup add class -->
+<div class="allcommentdiv outer-popup ">
+ <div class="allcommentdiv-heading">
+  Uploaded File List
+ </div>
+ <div class="allcommentdiv-mid">
+ <h3 id="reff_no">Ref No. 1</h3>
+  <div class="vertical-scoll">
+   <table class="table table-bordered text-left">
+    <tbody id="inner_tbody">    
+    </tbody>
+   </table>
+  </div>
+ </div>
+ <div class="allcommentdiv-foot">
+  <a href="javascript:void(0)" class="blue-btn" onclick="closeouterfileattach()">Got it</a>
+ </div>
+</div>
+</div>
+<!-- Log Pop up -->
+	<div class="allcommentdiv">
+ <div class="allcommentdiv-heading">
+  Log
+ </div>
+ <div class="allcommentdiv-mid">
+  <h3 ><span id="LogId"></span></h3>
+  <div class="vertical-scoll">
+   <table class="table table-bordered">
+    <thead>
+     <tr>
+      <th style="width:150px;">Date</th>
+      <th style="width:100px;">Actor</th>
+     
+	 <!--  <th style="width:80px;">Action</th> -->
+    <th >Action</th>
+     </tr>
+    </thead>
+    <tbody id="bindlog">
+    
+    </tbody>
+   </table>
+  </div>
+ </div>
+ <div class="allcommentdiv-foot">
+  <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+ </div>
+</div>
+	<!-- Log Pop up -->
+<script>
+setInterval(function(){ 
+	$('[data-toggle="tooltip"]').tooltip();  
+}, 1000);
+ $(document).click(function (event) {
+  if (!$(event.target).is('.allcommentdiv, .allcommentdiv *')) {
+   $('.allcommentdiv').hide({ width: 'toggle'});
+  }
+ });
+ function closeallcomment(){
+  $('.allcommentdiv').animate({ width: 'toggle'});
+ }
+
+
+</script>
+
+<!-- <a href='javascript:void(0)'  onclick='opendetails()'>open popup</a> -->
+
+
+<div class="openDetailsMain" id="div_openDetailsMain_invoice">
+	<div class="openDetailsMainInner" style="width:98%;">
+		<div class="openDetailsMain-heading">
+			Invoice No : <span id="InvoiceNoSpan"></span>
+			<a onclick="closedetails()"><i class="fa fa-remove"></i></a>
+		</div>
+		<div class="openDetailsMain-mid">
+			<div class="openDetailsMain-midTop">
+				<table class="table table-bordered" style="table-layout: fixed;  word-break: break-all;  word-wrap: break-word;margin-bottom:15px;"> 
+					<tbody> 
+						 <tr> 
+							<th style="width: 10%;">Inv Currency</th>
+							<th style="width: 10%;">Inv Month</th>
+							<th style="width: 10%;">Inv Date</th> 
+							 <th style="width: 10%;">Inv Status</th> 
+							<th style="width: 10%;">Inv Layout</th> 
+							<th style="width: 10%;">Credit</th> 
+						 </tr>
+						<tr> 
+							 <td><span style="color: #ababab;margin-left: 6px;" id="inv_Currency">USD</span></td> 
+							<td><span id="Inv_Month">Test</span></td> 
+							<td style=""><span id="Inv_Date">8765.01 </span></td> 
+							<td><span id="Inv_Status">INR</span></td>
+							 <td ><span id="Inv_Layout" class="">Loren lipsum  Loren lipsum Loren lipsum</span></td> 
+							   <td ><span id="Inv_Credit" class="">Loren lipsum  Loren lipsum Loren lipsum</span></td>
+					 </tr> 
+					 </tbody> 
+					 <table class="table table-bordered" style="table-layout: fixed;  word-break: break-all;  word-wrap: break-word;margin-bottom:15px;"> 
+					<tbody> 
+						 <tr> 
+							<th style="width: 10%;">Reason for Credit</th> 
+							<th style="width: 10%;">Additional Text</th> 
+						 </tr>
+						<tr> 
+							   <td ><span id="Inv_ReCredit" class="">Loren lipsum  Loren lipsum Loren lipsum</span></td><td ><span id="Inv_Additional_Txt" class="">Loren lipsum  Loren lipsum Loren lipsum</span></td>
+					 </tr> 
+					 </tbody> 
+				 </table> 
+			</div> 
+			<div class="openDetailsMain-midBottom">
+				<table id="InvoiceItemTable" class="table example table-bordered" style="width: 99.99% !important; table-layout:fixed;">
+					<thead>
+						<tr>
+							<!-- <th style="width: 40px !important;" data-orderable="false" class="sorting_asc">Info</th> -->
+							<th style="width: 40px !important;">Ref <br> No</th>
+							<th>Project Phase</th>
+							<th style="width: 50px !important;">Expense Item</th>
+							<th >Expense <br> Note</th>
+							<th>Status</th>
+							<th>ER <br> Amount</th>
+							<th>Item Amount</th>
+							<th style="width: 80px !important;">Payment <br> Type</th>
+							<th style="width: 90px !important;">Expense <br> Date</th>
+							<th style="width: 60px !important;">Billable</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="openDetailsMain" id="div_openDetailsMain">
+    <div class="openDetailsMainInner">
+        <div class="openDetailsMain-heading">
+            Invoice No : <span id="InvoiceNoSpan_report"></span>
+        <a onclick="closedetails1()"><i class="fa fa-remove"></i></a> 
+        </div>
+        <div class="openDetailsMain-mid">
+            <div class="openDetailsMain-midBottom1">
+                <div class="row">
+                    <div class="col-md-6"></div>
+                   
+                </div>
+                <iframe  id="iframe_src"  onload="onLoadHandler();" border="0" style="width: 100%; height: 600px;"></iframe> <!-- scrolling="no" -->
+            </div>
+        </div>
+    </div>
+</div>
+<span id="InvoiceSpan_itemedit" style="display:none;" class="cancelitem"></span>
+<span id="InvoiceSpan_dateedit" style="display:none;" class="saveitem"></span>
+<span id="InvoiceSpan_amountedit" style="display:none;" class="roweditable_row"></span>
+<span id="InvoiceSpan_currencyedit" style="display:none;"></span>
+<script>
+	function opendetails(InvoiceMasterId,finalstatus,InvoiceNumber)
+	{
+    temp_count=0;
+	$('#InvoiceNoSpan').text(InvoiceNumber);
+	getInvoiceMasterDetailBYInvoice(InvoiceMasterId);
+	getInvoiceDetailData(InvoiceMasterId,finalstatus);
+		$('#div_openDetailsMain_invoice').show();
+		
+	}
+	
+	function EditInvoice(id,status)
+	{
+	if(status=="Pending")
+	{
+	document.getElementById("Confirmation_msg").innerHTML="Are you sure, you want To Edit Invoice ?";
+	$('#ok_click').attr('onclick','Edit("'+status+'","'+id+'")');
+     $("#Confirmation_alert").show();
+	 }
+	 else
+	 {
+   document.getElementById("Confirmation_msg").innerHTML="Are you sure, you want To Edit Invoice ?";
+	$('#ok_click').attr('onclick','updateforcomplete("'+status+'","'+id+'")');
+     $("#Confirmation_alert").show();
+	 }
+	
+}
+	function Edit(status,id)
+	{
+	
+	     $("#Confirmation_alert").hide();
+		 window.location="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/InvoiceProcessStep2.aspx?InvoiceMasterId="+id;
+        //alert(id);
+		
+	}
+	function confirmation_close(){
+		$('#Confirmation_alert').hide();
+		}
+		
+			function DeleteInvoice(id)
+	{
+	    
+      document.getElementById("Confirmation_msg").innerHTML="Are you sure, you want To Delete Invoice ?";
+	$('#ok_click').attr('onclick','Delete("'+id+'")');
+     $("#Confirmation_alert").show();
+	}
+
+		function Delete(InvoiceNumber)
+		{	
+		
+	$("#Confirmation_alert").hide();
+		$.ajax
+                 ({       
+                  url: "https://ppmprod.bcone.com/api/Invoice/Update_InvoiceFlag",
+                  headers: { "Accept": "application/json; odata=verbose" },
+                  method: "POST",
+                  data:
+                  {
+                   "InvoiceMasterId" : InvoiceNumber
+                   
+                  },
+                  dataType: 'json',
+                  success: function(data)
+                 {
+              //  getMasterInvoiceData();
+				   $("#alertmain").show();
+             document.getElementById("Alert_msg").innerHTML='Invoice Deleted successfully !';
+                 }
+                });
+        }
+		
+		function updateforcomplete(status,InvoiceMasterId)
+		{
+		
+		$("#Confirmation_alert").hide();
+			  var FinalStatus="Pending";
+			  
+			  $.ajax({
+				url: "https://ppmprod.bcone.com/api/Invoice/Update_InvoiceStatus",
+			
+				method: "POST",
+				headers: { "Accept": "application/json; odata=verbose" },
+			   
+				data: { 
+				"InvoiceMasterId":InvoiceMasterId,
+				"FinalStatus":FinalStatus
+			
+				},
+				success: function (data) {
+				//console.log('updated');
+				//getMasterInvoiceData();
+                  InsertIntoInvoiceLog(InvoiceMasterId,'Status Changed From Completed To Pending',login_guid);
+		 window.location="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/InvoiceProcessStep2.aspx?InvoiceMasterId="+InvoiceMasterId;
+        //
+				
+			 },
+				error: function (data) {
+					alert("failed");
+					
+				},
+				complete: function(data)
+				{
+				}
+			});
+		}
+		
+		function InvoiceReport(invoiceno,InvoiceReportLayoutCode,InvoiceNumber)
+		{
+		$(".loader").show();
+$('#div_openDetailsMain').show();
+var iFrameSrc="https://ppmprod.bcone.com/InvioceReport.aspx?Login=mohiteamol066@gmail.com&ReportType="+InvoiceReportLayoutCode+"&Invoice="+invoiceno+"";
+//$('#iframe_src').attr('src','//https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/InvoiceReport.aspx?InvoiceNumber='+invoiceno+'&InvoiceReportLayoutCode='+InvoiceReportLayoutCode);
+
+$('#iframe_src').attr('src',iFrameSrc);
+
+$('#InvoiceNoSpan_report').text(InvoiceNumber);
+//document.getElementById("InvoiceNoSpan_report").innerHTML=invoiceno;
+		}
+		
+		function DownloadInvoiceReport(invoiceno,InvoiceReportLayoutCode,InvoiceNumber)
+		{
+		window.open('https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/InvoiceTOexcel.aspx?Invoicemasterid='+invoiceno);
+		}
+		function closedetails1()
+		{
+		$('#div_openDetailsMain').hide();
+		
+		}
+		
+		
+		function InsertIntoInvoiceLog(InvoiceNumber,Action,Actor)
+		{
+		       
+        $.ajax({
+           url: "https://ppmprod.bcone.com/api/Invoice/AddNewInvoicveLog",
+           method: "POST",
+           headers: { "Accept": "application/json; odata=verbose" },
+           data: { 
+             "InvoiceMasterId":InvoiceNumber,
+             "Action":Action,
+             "Actor":Actor
+                               
+           },
+           success: function (data) {
+            
+             //alert('log added successfully.');
+           
+           },
+           error: function (data) {
+             alert('error occurred');
+           }
+         });
+         
+		
+		}
+		function GetUserId(userid) {
+            var NewloginName = "";
+			var result;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+			     async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    var loginName = dataResults.LoginName;
+				$('#login_name_contain').text(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                     result =  getResourcesGuid(NewloginName);
+                },
+                complete: function () {
+                },
+            });
+			return result;
+        }
+		
+		 function getResourcesGuid(NewloginName) {
+            var GUID;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    GUID = data.d.results[0].ResourceId;
+					 FLoginname=data.d.results[0].ResourceName;
+	                   FloginId=data.d.results[0].ResourceId;
+                    return GUID;
+                }
+            });
+           return GUID;
+        }
+	function convert_date_tooltip(date_to_convert){
+		var arr_dateandtime = date_to_convert.split('T');
+		var arr_dateonly = arr_dateandtime[0].split('-');
+		var arr_timeonly = arr_dateandtime[1].split(':');
+		var Month;
+		 var converted_date;
+		  var suffix;
+				switch ( parseInt(arr_dateonly[1])-1) {
+									case 0:
+									Month = "Jan";
+									break;
+									case 1:
+									Month = "Feb";
+									break;
+									case 2:
+									Month = "Mar";
+									break;
+									case 3:
+									Month = "Apr";
+									break;
+									case 4:
+									Month = "May";
+									break;
+									case 5:
+									Month = "Jun";
+									break;
+									case 6:
+									Month = "Jul";
+									break;
+									case 7:
+									Month = "Aug";
+									break;
+									case 8:
+									Month = "Sep";
+									break;
+									case 9:
+									Month = "Oct";
+									break;
+									case 10:
+									Month = "Nov";
+									break;
+									case 11:
+									Month = "Dec";
+									break;
+				}
+				var curr_hours = arr_timeonly[0];
+							suffix = (curr_hours >= 12) ? 'PM' : 'AM';
+							if (curr_hours > 12) {
+								curr_hours -= 12;
+							}
+							var curr_min = arr_timeonly[1];
+							if (curr_min < 10) {
+								curr_min =  curr_min;
+							}
+							var curr_seconds = arr_timeonly[2];				
+				converted_date=arr_dateonly[2]+"-"+Month+"-"+arr_dateonly[0]+" " + curr_hours + ":" + curr_min + " " + suffix;
+				return converted_date;
+		}
+			function convert_date(date_to_convert){
+		 var arr_dateandtime = date_to_convert.split('T');
+		var arr_dateonly = arr_dateandtime[0].split('-');
+		var arr_timeonly = arr_dateandtime[1].split(':');
+		var Month;
+		 var converted_date;
+		switch ( parseInt(arr_dateonly[1])-1) {
+									case 0:
+									Month = "Jan";
+									break;
+									case 1:
+									Month = "Feb";
+									break;
+									case 2:
+									Month = "Mar";
+									break;
+									case 3:
+									Month = "Apr";
+									break;
+									case 4:
+									Month = "May";
+									break;
+									case 5:
+									Month = "Jun";
+									break;
+									case 6:
+									Month = "Jul";									
+									case 7:
+									Month = "Aug";
+									break;
+									case 8:
+									Month = "Sep";
+									break;
+									case 9:
+									Month = "Oct";
+									break;
+									case 10:
+									Month = "Nov";
+									break;
+									case 11:
+									Month = "Dec";
+									break;
+				}
+				converted_date=arr_dateonly[2]+"-"+Month+"-"+arr_dateonly[0];
+				return converted_date;
+		}
+		function GetInvoiceLog(InvoiceMasterId,InvoiceNumber)
+		{
+		document.getElementById("LogId").innerHTML="Invoice Number:"+InvoiceNumber;
+		    var Div_Log="";   
+        $.ajax({
+           url: "https://ppmprod.bcone.com/api/Invoice/GetInvoiceLog",
+           method: "POST",
+           headers: { "Accept": "application/json; odata=verbose" }, 
+           data: { 
+             "InvoiceMasterId":InvoiceMasterId
+                                         
+           },		   
+           success: function (data) {
+            
+             //console.log(data);
+			 
+			 $.each(data.Log, function (key, value) {
+			           var date=convert_date(value.Created_Date);
+						var converted_date = convert_date_tooltip(value.Created_Date);
+						////alert(converted_date);
+						//var  tooltip_date = convert_date_amol(value.Created);
+						
+						Div_Log=Div_Log+"<tr><td>"+converted_date+"</td><td>"+value.ResourceName+"</td><td>"+value.Action+"</td></tr>";
+           
+          });
+                         $("#bindlog").html(Div_Log);
+						 
+						// event.stopPropagation();
+                         $('.allcommentdiv').animate({ width: 'toggle'});
+		  },
+           error: function (data) {
+             alert('error occurred');
+           }
+         });
+         
+		
+		}
+		 function close_div()
+	  {
+	  $("#alertmain").hide();
+	  document.getElementById("Alert_msg").innerHTML="";
+	  getMasterInvoiceData();
+	  }
+	  
+	  
+	  function getInvoiceMasterDetailBYInvoice(InvoiceMasterId)
+	{
+	
+	
+						
+	
+	
+	 $.ajax({
+            url: "https://ppmprod.bcone.com/api/Invoice/Get_InvoiceMaster_DATA",
+		
+            method: "POST",
+            headers: { "Accept": "application/json; odata=verbose" },
+           async:false,
+			data: { 
+			"InvoiceMasterId":InvoiceMasterId
+		
+			},
+            success: function (data) {
+			 $.each(data.Invoice, function (key, value) {
+					
+						//$('#Inv_Month').text(value.InvoiceMonth);
+						var date=value.InvoiceMonth;
+				
+				    date=date.split('-');
+ $('#Inv_Month').text(date[1]+"-"+date[2]);
+						$('#Inv_Date').text(value.InvoiceDate);
+						
+						$('#Inv_Credit').text(value.InvoiceCredit);
+						if(value.ReasonForCredit!=''&&value.ReasonForCredit!=null)
+						{
+                      //  $('#Inv_ReCredit').text(value.ReasonForCredit);
+						document.getElementById("Inv_ReCredit").innerHTML="<a class='wordellipsis' style='display: inline-block;cursor:pointer; text-decoration:none;' data-toggle='tooltip' data-placement='top'  title=\""+value.ReasonForCredit+"\">"+value.ReasonForCredit +"</a>";
+						}else
+						{
+						$('#Inv_ReCredit').text('NA');
+						}
+						if(value.AdditionalInvoiceText!=''&&value.AdditionalInvoiceText!=null)
+						{
+						
+						 document.getElementById("Inv_Additional_Txt").innerHTML="<a class='wordellipsis' style='display: inline-block;cursor:pointer; text-decoration:none;' data-toggle='tooltip' data-placement='top'  title=\""+value.AdditionalInvoiceText+"\">"+value.AdditionalInvoiceText +"</a>";
+                       // $('#Inv_Additional_Txt').text(value.AdditionalInvoiceText);
+						}else
+						{
+						$('#Inv_Additional_Txt').text('NA');
+						}
+						
+						 //$('#Inv_Additional_Txt').text(value.AdditionalInvoiceText);
+						 
+						   $('#Inv_Layout').text(value.InvoiceReportLayoutName);
+						   
+						    $('#inv_Currency').text(value.InvoiceCurrency);
+							 $('#Inv_Status').text(value.InvoiceStatus);
+                      
+					   
+
+			 });
+                 
+		 },
+            error: function (data) {
+                alert("failed");
+				
+            },
+			complete: function(data)
+			{
+				
+			}
+        });
+	
+	}
+	
+
+
+</script>
+
+</body>
+</html>
+</html>
+</html>

@@ -1,0 +1,538 @@
+
+<html>
+<head>
+    <title>Generate Report</title>
+</head>
+<body>
+    <script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />
+    <script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+
+
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet">
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet">
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet">
+    <!-- New Js Start Here -->
+
+    <script src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/chosen.jquery.js"></script>
+    <link href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/chosen-select.css" rel="stylesheet">
+
+    <script>
+        $(function () {
+            $('#chosen-select').chosen();
+            $('#chosen-select-1').chosen();
+        });
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/multi-select.css" />
+    <script type="text/javascript" src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/select2.min.js"></script>
+    <script type="text/javascript" src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/jquery.multi-select.js"></script>
+    <script src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/components-dropdowns.js"></script>
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+
+
+
+    <style>
+        .errMSG {
+        color:red;
+        }
+        .ms-core-pageTitle, .ms-core-pageTitle a {
+            color: #fff;
+            display: none;
+        }
+
+        #s4-ribbonrow, #SearchBox, #O365_MainLink_Settings {
+            display: none;
+        }
+
+        .middle {
+            width: 97%;
+            margin: 0 auto;
+        }
+
+        #sideNavBox {
+            width: 0px !important;
+            display: none;
+        }
+
+        #contentBox {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+        /*#contentRow {padding-top: 0px !important;}*/
+        .menu-item-text {
+            display: none;
+        }
+
+        #MSOZoneCell_WebPartWPQ4 {
+            margin: 0px !important;
+        }
+
+        .manage-delegation-new-form {
+            width: 60%;
+            margin: 0px auto;
+        }
+
+            .manage-delegation-new-form table {
+                width: 100%;
+            }
+
+                .manage-delegation-new-form table tr td .form-control {
+                    outline: none;
+                    /* width: 300px; */
+                    border-radius: 0;
+                    box-shadow: none;
+                    padding: 5px !important;
+                }
+
+                    .manage-delegation-new-form table tr td .form-control:focus {
+                        background: #ffffd8;
+                        border-color: #999;
+                    }
+
+                .manage-delegation-new-form table tr td {
+                    padding: 8px;
+                }
+
+        .heading-2 {
+            display: inline-block;
+            margin: 0px 0px 3px 0px;
+            font-size: 15px;
+            color: #333 !important;
+        }
+
+        .breadcrumb-new a:visited {
+            color: #428bca !important;
+            text-decoration: none;
+        }
+    </style>
+    <!-- Add to Stylesheet -->
+
+    <section class="middle">
+        <div class="breadcrumb-new">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/Home.aspx">Home</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" style="cursor: default; color: black;" onclick="genrateReport()"><span>Genrate Report</span></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="manage-delegation-new-form">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="width: 180px;">Modules Applicable</td>
+                            <td>
+                                <div id="advance1" class="radio-main">
+                                    <input type="radio" name="ModulesApplicable" id="rdbProject" style="cursor: pointer" checked="checked" onchange="HideShow();">Project
+          								<input type="radio" name="ModulesApplicable" id="rdbResource" style="cursor: pointer" onchange="HideShow()">Resources
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align: top;"><span id="ProjectName">Project Name </span> <span id="Span3" class="errMSG">*</span></td>
+                            <td>
+                                <select multiple="multiple" class="multi-select" id="my_multi_select1" name="my_multi_select1[]">
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="vertical-align: top;"><span id="ResourceName">Resource Name </span> <span id="Span2" class="errMSG">*</span></td>
+                            <td>
+                                <select multiple="multiple" class="multi-select" id="my_multi_select2" name="my_multi_select2[]" style="display: none;">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>From Date  <span id="Span1" class="errMSG">*</span>
+                            </td>
+                            <td>
+                                <div style="position: relative; width: 55%;">
+                                    <input type="text" id="DeligateFromDate" class="form-control ">
+                                    <span class="right-icon">
+                                        <i class="fa fa-calendar" id="iconcalender"></i>
+                                    </span>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>To Date  <span id="Span4" class="errMSG">*</span></td>
+                            <td>
+                                <div style="position: relative; width: 55%;">
+                                    <input type="text" id="DeligateToDate" class="form-control ">
+                                    <span class="right-icon">
+                                        <i class="fa fa-calendar" id="i1"></i>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a href="javascript:void(0)" class="blue-btn" onclick="genrateReport()">Generate report</a>
+                                <a href="javascript:void(0)" class="gray-btn">Cancel</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span id="errMsg" class="errMSG"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <iframe id="rptTimesheet" height="700px" width="100%" style="display: none;"></iframe>
+    </section>
+
+    <script>
+
+        $(document).ready(function () {
+		disableRightClick();
+            debugger
+            $("#DeligateFromDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                //maxDate: new Date() 
+            });
+
+            $("#DeligateToDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                //maxDate: new Date() 
+
+            });
+
+
+            $("#rdbProject").attr("checked", "checked");
+            document.cookie = 'Type=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        });
+
+        //Resources d: 
+
+        function getallprojectdata() {
+
+
+            // $("#my_multi_select1").html('');
+
+            //$('select').empty()
+            //$('#my_multi_select1').trigger("chosen:updated");
+            var pmurl = _spPageContextInfo.webAbsoluteUrl + "/_api/ProjectData/Projects";
+            $.ajax({
+                url: pmurl,
+                async: false,
+                type: "GET",
+                headers: {
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "Accept": "application/json; odata=verbose",
+                    "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (res) {
+                    debugger
+                    globalJSON = res;
+                    var getprojects = res.d.results;
+                    objProject = getprojects;
+                    var len = getprojects.length;
+                    for (var i = 0; i < len ; i++) {
+                        $("#my_multi_select1").append(new Option(getprojects[i].ProjectName, getprojects[i].ProjectId));
+                    }
+                },
+
+                error: function (error) {
+                    debugger
+                }
+            });
+
+        }
+
+        function getallResourcedata() {
+            debugger
+            //$("#my_multi_select1").html('');
+            //$('select').empty()
+            //  $('#my_multi_select1').trigger("chosen:updated");
+            var pmurl = _spPageContextInfo.webAbsoluteUrl + "/_api/ProjectData/Resources";
+            $.ajax({
+                url: pmurl,
+                async: false,
+                type: "GET",
+                headers: {
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "Accept": "application/json; odata=verbose",
+                    "Content-Type": "application/json; odata=verbose"
+                },
+                success: function (res) {
+                    debugger
+                    globalJSON = res;
+                    var getprojects = res.d.results;
+                    var len = getprojects.length;
+                    for (var i = 0; i < len ; i++) {
+                        $("#my_multi_select2").append(new Option(getprojects[i].ResourceName, getprojects[i].ResourceId));
+                    }
+                },
+
+                error: function (error) {
+                    debugger
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            var objProject = [];
+            debugger
+            ComponentsDropdowns.init();
+
+            $('#ms-my_multi_select1 .ms-selectable').prepend('<input type="text" id="selectable12" class="form-control" style="margin-bottom:10px;">');
+            $('#ms-my_multi_select1 .ms-selection').prepend('<input type="text" id="selection12" class="form-control" style="margin-bottom:10px;">');
+
+            $('#ms-my_multi_select1 .ms-selectable').prepend('<h2 class="heading-2">Current Projects</h2>');
+            $('#ms-my_multi_select1 .ms-selection').prepend('<h2 class="heading-2">Selected Projects</h2>');
+
+
+            $('#ms-my_multi_select1 .ms-selectable .ms-list').attr('id', 'test1')
+
+            $("#ms-my_multi_select1 #test1").on("change", function () { alert() });
+            $("#ms-my_multi_select1 #selectable12").on("keyup", function () {
+                var txtVal = this.value;
+                var flag = false;
+                $("#ms-my_multi_select1 #test1").children('li').each(function () {
+                    if ($(this).text().toLowerCase().indexOf(txtVal.toLowerCase()) == -1 || $(this).hasClass('ms-selected')) {
+                        $(this).css("display", "none");
+                    } else { $(this).css("display", ""); flag = true; }
+                });
+
+
+            })
+
+
+            $('#ms-my_multi_select1 .ms-selection .ms-list').attr('id', 'test2')
+
+            $("#ms-my_multi_select1 #selection12").on("keyup", function () {
+                var txtVal = this.value;
+                var flag = false;
+
+                $("#ms-my_multi_select1 #test2").children('li.ms-selected').each(function () {
+                    if ($(this).text().toLowerCase().indexOf(txtVal.toLowerCase()) == -1) {
+                        $(this).css("display", "none");
+                    }
+                    else {
+
+                        $(this).css("display", "");
+
+                        flag = true;
+                    }
+                });
+
+
+            })
+
+
+
+            $('#ms-my_multi_select2 .ms-selectable').prepend('<input type="text" id="selectable21" class="form-control" style="margin-bottom:10px;">');
+            $('#ms-my_multi_select2 .ms-selection').prepend('<input type="text" id="selection21" class="form-control" style="margin-bottom:10px;">');
+
+            $('#ms-my_multi_select2 .ms-selectable').prepend('<h2 class="heading-2">Current Resources</h2>');
+            $('#ms-my_multi_select2 .ms-selection').prepend('<h2 class="heading-2">Selected Resources</h2>');
+
+
+            $('#ms-my_multi_select2 .ms-selectable .ms-list').attr('id', 'test3')
+
+            $("#ms-my_multi_select2 #test3").on("change", function () { alert() });
+            $("#ms-my_multi_select2 #selectable21").on("keyup", function () {
+                var txtVal = this.value;
+                var flag = false;
+                $("#ms-my_multi_select2 #test3").children('li').each(function () {
+                    if ($(this).text().toLowerCase().indexOf(txtVal.toLowerCase()) == -1 || $(this).hasClass('ms-selected')) {
+                        $(this).css("display", "none");
+                    } else { $(this).css("display", ""); flag = true; }
+                });
+
+
+            })
+
+
+            $('#ms-my_multi_select2 .ms-selection .ms-list').attr('id', 'test4')
+
+            $("#ms-my_multi_select2 #selection21").on("keyup", function () {
+                var txtVal = this.value;
+                var flag = false;
+
+                $("#ms-my_multi_select2 #test4").children('li.ms-selected').each(function () {
+                    if ($(this).text().toLowerCase().indexOf(txtVal.toLowerCase()) == -1) {
+                        $(this).css("display", "none");
+                    }
+                    else {
+
+                        $(this).css("display", "");
+
+                        flag = true;
+                    }
+                });
+
+
+            })
+
+            // HideShow();
+
+        });
+
+
+        function genrateReport() {
+            var type = ""; DelegateNames = "", Names = "";
+            if (rdbResource.checked) {
+                debugger
+                DelegateNames = document.getElementById("test4");
+                Names = DelegateNames.getElementsByClassName("ms-elem-selection ms-selected");
+
+                var appendNames = "";
+                for (var i = 0; i < Names.length; ++i) {
+                    // do something with items[i], which is a <li> element
+                    appendNames = appendNames + Names[i].innerText.replace(/&/g, "*^^*^^*") + "#####";
+                }
+                type = "Resource"
+
+            }
+            else {
+                debugger
+                DelegateNames = document.getElementById("test2");
+                Names = DelegateNames.getElementsByClassName("ms-elem-selection ms-selected");
+                var appendNames = "";
+                for (var i = 0; i < Names.length; ++i) {
+                    // do something with items[i], which is a <li> element
+                    appendNames = appendNames + Names[i].innerText.replace(/&/g,"*^^*^^*") + "#####";
+                }
+                type = "Project";
+            }
+
+
+
+
+            var fromDate = $("#DeligateFromDate").val();
+            var toDate = $("#DeligateToDate").val();
+            var flag = Validation(type, appendNames, fromDate, toDate);
+
+            if (flag == false) {
+                $("#errMsg").show();
+                return false;
+
+            }
+            else {
+                $("#errMsg").hide();
+                debugger
+                var d = new Date();
+                d.setTime(d.getTime() + (1 * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                 setCookie(type, appendNames, fromDate, toDate, 1);
+
+               // var finVar="https://ppmdev.bcone.com//EXPENSEFORFINANCE_PR.aspx?Type=" + type + "&FromDate=" + fromDate + "&ToDate=" + toDate + "&SelectedName=" + appendNames;
+               //$("#rptTimesheet").attr("src",finVar );
+          
+               // $("#rptTimesheet").show();
+
+                 window.location = "https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/Finance_Report.aspx";
+            }
+        }
+
+        function Validation(type,appendNames, fromDate, toDate) {
+            if (appendNames == "") {
+                $("#errMsg").text("Please Select " + type + " Name");
+                return false;
+            }
+            else if (fromDate == "") {
+                $("#errMsg").text("Please Select From Date");
+                return false;
+            }
+            else if (toDate == ""){
+                $("#errMsg").text("Please Select To Date");
+                return false;
+            }
+        }
+
+        function setCookie(Type, appendNames, fromDate, toDate, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = "Type=" + Type + ";" + expires + ";path=/";
+            document.cookie = "FromDate=" + fromDate + ";" + expires + ";path=/";
+            document.cookie = "ToDate=" + toDate + ";" + expires + ";path=/";
+            document.cookie = "SelectedName=" + appendNames + ";" + expires + ";path=/";
+        }
+
+        function HideShow() {
+            debugger
+           
+            var type = getCookie("Type");
+
+            if (type == null) {
+                // do cookie doesn't exist stuff;
+                $("#rdbProject").attr("checked", "checked");
+            }
+            else {
+                if (type == "Project") {
+
+                    $("#rdbProject").attr("checked", "checked");
+                    document.cookie = 'Type=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                }
+                else {
+                    $("#rdbResource").attr("checked", "checked");
+                    document.cookie = 'Type=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                }
+                // do cookie exists stuff
+            }
+
+            if (rdbResource.checked) {
+                
+                $("#ms-my_multi_select1").css("display", "none")
+                $("#ms-my_multi_select2").css("display", "block")
+                $("#ProjectName").parent().parent().hide()
+                $("#ResourceName").parent().parent().show()
+            }
+            else {
+                $("#ms-my_multi_select1").css("display", "block")
+                $("#ms-my_multi_select2").css("display", "none")
+                $("#ProjectName").parent().parent().show()
+                $("#ResourceName").parent().parent().hide()
+            }
+           // $("#rptTimesheet").hide();
+            $("#errMsg").hide();
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+
+
+        }
+        window.onload = getallprojectdata(), getallResourcedata(), HideShow();
+    </script>
+
+
+</body>
+</html>

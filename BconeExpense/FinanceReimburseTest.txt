@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+	<link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet">
+	<link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+	<script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+ <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+</head>
+<body class="dt-example">
+<div id="myModal2" class="modal fade newpopup-table newpopupdiv" style="padding-left: 17px;" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                     <a class="close" data-dismiss="modal">&times;</a>
+                   <h4 class="modal-title">Please Provide Reason For Rejection Of This Expense</h4>
+                </div>
+                <div class="modal-body">
+				   <table class="tabledivnew">
+                        <tbody>                            
+                            <tr>
+                                <td colspan="2" style="width: 195px;">
+									<textarea rows="4" class="form-control" cols="45" id="Txt_Comment" onkeyup="hideerror('Txt_Comment')" style="margin-bottom:15px;" ></textarea>
+                                </td>
+                            </tr>
+							 <tr>
+                                <td colspan="2">
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                </td>
+                            </tr>				
+							 <tr>                                
+                                <td colspan="2">
+                                    <span id="Expense_Comment_Id" style="display:none" ></span>
+                                       <span id="Reject_Hide" style="display:none"   ></span>
+                               </td>
+                            </tr>
+                         <tr><td colspan="2"> <a href="javascript:void(0)" class="red-btn" id="Save_comment" onclick="Rejectcomment('Rejected')" style="margin-right:10px;">Reject</a><a class="blue-btn" data-dismiss="modal" href="javascript:void(0)"  >Cancel</a>     </td></tr>
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="alertmain" class="alert-main" style="display:none" >
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Alert_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+                <input type='Button' class="divnewbtn" value="OK" onclick="close_div()" />               
+            </div>
+        </div>
+    </div>
+</div>
+	 <div id="Confirmation_alert" class="alert-main" style="display:none;"  >
+	  <span id="confirmation_type"></span>
+    <div class="black-bg" id="backcolor">
+        <div class="popup-main">
+            <div class="popup-heading"><span id="Confirmation_msg"></span></div>
+            <div class="pop-mid">
+                <p id="submitValue"></p>
+				<span id="Method_tocall"></span>
+                <input type='Button' class="divnewbtn" value="OK" id="ok_click" /> 
+                <input type='Button' class="divnewbtn" value="Cancel" onclick='confirmation_close();' /> 				
+            </div>
+        </div>
+    </div>
+   </div>
+	<div class="container-fluid">
+		<section class="middle">
+	        <div class="breadcrumb-new">
+	            <div class="container-fluid">
+	                <ul>
+	                    <li>
+	                        <a href="https://bristleconeonline.sharepoint.com/sites/ppmuat/default.aspx">Home</a>
+	                    </li>
+	                   <li style="display:none;" id="redirect">
+	                       <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/FinanceApproval.aspx">Finance Approval</a>
+					 </li> 
+						<li>
+	                        <a href="javascript:void(0)" style="cursor:default;color:black;"><span id="navigation_span">Reimbursement </span></a>
+	                    
+					 </li> 
+	                </ul>
+	                <div class="clearfix"></div>
+	            </div>
+	        </div>
+	        <div class="container-fluid">
+	            <div class="row">
+				<div class="top-refine" style="margin-top:0px; margin-bottom:10px;">
+	                    <ul class="pull-left">
+	                        <li>
+								<a href="javascript:void(0)" class="blue-btn" onclick="ReimburseExpense()" id="BtnReimburse">Reimburse</a>
+									 <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/HistoryFinanceReimburse.aspx" class="History-btn"><i class="fa fa-history"></i>My Approval History</a>
+	                      <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/Sitepages/ExpenseDetailReport.aspx" class="History-btn"><i class="fa fa-location-arrow"></i>GO To Report Page</a>
+	                        
+							</li> 
+	                        <li><span id="SelectedItemCount">0</span> item selected</li>
+	                    </ul>
+						<ul class="pull-right">
+	                    </ul>
+	                    <div class="clearfix"></div>
+	            </div>
+				<table id="example" class="display example table table-bordered" cellspacing="0" width="100%" >
+					<thead>
+						<tr>
+							<th data-orderable="false" class="sorting_disabled"><input type="checkbox" id="checkAll" name=""></th>
+							<th style="width: 100px !important;">ER No</th>
+							<!-- <th style="width: 94px !important;">ER Currency</th> -->
+							<th>Title</th>
+														
+							<th>User</th>
+							<th style="width:100px !important;">Submitted <br> Date</th>
+							 <th>Project Name</th>
+							<!-- <th >Status</th> -->
+							<th style="width:150px !important;">Approved By</th>
+							<th style="width:100px !important;">Advance Amount</th>
+							<th style="width:100px !important;">ER Amount</th>
+                             <!-- <th>Description</th> -->
+                           
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+						   <th></th>
+							<th>ER No</th>
+							<!-- <th>ER Currency</th> -->
+							<th>Title</th>
+														
+							<th>User</th>
+							<th>Submitted Date</th>
+							 <th>Project Name</th>
+						     <!-- <th >Status</th> -->
+							<th >Approved By</th>
+							<th>Advance Amount</th>
+							<th>ER Amount</th>
+							<!-- <th>Description</th> -->
+                            
+						</tr>
+					</tfoot>
+					<tbody >
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- New Pop Up Start Here -->
+	<style type="text/css" class="init">
+	.black-bg{width:100%;height:100%;top:0;position:fixed;background-color:rgba(22,22,22,0.5);z-index:9999;left:0}.popup-main{background-color:#fff;width:350px;margin:19% auto;text-align:center}.green-btn{<--padding:5px 10px;--border-radius:3px;color:#fff;background:#0A891A;text-decoration:none;display:inline-block}.grey-btn{padding:5px 10px;border-radius:3px;color:#333;background:#ccc;text-decoration:none;display:inline-block}.popup-heading{width:100%;text-align:center;font-size:15px;color:#fff;padding:8px 0}.alert-main .popup-heading{background-color:#0072c6}.success-main .popup-heading{background-color:#090}.pop-mid{padding:0 15px 15px}.pop-mid p{margin-bottom:20px}.divnewbtn{background-color:#e7e7e7!important;color:#000}.newpopupdiv .modal-header{padding:5px 8px;background:#0072c6}.newpopupdiv .modal-title{color:#fff;font-size:15px}.newpopupdiv .close{opacity:1;color:#fff}.newpopupdiv .modal-dialog{margin:190px auto}tfoot input{width:100%;padding:3px;box-sizing:border-box; font-weight: normal;}tfoot{display:table-header-group}.example thead th[data-orderable="false"]{background-image:none!important;cursor:auto}.example tbody tr td:first-child{text-align:center}.example tfoot th:first-child input[type="text"]{display:none}#innertable_wrapper .dataTables_length{float:left!important;margin:0;text-align:left}#innertable_wrapper .dataTables_filter{margin-top:0}.table-bordered{border:1px solid #ddd}.table{width:100%;max-width:100%;margin-bottom:20px;background-color:transparent;border-spacing:0;border-collapse:collapse}.table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{padding:7px;line-height:1.42857143;vertical-align:top;border-top:1px solid #ddd}.table>thead>tr>th{vertical-align:bottom;border-bottom:2px solid #ddd}.table>caption+thead>tr:first-child>td,.table>caption+thead>tr:first-child>th,.table>colgroup+thead>tr:first-child>td,.table>colgroup+thead>tr:first-child>th,.table>thead:first-child>tr:first-child>td,.table>thead:first-child>tr:first-child>th{border-top:0}.table > thead > tr > th{text-align:center}.table-bordered>thead>tr>td,.table-bordered>thead>tr>th{border-bottom-width:2px}.table-bordered>tbody>tr>td,.table-bordered>tbody>tr>th,.table-bordered>tfoot>tr>td,.table-bordered>tfoot>tr>th,.table-bordered>thead>tr>td,.table-bordered>thead>tr>th{border:1px solid #ddd}.ms-core-pageTitle,.ms-core-pageTitle a{color:#fff;display:none}.container-fluid{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}.btn-group-vertical>.btn-group:after,.btn-group-vertical>.btn-group:before,.btn-toolbar:after,.btn-toolbar:before,.clearfix:after,.clearfix:before,.container-fluid:after,.container-fluid:before,.container:after,.container:before,.dl-horizontal dd:after,.dl-horizontal dd:before,.form-horizontal .form-group:after,.form-horizontal .form-group:before,.modal-footer:after,.modal-footer:before,.modal-header:after,.modal-header:before,.nav:after,.nav:before,.navbar-collapse:after,.navbar-collapse:before,.navbar-header:after,.navbar-header:before,.navbar:after,.navbar:before,.pager:after,.pager:before,.panel-body:after,.panel-body:before,.row:after,.row:before{display:table;content:" ";clear:both}.row{margin-right:-15px;margin-left:-15px}.pull-left{float:left!important}.pull-right{float:right!important}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}.ms-webpartPage-root{border-spacing:0}.ms-breadcrumb-box{display:none}#siteIcon{height:45px}.ms-siteicon-img{max-height:40px}#s4-titlerow{height:45px}#login_name_contain{padding:3px 32px 3px 0 !important}table.dataTable{border-collapse:collapse}.dataTables_filter{margin-bottom:15px}.example thead tr th{background:#e8e8e8;color:#333;text-align:left;font-size:12px!important;vertical-align:middle;}.breadcrumb-new a{color:#337ab7}.breadcrumb-new a:visited{color:#337ab7!important}.breadcrumb-new .ms-link:visited{color:#337ab7!important}.example{color:#333}table.dataTable thead .sorting{font-size:13px;text-align:left}table.dataTable tbody{font-size:13px}::-webkit-input-placeholder{font-size:12px}::-moz-placeholder{font-size:12px}:-ms-input-placeholder{font-size:12px}:-moz-placeholder{font-size:12px}.dataTables_length{float:right!important;width:50%;text-align:right;margin:-50px 0 0}.dataTables_filter{display:block;width:50%;margin:-20px 0 10px}.top-refine ul li{float:none;margin-bottom:10px}.top-refine ul li:last-child{margin-bottom:0}.openDetailsMain{background:rgba(255,255,255,0.57);position:fixed;top:0;left:0;z-index:999;width:100%;height:100%;display:none}.openDetailsMainInner{width:85%;margin:60px auto;border-radius:5px;border:1px solid #0072c6;background:#fff}.openDetailsMain-heading{padding:5px 8px;background:#0072c6;font-size:14px;color:#fff;line-height:1.6}.openDetailsMain-heading a{color:#fff;float:right;cursor:pointer}.openDetailsMain-mid{padding:10px}.openDetailsMain-midTop{margin-bottom:15px}.openDetailsMain-midTop table{width:100%}.openDetailsMain-midTop table tbody tr td{padding:5px}.openDetailsMain-midTop table tbody tr th{padding:5px;text-align:left;background:#efefef;color:#333;font-weight:600}.openDetailsMain-midBottom table{margin-bottom:0!important}.openDetailsMain-midBottom table thead tr th{vertical-align:middle;background:#e8e8e8}/*.dataTables_scrollHeadInner{width:100% !important}.dataTables_scrollHeadInner table{width:98.6% !important;}*/table{font-size:13px!important;text-align:left!important}label{font-weight:400}.middle{width:100%}.top-refine a:active{color:#fff !important;}.top-refine a:focus{color:#fff !important;}.paid{padding: 3px 5px;border-radius: 5px;margin-bottom: 0px;text-align: center;display: inline-block;padding: 2px 8px 3px 8px;background: #d9534f !important;/ border: 1px solid #d43f3a; /text-decoration: none;color: #fff;font-size: 10px;text-transform: uppercase;margin-bottom: 3px;    transition: all 0.2s ease-in-out;}
+	</style>
+<div class="openDetailsMain">
+	<div class="openDetailsMainInner">
+		<div class="openDetailsMain-heading">
+			Tracking No : <span id="TrackingIdBind">61</span>
+			<a onclick="closedetails()"><i class="fa fa-remove"></i></a>
+		</div>
+		<div class="openDetailsMain-mid">
+			<div class="openDetailsMain-midTop">
+				<table class="table table-bordered" style="table-layout: inherit;  word-break: break-all;  word-wrap: break-word;">
+					<tbody>
+						<tr>
+							<th style="width: 20%;">Project Name</th>
+							<th style="width: 20%;">Expense Report Name</th>
+							<th style="width: 12%;">Advance Amount</th>
+							<th style="width: 10%;">ER Currency</th>
+							<th style="width: 32%;">Description</th>
+						</tr>
+						<tr>
+							<td><span id="ProjectNameBind">03651 - Expense Project 091</span></td>
+							<td><span id="ExpenseReportNameBind">Test</span></td>
+							<td style="text-align: right;"><span id="AdvanceAmountBind">8765.01 </span><span style="color: #ababab;margin-left: 6px;" id="AdvanceCurrency">USD</span></td>
+							<td style="text-align: right;"><span id="Expensecurrency">INR</span></td>
+							<td colspan="5"><span id="DescriptionBind">Loren lipsum  Loren lipsum Loren lipsum</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="openDetailsMain-midBottom">
+				<table id="innertable" class="table example table-bordered" width="100%" style="width: 100% !important;">
+					<div id="My_button"></div>
+					<thead>
+						<tr>
+							<th style="width: 40px !important;" data-orderable="false" class="sorting_asc">Info</th>
+							<th style="width: 40px !important;">Ref <br> No</th>
+							<th>Project Phase</th>
+							<th style="width: 50px !important;">Item</th>
+							<th>Expense <br> Note</th>
+							<th>Status</th>
+							<th>ER <br> Amount</th>
+							<th>Amount</th>
+							<th>Final Amount</th>
+							<th>Payment <br> Type</th>
+							<th style="width: 90px !important;">Expense <br> Date</th>
+							<th style="width: 60px !important;">Billable</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function GetExpenseDeatil(id,ExpenseCurrencyText) 
+	{
+	//$('[data-toggle="tooltip"]').tooltip(); 
+	$('.loader').show();
+	var i=1;
+	var my_button;
+$('#innertable').dataTable().fnClearTable();
+                var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                type: "POST",
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),				
+                success: function (data) { 
+              // alert(data.d.results.length);				
+                    if (data.d.results.length > 0) {
+					my_button="<a type='button' onclick='gettextboxvalue()' >test<a>";
+                        $.each(data.d.results, function (key, value) {						
+						       // var Expense_item = getcurrencyValueById('BconeItemMaster', value.ExpenceItemId);
+								//var payment_type = getcurrencyValueById('BconeItemMaster', value.PaymentTypeId);								
+								//var Currency= getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);								
+								var convert_date1=convert_date(value.ExpenseDate);
+								//var Expense_item="";
+								//var payment_type = "";						
+								//var Currency=      "";							
+								//var convert_date1= "";
+								//var curr_val="";
+								//if(Currency.indexOf("-"))
+								//{
+								//var curr=Currency.split("-");
+								//curr_val=curr[0]; 
+								//} else {
+								//curr_val=Currency;
+								//}
+								var Expense_item = value.ExpenceItemText;
+								var payment_type = value.PaymentTypeText;								
+								var Currency=value.ExpenceCurrencyText;								
+								
+                            var my_var="";
+								if (value.Justification==null) {
+								var outer="outer";
+								//var count=getUploadedFiles_Count(value.ID);
+								var count=0;
+								if(value.FileUploadedCount!=null)
+								{
+								 count=value.FileUploadedCount;
+								}
+									if(count>0)
+									{									
+								my_var="<td class='sorting_1 text-center'><a style='display: inline-block;cursor:pointer;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a></td>";
+                                   }
+									else
+									{
+									my_var="<td class='sorting_1 text-center'></td>";
+									}								
+								var ss = 'https://bristleconeonline.sharepoint.com/sites/PPMUAT/BconeBillAttachment/' + value.BillAttachment;
+								}
+								else {
+								my_var="<td class='sorting_1 text-center'><a  name="+value.Justification+" data-toggle='tooltip' title="+value.Justification+" style='text-decoration:none;cursor: context-menu;'   ><i  class='fa fa-commenting' style='color:#333;font-size: 16px;'  ></i></a></td>";
+								}	
+                                 var ExpenseNote="-";
+                                 if(value.ExpenseNote!=null&&value.ExpenseNote!="")
+                                 {
+								   ExpenseNote=value.ExpenseNote;
+                                 }
+								 
+								 var FinalExpenseValue="0.00";
+								if (value.FinalExpenseValue != null) {
+                                FinalExpenseValue = value.FinalExpenseValue;
+                                if (FinalExpenseValue.toString().indexOf(".")) {
+								
+								FinalExpenseValue=parseFloat(FinalExpenseValue).toFixed(2);
+                                }
+                                else {
+                                    FinalExpenseValue = FinalExpenseValue + ".00";
+
+                                }
+                              }
+							   var ExpensceAmount="0.00";
+								if (value.ExpensceAmount != null) {
+                                ExpensceAmount = value.ExpensceAmount;
+                                if (ExpensceAmount.toString().indexOf(".")) {
+								
+								ExpensceAmount=parseFloat(ExpensceAmount).toFixed(2);
+                                }
+                                else {
+                                    ExpensceAmount = ExpensceAmount + ".00";
+
+                                }
+								var FinalAmount="";
+								if(value.FinalAmount!=null&&value.FinalAmount!='')
+								{
+								FinalAmount=value.FinalAmount;
+								}
+                              }
+							 
+								
+                table1.fnAddData([ 
+                                my_var,
+                                "<td>"+i+"</td>",
+								"<td>"+value.TaskName+"</td>",
+								"<td>"+Expense_item+"</td>",
+								'<a  data-toggle="tooltip" title="'+ExpenseNote+'" style="text-decoration:none;cursor: context-menu;">'+ExpenseNote+'</a>',
+								"<td>"+value.Status +"</td>",
+								"<td style='text-align:right;'><div style='text-align: right;'>" + FinalExpenseValue + "<span style='color: #ababab;margin-left: 6px;'>"+ ExpenseCurrencyText +"</span></div></td>",
+								
+								"<td style='text-align:right;'><div style='text-align: right;'>" + ExpensceAmount + "<span style='color: #ababab;margin-left: 6px;'>"+ Currency +"</span></div></td>",
+			                    //"<td><input type='text' style='display:none;width: 80px; float:left; margin-right: 4px;' id='"+value.ID+"' onkeyup='addfinalvalue(\""+ExpensceAmount+"\",\""+value.Id+"\")'  /><i class='fa fa-pencil' onclick='addfinalvalue(\""+ExpensceAmount+"\",\""+value.Id+"\")' aria-hidden='true'></i></td>",
+								//  "<td><div style='position:relative;'><input type='text' class='form-control'  style='width: 100%;height:22px;' id='"+value.ID+"' value='"+FinalAmount+"' onkeypress='return fun_AllowOnlyAmountAndDot(this.id);' onchange='addfinalvalue(\""+value.Id+"\")'  /><span style='color:#ababab;position:absolute;top:3px;right:3px;font-size:11px;'>"+ ExpenseCurrencyText +"</span></div></td>",
+								 "<td><div style='position:relative;'><input type='text' class='form-control'  style='width: 100%;height:22px;' id='"+value.ID+"' value='"+FinalAmount+"' onkeypress='return fun_AllowOnlyAmountAndDot(this.id);' /><span style='color:#ababab;position:absolute;top:3px;right:3px;font-size:11px;'>"+ ExpenseCurrencyText +"</span></div></td>",
+								
+								"<td>"+payment_type+"</td>",
+								"<td>"+convert_date1+"</td>",
+								"<td>"+value.BliableToClient+"</td>"  
+								]); 
+								i++;
+                        });	
+                    $("#My_button").html(my_button);						
+						$('.loader').hide();
+                    }
+                    else {
+					$('.loader').hide();
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+        }
+		
+		function gettextboxvalue()
+		{
+		$('.loader').show();
+	var count=0;
+		   var values = $('input[class="form-control"]').map(function(){
+       return this.value
+   }).get()
+    var ids = $('input[class="form-control"]').map(function(){
+       return this.id
+   }).get()
+   //console.log(values)
+  // alert(ids);
+	if(ids.indexOf(","))
+	{
+	var temp=ids;
+	//var split_var=temp.split(',');
+	//alert(ids.length);
+	
+	for(var i=0;i<ids.length;i++)
+	{
+	//alert(ids[i]);
+	//document.getElementById(ids).onchange();
+	addfinalvalue(ids[i]);
+   if(i<ids.length)
+	{
+	 $('.loader').hide();
+	}
+	}
+	
+	
+	
+  }
+	else
+	{
+	addfinalvalue(ids)
+	//document.getElementById(ids).onchange();
+	//document.getElementById(ids).onchange();
+	}
+	
+	
+   
+	
+    
+		}
+		function fun_AllowOnlyAmountAndDot(txt)
+        {
+		
+            if(event.keyCode > 47 && event.keyCode < 58 || event.keyCode == 46)
+            {
+               var txtbx=document.getElementById(txt);
+               var amount = document.getElementById(txt).value;
+               var present=0;
+               var count=0;
+
+               if(amount.indexOf(".",present)||amount.indexOf(".",present+1));
+               {
+              // alert('0');
+               }
+
+              /*if(amount.length==2)
+              {
+                if(event.keyCode != 46)
+                return false;
+              }*/
+               do
+               {
+               present=amount.indexOf(".",present);
+               if(present!=-1)
+                {
+                 count++;
+                 present++;
+                 }
+               }
+               while(present!=-1);
+               if(present==-1 && amount.length==0 && event.keyCode == 46)
+               {
+                    event.keyCode=0;
+                    //alert("Wrong position of decimal point not  allowed !!");
+                    return false;
+               }
+
+               if(count>=1 && event.keyCode == 46)
+               {
+
+                    event.keyCode=0;
+                    //alert("Only one decimal point is allowed !!");
+                    return false;
+               }
+               if(count==1)
+               {
+                var lastdigits=amount.substring(amount.indexOf(".")+1,amount.length);
+                if(lastdigits.length>=2)
+                            {
+                              //alert("Two decimal places only allowed");
+                              event.keyCode=0;
+                              return false;
+                              }
+               }
+                    return true;
+            }
+            else
+            {
+                    event.keyCode=0;
+                    //alert("Only Numbers with dot allowed !!");
+                    return false;
+            }
+
+        }
+		function addfinalvalue(id)
+		{
+		//alert(addfinalvalue);
+//FinalAmount
+		 var x = document.getElementById(id);
+		  var x1 = document.getElementById(id).value;
+	
+          UpdateExpenseFinalAmount(id,x1);
+		 
+    
+		}
+		
+		function UpdateExpenseFinalAmount(id,FinalAmount)
+		    {
+				//$('.loader').show();
+
+				var listName="BconeExpenceLogDetail";
+				var itemType = getListprotocol(listName);
+                var item = {
+                    "__metadata": { "type": itemType },
+					   "FinalAmount":FinalAmount		
+					  
+                };
+                getListItemForUpdate(web_url, listName, id, function (data) {
+			    $.ajax({
+									url: data.d.__metadata.uri,
+									type: "POST",
+									async:false,
+									contentType: "application/json;odata=verbose",
+									data: JSON.stringify(item),
+									headers: {
+									"Accept": "application/json;odata=verbose",
+									"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+									"X-HTTP-Method": "MERGE",
+									"If-Match": data.d.__metadata.etag
+									},
+									success: function (data) {
+									//alert("success");
+									
+									
+									},
+									error: function (data) {
+									alert(data.responseJSON.error.message.value);
+									// $('.loader').hide();
+									},
+									complete:function(){									
+									//$('.loader').hide();
+									}
+					});
+                },        function (data) {
+                    failure(data);
+                });
+		}
+	function GetExpenseDeatil1(id) 
+	{
+	//$('[data-toggle="tooltip"]').tooltip(); 
+	$('.loader').show();
+	var i=1;
+$('#innertable').dataTable().fnClearTable();
+                var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                type: "POST",
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),				
+                success: function (data) {                  
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function (key, value) {						
+						var Expense_item = getcurrencyValueById('BconeItemMaster', value.ExpenceItemId);
+								var payment_type = getcurrencyValueById('BconeItemMaster', value.PaymentTypeId);								
+								var Currency= getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);								
+								var convert_date1=convert_date(value.ExpenseDate);
+								var curr_val;
+								if(Currency.indexOf("-"))
+								{
+								var curr=Currency.split("-");
+								curr_val=curr[0]; 
+								} else {
+								curr_val=Currency;
+								}
+                           var my_var="";
+								if (value.Justification==null) {
+								var outer="outer";
+								var count=getUploadedFiles_Count(value.ID);
+									if(count>0)
+									{									
+								my_var="<td class='sorting_1 text-center'><a style='display: inline-block;cursor:pointer;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a></td>";
+                                   }
+									else
+									{
+									my_var="<td class='sorting_1 text-center'></td>";
+									}								
+								var ss = 'https://bristleconeonline.sharepoint.com/sites/PPMUAT/BconeBillAttachment/' + value.BillAttachment;
+								}
+								else {
+								my_var="<td class='sorting_1 text-center'><a  name="+value.Justification+" data-toggle='tooltip' title="+value.Justification+" style='text-decoration:none;cursor: context-menu;'   ><i  class='fa fa-commenting' style='color:#333;font-size: 16px;'  ></i></a></td>";
+								}	
+                                 var ExpenseNote="-";
+                                 if(value.ExpenseNote!=null&&value.ExpenseNote!="")
+                                 {
+								   ExpenseNote=value.ExpenseNote;
+                                 }
+                table1.fnAddData([ 
+                                my_var,
+                                "<td>"+i+"</td>",
+								"<td>"+value.TaskName+"</td>",
+								"<td>"+Expense_item+"</td>",
+								'<a  data-toggle="tooltip" title="'+ExpenseNote+'" style="text-decoration:none;cursor: context-menu;">'+ExpenseNote+'</a>',
+								"<td>"+value.Status +"</td>",
+								"<td style='text-align:right;'><div style='text-align: right;'>" + value.ExpensceAmount + "<span style='color: #ababab;margin-left: 6px;'>"+ curr_val +"</span></div></td>",
+								"<td>"+payment_type+"</td>",
+								"<td>"+convert_date1+"</td>",
+								"<td>"+value.BliableToClient+"</td>"  
+								]); 
+								i++;
+                        });						
+						$('.loader').hide();
+                    }
+                    else {
+					$('.loader').hide();
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+					$('.loader').hide();
+                }
+            });
+        }
+ 	function opendetails(trackingid)
+	{
+		setTimeout(function(){ 
+			$('[data-toggle="tooltip"]').tooltip();  
+		}, 1000);
+
+	$.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items(" + trackingid + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+								    var advance = "0.00";
+		var Expenseitem="";
+		var curreuncyvalue="";
+                            if (data.d.AmountTaken != null) {
+                                advance = data.d.AmountTaken;
+                                if (advance.toString().indexOf(".")) 
+								{
+                                }
+                                else {
+                                    advance = advance + ".00";
+                                }
+                            } 
+                  var ExpenseCurrencyText="-";
+								if(data.d.ExpenseCurrencyText!=null&&data.d.ExpenseCurrencyText!="")
+								{
+								ExpenseCurrencyText=data.d.ExpenseCurrencyText;
+								
+								if (ExpenseCurrencyText.indexOf("-")) {
+                                    var curr = ExpenseCurrencyText.split("-");
+                                    ExpenseCurrencyText = curr[0];
+                                }
+								}
+if(data.d.currencytext!=null&& data.d.currencytext!='')	
+{						
+	   Expenseitem = data.d.currencytext;
+        if (Expenseitem.indexOf("-")) {
+                                    var curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                }
+                                else {
+                                }
+}
+					var desc="-";
+								if(data.d.Description!=null&&data.d.Description!="")
+								{
+								desc=data.d.Description;
+								}					 
+				GetExpenseDeatil(data.d.ID,ExpenseCurrencyText);
+				document.getElementById("TrackingIdBind").innerHTML=data.d.ExpenseTrackingNo;
+				document.getElementById("ProjectNameBind").innerHTML=data.d.Projectname;
+				document.getElementById("ExpenseReportNameBind").innerHTML=data.d.ExpenseReportName;
+				document.getElementById("AdvanceAmountBind").innerHTML=advance;
+				document.getElementById("AdvanceCurrency").innerHTML=curreuncyvalue;
+				document.getElementById("Expensecurrency").innerHTML=ExpenseCurrencyText;
+				document.getElementById("DescriptionBind").innerHTML= '<a data-toggle="tooltip" title="'+desc+'" style="text-decoration:none;cursor: context-menu;">'+desc+'</a>';
+                },
+				complete: function(data){
+				//mykeyup();
+				},
+                error: function (data) {
+                    failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+ 		$('.openDetailsMain').show();
+		setTimeout(function(){ 
+			$('[data-toggle="tooltip"]').tooltip();  
+		}, 1000);
+ 	}
+	function mykeyup(event)
+	{
+	//alert(event);
+
+
+
+                if (event.shiftKey == true) {
+                    event.preventDefault();
+                }
+
+                //alert(event.keyCode);
+
+                if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                    (event.keyCode >= 96 && event.keyCode <= 105) ||
+                    event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                    event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+
+                } else {
+                    event.preventDefault();
+                }
+
+                if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190 || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)
+                    event.preventDefault();
+                //if a decimal has been added, disable the "."-button
+
+        
+	}
+	function GetEmployeeGuidByTrackingId(trackingid)
+	{
+	var emp_guid="";
+	$.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items(" + trackingid + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+								emp_guid=data.d.EmployeeId;
+                },
+				complete: function(data){
+				},
+                error: function (data) {
+                    failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+ 		return emp_guid;
+ 	}
+ 	function closedetails(){
+ 		$('.openDetailsMain').hide();
+ 	}
+	function getUploadedFiles_Count(ExpenseItemId){          
+           var docurl = "/sites/Dev/BconeBillAttachment/1234";
+		   var raisedDocument=0;
+        $().SPServices({                                          //Query Raised Documents
+            operation: "GetListItems",
+            async: false,
+            listName: "BconeBillAttachment",
+            CAMLQuery: "<Query><Where><Eq><FieldRef Name='ExpenseItemId'/><Value Type='Text'>"+ExpenseItemId+"</Value></Eq></Where><OrderBy><FieldRef Name='Modified' Ascending='False' /></OrderBy></Query>",
+            CAMLViewFields: "<ViewFields><FieldRef Name='FileLeafRef' /><FieldRef Name='EncodedAbsUrl' /></ViewFields>",
+            CAMLQueryOptions: "<QueryOptions><ViewAttributes Scope='RecursiveAll'/></QueryOptions>",            
+            completefunc: function (xData, Status) {			
+                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+					}
+        });
+		  return raisedDocument;
+          }
+		   function openouterfileattach(reff_no){
+ $('#reff_no').text('Ref No. '+reff_no);
+  $('#openouterfileattach').show({ width: 'toggle'});
+ }
+ function closeouterfileattach(){
+  $('#openouterfileattach').hide({ width: 'toggle'});
+ }
+ function getUploadedFiles(ExpenseItemId,type){
+           var docurl = "/sites/Dev/BconeBillAttachment/1234";
+        $().SPServices({                                          //Query Raised Documents
+            operation: "GetListItems",
+            async: false,
+            listName: "BconeBillAttachment",
+            CAMLQuery: "<Query><Where><Eq><FieldRef Name='ExpenseItemId'/><Value Type='Text'>"+ExpenseItemId+"</Value></Eq></Where><OrderBy><FieldRef Name='Modified' Ascending='False' /></OrderBy></Query>",
+            CAMLViewFields: "<ViewFields><FieldRef Name='FileLeafRef' /><FieldRef Name='EncodedAbsUrl' /></ViewFields>",
+            CAMLQueryOptions: "<QueryOptions><ViewAttributes Scope='RecursiveAll'/></QueryOptions>",            
+            completefunc: function (xData, Status) {
+   if(type=='inner')
+   {
+   var file_ids='';
+   $('#delete_file_ids').text('');
+                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                var temp = $(this).attr("ows_Created_x0020_Date");
+                var temp2 = $(this).attr("ows_Last_x0020_Modified");
+    var ID = '';
+                $(".raisedDocumnts").remove();
+    $("#uploaded_files").empty();    
+    var upload_file_id=0;
+    var remove_id='';
+                $(xData.responseXML).SPFilterNode("z:row").each(function () {
+    upload_file_id++;
+    remove_id='remove'+upload_file_id;    
+    ID=$(this).attr("ows_ID");    
+    if(file_ids=='')
+    {
+    file_ids=ID;
+    }
+    else
+    {
+    file_ids=file_ids+","+ID;
+    }
+    var href=$(this).attr("ows_EncodedAbsUrl");
+  var file_html="<tr id="+remove_id+"><td>"+$(this).attr('ows_FileLeafRef').split('#')[1]+"</td>";
+     file_html=file_html+"<td class='text-center' style='width:30px;'><a href="+href+" download ><i class='fa fa-download'></i></a></td>";  
+      file_html=file_html+"<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\""+remove_id+"\",\""+ID+"\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+    file_html=file_html+" </tr>";
+                    var liHtml = "<li class='raisedDocumnts'><a href=" + $(this).attr("ows_EncodedAbsUrl") + ">" + $(this).attr("ows_FileLeafRef").split('#')[1] + "</a></li>";
+                    $("#uploaded_files").append(file_html);
+                    currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                });
+    $('#delete_file_ids').text(file_ids);    
+    $('#uploaded_file_count').text(raisedDocument);
+                if (raisedDocument > 0) {
+     $('#outer-popup-a').show();
+                } else {
+    var file_html="<tr><td colspan='3' style='text-align:center'>No file found</td>";
+    file_html=file_html+" </tr>";
+     $("#uploaded_files").append(file_html);
+     $('#outer-popup-a').hide();
+                }
+            }
+   else if(type=='outer')
+   {
+                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                var temp = $(this).attr("ows_Created_x0020_Date");
+                var temp2 = $(this).attr("ows_Last_x0020_Modified");
+    var ID = '';
+                $(".raisedDocumnts").remove();
+    $("#inner_tbody").empty();    
+    var upload_file_id=0;
+    var remove_id='';
+                $(xData.responseXML).SPFilterNode("z:row").each(function () {
+    upload_file_id++;
+    remove_id='remove'+upload_file_id;
+    ID=$(this).attr("ows_ID");
+    var href=$(this).attr("ows_EncodedAbsUrl");
+  var file_html="<tr id="+remove_id+"><td>"+$(this).attr('ows_FileLeafRef').split('#')[1]+"</td>";
+     file_html=file_html+"<td class='text-center' style='width:30px;'><a href="+href+" download ><i class='fa fa-download'></i></a></td>";
+    file_html=file_html+" </tr>";
+                    var liHtml = "<li class='raisedDocumnts'><a href=" + $(this).attr("ows_EncodedAbsUrl") + ">" + $(this).attr("ows_FileLeafRef").split('#')[1] + "</a></li>";
+                    $("#inner_tbody").append(file_html);
+      console.log(liHtml);
+                    currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                });    
+    $('#uploaded_file_count').text(raisedDocument);
+                if (raisedDocument > 0) {
+                } else {
+    var file_html="<tr><td colspan='3' style='text-align:center'>No file found</td>";
+    file_html=file_html+" </tr>";
+     $("#inner_tbody").append(file_html);
+                }
+   }
+   }
+        });
+          }
+</script>
+	 <div class="loader"></div>	
+<script type="text/javascript" language="javascript" class="init">
+var table1;
+	$(document).ready(function(){
+		 table1 = $('#innertable').dataTable({
+      		"scrollY": "300px",
+			"scrollCollapse": false,
+			"paging": true,
+    'fnCreatedRow': function (nRow, aData, iDataIndex) {
+        $(nRow).attr('id', 'innermy'+iDataIndex); // or whatever you choose to set as the id
+    },
+});
+	});
+	  var FLoginname="";
+	  var FloginId="";
+	  var finalCc="";
+      var finalTo="";
+	  var expense_creater_id="";
+	  var Approver2Id="";
+	  var ExpenseApproveType="";
+      var Approver1Id="";
+	  var PathUrl="";
+     function GetUserId(userid) {
+            var NewloginName = "";
+			var result;
+            jQuery.ajax({
+                url: "/sites/PPMUAT/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+			     async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    var loginName = dataResults.LoginName;
+                    NewloginName = encodeURIComponent(loginName); 
+                     result =  getResourcesGuid(NewloginName);
+                },
+                complete: function () {
+                },
+            });
+			return result;
+        }
+		 function getResourcesGuid(NewloginName) {
+            var GUID;
+            jQuery.ajax({
+                url: "/sites/PPMUAT/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    GUID = data.d.results[0].ResourceId;
+					 FLoginname=data.d.results[0].ResourceName;
+	                   FloginId=data.d.results[0].ResourceId;
+                    return GUID;
+                }
+            });
+           return GUID;
+        }
+			 function getExpenseForFinance(url, listname,owner_id) 
+		{
+	var table = $('#example').dataTable({
+    'fnCreatedRow': function (nRow, aData, iDataIndex) {
+        $(nRow).attr('id', 'my'+iDataIndex); // or whatever you choose to set as the id
+    },
+});
+    var counter = 1;
+ var table_data="";
+	   var query_cml = '<View><Query><Where><And><And><Eq><FieldRef Name="FinanceExpenseStatus"/><Value Type="Text" >Approved</Value></Eq><Eq><FieldRef Name="FinanceId" /><Value Type="Text">'+owner_id+'</Value></Eq></And><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">Approved</Value></Eq></And></Where><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';	
+          $.ajax({
+              url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('" + listname + "')/GetItems",
+              type: "POST",
+              headers: {
+                  "accept": "application/json;odata=verbose",
+                  "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                  "content-Type": "application/json;odata=verbose"
+              },
+              data: JSON.stringify({
+                  query: {
+                      __metadata: {
+                          type: "SP.CamlQuery"
+                      },
+                      ViewXml: query_cml
+                  }
+              }),
+              success: function (data) {
+				 if (data.d.results.length > 0) {
+				   $.each(data.d.results, function (key, value) {
+	    var advance = "0.00";
+		var Expenseitem="";
+		var curreuncyvalue="";
+                            if (value.AmountTaken != null) {
+                                advance = value.AmountTaken;
+                                if (advance.toString().indexOf(".")) 
+								{
+                                }
+                                else {
+                                    advance = advance + ".00";
+                                }
+                            } 
+if(value.currencytext!=null&& value.currencytext!='')	
+{						
+	   Expenseitem = value.currencytext;
+                                if (Expenseitem.indexOf("-")) {
+                                    var curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                }
+                                else {
+                                }
+}
+                                var	tooltip_date = convert_date_tooltip(value.ReportSubmittedDate);
+						        var  converted_date= convert_date(value.ReportSubmittedDate);
+								var commnet_tooptip="Description"+value.ID;
+								var ExpenseCurrencyText="-";
+								if(value.ExpenseCurrencyText!=null&&value.ExpenseCurrencyText!="")
+								{
+								
+								ExpenseCurrencyText=value.ExpenseCurrencyText;
+								
+								if (ExpenseCurrencyText.indexOf("-")) {
+                                    var curr = ExpenseCurrencyText.split("-");
+                                    ExpenseCurrencyText = curr[0];
+                                }
+								}
+								var FinalExpenseValue="0.00";
+								if (value.FinalExpenseValue != null) {
+                                FinalExpenseValue = value.FinalExpenseValue;
+                                if (FinalExpenseValue.toString().indexOf(".")) {
+								
+								FinalExpenseValue=parseFloat(FinalExpenseValue).toFixed(2);
+                                }
+                                else {
+                                    FinalExpenseValue = FinalExpenseValue + ".00";
+
+                                }
+                              }
+								var desc="-";
+								if(value.Description!=null&&value.Description!="")
+								{
+								desc=value.Description;
+								}
+								
+								if(value.finalstatus=="Reimbursed")
+								{
+								
+								
+								var tile='<a href="#" onclick="opendetails('+value.ID+')">'+value.ExpenseReportName+'</a>  <span class="paid">Already Paid</span>';
+								}
+								else{
+								var tile='<a href="#" onclick="opendetails('+value.ID+')">'+value.ExpenseReportName+'</a>';
+								}
+table.fnAddData([
+            '<input type="checkbox" onchange="onchildcheck()" name="'+value.ID+'" title="'+value.ExpenseTrackingNo+'" />',
+            '<td>'+value.ExpenseTrackingNo+'</td>',
+			 <!-- '<td>'+ExpenseCurrencyText+'</td>', -->
+			  //'<a href="javascript:void(0)" onclick="opendetails('+value.ID+')">'+value.ExpenseReportName+'</a>', 
+			  tile,
+			  '<td>'+value.EmployeeName+'</td>',
+			   '<a data-toggle="tooltip" title="'+tooltip_date+'" style="text-decoration:none;cursor: context-menu;">'+converted_date+'</a>',
+			   '<td>'+value.Projectname+'</td>',
+			    <!-- '<td>'+value.ReportStatus+'</td>', -->
+				 '<td>'+value.LastActionBy+'</td>',
+			'<td><div style="text-align: right;">'+advance+' '+curreuncyvalue+'</div></td>',
+			'<td><div style="text-align: right;">'+FinalExpenseValue+'  '+ExpenseCurrencyText+'</div></td>',
+			//'<td><span class="wordWrap"><a href="#" data-toggle="tooltip" title="'+desc+'" style="text-decoration:none;">'+desc+'</a><span></td>',
+			 
+]);
+                  });
+				  }
+				  else
+				  {
+				  }
+              },
+              error: function (data) {
+                  alert(data.responseJSON.error.message.value);
+                  failure(data);
+              }
+          });
+		   setTimeout(function(){ 
+			$('[data-toggle="tooltip"]').tooltip();  
+		}, 1000);
+      }
+	  function onchildcheck()
+	  {
+	 		var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+    no_checked = childCheckboxes.filter(':checked').length;
+  if(no_checked==1)
+  {
+				 $('#BtnRejected').attr("onclick","RejectExpense()");
+				 $('#BtnRejected').css("cursor","pointer");
+				  $('#BtnClarification').attr("onclick","Clarification()");
+				 $('#BtnClarification').css("cursor","pointer");
+				 $("#BtnRejected").removeClass('gray-btn').addClass('blue-btn'); 
+				 $("#BtnClarification").removeClass('gray-btn').addClass('blue-btn'); 
+  }
+  else
+  {
+				$('#BtnRejected').attr("onclick","");
+				  $('#BtnRejected').css("cursor","no-drop"); 				  
+				  $('#BtnClarification').css("cursor","no-drop");
+				 $('#BtnClarification').prop('onclick',"");
+				$("#BtnRejected").removeClass('blue-btn').addClass('gray-btn');
+				 $("#BtnClarification").removeClass('blue-btn').addClass('gray-btn');	
+  } 
+  document.getElementById("SelectedItemCount").innerHTML=no_checked; 
+  if(childCheckboxes.length == no_checked){ 
+  $("#checkAll").prop('checked',true);
+   }
+   else
+   {
+    $("#checkAll").prop('checked',false);
+   }
+}
+	   function destroyjs() {
+            $('#example').dataTable({
+                "filter": false,
+		 		"scrollX": true,
+                "destroy": true
+            });
+            var tables = $.fn.dataTable.fnTables(true);
+            $(tables).each(function () {
+                $(this).dataTable().fnDestroy();
+            });
+        }	
+			 function GetEmailidbyaGuid(Guid) {
+            var emailid;
+            jQuery.ajax({
+                url: "/sites/PPMUAT/_api/ProjectData/Resources?$filter=ResourceId eq (guid'" + Guid + "')",
+                type: "GET",
+				 async: false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+				alert('guid');
+                   console.log(data);
+                    emailid = data.d.results[0].ResourceEmailAddress;
+                    return emailid;
+                }
+            });
+           return emailid;
+        }
+		 function Clarification()
+  {
+  	var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+          no_checked = childCheckboxes.filter(':checked').length;
+		  if(no_checked==1)
+		  {
+		  var IDs=[];
+		   var tackingids=[];	 
+        $("#example tbody tr td input[type='checkbox']:checked").each(function(){
+		var iddd=($(this).closest('tr').attr("id"));
+		IDs.push($(this).closest('tr').attr("id"));
+		 tackingids.push($(this).attr("name"));
+		var trackingid=($(this).attr("name"));
+	    var emp_guid=GetEmployeeGuidByTrackingId(trackingid);
+		var GetEmailidbyaGuid11=GetEmailidbyaGuid(emp_guid);
+		var subject="Tracking "+trackingid+" | Clarification for Expense";
+		$('#BtnClarification').attr('href',"mailto:"+GetEmailidbyaGuid11+"?subject=Data&body=");
+		});
+			}
+			else
+			{
+			 document.getElementById("Alert_msg").innerHTML="Please Select Expense For Clarification";	
+	           $("#alertmain").show();			
+			}
+  }
+		  var To = "";
+        var Cc = "";
+        var Subject = "";
+        var Body = "";
+        var Filepath = "";
+        var result = "";
+        var subjectcontents = "";
+		function GetEmailData(Trackingid,emailEventId) {
+        $().SPServices({
+            operation: "GetListItems",
+            async: false,
+            listName: "BconeEmailConfiguration",
+            CAMLQuery: "<Query><Where><Eq><FieldRef Name='EventID'/><Value Type='Text'>" + emailEventId + "</Value></Eq></Where></Query>",
+            completefunc: function (xData, Status) {
+                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                    Subject = $(this).attr("ows_Subject");
+                    Body = $(this).attr("ows_Body");
+                    formatSubject(Subject,Trackingid);
+                    formatBodyValues(Body,Trackingid);
+                });
+            }
+        });
+        function formatSubject(Subject,ListID) {
+            var startString = "{";
+            var endString = "}";
+            var count = 0;
+            var indexStart = 0, indexEnd = 0;
+            var exit = false;
+            while (!exit) {
+                indexStart = Subject.indexOf(startString);
+                indexEnd = Subject.indexOf(endString);
+                if (indexStart != -1 && indexEnd != -1) {
+                    matchedstring = Subject.substring(Subject.indexOf('{') + 1, Subject.indexOf('}'));
+                    $().SPServices({
+                        operation: "GetListItems",
+                        async: false,
+                        listName: "BconeEmailvariablemapping",
+                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                        completefunc: function (xData, Status) {
+                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                            $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                var fieldvalue = $(this).attr("ows_FieldValue");
+                                var str_ows = "ows_" + fieldvalue;
+                                $().SPServices({
+                                    operation: "GetListItems",
+                                    async: false,
+                                    listName: "BconeExpenceMaster",
+                                    CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                    completefunc: function (xData, Status) {
+                                        raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                        $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                            var element = $(this).attr(str_ows);
+                                            if (element.indexOf('#') >= 0) {
+                                                element = $(this).attr(str_ows).split('#')[1];
+                                            } else {
+                                                element = $(this).attr(str_ows);
+                                            }
+                                            if (element != "" && element != undefined && element != "0") {
+                                                if (count == 0) {
+                                                    subjectcontents = element;
+                                                } else {
+                                                    subjectcontents = subjectcontents + (";" + element);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+                    Subject = Subject.substring(indexEnd + endString.length);
+                    count++;
+                }
+                else
+                    exit = true;
+            }
+        }
+        function formatBodyValues(Body,ListID) {
+            var startString = "&#123;";
+            var endString = "&#125;";
+            var count = 0;
+            var indexStart = 0, indexEnd = 0;
+            var exit = false;
+            while (!exit) {
+                indexStart = Body.indexOf(startString);
+                indexEnd = Body.indexOf(endString);
+                if (indexStart != -1 && indexEnd != -1) {
+                    matchedstring = Body.substring(Body.indexOf('&#123;') + 6, Body.indexOf('&#125;'));
+                    $().SPServices({
+                        operation: "GetListItems",
+                        async: false,
+                        listName: "BconeEmailvariablemapping",                     
+                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                        completefunc: function (xData, Status) {
+                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                            $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                var fieldvalue = $(this).attr("ows_FieldValue");
+                                var str_ows = "ows_" + fieldvalue;
+                                $().SPServices({
+                                    operation: "GetListItems",
+                                    async: false,
+                                    listName: "BconeExpenceMaster",
+                                    CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                    completefunc: function (xData, Status) {
+                                        raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                        $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                            var element = $(this).attr(str_ows);
+											if($(this).attr(str_ows) == "ows_Comment" && element == undefined)
+										   {
+										   element="Recalled from submit status";
+										   }
+										   else if(element == undefined)
+										   {
+										   element="-";
+										   }
+                                          if (fieldvalue == "Editor" || fieldvalue == "Author") {
+                                                        element = $(this).attr(str_ows).split('#')[1];
+                                                    }
+                                                    else {
+                                                        element = $(this).attr(str_ows);
+                                                    }
+                                            if (element != "" && element != undefined && element != "0") {
+                                                if (count == 0) {
+                                                    result = element;
+                                                } else {
+                                                    result = result + (";" + element);
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+                    Body = Body.substring(indexEnd + endString.length);
+                    count++;
+                }
+                else
+                    exit = true;
+            }
+        }
+        sendEmail(finalTo, finalCc, Subject, Body, Filepath, result, subjectcontents, PathUrl);
+    }
+    function sendEmail(To, Cc, Subject, Body, Filepath, bodyFormat, subjectcontents, PathUrl) {
+        var url = "https://ppmdev.bcone.com/api/BCONE/SendEmail"
+        var EmailRequestData = {
+            "To": To, "Subject": Subject, "Body": Body, "cc": Cc, "BodyFormat": bodyFormat, "SubjectContent": subjectcontents, "URL": PathUrl
+        };
+        $.ajax({
+            url: url,
+			async:false,
+            data: EmailRequestData,
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+            }
+        });
+    }
+	function GetNoteById(Action)
+ {
+      var notes="";
+        var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="NotesID"/><Value Type="Text">' + Action + '</Value></Eq><Eq><FieldRef Name="IsActive"/><Value Type="Boolean">1</Value></Eq></And></Where></Query></View>';
+            $.ajax({
+                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeExpenceNotesMaster')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+                beforeSend: function () {
+                },
+                success: function (data) {          
+                    if (data.d.results.length > 0) {
+                        notes=data.d.results[0].Notes;
+                    }                 
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                    } 
+            });
+			return notes;
+ } 
+ function InsertIntoLog(url, listname,TrackingNo,Action,ActorName,ActorID,Type)
+ {
+		var Note=GetNoteById(Action);
+		var TrackingNo_temp=TrackingNo.toString();
+            var item = "";
+            var item_collections = getListprotocol(listname);	       
+                item = {
+                    "__metadata": { "type": item_collections},
+                   "TrackingNo":TrackingNo_temp,
+                   "Notes":Note,
+                   "ActorName":ActorName,
+                   "ActorID":ActorID,
+				   "Action":Type                                 
+                };
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+                type: "POST",
+				async:false,
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+                },
+                complete: function () {
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+ }
+var userid = _spPageContextInfo.userId;
+var owner_id=GetUserId(userid);
+var web_url = "https://bristleconeonline.sharepoint.com/sites/PPMUAT/";
+    function GetApprovalFinaceDetail(id) {
+				  var query_cml = '<View><Query><Where><Eq><FieldRef Name="ID"/><Value Type="Counter">'+id+'</Value></Eq></Where></Query></View>';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl +"/_api/web/lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),				
+                success: function (data) {
+                    var table_tr = "";                   
+                    Approver2Id=data.d.results[0].Approver2; 
+					Approver1Id=data.d.results[0].Approver1; 
+				    ExpenseApproveType=data.d.results[0].ExpenseApproveType; 
+                    if (data.d.results.length > 0) {
+				expense_creater_id=data.d.results[0].EmployeeId;						
+                    }
+                    else {				
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+        }
+$(document).ready(function() {
+ getExpenseForFinance(web_url, 'BconeExpenceMaster',owner_id);
+		$('#example tfoot th').each( function () {
+			var title = $('#example thead th').eq( $(this).index() ).text();
+			$(this).html( '<input type="text" placeholder="Search" />' );
+		} );
+		var table = $('#example').DataTable();
+		table.columns().every( function () {
+			var that = this;
+			$( 'input', this.footer() ).on( 'keyup change', function () {
+				that
+					.search( this.value )
+					.draw();
+			} );
+		} );
+		var rowCount = $('#example >tbody >tr').length;
+		$('#checkAll').click(function(){		
+		if ($("#checkAll").is(':checked')) {
+			 $("#example tbody tr td input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+			  }
+			  else 
+			  {   		  
+               $("#example tbody tr td input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+                 }
+				 var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+    no_checked = childCheckboxes.filter(':checked').length;
+	    no_checked = childCheckboxes.filter(':checked').length;
+   if(no_checked==1||no_checked==0)
+  {
+				 $('#BtnRejected').attr("onclick","RejectExpense()");
+				 $('#BtnRejected').css("cursor","pointer");
+				 $('#BtnClarification').attr("onclick","Clarification()");
+				 $('#BtnClarification').css("cursor","pointer");
+				 $("#BtnRejected").removeClass('gray-btn').addClass('blue-btn'); 
+				 $("#BtnClarification").removeClass('gray-btn').addClass('blue-btn'); 
+  }
+  else
+  {
+				  $('#BtnRejected').css("cursor","no-drop"); 
+				  $('#BtnClarification').attr("onclick","");
+				  $('#BtnClarification').css("cursor","no-drop"); 
+				$("#BtnRejected").removeClass('blue-btn').addClass('gray-btn');
+				 $("#BtnClarification").removeClass('blue-btn').addClass('gray-btn');
+  }
+  document.getElementById("SelectedItemCount").innerHTML=no_checked;
+		});
+		$('#example tbody tr td input[type=checkbox]').change(function(){
+		var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+    no_checked = childCheckboxes.filter(':checked').length;
+  document.getElementById("SelectedItemCount").innerHTML=no_checked;
+  if(childCheckboxes.length == no_checked){ 
+  $("#checkAll").prop('checked',true);
+   }
+   else
+   {
+    $("#checkAll").prop('checked',false);
+   }
+		});
+		
+		
+		 $("input[type='text']").keypress(function (event) {
+
+
+                if (event.shiftKey == true) {
+                    event.preventDefault();
+                }
+
+                //alert(event.keyCode);
+
+                if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                    (event.keyCode >= 96 && event.keyCode <= 105) ||
+                    event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                    event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+
+                } else {
+                    event.preventDefault();
+                }
+
+                if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190 || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)
+                    event.preventDefault();
+                //if a decimal has been added, disable the "."-button
+
+            });
+});
+	function ReimburseExpense()
+	{
+		var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+    no_checked = childCheckboxes.filter(':checked').length;
+		if(no_checked==0)
+		{
+		 document.getElementById("Alert_msg").innerHTML="Please Select Expense To Reimburse";	
+	     $("#alertmain").show();
+		}else
+		{
+		document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to Reimburse expense?";
+		$('#ok_click').attr('onclick','UpdateExpenseStatus()');
+		$("#Confirmation_alert").show();		
+		}
+	}
+	function UpdateExpenseStatus()
+	{
+	var table = $('#example').DataTable();
+	  var IDs = [];
+	  var tackingids=[];
+	  var display_trackingid=[];
+	 var count=0;
+	 var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+    no_checked = childCheckboxes.filter(':checked').length;
+	 $('.loader').show();
+        $("#example tbody tr td input[type='checkbox']:checked").each(function(){		
+		count++;
+		var iddd=($(this).closest('tr').attr("id"));		
+		IDs.push($(this).closest('tr').attr("id"));
+		 tackingids.push($(this).attr("name"));
+		var trackingid=($(this).attr("name"));
+		
+		 display_trackingid=($(this).attr("title"));
+		UpdateExpenseStatusByTrackingId(trackingid,'Reimbursed',iddd);
+		table.row('#'+iddd).remove().draw( false );
+		});
+		document.getElementById("Alert_msg").innerHTML=" "+display_trackingid+" Reimbursed Sucessfully!";	
+	     $("#alertmain").show();
+		 document.getElementById("SelectedItemCount").innerHTML=0; 
+	}
+	 function getListItemForUpdate(url, listname, Id, complete) {
+            $.ajax({
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    complete(data);
+                },
+                error: function (data) { 
+                }
+            });
+        }
+	 function getListprotocol(name) {
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+	function UpdateExpenseStatusByTrackingId(id,status,remove_id)
+		    {
+				$('.loader').show();
+				var currentdate = new Date();
+				var date = currentdate;
+				expense_creater_id="";
+				Approver2Id=""; 
+				Approver1Id=""; 
+				ExpenseApproveType="";
+				GetApprovalFinaceDetail(id);
+				$("#Confirmation_alert").hide();
+				var listName="BconeExpenceMaster";
+				var itemType = getListprotocol(listName);
+                var item = {
+                    "__metadata": { "type": itemType },
+					   "ReimbursedDate":date,				
+					  "ReportStatus":'Reimbursed'
+                };
+                getListItemForUpdate(web_url, listName, id, function (data) {
+			    $.ajax({
+									url: data.d.__metadata.uri,
+									type: "POST",
+									async:false,
+									contentType: "application/json;odata=verbose",
+									data: JSON.stringify(item),
+									headers: {
+									"Accept": "application/json;odata=verbose",
+									"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+									"X-HTTP-Method": "MERGE",
+									"If-Match": data.d.__metadata.etag
+									},
+									success: function (data) {
+									InsertIntoLog(web_url, "BconeExpenseLogHistory",id,"05",FLoginname,FloginId,"Reimbursed");
+									finalCc=FloginId;
+									finalTo=expense_creater_id;
+							        PathUrl="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx?status=Reimbursed";	
+									InsertIntoMailLog('BconeEmailData',finalTo,finalCc,PathUrl,'12',id);
+									
+									
+									},
+									error: function (data) {
+									alert(data.responseJSON.error.message.value);
+									 $('.loader').hide();
+									},
+									complete:function(){									
+									$('.loader').hide();
+									}
+					});
+                },        function (data) {
+                    failure(data);
+                });
+		}
+	  function close_div()
+	  {
+	  $("#alertmain").hide();
+	  document.getElementById("Alert_msg").innerHTML="";	  
+	  }
+	  function confirmation_close()
+	  {
+	  $('#Confirmation_alert').hide();
+	  }
+	     function RejectExpense()
+			{
+			$('#Txt_Comment').css({
+                        "border": "",
+                        "background": ""
+                    });
+					document.getElementById("AlertMsg").innerHTML="";
+					document.getElementById("Txt_Comment").value="";	
+			var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+          no_checked = childCheckboxes.filter(':checked').length;
+		  if(no_checked==1)
+		  {
+		  var IDs=[];
+		   var tackingids=[];
+	  $('#myModal2').modal('show');
+        $("#example tbody tr td input[type='checkbox']:checked").each(function(){		
+		var iddd=($(this).closest('tr').attr("id"));
+		IDs.push($(this).closest('tr').attr("id"));
+		 tackingids.push($(this).attr("name"));
+		var trackingid=($(this).attr("name"));
+		document.getElementById("Expense_Comment_Id").innerHTML = trackingid;	
+	    document.getElementById("Reject_Hide").innerHTML=iddd;
+		});
+			}
+			else
+			{
+			 document.getElementById("Alert_msg").innerHTML="Please Select Expense To Reject";	
+	           $("#alertmain").show();
+			}	
+			}
+			function Rejectcomment(status)
+				{	
+			var table = $('#example').DataTable();
+					   var currentdate = new Date();
+					   Approver2Id=""; 
+						 Approver1Id=""; 
+						ExpenseApproveType="";
+						var date = currentdate;
+				        var Expense_Comment_Id=document.getElementById("Expense_Comment_Id").innerHTML ;	
+				       GetApprovalFinaceDetail(Expense_Comment_Id);
+					   var Reject_Hide=document.getElementById("Reject_Hide").innerHTML;					 
+					  var Comment = document.getElementById("Txt_Comment").value;
+					  if (Comment == '') {
+						isValid = false;
+						$('#Txt_Comment').css({
+							"border": "1px solid red",
+							"background": "#FFCECE"
+						});
+						document.getElementById("AlertMsg").innerHTML = "Please Enter the Comment";
+						document.getElementById("Txt_Comment").focus();
+					}
+					else
+					{
+					 $('#Txt_Comment').css({
+
+					"border": "",
+					"background": ""
+				   });
+					document.getElementById("AlertMsg").innerHTML = "";
+					  var listName="BconeExpenceMaster";			  
+					$('.loader').show();
+					var itemType = getListprotocol(listName);  
+                var item = {
+                    "__metadata": { "type": itemType },
+						 "FinanaceActionDate":date
+                };
+                getListItemForUpdate(web_url, listName, Expense_Comment_Id, function (data) {
+			    $.ajax({
+									url: data.d.__metadata.uri,
+									type: "POST",
+									contentType: "application/json;odata=verbose",
+									data: JSON.stringify(item),
+									headers: {
+									"Accept": "application/json;odata=verbose",
+									"X-RequestDigest": $("#__REQUESTDIGEST").val(),
+									"X-HTTP-Method": "MERGE",
+									"If-Match": data.d.__metadata.etag
+									},
+									success: function (data) {
+									document.getElementById("SelectedItemCount").innerHTML=0;
+									InsertIntoLog(web_url, "BconeExpenseLogHistory",Expense_Comment_Id,"07",FLoginname,FloginId,"Finance Rejected");	
+								   if(Approver2Id!="Na"&&Approver2Id!=null&&Approver2Id!="")
+				                     {									 
+									 finalCc=FloginId+";"+Approver1Id+";"+Approver2Id;
+                                     }
+                                    else
+                                     {
+									  finalCc=FloginId+";"+Approver1Id;
+									 }	
+					                 finalTo=expense_creater_id;
+								     PathUrl="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx?status=Rejected";
+									table.row('#'+Reject_Hide).remove().draw( false );
+                                    document.getElementById("Txt_Comment").value="";
+                                    $('#myModal2').modal('hide');	
+									 $("#alertmain").show();
+	                                 document.getElementById("Alert_msg").innerHTML="Tracking No "+Expense_Comment_Id+" | Rejected sucessfully!";	
+                                    $('.loader').hide();									
+									},
+									error: function (data) {
+									alert(data.responseJSON.error.message.value);
+									 $('.loader').hide();
+									}
+					});
+
+                },        function (data) {
+                    failure(data);
+                });
+				}				
+				}
+				function hideerror(val) {
+            $('#' + val).css({
+                "border": "",
+                "background": ""
+            });
+            document.getElementById("AlertMsg").innerHTML = "";
+        }		
+		function getcurrencyValueById(url, listname, id) {
+            var ss;
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        ss = value.Currency;
+                        return ss;
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }
+		function getcurrencyValueById(listname, id) {
+            var ss;
+            $.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    $.each(data, function (key, value) {
+						if(listname!="BconeCurrency")
+						{
+                        ss = value.Item;						
+                        return ss;
+						}else
+						{
+						ss = value.Currency;						
+                        return ss;						
+						}
+                    });
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }		
+		function convert_date(date_to_convert){
+		 var arr_dateandtime = date_to_convert.split('T');
+		var arr_dateonly = arr_dateandtime[0].split('-');
+		var arr_timeonly = arr_dateandtime[1].split(':');
+		var Month;
+		 var converted_date;
+		switch ( parseInt(arr_dateonly[1])-1) {
+									case 0:
+									Month = "Jan";
+									break;
+									case 1:
+									Month = "Feb";
+									break;
+									case 2:
+									Month = "Mar";
+									break;
+									case 3:
+									Month = "Apr";
+									break;
+									case 4:
+									Month = "May";
+									break;
+									case 5:
+									Month = "Jun";
+									break;
+									case 6:
+									Month = "Jul";									
+									case 7:
+									Month = "Aug";
+									break;
+									case 8:
+									Month = "Sep";
+									break;
+									case 9:
+									Month = "Oct";
+									break;
+									case 10:
+									Month = "Nov";
+									break;
+									case 11:
+									Month = "Dec";
+									break;	
+				}
+				converted_date=arr_dateonly[2]+"-"+Month+"-"+arr_dateonly[0];
+				return converted_date;
+		}
+		function convert_date_tooltip(date_to_convert){
+		var arr_dateandtime = date_to_convert.split('T');
+		var arr_dateonly = arr_dateandtime[0].split('-');
+		var arr_timeonly = arr_dateandtime[1].split(':');
+		var Month;
+		 var converted_date;
+		  var suffix;
+				switch ( parseInt(arr_dateonly[1])-1) {
+									case 0:
+									Month = "Jan";
+									break;
+									case 1:
+									Month = "Feb";
+									break;
+									case 2:
+									Month = "Mar";
+									break;
+									case 3:
+									Month = "Apr";
+									break;
+									case 4:
+									Month = "May";
+									break;
+									case 5:
+									Month = "Jun";
+									break;
+									case 6:
+									Month = "Jul";									
+									case 7:
+									Month = "Aug";
+									break;
+									case 8:
+									Month = "Sep";
+									break;
+									case 9:
+									Month = "Oct";
+									break;
+									case 10:
+									Month = "Nov";
+									break;
+									case 11:
+									Month = "Dec";
+									break;
+				}
+							var curr_hours = arr_timeonly[0];
+							suffix = (curr_hours >= 12) ? 'PM' : 'AM';
+							if (curr_hours > 12) {
+								curr_hours -= 12;
+							}
+							var curr_min = arr_timeonly[1];
+							if (curr_min < 10) {
+								curr_min =  curr_min;
+							}
+							var curr_seconds = arr_timeonly[2];				
+				converted_date=arr_dateonly[2]+"-"+Month+"-"+arr_dateonly[0]+" " + curr_hours + ":" + curr_min + " " + suffix;
+				return converted_date;
+		}
+function bigImg(date,tooltipid){
+		alert("tooltipid"+tooltipid);
+				$("#"+tooltipid).jqxTooltip({ content: date, position: 'top', name: 'movieTooltip', top: 5,opacity: 1});
+		}
+		
+		function InsertIntoMailLog(listname,Too,Ccc,PathURL,EventId,TrackingId)
+        {
+ 
+            var item = "";
+            var item_collections = getListprotocol(listname);
+	       
+            item = {
+                "__metadata": { "type": item_collections},
+                "To":Too,
+                "Cc":Ccc,
+               "PathURL":PathURL,
+			   "EventId":EventId,
+                "Flag":"1",
+              "TrackingId":	TrackingId			
+            };
+            
+      
+            $.ajax({
+                 url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+                async:false,
+                contentType: "application/json;odata=verbose",
+                // contenType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+                    // alert("log added sucessfully");
+
+                },
+                complete: function () {
+
+                },
+                error: function (data) {
+                   
+                    alert(data.responseJSON.error.message.value);
+                    
+
+                }
+            });
+ 
+        }
+		function getQueryStringValue(key) {
+            return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+		  $(function () {
+		  
+                       var redirect = "";
+					redirect=getQueryStringValue("redirect");	
+						  
+                if(redirect=="Finance")
+				{
+				 $('#redirect').show();
+				}
+				else
+				{
+				 $('#redirect').hide();
+				}
+                   
+
+    
+ 
+      });
+	</script>
+<script>
+setTimeout(function(){ 
+	$('[data-toggle="tooltip"]').tooltip();  
+}, 1000);
+</script>	
+	  <div class="allcommentdiv-main " id="openouterfileattach"> <!-- inner-popup outer-popup add class -->
+<div class="allcommentdiv outer-popup ">
+ <div class="allcommentdiv-heading">
+  Uploaded File List
+ </div>
+ <div class="allcommentdiv-mid">
+ <h3 id="reff_no">Ref No. 1</h3>
+  <div class="vertical-scoll">
+   <table class="table table-bordered text-left">
+    <tbody id="inner_tbody">
+    </tbody>
+   </table>
+  </div>
+ </div>
+ <div class="allcommentdiv-foot">
+  <a href="javascript:void(0)" class="blue-btn" onclick="closeouterfileattach()">Got it</a>
+ </div>
+</div>
+</div>
+</body>
+</html>

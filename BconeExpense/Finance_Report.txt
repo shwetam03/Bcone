@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title> <script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />
+    <script src="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+
+
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet">
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet">
+    <link href="https://bristleconeonline.sharepoint.com/sites/Dev/SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet">
+    <!-- New Js Start Here -->
+
+    <script src="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/chosen.jquery.js"></script>
+    <link href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/ComponentsDropdowns/chosen-select.css" rel="stylesheet">
+    <script>
+        $(function () {
+            var type = getCookie("Type");
+            var fromDate = getCookie("FromDate");
+            var toDate = getCookie("ToDate");
+            var SelectedName = getCookie("SelectedName").replace(/#####/g,";");
+
+            var finVar = "https://ppmdev.bcone.com//EXPENSEFORFINANCE_PR.aspx?Type=" + type + "&FromDate=" + fromDate + "&ToDate=" + toDate + "&SelectedName=" + SelectedName;
+            $("#rptTimesheet").attr("src", finVar);           
+        })
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+   <style>
+        .errMSG {
+        color:red;
+        }
+        .ms-core-pageTitle, .ms-core-pageTitle a {
+            color: #fff;
+            display: none;
+        }
+
+        #s4-ribbonrow, #SearchBox, #O365_MainLink_Settings {
+            display: none;
+        }
+
+        .middle {
+            width: 97%;
+            margin: 0 auto;
+        }
+
+        #sideNavBox {
+            width: 0px !important;
+            display: none;
+        }
+
+        #contentBox {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+        /*#contentRow {padding-top: 0px !important;}*/
+        .menu-item-text {
+            display: none;
+        }
+
+        #MSOZoneCell_WebPartWPQ4 {
+            margin: 0px !important;
+        }
+
+        .manage-delegation-new-form {
+            width: 60%;
+            margin: 0px auto;
+        }
+
+            .manage-delegation-new-form table {
+                width: 100%;
+            }
+
+                .manage-delegation-new-form table tr td .form-control {
+                    outline: none;
+                    /* width: 300px; */
+                    border-radius: 0;
+                    box-shadow: none;
+                    padding: 5px !important;
+                }
+
+                    .manage-delegation-new-form table tr td .form-control:focus {
+                        background: #ffffd8;
+                        border-color: #999;
+                    }
+
+                .manage-delegation-new-form table tr td {
+                    padding: 8px;
+                }
+
+        .heading-2 {
+            display: inline-block;
+            margin: 0px 0px 3px 0px;
+            font-size: 15px;
+            color: #333 !important;
+        }
+
+        .breadcrumb-new a:visited {
+            color: #428bca !important;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+     <section class="middle">
+        <div class="breadcrumb-new">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/Home.aspx">Home</a>
+                    </li>
+                    <li>
+                        <a href="javascript: window.history.go(-1)" style="cursor: default; color: black;" ><span>Genrate Report</span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" style="cursor: default; color: black;" ><span>Finance Report</span></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
+        <iframe id="rptTimesheet" height="700px" width="100%" ></iframe>
+    </section>
+
+    
+</body>
+</html>

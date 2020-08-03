@@ -1,0 +1,188 @@
+<div>
+<h2 id="add_title">Add Student data</h2>
+
+<h2 id="update_title" style="display:none;">Update Student data</h2>
+
+
+
+
+<div class="row">
+		<label for="name">Name:</label><br />
+		<input id="txtname" class="input" name="name" type="text" value="" size="30" placeholder="Student name" /><br />
+
+
+
+	</div>
+	
+	<input id="hiddenid" class="input" name="name" type="text" value="" size="30" placeholder="Student name" /><br />
+	
+		<label for="message">Users</label><br />
+          <div class="row"  id="peoplePickerDiv"></div>
+	</div>
+</br>
+	<div id="add_div">
+        <span onclick="addListItem('https://e2eprojects.sharepoint.com/sites/ss/','testpeoplepicker')" >Add</span>
+</div>
+
+
+<script>
+function addListItem(url,listname) {
+
+
+
+//alert(listname);
+var student_name= document.getElementById('txtname').value;
+
+
+var user= document.getElementById('peoplePickerDiv_TopSpan_HiddenInput').value;
+alert(user);
+
+
+var pickvalue = this.SPClientPeoplePicker.SPClientPeoplePickerDict.peoplePickerDiv_TopSpan; 
+alert(pickvalue);
+var keys = pickvalue.GetAllUserKeys();
+alert(keys);
+
+ 
+var users = pickvalue.GetAllUserInfo();
+var userNames= '';
+var ids='';
+alert(users.length);
+for (var i=0; i < users.length; i++) 
+{
+alert(i);
+    var user = users[i];        
+
+alert(users[i].DisplayText);  
+ getUserId(users[i].DisplayText);
+ 
+
+}
+var mainid11= document.getElementById('hiddenid').value;
+alert(mainid11);
+
+if(student_name!="" && user!="")
+{
+//alert(date);
+
+var ss=check(listname);
+
+//alert("ss: "+ss);
+
+
+
+     var item = {
+        "__metadata": {"type":ss},
+	 "Title": 'abch',
+  "name":student_name,
+   "usernameId":{"results":[mainid11]}
+
+ 
+    };
+
+
+   $.ajax({
+      url: url + "/_api/web/lists/getbytitle('" + listname + "')/items",
+        type: "POST",
+        contentType: "application/json;odata=verbose",
+        data: JSON.stringify(item),
+        headers: {
+            "Accept": "application/json;odata=verbose",
+            "X-RequestDigest": $("#__REQUESTDIGEST").val()
+        },
+        success: function (data) {
+          // alert("true");
+alert("Student data added sucessfully");
+
+      },
+        error: function (data) {
+
+		alert(data.responseJSON.error.message.value);
+			alert("false");
+          alert("error");
+            
+        }
+    });
+}
+else
+{
+
+alert("Name / User canaot be empty!!");
+
+}
+
+
+}
+</script>
+
+<script>
+function check(name)
+{
+ //alert(name);
+
+ return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+}
+</script>
+<script type="text/javascript" src="https://e2eprojects.sharepoint.com/sites/ss/SiteAssets/js/jquery-1.11.0.min.js?d=w626095b898c54f7cb9d9785d7d056b5c"></script>
+
+
+
+
+<script src="https://e2eprojects.sharepoint.com/sites/ss/_layouts/15/guestaccess.aspx?guestaccesstoken=cqMVF6cbnXWyO9wdIoTtnFh%2bi0HdF5R3oIi%2bh42odTk%3d&docid=2_15c689225fb9445f2b77b00f2d333c2d0&rev=1"></script>
+
+	<script type="text/javascript">
+    $(document).ready(function () {
+	alert("kghmgj");
+
+                $("#peoplePickerDiv").spPeoplePicker();
+             
+    });
+     
+</script>
+<script>
+// Get the user ID.
+function getUserId(loginName) {
+var id="";
+    var context = new SP.ClientContext.get_current();
+    this.user = context.get_web().ensureUser(loginName);
+    context.load(this.user);
+    context.executeQueryAsync(
+         Function.createDelegate(null, ensureUserSuccess), 
+         Function.createDelegate(null, onFail)
+    );
+	
+    }
+
+function ensureUserSuccess() {
+alert("ensureUserSuccess");
+
+
+var mainid= document.getElementById('hiddenid').value;
+
+   alert(this.user.get_id());
+	var id="";
+	id=this.user.get_id();
+	if(mainid!="")
+	{
+	mainid=mainid+","+id;
+	
+	
+	}else
+	{
+	
+	mainid=id;
+	
+	}
+	alert(mainid);
+	
+	document.getElementById('hiddenid').value=mainid;
+}
+
+function onFail(sender, args) {
+    alert('Query failed. Error: ' + args.get_message());
+}
+</script>
+
+
+
+	

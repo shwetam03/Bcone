@@ -1,0 +1,27 @@
+https://mrrio.github.io/
+https://github.com/simonbengtsson
+http://w3lessons.info/2015/07/13/export-html-table-to-excel-csv-json-pdf-png-using-jquery/
+export to pdf chart
+http://fiddle.jshell.net/canvasjs/cm1qyk2L/light/
+https://github.com/simonbengtsson/jsPDF-AutoTable
+https://raw.githubusercontent.com/simonbengtsson/jsPDF-AutoTable/master/dist/jspdf.plugin.autotable.js
+https://raw.githubusercontent.com/MrRio/jsPDF/master/dist/jspdf.min.js
+
+
+https://micropyramid.com/blog/export-html-web-page-to-pdf-using-jspdf/
+https://codedump.io/share/3jzUe00D60Mh/1/how-to-use-html2canvas-and-jspdf-to-export-to-pdf-in-a-proper-and-simple-way
+http://www.jqwidgets.com/jquery-widgets-demo/demos/jqxgrid/#demos/jqxgrid/filtering-menu-custom-widgets.htm
+http://jsfiddle.net/jqwidgets/35kU5/ 
+
+http://stackoverflow.com/questions/2722159/javascript-how-to-filter-object-array-based-on-attributes
+
+http://hayageek.com/generate-pdf-with-javascript/
+http://jsfiddle.net/NishitDhakar/ugD5L/
+
+-------------------IMP-------------------------------------------------------------------------
+http://www.mikesdotnetting.com/article/80/create-pdfs-in-asp-net-getting-started-with-itextsharp
+http://www.mikesdotnetting.com/Article/82/iTextSharp-Adding-Text-with-Chunks-Phrases-and-Paragraphs
+http://www.mikesdotnetting.com/Article/86/iTextSharp-Introducing-Tables
+http://www.mikesdotnetting.com/article/87/itextsharp-working-with-images
+http://www.mikesdotnetting.com/article/81/itextsharp-working-with-fonts
+http://www.mikesdotnetting.com/Article/88/iTextSharp-Drawing-shapes-and-Graphics

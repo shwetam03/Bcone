@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+    <link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet">
+    <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+    <style>
+        .top-refine ul li a {
+	position:relative;
+	margin-right:5px;
+	color:#fff !important;
+ }
+ </style>
+</head>
+
+<body class="dt-example">
+    <div style="text-align:right;" id="login_name_contain"></div>
+    <div id="myModal2" class="modal fade newpopup-table newpopupdiv" style="padding-left: 17px;" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">&times;</a>
+                    <h4 class="modal-title">Please Provide Reason For Rejection Of This Expense</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="tabledivnew">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" style="width: 195px;">
+                                    <textarea rows="4" class="form-control" cols="45" id="Txt_Comment" onkeyup="hideerror('Txt_Comment')" style="margin-bottom:15px;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span id="Expense_Comment_Id" style="display:none"></span>
+                                    <span id="Reject_Hide" style="display:none"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"> <a href="javascript:void(0)" class="red-btn" id="Save_comment" onclick="Rejectcomment('Rejected')" style="margin-right:10px;">Reject</a><a class="blue-btn" data-dismiss="modal" href="javascript:void(0)">Cancel</a> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="alertmain" class="alert-main" style="display:none">
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Alert_msg"></span></div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <input type='Button' class="divnewbtn" value="OK" onclick="close_div()" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Confirmation_alert" class="alert-main" style="display:none;">
+        <span id="confirmation_type"></span>
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg"></span></div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <span id="Method_tocall"></span>
+                    <input type='Button' class="divnewbtn" value="OK" id="ok_click" />
+                    <input type='Button' class="divnewbtn" value="Cancel" onclick='confirmation_close();' />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <section class="middle">
+            <div class="breadcrumb-new">
+                <div class="container-fluid">
+                    <ul>
+                        <li>
+                            <a style="cursor:pointer;" href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+                        </li>
+                        <li>
+                            <a style="cursor:pointer;" href="https://bristleconeonline.sharepoint.com/sites/pwa/sitepages/FinanceApproval.aspx" style="cursor:pointer;">Finance Approval</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" style="cursor:default;color:black;"><span id="navigation_span">My Approval History</span></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="top-refine">
+                        <ul class="pull-left">
+
+                        </ul>
+                        <ul class="pull-right">
+                            <li style="margin-right: 0px;">
+                                <a href="javascript:void(0)" class="green-btn" id="BtnAllrecord" onclick="Refine('',this.id)"><span class="red-count" id="AllRecordCount">0</span><i class="fa fa-flag-o" aria-hidden="true"></i>All Record</a>
+                                <a href="javascript:void(0)" class="blue-btn" id="BtnApproved" onclick="Refine('Finance Approved',this.id)"><span class="red-count" id="ApprovedCount">0</span><i class="fa fa-check"></i>Approved</a>
+                                <a href="javascript:void(0)" class="blue-btn" id="BtnRejected" onclick="Refine('Finance Rejected',this.id)"><span class="red-count" id="RejectedCount">0</span><i class="fa fa-ban"></i>Rejected</a>
+                                <a href="javascript:void(0)" style="display:none" class="blue-btn" style="margin-right:0px;" id="BtnReimbursed" onclick="Refine('Reimbursed',this.id)"><span class="red-count" id="ReimbursedCount">0</span><i class="fa fa-ban"></i>Reimbursed</a>
+                            </li>
+                            <li><span style="display:none;" id="SelectedItemCount">0</span></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <table id="example" class="display example table table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px !important;">ER No</th>
+                                <th>User</th>
+                                <th>Title</th>
+                                <th>Project Name</th>
+                                <th style="width: 94px !important;">ER Amount</th>
+                                <th style="width: 94px !important;">Date<br> Created</th>
+
+                                <th style="width: 94px !important;">Date<br> Submitted</th>
+                                <th style="width: 94px !important;">Date<br> Approved</th>
+                                <th style="width: 94px !important;">Date<br> Rejected</th>
+                                <th style="width: 94px !important;">Pending <br> With</th>
+                                <th style="width: 130px !important;">Rejection <br> Comment</th>
+                                <th style="width: 94px !important;">Status</th>
+                                <th style="width: 40px !important;">Log</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>ER No</th>
+                                <th>User</th>
+                                <th>Title</th>
+                                <th>Project Name</th>
+                                <th>ER Amount</th>
+                                <th>Date <br> Created</th>
+                                <th>Date <br> Submitted</th>
+                                <th>Date <br> Approved</th>
+                                <th>Date <br> Rejected</th>
+                                <th>Pending With</th>
+                                <th>Rejection Comment</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- New Pop Up Start Here -->
+    <style type="text/css" class="init">
+        .black-bg {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            position: fixed;
+            background-color: rgba(22, 22, 22, 0.5);
+            z-index: 9999;
+            left: 0
+        }
+
+        .popup-main {
+            background-color: #fff;
+            width: 350px;
+            margin: 19% auto;
+            text-align: center
+        }
+
+        .green-btn {
+            <--padding: 5px 10px;
+            --border-radius: 3px;
+            color: #fff;
+            background: #0A891A;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .grey-btn {
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: #333;
+            background: #ccc;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .popup-heading {
+            width: 100%;
+            text-align: center;
+            font-size: 15px;
+            color: #fff;
+            padding: 8px 0
+        }
+
+        .middle {
+            width: 100%
+        }
+
+        .alert-main .popup-heading {
+            background-color: #0072c6
+        }
+
+        .success-main .popup-heading {
+            background-color: #090
+        }
+
+        .pop-mid {
+            padding: 0 15px 15px
+        }
+
+        .pop-mid p {
+            margin-bottom: 20px
+        }
+
+        .divnewbtn {
+            background-color: #e7e7e7 !important;
+            color: #000
+        }
+
+        .newpopupdiv .modal-header {
+            padding: 5px 8px;
+            background: #0072c6
+        }
+
+        .newpopupdiv .modal-title {
+            color: #fff;
+            font-size: 15px
+        }
+
+        .newpopupdiv .close {
+            opacity: 1;
+            color: #fff
+        }
+
+        .newpopupdiv .modal-dialog {
+            margin: 190px auto
+        }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+            font-weight: normal;
+        }
+
+        tfoot {
+            display: table-header-group
+        }
+
+        .example thead th[data-orderable="false"] {
+            background-image: none !important;
+            cursor: auto
+        }
+
+        .example tbody tr td:first-child {
+            text-align: center
+        }
+
+        .example tfoot th:first-child input[type="text"] {
+            display: block
+        }
+
+        #innertable_wrapper .dataTables_length {
+            float: left !important;
+            margin: 0;
+            text-align: left
+        }
+
+        #innertable_wrapper .dataTables_filter {
+            margin-top: 0
+        }
+
+        .table-bordered {
+            border: 1px solid #ddd
+        }
+
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+            background-color: transparent;
+            border-spacing: 0;
+            border-collapse: collapse
+        }
+
+        .table>tbody>tr>td,
+        .table>tbody>tr>th,
+        .table>tfoot>tr>td,
+        .table>tfoot>tr>th,
+        .table>thead>tr>td,
+        .table>thead>tr>th {
+            padding: 7px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #ddd
+        }
+
+        .table>thead>tr>th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #ddd
+        }
+
+        .table>caption+thead>tr:first-child>td,
+        .table>caption+thead>tr:first-child>th,
+        .table>colgroup+thead>tr:first-child>td,
+        .table>colgroup+thead>tr:first-child>th,
+        .table>thead:first-child>tr:first-child>td,
+        .table>thead:first-child>tr:first-child>th {
+            border-top: 0
+        }
+
+        .table>thead>tr>th {
+            text-align: left
+        }
+
+        .table-bordered>thead>tr>td,
+        .table-bordered>thead>tr>th {
+            border-bottom-width: 2px
+        }
+
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>td,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>thead>tr>th {
+            border: 1px solid #ddd
+        }
+
+        .ms-core-pageTitle,
+        .ms-core-pageTitle a {
+            color: #fff;
+            display: none
+        }
+
+        .container-fluid {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto
+        }
+
+        .btn-group-vertical>.btn-group:after,
+        .btn-group-vertical>.btn-group:before,
+        .btn-toolbar:after,
+        .btn-toolbar:before,
+        .clearfix:after,
+        .clearfix:before,
+        .container-fluid:after,
+        .container-fluid:before,
+        .container:after,
+        .container:before,
+        .dl-horizontal dd:after,
+        .dl-horizontal dd:before,
+        .form-horizontal .form-group:after,
+        .form-horizontal .form-group:before,
+        .modal-footer:after,
+        .modal-footer:before,
+        .modal-header:after,
+        .modal-header:before,
+        .nav:after,
+        .nav:before,
+        .navbar-collapse:after,
+        .navbar-collapse:before,
+        .navbar-header:after,
+        .navbar-header:before,
+        .navbar:after,
+        .navbar:before,
+        .pager:after,
+        .pager:before,
+        .panel-body:after,
+        .panel-body:before,
+        .row:after,
+        .row:before {
+            display: table;
+            content: " ";
+            clear: both
+        }
+
+        .row {
+            margin-right: -15px;
+            margin-left: -15px
+        }
+
+        .pull-left {
+            float: left !important
+        }
+
+        .pull-right {
+            float: right !important
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        main,
+        menu,
+        nav,
+        section,
+        summary {
+            display: block
+        }
+
+        .ms-webpartPage-root {
+            border-spacing: 0
+        }
+
+        .ms-breadcrumb-box {
+            display: none
+        }
+
+        #siteIcon {
+            height: 45px
+        }
+
+        .ms-siteicon-img {
+            max-height: 40px
+        }
+
+        #s4-titlerow {
+            height: 45px
+        }
+
+        #login_name_contain {
+            padding: 3px 32px 3px 0 !important
+        }
+
+        table.dataTable {
+            border-collapse: collapse
+        }
+
+        .dataTables_filter {
+            margin-bottom: 15px
+        }
+
+        .example thead tr th {
+            background: #e8e8e8;
+            color: #333;
+            vertical-align: middle;
+        }
+
+        .breadcrumb-new a {
+            color: #337ab7
+        }
+
+        .breadcrumb-new a:visited {
+            color: #337ab7 !important
+        }
+
+        .breadcrumb-new .ms-link:visited {
+            color: #337ab7 !important
+        }
+
+        .example {
+            color: #333
+        }
+
+        table.dataTable thead .sorting {
+            font-size: 12px;
+            text-align: left
+        }
+
+        table.dataTable tbody {
+            font-size: 12px
+        }
+
+        ::-webkit-input-placeholder {
+            font-size: 12px
+        }
+
+        ::-moz-placeholder {
+            font-size: 12px
+        }
+
+        :-ms-input-placeholder {
+            font-size: 12px
+        }
+
+        :-moz-placeholder {
+            font-size: 12px
+        }
+
+        .top-refine ul li {
+            float: none;
+            margin-bottom: 10px
+        }
+
+        .top-refine ul li:last-child {
+            margin-bottom: 0
+        }
+
+        .openDetailsMain {
+            background: rgba(255, 255, 255, 0.57);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            width: 100%;
+            height: 100%;
+            display: none
+        }
+
+        .openDetailsMainInner {
+            width: 85%;
+            margin: 60px auto;
+            border-radius: 5px;
+            border: 1px solid #0072c6;
+            background: #fff
+        }
+
+        .openDetailsMain-heading {
+            padding: 5px 8px;
+            background: #0072c6;
+            font-size: 14px;
+            color: #fff;
+            line-height: 1.6
+        }
+
+        .openDetailsMain-heading a {
+            color: #fff;
+            float: right;
+            cursor: pointer
+        }
+
+        .openDetailsMain-mid {
+            padding: 10px
+        }
+
+        .openDetailsMain-midTop {
+            margin-bottom: 15px
+        }
+
+        .openDetailsMain-midTop table {
+            width: 100%
+        }
+
+        .openDetailsMain-midTop table tbody tr td {
+            padding: 5px
+        }
+
+        .openDetailsMain-midTop table tbody tr th {
+            padding: 5px;
+            text-align: left;
+            background: #efefef;
+            color: #333;
+            font-weight: 600
+        }
+
+        .openDetailsMain-midBottom table {
+            margin-bottom: 0 !important
+        }
+
+        .openDetailsMain-midBottom table thead tr th {
+            vertical-align: middle;
+            background: #e8e8e8
+        }
+
+        /*.dataTables_scrollHeadInner{width:100%!important}.dataTables_scrollHeadInner table{width:98.6%!important}*/
+        .wordWrap {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical
+        }
+
+        .top-refine a:active {
+            color: #fff !important;
+        }
+
+        .top-refine a:focus {
+            color: #fff !important;
+        }
+
+        .dataTables_scrollBody table {
+            width: 99.90% !important;
+        }
+
+        .wordellipsis {
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .innertable td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #login_name_contain {
+            float: right;
+            margin: -32px 20px 0px 0px;
+            background: url(https://bristleconeonline.sharepoint.com/sites/pwa/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center;
+            padding: 2px 32px 2px 0px;
+    </style>
+    <div class="openDetailsMain">
+        <div class="openDetailsMainInner">
+            <div class="openDetailsMain-heading">
+                Tracking No : <span id="TrackingIdBind">61</span>
+                <a onclick="closedetails()"><i class="fa fa-remove"></i></a>
+            </div>
+            <div class="openDetailsMain-mid">
+                <div class="openDetailsMain-midTop">
+                    <table class="table table-bordered" style="table-layout: inherit;  word-break: break-all;  word-wrap: break-word;">
+                        <tbody>
+                            <tr>
+                                <th style="width: 20%;">Project Name</th>
+                                <th style="width: 20%;">Expense Report Name</th>
+                                <th style="width: 12%;">Advance Amount</th>
+                                <th style="width: 10%;">ER Currency</th>
+                                <th style="width: 32%;">Description</th>
+                            </tr>
+                            <tr>
+                                <td><span id="ProjectNameBind">03651 - Expense Project 091</span></td>
+                                <td><span id="ExpenseReportNameBind">Test</span></td>
+                                <td style="text-align:right;"><span id="AdvanceAmountBind">8765.01 </span><span style="color: #ababab;margin-left: 6px;" id="AdvanceCurrency">USD</span></td>
+                                <td><span id="Expensecurrency">INR</span></td>
+                                <td colspan="5"><span id="DescriptionBind" class="wordWrap">Loren lipsum Loren lipsum Loren lipsum</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="openDetailsMain-midBottom">
+                    <table id="innertable" class="table example table-bordered" style="width: 99.90% !important; table-layout:fixed;">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px !important;" data-orderable="false" class="sorting_asc">Info</th>
+                                <th style="width: 40px !important;">Ref <br> No</th>
+                                <th style="width: 150px !important;">Project <br> Phase</th>
+                                <th>Item</th>
+                                <th>Expense Note</th>
+                                <th style="width: 90px !important;">Status</th>
+                                <th style="width: 80px !important;">ER <br> Amount</th>
+                                <th style="width: 90px !important;">Amount</th>
+                                <th style="width: 100px !important;">Payment <br> Type</th>
+                                <th style="width: 90px !important;">Expense <br> Date</th>
+                                <th style="width: 60px !important;">Billable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var openstatus_count = 0;
+        var submittedstatus_count = 0;
+        var approvedstatus_count = 0;
+        var rejectedstatus_count = 0;
+        var reimburesedstatus_count = 0;
+        var ReSubmittedExpenceCount = 0;
+        var allrecord_count = 0;
+    </script>
+    <script type="text/javascript">
+        function GetExpenseDeatil(id, ExpenseCurrencyText) {
+            //$('[data-toggle="tooltip"]').tooltip(); 
+            $('.loader').show();
+            var i = 1;
+            $('#innertable').dataTable().fnClearTable();
+            //var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+            $.ajax({
+                //url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + id + "'&$orderby= ExpenseDate asc&$top=100000",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    // alert(data.d.results.length);				
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function(key, value) {
+                            // var Expense_item = getcurrencyValueById('BconeItemMaster', value.ExpenceItemId);
+                            //var payment_type = getcurrencyValueById('BconeItemMaster', value.PaymentTypeId);								
+                            //var Currency= getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);								
+                            var convert_date1 = convert_date(value.ExpenseNewDate);
+                            //var Expense_item="";
+                            //var payment_type = "";						
+                            //var Currency=      "";							
+                            //var convert_date1= "";
+                            //var curr_val="";
+                            //if(Currency.indexOf("-"))
+                            //{
+                            //var curr=Currency.split("-");
+                            //curr_val=curr[0]; 
+                            //} else {
+                            //curr_val=Currency;
+                            //}
+                            var Expense_item = value.ExpenceItemText;
+                            var payment_type = value.PaymentTypeText;
+                            var Currency = value.ExpenceCurrencyText;
+
+                            var my_var = "";
+                            if (value.Justification == null) {
+                                var outer = "outer";
+                                //var count=getUploadedFiles_Count(value.ID);
+                                var count = 0;
+                                if (value.FileUploadedCount != null) {
+                                    count = value.FileUploadedCount;
+                                }
+                                if (count > 0) {
+                                    my_var = "<td class='sorting_1 text-center'><a style='display: inline-block;cursor:pointer;' onclick='openouterfileattach(\"" + i + "\"); getUploadedFiles(\"" + value.ID + "\",\"" + outer + "\",\"" + id + "\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a></td>";
+                                } else {
+                                    my_var = "<td class='sorting_1 text-center'></td>";
+                                }
+                                var ss = 'https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/' + value.BillAttachment;
+                            } else {
+                                my_var = "<td class='sorting_1 text-center'><a  name=" + value.Justification + " data-toggle='tooltip' title=" + value.Justification + " style='text-decoration:none;cursor: context-menu;'   ><i  class='fa fa-commenting' style='color:#333;font-size: 16px;'  ></i></a></td>";
+                            }
+                            var ExpenseNote = "-";
+                            if (value.ExpenseNote != null && value.ExpenseNote != "") {
+                                ExpenseNote = value.ExpenseNote;
+                            }
+
+                            var FinalExpenseValue = "0.00";
+                            if (value.FinalExpenseValue != null) {
+                                FinalExpenseValue = value.FinalExpenseValue;
+                                if (FinalExpenseValue.toString().indexOf(".")) {
+
+                                    FinalExpenseValue = parseFloat(FinalExpenseValue).toFixed(2);
+                                } else {
+                                    FinalExpenseValue = FinalExpenseValue + ".00";
+
+                                }
+                            }
+                            var ExpensceAmount = "0.00";
+                            if (value.ExpensceAmount != null) {
+                                ExpensceAmount = value.ExpensceAmount;
+                                if (ExpensceAmount.toString().indexOf(".")) {
+
+                                    ExpensceAmount = parseFloat(ExpensceAmount).toFixed(2);
+                                } else {
+                                    ExpensceAmount = ExpensceAmount + ".00";
+
+                                }
+                            }
+                            table1.fnAddData([
+                                my_var,
+                                "<td>" + i + "</td>",
+                                "<td>" + value.TaskName + "</td>",
+                                "<td>" + Expense_item + "</td>",
+                                '<a class="wordellipsis" data-toggle="tooltip" title="' + ExpenseNote + '" style="text-decoration:none;cursor: context-menu;">' + ExpenseNote + '</a>',
+                                "<td>" + value.Status + "</td>",
+                                "<td style='text-align:right;'><div style='text-align: right;'>" + FinalExpenseValue + "<span style='color: #ababab;margin-left: 6px;'>" + ExpenseCurrencyText + "</span></div></td>",
+
+                                "<td style='text-align:right;'><div style='text-align: right;'>" + ExpensceAmount + "<span style='color: #ababab;margin-left: 6px;'>" + Currency + "</span></div></td>",
+
+                                "<td>" + payment_type + "</td>",
+                                "<td>" + convert_date1 + "</td>",
+                                "<td>" + value.BliableToClient + "</td>"
+                            ]);
+                            i++;
+                        });
+                        $('.loader').hide();
+                    } else {
+                        $('.loader').hide();
+                    }
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                },
+                complete: function(data) {
+                    setTimeout(function() {
+                        //console.log('tm');
+                        $('.sorting').trigger("click");
+                    }, 100);
+                }
+            });
+        }
+
+        function GetExpenseDeatil1(id) {
+            $('.loader').show();
+            var i = 1;
+            $('#innertable').dataTable().fnClearTable();
+            var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+            $.ajax({
+                //url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/Items?$filter=TrackingNo eq '" + id + "'&$orderby= ExpenseDate asc&$top=100000",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function(key, value) {
+                            var Expense_item = getcurrencyValueById('BconeItemMaster', value.ExpenceItemId);
+                            var payment_type = getcurrencyValueById('BconeItemMaster', value.PaymentTypeId);
+                            var Currency = getcurrencyValueById('BconeCurrency', value.ExpenceCurrencyId);
+                            var convert_date1 = convert_date(value.ExpenseNewDate);
+                            var curr_val;
+                            if (Currency.indexOf("-")) {
+                                var curr = Currency.split("-");
+                                curr_val = curr[0];
+                            } else {
+                                curr_val = Currency;
+                            }
+                            var my_var = "";
+                            if (value.Justification == null) {
+                                var outer = "outer";
+                                var count = getUploadedFiles_Count(value.ID);
+                                if (count > 0) {
+                                    my_var = "<td class='sorting_1 text-center'><a style='display: inline-block;cursor:pointer;' onclick='openouterfileattach(\"" + i + "\"); getUploadedFiles(\"" + value.ID + "\",\"" + outer + "\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a></td>";
+                                } else {
+                                    my_var = "<td class='sorting_1 text-center'></td>";
+                                }
+                                var ss = 'https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/' + value.BillAttachment;
+                            } else {
+                                my_var = "<td class='sorting_1 text-center'><a  name=" + value.Justification + " data-toggle='tooltip' title=" + value.Justification + " style='text-decoration:none;'  ><i  class='fa fa-commenting' style='color:#333;font-size: 16px;'  ></i></a></td>";
+                            }
+                            var ExpenseNote = "-";
+                            if (value.ExpenseNote != null && value.ExpenseNote != "") {
+                                ExpenseNote = value.ExpenseNote;
+                            }
+                            table1.fnAddData([
+                                my_var,
+                                "<td>" + i + "</td>",
+                                "<td>" + value.TaskName + "</td>",
+                                "<td>" + Expense_item + "</td>",
+                                //"<a href='#' data-toggle='tooltip' title="+ExpenseNote+"><span >"+ExpenseNote+"</span></td>",
+                                //'<a  data-toggle="tooltip" title="'+ExpenseNote+'" style="text-decoration:none;cursor: context-menu;">'+ExpenseNote+'</a>',
+                                '<a class="wordellipsis" data-toggle="tooltip" title="' + ExpenseNote + '" style="text-decoration:none;cursor: context-menu;">' + ExpenseNote + '</a>',
+                                "<td>" + value.Status + "</td>",
+                                "<td ><div style='text-align:right;'>" + value.ExpensceAmount + "<span style='color: #ababab;margin-left: 6px;'>" + curr_val + "</span></div></td>",
+                                "<td>" + payment_type + "</td>",
+                                "<td>" + convert_date1 + "</td>",
+                                "<td>" + value.BliableToClient + "</td>"
+                            ]);
+                            i++;
+                        });
+                        $('.loader').hide();
+                    } else {}
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+        }
+
+        function opendetails(trackingid) {
+            $.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items(" + trackingid + ")",
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    var advance = "0.00";
+                    var Expenseitem = "";
+                    var curreuncyvalue = "";
+                    if (data.d.AmountTaken != null) {
+                        advance = data.d.AmountTaken;
+                        if (advance.toString().indexOf(".")) {} else {
+                            advance = advance + ".00";
+                        }
+                    }
+                    var ExpenseCurrencyText = "-";
+                    if (data.d.ExpenseCurrencyText != null && data.d.ExpenseCurrencyText != "") {
+                        ExpenseCurrencyText = data.d.ExpenseCurrencyText;
+                    }
+                    if (data.d.currencytext != null && data.d.currencytext != '') {
+                        Expenseitem = data.d.currencytext;
+                        if (Expenseitem.indexOf("-")) {
+                            var curr = Expenseitem.split("-");
+                            curreuncyvalue = curr[0];
+                        } else {}
+                    }
+                    var desc = "-";
+                    if (data.d.Description != null && data.d.Description != "") {
+                        desc = data.d.Description;
+                    }
+                    GetExpenseDeatil(data.d.ID, ExpenseCurrencyText);
+                    document.getElementById("TrackingIdBind").innerHTML = data.d.ExpenseTrackingNo;
+                    document.getElementById("ProjectNameBind").innerHTML = data.d.Projectname;
+                    document.getElementById("ExpenseReportNameBind").innerHTML = data.d.ExpenseReportName;
+                    document.getElementById("AdvanceAmountBind").innerHTML = advance;
+                    document.getElementById("AdvanceCurrency").innerHTML = curreuncyvalue;
+                    document.getElementById("Expensecurrency").innerHTML = ExpenseCurrencyText;
+                    document.getElementById("DescriptionBind").innerHTML = '<a href="#" data-toggle="tooltip" style="text-decoration:none;cursor: context-menu;" title="' + desc + '">' + desc + '</a>';
+                },
+                complete: function(data) {},
+                error: function(data) {
+                    failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            $('.openDetailsMain').show();
+            setTimeout(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            }, 1000);
+
+        }
+
+        function GetEmployeeGuidByTrackingId(trackingid) {
+            var emp_guid = "";
+            $.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('BconeExpenceMaster')/items(" + trackingid + ")",
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    emp_guid = data.d.EmployeeId;
+                },
+                complete: function(data) {},
+                error: function(data) {
+                    failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return emp_guid;
+        }
+
+        function closedetails() {
+            $('.openDetailsMain').hide();
+        }
+
+        function getUploadedFiles_Count(ExpenseItemId) {
+
+            var docurl = "/sites/Dev/BconeBillAttachment/1234";
+
+            var raisedDocument = "0";
+
+            var url = "https://bristleconeonline.sharepoint.com/sites/pwa/_api/web/Lists/getbytitle('BconeBillAttachment')/items?$filter=ExpenseItemId eq \'" + ExpenseItemId + "\'&$select=FileLeafRef";
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+
+
+                beforeSend: function() {
+                    $('.loader').show();
+
+                },
+
+                success: function(data) {
+                    if (data.d.results.length > 0) {
+                        raisedDocument = data.d.results.length;
+                    }
+
+                },
+                error: function(data) {
+
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function() {},
+            });
+
+            return raisedDocument.toString();
+
+        }
+
+        function openouterfileattach(reff_no) {
+            $('#reff_no').text('Ref No. ' + reff_no);
+            $('#openouterfileattach').show({
+                width: 'toggle'
+            });
+        }
+
+        function closeouterfileattach() {
+            $('#openouterfileattach').hide({
+                width: 'toggle'
+            });
+        }
+
+        function getUploadedFiles(ExpenseItemId, type, TrackingNo) {
+
+            // alert('getUploadedFiles');
+
+            var Folder_name = "Expense" + TrackingNo;
+
+
+            var url = "https://bristleconeonline.sharepoint.com/sites/pwa/_api/web/Lists/getbytitle('BconeBillAttachment')/items?$filter=ExpenseItemId eq \'" + ExpenseItemId + "\'&$select=FileLeafRef,ID";
+            var docurl = "/sites/Dev/BconeBillAttachment/1234";
+            $.ajax({
+                url: url,
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    if (type == 'inner') {
+
+
+
+
+                        var file_ids = '';
+                        $('#delete_file_ids').text('');
+
+                        $(".raisedDocumnts").remove();
+                        $("#uploaded_files").empty();
+
+                        var upload_file_id = 0;
+                        var remove_id = '';
+                        $.each(data.d.results, function(key, val) {
+                            upload_file_id++;
+                            remove_id = 'remove' + upload_file_id;
+
+                            ID = val.Id;
+
+                            if (file_ids == '') {
+                                file_ids = ID;
+                            } else {
+                                file_ids = file_ids + "," + ID;
+                            }
+                            //var href = "https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl='https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/Expense928/OlaShare_25th_Inward_27-3-2017_11-9-7.pdf";
+                            var href = "https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl=https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/" + Folder_name + "/" + val.FileLeafRef + "";
+                            //https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl='https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/Expense100/OlaShare_25th_Inward_27-3-2017_11-9-7.pdf'
+                            //alert(href);
+
+                            var file_html = "<tr id=" + remove_id + "><td>" + val.FileLeafRef + "</td>";
+                            file_html = file_html + "<td class='text-center' style='width:30px;'><a href=\"" + href + "\" download ><i class='fa fa-download'></i></a></td>";
+
+                            file_html = file_html + "<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\"" + remove_id + "\",\"" + ID + "\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+                            file_html = file_html + " </tr>";
+
+                            //alert(file_html);
+                            var liHtml = "<li class='raisedDocumnts'><a href=\"" + href + "\">" + val.FileLeafRef + "</a></li>";
+                            $("#uploaded_files").append(file_html);
+                            //console.log(liHtml);
+                            //  currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                        });
+
+                        //console.log(file_ids);
+                        $('#delete_file_ids').text(file_ids);
+
+                        $('#uploaded_file_count').text(upload_file_id);
+                        //alert(raisedDocument);
+                        if (upload_file_id > 0) {
+                            $('#outer-popup-a').show();
+                            //   document.getElementById('imgQueryRaisedDoc').style.visibility = 'visible';
+                            //  document.getElementById('imgQueryRaisedDoc').title = currentQuery;
+                        } else {
+                            var file_html = "<tr><td colspan='3' style='text-align:center'>No file found</td>";
+                            file_html = file_html + " </tr>";
+                            $("#uploaded_files").append(file_html);
+                            $('#outer-popup-a').hide();
+                            // document.getElementById('imgQueryRaisedDoc').style.visibility = 'hidden';
+                        }
+                    } else if (type == 'outer') {
+
+
+                        //alert($(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount"));
+                        // raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+
+                        var ID = '';
+                        //alert(temp);
+                        $(".raisedDocumnts").remove();
+                        $("#inner_tbody").empty();
+
+                        var upload_file_id = 0;
+                        var remove_id = '';
+                        $.each(data.d.results, function(key, val) {
+                            upload_file_id++;
+                            remove_id = 'remove' + upload_file_id;
+
+                            ID = val.Id;
+                            //alert(ID);
+
+                            var href = "https://bristleconeonline.sharepoint.com/sites/pwa/_layouts/15/download.aspx?SourceUrl=https://bristleconeonline.sharepoint.com/sites/pwa/BconeBillAttachment/" + Folder_name + "/" + val.FileLeafRef + "";
+                            //alert(href);
+
+                            var file_html = "<tr id=" + remove_id + "><td>" + val.FileLeafRef + "</td>";
+                            file_html = file_html + "<td class='text-center' style='width:30px;'><a href=\"" + href + "\"><i class='fa fa-download'></i></a></td>";
+
+                            // file_html = file_html + "<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\"" + remove_id + "\",\"" + ID + "\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+                            file_html = file_html + " </tr>";
+
+                            //alert(file_html);
+                            var liHtml = "<li class='raisedDocumnts'><a href=\"" + href + "\">" + val.FileLeafRef + "</a></li>";
+                            $("#inner_tbody").append(file_html);
+                            // currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                        });
+
+                        $('#uploaded_file_count').text(upload_file_id);
+                        if (upload_file_id > 0) {} else {
+                            var file_html = "<tr><td colspan='3' style='text-align:center'>No file found</td>";
+                            file_html = file_html + " </tr>";
+                            $("#inner_tbody").append(file_html);
+                        }
+                    }
+                }
+            });
+
+
+        }
+    </script>
+    <!-- New Pop Up End Here -->
+    <div class="loader"></div>
+    <script type="text/javascript" language="javascript" class="init">
+        var table1;
+        var my_table = $('#example').DataTable({
+            "order": [
+                [0, "desc"]
+            ]
+        });
+
+        $(document).ready(function() {
+		disableRightClick();
+            <!-- $('#innertable').dataTable( { -->
+            <!-- "scrollY": "340px", -->
+            <!-- "scrollCollapse": true, -->
+            <!-- "paging": true -->
+            <!-- }); -->
+            table1 = $('#innertable').dataTable({
+                "scrollY": "300px",
+                "scrollCollapse": false,
+                "paging": true,
+                'fnCreatedRow': function(nRow, aData, iDataIndex) {
+                    $(nRow).attr('id', 'innermy' + iDataIndex); // or whatever you choose to set as the id
+                },
+            });
+        });
+        var FLoginname = "";
+        var FloginId = "";
+        var finalCc = "";
+        var finalTo = "";
+        var expense_creater_id = "";
+        var Approver2Id = "";
+        var ExpenseApproveType = "";
+        var Approver1Id = "";
+        var PathUrl = "";
+
+        function GetUserId(userid) {
+            var NewloginName = "";
+            var result;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    var dataResults = data.d;
+                    var loginName = dataResults.LoginName;
+                    $('#login_name_contain').text(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    result = getResourcesGuid(NewloginName);
+                },
+                complete: function() {},
+            });
+            return result;
+        }
+
+        function getResourcesGuid(NewloginName) {
+            var GUID;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    GUID = data.d.results[0].ResourceId;
+                    FLoginname = data.d.results[0].ResourceName;
+                    FloginId = data.d.results[0].ResourceId;
+                    return GUID;
+                }
+            });
+            return GUID;
+        }
+
+        function getExpenseForFinanceHistory(url, listname, EmployeeId) {
+
+            $('.loader').show();
+            //var openstatus_count = 0;
+            //var submittedstatus_count = 0;
+            //var approvedstatus_count = 0;
+            //var rejectedstatus_count = 0;
+            //var reimburesedstatus_count = 0;
+            //var ReSubmittedExpenceCount = 0;           
+            //var allrecord_count = 0;
+            //var query_cml = '<View><Query><Where><And><Or><Eq><FieldRef Name="Action"/><Value Type="Text">Finance Approved</Value></Eq><Or><Eq><FieldRef Name="Action"/><Value Type="Text">Reimbursed</Value></Eq><Eq><FieldRef Name="Action"/><Value Type="Text">Finance Rejected</Value></Eq></Or></Or><Eq><FieldRef Name="ActorID"/><Value Type="Text">'+EmployeeId+'</Value></Eq></And></Where><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+            var query_cml = '<View><Query><Where><And><Or><Eq><FieldRef Name="Action"/><Value Type="Text">Finance Approved</Value></Eq><Eq><FieldRef Name="Action"/><Value Type="Text">Finance Rejected</Value></Eq></Or><Eq><FieldRef Name="ActorID"/><Value Type="Text">' + EmployeeId + '</Value></Eq></And></Where><OrderBy><FieldRef Name="TrackingNo" Ascending="FALSE"/></OrderBy></Query></View>';
+
+
+            $.ajax({
+                //url: url + "/_api/web/lists/getbytitle('BconeExpenseLogHistory')/GetItems",
+                url: url + "/_api/web/Lists/getByTitle('BconeExpenseLogHistory')/Items?$filter=ActorID eq '" + EmployeeId + "' and ((Action eq 'Finance Approved') or (Action eq 'Finance Rejected'))&$orderby= TrackingNo asc",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+
+                beforeSend: function() {
+
+                    //$('.loader').show();
+                },
+
+                success: function(data) {
+
+                    console.log(data);
+                    //alert(data.d.results.length);
+
+                    if (data.d.results.length > 0) {
+
+                        $.each(data.d.results, function(key, value) {
+
+                            getExpenseForFinance(web_url, 'BconeExpenceMaster', value.TrackingNo, value.Created, value.Action);
+
+                            // BindMethod(url, listname, type, EmployeeId,value.TrackingNo,value.Created) ;
+
+                            //allrecord_count++;
+                            //
+                            //if (value.Action == "Open") {
+                            //    openstatus_count++;
+                            //}
+                            //
+                            //if (value.Action == "Submitted") {
+                            //    submittedstatus_count++;
+                            //}
+                            //if (value.Action == "ReSubmitted") {
+                            //    ReSubmittedExpenceCount++;
+                            //}
+                            //
+                            //
+                            //if (value.Action == "Finance Rejected") {
+                            //    rejectedstatus_count++;
+                            //}
+                            //
+                            //if (value.Action == "Finance Approved") {
+                            //    approvedstatus_count++;
+                            //   
+                            //}
+                            //
+                            //if (value.Action == "Reimbursed") {
+                            //    reimburesedstatus_count++;
+                            // }
+
+
+                        });
+                        $('.loader').hide();
+                    } else {
+                        $('.loader').hide();
+                    }
+
+                    //document.getElementById("RejectedCount").innerHTML = rejectedstatus_count;
+                    //document.getElementById("ApprovedCount").innerHTML = approvedstatus_count;
+                    //document.getElementById("ReimbursedCount").innerHTML = reimburesedstatus_count;
+                    //document.getElementById("AllRecordCount").innerHTML = allrecord_count;
+
+
+                },
+                error: function(data) {
+
+                    alert(data.responseJSON.error.message.value);
+                    $('.loader').hide();
+                },
+                complete: function() {
+                    //$('.loader').hide();
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
+
+            });
+        }
+
+
+        function Refine(searchcolumn, id) {
+
+            setTimeout(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            }, 1000);
+            $('.top-refine').find('a').each(function() {
+
+                $(this).removeClass('green-btn').addClass('blue-btn');
+
+
+            })
+
+            var a = $('#' + id).hasClass('blue-btn');
+
+
+            a ? $('#' + id).removeClass('blue-btn').addClass('green-btn') : $('#' + id).removeClass('blue-btn').addClass('green-btn');
+            var table = $('#example').DataTable();
+            table
+                .columns(11)
+                .search(searchcolumn)
+                .draw();
+
+
+            if (searchcolumn == '') {
+                table.columns([0, 1, 2, 3, 4, 5, 9, 11]).visible(true);
+                table.columns([6, 7, 8, 10, 12]).visible(false);
+            } else if (searchcolumn == 'Finance Approved') {
+                table.columns([0, 1, 2, 3, 4, 6, 7, 9, 12]).visible(true);
+                table.columns([5, 8, 10, 11]).visible(false);
+            } else if (searchcolumn == 'Finance Rejected') {
+                table.columns([0, 1, 2, 3, 4, 6, 8, 10, 12]).visible(true);
+                table.columns([5, 7, 9, 11]).visible(false);
+            } else if (searchcolumn == 'Reimbursed') {
+                table.columns([0, 1, 2, 3, 4, 5, 9, 11]).visible(true);
+                table.columns([6, 7, 8, 10, 12]).visible(false);
+            }
+
+        }
+
+        function getExpenseForFinance(url, listname, TrackingNo, Created, action,actorId) {
+		if(action=="Finance Approved" || action=="Finance Rejected")
+		{
+		//$('.loader').show();
+            var counter = 1;
+            var table_data = "";
+            
+            var query_cml = 'Items?$filter=ID eq \'' + TrackingNo + '\' and FinanceId eq \'' + FloginId + '\'&$orderby= Modified desc&$top=100000';
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/" + query_cml,
+                type: "GET",
+                // async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    if (data.d.results.length > 0) {
+                        $.each(data.d.results, function(key, value) {
+                            var advance = "0.00";
+                            var Expenseitem = "";
+                            var curreuncyvalue = "";
+                            if (value.AmountTaken != null) {
+                                advance = value.AmountTaken;
+                                if (advance.toString().indexOf(".")) {} else {
+                                    advance = advance + ".00";
+                                }
+                            }
+                            if (value.currencytext != null && value.currencytext != '') {
+                                Expenseitem = value.currencytext;
+                                if (Expenseitem.indexOf("-")) {
+                                    var curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                } else {}
+                            }
+                            var tooltip_date = convert_date_tooltip(value.ReportSubmittedDate);
+                            var converted_date = convert_date(value.ReportSubmittedDate);
+
+                            var tooltip_date1 = convert_date_tooltip(Created);
+                            var converted_date1 = convert_date(Created);
+
+                            var tooltip_date2 = convert_date_tooltip(value.Created);
+                            var converted_date2 = convert_date(value.Created);
+
+                            var commnet_tooptip = "Description" + value.ID;
+                            var ExpenseCurrencyText = "-";
+                            if (value.ExpenseCurrencyText != null && value.ExpenseCurrencyText != "") {
+
+                                ExpenseCurrencyText = value.ExpenseCurrencyText;
+
+                                if (ExpenseCurrencyText.indexOf("-")) {
+                                    var curr = ExpenseCurrencyText.split("-");
+                                    ExpenseCurrencyText = curr[0];
+                                }
+                            }
+                            var FinalExpenseValue = "0.00";
+                            if (value.FinalExpenseValue != null) {
+                                FinalExpenseValue = value.FinalExpenseValue;
+                                if (FinalExpenseValue.toString().indexOf(".")) {
+
+                                    FinalExpenseValue = parseFloat(FinalExpenseValue).toFixed(2);
+                                } else {
+                                    FinalExpenseValue = FinalExpenseValue + ".00";
+
+                                }
+                            }
+                            var desc = "-";
+                            if (value.Description != null && value.Description != "") {
+                                desc = value.Description;
+                            }
+                            allrecord_count++;
+
+
+
+                            if (action == "Open") {
+                                openstatus_count++;
+                            }
+
+                            if (action == "Submitted") {
+                                submittedstatus_count++;
+                            }
+                            if (action == "ReSubmitted") {
+                                ReSubmittedExpenceCount++;
+                            }
+
+
+                            if (action == "Finance Rejected") {
+                                rejectedstatus_count++;
+                            }
+
+                            if (action == "Finance Approved") {
+                                approvedstatus_count++;
+
+                            }
+
+                            if (action == "Reimbursed") {
+                                reimburesedstatus_count++;
+                            }
+
+
+                            var LastActionBy = "";
+                            if (value.ReportStatus == "Reimbursed") {
+                                LastActionBy = 'NA';
+                            } else if (value.ReportStatus == "Approved") {
+                                LastActionBy = value.FinanceName;
+                            } else if (value.ReportStatus == "Rejected") {
+                                LastActionBy = value.LastActionBy;
+                            } else if (value.ReportStatus == "Open") {
+                                LastActionBy = 'NA';
+                            } else {
+                                if (value.PendingWithName == "" && value.PendingWithName == null) {
+                                    LastActionBy = value.FinanceName;
+                                } else {
+                                    LastActionBy = value.PendingWithName;
+                                }
+                            }
+
+                            my_table.row.add([
+
+                                '<td>' + value.ExpenseTrackingNo + '</td>',
+
+                                value.EmployeeName,
+                                '<a href="javascript:void(0)" onclick="opendetails(' + value.ID + ')">' + value.ExpenseReportName + '</a>',
+                                '<td>' + value.Projectname + '</td>',
+                                '<td><div style="text-align: right;">' + FinalExpenseValue + ' <span style="color: #ababab;margin-left: 6px;"> ' + ExpenseCurrencyText + '</span></div></td>',
+                                '<a  style="text-decoration:none;cursor: context-menu;" data-toggle="tooltip" title="' + tooltip_date2 + '">' + converted_date2 + '</a>',
+                                '<a  style="text-decoration:none;cursor: context-menu;" data-toggle="tooltip" title="' + tooltip_date + '">' + converted_date + '</a>',
+                                '<a  style="text-decoration:none;cursor: context-menu;" data-toggle="tooltip" title="' + tooltip_date1 + '">' + converted_date1 + '</a>',
+                                '<a  style="text-decoration:none;cursor: context-menu;" data-toggle="tooltip" title="' + tooltip_date1 + '">' + converted_date1 + '</a>',
+                                '<td>' + LastActionBy + '</td>',
+                                //'<td>'+value.Comment+'</td>',
+                                '<a  style="text-decoration:none;cursor: context-menu;" data-toggle="tooltip" title="' + value.Comment + '">' + value.Comment + '</a>',
+
+                                '<td>' + action + '</td>',
+                                '<a style="cursor:pointer;"  onclick="GetAllExpenseLog(' + value.ID + ' , \'' + value.ExpenseTrackingNo + '\')" class="comment-icon"><i class="fa fa-info-circle" aria-hidden="true"></i></a>'
+
+
+                            ]).draw(false);
+
+
+
+                        });
+                    } else {}
+
+                    document.getElementById("RejectedCount").innerHTML = rejectedstatus_count;
+                    document.getElementById("ApprovedCount").innerHTML = approvedstatus_count;
+                    document.getElementById("ReimbursedCount").innerHTML = reimburesedstatus_count;
+                    document.getElementById("AllRecordCount").innerHTML = allrecord_count;
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+
+            setTimeout(function() {
+                $('[data-toggle="tooltip"]').tooltip();
+            }, 1000);
+        }
+		else{
+		
+		}
+		}
+
+        function onchildcheck() {
+            var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+                no_checked = childCheckboxes.filter(':checked').length;
+            if (no_checked == 1) {
+                $('#BtnRejected').attr("onclick", "RejectExpense()");
+                $('#BtnRejected').css("cursor", "pointer");
+                $('#BtnClarification').attr("onclick", "Clarification()");
+                $('#BtnClarification').css("cursor", "pointer");
+                $("#BtnRejected").removeClass('gray-btn').addClass('blue-btn');
+                $("#BtnClarification").removeClass('gray-btn').addClass('blue-btn');
+            } else {
+                $('#BtnRejected').attr("onclick", "");
+                $('#BtnRejected').css("cursor", "no-drop");
+                $('#BtnClarification').css("cursor", "no-drop");
+                $('#BtnClarification').prop('onclick', "");
+                $("#BtnRejected").removeClass('blue-btn').addClass('gray-btn');
+                $("#BtnClarification").removeClass('blue-btn').addClass('gray-btn');
+            }
+            document.getElementById("SelectedItemCount").innerHTML = no_checked;
+            if (childCheckboxes.length == no_checked) {
+                $("#checkAll").prop('checked', true);
+            } else {
+                $("#checkAll").prop('checked', false);
+            }
+        }
+
+        function destroyjs() {
+            $('#example').dataTable({
+                "filter": false,
+                "destroy": true
+            });
+            var tables = $.fn.dataTable.fnTables(true);
+            $(tables).each(function() {
+                $(this).dataTable().fnDestroy();
+            });
+        }
+
+        function GetEmailidbyaGuid(Guid) {
+            var emailid;
+            jQuery.ajax({
+                url: "/sites/pwa/_api/ProjectData/Resources?$filter=ResourceId eq (guid'" + Guid + "')",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    alert('guid');
+                    console.log(data);
+                    emailid = data.d.results[0].ResourceEmailAddress;
+                    return emailid;
+                }
+            });
+            return emailid;
+        }
+
+        var To = "";
+        var Cc = "";
+        var Subject = "";
+        var Body = "";
+        var Filepath = "";
+        var result = "";
+        var subjectcontents = "";
+
+        function GetEmailData(Trackingid, emailEventId) {
+            $().SPServices({
+                operation: "GetListItems",
+                async: false,
+                listName: "BconeEmailConfiguration",
+                CAMLQuery: "<Query><Where><Eq><FieldRef Name='EventID'/><Value Type='Text'>" + emailEventId + "</Value></Eq></Where></Query>",
+                completefunc: function(xData, Status) {
+                    raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                    $(xData.responseXML).SPFilterNode("z:row").each(function() {
+                        Subject = $(this).attr("ows_Subject");
+                        Body = $(this).attr("ows_Body");
+                        formatSubject(Subject, Trackingid);
+                        formatBodyValues(Body, Trackingid);
+                    });
+                }
+            });
+
+            function formatSubject(Subject, ListID) {
+                var startString = "{";
+                var endString = "}";
+                var count = 0;
+                var indexStart = 0,
+                    indexEnd = 0;
+                var exit = false;
+                while (!exit) {
+                    indexStart = Subject.indexOf(startString);
+                    indexEnd = Subject.indexOf(endString);
+                    if (indexStart != -1 && indexEnd != -1) {
+                        matchedstring = Subject.substring(Subject.indexOf('{') + 1, Subject.indexOf('}'));
+                        $().SPServices({
+                            operation: "GetListItems",
+                            async: false,
+                            listName: "BconeEmailvariablemapping",
+                            CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                            completefunc: function(xData, Status) {
+                                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                $(xData.responseXML).SPFilterNode("z:row").each(function() {
+                                    var fieldvalue = $(this).attr("ows_FieldValue");
+                                    var str_ows = "ows_" + fieldvalue;
+                                    $().SPServices({
+                                        operation: "GetListItems",
+                                        async: false,
+                                        listName: "BconeExpenceMaster",
+                                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                        completefunc: function(xData, Status) {
+                                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                            $(xData.responseXML).SPFilterNode("z:row").each(function() {
+                                                var element = $(this).attr(str_ows);
+                                                if (element.indexOf('#') >= 0) {
+                                                    element = $(this).attr(str_ows).split('#')[1];
+                                                } else {
+                                                    element = $(this).attr(str_ows);
+                                                }
+                                                if (element != "" && element != undefined && element != "0") {
+                                                    if (count == 0) {
+                                                        subjectcontents = element;
+                                                    } else {
+                                                        subjectcontents = subjectcontents + (";" + element);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                        Subject = Subject.substring(indexEnd + endString.length);
+                        count++;
+                    } else
+                        exit = true;
+                }
+            }
+
+            function formatBodyValues(Body, ListID) {
+                var startString = "&#123;";
+                var endString = "&#125;";
+                var count = 0;
+                var indexStart = 0,
+                    indexEnd = 0;
+                var exit = false;
+                while (!exit) {
+                    indexStart = Body.indexOf(startString);
+                    indexEnd = Body.indexOf(endString);
+                    if (indexStart != -1 && indexEnd != -1) {
+                        matchedstring = Body.substring(Body.indexOf('&#123;') + 6, Body.indexOf('&#125;'));
+                        $().SPServices({
+                            operation: "GetListItems",
+                            async: false,
+                            listName: "BconeEmailvariablemapping",
+                            CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                            completefunc: function(xData, Status) {
+                                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                $(xData.responseXML).SPFilterNode("z:row").each(function() {
+                                    var fieldvalue = $(this).attr("ows_FieldValue");
+                                    var str_ows = "ows_" + fieldvalue;
+                                    $().SPServices({
+                                        operation: "GetListItems",
+                                        async: false,
+                                        listName: "BconeExpenceMaster",
+                                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                        completefunc: function(xData, Status) {
+                                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                            $(xData.responseXML).SPFilterNode("z:row").each(function() {
+                                                var element = $(this).attr(str_ows);
+                                                if ($(this).attr(str_ows) == "ows_Comment" && element == undefined) {
+                                                    element = "Recalled from submit status";
+                                                } else if (element == undefined) {
+                                                    element = "-";
+                                                }
+                                                if (fieldvalue == "Editor" || fieldvalue == "Author") {
+                                                    element = $(this).attr(str_ows).split('#')[1];
+                                                } else {
+                                                    element = $(this).attr(str_ows);
+                                                }
+                                                if (element != "" && element != undefined && element != "0") {
+                                                    if (count == 0) {
+                                                        result = element;
+                                                    } else {
+                                                        result = result + (";" + element);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                        Body = Body.substring(indexEnd + endString.length);
+                        count++;
+                    } else
+                        exit = true;
+                }
+            }
+            sendEmail(finalTo, finalCc, Subject, Body, Filepath, result, subjectcontents, PathUrl);
+        }
+
+        function sendEmail(To, Cc, Subject, Body, Filepath, bodyFormat, subjectcontents, PathUrl) {
+            var url = "https://ppmprod.bcone.com/api/BCONE/SendEmail"
+            var EmailRequestData = {
+                "To": To,
+                "Subject": Subject,
+                "Body": Body,
+                "cc": Cc,
+                "BodyFormat": bodyFormat,
+                "SubjectContent": subjectcontents,
+                "URL": PathUrl
+            };
+            $.ajax({
+                url: url,
+                async: false,
+                data: EmailRequestData,
+                type: "POST",
+                dataType: "json",
+                success: function(res) {},
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+        }
+
+        function GetNoteById(Action) {
+            var notes = "";
+            // var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="NotesID"/><Value Type="Text">' + Action + '</Value></Eq><Eq><FieldRef Name="IsActive"/><Value Type="Boolean">1</Value></Eq></And></Where></Query></View>';            
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceNotesMaster')/Items?$filter=NotesID eq '" + Action + "' and  IsActive  eq '1'",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                beforeSend: function() {},
+                success: function(data) {
+                    if (data.d.results.length > 0) {
+                        notes = data.d.results[0].Notes;
+                    }
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function() {}
+            });
+            return notes;
+        }
+
+        function InsertIntoLog(url, listname, TrackingNo, Action, ActorName, ActorID, Type) {
+            var Note = GetNoteById(Action);
+            var TrackingNo_temp = TrackingNo.toString();
+            var item = "";
+            var item_collections = getListprotocol(listname);
+            item = {
+                "__metadata": {
+                    "type": item_collections
+                },
+                "TrackingNo": TrackingNo_temp,
+                "Notes": Note,
+                "ActorName": ActorName,
+                "ActorID": ActorID,
+                "Action": Type
+            };
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + encodeURIComponent(listname) + "')/items",
+                type: "POST",
+                async: false,
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function(data) {},
+                complete: function() {},
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+        }
+        var userid = _spPageContextInfo.userId;
+        var owner_id = GetUserId(userid);
+        var web_url = "https://bristleconeonline.sharepoint.com/sites/pwa/";
+
+        function GetApprovalFinaceDetail(id) {
+            var query_cml = 'Items?$filter=ID eq \'' + id + '\' ';
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeExpenceMaster')/" + query_cml,
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+                success: function(data) {
+                    var table_tr = "";
+                    Approver2Id = data.d.results[0].Approver2;
+                    Approver1Id = data.d.results[0].Approver1;
+                    if (data.d.results.length > 0) {
+                        expense_creater_id = data.d.results[0].EmployeeId;
+                    } else {}
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+        }
+        $(document).ready(function() {
+
+           // getExpenseForFinanceHistory(web_url, 'BconeExpenseLogHistory', owner_id);
+            //getExpenseForFinance(web_url, 'BconeExpenceMaster',owner_id);
+            $('#example tfoot th').each(function() {
+                var title = $('#example thead th').eq($(this).index()).text();
+                if (title != 'Log') {
+
+                    $(this).html('<input type="text" placeholder="Search" />');
+                } else {
+                    $(this).html('');
+                }
+            });
+            var table = $('#example').DataTable();
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    that
+                        .search(this.value)
+                        .draw();
+                });
+            });
+            table.columns([0, 1, 2, 3, 4, 5, 9, 11]).visible(true);
+            table.columns([6, 7, 8, 10, 12]).visible(false);
+            var rowCount = $('#example >tbody >tr').length;
+            $('#checkAll').click(function() {
+                if ($("#checkAll").is(':checked')) {
+                    $("#example tbody tr td input[type=checkbox]").each(function() {
+                        $(this).prop("checked", true);
+                    });
+                } else {
+                    $("#example tbody tr td input[type=checkbox]").each(function() {
+                        $(this).prop("checked", false);
+                    });
+                }
+                var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+                    no_checked = childCheckboxes.filter(':checked').length;
+                no_checked = childCheckboxes.filter(':checked').length;
+                if (no_checked == 1 || no_checked == 0) {
+                    $('#BtnRejected').attr("onclick", "RejectExpense()");
+                    $('#BtnRejected').css("cursor", "pointer");
+                    $('#BtnClarification').attr("onclick", "Clarification()");
+                    $('#BtnClarification').css("cursor", "pointer");
+                    $("#BtnRejected").removeClass('gray-btn').addClass('blue-btn');
+                    $("#BtnClarification").removeClass('gray-btn').addClass('blue-btn');
+                } else {
+                    $('#BtnRejected').attr("onclick", "");
+                    $('#BtnRejected').css("cursor", "no-drop");
+                    $('#BtnClarification').attr("onclick", "");
+                    $('#BtnClarification').css("cursor", "no-drop");
+                    $("#BtnRejected").removeClass('blue-btn').addClass('gray-btn');
+                    $("#BtnClarification").removeClass('blue-btn').addClass('gray-btn');
+                }
+                document.getElementById("SelectedItemCount").innerHTML = no_checked;
+            });
+            $('#example tbody tr td input[type=checkbox]').change(function() {
+                var childCheckboxes = $('#example tbody tr td').find('input[type=checkbox]'),
+                    no_checked = childCheckboxes.filter(':checked').length;
+                document.getElementById("SelectedItemCount").innerHTML = no_checked;
+                if (childCheckboxes.length == no_checked) {
+                    $("#checkAll").prop('checked', true);
+                } else {
+                    $("#checkAll").prop('checked', false);
+                }
+            });
+        });
+
+        function getListItemForUpdate(url, listname, Id, complete) {
+            $.ajax({
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    complete(data);
+                },
+                error: function(data) {}
+            });
+        }
+
+        function getListprotocol(name) {
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+
+        function close_div() {
+            $("#alertmain").hide();
+            document.getElementById("Alert_msg").innerHTML = "";
+        }
+
+        function confirmation_close() {
+            $('#Confirmation_alert').hide();
+        }
+
+
+        function getcurrencyValueById(url, listname, id) {
+            var ss;
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        ss = value.Currency;
+                        return ss;
+                    });
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }
+
+        function getcurrencyValueById(listname, id) {
+            var ss;
+            $.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: {
+                    "Accept": "application/json; odata=verbose"
+                },
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        if (listname != "BconeCurrency") {
+                            ss = value.Item;
+                            return ss;
+                        } else {
+                            ss = value.Currency;
+                            return ss;
+                        }
+                    });
+                },
+                error: function(data) {
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }
+
+        function convert_date(date_to_convert) {
+            var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            var arr_timeonly = arr_dateandtime[1].split(':');
+            var Month;
+            var converted_date;
+            switch (parseInt(arr_dateonly[1]) - 1) {
+                case 0:
+                    Month = "Jan";
+                    break;
+                case 1:
+                    Month = "Feb";
+                    break;
+                case 2:
+                    Month = "Mar";
+                    break;
+                case 3:
+                    Month = "Apr";
+                    break;
+                case 4:
+                    Month = "May";
+                    break;
+                case 5:
+                    Month = "Jun";
+                    break;
+                case 6:
+                    Month = "Jul";
+                    break;
+                case 7:
+                    Month = "Aug";
+                    break;
+                case 8:
+                    Month = "Sep";
+                    break;
+                case 9:
+                    Month = "Oct";
+                    break;
+                case 10:
+                    Month = "Nov";
+                    break;
+                case 11:
+                    Month = "Dec";
+                    break;
+            }
+            converted_date = arr_dateonly[2] + "-" + Month + "-" + arr_dateonly[0];
+            return converted_date;
+        }
+
+        function convert_date_tooltip(date_to_convert) {
+            var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            var arr_timeonly = arr_dateandtime[1].split(':');
+            var Month;
+            var converted_date;
+            var suffix;
+            switch (parseInt(arr_dateonly[1]) - 1) {
+                case 0:
+                    Month = "Jan";
+                    break;
+                case 1:
+                    Month = "Feb";
+                    break;
+                case 2:
+                    Month = "Mar";
+                    break;
+                case 3:
+                    Month = "Apr";
+                    break;
+                case 4:
+                    Month = "May";
+                    break;
+                case 5:
+                    Month = "Jun";
+                    break;
+                case 6:
+                    Month = "Jul";
+                    break;
+                case 7:
+                    Month = "Aug";
+                    break;
+                case 8:
+                    Month = "Sep";
+                    break;
+                case 9:
+                    Month = "Oct";
+                    break;
+                case 10:
+                    Month = "Nov";
+                    break;
+                case 11:
+                    Month = "Dec";
+                    break;
+            }
+            var curr_hours = arr_timeonly[0];
+            suffix = (curr_hours >= 12) ? 'PM' : 'AM';
+            if (curr_hours > 12) {
+                curr_hours -= 12;
+            }
+            var curr_min = arr_timeonly[1];
+            if (curr_min < 10) {
+                curr_min = curr_min;
+            }
+            var curr_seconds = arr_timeonly[2];
+            converted_date = arr_dateonly[2] + "-" + Month + "-" + arr_dateonly[0] + " " + curr_hours + ":" + curr_min + " " + suffix;
+            return converted_date;
+        }
+
+        function bigImg(date, tooltipid) {
+            alert("tooltipid" + tooltipid);
+            $("#" + tooltipid).jqxTooltip({
+                content: date,
+                position: 'top',
+                name: 'movieTooltip',
+                top: 5,
+                opacity: 1
+            });
+        }
+
+        function GetAllExpenseLog1(TrackingId) {
+
+            $('.allcommentdiv').animate({
+                width: 'toggle'
+            });
+        }
+        $(document).click(function(event) {
+            //event.stopPropagation();
+            if ($(event.target).is('.comment-icon, .comment-icon *')) {
+                return;
+            } else if (!$(event.target).is('.allcommentdiv, .allcommentdiv *')) {
+                $('.allcommentdiv').hide({
+                    width: 'toggle'
+                });
+            }
+        });
+
+        function closeallcomment() {
+            $('.allcommentdiv').animate({
+                width: 'toggle'
+            });
+        }
+
+        //setInterval(function(){ 
+
+        function GetAllExpenseLog(TrackingId, ExpenseTrackingNo) {
+            //alert("GetAllExpenseLog");
+            // alert("TrackingId");
+
+            document.getElementById("LogId").innerHTML = ExpenseTrackingNo;
+            var Div_Log = "";
+            var notes = "";
+            var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo"/><Value Type="Text">' + TrackingId + '</Value></Eq></Where><OrderBy><FieldRef Name="Created" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></Query></View>';
+
+            $.ajax({
+                //url: url + "/_api/web/lists/getbytitle('BconeExpenseLogHistory')/GetItems",
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/Lists/getByTitle('BconeExpenseLogHistory')/Items?$filter=TrackingNo eq '" + TrackingId + "' &$orderby= Created asc",
+                type: "GET",
+                async: false,
+                headers: {
+                    "Accept": "application/json;odata=verbose"
+                },
+
+
+                beforeSend: function() {
+                    //  $('.loader').show();
+                    //$('[data-toggle="tooltip"]').tooltip();
+                },
+
+                success: function(data) {
+
+                    //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+
+
+                        $.each(data.d.results, function(key, value) {
+
+                            var date = convert_date(value.Created);
+                            var converted_date = convert_date_tooltip(value.Created);
+                            //alert(converted_date);
+                            //var  tooltip_date = convert_date_amol(value.Created);
+
+                            Div_Log = Div_Log + "<tr><td>" + converted_date + "</td><td>" + value.ActorName + "</td><td>" + value.Action + "</td><td>" + value.Notes + "</td></tr>";
+
+                            //alert(Div_Log);
+                        });
+
+                        $("#bindlog").html(Div_Log);
+                        //alert(Div_Log);
+                        //event.stopPropagation();
+                        $('.allcommentdiv').animate({
+                            width: 'toggle'
+                        });
+                        //$('.allcommentdiv').show();
+
+                    }
+
+
+                },
+                error: function(data) {
+
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function() {}
+
+            });
+
+        }
+		
+		
+		var TotalItemCount=0;
+
+$(document).ready(function () { //UPDATED CODE START
+
+ //Remove datatable warnings on loading
+ $.fn.dataTable.ext.errMode = 'none';
+
+    //var siteurl = _spPageContextInfo.webAbsoluteUrl;
+	var siteurl = "https://bristleconeonline.sharepoint.com/sites/pwa/";
+    
+    var ItemCount= GetItemCount(siteurl, 'BconeExpenseLogHistory');
+    
+    createRestUrl(siteurl,ItemCount,'BconeExpenseLogHistory');
+});  //UPDATED CODE END
+
+//Step 1. get total item count of threshold exceed list.
+function GetItemCount(siteurl, ListName){
+     var ItemCount='';
+     $.ajax({
+           url: siteurl+"/_api/web/lists/GetByTitle('"+ListName+"')/ItemCount", 
+           method: "GET",
+           async: false,
+           headers: { "Accept": "application/json; odata=verbose" },
+           success: function (data) {
+               ItemCount = data.d.ItemCount;
+           },
+            error: function (data) {
+               console.log(data);
+            }
+     });
+     return ItemCount;   
+}
+
+//Step 2. create rest service url if item count is above 5000 then we split calling with 1000 item per call top=1000 for better performance. Otherwise we call as usual 5000 items top=5000
+function createRestUrl(siteurl, ItemCount, ListName) {
+ 
+        if(ItemCount<=5000) {
+		//Item count less than 5000 so we limit it as usual 5000
+        	var listServiceUrl = siteurl+ "/_api/web/lists/GetByTitle('" + ListName + "')/Items?$select=ID,TrackingNo,ActorID,Created,Action&$orderby=Modified desc&$top=5000";
+	} else {
+		//Item count more than 5000 so we split it in 1000 item per call
+		var listServiceUrl = siteurl+ "/_api/web/lists/GetByTitle('" + ListName + "')/Items?$select=ID,TrackingNo,Created,ActorID,Action&$orderby=Modified desc&$top=1000";
+        }
+        
+	//Step 3: Rest call to procerss each items of list
+       	$.when(processList(listServiceUrl,ItemCount)).done(function () { });
+}
+//Step 3: Rest call to procerss each items of list
+function processList(nextUrl,ItemCount) {
+   		
+        var dfd = new $.Deferred();
+        
+        if (nextUrl == undefined) {
+            dfd.resolve();
+            return;
+        }
+		 
+        //Step 4: Repetative call to getJSONDataFromUrl() to get Ajax Json object.
+        getJSONDataFromUrl(nextUrl).done(function (listItems) {
+        
+        	TotalItemCount = TotalItemCount+listItems.d.results.length;
+        	
+           	var items = listItems.d.results;
+                var next = listItems.d.__next;
+			
+                $.when(processList(next,ItemCount)).done(function (){
+            	
+                   dfd.resolve();
+               
+                });
+            
+            var tableHTML='';
+            //Create datatable object
+            var table = $('#table_id').DataTable();     
+             $.each(items, function(index, value){
+			 var web_url=_spPageContextInfo.webAbsoluteUrl;
+			
+					getExpenseForFinance(web_url, 'BconeExpenceMaster', value.TrackingNo, value.Created, value.Action,value.ActorID);
+				 
+			 
+			//tableHTML +='<tr><td>'+obj.ID+'</td><td>'+obj.TrackingNo+'</td><td>'+obj.Created+'</td><td>'+obj.Action+'</td></tr>';
+             }); 
+             //table.rows.add($(tableHTML)).draw(); //Append each list row to data tabel
+            
+      });
+      return dfd.promise();
+}
+ 
+//Step 4: Repetative call to getJSONDataFromUrl() to get Ajax Json object.
+function getJSONDataFromUrl(endpoint) {
+        return jQuery.ajax({
+            url: endpoint,
+            method: "GET",
+            headers: {
+                "Accept": "application/json; odata=verbose",
+                "Content-Type": "application/json; odata=verbose"
+            }
+        });
+}
+        //alert('hi');
+        //}, 1000);
+    </script>
+    <div class="allcommentdiv-main " id="openouterfileattach">
+        <!-- inner-popup outer-popup add class -->
+        <div class="allcommentdiv outer-popup ">
+            <div class="allcommentdiv-heading">
+                Uploaded File List
+            </div>
+            <div class="allcommentdiv-mid">
+                <h3 id="reff_no">Ref No. 1</h3>
+                <div class="vertical-scoll">
+                    <table class="table table-bordered text-left">
+                        <tbody id="inner_tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="allcommentdiv-foot">
+                <a href="javascript:void(0)" class="blue-btn" onclick="closeouterfileattach()">Got it</a>
+            </div>
+        </div>
+    </div>
+    <!-- Log Pop up -->
+    <div class="allcommentdiv">
+        <div class="allcommentdiv-heading">
+            Log
+        </div>
+        <div class="allcommentdiv-mid">
+            <h3><span id="LogId"></span></h3>
+            <div class="vertical-scoll">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:150px;">Date</th>
+                            <th style="width:100px;">Actor</th>
+
+                            <th style="width:80px;">Action</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bindlog">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="allcommentdiv-foot">
+            <a href="javascript:void(0)" class="blue-btn" onclick="closeallcomment()">got it</a>
+        </div>
+    </div>
+    <!-- Log Pop up -->
+    <script>
+        setTimeout(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        }, 1000);
+
+        function convert_date_DDMMYYYY(date_to_convert) {
+            var arr_dateandtime = date_to_convert.split(' ');
+            var arr_dateonly = arr_dateandtime[0].split('-');
+            //  var arr_timeonly = arr_dateandtime[1].split(':');
+
+            var m_names = new Array("Jan", "Feb", "Mar",
+                "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                "Oct", "Nov", "Dec");
+            var MonthNo = '';
+            var MonthName = arr_dateonly[1];
+            //m_names[MonthName]
+
+
+            if (MonthName == '01') {
+                MonthNo = 'Jan';
+
+            } else if (MonthName == '02') {
+                MonthNo = 'Feb';
+            } else if (MonthName == '03') {
+                MonthNo = 'Mar';
+            } else if (MonthName == '04') {
+                MonthNo = 'Apr';
+            } else if (MonthName == '05') {
+                MonthNo = 'May';
+            } else if (MonthName == '06') {
+                MonthNo = 'Jun';
+            } else if (MonthName == '07') {
+                MonthNo = 'Jul';
+            } else if (MonthName == '08') {
+                MonthNo = 'Aug';
+            } else if (MonthName == '09') {
+                MonthNo = 'Sep';
+            } else if (MonthName == '10') {
+                MonthNo = 'Oct';
+            } else if (MonthName == '11') {
+                MonthNo = 'Nov';
+            } else if (MonthName == '12') {
+                MonthNo = 'Dec';
+            }
+            converted_date = arr_dateonly[2] + "-" + MonthNo + "-" + arr_dateonly[0];
+            return converted_date;
+            //alert(converted_date);
+        }
+    </script>
+</body>
+
+</html>

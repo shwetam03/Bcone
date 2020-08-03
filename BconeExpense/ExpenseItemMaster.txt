@@ -1,0 +1,4073 @@
+<html>
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home</title>
+
+
+
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+
+
+
+    <script src="../SiteAssets/BconeExpenseJs/dialogbox.js"></script>
+
+    <script src="../SiteAssets/BconeExpenseJs/overhang.js"></script>
+
+
+    <link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/overhang.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/dialogbox.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />
+    <script src="../SiteAssets/BconeExpenseJs/jquery-ui.js"></script>
+    <link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.min.css">
+    <script src="../SiteAssets/BconeExpenseJs/jquery.dataTables.min.js"></script>
+	
+	<link rel="stylesheet" href="../SiteAssets/BconeExpenseCss/jqx.base.css" type="text/css" />
+    
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxcore.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxdata.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxbuttons.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxlistbox.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxmenu.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxgrid.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxgrid.pager.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxgrid.sort.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxgrid.filter.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxgrid.columnsresize.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxgrid.selection.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxpanel.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/demos.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jqxwindow.js"></script>
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+
+
+    <style>
+        .table > thead > tr > th {
+            text-align: center;
+        }
+
+        .displayblock {
+            display: block;
+        }
+
+        .displaynone {
+            display: none;
+        }
+		a, a:visited , a:active, a:link {
+    text-decoration: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+     -webkit-box-shadow: 0 0 0px 50px white inset;
+}
+
+        /*.fk-suc-msg {
+    background: url('http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png') no-repeat scroll 5px 10px #cfc;
+    border: 1px solid #696;
+    color: green;
+    font-size: 13px;
+    padding: 10px 0 10px 30px;
+    text-align: left;
+}*/
+
+        .fk-suc-msg {
+			background: url(http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png) no-repeat scroll 5px 2px #337ab7;
+			border: 1px solid #2e6da4;
+			color: #fff;
+			font-size: 13px;
+			padding: 2px 0 2px 28px;
+			text-align: left;
+			width: 91%;
+        }
+		.new-th{
+			border: 0;
+			border-top: 1px solid #000;
+		}
+		#s4-workspace{
+			width:100% !important;
+		}
+    </style>
+
+
+
+
+
+    <!--<script>
+
+        function classtoggle(){
+        
+            $('#amol_div').toggleClass('class1', 'class2');
+
+        }
+
+    </script>-->
+
+</head>
+
+<body>
+
+
+
+
+    <!--<div id="amol_div" class="class1" onclick="classtoggle();">
+        amol
+    </div>-->
+
+    <div id="alertmain" class="alert-main" style="display: none">
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading">Conformation Message</div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <input type='Button' style="background-color: #4CAF50;" value="Ok" onclick='SubmitGateAForApproval("1")'>
+                    <input type='Button' style="background-color: #e7e7e7; color: black;" value="Cancel" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="successmain" class="success-main" style="display: none">
+        <div class="black-bg">
+            <div class="popup-main">
+                <div class="popup-heading">Success</div>
+                <div class="pop-mid">
+                    <p id="successValue"></p>
+                    <input type="button" style="background-color: #4CAF50;" value="Ok" onclick="redirect()" />
+                    <!--<a href="javascript:void(0)" class="grey-btn">Back</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rejection" class="alert-main" style="display: none">
+        <div class="black-bg" id="backcolorrjc">
+            <div class="popup-main">
+                <div class="popup-heading">Rejected</div>
+                <div class="pop-mid">
+                    <p id="rejectedValue"></p>
+                    <input type="button" style="background-color: #4CAF50;" value="Ok" onclick="redirect()" />
+                    <!--<a href="javascript:void(0)" class="grey-btn">Back</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="approved1" class="success-main" style="display: none">
+        <div class="black-bg" id="backcolorapprove">
+            <div class="popup-main">
+                <div class="popup-heading">Approved</div>
+                <div class="pop-mid">
+                    <p id="approvedValue"></p>
+                    <input type="button" style="background-color: #4CAF50;" value="Ok" onclick="redirecttoGateb()" />
+                    <!--<a href="javascript:void(0)" class="grey-btn">Back</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+    </header>
+    <section class="middle">
+        <div class="breadcrumb-new">
+            <div class="container-fluid">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)">Home</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">My Expense</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="top-refine">
+                    <ul class="pull-left">
+                        <li>
+                            <a href="javascript:void(0)" class="Add-more" onclick="showmodal1('add')"><i class="fa fa-plus" style="margin-right: 5px;"></i> Add Expense
+                               
+                                
+                            </a>
+                        </li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+					
+						<ul class="pull-right">
+                        <li>
+							<a href="javascript:void(0)" class="green-btn" id="AllRecord" onclick="refine_status('',this.id);"><i class="fa fa-flag-o" aria-hidden="true"></i>All Record <span class="red-count" id="AllRecordCount"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="open" onclick="refine_status('Open',this.id);"><i class="fa fa-folder-o"></i>Open <span class="red-count" id="OpenExpenceCount"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="Submitted" onclick="refine_status('Submitted',this.id)"><i class="fa fa-send"></i>Submitted<span class="red-count" id="SubmittedExpenceCount"></span></a>
+							<a href="javascript:void(0)" class="blue-btn" id="ReSubmitted" onclick="refine_status('ReSubmitted',this.id)"><i class="fa fa-reply"></i>Re-Submitted<span class="red-count" id="ReSubmittedExpenceCount"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="Approved" onclick="refine_status('Approved',this.id)"><i class="fa fa-check"></i>Approved<span class="red-count" id="ApprovedExpenceCount"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="Rejected" onclick="refine_status('Rejected',this.id)"><i class="fa fa-ban"></i>Rejected<span class="red-count" id="RejectedExpenceCount"></span></a>
+                            <a href="javascript:void(0)" class="blue-btn" id="Reimburesed" onclick="refine_status('Reimburesed',this.id)"><i class="fa fa-refresh"></i>Reimburesed<span class="red-count" id="ReimburesedExpenceCount"></span></a>
+                            <!--<a href="javascript:void(0)" class="green-btn"><i class="fa fa-thumbs-up"></i>Approve</a>
+                            <a href="javascript:void(0)" class="red-btn"><i class="fa fa-thumbs-down"></i>Reject </a>-->
+                            <!-- <span onclick="openalerbox();" >alert box</span>-->
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+            </div>
+			
+			
+                </div>
+				
+				
+				
+                <div class="clearfix"></div>
+                <div class="new-table">
+				
+				
+				
+				
+				
+				
+				
+				
+                    <div class="row" id="jqxgrid_container">
+                        <div id="jqxgrid"></div>
+						 
+						
+						
+						
+                    </div>
+					
+					<div>
+					<input type="button" id="clear_btn" title="clear div" onclick="cleardata();">
+					</div>
+                </div>
+        </div>
+		<script>
+		function cleardata(){
+		$('#jqxgrid').remove();
+		
+		//setTimeout(function(){
+		//alert('set timeout called..');
+		$("#jqxgrid_container").append("<div id='jqxgrid'></div>")
+	//	getDataByListName(current_url, 'BconeExpenceMaster', 'load1');
+		//},2000);
+		}
+		</script>
+    </section>
+    <div class="export-to-exl">
+        <!--<div class="export-to-exl-click">
+            <img src="../SiteAssets/BconeExpenseImg/right-imh.jpg" alt="" title="" />
+        </div>-->
+        <!--<div class="export-to-exl-div">
+            	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>-->
+        <div class="clearfix"></div>
+    </div>
+    <!--<script type="text/javascript">
+        	$(document).ready(function(){
+				$(".export-to-exl-click").click(function(){
+					$(".export-to-exl-div").animate({ width: 'toggle'});
+				});
+			});
+        </script>-->
+
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Expense Initiate Form</h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tbody>
+						
+							<tr>
+                                <td style="vertical-align: top;">Select Project<sup style="color: #f00; font-size: 14px;">*</sup></td>
+                                <td>
+
+                                    <!-- <input type="text" style="width: 100%; height: 81px;" class="form-control" id="TxtDescription" onkeyup="hideerror('TxtDescription')" style="height: 40px" /> -->
+									
+									<!-- <textarea rows="4" cols="45" id="TxtDescription" onkeyup="hideerror('TxtDescription')"></textarea> -->
+
+										<select class="form-control" id="ddlProjects" onchange="hideerror(this.id); setProjectManager(this.id)">
+										</select>	
+										
+										
+									
+                                </td>
+                            </tr>
+							
+							  <tr >
+
+                                <td style="width: 195px;">Expense Approval Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+                                <td>
+                                    <input  type="text" id="txtProManager"   class="form-control" readonly="true" />
+									
+									<select class="form-control" style="display:none;" id="ddlProjectsmanager" onchange="hideerror1(this.id)">
+										</select>	
+										
+										
+                                </td>
+                            </tr>
+							
+                            <tr>
+
+                                <td style="width: 195px;">Expense Report Name<sup style="color: #f00; font-size: 14px;">*</sup></td>
+                                <td>
+                                    <input type="text" id="Txtexpensereport" onkeyup="hideerror('Txtexpensereport')" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: top;">Description<!--<sup style="color: #f00; font-size: 14px;">*</sup>--></td>
+                                <td>
+
+                                    <!-- <input type="text" style="width: 100%; height: 81px;" class="form-control" id="TxtDescription" onkeyup="hideerror('TxtDescription')" style="height: 40px" /> -->
+									
+									<textarea rows="4" cols="45" id="TxtDescription" onkeyup="hideerror('TxtDescription')"></textarea>
+
+											
+									
+                                </td>
+                            </tr>
+							
+							
+							
+							 <tr>
+                                <td>Have you taken Advance<sup style="color: #f00; font-size: 14px;">*</sup></td>
+                                <td >
+								<div id="advance" class="radio-main">
+                                    <!-- <select class="form-control" id="ddladvancetaken" onchange="hideerror1(this.id)">
+									<option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select> -->
+									
+                                   
+									<input type="radio" name="advance" value="Yes"  > Yes
+									<input type="radio" name="advance" value="No" > No
+                                    
+									</div>
+
+                                </td>
+                            </tr>
+							
+							
+							
+                            <tr>
+                                <td>Currency<sup id="currency_validation_star" style="color: #f00; font-size: 14px; display:none;" >*</sup></td>
+                                <td>
+                                    <select class="form-control" id="currency" onchange="hideerror1(this.id)">
+                                        <option>Select</option>
+
+                                    </select>
+                                </td>
+                            </tr>
+							
+							
+                            <!--<tr>
+                                <td>Expense Intiate Date<sup style="color: #f00; font-size: 14px;">*</sup></td>
+                                <td>
+                                    <div style="position: relative;">
+                                        <input type="text" id="TxtDate"  class="form-control" onkeyup="hideerror('TxtDate')" />
+                                        <span class="right-icon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                        <div>
+                                </td>
+                            
+							
+							</tr>-->
+							
+							
+							
+							
+							
+                            <tr>
+                                <td>Advance Amount Taken <sup id="amount_validation_star" style="color: #f00; font-size: 14px; display:none; ">*</sup></td>
+                                <td>
+								<div class="Amount-right-side">
+                                    <input readonly="true"  type="text" id="Txtamttaken" class="form-control"  onkeyup="hideerror('Txtamttaken')"   />
+									<span class="amt-right-text" style="color:#ababab;" id="currencyspan"></span>
+								</div>	
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                </td>
+                            </tr>
+                            <tr id="add_tr">
+                                <td></td>
+                                <td>
+                                    <a href="javascript:void(0)" class="blue-btn" id="btnSubmit">Save & close</a>
+									
+									<a href="javascript:void(0)" class="blue-btn" id="btnSaveAndAdd">Save & Add Item</a>
+									
+                                    <a href="javascript:void(0)" class="gray-btn" data-dismiss="modal">Cancel</a>
+
+                                   <!-- <a href="javascript:void(0)" class="blue-btn" id="btnSubmitandNew">Save & create Another</a>-->
+
+
+
+
+                                </td>
+                            </tr>
+
+                           
+
+
+                            <tr id="update_tr" style="display: none;">
+                                <td></td>
+                                <td>
+                                    <span id="edit_id" style="display: none;"></span>
+                                    <span id="tr_editid" style="display: none"></span>
+                                    <a href="javascript:void(0)" class="blue-btn" id="btn_update" onclick="updateListItem('BconeExpenceMaster','https://bristleconeonline.sharepoint.com/sites/Dev/');">Update</a>
+                                    <!-- <a href="javascript:void(0)" class="red-btn">Delete</a>-->
+                                    <a href="javascript:void(0)" class="gray-btn" data-dismiss="modal">Cancel</a>
+
+
+                                </td>
+                            </tr>
+
+                             <tr id="mytr">
+                                <td></td>
+                                <td style="padding-bottom:0px; padding-top:0px;">
+                                    <div class="fk-suc-msg" id="per-info-suc" style="display:none;"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader"></div>
+
+
+    <script>
+
+
+        $(function () {
+
+
+
+			disableRightClick();
+            $('[data-toggle="tooltip"]').tooltip();
+
+
+
+
+            ////$(".dataTables_paginate paging_simple_numbers").live("click", function() {
+            // do something
+            //alert('clicked');
+            //});
+
+
+
+            // $('.loader').show();
+
+            var ditached_counter_div = null;
+
+
+
+            //$("#TxtDate").datepicker({
+            //    dateFormat: 'dd-M-yy ',
+            //    changeMonth: true,
+            //    changeYear: true,
+
+            //    onSelect: function (datetext) {
+
+            //        var d = new Date(); // for now
+
+            //        var h = d.getHours();
+            //        h = (h < 10) ? ("0" + h) : h;
+
+            //        var m = d.getMinutes();
+            //        m = (m < 10) ? ("0" + m) : m;
+
+            //        var s = d.getSeconds();
+            //        s = (s < 10) ? ("0" + s) : s;
+
+            //        datetext = datetext + " " + h + ":" + m + ":" + s;
+
+            //        $('#TxtDate').val(datetext);
+            //    }
+
+
+            //});
+
+            //$('.right-icon').click(function () {
+            //   // alert('clicked');
+
+            //    $("#TxtDate").datepicker('show');
+            //});
+
+
+
+            //$(".right-icon").datepicker({
+            //    dateFormat: 'dd-M-yy',
+            //    changeMonth: true,
+            //    changeYear: true
+
+
+            //});
+
+
+
+
+
+            // load_datatable_js();
+
+
+
+
+
+            $('#pageTitle').find("a").html('');
+
+            //$("p").find("span").css("color", "red");
+
+            $('#btnSubmit').click(function (e) {
+
+
+                // $('.loader').show();
+                // alert('submit button clicked..');
+
+                var isValid = false;
+                if (check_validation()) {
+
+
+
+
+                    //alert('befor show loader');
+                    $('.loader').show();
+                    //alert('show loader');
+
+
+                    var expensereport = document.getElementById("Txtexpensereport").value;
+
+
+                    var Description = document.getElementById("TxtDescription").value;
+
+                    var amount = document.getElementById("Txtamttaken").value;
+
+                    if (amount == '') {
+                        amount = '0';
+                    }
+
+
+
+                    //var date = document.getElementById("TxtDate").value;
+
+                    var currentdate = new Date();
+
+                    var date = currentdate;
+
+                    var currency_text = $('#currency :selected').text();
+
+                    //alert(ss);
+
+                    var currencyval = $('#currency :selected').val();
+
+                    var ProjectId = $('#ddlProjects :selected').val();
+                    //alert(currencyval);
+
+
+                    var ddladvancetaken = ($('input[name=advance]:checked', '#advance').val());
+
+                    if (ddladvancetaken == 'No') {
+                        //set currency default value
+                        currencyval = 'null';
+                        currency_text = '';
+                    }
+
+
+
+
+
+
+
+                    // $("input[name=advance][value=No]").prop('checked', 'checked');
+
+
+
+
+
+
+
+                    //show_loader();
+                    addExpense(current_url, 'BconeExpenceMaster', expensereport, Description, currencyval, date, amount, currency_text, 'save', ProjectId);
+
+                    add_success_exp_msg('Expense created successfully..', 'save');
+                    // console.log(data);
+                    //  alert(data.d.results);
+
+
+
+
+
+                    //here record count dynamically based on total record
+                    //var record_count = 'new_record';
+
+
+
+
+                    destroyjs();
+
+
+                    getDataByListName(current_url, 'BconeExpenceMaster', 'load1','','');
+
+                    // getListItemById(current_url, 'BconeExpenceMaster', data.d.ID, record_count, 'added');
+
+                    //hidemodal();
+
+                    //$('.loader').hide();
+
+                    // $('#student_datatable').DataTable();
+
+
+                    //load_datatable_js();
+
+                    //alert('hide loader');
+                    $('.loader').hide();
+
+                    //hideerror1('update');
+                    showmodal1('update');
+
+
+
+
+
+                }
+
+                else {
+                    // alert("validation is not complete");
+                }
+
+            });
+
+            $('#btnSaveAndAdd').click(function (e) {
+
+
+                // $('.loader').show();
+                // alert('submit button clicked..');
+
+                var isValid = false;
+                if (check_validation()) {
+
+
+
+
+                    //alert('befor show loader');
+                    $('.loader').show();
+                    //alert('show loader');
+
+
+                    var expensereport = document.getElementById("Txtexpensereport").value;
+
+
+                    var Description = document.getElementById("TxtDescription").value;
+
+                    var amount = document.getElementById("Txtamttaken").value;
+
+                    if (amount == '') {
+                        amount = '0';
+                    }
+
+
+
+                    //var date = document.getElementById("TxtDate").value;
+
+                    var currentdate = new Date();
+
+                    var date = currentdate;
+
+                    var currency_text = $('#currency :selected').text();
+
+                    //alert(ss);
+
+                    var currencyval = $('#currency :selected').val();
+
+                    //alert(currencyval);
+
+
+                    var ddladvancetaken = ($('input[name=advance]:checked', '#advance').val());
+
+                    if (ddladvancetaken == 'No') {
+                        //set currency default value
+                        currencyval = 'null';
+                        currency_text = '';
+                    }
+
+
+
+
+
+
+
+                    // $("input[name=advance][value=No]").prop('checked', 'checked');
+
+
+
+
+
+
+
+                    //show_loader();
+                    addExpense(current_url, 'BconeExpenceMaster', expensereport, Description, currencyval, date, amount, currency_text, 'saveandcreate');
+
+                    add_success_exp_msg('Expense created successfully..', 'save');
+                    // console.log(data);
+                    //  alert(data.d.results);
+
+
+
+
+
+                    //here record count dynamically based on total record
+                    //var record_count = 'new_record';
+
+
+
+
+                    destroyjs();
+
+
+                    getDataByListName(current_url, 'BconeExpenceMaster', 'load1','');
+
+                    // getListItemById(current_url, 'BconeExpenceMaster', data.d.ID, record_count, 'added');
+
+                    //hidemodal();
+
+                    //$('.loader').hide();
+
+                    // $('#student_datatable').DataTable();
+
+
+                    //load_datatable_js();
+
+                    //alert('hide loader');
+                    $('.loader').hide();
+
+                    //hideerror1('update');
+                    showmodal1('update');
+
+
+
+
+
+                }
+
+                else {
+                    // alert("validation is not complete");
+                }
+
+            });
+
+
+            $('#btnSubmitandNew').click(function (e) {
+
+
+                var isValid = false;
+                if (check_validation()) {
+
+
+                    $('.loader').show();
+
+                    // alert('Thank you for submitting');
+
+                    //var attchment=document.getElementById("filename").innerHTML;
+
+                    var expensereport = document.getElementById("Txtexpensereport").value;
+
+
+                    var Description = document.getElementById("TxtDescription").value;
+
+                    var amount = document.getElementById("Txtamttaken").value;
+
+                    //var date = document.getElementById("TxtDate").value;
+
+                    var currentdate = new Date();
+
+                    var date = currentdate;
+
+                    var ss = $('#currency :selected').text();
+
+                    var currencyval = $('#currency :selected').val();
+
+
+                    addExpense(current_url, 'BconeExpenceMaster', expensereport, Description, currencyval, date, amount);
+
+
+                    add_success_exp_msg('Expense created successfully..', 'createnew');
+                    $('.loader').hide();
+                    // console.log(data);
+                    //  alert(data.d.results);
+
+
+
+                    clearAllInputs('myModal');
+
+                    //here record count dynamically based on total record
+                    var record_count = 'new_record';
+
+
+
+
+                    destroyjs();
+
+                    getDataByListName(current_url, 'BconeExpenceMaster','','');
+
+                    // getListItemById(current_url, 'BconeExpenceMaster', data.d.ID, record_count, 'added');
+
+                    //hidemodal();
+
+                    //$('.loader').hide();
+
+                    $('#student_datatable').DataTable();
+
+
+
+
+                }
+
+                else {
+                    // alert("validation is not complete");
+                }
+
+            });
+
+            $('input:radio[name=advance]').change(function () {
+
+
+                hideerror1('ddladvancetaken');
+                //alert(this.value);	
+
+
+                //if (this.value == "Yes") {
+                //    var amount = $('#Txtamttaken').val();
+                //    //alert(amount);
+                //    if (amount <= 0 || amount != '') {
+                //        $('#Txtamttaken').css({
+
+                //            "border": "1px solid red",
+                //            "background": "#FFCECE"
+                //        });
+                //        $('#Txtamttaken').focus();
+                //        $("#Txtamttaken").attr("readonly", false);
+                //    }
+
+                //    //document.getElementById("AlertMsg").innerHTML = "Please select currency";
+
+                //}
+                //else {
+
+
+
+
+                //    $('#Txtamttaken').css({
+
+                //        "border": "",
+                //        "background": ""
+                //    });
+
+                //    $("#Txtamttaken").attr("readonly", true);
+                //    $("#Txtamttaken").val('');
+
+                //    //document.getElementById("AlertMsg").innerHTML = "";
+
+                //}
+
+
+
+
+
+            });
+
+            // ditached_counter_div = $('.dataTables_length').detach();
+
+            //$(ditached_counter_div).insertAfter('.dataTables_info');
+
+            //$("body").overhang({
+            //    custom: true, // Set custom to true
+            //    primary: "#337ab7", // Your custom primary color
+            //    accent: "#fff",// Your custom accent color
+            //    message: "What is your name Nilima"
+            //});
+
+            //$("body").overhang({
+            //    custom: true, // Set custom to true
+            //    primary: "#34495E", // Your custom primary color
+            //    accent: "#F4B350", // Your custom accent color
+            //    message: "What is your name"
+            //});
+
+            //setTimeout(function () {
+
+            //    $("body").overhang({
+            //        type: "confirm",
+            //        message: "Are you sure?",
+
+            //        // This code will run once an option is clicked.
+            //        callback: function (selection) {
+            //            alert("You made your selection of " + selection);
+            //        }
+            //    });
+
+            //},1000)
+
+            //setTimeout(function () {
+
+            //    $("body").overhang({
+            //        type: "error",
+            //        message: "You could not be logged in at this time.",
+            //        closeConfirm: "true"
+            //    })
+
+
+            //},5000);
+
+
+            //$('#student_datatable_length').appendTo('#student_datatable_info');
+
+
+
+            $('#Txtamttaken').mouseout(function () {
+                //alert('hi');
+                convert_amount();
+            });
+
+            $("#Txtamttaken").blur(function () {
+                convert_amount();
+                //alert("This input field has lost its focus.");
+            });
+
+
+
+            $("input[id*='Txtamttaken']").keydown(function (event) {
+
+
+                if (event.shiftKey == true) {
+                    event.preventDefault();
+                }
+
+                //alert(event.keyCode);
+
+                if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                    (event.keyCode >= 96 && event.keyCode <= 105) ||
+                    event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                    event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+
+                } else {
+                    event.preventDefault();
+                }
+
+                if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190 || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)
+                    event.preventDefault();
+                //if a decimal has been added, disable the "."-button
+
+            });
+
+
+        });
+
+        function show_loader() {
+
+            $('.loader').show();
+        }
+
+        function convert_amount() {
+
+            var current_val = $('#Txtamttaken').val();
+            //alert(current_val);
+            // var updated_val='';
+            //if(current_val!='' && current_val!='0')
+            // {
+            // alert(current_val);
+            // updated_val=(current_val).toFixed(2);
+            // }
+            // alert(updated_val);
+            if (current_val != '') {
+                var num = parseFloat(current_val);
+                //alert(num.toFixed(2)); // "2.40"
+                $('#Txtamttaken').val(num.toFixed(2));
+            }
+
+        }
+
+
+
+        function load_datatable_js() {
+
+
+
+
+            $('#student_datatable').DataTable({
+
+                aoColumnDefs: [
+
+                   { "aTargets": [0], "bSortable": false }
+
+
+                ],
+                "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+                "order": []
+
+                // $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            });
+
+            //alert('loaded');
+
+            $('#student_datatable tfoot th').each(function () {
+                var title = $(this).text();
+                //var title = '';
+                //alert(title);
+                if (title != '') {
+                    $(this).html('<input style="width:100px;" type="text" placeholder="Search" />');
+                }
+            });
+
+
+            var table = $('#student_datatable').DataTable();
+
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            //$('.loader').hide();
+
+            //setTimeout(function(){
+            //alert('called');
+            $('.dataTables_wrapper #student_datatable').wrapAll(document.createElement('div'));
+            $('.dataTables_wrapper #student_datatable').parent('div').addClass('table-responsive');
+            //$('.dataTables_wrapper .table-responsive').css("width", "1180px");
+            $('.dataTables_wrapper .table-responsive').css("width", "1030px");
+
+            //},2000);
+
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $("#student_datatable_paginate").on("click", function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+            $(".sorting").on("click", function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+
+
+
+
+        }
+
+
+
+
+        function add_success_exp_msg(message, type) {
+
+            $('#per-info-suc').text(message);
+
+            $("#per-info-suc").fadeIn("slow");
+
+
+
+            $("#per-info-suc").fadeOut(1000, function () {
+
+                if (type == 'save') {
+                    hidemodal();
+                    clearAllInputs('myModal');
+                }
+                else if (type = 'saveandcreate') {
+
+                }
+                else {
+                    // hidemodal();
+                    // showmodal();
+                    $('#Txtexpensereport').focus();
+                }
+            });
+
+
+
+        }
+
+        function alert_message_overhang(message) {
+            $("body").overhang({
+                custom: true, // Set custom to true
+                primary: "#337ab7", // Your custom primary color
+                accent: "#fff",// Your custom accent color
+                message: message
+            });
+        }
+
+
+
+        function isNumber1(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+                //alert($('#Txtamttaken').val());
+                return false;
+            }
+
+            //alert($('#Txtamttaken').val());
+            return true;
+        }
+
+        function isNumber(evt, element) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode != 190 || $(element).val().indexOf('.') != -1)  // “.” CHECK DOT, AND ONLY ONE.
+                    && (charCode != 110 || $(element).val().indexOf('.') != -1)  // “.” CHECK DOT, AND ONLY ONE.
+                    && ((charCode < 48 && charCode != 8)
+                            || (charCode > 57 && charCode < 96)
+                            || charCode > 105))
+                return false;
+            return true;
+        }
+
+        function openalerbox() {
+            var title = 'my amol m';
+            $.dialogbox({
+                type: 'msg',
+                title: title,
+                icon: 'http://i.stack.imgur.com/akO3g.png',
+                content: 'Alert Content',
+                btn: ['Confirm'],
+                call: [
+                  function () {
+                      $.dialogbox.close();
+                  }
+                ]
+            });
+        }
+
+        function destroyjs() {
+
+            //alert('js distroy');
+
+            //var table = $('#student_datatable').DataTable();
+
+            //table.clear();
+            //table.draw();
+
+            $('#student_datatable').dataTable({
+                "filter": false,
+                "destroy": true
+            });
+
+            // $('#student_datatable').empty();
+
+            //table.destroy();
+            //table.empty();
+
+
+
+            var tables = $.fn.dataTable.fnTables(true);
+
+            $(tables).each(function () {
+                $(this).dataTable().fnDestroy();
+            });
+
+
+            clear_tbody();
+
+
+
+
+
+        }
+
+        function getDataByListName_old(url, listname, type) {
+
+            // alert('called');
+            //$('.loader').show();
+
+            //alert(listname);
+            //var viewflds = '<ViewFields><FieldRef Name="Title"/><FieldRef Name="Status"/><FieldRef Name="Id"/></ViewFields>';
+
+            //var query_cml = '<View><Query><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query><View>';
+              var query_cml = '<View><Query><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/GetItems",
+                type: "POST",
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+
+                    //alert("got data on page load event");
+
+                    // Console.log(data.d.results);
+
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                    if (data.d.results.length > 0) {
+
+                        document.getElementById("totalrecord").value = data.d.results.length;
+                        if (document.getElementById("totalrecord").value > 0) {
+                            //$("#deletediv").show();
+                        }
+
+                        var list_name = listname;
+                        var i = "0";
+                        var url1 = url;
+                        var rowhide = "";
+
+                        var Project_Name = "Project Name";
+                        var Pending_With = "Pending With";
+                        var Reimbursed_Total_Money = "Reimbursed_Total_Money";
+                        var Balance = "Balance";
+                        var fromdate = "";
+                        var ReportCreatedDate = "";
+                        var converted_date = "";
+
+                        var ModifiedDate = "";
+
+                        var openstatus_count = 0;
+                        var submittedstatus_count = 0;
+                        var approvedstatus_count = 0;
+                        var rejectedstatus_count = 0;
+                        var reimburesedstatus_count = 0;
+                        var ReSubmittedExpenceCount = 0;
+                        var curreuncyvalue = 0;
+                        var advance = "";
+                        var tooltip_date = "";
+                        var allrecord_count = "";
+                        var redirect_tolink = "https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/ExpenseItemDetail.aspx?TrackingNo=";
+
+
+
+
+
+
+
+
+                        $.each(data.d.results, function (key, value) {
+
+
+                            //alert(value.Modified);
+
+                            allrecord_count++;
+
+                            if (value.ReportStatus == "Open") {
+                                openstatus_count++;
+                            }
+
+                            if (value.ReportStatus == "Submitted") {
+                                submittedstatus_count++;
+                            }
+                            if (value.ReportStatus == "ReSubmitted") {
+                                ReSubmittedExpenceCount++;
+                            }
+
+
+                            if (value.ReportStatus == "Rejected") {
+                                rejectedstatus_count++;
+                            }
+
+                            if (value.ReportStatus == "Approved") {
+                                approvedstatus_count++;
+                            }
+
+                            if (value.ReportStatus == "Reimburesed") {
+                                reimburesedstatus_count++;
+                            }
+
+
+
+
+                            //ReportCreatedDate = new Date(value.Modified);
+                            ReportCreatedDate = value.Modified;
+
+
+                            //converted_date = ReportCreatedDate;
+                            converted_date = convert_date(ReportCreatedDate);
+                            tooltip_date = convert_date1(ReportCreatedDate);
+
+                            // alert();
+                            //var date = new Date();
+                            //  updated_date = fromdate.yyyymmdd();
+
+                            //alert('updated_date' + updated_date);
+
+                            //alert('fromdate:' + fromdate);
+                            // var dd = fromdate.getDate();
+                            //	alert('dd: '+ dd);
+                            //  var mm = fromdate.getMonth() + 1; //January is 0!
+                            //alert('mm: '+ mm);
+                            //  var yyyy = fromdate.getFullYear();
+                            //	alert('yyyy: '+ yyyy);
+
+                            //  var updated_date = (fromdate.getMonth() + 1) + '-' + fromdate.getDate() + '-' + fromdate.getFullYear();
+
+                            //  var updated_date = value.CalRepCreatedDate;
+
+                            rowhide = "rowhideslow" + i + "";
+
+                            //tr_edit = "row_edit" + i + "";
+
+                            //alert(value.Currency_x003a_ID);
+
+                            curreuncyvalue = "";
+                            advance = "-";
+                            //alert(value.AmountTaken);
+
+                            if (value.AmountTaken != null) {
+                                advance = value.AmountTaken;
+                                if (advance.toString().includes(".")) {
+                                }
+                                else {
+                                    advance = advance + ".00";
+
+                                }
+
+
+
+                            }
+
+                            curreuncyvalue = value.currencytext;
+
+                            if (curreuncyvalue == null) {
+                                curreuncyvalue = "";
+                                //alert(value.ID);
+
+                            }
+                            else {
+                                //alert('value.CurrencyId'+ value.CurrencyId);
+
+                                //curreuncyvalue = getcurrencyValueById(current_url, 'BconeCurrency', value.CurrencyId);
+
+
+                                Expenseitem = curreuncyvalue;
+
+                                // alert(Expenseitem);
+                                if (Expenseitem.includes("-")) {
+                                    var curr = Expenseitem.split("-");
+                                    //alert(curr[0]);
+                                    curreuncyvalue = curr[0];
+
+                                }
+                                else {
+
+                                    //document.getElementById("currencyspan").innerHTML = Expenseitem;
+
+                                }
+
+                            }
+
+
+                            //alert(Expenseitem);
+
+
+
+
+
+
+                            //alert('currency id: ' + value.CurrencyId);
+                            // alert('currency name: ' + value.curr);
+
+                            //curreuncyvalue = getcurrencyValueById(current_url, 'BconeCurrency', value.CurrencyId);
+                            //alert(curreuncyvalue);
+
+                            //alert(ss);
+                            var expenceid = value.ID;
+
+
+                            table_tr = table_tr + "<tr id=" + rowhide + "  class='deleteall" + value.ID + "' value=" + value.ID + ">";
+
+                            table_tr = table_tr + " <td><a data-toggle='tooltip' data-placement='right' title='Edit' style='display:inline-block; margin-right:12px;' href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\",\"update\"); showmodal1(\"update\"); ';><i class='fa fa-pencil'></i></a> <a   data-toggle='tooltip' data-placement='right' title='Delete' style='display:inline-block;' onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a> </td>";
+
+                            //table_tr = table_tr + "<td><input type='checkbox' id='record" + i + "' name='record" + i + "'  value=" + value.ID + "  /></td>";
+
+                            // alert(value.attchment);
+                            table_tr = table_tr + "<td>" + value.ID + "</td>";
+
+                            table_tr = table_tr + " <td><a href='" + redirect_tolink + value.ID + "' style='text-decoration:underline;'>" + value.ExpenseReportName + "</a></td>";
+
+                            // table_tr = table_tr + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\",\"update\"); showmodal1(\"update\"); ';><i class='fa fa-pencil'></i></a></td>";
+
+                            table_tr = table_tr + "<td><a style='text-decoration:none;' data-toggle='tooltip' title='' data-original-title=\"" + converted_date + "\">" + tooltip_date + "</a></td>";
+
+                            //if (value.ReportStatus != 'Submitted') {
+                            table_tr = table_tr + " <td>" + value.ReportStatus + "</td>";
+                            //}
+                            //else {
+                            //    table_tr = table_tr + " <td>hmm</td>";
+                            // }
+
+
+
+                            table_tr = table_tr + " <td>" + Project_Name + "</td>";
+
+                            table_tr = table_tr + " <td>" + Pending_With + "</td>";
+
+                            table_tr = table_tr + "<td>" + advance + " <span style='color: #ababab;margin-left: 6px;'>" + curreuncyvalue + " </span></td>";
+
+                            table_tr = table_tr + " <td>" + Reimbursed_Total_Money + "</td>";
+
+                            table_tr = table_tr + " <td>" + Balance + "</td>";
+
+
+                            //  table_tr = table_tr + "<td>" + curreuncyvalue + "</td>";
+
+
+
+                            if (value.ReportStatus != 'Submitted') {
+                                //table_tr = table_tr + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+                            }
+                            else {
+                                //table_tr = table_tr + " <td><i class='fa fa-check-circle' aria-hidden='true'></i></td>";
+                            }
+
+
+
+
+                            table_tr = table_tr + "</tr>";
+
+
+                            //amol coding
+
+
+
+
+                            // table_tr_edit = table_tr_edit + "<tr id=" + tr_edit + " class='deleteall" + value.ID + "' value=" + value.ID + " style='display:'block';' >";
+
+                            // table_tr_edit = table_tr_edit + "<td><input type='checkbox' id='record" + i + "' name='record" + i + "'  value=" + value.ID + "  /></td>";
+
+                            // alert(value.attchment);
+                            //table_tr_edit = table_tr_edit + "<td>" + value.ID + "</td>";
+
+                            // table_tr_edit = table_tr_edit + " <td><input type='text' id='ExpenseReportName" + i + "' value=" + value.ExpenseReportName + "/></td>";
+                            // table_tr_edit = table_tr_edit + "<td><input type='text' id='Description" + i + "' value=" + value.Description + " /></td>";
+                            // table_tr_edit = table_tr_edit + "<td><select id='curreuncyvalue" + i + "'></select></td>";
+                            // table_tr_edit = table_tr_edit + "<td><input type='text' id='AmountTaken" + i + "' value=" + value.AmountTaken + " /></td>";
+                            // table_tr_edit = table_tr_edit + "<td><input type='text' id='ReportCreatedDate" + i + "' value=" + value.ReportCreatedDate + " /></td>";
+                            // table_tr_edit = table_tr_edit + " <td>" + value.ReportStatus + "</td>";
+                            // table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\");  '><i class='fa fa-pencil'></i></a></td>";
+                            // table_tr_edit = table_tr_edit + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+
+
+
+                            // table_tr_edit = table_tr_edit + "</tr>";
+
+                            i++;
+
+
+                        });
+                    }
+                    else {
+                        //alert(data.d.results.length);
+
+                        table_tr = table_tr + "<tr id='ss' style='color:red' style='text-decoration:underline;'><td colspan='15'><a href='javascript:void(0)' style='color:#d9534f;'>No Record Found</a></td></tr>";
+
+                    }
+
+                    document.getElementById("OpenExpenceCount").innerHTML = openstatus_count;
+                    document.getElementById("SubmittedExpenceCount").innerHTML = submittedstatus_count;
+                    document.getElementById("ReSubmittedExpenceCount").innerHTML = ReSubmittedExpenceCount;
+                    document.getElementById("RejectedExpenceCount").innerHTML = rejectedstatus_count;
+                    document.getElementById("ApprovedExpenceCount").innerHTML = approvedstatus_count;
+                    document.getElementById("ReimburesedExpenceCount").innerHTML = reimburesedstatus_count;
+                    document.getElementById("AllRecordCount").innerHTML = allrecord_count;
+                    // alert(table_tr);
+                    $('#student_data').append(table_tr);
+
+                    //  $('#student_data').append(table_tr_edit);
+
+                    // $('.loader').hide();
+
+
+                    //alert(table_tr);
+
+
+                    console.log(data.d);
+
+
+                },
+                error: function (data) {
+                    //failure(data);
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                    if (type != 'load') {
+                        load_datatable_js();
+                    }
+                }
+            });
+        }
+		
+		
+		   function getDataByListName(url, listname, id,temp1,temp2) {
+                     //alert(id);
+
+            jsonObj = [];
+            var trackingno = '';
+            var title = '';
+
+            var status = '';
+            var advanceamount = '';
+
+            var list_name = listname;
+            var i = "0";
+            var url1 = url;
+            var rowhide = "";
+
+            var Project_Name = "Project Name";
+            var Pending_With = "Pending With";
+            var Reimbursed_Total_Money = "Reimbursed_Total_Money";
+            var Balance = "Balance";
+            var fromdate = "";
+            var ReportCreatedDate = "";
+            var converted_date = "";
+
+            var ModifiedDate = "";
+
+            var openstatus_count = 0;
+            var submittedstatus_count = 0;
+            var approvedstatus_count = 0;
+            var rejectedstatus_count = 0;
+            var reimburesedstatus_count = 0;
+            var ReSubmittedExpenceCount = 0;
+            var curreuncyvalue = 0;
+            var advance = "";
+            var tooltip_date = "";
+            var allrecord_count = 1;
+            var redirect_tolink = "";
+            var expenceid = '';
+            var curr = '';
+
+            var data = '';
+
+        var query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+         //alert(query_cml);
+          //  var query_cml = '<View><Query><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+
+            $.ajax({
+               
+				url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                type: "POST",
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+				//alert('success');
+
+
+                  var i = "0";
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+					//alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+
+
+
+                        $.each(data.d.results, function (key, value) {
+
+                           i++;
+						   //alert(value.Status);
+						   
+						  
+						   var Expense_item = getcurrencyValueById(current_url,'BconeItemMaster', value.ExpenceItemId);
+						   var payment_type = getcurrencyValueById(current_url,'BconeItemMaster', value.PaymentTypeId);
+						    var Currency= getcurrencyValueById(current_url,'BconeCurrency', value.ExpenceCurrencyId);
+								 
+								 var curr_val;
+								 
+								 			   if(Currency.includes("-"))
+			                                 {
+			                                 var curr=Currency.split("-");
+			
+                                             curr_val=curr[0]; 
+											 } else {
+				                              curr_val=Currency;
+											  }
+							//alert("Expense_item"+Expense_item);
+                            //alert(value.Modified);
+
+                            allrecord_count++;
+                            //alert(allrecord_count);
+
+                            if (value.ReportStatus == "Open") {
+                                openstatus_count++;
+                            }
+
+                            if (value.ReportStatus == "Submitted") {
+                                submittedstatus_count++;
+                            }
+                            if (value.ReportStatus == "ReSubmitted") {
+                                ReSubmittedExpenceCount++;
+                            }
+
+
+                            if (value.ReportStatus == "Rejected") {
+                                rejectedstatus_count++;
+                            }
+
+                            if (value.ReportStatus == "Approved") {
+                                approvedstatus_count++;
+                            }
+
+                            if (value.ReportStatus == "Reimburesed") {
+                                reimburesedstatus_count++;
+                            }
+
+                            ReportCreatedDate = value.Modified;
+                          var convert_date1=convert_date(value.ExpenseDate);
+						  
+                          //  converted_date = convert_date(ReportCreatedDate);
+                           // tooltip_date = convert_date1(ReportCreatedDate);
+
+                            rowhide = "rowhideslow" + i + "";
+
+                            curreuncyvalue = "";
+                            advance = "-";
+
+
+                            if (value.ExpensceAmount != null) {
+                                advance = value.ExpensceAmount;
+                                if (advance.toString().includes(".")) {
+                                }
+                                else {
+                                    advance = advance + ".00";
+
+                                }
+
+
+
+                            }
+
+                            curreuncyvalue = value.currencytext;
+
+                            if (curreuncyvalue == null) {
+                                curreuncyvalue = "";
+
+                            }
+                            else {
+
+                                Expenseitem = curreuncyvalue;
+
+
+                                if (Expenseitem.includes("-")) {
+                                    curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                }
+                                else {
+                                }
+
+                            }
+                            expenceid = value.ID;
+							
+							 
+                           
+                            item = {}
+                            if (value.BillAttachment != null) 
+							{
+							 var ss = 'https://bristleconeonline.sharepoint.com/sites/Dev/BconeBillAttachment/' + value.BillAttachment;
+                            item["action"] = "<a data-toggle='tooltip' data-placement='right' title='Edit' style='display:inline-block; margin-right:12px;' href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\",\"update\"); showmodal1(\"update\"); ';><i class='fa fa-pencil'></i></a> <a   data-toggle='tooltip' data-placement='right' title='Delete' style='display:inline-block;margin-right: 12px;' onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='display: inline-block;margin-left: 12px;' href='" + ss + "'  download><i  class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a>";
+							 }
+                            else {
+							item["action"] = "<a data-toggle='tooltip' data-placement='right' title='Edit' style='display:inline-block; margin-right:12px;' href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\",\"update\"); showmodal1(\"update\"); ';><i class='fa fa-pencil'></i></a> <a   data-toggle='tooltip' data-placement='right' title='Delete' style='display:inline-block;margin-right: 12px;' onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='display: inline-block;margin-left: 12px;' data-toggle='tooltip' data-placement='right' title='"+value.Justification+"' onclick='noattchment()'><i class='fa fa-commenting' style='color:#333;font-size: 16px;'></i></a>";
+                              }
+                            item["expenceid"] = i;
+                            item["Item"] =  Expense_item ;
+                            item["status"] = value.Status;
+							item["amount"] =advance + "<span style='color: #ababab;margin-left: 6px;'>"+ curr_val +"</span>";
+							item["payment"] = payment_type;
+                            item["expensedate"] = convert_date1;
+							item["billabletoclient"] = value.BliableToClient;
+                          
+
+                            jsonObj.push(item);
+
+                            //alert(jsonObj);
+
+
+
+                            
+
+
+
+
+
+                        });
+                    }
+                    else {
+                        table_tr = table_tr + "<tr id='ss' style='color:red' style='text-decoration:underline;'><td colspan='15'><a href='javascript:void(0)' style='color:#d9534f;'>No Record Found</a></td></tr>";
+
+                    }
+							document.getElementById("OpenExpenceCount").innerHTML = openstatus_count;
+							document.getElementById("SubmittedExpenceCount").innerHTML = submittedstatus_count;
+							document.getElementById("ReSubmittedExpenceCount").innerHTML = ReSubmittedExpenceCount;
+							document.getElementById("RejectedExpenceCount").innerHTML = rejectedstatus_count;
+							document.getElementById("ApprovedExpenceCount").innerHTML = approvedstatus_count;
+							document.getElementById("ReimburesedExpenceCount").innerHTML = reimburesedstatus_count;
+							document.getElementById("AllRecordCount").innerHTML = allrecord_count;
+
+
+                },
+                error: function (data) {
+                     alert('f');
+					  alert(data.responseJSON.error.message.value);
+                    
+                },
+                complete: function () {
+				//alert('completed');
+                    data =
+                            {
+                                        datatype: "json",
+                                        datafields: [
+                                        { name: 'action', type: '' },
+                                        { name: 'expenceid', type: 'float' },
+                                        { name: 'Item', type: 'string' },
+                                        { name: 'status', type: 'string' },
+										{ name: 'amount', type: 'string' },										
+										{ name: 'payment', type: 'string' },
+                                        { name: 'expensedate', type: 'string' },
+										 { name: 'billabletoclient', type: 'string' }
+										
+                                       
+                                        ],
+
+                                      updaterow: function (rowid, rowdata, commit) {
+                                          // synchronize with the server - send update command
+                                          // call commit with parameter true if the synchronization with the server is successful 
+                                          // and with parameter false if the synchronization failder.
+                                          commit(true);
+                                      },
+									  
+
+                                      id: 'expenceid',
+
+                                      localdata: jsonObj,
+									  
+									  
+                        };
+
+                            var dataAdapter = new $.jqx.dataAdapter(data);
+
+
+                            $("#jqxgrid").jqxGrid({
+                    
+                                width: '100%',
+                                source: dataAdapter,
+                                sortable: true,
+                                filterable: true,
+                                filtermode: 'excel',
+                                columnsresize: true,
+								  pageable: true,
+								 
+                                autoshowfiltericon: false,
+                                            columns: [
+                                     { text: 'Action', datafield: 'action', width: 100 },
+                                     { text: 'Ref No', datafield: 'expenceid', width: 80 },
+                                     { text: 'Item', datafield: 'Item', width: 80 },
+                                     { text: 'Status', datafield: 'status', width: 180 }  ,  
+									 { text: 'Amount', datafield: 'amount', width: 120 }  ,
+                                     { text: 'Payment Type', datafield: 'payment', width: 180 }	,								 
+                                    { text: 'Expence Date', datafield: 'expensedate', width: 180 },
+									{ text: 'Billable To Client', datafield: 'billabletoclient', width: 180 }
+
+                                                ],
+												pagesize: 25, 
+							pagesizeoptions: ['25', '50','100','1000']
+                                     });
+                             }
+                        });
+        }
+		
+	
+
+
+        function getCurrencyListData(url, listname) {
+            //alert("gfhkltnyklhmdtykhtkh");
+            //alert("getListItem1");
+            //alert("show();");
+            //$('.loader').show();
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+
+
+
+                    $.each(data.d.results, function (key, value) {
+
+                        var class1 = "";
+                        // alert(value.ID);
+                        // alert(value.Currency);
+                        $("#currency").append($("<option></option>").val(value.ID).html(value.Currency));
+
+                    });
+                    //loginuser();
+
+
+
+                },
+                error: function (data) {
+                    failure(data);
+                }
+            });
+        }
+
+
+        var pathname = window.location.pathname; // Returns path only
+        var current_url = window.location.href;  //Return full url
+
+        current_url = current_url.substring(0, current_url.lastIndexOf('/') - 9); // current url changes to specific path.
+
+       //getDataByListName(current_url, 'BconeExpenceMaster', 'load1');  //getting data by ListName on page load
+	   
+	   //nilam expense start
+      function getQueryStringValue(key)
+	    {
+	  
+            return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+        var TrackingNo = getQueryStringValue("TrackingNo");
+		var Type_query = getQueryStringValue("type");
+        //GetExpenceDetailByTrackingNo(web_url, 'BconeExpenceMaster', TrackingNo);
+		 getDataByListName(current_url, 'BconeExpenceMaster', TrackingNo,'','');
+	   
+	   //end 
+        getCurrencyListData(current_url, 'BconeCurrency');
+
+
+        //load_datatable_js();
+        // getDataByStatus('Open', '');
+        //  getDataByStatus('Submitted', '');
+        // getDataByStatus('Rejected', '');
+        //getDataByStatus('Approved', '');
+        // getDataByStatus('Reimburesed', '');
+
+        function clear_tbody() {
+            //alert('clear tbody called');
+            $("#student_data").html("");
+            //$("#student_datatable > thead").html("");
+            $("#student_datatable tbody tr").remove();
+            // alert('after clear');
+        }
+
+        function refine_status1(status_name, id) {
+
+
+            $('.pull-right').find('a').each(function () {
+
+                $(this).removeClass('green-btn').addClass('blue-btn');
+
+
+            })
+
+            var a = $('#' + id).hasClass('blue-btn');
+
+
+            a ? $('#' + id).removeClass('blue-btn').addClass('green-btn') : $('#' + id).removeClass('blue-btn').addClass('green-btn');
+
+            $('#' + id).css('color', '#fff');
+
+
+            $('.loader').show();
+
+
+            //setTimeout(function(){
+            destroyjs();
+            //},2000);
+
+
+
+
+
+
+            setTimeout(function () {
+
+                getDataByListName1(current_url, 'BconeExpenceMaster', 'refine');
+                update_refine(status_name);
+
+            }, 2000);
+
+            //setTimeout(function () {
+            // alert('called');
+            // $('#student_datatable').DataTable();
+
+            //}, 1000);
+
+            // $('#student_datatable').DataTable();
+
+            //if (update_refine()) {
+            //alert('return from update refine');
+            // load_datatable_js();
+            // }
+
+
+            setTimeout(function () {
+                //load_datatable_js();
+                $('.loader').hide();
+                load_datatable_js();
+            }, 5000)
+
+
+            // $('.loader').show();
+
+        }
+
+
+        function refine_status_old(inputVal, id) {
+            //alert(inputVal);
+            //var table = $('#student_datatable');
+            var table = $('#student_datatable').DataTable();
+
+            // #column3_search is a <input type="text"> element
+            if (inputVal != '') {
+                table
+                    .columns(4)
+                    .search("^" + inputVal + "$", true, false, true)
+                    .draw();
+            }
+            else {
+                table
+                .columns(4)
+                .search(inputVal)
+                .draw();
+            }
+
+            $('.pull-right').find('a').each(function () {
+
+                $(this).removeClass('green-btn').addClass('blue-btn');
+
+
+            })
+
+            var a = $('#' + id).hasClass('blue-btn');
+
+
+            a ? $('#' + id).removeClass('blue-btn').addClass('green-btn') : $('#' + id).removeClass('blue-btn').addClass('green-btn');
+
+            $('#' + id).css('color', '#fff');
+			
+			
+
+        }
+		
+		 function refine_status(inputVal, id) {
+		 
+				cleardata();
+		 getDataByListName_Refine(current_url, 'BconeExpenceMaster', inputVal);
+        }
+
+        function update_refine(status_name) {
+            var status = '';
+            //alert(status_name);
+            //alert(('#student_data').html());
+
+            if (status_name.toString().toLowerCase() != 'allrecord') {
+
+                $('#student_data > tr').each(function (key, value) {
+
+                    //alert('main ids: '+this.id);
+
+                    status = $(this).closest('tr').find('td:eq(4)').text().toLowerCase();
+                    //alert(status);
+
+                    if (status_name.toLowerCase() == status) {
+
+                        //alert(status_name);
+                        //$(this).css('display', 'block');
+                        // $(this).addClass('displayblock');
+                        // $(this).show();
+                        // alert(this.id);
+
+                    }
+                    else {
+                        //alert('not loaded');
+                        $(this).remove();
+                    }
+
+
+
+
+
+
+
+
+
+                });
+            }
+            else {
+                //alert('aaal');
+            }
+
+            return true;
+
+
+        }
+
+
+        function getListItemById(url, listname, id, i, type) {
+
+            $('#edit_id').text(id);
+            $('#tr_editid').text(i);
+            var redirect_tolink = "https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/ExpenseItemDetail.aspx?TrackingNo=";
+
+
+            // alert(type);
+
+            var table_tr_edit = "";
+
+            $('.loader').show();
+
+
+            // $('#rowhideslow' + i).html('');
+
+            var rowhide = "rowhideslow" + i + "";
+
+            var Project_Name = "Project Name";
+            var Pending_With = "Pending With";
+            var Reimbursed_Total_Money = "Reimbursed_Total_Money";
+            var Balance = "Balance";
+            var fromdate = "";
+
+
+            var ReportCreatedDate = "";
+            var converted_date = "";
+
+
+
+
+            // Getting our list items
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    //alert(data);
+                    //console.log(data);
+                    $.each(data, function (key, value) {
+
+
+
+                        // var fromdate = new Date(value.ReportCreatedDate);
+
+                        //alert('fromdate:' + fromdate);
+                        // var dd = fromdate.getDate();
+                        //	alert('dd: '+ dd);
+                        //var mm = fromdate.getMonth() + 1; //January is 0!
+                        //alert('mm: '+ mm);
+                        //var yyyy = fromdate.getFullYear();
+                        //	alert('yyyy: '+ yyyy);
+
+                        //var updated_date = (fromdate.getMonth() + 1) + '-' + fromdate.getDate() + '-' + fromdate.getFullYear();
+
+                        // var updated_date = value.CalRepCreatedDate;
+
+                        // ReportCreatedDate = new Date(value.ReportCreatedDate);
+                        // ReportCreatedDate = new Date(value.Modified);
+                        ReportCreatedDate = value.Modified;
+                        converted_date = convert_date(ReportCreatedDate);
+
+
+                        if (type == 'update') {
+
+                            $('#add_tr').hide();
+                            $('#update_tr').show();
+
+
+                            //  alert('ReportCreatedDate :' + value.ReportCreatedDate);
+                            // alert('Parse ReportCreatedDate :' + value.ReportCreatedDate.toISOString());
+
+                            // var strDate = value.ReportCreatedDate;
+                            // var dateParts = strDate.split(".");
+
+                            // var date = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
+
+                            // alert('Parse ReportCreatedDate :' + date);
+
+
+
+                            //alert('updated_date :'+ updated_date);
+
+
+
+                            //  $("#currency").prop("selectedItem", 1);
+
+                            //$("#currency").attr('selectedIndex', 1);
+
+                            //$( "#currency option:selected" ).text(value.CurrencyId);
+
+                            //  $("#currency1 option:selected").text('INR');
+
+
+                            var element = document.getElementById('currency');
+                            element.value = value.CurrencyId;
+
+
+
+                            var ddlProjects = document.getElementById('ddlProjects');
+
+                            // alert(ddlProjects + ' ' + value.ProjectId);
+
+                            if (value.ProjectId != null) {
+                                ddlProjects.value = value.ProjectId;
+
+                                //$("#ddlProjects").change();
+
+                                setProjectManager('ddlProjects');
+
+
+                            }
+                            else {
+
+                                $('#txtProManager').val('');
+
+                            }
+
+                            $('#Txtexpensereport').val(value.ExpenseReportName);
+                            $('#TxtDescription').val(value.Description);
+
+                            // $('#currency').val(value.Currency);
+                            // $("#currency option:selected").val(value.CurrencyId);
+
+                            $('#TxtDate').val(converted_date);
+                            //alert(value.AmountTaken);
+                            if (value.AmountTaken > 0) {
+
+                                var curreuncyvalue = getcurrencyValueById(current_url, 'BconeCurrency', value.CurrencyId);
+                                // alert(curreuncyvalue);
+
+                                hideerror1('currency');
+
+
+                                advance = value.AmountTaken;
+                                if (advance.toString().includes(".")) {
+                                }
+                                else {
+                                    advance = advance + ".00";
+
+                                }
+
+                                //  $('#currencyspan').text(curreuncyvalue);
+
+
+                                // alert('inside');
+                                $('#Txtamttaken').val(advance);
+
+                                $("input[name=advance][value=Yes]").prop('checked', 'checked');
+
+                                $("#Txtamttaken").attr("readonly", false);
+
+                                $('#currency_validation_star').show();
+                                $('#amount_validation_star').show();
+
+                            }
+                            else {
+                                $("input[name=advance][value=No]").prop('checked', 'checked');
+                                $("#Txtamttaken").attr("readonly", true);
+                                $("select#currency").prop('selectedIndex', 0);
+
+                                $('#currency').attr("disabled", true);
+
+
+                            }
+
+
+
+                            // $('#filename').text(value.attchment);
+
+
+                            // table_tr_edit = table_tr_edit + "<tr id=" + tr_edit + " class='deleteall" + id + "' value=" + id + " >";
+
+                            // table_tr_edit = table_tr_edit + "<td><input type='checkbox' id='record" + i + "' name='record" + i + "'  value=" + id + "  /></td>";
+
+                            // alert(value.attchment);
+                            // table_tr_edit = table_tr_edit + "<td>" + id + "</td>";
+
+                            // table_tr_edit = table_tr_edit + " <td><input type='text' id='ExpenseReportName" + i + "' value=" + value.ExpenseReportName + " /></td>";
+                            //table_tr_edit = table_tr_edit + "<td><input type='text' id='Description" + i + "' value=" + value.Description + " /></td>";
+                            // table_tr_edit = table_tr_edit + "<td><select id='curreuncyvalue" + i + "'><option>select</option></select></td>";
+                            // table_tr_edit = table_tr_edit + "<td><input type='text' id='AmountTaken" + i + "' value=" + value.AmountTaken + " /></td>";
+                            // table_tr_edit = table_tr_edit + "<td><input type='text' id='ReportCreatedDate" + i + "' value=" + updated_date + " /></td>";
+                            // table_tr_edit = table_tr_edit + " <td>" + value.status + "</td>";
+                            // table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' onclick='updateListItem_Inline(\"" + url + "\",\"" + listname + "\",\"" + value.ID + "\",\"" + i + "\",\"updated\")';>Update</a><hr/><a href='javascript:void(0)' onclick='getListItemById(\"" + url + "\",\"" + listname + "\",\"" + value.ID + "\",\"" + i + "\",\"cancel\")';>Cancel</a></td>";
+                            // table_tr_edit = table_tr_edit + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+                            // table_tr_edit = table_tr_edit + "</tr>";
+
+                            // alert(table_tr_edit);
+
+                            // $('#rowhideslow' + i).html(table_tr_edit);
+
+                            //   getCurrencyDataUpdate(current_url, 'BconeCurrency', i, value.CurrencyId);
+
+
+                        }
+                        else if (type == 'cancel') {
+
+                            var curreuncyvalue = getcurrencyValueById('https://e2eprojects.sharepoint.com/sites/pwa/', 'BconeCurrency', value.CurrencyId);
+
+
+                            table_tr_edit = table_tr_edit + "<td><input type='checkbox' id='record" + i + "' name='record" + i + "'  value=" + value.ID + "  /></td>";
+
+                            // alert(value.attchment);
+                            table_tr_edit = table_tr_edit + "<td>" + value.ID + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' style='text-decoration:underline;'>" + value.ExpenseReportName + "</a></td>";
+                            table_tr_edit = table_tr_edit + "<td>" + value.Description + "</td>";
+                            table_tr_edit = table_tr_edit + "<td>" + curreuncyvalue + "</td>";
+                            table_tr_edit = table_tr_edit + "<td>" + value.AmountTaken + "</td>";
+                            table_tr_edit = table_tr_edit + "<td>" + updated_date + "</td>";
+                            table_tr_edit = table_tr_edit + " <td>" + value.status + "</td>";
+                            table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url + "\",\"" + listname + "\",\"" + value.ID + "\",\"" + i + "\",\"update\")';><i class='fa fa-pencil'></i></a></td>";
+                            table_tr_edit = table_tr_edit + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+
+                            $('#rowhideslow' + i).html(table_tr_edit);
+
+
+
+
+
+                        }
+
+                        else if (type == 'updated') {
+
+
+
+                            //old coding to update single record 
+
+                            //ReportCreatedDate = new Date(value.ReportCreatedDate);
+                            //converted_date = convert_date(ReportCreatedDate);
+
+                            //var curreuncyvalue = getcurrencyValueById(current_url, 'BconeCurrency', value.CurrencyId);
+                            //table_tr_edit = table_tr_edit + "<td>" + value.ID + "</td>";
+
+                            //table_tr_edit = table_tr_edit + " <td><a href='" + redirect_tolink + value.ID + "' style='text-decoration:underline;'>" + value.ExpenseReportName + "</a></td>";
+
+                            //table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url + "\",\"" + listname + "\",\"" + value.ID + "\",\"" + i + "\",\"update\"); showmodal1(); ';><i class='fa fa-pencil'></i></a></td>";
+
+                            //table_tr_edit = table_tr_edit + "<td>" + converted_date + "</td>";
+
+                            //table_tr_edit = table_tr_edit + " <td>" + value.ReportStatus + "</td>";
+
+                            // table_tr_edit = table_tr_edit + " <td>" + Project_Name + "</td>";
+
+                            //table_tr_edit = table_tr_edit + " <td>" + Pending_With + "</td>";
+
+                            //table_tr_edit = table_tr_edit + "<td>" + value.AmountTaken + "</td>";
+
+                            //table_tr_edit = table_tr_edit + " <td>" + Reimbursed_Total_Money + "</td>";
+
+                            // table_tr_edit = table_tr_edit + " <td>" + Balance + "</td>";
+
+
+                            //table_tr_edit = table_tr_edit + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+
+
+                            //$('#rowhideslow' + i).html(table_tr_edit);
+
+
+                            //New code to bind all record 
+
+                            destroyjs();
+                            getDataByListName(current_url, 'BconeExpenceMaster');
+
+
+
+
+
+
+
+                        }
+
+                        else if (type == 'added') {
+
+
+
+                            ReportCreatedDate = new Date(value.ReportCreatedDate);
+                            converted_date = convert_date(ReportCreatedDate);
+
+                            var curreuncyvalue = getcurrencyValueById(current_url, 'BconeCurrency', value.CurrencyId);
+
+                            table_tr_edit = table_tr_edit + "<tr id=" + rowhide + "  class='deleteall" + value.ID + "' value=" + value.ID + ">";
+
+                            table_tr_edit = table_tr_edit + "<td>" + value.ID + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' style='text-decoration:underline;'>" + value.ExpenseReportName + "</a></td>";
+
+                            table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url + "\",\"" + listname + "\",\"" + value.ID + "\",\"" + i + "\",\"update\"); showmodal1(); ';><i class='fa fa-pencil'></i></a></td>";
+
+                            table_tr_edit = table_tr_edit + "<td>" + converted_date + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td>" + value.ReportStatus + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td>" + Project_Name + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td>" + Pending_With + "</td>";
+
+                            table_tr_edit = table_tr_edit + "<td>" + value.AmountTaken + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td>" + Reimbursed_Total_Money + "</td>";
+
+                            table_tr_edit = table_tr_edit + " <td>" + Balance + "</td>";
+
+
+                            table_tr_edit = table_tr_edit + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+
+                            table_tr_edit = table_tr_edit + "</tr>";
+
+
+
+                            //$('#rowhideslow' + i).html(table_tr_edit);
+
+                            $('#student_data').append(table_tr_edit);
+
+
+                        }
+
+
+
+
+                        $('.loader').hide();
+
+
+
+
+                    });
+                    // Returning the results
+                    // complete(data);
+                },
+                error: function (data) {
+                    //failure(data);
+                }
+
+            });
+        }
+
+        function convert_date(date_to_convert) {
+
+
+            //2016-10-06T11:32:46
+
+
+            var arr_date = date_to_convert.split('T');
+            var updated_date = arr_date[0] + " " + arr_date[1];
+
+            var m_names = new Array("Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                        "Oct", "Nov", "Dec");
+
+            //var d = new Date(date_to_convert).toISOString();
+            var d = new Date(updated_date);
+            //var d =  Date.parse(date_to_convert);
+            // d = date_to_convert;
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            var suffix = "";
+
+
+            //hours minute and seconds add here
+
+
+
+            var curr_hours = d.getHours();
+
+
+            suffix = (curr_hours >= 12) ? 'PM' : 'AM';
+
+            if (curr_hours > 12) {
+                curr_hours -= 12;
+            }
+
+            //alert(suffix);
+
+            var curr_min = d.getMinutes();
+
+            if (curr_min < 10) {
+                curr_min = "0" + curr_min;
+            }
+
+
+            var curr_seconds = d.getSeconds();
+
+            var converted_date = curr_date + "-" + m_names[curr_month] + "-" + curr_year + " " + curr_hours + ":" + curr_min + " " + suffix;
+
+            return converted_date;
+
+        }
+
+        function convert_date1(date_to_convert) {
+            //alert(convert_date1);
+
+            var arr_date = date_to_convert.split('T');
+            var updated_date = arr_date[0] + " " + arr_date[1];
+
+
+            var m_names = new Array("Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                        "Oct", "Nov", "Dec");
+
+            // var d = new Date(date_to_convert).toISOString();
+            //  var d = new Date("2016-06-10 02:03:05");
+
+            var d = new Date(updated_date);
+
+            //d = date_to_convert;
+            // var d = Date.parse(date_to_convert);
+
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+
+            //hours minute and seconds add here
+
+            // var curr_hours = d.getHours();
+            // var curr_min = d.getMinutes();
+            // var curr_seconds = d.getSeconds();
+
+            var converted_date = curr_date + "-" + m_names[curr_month] + "-" + curr_year;
+
+            return converted_date;
+
+        }
+
+
+        function getDataByStatus(ReportStatus, refine) {
+
+            //$('#student_datatable').DataTable();
+
+            //alert(ReportStatus);
+
+            var query_cml = '<View><Query><Where><Eq><FieldRef Name="ReportStatus" /><Value Type="Text">' + ReportStatus + '</Value></Eq></Where></Query></View>';
+
+            //alert(query_cml);
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+                success: function (data) {
+                    console.log(data);
+                    //alert(data.d.results.length);
+                    //if (ReportStatus == "Open") {
+                    //    document.getElementById("OpenExpenceCount").innerHTML = data.d.results.length;
+                    //}
+                    //else if (ReportStatus == "Submitted") {
+                    //    document.getElementById("SubmittedExpenceCount").innerHTML = data.d.results.length;
+                    //}
+                    //else if (ReportStatus == "Rejected") {
+                    //    document.getElementById("RejectedExpenceCount").innerHTML = data.d.results.length;
+                    //}
+                    //else if (ReportStatus == "Approved") {
+                    //    document.getElementById("ApprovedExpenceCount").innerHTML = data.d.results.length;
+                    //}
+                    //else if (ReportStatus == "Reimburesed") {
+                    //    document.getElementById("ReimburesedExpenceCount").innerHTML = data.d.results.length;
+                    //}
+
+                    if (refine != "") {
+                        $('.loader').show();
+                        //alert("loader");
+
+
+                        $("#student_data").find("tr").remove();
+                        var table_tr = "";
+
+                        var table_tr_edit = "";
+                        //alert(data.d.results.length);
+                        if (data.d.results.length > 0) {
+
+                            document.getElementById("totalrecord").value = data.d.results.length;
+                            if (document.getElementById("totalrecord").value > 0) {
+                                //$("#deletediv").show();
+                            }
+
+                            var list_name = "BconeExpenceMaster";
+                            var i = "0";
+                            var url1 = current_url;
+                            var rowhide = "";
+
+
+
+
+
+                            $.each(data.d.results, function (key, value) {
+
+
+                                var fromdate = new Date(value.ReportCreatedDate);
+
+                                // alert('fromdate:' + fromdate);
+                                var dd = fromdate.getDate();
+                                //	alert('dd: '+ dd);
+                                var mm = fromdate.getMonth() + 1; //January is 0!
+                                //alert('mm: '+ mm);
+                                var yyyy = fromdate.getFullYear();
+                                //	alert('yyyy: '+ yyyy);
+
+                                var updated_date = (fromdate.getMonth() + 1) + '-' + fromdate.getDate() + '-' + fromdate.getFullYear();
+
+                                rowhide = "rowhideslow" + i + "";
+
+                                tr_edit = "row_edit" + i + "";
+
+                                //alert(value.Currency_x003a_ID);
+
+                                var curreuncyvalue = "INR";
+
+                                //var curreuncyvalue = getcurrencyValueById('https://e2eprojects.sharepoint.com/sites/pwa/', 'BconeCurrency', value.CurrencyId);
+                                //alert(curreuncyvalue);
+
+                                //alert(ss);
+                                var expenceid = value.ID;
+
+                                table_tr = table_tr + "<tr id=" + rowhide + " class='deleteall" + value.ID + "' value=" + value.ID + ">";
+
+                                table_tr = table_tr + "<td><input type='checkbox' id='record" + i + "' name='record" + i + "'  value=" + value.ID + "  /></td>";
+
+                                // alert(value.attchment);
+                                table_tr = table_tr + "<td>" + value.ID + "</td>";
+
+                                table_tr = table_tr + " <td><a href='javascript:void(0)' style='text-decoration:underline;'>" + value.ExpenseReportName + "</a></td>";
+                                table_tr = table_tr + "<td>" + value.Description + "</td>";
+                                table_tr = table_tr + "<td>" + curreuncyvalue + "</td>";
+                                table_tr = table_tr + "<td>" + value.AmountTaken + "</td>";
+                                table_tr = table_tr + "<td>" + updated_date + "</td>";
+                                table_tr = table_tr + " <td>" + value.ReportStatus + "</td>";
+                                table_tr = table_tr + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\",\"update\")';><i class='fa fa-pencil'></i></a></td>";
+                                table_tr = table_tr + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+
+
+
+                                table_tr = table_tr + "</tr>";
+
+
+                                //amol coding
+
+
+
+
+                                table_tr_edit = table_tr_edit + "<tr id=" + tr_edit + " class='deleteall" + value.ID + "' value=" + value.ID + " style='display:'block';' >";
+
+                                table_tr_edit = table_tr_edit + "<td><input type='checkbox' id='record" + i + "' name='record" + i + "'  value=" + value.ID + "  /></td>";
+
+                                // alert(value.attchment);
+                                table_tr_edit = table_tr_edit + "<td>" + value.ID + "</td>";
+
+                                table_tr_edit = table_tr_edit + " <td><input type='text' id='ExpenseReportName" + i + "' value=" + value.ExpenseReportName + "/></td>";
+                                table_tr_edit = table_tr_edit + "<td><input type='text' id='Description" + i + "' value=" + value.Description + " /></td>";
+                                table_tr_edit = table_tr_edit + "<td><select id='curreuncyvalue" + i + "'></select></td>";
+                                table_tr_edit = table_tr_edit + "<td><input type='text' id='AmountTaken" + i + "' value=" + value.AmountTaken + " /></td>";
+                                table_tr_edit = table_tr_edit + "<td><input type='text' id='ReportCreatedDate" + i + "' value=" + value.ReportCreatedDate + " /></td>";
+                                table_tr_edit = table_tr_edit + " <td>" + value.ReportStatus + "</td>";
+                                table_tr_edit = table_tr_edit + " <td><a href='javascript:void(0)' onclick='getListItemById(\"" + url1 + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + i + "\");  '><i class='fa fa-pencil'></i></a></td>";
+                                table_tr_edit = table_tr_edit + " <td><a onclick='deleteexpense(" + value.ID + ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a></td>";
+
+
+
+                                table_tr_edit = table_tr_edit + "</tr>";
+
+                                i++;
+
+
+                            });
+                        }
+                        else {
+                            //alert(data.d.results.length);
+
+                            table_tr = table_tr + "<tr id='ss' style='color:red' style='text-decoration:underline;'><td colspan='15'><a href='javascript:void(0)' style='color:#d9534f;'>No Record Found</a></td></tr>";
+
+                        }
+                        //alert(table_tr);
+                        //$('#student_data').append(table_tr);
+
+                        //  $('#student_data').append(table_tr_edit);
+
+                        $('.loader').hide();
+
+
+                        //alert(table_tr);
+
+
+                        console.log(data.d);
+
+
+                        $('.loader').hide();
+                    }
+
+
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+
+        }
+
+        function setCurrencySelectedValUpdate(element_id, currency_id) {
+            var element = document.getElementById(element_id);
+            alert('element_id : ' + element_id);
+
+            alert('currency_id : ' + currency_id);
+
+            element.value = currency_id;
+        }
+
+        function setCalendorToControl(control_id) {
+            //alert(control_id);
+
+            $('#' + control_id).datepicker({ dateFormat: 'mm-dd-yy' });
+
+        }
+
+
+        function updateListItem(listName, siteUrl) {
+
+            //alert(listName);
+            // alert(siteUrl);
+
+
+
+
+            if (check_validation()) {
+
+
+                $('.loader').show();
+                //alert("updateListItem: "+ Id_edit);
+
+                //var Id_edit= document.getElementById('hiddenid').value;
+                var Id_edit = $('#edit_id').text();
+
+                var tr_editid = $('#tr_editid').text();
+
+                //var Id_edit = edit_id;
+
+                //alert("updateListItem: "+ Id_edit);
+
+
+                var itemType = getListprotocol(listName);
+
+                //alert(itemType);
+
+                var curency_name = "";
+                var expensereport = document.getElementById("Txtexpensereport").value;
+
+                //var attchment=cc;
+                // alert(expensereport);
+
+                var Description = document.getElementById("TxtDescription").value;
+                //alert(Description);
+                var amount = document.getElementById("Txtamttaken").value;
+
+                var ss = $('#currency :selected').text();
+                var currencyval = $('#currency :selected').val();
+                var item = "";
+
+                var ProjectId = $('#ddlProjects :selected').val();
+
+
+
+                var ddladvancetaken = ($('input[name=advance]:checked', '#advance').val());
+
+
+
+                //alert(ddladvancetaken);
+
+                if (ddladvancetaken == 'No') {
+                    //set currency default value
+                    currencyval = null;
+                    amount = null;
+                    curency_name = null;
+
+                    item = {
+                        "__metadata": { "type": itemType },
+                        "Title": '1',
+                        "EmployeeIdId": 1,
+                        "ExpenseReportName": expensereport,
+                        "Description": Description,
+                        "AmountTaken": amount,
+                        "CurrencyId": currencyval,
+                        "currencytext": curency_name,
+                        "ProjectId": ProjectId
+
+                    };
+                }
+                else {
+
+                    curency_name = $('#currency :selected').text();
+
+                    item = {
+                        "__metadata": { "type": itemType },
+                        "Title": '1',
+                        "EmployeeIdId": 1,
+                        "ExpenseReportName": expensereport,
+                        "Description": Description,
+                        "AmountTaken": amount,
+                        "CurrencyId": currencyval,
+                        "currencytext": curency_name,
+                        "ProjectId": ProjectId
+                    };
+
+                }
+
+                //if (amount == '') {
+                //amount = '0';
+                // }
+
+                //alert(amount);
+
+                // var date = document.getElementById("TxtDate").value;
+
+                //alert('date :'+ date);
+
+
+
+
+
+
+
+                //alert(item);
+
+                getListItemForUpdate(siteUrl, listName, Id_edit, function (data) {
+
+                    //alert("vvv");
+
+
+                    $.ajax({
+                        url: data.d.__metadata.uri,
+                        type: "POST",
+                        contentType: "application/json;odata=verbose",
+                        data: JSON.stringify(item),
+                        headers: {
+                            "Accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "X-HTTP-Method": "MERGE",
+                            "If-Match": data.d.__metadata.etag
+                        },
+                        success: function (data) {
+                            //alert("true");
+
+
+
+                            //  alert("Data upadted sucessfully");
+
+                            destroyjs();
+
+                            add_success_exp_msg('Expense updated successfully..', 'save');
+
+                            getDataByListName(current_url, 'BconeExpenceMaster', 'load1','','');
+
+
+
+                            //alert_message_overhang('Expense updated successfully.');
+
+                            //window.frameElement.COMMENT_NODE;
+
+                            //pass this para dynamically..
+
+                            // $('#rowhideslow' + tr_editid).html('');
+
+
+
+                            // getListItemById(current_url, 'BconeExpenceMaster', Id_edit, tr_editid, 'updated');
+
+                            //$('#myModal').hide();
+                            // $('.modal-backdrop.in').hide();
+                            // $("#student_data").find("tr").remove();
+
+                            // hidemodal();
+
+                            //load_datatable_js();
+
+
+
+
+
+
+
+                            $('.loader').hide();
+
+
+
+
+
+
+
+                            // success(data);
+                        },
+                        error: function (data) {
+                            alert(data.responseJSON.error.message.value);
+                            //alert("false");
+                            // failure(data);
+                            $('.loader').hide();
+                        }
+                    });
+
+
+                }, function (data) {
+                    failure(data);
+                });
+            }
+            else {
+                //  alert('validation not complete');
+            }
+        }
+
+        function getListItemForUpdate(url, listname, Id, complete) {
+
+            // alert(Id);
+            // alert("getlistitembyid");
+
+            $.ajax({
+
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+                    complete(data);
+                    //alert("getListItembyid1");
+                },
+                error: function (data) {
+                    //  alert("false");   
+                }
+            });
+        }
+        function getListprotocol(name) {
+            //alert(name);
+
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+
+
+        function check_validation() {
+            var isValid = true;
+            var expensereport = document.getElementById("Txtexpensereport").value;
+            var Description = document.getElementById("TxtDescription").value;
+            var amount = document.getElementById("Txtamttaken").value;
+            var ProjectId = $('#ddlProjects :selected').val();
+
+           // alert(ProjectId);
+
+            var ss = $('#currency :selected').text();
+            var currencyval = $('#currency :selected').val();
+
+
+            var ddladvancetaken = ($('input[name=advance]:checked', '#advance').val());
+
+
+
+            if (ProjectId == '0') {
+                isValid = false;
+                $('#ddlProjects').css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+
+
+
+                document.getElementById("AlertMsg").innerHTML = "Please select the Project";
+                document.getElementById("ddlProjects").focus();
+
+                return isValid;
+
+            }
+
+            if (expensereport == '') {
+                isValid = false;
+                $('#Txtexpensereport').css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+
+
+
+
+                document.getElementById("AlertMsg").innerHTML = "Please enter the Expence Report Name";
+                document.getElementById("Txtexpensereport").focus();
+
+                return isValid;
+
+            }
+
+
+
+            //alert(ddladvancetaken);
+
+            if (ddladvancetaken != 'Yes' && ddladvancetaken != 'No') {
+                //alert(ddladvancetaken);
+                isValid = false;
+
+                $('#advance').css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+                document.getElementById("AlertMsg").innerHTML = "Please select the Option";
+                document.getElementById("advance").focus();
+
+                return isValid;
+
+            }
+
+
+
+            if (ddladvancetaken == 'Yes') {
+
+
+                if (currencyval == 'Select') {
+                    isValid = false;
+                    $('#currency').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = "Please select the Currency";
+                    document.getElementById("currency").focus();
+
+                    return isValid;
+                }
+
+                if (amount == '') {
+
+                    //alert("amount");
+                    isValid = false;
+                    $('#Txtamttaken').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = "Please enter the Amount";
+                    document.getElementById("Txtamttaken").focus();
+                    return isValid;
+                }
+
+                if (parseFloat(amount) != amount && parseInt(amount) != amount) {
+                    isValid = false;
+
+                    $('#Txtamttaken').css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "Please enter valid amount ";
+                    document.getElementById("Txtamttaken").focus();
+                    return isValid;
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+
+            return isValid;
+        }
+
+
+
+        function getcurrencyValueById(url, listname, id) {
+           // alert("id"+id);
+           // alert(url);
+            //alert("show();");
+            //$('.loader').show();
+            var ss;
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+
+                success: function (data) {
+
+
+
+
+                    //alert(data.d);
+                    $.each(data, function (key, value) {
+                        //alert(listname);
+                        if(listname!="BconeCurrency")
+						{
+                        ss = value.Item;
+						
+                        return ss;
+						}else
+						{
+						ss = value.Currency;
+						
+                        return ss;
+						
+						}
+
+                    });
+
+                },
+                error: function (data) {
+                    //failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }
+
+
+        function getCurrencyDataUpdate(url, listname, i, currency_value) {
+            //alert("gfhkltnyklhmdtykhtkh");
+            //alert("getListItem1");
+            //alert("show();");
+            //$('.loader').show();
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+
+
+
+                    // $.each(data.d.results, function (key, value) {
+
+                    var class1 = "";
+                    // alert(value.ID);
+                    // alert(value.Currency);
+                    // $("#curreuncyvalue" + i).append($("<option></option>").val(value.ID).html(value.Currency));
+
+                    //});
+
+                    // setCurrencySelectedValUpdate('curreuncyvalue' + i, currency_value);
+
+                    //setCurrencySelectedValUpdate('currency', currency_value);
+
+                    // setCalendorToControl('ReportCreatedDate' + i);
+
+
+                    //loginuser();
+
+
+
+                },
+                error: function (data) {
+                    // failure(data);
+                }
+            });
+        }
+        function noattchment() {
+
+            alert("Attachement not found!!!!");
+
+        }
+
+        function getListItemForDelete(url, listname, Id, complete) {
+            //alert(Id);
+
+
+            $.ajax({
+
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+
+
+                    complete(data);
+                    //alert("getListItembyid1");
+                },
+                error: function (data) {
+                    //  alert("false");  
+                    //alert("hide();");
+                    //$('.loader').hide();
+                }
+            });
+        }
+
+
+        function deleteexpense(id, i) {
+            //alert("deleteexpense");
+            //alert(i);
+            //var r = confirm("Are you sure to Delete the record?");
+            var r = confirm("Are you sure you want to Delete the record?");
+            if (r == true) {
+
+               // $('.loader').show();
+
+                var listname = "BconeExpenceMaster";
+                //alert(listname);
+                var requestUri = _spPageContextInfo.siteAbsoluteUrl;
+                // alert(requestUri);
+
+                //destroyjs();
+
+                getListItemForDelete(requestUri, listname, id, function (data) {
+
+                    //alert('getListItem1 function Returning');
+
+                    $.ajax({
+                        url: data.d.__metadata.uri,
+                        type: "POST",
+                        headers: {
+                            "Accept": "application/json;odata=verbose",
+                            "X-Http-Method": "DELETE",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "If-Match": data.d.__metadata.etag
+                        },
+                        success: function (data) {
+                           // $('.loader').hide();
+
+                           // $('#' + i).fadeOut();
+                            //alert('delete success');
+                            //  $("#student_data").find("tr").remove();
+
+                           // hidemodal();
+
+                            //getDataByListName(current_url, 'BconeExpenceMaster','','');
+							
+							var offset = $("#jqxgrid").offset();
+
+                             $('#jqxgrid').jqxGrid('deleterow', id);
+
+
+                        },
+                        error: function (data) {
+
+
+                        },
+                        complete: function (data) {
+
+                            //getDataByListName(current_url, 'BconeExpenceMaster','','');
+
+                        }
+                    });
+                });
+
+
+
+
+                //setTimeout(function () {
+                    //load_datatable_js();
+                //}, 1000);
+
+
+                //$('#' + i).fadeOut();
+               // $('#' + i).remove();
+
+
+            //}
+            //else {
+
+            //}
+
+
+
+        }
+		}
+
+
+
+
+
+        function loginuser() {
+            var loginid = "";
+            var userid = _spPageContextInfo.userId;
+
+
+            var requestUri = _spPageContextInfo.siteAbsoluteUrl + "/_api/web/getuserbyid(" + userid + ")";
+            var requestHeaders = { "accept": "application/json;odata=verbose" };
+            $.ajax({
+                async: false,
+                url: requestUri,
+
+                contentType: "application/json;odata=verbose",
+                headers: requestHeaders,
+                success: onSuccess,
+                error: onError
+            });
+
+            function onSuccess(data, request) {
+                var loginName = data.d.Id;
+                loginid = data.d.Id;
+                //alert(loginName);
+            }
+
+            function onError(error) {
+                alert("error");
+            }
+            return loginid;
+        }
+
+
+        function hideerror1(val) {
+            //alert(val);
+
+            //var ss = $('#val :selected').text();
+
+            var Expenseitem = '';
+
+            if (val == 'currency') {
+
+                var e = document.getElementById(val);
+                var ss = e.options[e.selectedIndex].value;
+
+                // Expenseitem =ss;
+
+                if (ss == "Select") {
+                    $('#' + val).css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "Please select currency";
+                    document.getElementById("currencyspan").innerHTML = "";
+
+                    $("#Txtamttaken").attr("readonly", true);
+
+
+                }
+                else {
+
+                    $("#Txtamttaken").attr("readonly", false);
+
+                    //alert('false');
+                    $('#' + val).css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+                    //document.getElementById("currencyspan").innerHTML="";
+
+
+
+                    Expenseitem = $('#' + val + ' :selected').text();
+
+
+
+
+                    // alert(Expenseitem);
+                    if (Expenseitem.includes("-")) {
+                        var curr = Expenseitem.split("-");
+                        //alert(curr[0]);
+                        document.getElementById("currencyspan").innerHTML = curr[0];
+
+                    }
+                    else {
+                        document.getElementById("currencyspan").innerHTML = Expenseitem;
+
+                    }
+
+
+                }
+
+
+
+            }
+            else if (val == 'ddladvancetaken') {
+
+                ss = $('input[name=advance]:checked', '#advance').val();
+
+                //alert(ss);
+
+                if (ss == "Yes") {
+                    // $('#Txtamttaken').css({
+
+                    //   "border": "1px solid red",
+                    // "background": "#FFCECE"
+                    // });
+
+                    $('#advance').css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    $('#currency').focus();
+                    //$("#Txtamttaken").attr("readonly", false);
+
+                    $('#currency_validation_star').show();
+                    $('#amount_validation_star').show();
+
+                    $('#currency').attr("disabled", false);
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+
+                }
+                else {
+                    $('#Txtamttaken').css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    $('#advance').css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+
+
+                    //$("#Txtamttaken").attr("readonly", true);
+                    $("#Txtamttaken").val('');
+
+                    $("select#currency").prop('selectedIndex', 0);
+
+                    $('#currency').attr("disabled", true);
+
+                    $('#currency_validation_star').hide();
+                    $('#amount_validation_star').hide();
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+
+                    document.getElementById("currencyspan").innerHTML = "";
+
+                }
+
+            }
+
+        }
+
+        function hideerror(val) {
+
+
+
+            $('#' + val).css({
+
+                "border": "",
+                "background": ""
+            });
+
+            document.getElementById("AlertMsg").innerHTML = "";
+        }
+
+        function amount_validation(selecetd_value) {
+
+
+        }
+        function addExpense(url, listname, expensereport, Description, currencyval, date, amount, curency_name, type, ProjectId) {
+
+            // $('.loader').show();
+
+            //alert(listname);
+            // var start = new Date();
+            //alert(start);
+
+
+
+
+            var item = "";
+            var item_collections = getListprotocol(listname);
+            //var loginid=loginuser();
+
+            if (currencyval != 'null') {
+
+                item = {
+                    "__metadata": { "type": item_collections },
+                    "Title": expensereport,
+                    "EmployeeIdId": 1,
+                    "ExpenseReportName": expensereport,
+                    "Description": Description,
+                    "AmountTaken": amount,
+                    "ReportStatus": 'Open',
+                    "status": 'Active',
+                    "CurrencyId": currencyval,
+                    "ReportCreatedDate": date,
+                    "currencytext": curency_name,
+                    "ProjectId": ProjectId
+                };
+            }
+            else {
+                item = {
+                    "__metadata": { "type": item_collections },
+                    "Title": expensereport,
+                    "EmployeeIdId": 1,
+                    "ExpenseReportName": expensereport,
+                    "Description": Description,
+                    "ReportStatus": 'Open',
+                    "status": 'Active',
+                    "ReportCreatedDate": date,
+                    "ProjectId": ProjectId
+                };
+
+            }
+
+
+
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items",
+
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+
+                    //console.log(data);
+                    if (type == 'saveandcreate') {
+                        var redirect_tolink = "https://bristleconeonline.sharepoint.com/sites/Dev/SitePages/ExpenseItemDetail.aspx?TrackingNo=" + data.d.ID + "&type=new";
+                        //alert(redirect_tolink);
+                        window.location = redirect_tolink;
+                    }
+
+                    // alert("Data added sucessfully");
+
+                    // alert_message_overhang('Expense added successfully.');
+
+                    //add_success_exp_msg('Expense added successfully.');
+                    // console.log(data);
+                    //  alert(data.d.results);
+
+
+
+                    // clearAllInputs('myModal');
+
+                    //here record count dynamically based on total record
+                    // var record_count = 'new_record';
+
+
+
+
+                    // destroyjs();
+
+                    //  getDataByListName(current_url, 'BconeExpenceMaster');
+
+                    // getListItemById(current_url, 'BconeExpenceMaster', data.d.ID, record_count, 'added');
+
+                    //hidemodal();
+
+                    //$('.loader').hide();
+
+                    //$('#student_datatable').DataTable();
+
+
+                    //  alert(data.d.attchment);
+
+                    // var list_name = "BconeExpenceMaster";
+
+                    //var url1 = "https://e2eprojects.sharepoint.com/sites/pwa/";
+
+                    // document.getElementById("Txtexpensereport").value = "";
+
+
+                    //document.getElementById("TxtDescription").value = "";
+                    //
+                    //document.getElementById("Txtamttaken").value = "";
+
+
+                    //document.getElementById("TxtDate").value = "";
+                    //document.getElementById("filename").innerHTML="";
+
+                    //$("#currency")[0].selectedIndex = 0;
+
+                    //var genderS = document.getElementsByName('gender');
+
+                    // $("#student_data").find("tr").remove();
+
+
+
+
+                    //getDataByListName(current_url, 'BconeExpenceMaster');
+
+
+                    //$('.loader').hide();
+
+                    //return true;
+
+
+                },
+                error: function (data) {
+                    alert("error");
+                    alert(data.responseJSON.error.message.value);
+                    //return false;
+
+                }
+            });
+
+
+        }
+
+
+        function clearAllInputs(selector) {
+            $('#' + selector).find(':input').each(function () {
+
+                // alert(this.type);
+
+                if (this.type == 'submit') {
+                    //do nothing
+                }
+                else if (this.type == 'checkbox') {
+                    this.checked = false;
+                }
+                else if (this.type == 'file') {
+                    var control = $(this);
+                    control.replaceWith(control = control.clone(true));
+                }
+                else if (this.type == 'select-one') {
+                    var control = $(this);
+                    this.selectedIndex = 0;
+                }
+                else if (this.type == 'radio') {
+                    this.checked = false;
+                }
+
+                else {
+                    $(this).val('');
+                }
+            });
+        }
+
+
+
+        function clearvalues() {
+            //   alert("dfghjft");
+            document.getElementById("Txtexpensereport").value = "";
+
+
+            document.getElementById("TxtDescription").value = "";
+
+            document.getElementById("Txtamttaken").value = "";
+
+
+            // document.getElementById("TxtDate").value = "";
+            // document.getElementById("filename").innerHTML="";
+
+            $("#currency")[0].selectedIndex = 0;
+
+
+
+        }
+
+        function hidepopup() {
+            //alert();
+            $('#myModal').modal('hide');
+            $('.modal-backdrop.in').hide();
+
+
+
+        }
+
+
+        function tempfunction() {
+
+
+            if (document.getElementById("all").checked) {
+                //alert("checked");
+                var count = document.getElementById("totalrecord").value;
+                //alert(count);
+                for (var i = 0; i <= parseInt(count - 1) ; i++) {
+
+                    //alert();
+                    document.getElementById("record" + i.toString()).checked = true;
+                    //alert("record" + i.toString());
+                    //  $("#record" + i.toString()).attr('checked', 'checked');
+
+
+                }
+            }
+            else {
+                //alert("uncheck");
+                var count = document.getElementById("totalrecord").value;
+                for (var i = 0; i <= parseInt(count - 1) ; i++) {
+
+                    //alert();
+                    document.getElementById("record" + i.toString()).checked = false;
+                    //alert("record" + i.toString());
+                    // $("#record" + i.toString()).removeAttr('checked', '');
+
+
+                }
+            }
+
+        }
+
+        function showmodal() {
+
+            //alert("showmodal");
+            $('#myModal').modal('show');
+            $('.modal-backdrop.in').show();
+
+            // $("input[name=advance][value=No]").attr('checked', 'checked');
+
+            $('#Txtexpensereport').focus();
+
+
+
+        }
+
+        function hidemodal() {
+            //alert("showmodal");
+            $('#myModal').modal('hide');
+            $('.modal-backdrop.in').hide();
+
+
+        }
+
+        function showmodal1(type) {
+
+            if (type == 'update' || type == 'add') {
+
+
+                $('#myModal').modal('show');
+                $('.modal-backdrop.in').show();
+                $('#update_tr').hide();
+                $('#add_tr').show();
+
+                //clearvalues();
+
+                clearAllInputs('myModal');
+
+
+                $('#myModal').find(':input').each(function (key, value) {
+
+
+                    $(this).css('border', '');
+                    $(this).css('background', '');
+
+                    $(this).attr("readonly", false);
+                    $(this).attr("disabled", false);
+
+
+
+                });
+
+                if (type == 'add') {
+                    //$("#Txtamttaken").attr("readonly", true);
+                    //$("#Txtamttaken").attr("readonly","readonly");
+                    $("#Txtamttaken").attr("readonly", true);
+                    $('#currency').attr("disabled", true);
+                    //alert('readonly');
+                }
+
+                $('#currency_validation_star').hide();
+                $('#amount_validation_star').hide();
+
+                document.getElementById("AlertMsg").innerHTML = "";
+                document.getElementById("currencyspan").innerHTML = "";
+            }
+            else {
+                $('#myModal').modal('show');
+                $('.modal-backdrop.in').show();
+                $('#update_tr').hide();
+                $('#add_tr').show();
+
+                //clearvalues();
+
+                //clearAllInputs('myModal');
+
+
+                //$('#myModal').find(':input').each(function (key, value) {
+
+
+                // $(this).css('border', '');
+                // $(this).css('background', '');
+
+                // $(this).attr("readonly", false);
+                // $(this).attr("disabled", false);
+
+
+
+                // });
+
+                // $('#currency_validation_star').hide();
+                //$('#amount_validation_star').hide();
+
+                document.getElementById("AlertMsg").innerHTML = "";
+                document.getElementById("currencyspan").innerHTML = "";
+            }
+
+            $("#txtProManager").attr("readonly", true);
+        }
+
+
+        function uploadFile() {
+            $('.loader').show();
+            if (document.getElementById("getFile").files.length === 0) {
+                alert('No file was selected');
+                return;
+            }
+            var parts = document.getElementById("getFile").value.split("\\");
+            var filename = parts[parts.length - 1];
+            var file = document.getElementById("getFile").files[0];
+            //alert(filename);
+            uploadFileSync("https://e2eprojects.sharepoint.com/sites/pwa/", "BconeBillLibrary", filename, file);
+            return filename;
+
+        }
+
+
+        function uploadFileSync(spWebUrl, library, filename, file) {
+            var reader = new FileReader();
+            reader.onloadend = function (evt) {
+                if (evt.target.readyState == FileReader.DONE) {
+                    var buffer = evt.target.result;
+                    var completeUrl = spWebUrl
+                      + "/_api/web/lists/getByTitle('" + library + "')"
+                      + "/RootFolder/Files/add(url='" + filename + "',overwrite='true')?"
+                      + "@TargetLibrary='" + library + "'&@TargetFileName='" + filename + "'";
+
+                    $.ajax({
+                        url: completeUrl,
+                        type: "POST",
+                        data: buffer,
+                        async: false,
+                        processData: false,
+                        headers: {
+                            "accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "content-length": buffer.byteLength
+                        },
+                        complete: function (data) {
+                            alert('succes');
+                            //document.getElementById("filename").innerHTML=filename;
+                            $('.loader').hide();
+                            return filename;
+
+
+
+                        },
+                        error: function (err) {
+                            alert('failed');
+                            return filename;
+
+                        }
+                    });
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+
+        function deletecheckrecord() {
+            var count = document.getElementById("totalrecord").value;
+            //alert(count);
+
+            var my_count = 0;
+            var r = confirm("Are you sure to Delete the record?");
+            if (r == true) {
+
+
+                for (var i = 0; i <= parseInt(count - 1) ; i++) {
+
+
+
+                    if ($("#record" + i.toString()).prop("checked") == true) {
+                        //alert("true");
+                        var checkboxes = true;
+                        my_count++;
+
+                    }
+                    else {
+
+                        //alert("false");
+                        var checkboxes = false;
+                    }
+
+                    if (checkboxes == true) {
+                        var expenes_id = document.getElementById("record" + i.toString()).value;
+                        $(".deleteall" + expenes_id).addClass("deletealloncomplete");
+
+
+                        tp(expenes_id);
+
+                    }
+
+                    else {
+                    }
+                }
+                //alert("deletealloncomplete");
+                $(".deletealloncomplete").fadeOut("slow");
+
+                //$("#student_data").find("tr").remove();
+
+
+
+                if (my_count == 0) {
+                    alert("Please check checkbox to delete.");
+                }
+
+
+                $('.loader').hide();
+
+                return true;
+
+            }
+            else {
+                return false;
+                //alert("return false");
+
+            }
+
+
+        }
+        function tp(id) {
+            //alert();
+            var listname = "BconeExpenceMaster";
+            //alert(listname);
+            var requestUri = _spPageContextInfo.siteAbsoluteUrl;
+            // alert(requestUri);
+            getListItemForDelete(requestUri, listname, id, function (data) {
+
+                //alert('getListItem1 function Returning');
+
+                $.ajax({
+                    url: data.d.__metadata.uri,
+                    type: "POST",
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-Http-Method": "DELETE",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "If-Match": data.d.__metadata.etag
+                    },
+                    success: function (data) {
+                        $('.loader').hide();
+                        //  alert('delete success');
+
+                        // 	$("#student_data").find("tr").remove();
+
+                        //hidemodal();
+                        //getDataByListName('https://e2eprojects.sharepoint.com/sites/pwa/','BconeExpenceMaster');
+
+
+                        $('.loader').hide();
+
+                        return true;
+                    },
+                    error: function (data) {
+                        return false;
+
+
+                    }
+                });
+            });
+        }
+
+        function getResourcesGuid(NewloginName) {
+            var GUID;
+            jQuery.ajax({
+
+                url: "/sites/Dev/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    console.log(data);
+                    GUID = data.d.results[0].ResourceId;
+                    //alert('GUID' + GUID);
+
+                    getProjectsByGUID(GUID);
+
+                    //return GUID;
+
+                }
+            });
+
+        }
+
+        function GetUserId(userid) {
+            var NewloginName = "";
+            jQuery.ajax({
+                url: "/sites/Dev/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    //get login name  
+                    console.log(data);
+                    var loginName = dataResults.LoginName;
+                    console.log(loginName);
+                    //get display name
+                    console.log(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    getResourcesGuid(NewloginName);
+                    // console.log(NewloginName);
+                    //alert('NewloginName :' + NewloginName);
+
+                },
+                complete: function () {
+
+                    // var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+        }
+
+        function getProjectsByGUID(ResGUID) {
+
+            var url = "https://ppmdev.bcone.com/api/BCONE/GetProjectName";
+            var requestData = { "ResGUID": ResGUID };
+            $.ajax({
+                url: url,
+                data: requestData,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    console.log(res);
+
+                    $('#ddlProjects').append(new Option("Select Project", 0));
+
+                    $('#ddlProjectsmanager').append(new Option("Select Project", 0));
+
+                    //alert(res);
+                    $.each(res.SubOptions[0].Projectinfo, function (index, value) {
+                        //alert(value.ProjectId);
+                        //$('#ddlProjects').append(new Option("", 0));
+                        $('#ddlProjects').append("<option value = '" + value.ProjectId + "'>" + value.Projectname + "</option>");
+                        $('#ddlProjectsmanager').append("<option value = '" + value.ProjectId + "'>" + value.ProjectOwnerName + "</option>");
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //alert("ResourcesFailed");
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            });
+
+        }
+
+        function setProjectManager(dropdown) {
+            //alert(dropdown);
+
+            var project_id = $("#ddlProjects option:selected").val();
+            //alert(project_id);
+
+            // $("#ddlProjectsmanager option:selected").val(project_id);
+            //  $('#ddlProjectsmanager').val(project_id).prop("selected", "selected");
+
+            // $('#ddlProjectsmanager').prop('selectedIndex', 1);
+
+            // $('#ddlProjectsmanager option[value=project_id]').prop("selected", true);
+
+            //  var element = document.getElementById('leaveCode');
+            // element.value = valueToSelect;
+            if (project_id == 'undefined') {
+
+               // alert('executed this block');
+                //$("select#ddlProjects").prop('selectedIndex', 0);
+                $('#ddlProjects').prop('selectedIndex', 0);
+
+                
+            }
+            else {
+               
+                document.getElementById('ddlProjectsmanager').value = project_id;
+
+
+                var projectManager = $("#ddlProjectsmanager option:selected").text();
+
+                if (project_id != '0') {
+                    $('#txtProManager').val(projectManager);
+                }
+                else {
+                    $('#txtProManager').val('');
+                }
+            }
+
+        }
+
+
+        $(document).ready(function () {
+            //$('.dataTables_wrapper #student_datatable').wrapAll(document.createElement('div'));
+            //$('.dataTables_wrapper #student_datatable').parent('div').addClass('table-responsive');
+            //$('.dataTables_wrapper .table-responsive').css("width","1110px");
+
+            $('.new-th').css("display", "block");
+            $("#txtProManager").prop("readonly", true);
+
+            $("#student_datatable_paginate").click(function () {
+                //do something
+                alert('clicked');
+            });
+
+            $('.dataTables_paginate').click(function () {
+                alert('hi');
+            });
+
+            $("#student_datatable_paginate").on("click", function () {
+                alert('hi11');
+            });
+
+            var userid = _spPageContextInfo.userId;
+
+            //alert(userid);
+            GetUserId(userid);
+        });
+
+
+
+    </script>
+
+</body>
+
+
+</html>
+			

@@ -1,0 +1,125 @@
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+<script>
+
+
+$(document).ready(function () 
+	{
+getTimeSheetData();
+getManagerProvalData();
+    });
+
+function getTimeSheetData()
+	{
+		CurrentGuid="cc49912d-5da2-e611-80cb-00155d042916";
+		var GetPeriodsUrls="https://ppmdev.bcone.com/api/Timesheet/GetPeriods";
+        $.ajax({
+           	url: GetPeriodsUrls,
+            method: "POST",
+			asyncs:false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            //data: { "ResourceUID": "dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6" },
+			data: { 
+			"ResourceUID": CurrentGuid,
+			"Role" : "TM"
+			},
+            success: function (data) {
+				if(data.error != undefined)				
+				{
+				displayStatusCount(data);
+				}
+            },
+            error: function (data) {
+                alert("failed");
+				$('#loading-image').hide();
+            }
+        });
+	}
+
+function displayStatusCount(data)
+	{
+		var openCnt = 0;
+		//var saveCnt = 0;
+		var SubmitCnt = 0;
+		var ApprovedCnt = 0;
+		var rejectCnt = 0;
+		data.Data[0].PeriodInfo.filter
+		(
+			function (StatusCount)
+			{
+				if(StatusCount.ApprovalStatus == "0" || StatusCount.ApprovalStatus == "")
+				{
+					openCnt++;
+					//saveCnt++;
+				}
+				else if(StatusCount.ApprovalStatus == "1"){
+					SubmitCnt++;
+				}
+				else if(StatusCount.ApprovalStatus == "2"){
+					ApprovedCnt++;
+				}
+				else if(StatusCount.ApprovalStatus == "3"){
+					rejectCnt++;
+				}
+			}
+		);
+
+		document.getElementById('TimeSheetOpenCount').innerHTML=openCnt;
+		document.getElementById('TimeSheetSubmittedCount').innerHTML=SubmitCnt;
+		document.getElementById('TimeSheetApprovedCount').innerHTML=ApprovedCnt;
+		document.getElementById('TimeSheetRejectedCount').innerHTML=rejectCnt;
+		
+			
+	}
+	
+	
+	function getManagerProvalData()
+	{
+		CurrentGuid="dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6";
+		var GetPeriodsUrls="https://ppmdev.bcone.com/api/Timesheet/GetPeriods";
+        $.ajax({
+           	url: GetPeriodsUrls,
+            method: "POST",
+			asyncs:false,
+            headers: { "Accept": "application/json; odata=verbose" },
+            //data: { "ResourceUID": "dbf1a5d4-dc9d-43cd-9e6c-c9edb57119b6" },
+			data: { 
+			"ResourceUID": CurrentGuid,
+			"Role" : "AP"
+			},
+            success: function (data) {
+				if(data.error != undefined)				
+				{
+				displayApprovalPendingStatusCount(data);
+				}
+            },
+            error: function (data) {
+                alert("failed");
+				$('#loading-image').hide();
+            }
+        });
+	}
+	
+	
+	function displayApprovalPendingStatusCount(data)
+	{
+		var approvalCnt = 0;
+	
+		data.Data[0].PeriodInfo.filter
+		(
+			function (StatusCount)
+			{
+				if(StatusCount.TimesheetUID == "00000000-0000-0000-0000-000000000000")
+				{
+					approvalCnt++;
+				}
+				
+			}
+		);
+		
+		console.log(approvalCnt);
+		//document.getElementById('TimeSheetOpenCount').innerHTML=openCnt;
+		
+		
+			
+	}
+</script>

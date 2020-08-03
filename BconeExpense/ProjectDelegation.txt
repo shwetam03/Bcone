@@ -1,0 +1,1060 @@
+<html>
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home</title>
+
+   <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+	<!-- <script type="text/javascript" src="http://www.jqwidgets.com/jquery-widgets-demo/jqwidgets/jquery-1.11.1.min.js"></script> -->
+    <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+    <link href="../SiteAssets/BconeExpenseCss/bootstrap.min.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+ <link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+    <script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="../SiteAssets/BconeExpenseJs/Config.js"></script>
+<style>
+.ms-core-pageTitle, .ms-core-pageTitle a{
+ color:#fff;
+ display:none;
+}
+</style>
+
+<style>
+	.table > thead > tr > th {text-align: left; } .displayblock {display: block; } .displaynone {display: none; } a, a:visited , a:active, a:link {text-decoration: none; } a:visited {color:#337ab7; } input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {-webkit-box-shadow: 0 0 0px 50px white inset; } #jqxWidget1d584650{display:none !important;} .jqx-clear > span{display:none !important;} /*.fk-suc-msg {background: url('http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png') no-repeat scroll 5px 10px #cfc; border: 1px solid #696; color: green; font-size: 13px; padding: 10px 0 10px 30px; text-align: left; }*/ .fk-suc-msg {background: url(http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png) no-repeat scroll 5px 2px #337ab7; border: 1px solid #2e6da4; color: #fff; font-size: 13px; padding: 2px 0 2px 28px; text-align: left; width: 91%; } .new-th{border: 0; border-top: 1px solid #000; } #s4-workspace{width:100% !important; height:auto !important; overflow: visible; } .dataTables_empty {text-align: center !important; } #ui-id-1, #ui-id-2, #ui-id-3, #ui-id-4 {height: auto !important; } .SumoSelect {margin-bottom: 10px; } .readonlycolor {background: #F2F2F2 !important; } .body {margin: 0px; padding: 0px; font-size: 13px; font-family: Arial, Helvetica, sans-serif; } .black-bg {width: 100%; height: 100%; top: 0; position: fixed; background-color: rgba(22,22,22,0.5); z-index: 9999; left: 0; } .popup-main {background-color: #fff; width: 350px; margin: 19% auto; text-align: center; } .green-btn {<!-- padding: 5px 10px; --> border-radius: 3px; color: #fff; background: #0A891A; text-decoration: none; display: inline-block; } .grey-btn {padding: 5px 10px; border-radius: 3px; color: #333; background: #ccc; text-decoration: none; display: inline-block; } .popup-heading {width: 100%; text-align: center; font-size: 15px; color: #fff; padding: 8px 0; } .alert-main .popup-heading {background-color: #0072c6; } .success-main .popup-heading {background-color: #090; } .pop-mid {padding: 0 15px 15px 15px; } .pop-mid p {margin-bottom: 20px; } .divnewbtn{background-color: #e7e7e7 !important; color: black;} .jqx-grid-column-filterbutton {display:none !important;} tfoot {display: table-header-group; } table.dataTable {border-collapse: collapse; } table.dataTable thead th{border-bottom-color: #ccc; }table {border-collapse: collapse; width: 100%; } td, th {border: 1px solid #dddddd; text-align: left; padding: 8px; } tr:nth-child(even) {background-color: #dddddd; } .button {background-color: #4CAF50; border: none; color: white; padding: 7px 11px; text-align: center; text-decoration: none; display: block; font-size: 16px; margin: 4px auto; cursor: pointer; width: 130px; } button: hover{text-decoration:none; } .ms-webpartzone-cell {margin: auto auto 0px; } tfoot input[type="text"]{width:100%;font-weight: normal;} #_invisibleIfEmpty{border:0px !important; padding:0px; } #ExpenceDataTable_filter{margin-bottom:10px; } table.dataTable td{overflow:hidden;text-overflow: ellipsis;}.wordellipsis{display: inline-block; cursor: pointer; text-decoration: none; display: inline-block; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; overflow: hidden;}#login_name_contain{padding: 4px 32px 3px 0px;}
+</style>
+	
+	<script>
+	
+			var checked_radio_value="";
+			var  selected_val_arrProjects="";
+	
+		 function bind_dataTable(){
+            $('#ExpenceDataTable').DataTable( {
+            } );
+
+
+            var ExpenceDataTableElement = $('#ExpenceDataTable').DataTable();
+            $('#ExpenceDataTable tfoot th').each( function () {
+                var title = $(this).text();
+                if(title!='Action')
+                {
+                    $(this).html( '<input type="text" placeholder="Search " />' );
+                }
+                else
+                {
+                    $(this).html('');
+                }
+            } );
+            ExpenceDataTableElement.columns().every( function () {
+                var that = this;
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+			
+			//$('#ExpenceDataTable tfoot tr').insertAfter($('#ExpenceDataTable thead tr'));
+			
+			
+            if($('.dataTables_empty').text()=='No data available in table')
+                $('#ExpenceDataTable tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+				
+				//$( "th:contains('Action')" ).removeClass('sorting_desc').removeClass('sorting_asc');
+				$( "th:contains('Action')" ).removeClass('sorting_desc').removeClass('sorting_asc').removeClass('sorting');
+        }
+		
+		 function cleardata() {
+                $('#jqxgrid_container').empty();
+
+                $("#jqxgrid_container").append("<table id='ExpenceDataTable' class='display example table table-bordered' cellspacing='0' style='width: 99.99% !important; table-layout:fixed;'></table>")
+               
+            }
+		
+		function convert_date(date_to_convert) {
+            //alert(date_to_convert);
+            var m_names = new Array("Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                        "Oct", "Nov", "Dec");
+
+            var d = new Date(date_to_convert);
+            
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            var converted_date = curr_date + "-" + m_names[curr_month] + "-" + curr_year;
+
+            return converted_date;
+
+        }
+	
+	function GetDelegationsDetails(DelegationalStatus) {
+				$('.loader').show();
+				cleardata();
+				var table_header="";
+				var table_body="";
+				var table_element="";
+				var DelegatedCount=0;
+				var DelegableCount=0;
+				//$('#'+DelegationalStatus).removeClass('blue-btn').addClass('green-btn');
+			//	$('#Delegable').toggleClass("blue-btn green-btn");
+				//$('#Delegated').toggleClass("blue-btn green-btn");
+		
+		if(DelegationalStatus=='Delegable')
+		{
+				$('#Delegated').removeClass('green-btn').addClass('blue-btn');
+				$('#Delegable').removeClass('blue-btn').addClass('green-btn');
+				$('[onclick="return delegatenow();"]').show(); 
+				
+				table_header=table_header+"<thead><tr>";
+				table_header=table_header +"<th style='width:50px !important;'>Action</th>";
+				 table_header=table_header +"<th>Delegete For </th> ";
+                table_header=table_header +"<th>Delegete From </th> ";
+                table_header=table_header +"<th>Delegate To</th>";
+                table_header=table_header +"<th>Project Name</th>";
+                table_header=table_header +"<th style='width:100px !important;'>Start Date</th>";
+                table_header=table_header +"<th style='width:100px !important;'>End Date</th>";
+                table_header=table_header +"<th style='width:70px !important;'>Is Active</th>";
+                table_header=table_header +"</tr></thead>";
+				
+				table_header=table_header +"<tfoot><tr>";
+                table_header=table_header +"<th >Action</th>";
+				 table_header=table_header +"<th>Delegete For </th> ";
+                table_header=table_header +"<th>Delegete From </th> ";
+                table_header=table_header +"<th>Delegate To</th>";
+                table_header=table_header +"<th>Project Name</th>";
+                table_header=table_header +"<th>Start Date</th>";
+                table_header=table_header +"<th>End Date</th>";
+                table_header=table_header +"<th>Is Active</th>";
+                table_header=table_header +" </tr></tfoot>";
+		}
+		else if(DelegationalStatus=='Delegated')
+		{
+				//$('#Delegable').removeClass('green-btn').addClass('blue-btn');
+				//$('#Delegated').removeClass('blue-btn').addClass('green-btn');
+				
+				$('#Delegable').removeClass('green-btn').addClass('blue-btn');
+				$('#Delegated').removeClass('blue-btn').addClass('green-btn');
+				$('[onclick="return delegatenow();"]').hide(); 
+		
+				table_header=table_header+"<thead><tr>";
+				//table_header=table_header +"<th >Action</th>";
+				 table_header=table_header +"<th>Delegete For </th> ";
+                table_header=table_header +"<th>Delegete From </th> ";
+                table_header=table_header +"<th>Delegate To</th>";
+                table_header=table_header +"<th>Project Name</th>";
+                table_header=table_header +"<th style='width:100px !important;'>Start Date</th>";
+                table_header=table_header +"<th style='width:100px !important;'>End Date</th>";
+                table_header=table_header +"<th style='width:70px !important;'>Is Active</th>";
+                table_header=table_header +"</tr></thead>";
+				
+				table_header=table_header +"<tfoot><tr>";
+               // table_header=table_header +"<th >Action</th>";
+			    table_header=table_header +"<th>Delegete For </th> ";
+                table_header=table_header +"<th>Delegete From </th> ";
+                table_header=table_header +"<th>Delegate To</th>";
+                table_header=table_header +"<th>Project Name</th>";
+                table_header=table_header +"<th>Start Date</th>";
+                table_header=table_header +"<th>End Date</th>";
+                table_header=table_header +"<th>Is Active</th>";
+                table_header=table_header +" </tr></tfoot>";
+		
+		}
+		
+              
+               
+			var query_cml="<View>"+
+				"<Query>"+
+				   "<Where>"+
+					  "<And>"+
+						 "<Eq>"+
+							"<FieldRef Name='ForExpenseModule' />"+
+							"<Value Type='Boolean'>1</Value>"+
+						 "</Eq>"+
+									 
+						 "<And>"+
+						
+							"<Eq>"+
+							   "<FieldRef Name='IsActive' />"+
+							   "<Value Type='Boolean'>1</Value>"+
+							"</Eq>"+
+							"<Eq>"+
+							   "<FieldRef Name='ActionType' />"+
+							   "<Value Type='Text'>Delegation</Value>"+
+							"</Eq>"+
+							"</And>"+
+						
+					  "</And>"+
+				   "</Where>"+
+				"</Query>"+
+			"</View>";
+		//alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExceptionalApprovals')/GetItems",
+                type: "POST",
+				 async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+				
+                success: function (data) {
+				
+				var hide_Record='';
+				table_body="<tbody>";
+				
+				$.each(data.d.results, function (index, value) {
+				
+				var IsActive="No";
+				if(value.IsActive)
+				{
+				IsActive="Yes";
+				}
+				
+							if(value.DelegationalStatus=='Delegable')
+							{
+									DelegableCount++;
+							}
+							else if(value.DelegationalStatus=='Delegated')
+							{
+									DelegatedCount++;
+							}
+							if(DelegationalStatus=='Delegable')
+							{
+									//hide_Record='hideshow'+index;
+									if(value.DelegationalStatus=='Delegable')
+									{
+									var value_field=value.ID+"|"+value.EmployeeGUID+"|"+value.EmployeeName+"|"+value.Apr1GUID+"|"+value.Apr1EmployeeName+"|"+value.ProjectGUID+"|"+value.ProjectName+"|"+hide_Record;
+									
+									table_body=table_body+"<tr >";
+									table_body=table_body+"<td style='text-align:center !important;'><input style='display:inline-block;' type='radio' name='delegational' value='"+value_field+"'></td>";
+								
+								table_body=table_body+"<td><b>Expense module</b></td>";
+									table_body=table_body+"<td>"+value.EmployeeName+"</td>";
+									table_body=table_body+"<td>"+value.Apr1EmployeeName+"</td>";
+									table_body=	table_body+"<td>"+value.ProjectName+"</td>";
+									var converteddate=convert_date(value.Startdatetime);
+									
+									table_body=	table_body+"<td>"+converteddate+"</td>";
+									converteddate=convert_date(value.Finishdatetime);
+									table_body=	table_body+"<td>"+converteddate+"</td>";
+									table_body=	table_body+"<td>"+IsActive+"</td>";
+									table_body=table_body+"</tr>";
+									}
+							}
+							else if(DelegationalStatus=='Delegated')
+							{
+									//DelegatedCount++;
+									if(value.DelegationalStatus=='Delegated')
+									{
+									table_body=table_body+"<tr >";
+								//	table_body=table_body+"<td><input type='radio' name='delegational' value='"+value_field+"'></td>";
+								table_body=table_body+"<td><b>Expense module</b></td>";
+									table_body=table_body+"<td>"+value.EmployeeName+"</td>";
+									table_body=table_body+"<td>"+value.Apr1EmployeeName+"</td>";
+									table_body=	table_body+"<td>"+value.ProjectName+"</td>";
+									var converteddate=convert_date(value.Startdatetime);
+									
+									table_body=	table_body+"<td>"+converteddate+"</td>";
+									converteddate=convert_date(value.Finishdatetime);
+									table_body=	table_body+"<td>"+converteddate+"</td>";
+									table_body=	table_body+"<td>"+IsActive+"</td>";
+									table_body=table_body+"</tr>";
+									}
+						
+							}
+				
+				
+				 
+				 });
+				 
+				 table_body=table_body+"/<tbody>";
+				 table_element=table_header+table_body;
+				 $('#DelegableCountSpan').text(DelegableCount);
+				 $('#DelegatedCountSpan').text(DelegatedCount);
+				 
+				 
+
+                },
+                error: function (data) {
+					
+                },
+				complete: function(data){
+				 $('#ExpenceDataTable').html(table_element);
+					bind_dataTable();
+					$('.loader').hide();
+				}
+            });
+			
+		
+        }
+		
+		function GetProjectsByUserId(EmployeeGUID) {
+		
+		 $('#ddlProject').empty();
+		 
+		 $('#ddlProject').append("<option value = 'select'>select</option>");
+		
+		alert(EmployeeGUID);
+
+		
+		
+			//var query_cml = '<View><Query><Where><Eq><FieldRef Name="ActionType" /><Value Type="Text">Delegation</Value></Eq></Where></Query></View>';
+
+		var query_cml = '<View><Query><Where><Eq><FieldRef Name="EmployeeGUID" /><Value Type="Text">'+EmployeeGUID+'</Value></Eq></Where></Query></View>';
+		//alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExceptionalApprovals')/GetItems",
+                type: "POST",
+				 async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+				
+                success: function (data) {
+				
+				console.log(data);
+				
+				 $.each(data.d.results, function (index, value) {
+				 var value_field=value.ProjectGUID+"|"+value.ProjectName;
+				 
+			
+				 $('#ddlProject').append("<option value = '" + value_field + "'>" + value.ProjectName+"</option>");
+				 
+				 });
+					
+
+                },
+                error: function (data) {
+					
+                }
+            });
+			
+		
+        }
+		
+		function setdelegational(){
+		
+		 var selected_val = $('#ddlDelegational :selected').val();
+		 if(selected_val!='select')
+		 {
+		 var selected_val_arr=selected_val.split('|');
+		 
+		 $('#txtDelegational').val(selected_val_arr[3]);
+		 
+			
+		 
+		 $('#ddlProject').append("<option value = 'select'>select</option>");
+		 GetProjectsByUserId(selected_val_arr[0]);
+		 
+		 
+		 
+		 
+		 }
+		 else
+		 {
+		 $('#txtDelegational').val('');
+		 $('#ddlProject').empty();
+		 
+		 $('#ddlProject').append("<option value = 'select'>select</option>");
+		 }
+		 
+		}
+		
+		function delegatenow()
+		{
+		
+		
+		
+		 var selected_val_projects='';
+		 // selected_val_projects = $('input[name=delegational]:checked').val();
+		  
+		       
+		  selected_val_projects = ($('input[name=delegational]:checked', '#ExpenceDataTable').val());
+		 
+		// alert(selected_val_projects);
+		 
+		 if(selected_val_projects!='' && selected_val_projects!=undefined)
+		 {
+		// $('.loader').show();
+		 
+		
+		 $('#Confirmation_alert').show();
+		  selected_val_arrProjects=selected_val_projects.split('|');
+		 
+		 
+		 //alert('delegate from : '+selected_val_arrProjects[1]+'  i.e: '+selected_val_arrProjects[2]);
+		  //alert('delegate TO : '+selected_val_arrProjects[3]+'  i.e: '+selected_val_arrProjects[4]);
+		   //alert('delegate For Projects : '+selected_val_arrProjects[5]+'  i.e: '+selected_val_arrProjects[6]);
+		   
+		  //getDelegationalRecords(selected_val_arrProjects[1],'PendingWithId',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+		    //getDelegationalRecords(selected_val_arrProjects[1],'Approver1',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+			 //getDelegationalRecords(selected_val_arrProjects[1],'Approver2',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+			 // getDelegationalRecords(selected_val_arrProjects[1],'FinanceId',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+			  
+		  // updateDelegationalStatus('BconeExceptionalApprovals','https://bristleconeonline.sharepoint.com/sites/pwa/',selected_val_arrProjects[0],'Delegated',selected_val_arrProjects[7]);
+		   //CreateExceptionalApprovalsLog('https://bristleconeonline.sharepoint.com/sites/pwa/','BconeExceptionalApprovalsLog',selected_val_arrProjects[0],selected_val_arrProjects[2],selected_val_arrProjects[4],selected_val_arrProjects[6]);
+		   
+		}
+		else
+		{
+			//alert('select record');
+			
+			 $("#alertmain").show();
+            document.getElementById("Alert_msg").innerHTML='Please select record for delegation.';
+			
+		}
+		
+		
+		
+		 
+		 
+		 //getDelegationalRecords('6db0f638-5da2-e611-80cd-00155d00b80f','Approver1','33272d4c-5da2-e611-80cd-00155d00b80f','Executive PPM','1beac6bd-be08-4541-967b-1ca7c0900738');
+		 
+		 
+		 
+		// }
+		//else
+		//{
+		//alert('select project/Employee to delegate');
+		//}
+		
+		
+		return false;
+		}
+		
+		function delegation()
+		{
+			confirmation_close();
+			$('.loader').show();
+		
+		 var selected_val_projects='';
+		  //selected_val_projects = $('input[name=delegational]:checked').val();
+		  
+		       
+		  selected_val_projects = ($('input[name=delegational]:checked', '#ExpenceDataTable').val());
+		  
+		    getDelegationalRecords(selected_val_arrProjects[1],'PendingWithId',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+		    getDelegationalRecords(selected_val_arrProjects[1],'Approver1',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+			 getDelegationalRecords(selected_val_arrProjects[1],'Approver2',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+			  getDelegationalRecords(selected_val_arrProjects[1],'FinanceId',selected_val_arrProjects[3],selected_val_arrProjects[4],selected_val_arrProjects[5]);
+			  
+		   updateDelegationalStatus('BconeExceptionalApprovals','https://bristleconeonline.sharepoint.com/sites/pwa/',selected_val_arrProjects[0],'Delegated',selected_val_arrProjects[7]);
+		   CreateExceptionalApprovalsLog('https://bristleconeonline.sharepoint.com/sites/pwa/','BconeExceptionalApprovalsLog',selected_val_arrProjects[0],selected_val_arrProjects[2],selected_val_arrProjects[4],selected_val_arrProjects[6]);
+		   
+		
+		}
+		
+		
+        function getDelegationalRecords(ListFieldReplaceId,ListFieldName,update_field_id,update_field_name,ProjectId) {
+		
+		var ReportStatus='';
+           //var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq><Eq><FieldRef Name="ExpenceCurrency" /><Value Type="Number" >'+refine+'</Value></Eq></And></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+ var query_cml="<View>"+
+"<Query>"+
+   "<Where>"+
+    "<And>"+
+	
+	 "<Or>"+
+               "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Open</Value></Eq>"+
+                "<Or>"+
+				"<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approved</Value></Eq>"+
+				"<Or>"+
+				"<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approver 2 Approved</Value></Eq>"+
+				"<Or>"+
+				"<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Approver 1 Approved</Value></Eq>"+
+				"<Or>"+
+				"<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Manager Approved</Value></Eq>"+
+				"<Or>"+
+				 "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Manager Approved</Value></Eq>"+
+				 "<Eq><FieldRef Name='ReportStatus' /><Value Type='Text'>Submitted</Value></Eq>"+
+				  "</Or>"+
+				 "</Or>"+
+				  "</Or>"+
+				 "</Or>"+
+				 "</Or>"+
+				  "</Or>"+
+					"<And>"+
+					
+               "<Eq><FieldRef Name='"+ListFieldName+"' /><Value Type='Text'>"+ListFieldReplaceId+"</Value></Eq>"+
+			   "<Eq><FieldRef Name='ProjectId' /><Value Type='Text'>"+ProjectId+"</Value></Eq>"+
+				  "</And>"+
+				
+      
+    "</And>"+
+ "</Where>"+
+"</Query>"+
+"</View>";
+//alert(query_cml);
+            $.ajax({
+               
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+				console.log(data);
+				//alert(data.d.results.length);
+				
+				$.each(data.d.results,function(key,value){
+				ReportStatus='';
+				var	PendingWithId='';
+				var PendingWithName='';
+				var	Approver1='';
+				var Approver1Name='';
+				var Approver2='';
+				var Approver2Name='';
+				var FinanceId='';
+				var FinanceName='';
+			
+				ReportStatus=value.ReportStatus;
+				
+				console.log(ReportStatus);
+				
+				if(ReportStatus=='Open' || ReportStatus=='Submitted')
+				{
+					if(value.PendingWithId==ListFieldReplaceId)
+					{
+					PendingWithId=update_field_id;
+					PendingWithName=update_field_name;
+					}
+					if(value.Approver1==ListFieldReplaceId)
+					{
+					Approver1=update_field_id;
+					Approver1Name=update_field_name;
+					}
+					if(value.Approver2==ListFieldReplaceId)
+					{
+					Approver2=update_field_id;
+					Approver2Name=update_field_name;
+					}
+					if(value.FinanceId==ListFieldReplaceId)
+					{
+					FinanceId=update_field_id;
+					FinanceName=update_field_name;
+					}
+				 
+					updateListItem('BconeExpenceMaster','https://bristleconeonline.sharepoint.com/sites/pwa/',value.ID,ReportStatus,PendingWithId,PendingWithName,Approver1,Approver1Name,Approver2,Approver2Name,FinanceId,FinanceName);
+				}
+				else if(ReportStatus=='Manager Approved' || ReportStatus=='Approver 2 Approved')
+				{
+						if(value.PendingWithId==ListFieldReplaceId)
+					{
+					PendingWithId=update_field_id;
+					PendingWithName=update_field_name;
+					}
+					
+					if(value.FinanceId==ListFieldReplaceId)
+					{
+					FinanceId=update_field_id;
+					FinanceName=update_field_name;
+					}
+				
+					updateListItem('BconeExpenceMaster','https://bristleconeonline.sharepoint.com/sites/pwa/',value.ID,ReportStatus,PendingWithId,PendingWithName,Approver1,Approver1Name,Approver2,Approver2Name,FinanceId,FinanceName);
+				}
+				else if(ReportStatus=='Approver 1 Approved')
+				{
+				if(value.PendingWithId==ListFieldReplaceId)
+					{
+					PendingWithId=update_field_id;
+					PendingWithName=update_field_name;
+					}
+					
+					if(value.Approver2==ListFieldReplaceId)
+					{
+					Approver2=update_field_id;
+					Approver2Name=update_field_name;
+					}
+					if(value.FinanceId==ListFieldReplaceId)
+					{
+					FinanceId=update_field_id;
+					FinanceName=update_field_name;
+					}
+				
+					updateListItem('BconeExpenceMaster','https://bristleconeonline.sharepoint.com/sites/pwa/',value.ID,ReportStatus,PendingWithId,PendingWithName,Approver1,Approver1Name,Approver2,Approver2Name,FinanceId,FinanceName);
+				
+				}
+				else if(ReportStatus=='Approved')
+				{
+				
+					if(value.FinanceId==ListFieldReplaceId)
+					{
+					FinanceId=update_field_id;
+					FinanceName=update_field_name;
+					}
+				
+					updateListItem('BconeExpenceMaster','https://bristleconeonline.sharepoint.com/sites/pwa/',value.ID,ReportStatus,PendingWithId,PendingWithName,Approver1,Approver1Name,Approver2,Approver2Name,FinanceId,FinanceName);
+				
+				}
+				
+				//console.log(value.ReportStatus);
+				
+				});
+				},
+                error: function (data) {},
+                complete: function () {}
+            });
+						
+            // $('.loader').hide();
+        }
+		
+		
+		   function updateListItem(listName, siteUrl,id,ReportStatus,PendingWithId,PendingWithName,Approver1,Approver1Name,Approver2,Approver2Name,FinanceId,FinanceName) {
+		   
+		   
+				var itemType = getListprotocol(listName);
+				
+				console.log(itemType);
+
+          
+
+                    item = {
+                        "__metadata": { "type": itemType },
+                        //"PendingWithId": pending_field_id,
+                        //"PendingWithName": pending_field_name,
+                        //"Approver1": pending_field_id,
+                        //"Approver1Name": pending_field_name,
+                        //"Approver2": pending_field_id,
+                        //"Approver2Name": pending_field_name,
+                        //"FinanceId": pending_field_id,
+                        //"FinanceName":pending_field_name
+
+                    };
+				if (PendingWithId != "") {
+                $.extend(item, { PendingWithId: PendingWithId });
+				}
+				if (PendingWithName != "") {
+                $.extend(item, { PendingWithName: PendingWithName });
+				}
+				if (Approver1 != "") {
+                $.extend(item, { Approver1: Approver1 });
+				}
+				if (Approver1Name != "") {
+                $.extend(item, { Approver1Name: Approver1Name });
+				}
+				if (Approver2 != "") {
+                $.extend(item, { Approver2: Approver2 });
+				}
+				if (Approver2Name != "") {
+                $.extend(item, { Approver2Name: Approver2Name });
+				}
+				if (FinanceId != "") {
+                $.extend(item, { FinanceId: FinanceId });
+				}
+				if (FinanceName != "") {
+                $.extend(item, { FinanceName: FinanceName });
+				}
+               
+
+			 
+              
+
+
+                getListItemForUpdate(siteUrl, listName, id, function (data) {
+				
+				//console.log('getListItemForUpdate');
+
+                    //alert("vvv");
+					
+				
+
+
+                    $.ajax({
+                        url: data.d.__metadata.uri,
+                        type: "POST",
+						async:false,
+                        contentType: "application/json;odata=verbose",
+                        data: JSON.stringify(item),
+                        headers: {
+                            "Accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "X-HTTP-Method": "MERGE",
+                            "If-Match": data.d.__metadata.etag
+                        },
+                        success: function (data) {
+						
+						//alert('data updated');
+                            
+                        },
+						complete: function(data){
+						
+						},
+                        error: function (data) {
+                            alert(data.responseJSON.error.message.value);
+                            ////alert("false");
+                            // failure(data);
+                            $('.loader').hide();
+                        }
+                    });
+
+
+                }, function (data) {
+                    failure(data);
+                });
+           
+        }
+		
+		function updateDelegationalStatus(listName, siteUrl,id,DelegationalStatus,hide_id) {
+		   
+		   
+				var itemType = getListprotocol(listName);
+				
+				console.log(itemType);
+
+          
+
+                    item = {
+                        "__metadata": { "type": itemType },
+                        //"PendingWithId": pending_field_id,
+                        //"PendingWithName": pending_field_name,
+                        //"Approver1": pending_field_id,
+                        //"Approver1Name": pending_field_name,
+                        //"Approver2": pending_field_id,
+                        //"Approver2Name": pending_field_name,
+                        //"FinanceId": pending_field_id,
+                        //"FinanceName":pending_field_name
+
+                    };
+				if (DelegationalStatus != "") {
+                $.extend(item, { DelegationalStatus: DelegationalStatus });
+				}
+               
+
+			 
+              
+
+
+                getListItemForUpdate(siteUrl, listName, id, function (data) {
+				
+				//console.log('getListItemForUpdate');
+
+                    //alert("vvv");
+					
+				
+
+
+                    $.ajax({
+                        url: data.d.__metadata.uri,
+                        type: "POST",
+						async:false,
+                        contentType: "application/json;odata=verbose",
+                        data: JSON.stringify(item),
+                        headers: {
+                            "Accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "X-HTTP-Method": "MERGE",
+                            "If-Match": data.d.__metadata.etag
+                        },
+                        success: function (data) {
+						
+						//alert('data updated');
+                            
+                        },
+						complete: function(data){
+						
+						$('#'+hide_id).fadeOut();
+						$('#'+hide_id).remove();
+						
+						},
+                        error: function (data) {
+                            alert(data.responseJSON.error.message.value);
+                            ////alert("false");
+                            // failure(data);
+                            $('.loader').hide();
+                        }
+                    });
+
+
+                }, function (data) {
+                    failure(data);
+                });
+           
+        }
+		
+		function CreateExceptionalApprovalsLog(url, listname, ExceptionalApprovalsId, DelegationFrom, DelegationTo, DelegationForProject)
+		{
+		
+		var itemType = getListprotocol(listname);
+		 item = 	{
+                        "__metadata": { "type": itemType },
+                    };
+		if (ExceptionalApprovalsId != "") {
+			$.extend(item, { ExceptionalApprovalsId: ExceptionalApprovalsId });
+		}
+		if (DelegationFrom != "") {
+			$.extend(item, { DelegationFrom: DelegationFrom });
+		}
+		if (DelegationTo != "") {
+			$.extend(item, { DelegationTo: DelegationTo });
+		}
+		if (DelegationForProject != "") {
+			$.extend(item, { DelegationForProject: DelegationForProject });
+		}
+		
+		$.ajax({
+                url: url + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+				
+
+                },
+                complete: function () {
+				
+				//alert('Delegation done successfully.');
+				 $("#alertmain").show(); 
+				document.getElementById("Alert_msg").innerHTML="Delegation done successfully.";	
+				
+				GetDelegationsDetails('Delegable');
+					
+
+                },
+                error: function (data) {
+                  
+                    alert(data.responseJSON.error.message.value);
+                   
+
+                }
+            });
+		
+		
+		}
+
+
+        function getListItemForUpdate(url, listname, Id, complete) {
+
+         
+
+            $.ajax({
+
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+				async:false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+                    complete(data);
+                   
+                },
+                error: function (data) {
+                    //  //alert("false");   
+                }
+            });
+        }
+		
+		function getListprotocol(name) {
+            //alert(name);
+
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+		
+		$(function(){
+		disableRightClick();
+		GetDelegationsDetails('Delegable');
+		//getDelegationalRecords('33272d4c-5da2-e611-80cd-00155d00b80f','PendingWithId');
+		
+					$('input[type=radio][name=delegational]').click(function() {
+						if(checked_radio_value==this.value)
+						{
+							//alert('same clicked');
+							$('input:checked').removeAttr('checked');
+							checked_radio_value="";
+						}
+					});
+					$('input[type=radio][name=delegational]').change(function() {
+						checked_radio_value=this.value;
+					});
+					
+					
+		
+		});
+		
+		function close_div()
+        {
+            $("#alertmain").hide();
+            document.getElementById("Alert_msg").innerHTML="";
+            //refine_status('Open','open');
+            //getDataByListName(current_url, 'BconeExpenceMaster', 'load1',GUID);
+	  
+        }
+		
+		 function confirmation_close(){
+            $('#Confirmation_alert').hide();
+        }
+		
+		 
+		
+		
+		
+	
+	
+	</script>
+	
+	
+</head>
+
+<body>
+
+
+    <div style="text-align: right;" id="login_name_contain"></div>
+
+ <div class="loader"></div>
+ <div id="alertmain" class="alert-main" style="display: none">
+        <div class="black-bg" id="backcolor">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Alert_msg"></span></div>
+                <div class="pop-mid">
+                    <p id="submitValue"></p>
+                    <input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+                </div>
+            </div>
+        </div>
+    </div>
+	<div id="Confirmation_alert" class="alert-main" style="display: none;">
+        <span id="confirmation_type"></span>
+        <span id="delete_expense_id" style="display: none;"></span>
+        <div class="black-bg" id="Div1">
+            <div class="popup-main">
+                <div class="popup-heading"><span id="Confirmation_msg">Are You Sure You Want To Delegate ?</span></div>
+                <div class="pop-mid">
+                    <p id="P1"></p>
+                    <span id="Method_tocall"></span>
+                    <input type="Button" class="divnewbtn" value="OK" id="ok_click" onclick="delegation();">
+                    <input type="Button" class="divnewbtn" value="Cancel" onclick="confirmation_close();">
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+	<div class="container-fluid">
+		<div class="breadcrumb-new">
+		    <div class="container-fluid">
+		        <ul>
+		            <li>
+		                <a href="https://bristleconeonline.sharepoint.com/sites/pwa/default.aspx">Home</a>
+		            </li>
+		            <li>
+		                <a href="javascript:void(0)" style="cursor: default; color: black;"><span id="navigation_span">Expense Delegation</span></a>
+		            </li>
+		        </ul>
+		        <div class="clearfix"></div>
+		    </div>
+		</div>
+		<div class="top-refine">
+			<ul class="pull-left">
+				<li>
+					<a class="blue-btn" style="cursor:pointer;" onclick="return delegatenow();"><i class="fa fa-sitemap"></i> Delegate Now</a>
+				</li>
+				<li></li>
+				<li></li>
+			</ul>
+			<ul class="pull-right" style="margin: 10px 0;">
+				<li>
+					<a href="javascript:void(0)" class="blue-btn" id="Delegable" onclick="GetDelegationsDetails(this.id);" style="color: rgb(255, 255, 255);"><i class="fa fa-flag-o" aria-hidden="true"></i>Pending Delegation<span class="red-count" id="DelegableCountSpan"></span></a>
+					<a href="javascript:void(0)" class="green-btn" id="Delegated" onclick="GetDelegationsDetails(this.id);" style="color: rgb(255, 255, 255);"><i class="fa fa-history"></i>Delegation History<span class="red-count" id="DelegatedCountSpan"></span></a>
+					<!-- <a class="blue-btn" href="https://bristleconeonline.sharepoint.com/sites/pwa/SitePages/DelegationHistory.aspx">view delegated records</a> -->
+				</li>
+			</ul>
+		    <div class="clearfix"></div>
+		</div>
+	</div>
+
+
+<div class="" id="initiateFrom">
+<div class="container-fluid" id="jqxgrid_container">
+	<table id="ExpenceDataTable" style="width: 99.99% !important; table-layout:fixed;">
+	</table>
+	</div>
+
+</div>
+</body>
+
+<script>
+function GetUserId(userid) {
+            var NewloginName = "";
+            var Temguid="";
+            jQuery.ajax({
+                url: "/sites/pwa/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    //console.log(dataResults);
+                    //get login name  
+                    //  console.log(data);
+                    var loginName = dataResults.LoginName;
+                    //console.log(loginName);
+                    //alert('loginName: '+loginName);
+                    //$('#user_name').text(dataResults.Title);
+                    $('#login_name_contain').text(dataResults.Title);
+					
+					
+                    //get display name
+                    // console.log(dataResults.Title);
+                  //  NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    //alert('NewloginName: '+NewloginName);
+                    //Temguid=getResourcesGuid1(NewloginName);
+                    // console.log(NewloginName);
+                    //alert('NewloginName :' + NewloginName);
+
+                },
+                complete: function () {
+
+                    // var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+           // return Temguid;
+        }
+		
+		 var userid = _spPageContextInfo.userId;
+        var tempGuid=GetUserId(userid);
+</script>
+
+
+</html>
+			

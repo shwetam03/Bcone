@@ -1,0 +1,4552 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home</title>
+	
+    <script src="../SiteAssets/BconeExpenseJs/jquery.min.js"></script>
+    
+    <link href="../SiteAssets/BconeExpenseCss/bootstrap.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/stylesheet.css" rel="stylesheet" />
+    <link href="../SiteAssets/BconeExpenseCss/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../SiteAssets/BconeExpenseCss/jquery.dataTables.css">
+    <script type="text/javascript" language="javascript" src="../SiteAssets/BconeExpenseJs/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.SPServices.min.js"></script>
+	
+    <script src="../SiteAssets/BconeExpenseJs/jqueryui.js"></script>
+  <script type="text/javascript">
+      // Change JQueryUI plugin names to fix name collision with Bootstrap.
+      $.widget.bridge('uitooltip', $.ui.tooltip);
+      $.widget.bridge('uibutton', $.ui.button);
+</script>
+    <link href="../SiteAssets/BconeExpenseCss/jquery-ui.css" rel="stylesheet" />
+  <script src="../SiteAssets/BconeExpenseJs/bootstrap.min.js"></script>
+	
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jquery.MultiFile.js"></script>
+    <script type="text/javascript" src="../SiteAssets/BconeExpenseJs/jQuery.MultiFile.min.js"></script>
+    <style>
+       .ms-core-pageTitle,.ms-core-pageTitle a{color:#fff;display:none}.nodatadiv{border:1px solid #ddd;width:96.8%;display:inline-block;text-align:center;padding:20px 0;border-radius:3px;margin:0 20px}.modal{padding-left:0!important}.blue-btn i{margin-right:5px}.fk-suc-msg{background:url(http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png) no-repeat scroll 5px 2px #337ab7;border:1px solid #2e6da4;color:#fff;font-size:13px;padding:2px 0 2px 28px;text-align:left;width:91%}.displayblock{display:block}.displaynone{display:none}a,a:visited,a:active,a:link{text-decoration:none}input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active{-webkit-box-shadow:0 0 0 50px #fff inset}.fk-suc-msg{background:url(http://img1a.flixcart.com/www/prod/images/tick1-042bc15a.png) no-repeat scroll 5px 2px #337ab7;border:1px solid #2e6da4;color:#fff;font-size:13px;padding:2px 0 2px 28px;text-align:left;width:91%}#s4-workspace{width:100%!important}#ui-id-1,#ui-id-2,#ui-id-3,#ui-id-4{height:auto!important}.SumoSelect{margin-bottom:10px}.readonlycolor{background:#F2F2F2!important}.body{margin:0;padding:0;font-size:13px}.black-bg{width:100%;height:100%;top:0;position:fixed;background-color:rgba(22,22,22,0.5);z-index:9999;left:0}.popup-main{background-color:#fff;width:350px;margin:19% auto;text-align:center}.grey-btn{padding:5px 10px;color:#333;background:#ccc;text-decoration:none;display:inline-block}.popup-heading{width:100%;text-align:center;font-size:15px;color:#fff;padding:8px 0}.alert-main .popup-heading{background-color:#0072c6}.success-main .popup-heading{background-color:#090}.pop-mid{padding:0 15px 15px}.pop-mid p{margin-bottom:20px}.divnewbtn{background-color:#e7e7e7!important;color:#000}a:visited{color:#337ab7}#login_name_contain{float:right;margin:-32px 20px 0 0;background:url(https://bristleconeonline.sharepoint.com/sites/PPMUAT/SiteAssets/BconeExpenseImg/user-icon.png) no-repeat right center;padding:2px 32px 2px 0}.example thead tr th{background:#e8e8e8;color:#333;text-align:left;font-size:12px!important;vertical-align:middle;border-bottom:0!important}table{font-size:13px!important;text-align:left!important}tfoot{display:table-header-group}tfoot input{width:100%;padding:3px;box-sizing:border-box;font-weight:400}tfoot tr th{border-top:0!important}.top-refine{margin-bottom:10px}.table.dataTable{border-collapse:collapse}.dataTables_filter{margin-bottom:10px}.example tfoot th:first-child input[type="text"]{display:none}.expensetablenew .form-control{height:30px}.expensetablenew .modal-body{padding:5px}.expensetablenew .modal-body table tr td{padding:5px!important}.expensetablenew .modal-body table tr td textarea{height:40px!important}.expensetablenew .modal-dialog{margin:50px auto!important}
+    </style>
+
+</head>
+
+<body>
+    <div style="text-align: right;" id="login_name_contain"></div>
+     <div class="loader"></div>
+
+    <section class="middle">
+        <div id="alertmain" class="alert-main" style="display: none">
+            <div class="black-bg" id="backcolor">
+                <div class="popup-main">
+                    <div class="popup-heading"><span id="Alert_msg"></span></div>
+                    <div class="pop-mid">
+                        <p id="submitValue"></p>
+                        <input type='Button' class="divnewbtn" id="alert_ok_click" value="OK" onclick="close_div()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Confirmation_alert" class="alert-main" style="display: none;">
+            <span id="confirmation_type"></span>
+            <div class="black-bg" id="Div1">
+                <div class="popup-main">
+                    <div class="popup-heading"><span id="Confirmation_msg"></span></div>
+                    <div class="pop-mid">
+                        <p id="P1"></p>
+                        <span id="Method_tocall"></span>
+                        <input type='Button' class="divnewbtn" value="OK" id="ok_click" />
+                        <input type='Button' class="divnewbtn" value="Cancel" onclick='confirmation_close();' />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb-new">
+            <div class="container-fluid" id="Upper_strip">
+                <ul class="pull-left">
+                    <li>
+                        <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/default.aspx" >Home</a>
+                    </li>
+                    <li>
+                        <a href="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx">My Expense</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="Navigate()"><span id="Navigate_status"></span></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" style="cursor: default; color: black;"><span id="ExpenseName"></span></a>
+                    </li>
+                </ul>
+                <ul class="pull-right">
+                    <li>
+                        <a href="javascript:void(0)"  style="cursor: default;">Project Name : <span id="ExpenseProjectName" ></span></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div id="nodatadiv"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="top-refine" style="margin-top: 0px;">
+                    <ul class="pull-left" id="Add_item" style="display: none;">
+                        <li>
+                            <a href="javascript:void(0)" class="Add-more" onclick="showmodal1('Add')"><i class="fa fa-plus"></i> Add Item
+                            </a>
+                        </li>
+                        <li></li>
+                    </ul>
+                    <ul class="pull-left">
+                        <li>
+                            <a href="javascript:void(0)" class="blue-btn" id="Expense_submit" style="display: none;" onclick="Submit_ExpenseTo_Pm('BconeExpenceMaster','Submitted')"><i class="fa fa-send"></i> Submit Expense
+                               
+                                
+                            </a>
+
+
+                            <a href="javascript:void(0)" id="Approved" class="blue-btn" style="display: none; cursor: default;"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>Approved</a>
+
+                            <a href="javascript:void(0)" id="Reject" class="blue-btn" style="display: none; cursor: default;"><i class="fa fa-ban" aria-hidden="true"></i>Rejected </a>
+                            <a href="javascript:void(0)" class="blue-btn" id="Expense_Resubmit" style="display: none;" onclick="Submit_ExpenseTo_Pm('BconeExpenceMaster','Open')"><i class="fa fa-repeat"></i>Recall Expense
+                               
+                                
+                            </a>
+                        </li>
+
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    <ul class="pull-right">
+                        <li id="refine_currency_Bind"></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <span id="Currency_total"></span>
+            </div>
+            <div class="">
+
+
+                <div class="row" id="jqxgrid_container">
+                    <table id="ExpenceDataTable" class="display example table table-bordered" cellspacing="0" width="100%">
+                </table>
+
+
+                </div>
+
+                <input type="hidden" id="count" value="0" />
+
+
+
+
+            </div>
+        </div>
+        </div>       
+    </section>
+    <div id="myModal" class="modal fade newpopup-table expensetablenew" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="clear_valiadation('#myModal')">&times;</button>
+                    <h4 class="modal-title">ITEM INITIATE FORM </h4>
+                </div>
+                <div class="modal-body" id="initiateFrom">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%;">Project
+									<select class="form-control" id="ddlProject" disabled="disabled">
+                                    </select>
+                                </td>
+                                <td style="width: 50%;">Project Phase<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="ddlProjectPhase" onchange="hideerror1('ddlProjectPhase')">
+                                        <option value="select">Select</option>
+                                    </select>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td style="width: 50%;">Expense Item<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="ExpenseItem" onchange="hideerror1('ExpenseItem')">
+                                        <option>Select</option>
+                                    </select>
+                                </td>
+                                <td>Currency<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="currency" onchange="hideerror1('currency')">
+                                        <option>Select</option>
+
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td colspan="2" style="width: 195px;">Expense Note<sup style="color: #f00; font-size: 14px;">*</sup><br><sup style="color: #ababab;; font-size: 12px;">(Description about expense, Max 500 character allowed)</sup>
+                                    <!--  <input type="text" id="TxtexpenseNote" onkeyup="hideerror('TxtexpenseNote')" class="form-control" style="height: 54px;" /> -->
+                                    <textarea rows="4" class="form-control" cols="90" id="TxtexpenseNote" onkeyup="hideerror('TxtexpenseNote')"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: top;">Amount<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <div class="Amount-right-side">
+                                        <input type="text" class="form-control" id="TxtAmount" onchange="javascript:RefreshIt(this);" readonly="true" onkeyup="hideerror('TxtAmount')" />
+                                        <span class="amt-right-text" style="color: #ababab;" id="currencyspan"></span>
+                                    </div>
+                                </td>
+                                <td>Payment Type<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <select class="form-control" id="PaymentType" onchange="hideerror1('PaymentType')">
+                                        <option>Select</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: top;">Status
+
+                                    <input type="text" readonly="true" class="form-control" id="TxtStatus" onkeyup="hideerror('TxtStatus')" />
+                                </td>
+                                <td>Expense Date<sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <div style="position: relative;">
+                                        <input type="text" id="TxtDate" class="form-control" onmouseup="hideerror('TxtDate')" onkeyup="hideerror('TxtDate')" readonly="true" />
+                                        <span class="right-icon">
+                                            <i class="fa fa-calendar" id="iconcalender"></i>
+                                        </span>
+                                        <div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Billable To Client <sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <div class="radio-main" id="RBbliable" onchange="hideerror('RBbliable')">
+                                        <input type="radio" name="RBbliable1" value="Yes">Yes
+                                        <input type="radio" name="RBbliable1" value="No">No<br>
+                                    </div>
+                                </td>
+                                <td>Missing Paper Receipt <sup style="color: #f00; font-size: 14px;">*</sup>
+                                    <div class="radio-main" id="Chkreceipt" onchange="hideerror('Chkreceipt')">
+                                        <input type="checkbox" name="receipt" class="myCheckbox" value="Yes">Yes
+                                        <input type="checkbox" name="receipt" class="myCheckbox" value="No">No<br>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="vertical-align: top;">Provide Justification For Missing Paper Receipt<sup style="display: none; color: #f00; font-size: 14px;" id="star_justification">*</sup><br><sup style="color: #ababab; font-size: 12px;">(Max 500 character allowed)</sup>
+                                    <textarea rows="1" cols="45" class="form-control" id="TxtJustification" onkeyup="hideerror('TxtJustification')" readonly="true"></textarea>
+                                    <!--  <input type="text" class="form-control" id="TxtJustification" onkeyup="hideerror('TxtJustification')"  style="height: 40px" /> -->
+                                </td>
+                            </tr>
+
+                            <tr id="file_upload_div1">
+                                <td colspan="2">
+                                    <div>Upload Bill Here    </div><span onclick="getAttchmentReason(730,921);">Click Me</span>
+
+                                    <!-- Jaywardhan Jadhav Code Start here -->
+
+                                    <a href="javascript:void(0)" id="outer-popup-a" style="background-color: #f09609; border-color: #f09609;" class="blue-btn pull-right" onclick="openallfileattach('outer','')"><i class="fa fa-eye"></i>view uploaded files (<span id="uploaded_file_count"></span>)</a>
+
+                                    <div class="allcommentdiv inner-popup " id="openallfileattach">
+                                        <!-- inner-popup -popup add class -->
+                                        <div class="allcommentdiv-heading">
+                                            Uploaded File List
+                                        </div>
+                                        <div class="allcommentdiv-mid">
+                                            <h3 id="ref_no">Ref No.1</h3>
+                                            <div class="vertical-scoll">
+                                                <table class="table table-bordered text-left">
+                                                    <tbody id="uploaded_files">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="allcommentdiv-foot">
+                                            <a href="javascript:void(0)" class="blue-btn" onclick="closeallfileattach()">Got it</a>
+                                        </div>
+                                    </div>
+
+
+                                    
+
+
+                                    <!-- Jaywardhan Jadhav Code End here -->
+
+                                    <div id="File_Control_div1">
+                                        <!-- <div style="width: 32%;   float: left;margin:5px 0;">
+								<span class="btn btn-default btn-file" style= "padding: 2px 5px;">
+								Browse<input type="file" id="getFile" multiple="multiple" title="Browse" class="file-upload" style="width: 103px;color: transparent;direction: rtl;">
+								</span>
+								<span class="limittext">File Name</span>
+								<span class="closediv"><i class="fa-close fa"></i></span>
+								</div>   -->
+
+                                    </div>
+                                    <!-- <a onclick="getlibraraydata()">tesr</a> -->
+
+
+                                    <div id="attachFilesContainer">
+                                        <input type="file" multiple="multiple" class="multi1" id="File1" >
+                                    </div>
+                                    <!-- <a onclick="getlibraraydata()">view attached bills  <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a> -->
+                                    <br />
+                                    <!-- <input type="button" id="clrContainer" value="clr" onclick="clearContainer()"/> -->
+
+
+
+
+
+                                    <!-- <span onclick="upload_allfile('887','780');">Upload files</span>  -->
+                                    <!-- <span onclick="getAttchmentReason('1000','100');">Upload files</span>  -->
+
+                                    <!--  </td>
+								<td style="vertical-align:top; text-align:right;"> -->
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span id="AlertMsg" style="color: red;"></span>
+                                </td>
+                            </tr>
+                            <tr id="add_tr">
+                                <td colspan="2">
+                                    <a href="javascript:void(0)" class="blue-btn" id="btnSubmitcreate">Save & Create Another</a>
+                                    <a href="javascript:void(0)" class="blue-btn" id="btnSubmit">Save & Close</a>
+
+
+                                    <a href="javascript:void(0)" class="gray-btn" data-dismiss="modal" onclick="clear_valiadation('#myModal')">Cancel</a>
+
+
+                                </td>
+                            </tr>
+                            <tr id="update_tr" style="display: none;">
+
+                                <td colspan="2">
+                                    <span id="edit_id" style="display: none"></span>
+                                    <span id="TrackingNo_id" style="display: none"></span>
+                                    <span id="delete_file_ids" style="display: none"></span>
+									<span id="load_type_span" style="display: none"></span>
+									<span id="save_type_span" style="display: none"></span>
+									
+                                    <a href="javascript:void(0)" class="blue-btn" id="btn_update" onclick="updateDataWithCurrencyValue();">Update</a>
+                                    <a href="javascript:void(0)" class="gray-btn" data-dismiss="modal" onclick="clear_valiadation('#myModal')">Cancel</a>
+
+
+                                </td>
+                            </tr>
+                            <tr id="mytr">
+                                <td colspan="2" style="padding-top: 0; padding-bottom: 0px;">
+                                    <div class="fk-suc-msg" id="per-info-suc" style="display: none;"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="allcommentdiv-main" id="openouterfileattach">
+        <!-- inner-popup outer-popup add class -->
+        <div class="allcommentdiv outer-popup ">
+            <div class="allcommentdiv-heading">
+                Uploaded File List
+            </div>
+            <div class="allcommentdiv-mid">
+                <h3 id="reff_no">Ref No. 1</h3>
+                <div class="vertical-scoll">
+                    <table class="table table-bordered text-left">
+                        <tbody id="inner_tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="allcommentdiv-foot">
+                <a href="javascript:void(0)" class="blue-btn" onclick="closeouterfileattach()">Got it</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var web_url = "https://bristleconeonline.sharepoint.com/sites/PPMUAT/";
+        var Expense_currecny;
+        var isINRCurrency=true;
+        var MainExpenceCurrencyText="";
+        var isBaseLocationBengluru=true;
+        var EmpBaseLocation='';
+        var CountryLegal='';
+        var CountryLegalCurrency='';
+        var isAdvanceTakenINR=true;
+        var advanceTakenCurrencyName='';
+        var resubmit_count;
+        var loginid="";
+        var MyEmpName="";
+        var expense_creater_id="";
+        var	pending_with_id="";
+	
+        var submit_pendingwith_name="";
+        var submit_pendingwith_id="";
+        var FinalExpenseValue="0";
+		var Expense_Status="";
+        function close_div()
+        {
+            $("#alertmain").hide();
+            document.getElementById("Alert_msg").innerHTML="";
+	  
+        }
+        function confirmation_close()
+        {
+            $('#Confirmation_alert').hide();
+        }
+
+        $(function () {
+            $("#TxtDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                maxDate: new Date() ,
+                onSelect: function(selected,evnt) {
+                    hideerror('TxtDate');
+                }
+            });                                  
+        })
+
+        $('.myCheckbox').click(function () {
+            // alert("fghfhgfh");
+            $(this).siblings('input:checkbox').prop('checked', false);
+            //alert(this.value);
+            var justification = document.getElementById("TxtJustification").value;
+            if (this.value == "Yes")
+            {
+                if (justification == "")
+                {
+                    $('#TxtJustification').css({
+
+                        "border": "",
+                        "background": ""
+                    });
+                    $("#star_justification").show();
+                    $("#star_upload").hide();
+					   
+                    document.getElementById("AlertMsg").innerHTML = "Please enter justification for missing bill";
+                    document.getElementById("TxtJustification").focus();									
+                }
+				 
+                       
+                $('#getFile').css({
+
+                    "border": "",
+                    "background": ""
+                });
+                $("#getFile").replaceWith("<input type='file' id='getFile'  class='file-upload' style='width: 98px;color: transparent; direction: rtl;' disabled='true' onchange='bindfile()'/>");
+                //document.getElementById("TxtJustification").readOnly = false;
+                //alert("yes");
+                $("#TxtJustification").prop('readonly', false);
+                $("#getFile").prop('disabled', true);
+				
+                document.getElementById("TxtJustification").focus();
+                //document.getElementById("filename").innerHTML="";
+				
+                $(".MultiFile-remove").click();
+				 
+                $("#attachFilesContainer input:file").each(function () {
+
+                    $(this).prop('disabled', true);
+                 
+
+               
+                });
+				
+                //document.getElementById("File1").disabled = true;
+                   
+            }
+            else
+            {
+			
+                document.getElementById("TxtJustification").value="";
+                $("#getFile").prop('disabled', false);
+                // document.getElementById("TxtJustification").readOnly = true;
+                // $('#TxtJustification').attr('readonly','true');
+                // alert("no");
+                $("#TxtJustification").prop('readonly', true);
+                $("#star_justification").hide();
+                // $("#star_upload").show();
+                $('#TxtJustification').css({
+
+                    "border": "",
+                    "background": ""
+                });
+				
+                $('#getFile').css({
+
+                    "border": "",
+                    "background": ""
+                });
+                //document.getElementById("getFile").focus();
+                // document.getElementById("AlertMsg").innerHTML = "Please  upload bill receipt"; 
+                // $("#getFile").prop('disabled', false);
+                //document.getElementById("File1").disabled = false;
+				
+                $("#attachFilesContainer input:file").each(function () {
+
+                    $(this).prop('disabled', false);
+                 
+
+               
+                });
+			 
+            }
+        });
+		
+
+        $('.right-icon').click(function () 
+        {
+            $("#TxtDate").datepicker('show');
+        });
+        function setCurrencySelectedValUpdate(element_id, currency_id) {
+            var element = document.getElementById(element_id);           
+            element.value = currency_id;
+        }
+		
+        function add_success_exp_msg(message,type) 
+        {
+		
+            //console.log(type);
+            
+            document.getElementById("Alert_msg").innerHTML=message;	
+		
+            document.getElementById("TxtAmount").readOnly = true;
+            document.getElementById("TxtJustification").readOnly = true;
+		
+            //$('#per-info-suc').text(message);
+            // $("#per-info-suc").fadeIn("slow");
+            $("#per-info-suc").fadeOut(2000, function () {
+                if (type == 'save-close' || type == 'update') {
+                    hidemodal();
+                    $("#alertmain").show();
+                }
+                else if(type == 'save-create') {
+                    // hidemodal();
+                    showmodal1('Add');
+                    $('#ExpenseItem').focus();
+                }
+            });
+        }
+		 
+		
+        function isNumber(evt) {
+		 		
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            //alert(evt.which);
+			 
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) 
+            {
+                return false;
+            }
+            //var myLength = document.getElementById("TxtAmount").val().length;
+			     
+            return true;
+        }
+      
+        function getListprotocol(name) {
+            //alert(name);
+
+            return "SP.Data." + name.charAt(0).toUpperCase() + name.split(" ").join("").slice(1) + "ListItem";
+        }
+
+        function getListItemForUpdate(url, listname, Id, complete) {
+            //alert(Id);
+            //alert("getListItembyid");
+
+            $.ajax({
+
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+                    complete(data);
+
+
+
+
+
+                },
+                error: function (data) {
+                    //  alert("false");   
+                }
+            });
+        }
+		
+        function updateDataWithCurrencyValue(){
+			$('.loader').show();
+            var date = document.getElementById("TxtDate").value;
+            var converted_date='';
+					
+            converted_date=convert_date_YYYYMMDD(date);
+				
+            var convert_to_currency='';
+            var convert_from_currency='';
+            var arr_currency='';
+            var ConversionRate='';
+				
+            var currencyvalText=$('#currency :selected').text();
+                
+					
+					
+            if(advanceTakenCurrencyName.indexOf('-'))
+            {
+                arr_currency=advanceTakenCurrencyName.split('-');
+                convert_from_currency=arr_currency[0].trim();
+					
+            }
+            else
+            {
+                convert_from_currency=advanceTakenCurrencyName.trim();
+            }
+					
+					
+					
+            if(currencyvalText.indexOf('-'))
+            {
+                arr_currency=currencyvalText.split('-');
+                convert_to_currency=arr_currency[0].trim();
+					
+            }
+            else
+            {
+                convert_to_currency=currencyvalText.trim();
+            }
+				
+            var converted_value='';
+	
+            jQuery.ajax({
+                // url: "https://api.fixer.io/latest/'"+forDate+"'",
+                url: "https://apilayer.net/api/convert?access_key=0fa27d4f905c308302afee6da2103f30&from="+convert_to_currency+"&to="+convert_from_currency+"&amount=1&date="+converted_date+"",
+                type: "GET",
+                dataType: 'jsonp',
+                async:false,
+                // contentType: "application/json",
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    converted_value=data.result;
+                    //alert('a1'+converted_value);
+                },
+                complete: function () {
+                    updateData('BconeExpenceLogDetail',converted_value);
+                },
+            });
+        }
+		
+		function updateData(listName,ConversionRate) {
+            if (check_validation('Update')) {
+			
+			
+				$('#load_type_span').text('update');
+				$('#save_type_span').text('update');
+				
+				
+				
+                var itemType = getListprotocol(listName);
+                var expensereportnote = document.getElementById("TxtexpenseNote").value;
+                var amount = document.getElementById("TxtAmount").value;
+                var Justification = document.getElementById("TxtJustification").value;
+                if(Justification!='')
+                {
+    
+                    var delete_file_ids=$('#delete_file_ids').text();
+                    var newids=delete_file_ids.split(',');
+    
+                    for (i = 0; i < newids.length; i++) 
+                    { 
+                        delete_fileByExpenseId(newids[i]);
+                    }
+                }
+                var date = document.getElementById("TxtDate").value;
+                var ExpenseItem = $('#ExpenseItem :selected').val();
+                var currencyval = $('#currency :selected').val();
+
+                var PaymentType = $('#PaymentType :selected').val();
+				
+                var TaskId=$('#ddlProjectPhase :selected').val()
+                var TaskName=$('#ddlProjectPhase :selected').text()
+                var Id_edit = document.getElementById("edit_id").innerHTML;
+                var vvv='#rowhideslow' + Id_edit;
+                var  Key_id = $(vvv).closest('tr').find('td:eq(1)').text().toLowerCase();
+                var status = document.getElementById("TxtStatus").value;
+				
+				var ExpenceItemText = $('#ExpenseItem :selected').text();
+				var ExpenceCurrencyText=$('#currency :selected').text();
+				var PaymentTypeText=$('#PaymentType :selected').text();
+                var BliableToClient = "";
+                var MissingPeparReciept = "";
+				var FileUploadedCount=0;
+                $('#myModal').find(':input').each(function () {
+                    if (this.type == 'radio') {
+                        if (this.checked) {
+                            BliableToClient = this.value;
+                        }
+                    }
+                    if (this.type == 'checkbox') {
+                        if (this.checked) {
+                            MissingPeparReciept = this.value;
+                        }
+                    }
+
+
+                });
+                var attachement = "";
+                var item = {
+                    "__metadata": { "type": itemType },
+                    "Title": '1',
+                    "ExpenseNote": expensereportnote,
+                    "ExpenceItemId": ExpenseItem,
+                    "ExpenceCurrencyId": currencyval,
+                    "ExpensceAmount": amount,
+                    "PaymentTypeId": PaymentType,
+                    "Status": status,
+                    "ExpenseDate": date,
+                    "BliableToClient": BliableToClient,
+                    "MissingPeparReciept": MissingPeparReciept,
+                    "Justification": Justification,
+                    "BillAttachment": attachement,
+                    "TaskId":TaskId,
+                    "TaskName":TaskName,
+                    "ConversionRate":ConversionRate,
+					"PaymentTypeText":PaymentTypeText,
+					"ExpenceItemText":ExpenceItemText,
+					"ExpenceCurrencyText":ExpenceCurrencyText,
+					"FileUploadedCount":FileUploadedCount
+
+                };
+				
+				
+				 
+                getListItemForUpdate(web_url, listName, Id_edit, function (data) {
+                    $.ajax({
+                        url: data.d.__metadata.uri,
+                        type: "POST",
+                        contentType: "application/json;odata=verbose",
+                        data: JSON.stringify(item),
+                        headers: {
+                            "Accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "X-HTTP-Method": "MERGE",
+                            "If-Match": data.d.__metadata.etag
+                        },
+                        success: function (data) {
+                            clear_valiadation('#myModal');
+							
+							var total_numberoffile=0;
+					
+					total_numberoffile=fileArray.length;
+					if(total_numberoffile>0)
+					{
+						//getAttchmentReason(data.d.TrackingNoId,data.d.ID);
+						getAttchmentReason($('#TrackingNo_id').text(),$('#edit_id').text());
+					}
+					else{
+						//getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'save',type);
+						getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'update','update');
+					
+					}
+			
+                
+							
+                            
+                        },
+                        complete:function(data){
+                        },
+                        error: function (data) {
+                            alert(data.responseJSON.error.message.value);
+                            $('.loader').hide();
+                        }
+                    });
+
+                }, function (data) {
+                    //failure(data);
+                });
+            }
+        }
+		
+		
+       
+
+        function getListItemForDelete(url, listname, Id, complete) {
+           
+
+            $.ajax({
+
+                url: url + "/_api/web/lists/GetByTitle('" + listname + "')/items('" + Id + "')",
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+
+                    complete(data);
+                    //alert("getListItembyid1");
+                },
+                error: function (data) {
+                 
+                }
+            });
+        }
+        function DeleteExpenseLog(id, i) {
+            document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to Delete the item?";
+            $('#ok_click').attr('onclick','DeleteExpenseLogTemp("'+id+'","'+i+'")');
+            $("#Confirmation_alert").show();
+        }
+        function DeleteExpenseLogTemp(id, i) {
+            $("#Confirmation_alert").hide();
+            var oTable = $('#student_datatable').dataTable();
+            $('.loader').show();
+
+            var listname = "BconeExpenceLogDetail";
+            var requestUri = _spPageContextInfo.siteAbsoluteUrl;
+            getListItemForDelete(requestUri, listname, id, function (data) {
+                $.ajax({
+                    url: data.d.__metadata.uri,
+                    type: "POST",
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-Http-Method": "DELETE",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "If-Match": data.d.__metadata.etag
+                    },
+                    success: function (data) {
+                        document.getElementById("Alert_msg").innerHTML="Expense Item Deleted Successfully!";	
+                        
+                        //getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'','');
+						 getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'delete','delete');
+
+                    },
+                    complete:function(data){
+					
+                        $("#alertmain").show();
+					
+                    },
+                    error: function (data) {
+
+
+                    }
+                });
+            });
+
+        }
+
+        function getcurrencyValueById(url,listname, id) {
+            var ss;
+            $.ajax({
+                url: web_url + "_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        if(listname!="BconeCurrency")
+                        {
+                            ss = value.Item;
+						
+                            return ss;
+                        }else
+                        {
+                            ss = value.Currency;
+						
+                            return ss;
+						
+                        }
+						
+
+                    });
+
+                },
+                error: function (data) {
+                   
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+            return ss;
+        }
+
+
+        function uploadFile() {
+            $('.loader').show();
+            if (document.getElementById("getFile").files.length === 0) {
+                alert('No file was selected');
+                return;
+            }
+            var parts = document.getElementById("getFile").value.split("\\");
+            var filename = parts[parts.length - 1];
+            var file = document.getElementById("getFile").files[0];
+            //alert(filename);        
+            uploadFileSync(web_url, "BconeBillAttachment", filename, file);
+
+            return filename;
+            // alert("uploadFile");
+
+        }
+
+
+        function uploadFileSync(spWebUrl, library, filename, file) {
+            //alert("uploadFileSync");
+            var reader = new FileReader();
+            reader.onloadend = function (evt) {
+                if (evt.target.readyState == FileReader.DONE) {
+                    var buffer = evt.target.result;
+                    var completeUrl = spWebUrl
+                      + "/_api/web/lists/getByTitle('" + library + "')"
+                      + "/RootFolder/Files/add(url='" + filename + "',overwrite='true')?"
+                      + "@TargetLibrary='" + library + "'&@TargetFileName='" + filename + "'";
+
+                    $.ajax({
+                        url: completeUrl,
+                        type: "POST",
+                        data: buffer,
+                        async: false,
+                        processData: false,
+                        headers: {
+                            "accept": "application/json;odata=verbose",
+                            "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                            "content-length": buffer.byteLength
+                        },
+                        complete: function (data) {
+                            //  alert('succes');
+                            document.getElementById("filename").innerHTML = filename;
+                            $('.loader').hide();
+                            return filename;
+
+
+
+                        },
+                        error: function (err) {
+                            alert('failed');
+                            return filename;
+                        }
+                    });
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+   
+
+
+
+
+        function check_validation(method) {
+            var isValid = true;
+            {
+                var expensereport = document.getElementById("TxtexpenseNote").value;
+                var justification = document.getElementById("TxtJustification").value;
+                
+                var amount = document.getElementById("TxtAmount").value;
+
+
+                var date = document.getElementById("TxtDate").value;
+
+                var Expenseitem = $('#ExpenseItem :selected').text();
+
+
+                var paymenttype = $('#PaymentType :selected').text();
+             
+
+                var currency = $('#currency :selected').text();
+            
+                var ProjectPhase = $('#ddlProjectPhase :selected').val();
+              
+                var n = 0;
+                var receipt_value = "";
+                var receipt = document.getElementsByName('receipt');
+
+                for (var i = 0; i < receipt.length; i++) {
+                    if (receipt[i].checked) {
+                        receipt_value = receipt[i].value;
+                        n++;
+                    }
+                }
+                
+                var bilabel = "";
+
+                var rates = document.getElementsByName('RBbliable1');
+
+                for (var i = 0; i < rates.length; i++) {
+                    if (rates[i].checked) {
+                        bilabel = rates[i].value;
+                    }
+                }
+
+			  
+                if (ProjectPhase == 'select') {
+                    isValid = false;
+                    $('#ddlProjectPhase').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+
+
+
+                    document.getElementById("AlertMsg").innerHTML = "Please select the Phase";
+                    document.getElementById("ProjectPhase").focus();
+
+                    return isValid;
+
+                }
+			  
+
+                if (Expenseitem == 'Select') {
+                    isValid = false;
+                    $('#ExpenseItem').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Expense Item";
+                    document.getElementById("ExpenseItem").focus();
+                    return isValid;
+                }
+				
+                if (currency == 'Select') {
+                    isValid = false;
+                    $('#currency').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Currency";
+                    document.getElementById("currency").focus();
+                    return isValid;
+                }
+				
+				
+                if (expensereport == '') {
+                    isValid = false;
+                    $('#TxtexpenseNote').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "Please Enter the Expense Note";
+                    document.getElementById("TxtexpenseNote").focus();
+					
+                    return isValid;
+
+                }
+				
+                else if (expensereport.length > 500) {
+                    isValid = false;
+                    $('#TxtexpenseNote').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+
+
+
+                    document.getElementById("AlertMsg").innerHTML = "Expense Note can be max 500 character";
+                    document.getElementById("TxtexpenseNote").focus();
+
+                    return isValid;
+
+                }
+			
+                else if(/^[a-zA-Z0-9- ]*$/.test(expensereport) == false)
+                {
+                    isValid = false;
+                    var msg="You have entered an invalid following characters: .(period) \ / : ; | ? ' < > * # ~ % & { } +";
+                    $('#TxtexpenseNote').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = msg;
+                    document.getElementById("TxtexpenseNote").focus();
+                    return isValid;
+                }
+
+
+                
+
+                if (amount == '') {
+
+                    isValid = false;
+                    $('#TxtAmount').css({
+                        "background": "#FFCECE"
+                    });
+					
+                    $('.Amount-right-side').css( "border", "1px solid red" );
+                    document.getElementById("AlertMsg").innerHTML = "Please Enter the Amount ";
+                    document.getElementById("TxtAmount").focus();
+                    return isValid;
+                }
+
+
+
+               
+                else if (paymenttype == 'Select') {
+                    isValid = false;
+                    $('#PaymentType').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Payment Type.";
+                    document.getElementById("PaymentType").focus();
+                    return isValid;
+                }
+                else if (date == '') {
+
+
+                    isValid = false;
+                    $('#TxtDate').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                    document.getElementById("AlertMsg").innerHTML = "Please Enter the Date";
+                    document.getElementById("TxtDate").focus();
+                    return isValid;
+                }
+
+
+                else if (bilabel == '') {
+                    isValid = false;
+                    $('#RBbliable').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Option";
+                    document.getElementById("RBbliable").focus();
+                    return isValid;
+
+                }
+
+                else if (receipt_value =='') {
+                    isValid = false;
+                    $('#Chkreceipt').css({
+
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Option";
+                    document.getElementById("Chkreceipt").focus();
+                    return isValid;
+
+                }
+
+                else if (receipt_value == "Yes") {
+                   
+
+                    if (justification == "")
+                    {
+                        isValid = false;
+                        $('#TxtJustification').css({
+
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+                        document.getElementById("AlertMsg").innerHTML = "Please Enter the Justification For Missing Bill";
+                        document.getElementById("TxtJustification").focus();
+                        return isValid;
+                    }
+                    else if(justification.length > 500)
+                    {
+                        isValid = false;
+                        $('#TxtJustification').css({
+
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+
+
+
+
+                        document.getElementById("AlertMsg").innerHTML = "Justification For Missing Bill can be max 500 character";
+                        document.getElementById("TxtJustification").focus();
+
+                        return isValid;
+                    }
+                    else if(/^[a-zA-Z0-9- ]*$/.test(justification) == false)
+                    {
+                        isValid = false;
+                        var msg="You have entered an invalid following characters: .(period) \ / : ; | ? ' < > * # ~ % & { } +";
+                        $('#TxtJustification').css({
+
+                            "border": "1px solid red",
+                            "background": "#FFCECE"
+                        });
+                        document.getElementById("AlertMsg").innerHTML = msg;
+                        document.getElementById("TxtJustification").focus();
+                        return isValid;
+                    }
+					
+					
+
+                }
+
+            }
+
+            return isValid;
+
+        }
+
+
+
+
+
+
+        function hideerror1(val) {
+            
+            var Expenseitem = $('#' + val + ' :selected').text();
+           
+            if (Expenseitem == "Select") {
+                $('#' + val).css({
+
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                });
+                if(val=="ExpenseItem")
+                {
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Expense Item.";
+                }
+                else if(val=="currency")
+                {
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Currency ";
+                    document.getElementById("currencyspan").innerHTML=""; 
+                }
+                else if(val=="PaymentType")
+                {
+                    document.getElementById("AlertMsg").innerHTML = "Please Select the Payment Type ";
+                    document.getElementById("TxtStatus").value="";
+                }
+                
+				 
+                if(val=="currency")
+                {
+                    document.getElementById("TxtAmount").readOnly = true;
+                    document.getElementById("TxtAmount").value="";
+                }
+            }
+            else {
+			
+                $('#' + val).css({
+
+                    "border": "",
+                    "background": ""
+                });
+
+                document.getElementById("AlertMsg").innerHTML = "";
+                if(val=="PaymentType")
+                {
+                   
+                    if(Expenseitem=="Employee Paid"){
+                        document.getElementById("TxtStatus").value="Reimbursable";
+                    }
+                    else if(Expenseitem=="Company Paid")
+                    {
+			   
+                        document.getElementById("TxtStatus").value="Non Reimbursable";
+                    }
+                    else
+                    {
+                        document.getElementById("TxtStatus").value="";
+                    }
+                }
+			   
+			   
+                if(val=="currency")
+                {
+                   
+                    if(Expenseitem.indexOf("-"))
+                    {
+                        var curr=Expenseitem.split("-");
+                        
+                        document.getElementById("currencyspan").innerHTML=curr[0]; 
+			   
+                    }
+                    else
+                    {
+                        document.getElementById("currencyspan").innerHTML=Expenseitem;
+				 
+                    }
+                }
+			   
+                if(val=="currency")
+                {
+			   
+                    document.getElementById("TxtAmount").readOnly = false;
+                    document.getElementById("TxtexpenseNote").focus();
+                }
+            }
+
+        }
+
+        function hideerror(val) {
+
+
+            $('#' + val).css({
+
+                "border": "",
+                "background": ""
+            });
+			
+            if(val=='TxtAmount')
+            {
+                $('.Amount-right-side').css({"border":""});
+            }
+			
+			
+            document.getElementById("AlertMsg").innerHTML = "";
+        }
+		
+        function clearvalues(selector) {
+            
+			
+            document.getElementById("currencyspan").innerHTML=""; 
+            $(selector).find(':input').each(function () {
+
+                //alert(this.type);
+
+                if (this.type == 'submit') {
+                    //do nothing
+                }
+                else if (this.type == 'checkbox' || this.type == 'radio') {
+                    this.checked = false;
+					
+					 
+                }
+                else if (this.type == 'file') {
+                    //  var control = $(this);
+                    //control.replaceWith(control = control.clone(true));
+                }
+                else if (this.type == 'select-one') {
+                    var control = $(this);
+                    this.selectedIndex = 0;
+                }
+				
+
+                else {
+                    $(this).val('');
+                }
+            });
+
+        }
+		
+		
+        function clear_valiadation(selector)
+        {
+		
+		
+            document.getElementById("currencyspan").innerHTML=""; 
+            $('.Amount-right-side,#RBbliable,#Chkreceipt').css({"border":"","background": ""});
+			
+            $(selector).find(':input').each(function () {
+
+                //alert(this.type);
+
+                if (this.type == 'submit') {
+                    //do nothing
+                }
+                else if (this.type == 'checkbox' || this.type == 'radio') {
+                    this.checked = false;
+					
+                    $(this).css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+                    $(this).css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+                }
+                else if (this.type == 'file') {
+                    var control = $(this);
+                    // control.replaceWith(control = control.clone(true));
+					
+                    // $(this).css({
+
+                    //    "border": "",
+                    //    "background": ""
+                    // });
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+                }
+                else if (this.type == 'select-one') {
+                    var control = $(this);
+                    this.selectedIndex = 0;
+                    $(this).css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+                }
+				
+
+                else {
+                    $(this).val('');
+                    $(this).css({
+
+                        "border": "",
+                        "background": ""
+                    });
+
+                    document.getElementById("AlertMsg").innerHTML = "";
+                }
+            });
+		
+		
+        }
+
+        function showmodal1(type) {
+            $('#myModal').modal('show');
+            $('.modal-backdrop.in').show();
+            $('#update_tr').hide();
+            $('#add_tr').show();
+			
+			 
+            if(type=="update")
+            {
+				$('#update_tr').show();
+				$('#add_tr').hide();
+            }
+            else 
+            {
+			clearvalues('#myModal');
+			
+			var length = $('#ExpenseItem > option').length;
+			if(length=='1')
+				{
+				 $('.loader').show();
+				setTimeout(function(){
+				
+				//getProjectPhases(Project_Id);
+				getListItemData(web_url, 'BconeCurrency');
+				getListItemData(web_url, 'BconeItemMaster');
+				},100);
+				
+				 $('.loader').hide();
+				}
+			
+                $('#outer-popup-a').hide();
+                $("#currency option:contains(" + Expense_currecny + ")").prop('selected', 'selected');
+                hideerror1('currency');
+            }
+            $('#myModal').find(':input').each(function (key,value) {
+                $(this).css('border','');
+                $(this).css('background','');
+            });
+            document.getElementById("AlertMsg").innerHTML = "";
+        }
+        function showmodal() {
+            //$('#outer-popup-a').show();
+            $('#myModal').modal('show');
+            $('.modal-backdrop.in').show();
+            //  $('#update_tr').hide();
+            //   $('#add_tr').show();
+            // clearvalues('#myModal');
+            $('#update_tr').show();
+            $('#add_tr').hide();
+        }
+
+       
+		
+        function GetProjectIdByTrackingId(url, listname, id) {
+		   
+            var project_id="";
+          
+            //  alert("GetExpenceDetailByTrackingNo");
+            //alert("show();");
+            //$('.loader').show();
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+
+                success: function (data) {
+
+
+
+
+                    //alert(data.d.ProjectId);
+					
+                    project_id=data.d.ProjectId;
+                    
+
+                },
+                error: function (data) {
+				
+				
+                    // failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+			
+            return project_id;
+
+        }
+
+        function getListItemData(url, listname) 
+        {
+            var query_cml = '<View><Query><Where><Eq><FieldRef Name="IsActive" /><Value Type="Boolean">1</Value></Eq></Where></Query></View>';
+    
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('"+listname+"')/GetItems",
+                type: "POST",
+				async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+                success: function (data) {
+
+
+
+
+                    $.each(data.d.results, function (key, value) {
+
+                        var class1 = "";
+                       
+                        if (listname == "BconeItemMaster") 
+                        {
+                         
+                            if (value.ItemType == "Expense Item") {
+                                $("#ExpenseItem").append($("<option></option>").val(value.ID).html(value.Item));
+
+                            }
+                            if (value.ItemType == "Payment Type") {
+
+                                $("#PaymentType").append($("<option></option>").val(value.ID).html(value.Item));
+								
+                            
+                            }
+
+                        }
+
+                        else {
+                         
+                            $("#currency").append($("<option></option>").val(value.ID).html(value.Currency));
+                        }
+                    });
+               
+					
+                          
+
+
+                },
+                error: function (data) {
+                    failure(data);
+                }
+            });
+        }
+		
+
+        function getQueryStringValue(key) {
+            return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+       
+        function convert_date(date_to_convert) {
+            //alert(date_to_convert);
+            var m_names = new Array("Jan", "Feb", "Mar",
+                        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                        "Oct", "Nov", "Dec");
+
+            var d = new Date(date_to_convert);
+            
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            var converted_date = curr_date + "-" + m_names[curr_month] + "-" + curr_year;
+
+            return converted_date;
+
+        }
+
+		
+		
+        function GetExpenseAmtSumByCurrencyId(url, listname,id,ExpenceCurrencyId) {
+		
+
+            var temp1="0";
+				
+            var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + id + '</Value></Eq><Eq><FieldRef Name="ExpenceCurrency" /><Value Type="Number">' + ExpenceCurrencyId + '</Value></Eq></And></Where><OrderBy><FieldRef Name="ExpenceCurrency" Ascending="True"/><Value Type="Number" ></Value></OrderBy></Query></View>';
+            //alert(query_cml);
+				
+				
+				
+           
+						
+            // alert(query_cml);
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                type: "POST",
+                async: false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                       
+                    //alert(data.d.results.length);
+                    if (data.d.results.length > 0) {
+                       
+                        $.each(data.d.results, function (key, value) {
+
+                            temp1 = parseInt(temp1) +value.ExpensceAmount;                           
+
+                        });
+						
+						
+                    }
+                    else {
+					
+					
+                    }
+                   
+                    //  $('.loader').hide();
+                    //  $('#student_data').append(table_tr);                                 
+                    // load_datatable_js();
+                   
+
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+            });
+            return temp1;
+        }
+        function bind_dataTable(){
+            $('#ExpenceDataTable').DataTable( {
+                "order": [],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                ]
+             
+            } );
+
+
+            var ExpenceDataTableElement = $('#ExpenceDataTable').DataTable();
+            $('#ExpenceDataTable tfoot th').each( function () {
+                var title = $(this).text();
+                if(title!='Action')
+                {
+                    $(this).html( '<input type="text" placeholder="Search " />' );
+                }
+                else
+                {
+                    $(this).html('');
+                }
+            } );
+            ExpenceDataTableElement.columns().every( function () {
+                var that = this;
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+			
+			
+            if($('.dataTables_empty').text()=='No data available in table')
+                $('#ExpenceDataTable tfoot,.dataTables_length,.dataTables_filter,.dataTables_info,.dataTables_paginate').remove();
+        }
+        function loadBSTooltips()
+        {
+            $('[data-toggle="tooltip"]').tooltip(); 
+        }
+        function cleardata() {
+            $('#jqxgrid_container').empty();
+
+            $("#jqxgrid_container").append("<table id='ExpenceDataTable' class='display example table table-bordered' cellspacing='0' width='100%'></table>")
+               
+        }
+			
+       function getDataByListName(url, listname, TrackingNo,load_type,save_type) {
+            isINRCurrency=true;
+			if(save_type=='save-close'|| save_type=='save-create')
+			{
+			add_success_exp_msg('Expense Item Added Successfully!',save_type);
+            }
+			 else if(save_type=='update')
+			 {
+			 add_success_exp_msg('Expense Item Updated Successfully!',save_type);
+			 }
+			
+            $('.loader').show();
+            jsonObj = [];
+            var trackingno = '';
+            var title = '';
+
+            var status = '';
+            var advanceamount = '';
+
+            var list_name = listname;
+            var i = "0";
+            var url1 = url;
+            var rowhide = "";
+
+            var Project_Name = "Project Name";
+            var Pending_With = "Pending With";
+            var Reimbursed_Total_Money = "Reimbursed_Total_Money";
+            var Balance = "Balance";
+            var fromdate = "";
+            var ReportCreatedDate = "";
+            var converted_date = "";
+
+            var ModifiedDate = "";
+
+            var openstatus_count = 0;
+            var submittedstatus_count = 0;
+            var approvedstatus_count = 0;
+            var rejectedstatus_count = 0;
+            var reimburesedstatus_count = 0;
+            var ReSubmittedExpenceCount = 0;
+            var curreuncyvalue = 0;
+            var advance = "";
+            var tooltip_date = "";
+            var allrecord_count = 1;
+            var redirect_tolink = "";
+            var expenceid = '';
+            var curr = '';
+
+            var data = '';
+            var condition_report_status="";
+			
+			
+            var table_header="";
+            var table_body="";
+            var table_element="";
+            var query_cml="";
+			
+            condition_report_status=Expense_Status;
+            cleardata();
+            query_cml = '<View><Query><Where><Eq><FieldRef Name="TrackingNo" /><Value Type="Number">' + TrackingNo + '</Value></Eq></Where><OrderBy><FieldRef Name="ExpenseDate" Ascending="False"/><Value Type="DateTime" IncludeTimeValue="True"></Value></OrderBy></Query></View>';
+           
+            table_header="<thead><tr>";
+            if(condition_report_status=='Open')
+            {
+                table_header=table_header +"<th style='width:50px !important;'>Action</th>";
+                table_header=table_header +"<th style='width:40px !important;'>Ref No</th> ";
+                table_header=table_header +"<th>Project Phase</th>";
+                table_header=table_header +"<th>Item</th>";
+                table_header=table_header +"<th >ER Amount</th>";
+                // table_header=table_header +"<th>ER Currency</th>";
+                table_header=table_header +"<th>Expense Note</th>";
+                table_header=table_header +"<th>Amount</th>";
+                table_header=table_header +"<th>Payment Type</th>";
+                table_header=table_header +"<th>Expense Date</th>";
+                table_header=table_header +"<th>Billable</th>";
+                table_header=table_header +"</tr></thead>";
+                //footer menu	
+                table_header=table_header +"<tfoot><tr>";
+                table_header=table_header +"<th >Action</th>";
+                table_header=table_header +"<th >Ref No</th> ";
+                table_header=table_header +"<th>Project Phase</th>";
+                table_header=table_header +"<th>Item</th>";
+                table_header=table_header +"<th >ER Amount</th>";
+                //table_header=table_header +"<th>ER Currency</th>";
+                table_header=table_header +"<th>Expense Note</th>";
+                table_header=table_header +"<th>Amount</th>";
+                table_header=table_header +"<th>Payment Type</th>";
+                table_header=table_header +"<th>Expense Date</th>";
+                table_header=table_header +"<th style='width:80px !important;'>Billable</th>";
+                table_header=table_header +" </tr></tfoot>";
+            }
+            else
+            {
+                table_header=table_header +"<th style='width:70px !important;'>Attachment</th>";
+                table_header=table_header +"<th style='width:40px !important;'>Ref No</th> ";
+                table_header=table_header +"<th>Project Phase</th>";
+                table_header=table_header +"<th>Item</th>";
+                table_header=table_header +"<th >ER Amount</th>";
+                //table_header=table_header +"<th>ER Currency</th>";
+                table_header=table_header +"<th>Expense Note</th>";
+                table_header=table_header +"<th>Amount</th>";
+                table_header=table_header +"<th>Payment Type</th>";
+                table_header=table_header +"<th>Expense Date</th>";
+                table_header=table_header +"<th>Billable</th>";
+                table_header=table_header +"</tr></thead>";
+                //footer menu	
+                table_header=table_header +"<tfoot><tr>";
+                table_header=table_header +"<th >Attachment</th>";
+                table_header=table_header +"<th >Ref No</th> ";
+                table_header=table_header +"<th>Project Phase</th>";
+                table_header=table_header +"<th>Item</th>";
+                table_header=table_header +"<th >ER Amount</th>";
+                // table_header=table_header +"<th>ER Currency</th>";
+                table_header=table_header +"<th>Expense Note</th>";
+                table_header=table_header +"<th>Amount</th>";
+                table_header=table_header +"<th>Payment Type</th>";
+                table_header=table_header +"<th>Expense Date</th>";
+                table_header=table_header +"<th style='width:80px !important;'>Billable</th>";
+                table_header=table_header +" </tr></tfoot>";
+			
+            }
+            $.ajax({
+               
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/Web/Lists/getbytitle('BconeExpenceLogDetail')/GetItems",
+                type: "POST",
+                async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+				
+                    //console.log(data);
+				
+				
+                    //alert('success');
+                    var curreny_amt_array=[];
+                    var rowhide;
+                    var i = "0";
+                    var table_tr = "";
+
+                    var table_tr_edit = "";
+                    if (data.d.results.length > 0) {
+                        FinalExpenseValue="0";
+						
+                        $.each(data.d.results, function (key, value) { 
+                            FinalExpenseValue = Number(value.FinalExpenseValue) + Number(FinalExpenseValue);
+                            if(value.ExpenceCurrencyId!='1')
+                            {
+                                if(isINRCurrency)
+                                {
+                                    isINRCurrency=false;
+                                }
+								
+                            }
+								
+						
+						
+                            rowhide = "rowhideslow" + value.ID + "";
+                            $('#refine_currency_Bind').show();
+                            i++;
+                            var action="";
+							var file_upload_count=0;
+                            var ref_no=i;
+                            var projectpahse=value.TaskName;
+                            var Expense_item = value.ExpenceItemText;
+                            var expense_note=value.ExpenseNote;
+                            var exp_amount = "0.00";
+                            var payment_type = value.PaymentTypeText;
+                            var expensedate=convert_date(value.ExpenseDate);
+                            var billabletoclient=value.BliableToClient;
+							var Currency="";
+							 var curr_val;
+							if(value.ExpenceCurrencyText!=null)
+							{
+                             Currency= value.ExpenceCurrencyText;
+							}
+                           
+                            if(Currency.indexOf("-"))
+                            {
+                                var curr=Currency.split("-");
+			
+                                curr_val=curr[0]; 
+                            } else {
+                                curr_val=Currency;
+                            }
+							
+							if(save_type=='FirstTimeLoad' || save_type=='delete' )
+							{
+							file_upload_count=value.FileUploadedCount;
+							}
+							else
+							{
+							file_upload_count=getUploadedFiles_Count(value.ID);
+							}
+							
+							
+                            allrecord_count++;
+                            ReportCreatedDate = value.Modified;
+
+                            rowhide = "rowhideslow" + i + "";
+
+                            curreuncyvalue = "";
+                            advance = "0.00";
+
+
+                            if (value.ExpensceAmount != null) {
+                                advance = value.ExpensceAmount;
+                                //console.log(advance);
+                                if (advance.toString().indexOf('.')) {
+                                    //if(advance.includes('.')){
+                                    //console.log(advance);
+                                    advance = advance + ".00";
+                                }
+                                else {
+                                    advance = advance + ".00";
+
+                                }
+
+
+
+                            }
+
+                            curreuncyvalue = value.currencytext;
+
+                            if (curreuncyvalue == null) {
+                                curreuncyvalue = "";
+
+                            }
+                            else {
+
+                                Expenseitem = curreuncyvalue;
+
+
+                                if (Expenseitem.indexOf("-")) {
+                                    curr = Expenseitem.split("-");
+                                    curreuncyvalue = curr[0];
+                                }
+                                else {
+                                }
+
+                            }
+                            expenceid = value.ID;
+							
+                            curreny_amt_array.push(curr_val+"-"+value.ExpensceAmount+"-"+value.ExpenceCurrencyId);
+                           
+                            
+                            if(condition_report_status=="Open")
+                            {
+                                $("#Add_item").show();
+                                
+                                if(value.Justification==null)
+                                {
+                                    var inner="inner";
+                                    var outer="outer";
+									
+                                   // var count=getUploadedFiles_Count(value.ID);
+								    //var count=0;
+                                    if(file_upload_count>0)
+                                    {
+                                        action = "<a style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='display:inline-block;margin:0 3px;cursor:pointer;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 14px;' ></i></a>";
+                                    }
+                                    else
+                                    {
+                                        action = "<a  style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a>";
+                                    }
+
+                                }							
+                                else 
+                                {
+                                    action = "<a style='cursor:pointer;display:inline-block;margin:0 3px;' data-toggle='tooltip' data-placement='top' title='Edit' onclick='getListItemByIdForUpdate(\"" + url + "\",\"" + list_name + "\",\"" + value.ID + "\",\"" + rowhide + "\");showmodal1(\"update\");'><i class='fa fa-pencil'></i></a> <a data-toggle='tooltip' data-placement='top' title='Delete' style='cursor:pointer;margin:0 3px;display:inline-block;' onclick='DeleteExpenseLog(" + value.ID+ ",\"" + rowhide + "\")'><i class='fa fa-trash'></i></a><a style='cursor:pointer;margin:0 3px;display:inline-block;' data-toggle='tooltip' data-placement='top'  title=\""+value.Justification+"\"><i class='fa fa-commenting' style='color:#333;font-size: 14px;'></i></a>";
+                                }
+							  
+							 
+							  
+                            }
+                            else
+                            {
+                              
+                                $("#Add_item").hide();
+								
+                                if(value.Justification==null)
+                                {
+                                    var inner="inner";
+                                    var outer="outer";
+									
+                                   // var count=getUploadedFiles_Count(value.ID);
+								  //  var count=0;
+                                    if(file_upload_count>0)
+                                    {
+                                        action = "<a style='cursor:pointer;' onclick='openouterfileattach(\""+i+"\"); getUploadedFiles(\"" + value.ID+ "\",\""+outer+"\");'> <i class='fa fa-paperclip' style='color:#5cb85c;font-size: 16px;' ></i></a>";
+                                    }
+                                    else
+                                    {
+                                        action = "";
+                                    }
+
+                                }							
+                                else 
+                                {
+                                    action = "<a style='cursor:pointer;' data-toggle='tooltip' data-placement='top'  title=\""+value.Justification+"\"><i class='fa fa-commenting' style='color:#333;font-size: 16px;'></i></a>";
+                                }
+							 
+                            }
+							
+							
+                            if (value.FinalExpenseValue != null) {
+                                exp_amount = value.FinalExpenseValue;
+                                if (exp_amount.toString().indexOf(".")) 
+                                {
+                                    exp_amount=parseFloat(exp_amount).toFixed(2);
+                                }
+                                else {
+                                    exp_amount = exp_amount + ".00";
+                                }
+                            }
+                            var ERAmount_Currency='';
+                            ERAmount_Currency="<div style='text-align:right;'>"+exp_amount +"<span style='color: #ababab;margin-left: 6px;'>"+ Expense_currecny +"</span></div>";
+                            //exp_amount="<div style='text-align:right;'>"+exp_amount+"</div>";
+                            curr_val="<div style='text-align:right;'>"+advance +"<span style='color: #ababab;margin-left: 6px;'>"+ curr_val +"</span></div>";
+                            expense_note="<a style='display: inline-block;cursor:pointer; text-decoration:none;' data-toggle='tooltip' data-placement='top'  title=\""+expense_note+"\">"+ expense_note +"</a>";
+                            expensedate="<span>"+ expensedate +"</span>";
+							
+                            table_body=table_body+"<tr>";
+                            table_body=table_body+"<td>"+action+"</td>";
+                            table_body=table_body+"<td>"+ref_no+"</td>";
+                            table_body=table_body+"<td>"+projectpahse+"</td>";
+                            table_body=table_body+"<td>"+Expense_item+"</td>";
+                            table_body=table_body+"<td>"+ERAmount_Currency+"</td>";
+                            //table_body=table_body+"<td>"+Expense_currecny+"</td>";
+                            table_body=table_body+"<td>"+expense_note+"</td>";
+                            table_body=table_body+"<td>"+curr_val+"</td>";
+                            table_body=table_body+"<td>"+payment_type+"</td>";
+                            table_body=table_body+"<td>"+expensedate+"</td>";
+                            table_body=table_body+"<td>"+billabletoclient+"</td>";
+							
+                            table_body=table_body+"</tr>"
+                        });
+                        table_body=table_body+"/<tbody>";
+                    }
+                    else {
+                      //  $('.loader').hide();
+                        $("#Add_item").show();
+                        $('#Expense_submit').hide();
+                        document.getElementById("count").value=0;
+                        $('#refine_currency_Bind').hide();
+                    }
+                    table_element=table_header+table_body;
+                },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    
+                },
+                complete: function () {
+                    $('#ExpenceDataTable').html(table_element);
+					
+                    bind_dataTable();
+                    loadBSTooltips();
+					
+                    $('.loader').hide();
+					
+					setTimeout(function(){
+					getProjectPhases(Project_Id);
+					},1000)
+                }
+            });
+        }
+		
+		function GetExpenceDetailByTrackingNo(url, listname, TrackingNo) {
+            var status="";
+
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + TrackingNo + ")",
+                async: false,
+                method: "GET",
+                headers: { "Accept": "application/json; odata=verbose" },
+
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $('#ddlProject').append("<option value = '" + value.ProjectId + "'>" + value.Projectname + "</option>"); 
+						resubmit_count=value.ReSubmitCount;
+						Expense_Status=value.ReportStatus;
+                        document.getElementById("ExpenseName").innerHTML = value.ExpenseReportName;
+                        document.getElementById("Navigate_status").innerHTML = value.ReportStatus;
+                        document.getElementById("ExpenseProjectName").innerHTML = value.Projectname;
+						Expense_currecny=value.ExpenseCurrencyText;
+						ExpenseTrackingNo=value.ExpenseTrackingNo;
+						loginid=value.EmployeeId;
+						Project_Id=value.ProjectId;
+						IsExpensePresent=true;
+                        MyEmpName=value.EmployeeName;
+                        var CurrencyId=value.ExpenseCurrencyId;
+                        EmpBaseLocation=value.EmpBaseLocation;
+                        advanceTakenCurrencyName=value.ExpenseCurrencyText;
+                        if(CurrencyId!='1' &&CurrencyId!=''&&CurrencyId!=null)
+                        {
+                            isAdvanceTakenINR=false;
+                        }
+							
+                        if(EmpBaseLocation!='Bangalore')
+                        {
+                            isBaseLocationBengluru=false;
+                        }
+                        if(value.ReportStatus=="Open")
+                        {
+                            status=value.ReportStatus;
+                            if(document.getElementById("count").value!=0)
+                            {
+                                $('#Expense_submit').show();  
+                            }
+                            $('#Expense_Resubmit').hide();
+                            $('#Approved').hide();
+                            $('#Reject').hide();
+                        }
+                        else if(value.ReportStatus=="Submitted")
+                        {
+                            status=value.ReportStatus;
+                            $('#Expense_submit').hide();
+                            $('#Approved').hide();
+                            $('#Reject').hide();
+                        }
+                        else  if (value.ReportStatus =="Approved" || value.ReportStatus=="Approver 2 Approved" || value.ReportStatus=="Approver 1 Approved" || value.ReportStatus=="Manager Approved")
+                        {
+                            status=value.ReportStatus;
+                            $('#Expense_Resubmit').hide();
+                            $('#Expense_submit').hide();
+                            $('#Approved').show();
+                            $('#Reject').hide();
+                        }
+						
+                        else if (value.ReportStatus =="Rejected" || value.ReportStatus=="Approver 2 Rejected" || value.ReportStatus=="Approver 1 Rejected" || value.ReportStatus=="Manager Rejected")			
+                        {
+                            status=value.ReportStatus;
+                            $('#Expense_submit').hide();
+                            $('#Approved').hide();
+                            $('#Reject').show();
+                        }
+						
+                        submit_pendingwith_name=value.Approver1Name;
+                        submit_pendingwith_id=value.Approver1;
+						
+                    });
+				
+
+                },
+                complete: function(data){
+               
+                },
+                error: function (data) {
+                    failure(data);
+                    alert(data.responseJSON.error.message.value);
+                }
+            });
+          
+
+        }
+      
+        function Currency_refine(url, listname, id,Temp)
+        {
+            //alert(Temp.length);
+            var temp="";
+            var myString=Temp.sort();
+            //alert("myString"+myString)
+            //var mySplitResult = myString.split(',');
+            var rowhide = "";
+            var listName="BconeExpenceLogDetail";
+            var ul_div="<a class='green-btn'  id='All_Currency'  style='color:white;cursor: default; text-decoration:none;'>All</a>";
+            for(i = 0; i < myString.length; i++){	
+                //alert(myString[i]);
+                var ss=myString[i];
+                var b=ss.split("-");
+                // alert(b[2]);
+                if(temp==b[0])
+                { 
+                }
+                else
+                { 											  
+                    temp=b[0];
+                    // alert(b[2]);
+                    var Sum_amount= GetExpenseAmtSumByCurrencyId(url, listname, id,b[2]);
+                    //alert("Sum_amount"+  Sum_amount);
+														  
+                    ul_div= ul_div +"<a style='color:white;cursor: default; text-decoration:none' id="+b[0]+" class='blue-btn' >"+Sum_amount+" - "+b[0]+"</a>";
+													   
+                }
+            }
+
+            $('#refine_currency_Bind').html(ul_div);
+		
+        }
+        
+        function hidemodal() {
+            //alert("showmodal");
+            $('#myModal').modal('hide');
+            $('.modal-backdrop.in').hide();
+
+
+        }
+        function convert_amount()
+        {
+		
+            var current_val=$('#TxtAmount').val();
+            //alert(current_val);
+            // var updated_val='';
+            //if(current_val!='' && current_val!='0')
+            // {
+            // alert(current_val);
+            // updated_val=(current_val).toFixed(2);
+            // }
+            // alert(updated_val);
+            if(current_val!=''){
+                var num = parseFloat(current_val);
+                //alert(num.toFixed(2)); // "2.40"
+                $('#TxtAmount').val(num.toFixed(2));
+            }
+				
+        }
+		
+		
+        $('#TxtAmount').mouseout(function(){
+            //alert('hi');
+            convert_amount();
+        });
+				
+        $("#TxtAmount").blur(function(){
+            convert_amount();
+            //alert("This input field has lost its focus.");
+        });
+			
+			
+			
+        $("input[id*='TxtAmount']").keydown(function (event) {
+
+
+            if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+		
+            //alert(event.keyCode);
+
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || 
+                (event.keyCode >= 96 && event.keyCode <= 105) || 
+                event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+
+            } else {
+                event.preventDefault();
+            }
+
+            if($(this).val().indexOf('.') !== -1 && event.keyCode == 190 || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)
+                event.preventDefault(); 
+            //if a decimal has been added, disable the "."-button
+
+        });
+
+
+       
+
+        function AddExpenseLog(web_url, TrackingNo, listname, expensereportnote, ExpenseItem, currencyval, PaymentType, currencyval, date, amount, Justification, attchment,BliableToClient, MissingPeparReciept,type,status,TaskId,TaskName,ConversionRate,PaymentTypeText ,ExpenceItemText ,ExpenceCurrencyText) {
+          
+            var projectId=$('#ddlProjectPhase :selected').val();
+            var projectName=$('#ddlProjectPhase :selected').text();
+            var start = new Date();
+            var count=document.getElementById("count").value;
+            var oTable = $('#student_datatable').dataTable();
+            var typedata = getListprotocol(listname);
+			var FileUploadedCount="0";
+            var item = {
+                "__metadata": { "type": typedata },
+                "Title": '1',
+                "TrackingNoId": TrackingNo,
+                "ExpenseNote": expensereportnote,
+                "ExpenceItemId": ExpenseItem,
+                "ExpenceCurrencyId": currencyval,
+                "ExpensceAmount": amount,
+                "PaymentTypeId": PaymentType,
+                "Status": status,
+                "ExpenseDate": date,
+                "BliableToClient": BliableToClient,
+                "MissingPeparReciept": MissingPeparReciept,
+                "Justification":Justification,
+                "BillAttachment": attchment,
+                "TaskId":TaskId,
+                "TaskName":TaskName,
+                "ConversionRate":ConversionRate,
+                "PaymentTypeText":PaymentTypeText,
+                "ExpenceItemText":ExpenceItemText,
+                "ExpenceCurrencyText":ExpenceCurrencyText,
+				"FileUploadedCount":FileUploadedCount
+            };
+
+
+
+
+            $.ajax({
+                url: web_url + "/_api/web/lists/getbytitle('" + listname + "')/items",
+
+                type: "POST",
+                async:false,
+                contentType: "application/json;odata=verbose",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+				var fileArray = [];
+                    $("#attachFilesContainer input:file").each(function () {
+                        if ($(this)[0].files[0]) {
+                            fileArray.push({ "Attachment": $(this)[0].files[0] });
+
+                        }
+                    });
+
+                    //alert('a');
+                    //console.log(fileArray);
+					var total_numberoffile=0;
+					
+					total_numberoffile=fileArray.length;
+					if(total_numberoffile>0)
+					{
+						getAttchmentReason(data.d.TrackingNoId,data.d.ID);
+					}
+					else{
+						getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'save',type);
+					
+					}
+                    clearvalues('#myModal');
+					//getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'save',type);
+                    clear_valiadation('#myModal');
+                    setTimeout(function(){ 
+                        //var FileUploadedCount=0;
+                        //FileUploadedCount=getUploadedFiles_Count(data.d.ID);
+                       // updateFileCount(listname,web_url,data.d.ID,FileUploadedCount);
+					
+                    }, 4000);
+                    //return true;
+
+
+                },
+                complete: function(data){
+                },
+                error: function (data) {
+                    alert("error");
+                    alert(data.responseJSON.error.message.value);
+                   // return false;
+
+                }
+            });
+
+
+        }
+		
+        function getUploadedFiles(ExpenseItemId,type){
+          
+            // alert('getUploadedFiles');
+          
+          
+            var docurl = "/sites/Dev/BconeBillAttachment/1234";
+            $().SPServices({                                          //Query Raised Documents
+                operation: "GetListItems",
+                async: false,
+                listName: "BconeBillAttachment",
+                CAMLQuery: "<Query><Where><Eq><FieldRef Name='ExpenseItemId'/><Value Type='Text'>"+ExpenseItemId+"</Value></Eq></Where><OrderBy><FieldRef Name='Modified' Ascending='False' /></OrderBy></Query>",
+                //CAMLQuery: "<Query><Where><Eq><FieldRef Name='FileDirRef'/><Value Type='Text'>" + docurl + "</Value></Eq></Where></Query>",
+                CAMLViewFields: "<ViewFields><FieldRef Name='FileLeafRef' /><FieldRef Name='EncodedAbsUrl' /></ViewFields>",
+                CAMLQueryOptions: "<QueryOptions><ViewAttributes Scope='RecursiveAll'/></QueryOptions>",
+            
+                completefunc: function (xData, Status) {
+                    if(type=='inner')
+                    {
+                        var file_ids='';
+                        $('#delete_file_ids').text('');
+                        //console.log(xData);
+                        //alert($(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount"));
+                        raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                        var temp = $(this).attr("ows_Created_x0020_Date");
+                        var temp2 = $(this).attr("ows_Last_x0020_Modified");
+                        var ID = '';
+                        //alert(temp);
+                        $(".raisedDocumnts").remove();
+                        $("#uploaded_files").empty();
+    
+                        var upload_file_id=0;
+                        var remove_id='';
+                        $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                            upload_file_id++;
+                            remove_id='remove'+upload_file_id;
+    
+                            ID=$(this).attr("ows_ID");
+    
+                            if(file_ids=='')
+                            {
+                                file_ids=ID;
+                            }
+                            else
+                            {
+                                file_ids=file_ids+","+ID;
+                            }
+                            var href=$(this).attr("ows_EncodedAbsUrl");
+                            //alert(href);
+    
+                            var file_html="<tr id="+remove_id+"><td>"+$(this).attr('ows_FileLeafRef').split('#')[1]+"</td>";
+                            file_html=file_html+"<td class='text-center' style='width:30px;'><a href="+href+" download ><i class='fa fa-download'></i></a></td>";
+  
+                            file_html=file_html+"<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\""+remove_id+"\",\""+ID+"\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+                            file_html=file_html+" </tr>";
+ 
+                            //alert(file_html);
+                            var liHtml = "<li class='raisedDocumnts'><a href=" + $(this).attr("ows_EncodedAbsUrl") + ">" + $(this).attr("ows_FileLeafRef").split('#')[1] + "</a></li>";
+                            $("#uploaded_files").append(file_html);
+                            //console.log(liHtml);
+                            currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                        });
+    
+                        //console.log(file_ids);
+                        $('#delete_file_ids').text(file_ids);
+    
+                        $('#uploaded_file_count').text(raisedDocument);
+                        //alert(raisedDocument);
+                        if (raisedDocument > 0) {
+                            $('#outer-popup-a').show();
+                            //   document.getElementById('imgQueryRaisedDoc').style.visibility = 'visible';
+                            //  document.getElementById('imgQueryRaisedDoc').title = currentQuery;
+                        } else {
+                            var file_html="<tr><td colspan='3' style='text-align:center'>No file found</td>";
+                            file_html=file_html+" </tr>";
+                            $("#uploaded_files").append(file_html);
+                            $('#outer-popup-a').hide();
+                            // document.getElementById('imgQueryRaisedDoc').style.visibility = 'hidden';
+                        }
+                    }
+                    else if(type=='outer')
+                    {
+   
+   
+                        //alert($(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount"));
+                        raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                        var temp = $(this).attr("ows_Created_x0020_Date");
+                        var temp2 = $(this).attr("ows_Last_x0020_Modified");
+                        var ID = '';
+                        //alert(temp);
+                        $(".raisedDocumnts").remove();
+                        $("#inner_tbody").empty();
+    
+                        var upload_file_id=0;
+                        var remove_id='';
+                        $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                            upload_file_id++;
+                            remove_id='remove'+upload_file_id;
+    
+                            ID=$(this).attr("ows_ID");
+                            //alert(ID);
+    
+                            var href=$(this).attr("ows_EncodedAbsUrl");
+                            //alert(href);
+    
+                            var file_html="<tr id="+remove_id+"><td>"+$(this).attr('ows_FileLeafRef').split('#')[1]+"</td>";
+                            file_html=file_html+"<td class='text-center' style='width:30px;'><a href="+href+" download ><i class='fa fa-download'></i></a></td>";
+  
+                            // file_html=file_html+"<td class='text-center' style='width:30px;'><a onclick='delete_file_temp(\""+remove_id+"\",\""+ID+"\")' href='javascript:void(0)'><i class='fa fa-trash-o'></i></a></td>";
+                            file_html=file_html+" </tr>";
+ 
+                            //alert(file_html);
+                            var liHtml = "<li class='raisedDocumnts'><a href=" + $(this).attr("ows_EncodedAbsUrl") + ">" + $(this).attr("ows_FileLeafRef").split('#')[1] + "</a></li>";
+                            $("#inner_tbody").append(file_html);
+                            currentQuery = $(this).attr("ows_FileLeafRef").split('#')[1];
+                        });
+    
+                        $('#uploaded_file_count').text(raisedDocument);
+                        if (raisedDocument > 0) {
+                        } else {
+                            var file_html="<tr><td colspan='3' style='text-align:center'>No file found</td>";
+                            file_html=file_html+" </tr>";
+                            $("#inner_tbody").append(file_html);
+                        }
+                    }
+                }
+            });
+          
+          
+        }
+										
+        function delete_file_temp(hide_id,id){
+            document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to Delete the item?";
+            $('#ok_click').attr('onclick','delete_file("'+hide_id+'","'+id+'")');
+            $("#Confirmation_alert").show();
+										
+        }
+										
+        function delete_file(hide_id,id){
+            //alert("deleteexpense");
+            //alert(i);          			
+            //destroyjs();
+           
+            // oTable.fnDeleteRow('#' + i);
+            $('.loader').show();
+
+            var listname = "BconeBillAttachment";
+            //alert(listname);
+            var requestUri = _spPageContextInfo.siteAbsoluteUrl;
+            // alert(requestUri);
+
+            getListItemForDelete(requestUri, listname, id, function (data) {
+
+                //alert('getListItem1 function Returning');
+
+                $.ajax({
+                    url: data.d.__metadata.uri,
+                    type: "POST",
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-Http-Method": "DELETE",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "If-Match": data.d.__metadata.etag
+                    },
+                    success: function (data) {
+                        //alert("Expence Item Deleted Successfully");
+						  
+                        $("#Confirmation_alert").hide();
+                        $('.loader').hide();
+                        $("#alertmain").show();
+                        document.getElementById("Alert_msg").innerHTML="Expense Item Deleted Successfully!";	
+                       
+                        // getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'','');
+						
+                        //  oTable.fnDeleteRow('#' + i);
+                                  
+                        $('#' + hide_id).fadeOut();
+						
+                        var file_count=$('#uploaded_file_count').text();
+                        file_count=file_count-1;
+                        $('#uploaded_file_count').text(file_count);
+						
+						
+                        //destroyjs();
+                        // var table = $('#student_datatable').DataTable();
+                        // table.ajax.reload();
+                        //$('.loader').hide();                                        							
+                        // $('#student_datatable').DataTable();
+                        // destroyjs();
+                        // loaddata(web_url, 'BconeExpenceMaster', TrackingNo,'','');
+                        // loaddata1(web_url, 'BconeExpenceMaster', TrackingNo,'','');
+
+                    },
+                    error: function (data) {
+
+
+                    }
+                });
+            });						
+        }						
+        function getUploadedFiles_Count(ExpenseItemId){
+          
+            var docurl = "/sites/Dev/BconeBillAttachment/1234";
+            var raisedDocument=0;
+            $().SPServices({                                          //Query Raised Documents
+                operation: "GetListItems",
+                async: false,
+                listName: "BconeBillAttachment",
+                CAMLQuery: "<Query><Where><Eq><FieldRef Name='ExpenseItemId'/><Value Type='Text'>"+ExpenseItemId+"</Value></Eq></Where><OrderBy><FieldRef Name='Modified' Ascending='False' /></OrderBy></Query>",
+                //CAMLQuery: "<Query><Where><Eq><FieldRef Name='FileDirRef'/><Value Type='Text'>" + docurl + "</Value></Eq></Where></Query>",
+                CAMLViewFields: "<ViewFields><FieldRef Name='FileLeafRef' /><FieldRef Name='EncodedAbsUrl' /></ViewFields>",
+                CAMLQueryOptions: "<QueryOptions><ViewAttributes Scope='RecursiveAll'/></QueryOptions>",
+            
+                completefunc: function (xData, Status) {
+			
+                    //console.log(xData);
+   
+  
+
+                    //alert($(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount"));
+                    raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+				
+               
+           
+  
+                }
+            });
+          
+            return raisedDocument;
+          
+        }
+
+
+
+        function getListItemByIdForUpdate(url, listname, id, i) {
+		
+		var length = $('#currency > option').length;
+			if(length=='1')
+				{
+				 $('.loader').show();
+				setTimeout(function(){
+				length= $('#ddlProjectPhase > option').length;
+				if(length=='1')
+				getProjectPhases(Project_Id);
+				
+				},1);
+				getListItemData(web_url, 'BconeCurrency');
+				getListItemData(web_url, 'BconeItemMaster');
+				
+				// $('.loader').hide();
+				}
+		
+            getUploadedFiles(id,'inner');
+           
+            clearvalues('#myModal');
+
+            $("#getFile").replaceWith("<input type='file' id='getFile' disabled='true'  style='width: 98px;color: transparent; direction: rtl;' onchange='bindfile()'  class='file-upload'/>");
+
+            var table_tr_edit = "";
+
+            $('.loader').show();
+
+            var rowhide = "rowhideslow" + id + "";
+
+            document.getElementById("edit_id").innerHTML = id;
+            document.getElementById("TrackingNo_id").innerHTML =  getQueryStringValue("TrackingNo");
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" + listname + "')/items(" + id + ")",
+                method: "GET",
+				async:false,
+                headers: { "Accept": "application/json; odata=verbose" },
+                success: function (data) {
+                    $('.loader').hide();
+                    var element = document.getElementById('ExpenseItem');
+                    element.value = data.d.ExpenceItemId;
+
+                    var element = document.getElementById('currency');
+                    element.value = data.d.ExpenceCurrencyId;
+
+                    var element = document.getElementById('PaymentType');
+                    element.value = data.d.PaymentTypeId;
+                    if(data.d.TaskId!=null)
+                    {
+                        var element = document.getElementById('ddlProjectPhase');
+                        element.value = data.d.TaskId;
+                    }
+
+                    $('#TxtexpenseNote').val(data.d.ExpenseNote);
+                    hideerror1('PaymentType');
+                    hideerror1('currency');
+                    $('#TxtAmount').val(data.d.ExpensceAmount);
+                    var converteddate=convert_date(data.d.ExpenseDate);
+                    // alert(converteddate);
+                    $('#TxtDate').val(converteddate);
+                    $('#TxtJustification').val(data.d.Justification);
+                    // document.getElementById("filename").innerHTML = data.d.BillAttachment;
+                    var bilabel = "";
+
+                    var rates = document.getElementsByName('RBbliable1');
+					
+                    if(data.d.MissingPeparReciept=="Yes")
+                    {
+                        document.getElementById("TxtJustification").readOnly = false;
+                        $("#getFile").prop('disabled', true);
+						
+                        $(".MultiFile-remove").click();
+						
+						
+                        $("#attachFilesContainer input:file").each(function () {
+
+                            $(this).prop('disabled', true);
+                 
+
+               
+                        });
+						
+                    }
+                    else
+                    {
+                        $("#getFile").prop('disabled', false);
+						
+                        $("#attachFilesContainer input:file").each(function () {
+
+                            $(this).prop('disabled', false);
+                 
+
+               
+                        });
+                    }
+					
+
+
+                    for (var i = 0; i < rates.length; i++) {
+                        if (rates[i].value == data.d.BliableToClient) {
+                            // bilabel = rates[i].value;
+                            // alert(rates[i].value);
+                            rates[i].checked = true;
+                        }
+                    }
+                   
+                    var receipt_value = "";
+                    var receipt = document.getElementsByName('receipt');
+
+                    for (var i = 0; i < receipt.length; i++) {
+                        if (receipt[i].value == data.d.MissingPeparReciept) {
+                            receipt[i].checked = true;
+                          
+                        }
+                    }
+					
+					
+
+                },
+                error: function (data) {
+                    //failure(data);
+                }
+
+            });
+        }
+        function GetUserId(userid) {
+            var NewloginName = "";
+            var Temguid="";
+            jQuery.ajax({
+                url: "/sites/PPMUAT/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    //console.log(dataResults);
+                    //get login name  
+                    //  console.log(data);
+                    var loginName = dataResults.LoginName;
+                    //console.log(loginName);
+                    //alert('loginName: '+loginName);
+                    //$('#user_name').text(dataResults.Title);
+                    $('#login_name_contain').text(dataResults.Title);
+					
+					
+                    //get display name
+                    // console.log(dataResults.Title);
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    //alert('NewloginName: '+NewloginName);
+                    Temguid=getResourcesGuid1(NewloginName);
+                    // console.log(NewloginName);
+                    //alert('NewloginName :' + NewloginName);
+
+                },
+                complete: function () {
+
+                    // var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+            return Temguid;
+        }
+       // getListItemData(web_url, 'BconeCurrency');
+       // getListItemData(web_url, 'BconeItemMaster');
+
+        var TrackingNo = getQueryStringValue("TrackingNo");
+        var Type_query = getQueryStringValue("type");
+		
+		
+        //alert(project_id);
+        //GetExpenceDetailByTrackingNo(web_url, 'BconeExpenceMaster', TrackingNo);
+        //loaddata(web_url, 'BconeExpenceMaster', TrackingNo,'','');
+		
+		
+      //  var project_id=GetProjectIdByTrackingId(web_url, 'BconeExpenceMaster', TrackingNo);
+        //loaddata1(web_url, 'BconeExpenceMaster', TrackingNo,'','');
+      //  var userid = _spPageContextInfo.userId;
+      //  var tempGuid=GetUserId(userid);
+        //alert("tempGuid"+tempGuid);
+
+        // Would write the value of the QueryString-variable called name to the console  
+
+
+  
+        $(document).ready(function () {
+		
+            //console.log(Type_query);
+            
+		
+           // getProjectPhases(project_id);
+            //alert("tempGuidready"+tempGuid);
+           // var my_count=1;
+           // var my_count=GetListDataByloginId(web_url,'BconeExpenceMaster',TrackingNo,tempGuid);
+		   
+		    GetExpenceDetailByTrackingNo(web_url, 'BconeExpenceMaster', TrackingNo);
+		  
+            if(IsExpensePresent)
+            {
+			
+                 getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'FirstTimeLoad','FirstTimeLoad');
+				
+                if(Type_query!='' && Type_query=='new')
+                {
+                    showmodal1('Add');
+                }
+            }
+            else
+            {
+                var Resourcediv_Main="";
+                Resourcediv_Main = Resourcediv_Main +"<div class='nodatadiv'>";
+                Resourcediv_Main = Resourcediv_Main +"<h3>You are not authorised to view this expense details (Tracking ID: "+TrackingNo+")</h3>";
+                Resourcediv_Main = Resourcediv_Main +"</div>";
+                $("#Upper_strip").hide(); 
+                $("#nodatadiv").html(Resourcediv_Main);
+            }
+            $('.new-th').css("display","block");
+            $('[data-toggle="tooltip"]').tooltip(); 
+            //$('.refno-width').css('display','block');
+			
+			
+		 
+            $('#TxtAmount').keypress(function(e){ 
+                if (this.value.length == 0 && e.which == 48 ){
+                    // alert("");
+                    return false;
+                }
+            });
+					
+            $('#pageTitle').find("a").html('');
+       
+		
+            
+
+            $('#btnSubmit').click(function (e) {
+
+
+                var isValid = false;
+                if (check_validation('Add')) {
+				
+				$('#load_type_span').text('save');
+				$('#save_type_span').text('save-close');
+					$('.loader').show();
+                    var expensereportnote = document.getElementById("TxtexpenseNote").value;
+                    var amount = document.getElementById("TxtAmount").value;
+                    var Justification = document.getElementById("TxtJustification").value;
+                    var date = document.getElementById("TxtDate").value;
+                    var ExpenseItem = $('#ExpenseItem :selected').val();
+                    var ExpenceItemText = $('#ExpenseItem :selected').text();
+                    var currencyval = $('#currency :selected').val();
+                    var ExpenceCurrencyText=$('#currency :selected').text();
+                    var PaymentType = $('#PaymentType :selected').val();
+                    var PaymentTypeText=$('#PaymentType :selected').text();
+                    var status = document.getElementById("TxtStatus").value;
+                    var TaskId=$('#ddlProjectPhase :selected').val();
+                    var TaskName=$('#ddlProjectPhase :selected').text();
+                    var BliableToClient = "";
+                    var MissingPeparReciept = "";
+
+                    $('#myModal').find(':input').each(function () {
+                        if (this.type == 'radio') {
+                            if (this.checked) {
+                                BliableToClient = this.value;
+                            }
+                        }
+                        if (this.type == 'checkbox') {
+                            if (this.checked) {
+                                MissingPeparReciept = this.value;
+                            }
+                        }
+
+
+                    });
+                    var currencyvalText=$('#currency :selected').text();
+                    var convert_to_currency='';
+                    var convert_from_currency='';
+                    var arr_currency='';
+                    var ConversionRate='';
+                    var converted_date='';
+                    converted_date=convert_date_YYYYMMDD(date);
+                    if(advanceTakenCurrencyName.indexOf('-'))
+                    {
+                        arr_currency=advanceTakenCurrencyName.split('-');
+                        convert_from_currency=arr_currency[0].trim();
+					
+                    }
+                    else
+                    {
+                        convert_from_currency=advanceTakenCurrencyName.trim();
+                    }
+					
+					
+					
+                    if(currencyvalText.indexOf('-'))
+                    {
+                        arr_currency=currencyvalText.split('-');
+                        convert_to_currency=arr_currency[0].trim();
+					
+                    }
+                    else
+                    {
+                        convert_to_currency=currencyvalText.trim();
+                    }
+					
+					
+                    Convert_Currency(converted_date,convert_from_currency,convert_to_currency, expensereportnote, ExpenseItem, currencyval, PaymentType, currencyval, date, amount, Justification, BliableToClient, MissingPeparReciept,status,TaskId,TaskName,'save-close',PaymentTypeText ,ExpenceItemText ,ExpenceCurrencyText);
+                    
+
+
+                }
+            });
+			
+            $('#btnSubmitcreate').click(function (e) {
+
+
+                var isValid = false;
+                if (check_validation('Add')) {
+				
+				$('#load_type_span').text('save');
+				$('#save_type_span').text('save-create');
+						$('.loader').show();
+                    var expensereportnote = document.getElementById("TxtexpenseNote").value;
+                    var amount = document.getElementById("TxtAmount").value;
+                    var Justification = document.getElementById("TxtJustification").value;
+                    var date = document.getElementById("TxtDate").value;
+                    var ExpenseItem = $('#ExpenseItem :selected').val();
+                    var currencyval = $('#currency :selected').val();
+                    var PaymentType = $('#PaymentType :selected').val();
+                    var status = document.getElementById("TxtStatus").value;
+                    var currencyvalText=$('#currency :selected').text();
+                    var ExpenceItemText = $('#ExpenseItem :selected').text();
+                    var ExpenceCurrencyText=$('#currency :selected').text();
+                    var PaymentTypeText=$('#PaymentType :selected').text();
+                    var convert_to_currency='';
+                    var convert_from_currency='';
+                    var arr_currency='';
+                    var ConversionRate='';
+                    var converted_date='';
+                    converted_date=convert_date_YYYYMMDD(date);
+                    if(advanceTakenCurrencyName.indexOf('-'))
+                    {
+                        arr_currency=advanceTakenCurrencyName.split('-');
+                        convert_from_currency=arr_currency[0].trim();
+                    }
+                    else
+                    {
+                        convert_from_currency=advanceTakenCurrencyName.trim();
+                    }
+                    if(currencyvalText.indexOf('-'))
+                    {
+                        arr_currency=currencyvalText.split('-');
+                        convert_to_currency=arr_currency[0].trim();
+                    }
+                    else
+                    {
+                        convert_to_currency=currencyvalText.trim();
+                    }
+                    var BliableToClient = "";
+                    var MissingPeparReciept = "";
+					
+                    var TaskId=$('#ddlProjectPhase :selected').val();
+                    var TaskName=$('#ddlProjectPhase :selected').text();
+                    $('#myModal').find(':input').each(function () {
+                        if (this.type == 'radio') {
+                            if (this.checked) {
+                                BliableToClient = this.value;
+                            }
+                        }
+                        if (this.type == 'checkbox') {
+                            if (this.checked) {
+                                MissingPeparReciept = this.value;
+                            }
+                        }
+                    });
+					Convert_Currency(converted_date,convert_from_currency,convert_to_currency, expensereportnote, ExpenseItem, currencyval, PaymentType, currencyval, date, amount, Justification, BliableToClient, MissingPeparReciept,status,TaskId,TaskName,'save-create',PaymentTypeText ,ExpenceItemText ,ExpenceCurrencyText);
+                }
+            });
+        });
+		
+		
+        function Submit_ExpenseTo_Pm(listName,status) 
+        {
+		   
+            // alert(loginid);
+            // alert(MyEmpName);
+            var temp="";
+            //alert(isINRCurrency);
+            // alert(isBaseLocationBengluru);
+            //alert(isAdvanceTakenINR);
+		    
+            var finance_guid;
+            var finance_name;
+			
+            var finance_values='';
+			
+			
+			
+			
+			
+			
+            //new coding amol 12-01-2017
+			
+            if (CountryLegal=='Bristlecone India Limited') {
+			
+                //get finance from BconeFinanceApproverLocationMatrix
+			
+                if(!(isAdvanceTakenINR) || !(isINRCurrency))
+                {
+                    //for other currency
+							
+							
+                    finance_values=GetfinanceByCountryLegalLocation('Other',EmpBaseLocation);
+                    if(finance_values=='' || finance_values==undefined)
+                    {
+							
+                        finance_values=GetfinanceByCountryLegalLocation('Other','Other');
+							
+                    }
+						
+                }
+                else
+                {
+                    //for INR currency
+						
+						
+                    finance_values=GetfinanceByCountryLegalLocation('INR',EmpBaseLocation);
+						
+                    if(finance_values=='' || finance_values==undefined)
+                    {
+							
+                        finance_values=GetfinanceByCountryLegalLocation('Other','Other');
+							
+                    }
+					
+                }
+			
+            }else
+            {
+			
+                //get finance from BconeFinanceApproverMatrix 
+			
+                finance_values=GetfinanceByCountryLegal(CountryLegal);
+			
+			
+            }
+			
+            var split_values=finance_values.split("_");
+            finance_guid=split_values[0];
+            finance_name=split_values[1];
+			
+			
+			
+          
+	 
+            if(status=="Submitted")
+            {
+                document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to submit expense?";
+                $('#ok_click').attr('onclick','Submit_ExpenseTo_Pm_temp("'+listName+'","'+status+'","'+finance_guid+'","'+finance_name+'")');
+                $("#Confirmation_alert").show();
+            }
+            else
+            {
+                // alert(resubmit_count);
+                if(resubmit_count<3)
+                {
+                    document.getElementById("Confirmation_msg").innerHTML="Are you sure you want to recall expense?";
+                    $('#ok_click').attr('onclick','Submit_ExpenseTo_Pm_temp("'+listName+'","'+status+'","'+temp+'","'+temp+'")');
+                    $("#Confirmation_alert").show();
+                }
+                else
+                {
+			
+                    //alert("Resubmit limit Excceed");
+                    $("#alertmain").show();
+							
+							 
+                    document.getElementById("Alert_msg").innerHTML="Resubmit Limit Excceed(Max 3). Request You To Create New Expense";	
+
+                }
+            }
+           
+           }
+			
+           
+        
+        function Submit_ExpenseTo_Pm_temp(listName,status,finance_guid,finance_name) 
+        {
+            //alert(loginid);
+            // alert(MyEmpName);
+            //alert(FinalExpenseValue);
+            var update_pendingid="";
+            var update_pendingName="";
+			
+		
+			
+            if(status=="Submitted")
+            {
+                update_pendingName=submit_pendingwith_name;
+                update_pendingid= submit_pendingwith_id;
+            }
+            else
+            {
+                update_pendingName="";
+                update_pendingid= "";
+            }
+						 
+						 
+            finalCc="";
+            //finalTo=expense_creater_id;
+            finalTo="";
+            var currentdate = new Date();
+
+            var date = currentdate;
+					
+				
+					
+            $("#Confirmation_alert").hide();
+            $('.loader').show();
+				
+				
+            //alert(resubmit_count);
+            var Id_edit=TrackingNo;
+            expense_creater_id="";
+            pending_with_id="";
+            GetApprovalFinaceDetail(Id_edit);
+			
+            //alert(Id_edit);
+            //  alert(BliableToClient);
+            var item="";
+            var itemType = getListprotocol(listName);
+            if(status=="Submitted")
+            {
+                item = {
+                    "__metadata": { "type": itemType },
+                    "ReportStatus": status,
+                    "FinanceId":finance_guid,
+                    "ReportSubmittedDate":date,
+                    "FinanceName":finance_name,
+                    "PendingWithId":update_pendingid,
+                    "PendingWithName":update_pendingName,
+                    "FinalExpenseValue":FinalExpenseValue
+                };
+				
+				
+            }else
+            {
+				
+                resubmit_count++;
+                item = {
+                    "__metadata": { "type": itemType },
+                    "ReportStatus": status,
+                    "FinanceId":finance_guid,
+                    "ReportSubmittedDate":date,
+                    "FinanceName":finance_name,
+                    "ReSubmitCount":resubmit_count,
+                    "PendingWithId":update_pendingid,
+                    "PendingWithName":update_pendingName,
+                    "FinalExpenseValue":""
+                };
+				
+				
+            }
+            //alert(item);
+
+            getListItemForUpdate(web_url, listName, Id_edit, function (data) {
+                //alert("vvv");
+                // showmodal1('Update');
+
+                $.ajax({
+                    url: data.d.__metadata.uri,
+                    type: "POST",
+                    contentType: "application/json;odata=verbose",
+                    data: JSON.stringify(item),
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "X-HTTP-Method": "MERGE",
+                        "If-Match": data.d.__metadata.etag
+                    },
+                    success: function (data) {
+
+                        //alert("Expense submitted Successfully");
+                        //  $('.loader').hide();
+                        //$("#Confirmation_alert").hide();
+                        
+						
+						
+							 
+                        //  window.location="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx";
+							  
+                        if(status=="Submitted")
+                        {
+                            //InsertIntoLog(web_url, "BconeExpenseLogHistory",Id_edit,"02",MyEmpName,loginid,status);
+                            finalCc="";
+                            finalTo=update_pendingid;
+                            var My_url="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/ManageExpenseApproveDetail.aspx?TrackingNo="+Id_edit;
+                            // GetEmailData(Id_edit,'01',finalTo,finalCc,My_url);
+						  
+                            InsertIntoMailLog('BconeEmailData',finalTo,finalCc,My_url,'01',Id_edit);
+							
+                            if(resubmit_count>0)
+                            {
+                                //alert("if"+resubmit_count);
+                                finalCc=expense_creater_id;
+                                //finalTo=expense_creater_id;
+                                My_url="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/ManageExpenseApproveDetail.aspx?TrackingNo="+Id_edit;
+                                finalTo=update_pendingid;
+                                // GetEmailData(Id_edit,'07',finalTo,finalCc,My_url);
+                                InsertIntoMailLog('BconeEmailData',finalTo,finalCc,My_url,'07',Id_edit);
+
+                            }
+                            else
+                            {
+                                //alert("else"+resubmit_count);
+                                finalCc="";
+                                //finalTo=expense_creater_id;
+                                finalTo=expense_creater_id;
+                                My_url="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx?status=Submitted";
+                                //   GetEmailData(Id_edit,'11',finalTo,finalCc,My_url);
+                                InsertIntoMailLog('BconeEmailData',finalTo,finalCc,My_url,'11',Id_edit);
+							
+                            }
+							
+                            InsertIntoLog(web_url, "BconeExpenseLogHistory",Id_edit,"02",MyEmpName,loginid,status);
+							
+							
+                        }
+                        else
+                        {
+							 
+                            InsertIntoLog(web_url, "BconeExpenseLogHistory",Id_edit,"08",MyEmpName,loginid,status);
+                            //if(resubmit_count!=0)
+                            //{
+							
+                            //}
+                        }
+                        //getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,'','');
+                        //GetExpenceDetailByTrackingNo(web_url, 'BconeExpenceMaster', TrackingNo);
+                        //add_success_exp_msg('Expense Item Updated Successfully!!','save');
+                                                    
+                          
+                    },
+                    error: function (data) {
+                        alert(data.responseJSON.error.message.value);
+                        //alert("false");
+                        // failure(data);
+                        $('.loader').hide();
+                    },
+                    complete:function(data){
+                        $('.loader').hide();
+					 
+                        $("#alertmain").show();
+						
+                        var submit_type='';
+							
+                        if(status=="Submitted")
+                        {
+                            submit_type='resubmit';
+							
+	
+                            document.getElementById("Alert_msg").innerHTML=""+ExpenseTrackingNo+" Submitted Successfully!";	
+                            //$('#alert_ok_click').attr('onclick','RedirectTo_MyExpense('"+resubmit+"')');
+							
+                            $('#alert_ok_click').attr('onclick','RedirectTo_MyExpense("'+submit_type+'")');
+							
+                        }
+                        else
+                        {
+                            submit_type='recall';
+                            //alert(submit_type);
+                            document.getElementById("Alert_msg").innerHTML=""+ExpenseTrackingNo+" Recalled Successfully.";
+                            $('#alert_ok_click').attr('onclick','RedirectTo_MyExpense("'+submit_type+'")');
+                        }
+						
+                    }
+                });
+
+            }, function (data) {
+                failure(data);
+            });
+           
+        }
+		
+        function RedirectTo_MyExpense(type){
+		
+            if(type=='recall')
+            {
+                window.location="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx?status=Open";
+            }
+            else if(type=='resubmit'){
+                window.location="https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/MyExpense.aspx?status=Submitted";
+            }
+		
+        }
+		
+		
+		
+        function getProjectPhases(project_id){
+		
+            //alert("getProjectPhases");
+            //alert("getProjectPhases"+project_id);
+            //var url = "https://epmuat.afs.com.bh/api/AFS/BindUserRoleResource";
+            var url = "https://ppmdev.bcone.com/api/BCONE/GetTaskNameUAT";
+            var requestData = { "ProjectGUID":project_id};
+		
+            $.ajax({
+                url: url,
+                data: requestData,
+                async: false,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    // console.log(res);
+                    // $.each(res.SubOptions[0].Resources, function (index, value) {
+                    //  $('#ddlGateABusinessAnalyst').append(new Option("", 0));
+                    //   $('#ddlGateABusinessAnalyst').append("<option data-value = '" + value["ResourceId"] + "'>" + value.ResourceName + "</option>");
+                    //});
+				
+				
+
+                    // $('#ddlProjectPhase').append(new Option("Select Phase", 0));
+
+                    //alert(res);
+                    $.each(res.SubOptions[0].Taskinfo, function (index, value) {
+                        //alert(value.ProjectId);
+                        //$('#ddlProjects').append(new Option("", 0));
+                        $('#ddlProjectPhase').append("<option value = '" + value.TaskId + "'>" + value.TaskName + "</option>");
+                        //  $('#ddlProjectPhase').append("<option value = '" + value.ProjectId + "'>" + value.ProjectOwnerName + "</option>");
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //alert("ResourcesFailed");
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            });
+		
+        }
+      
+ 
+        $(window).load(function(){
+            // showtooltip();
+        });
+		
+        function Navigate()
+        {
+            //alert('Testr');
+            var status=document.getElementById("Navigate_status").innerHTML;
+            if ( status=="Approver 2 Rejected" ||status=="Approver 1 Rejected" || status=="Manager Rejected")
+            {
+                status="Rejected";
+            }
+            else if (status=="Approver 2 Approved" || status=="Approver 1 Approved" || status=="Manager Approved")
+            {
+                status="Approved";
+   
+            }
+
+            window.location=web_url+"SitePages/MyExpense.aspx?status="+status;
+ 
+        }
+ 
+       
+        function Getfinance(Type)
+        {
+            //alert("Getfinance");
+            //alert(current_url);
+            // alert('called');
+            //$('.loader').show();
+
+            //alert(listname);
+            //var viewflds = '<ViewFields><FieldRef Name="Title"/><FieldRef Name="Status"/><FieldRef Name="Id"/></ViewFields>';
+
+            //var query_cml = '<View><Query><OrderBy><FieldRef Name="Modified" Ascending="False"/><Value Type="DateTime"             IncludeTimeValue="True"></Value></OrderBy></Query><View>';
+
+            var my_guid;
+
+            var query_cml = '<View><Query><Where><Eq><FieldRef Name="FinanceType" /><Value Type="Text">' + Type + '</Value></Eq></Where><OrderBy><FieldRef Name="Id" Ascending="False"/><Value Type="Id" ></Value></OrderBy></Query></View>';
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeFinanceTeam')/GetItems",
+                type: "POST",
+                async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+                    // alert(data.d.results.length);
+                    //alert("got data on page load event");
+                    //alert('firstconsole')
+
+                    console.log(data);
+
+                 
+                    if (data.d.results.length > 0) {
+
+                       
+                       
+
+
+                        $.each(data.d.results, function (key, value) {
+
+
+                  
+                            // alert(value.FinancepersonnameId);
+                            my_guid=GetUserId1(value.FinancepersonnameId,'other');
+                            // alert(my_guid);
+
+                        });
+                    }
+                    else {
+                      
+                    }
+
+                    
+                    
+
+
+                    // console.log(data.d);
+
+
+                },
+                error: function (data) {
+                    //failure(data);
+                    // alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                    
+                }
+            });
+		
+            return my_guid;
+        }
+		
+		
+        function GetfinanceByCountryLegalLocation(Currency,EmployeeBaseLocation)
+        {
+           
+            var my_guid;
+			
+			
+
+            var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="Currency"  /><Value Type="Text">' + Currency + '</Value></Eq><Eq><FieldRef Name="EmployeeBaseLocation" /><Value Type="Text">' + EmployeeBaseLocation + '</Value></Eq></And></Where></Query></View>';
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeFinanceApproverLocationMatrix')/GetItems",
+                type: "POST",
+                async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+                  
+
+                    console.log(data);
+
+                 
+                    if (data.d.results.length > 0) {
+
+                        $.each(data.d.results, function (key, value) {
+                            my_guid=GetUserId1(value.FinanceApproverNameId,'LegalCurrency');
+                        });
+                    }
+                    else {
+                      
+                    }
+                },
+                error: function (data) {
+                    //failure(data);
+                    // alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                    
+                }
+            });
+		
+            return my_guid;
+        }
+		
+        function GetfinanceByCountryLegal(CountryLegal)
+        {
+            
+            var my_guid;
+			
+			
+
+            var query_cml = '<View><Query><Where><Eq><FieldRef Name="CountryLegal"  /><Value Type="Text">' + CountryLegal + '</Value></Eq></Where></Query></View>';
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeFinanceApproverMatrix')/GetItems",
+                type: "POST",
+                async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                success: function (data) {
+                  
+
+                    console.log(data);
+
+                 
+                    if (data.d.results.length > 0) {
+
+                        $.each(data.d.results, function (key, value) {
+                            my_guid=GetUserId1(value.FinanceApproverNameId,'LegalCurrency');
+                        });
+                    }
+                    else {
+                      
+                    }
+
+                    
+                    
+
+
+                    // console.log(data.d);
+
+
+                },
+                error: function (data) {
+                    //failure(data);
+                    // alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                    
+                }
+            });
+		
+            return my_guid;
+        }
+		
+        //NILAM FINANCE
+
+		
+        function GetUserId1(userid,type1) {
+            var my_guid="";
+            var NewloginName = "";
+            var loginName="";
+            var emp_name;
+            jQuery.ajax({
+                url: "/sites/PPMUAT/_api/Web/GetUserById(" + userid + ")",
+                type: "GET",
+                async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    var dataResults = data.d;
+                    console.log(data);
+                    //get login name  
+                    //  console.log(data);
+                    var loginName = dataResults.LoginName;
+                    //console.log(loginName);
+                    //alert('loginName: '+loginName);
+                    // $('#user_name').text(dataResults.Title);
+                    //get display name
+                    // console.log(dataResults.Title);
+                    emp_name=dataResults.Title;
+                    NewloginName = encodeURIComponent(loginName); //encoding loginName from special charater to normal text
+                    //alert('NewloginName: '+NewloginName);
+                    my_guid=getResourcesGuid1(NewloginName,type1);
+                    // console.log(NewloginName);
+                    //alert('NewloginName :' + NewloginName);
+
+                },
+                complete: function () {
+
+                    // var result = getResourcesGuid(NewloginName);
+                    // alert(result);
+                },
+            });
+            return my_guid+"_"+emp_name;
+        }
+		
+		
+        function getResourcesGuid1(NewloginName,type1) {
+            //alert('nilamcall');
+            //alert(Type_query);
+            var guid;
+            jQuery.ajax({
+
+                url: "/sites/PPMUAT/_api/ProjectData/Resources?$filter=ResourceNTAccount eq('" + NewloginName + "')",
+                type: "GET",
+                async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    console.log(data);
+                    guid = data.d.results[0].ResourceId;
+                    if(type1!='LegalCurrency')
+                    {
+                        if(data.d.results[0].CountryLegal!='' && data.d.results[0].CountryLegal!=null)
+                        {
+                            CountryLegal= data.d.results[0].CountryLegal;
+                        }
+                        //alert('CountryLegal' + CountryLegal);
+                    }
+
+
+                }
+            });
+            return guid;
+        }
+		
+		
+   
+    
+        $(document).ready(function(){
+            $('.ms-rte-layoutszone-inner p:first').hide();
+            $('.ms-rte-layoutszone-inner p:last').hide();
+        });
+
+        function GetNoteById(Action)
+        {
+ 
+            var notes="";
+            var query_cml = '<View><Query><Where><And><Eq><FieldRef Name="NotesID"/><Value Type="Text">' + Action + '</Value></Eq><Eq><FieldRef Name="IsActive"/><Value Type="Boolean">1</Value></Eq></And></Where></Query></View>';
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('BconeExpenceNotesMaster')/GetItems",
+                type: "POST",
+                async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+                beforeSend: function () {
+                    //  $('.loader').show();
+                    //$('[data-toggle="tooltip"]').tooltip();
+                },
+
+                success: function (data) {
+
+          
+                    if (data.d.results.length > 0) {
+                        notes=data.d.results[0].Notes;
+                    }
+                 
+
+                },
+                error: function (data) {
+
+                    alert(data.responseJSON.error.message.value);
+                },
+                complete: function () {
+                } 
+
+            });
+            return notes;
+        }
+ 
+ 
+        function InsertIntoLog(url, listname,TrackingNo,Action,ActorName,ActorID,Type)
+        {
+ 
+ 
+            //alert("InsertIntoLog");
+            //alert(TrackingNo);
+            var Note=GetNoteById(Action);
+            //alert(Note);
+		
+            var TrackingNo_temp=TrackingNo.toString();
+            var item = "";
+            var item_collections = getListprotocol(listname);
+	       
+            item = {
+                "__metadata": { "type": item_collections},
+                "TrackingNo":TrackingNo_temp,
+                "Notes":Note,
+                "ActorName":ActorName,
+                "ActorID":ActorID,
+                "Action":Type                                     
+            };
+            
+      
+            $.ajax({
+                url: url + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+                async:false,
+                contentType: "application/json;odata=verbose",
+                // contenType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+                    // alert("log added Successfully");
+
+                },
+                complete: function () {
+
+                    //cleardata();
+                    //  var EmployeeId = $('#resourse_id').text();
+                    // getDataByListName(current_url, 'BconeExpenceMaster', 'load1', EmployeeId);
+
+                },
+                error: function (data) {
+                    //alert("error");
+                    alert(data.responseJSON.error.message.value);
+                    //return false;
+
+                }
+            });
+ 
+        }
+        //varsha given function for muliple file upload
+		
+		
+		var total_numberoffile=0;
+		var hit_count=0;
+		  function getAttchmentReason(TrackingNo,log_id) {
+		
+            //alert('getAttchmentReason');
+            //alert(TrackingNo);
+            //alert(log_id);
+            // function CreateFolder() {
+            //  documentType = doctype;
+            //-----------------------------------Create Folder for Document------------------------
+            var ItemID="Expense"+TrackingNo;
+			   
+			   
+            try {
+                var context = SP.ClientContext.get_current(); //gets the current context
+                var web = context.get_web(); //gets the web object
+                var list = web.get_lists(); //gets the collection of lists
+                var targetList = list.getByTitle("BconeBillAttachment");
+                var itemCreation = new SP.ListItemCreationInformation();
+                itemCreation.set_folderUrl('/sites/PPMUAT/BconeBillAttachment');//URL of the folder
+                itemCreation.set_underlyingObjectType(SP.FileSystemObjectType.folder);
+                itemCreation.set_leafName(ItemID); // pass the id from the url
+                var folderItem = targetList.addItem(itemCreation);
+                folderItem.update();
+                context.load(folderItem);
+
+                context.executeQueryAsync(function (sender, arges) {
+
+                    var ExpenseItemId=log_id;
+                    var dfd = $.Deferred();
+                    //  var id = document.getElementById('txtid').value;
+                    var fileArray = [];
+                    $("#attachFilesContainer input:file").each(function () {
+                        if ($(this)[0].files[0]) {
+                            fileArray.push({ "Attachment": $(this)[0].files[0] });
+
+                        }
+                    });
+
+                    //alert('a');
+                    //console.log(fileArray);
+					
+					total_numberoffile=fileArray.length;
+
+                    for (var b = 0; b < fileArray.length; b++) {
+                        //alert('b:'+b);
+                        uploadfile(fileArray[b].Attachment, log_id,ItemID);
+                    }
+
+
+                },
+
+                function (sender, arges) {
+                    var catcherr = arges.get_message();
+                    if (catcherr.indexOf('already exists.')) {
+                        var ExpenseItemId=ExpenseItemId;
+                        var dfd = $.Deferred();
+                        //  var id = document.getElementById('txtid').value;
+                        var fileArray = [];
+                        $("#attachFilesContainer input:file").each(function () {
+                            if ($(this)[0].files[0]) {
+                                fileArray.push({ "Attachment": $(this)[0].files[0] });
+
+                            }
+                        });
+						
+						total_numberoffile=fileArray.length;
+
+                        for (var b = 0; b < fileArray.length; b++) {
+                            uploadfile(fileArray[b].Attachment, log_id,ItemID);
+                        }
+
+                    }
+                    else {
+                        alert(arges.get_message());
+                        var Confirm = 1;
+                        if (Confirm) {
+                            window.location = window.location.href;
+                        }
+                    }
+
+                });
+            }
+            catch (ex) {
+                alert(ex.message());
+                var Confirm = 1;
+                if (Confirm) {
+                    window.location = window.location.href;
+                }
+            }
+
+
+            //}
+
+
+
+
+
+
+            //var ExpenseItemId=ExpenseItemId;
+            //var dfd = $.Deferred();
+            ////  var id = document.getElementById('txtid').value;
+            //var fileArray = [];
+            //$("#attachFilesContainer input:file").each(function () {
+            //    if ($(this)[0].files[0]) {
+            //        fileArray.push({ "Attachment": $(this)[0].files[0] });
+
+            //    }
+            //});
+
+
+            //for (var b = 0; b < fileArray.length; b++) {
+            //    uploadfile(fileArray[b].Attachment, ExpenseItemId);
+            //}
+
+        }
+        function uploadfile(file, ExpenseItemId,folder_name) {
+		
+            //alert('uploadfile called');
+            //alert(ExpenseItemId);
+            //alert(folder_name);
+		
+
+            var url = "https://bristleconeonline.sharepoint.com/sites/PPMUAT/";
+            uploadFileLocal(file, ExpenseItemId,folder_name);
+        }
+        function uploadFileLocal(file,ExpenseItemId, folder_name) {
+
+		
+            //alert('uploadFileLocal called');
+
+            var digest = jQuery("#__REQUESTDIGEST").val();
+            var webUrl = _spPageContextInfo.webAbsoluteUrl;
+            var libraryName = "BconeBillAttachment";
+            var NewItemID=folder_name;
+            var reader = new FileReader();
+            var arrayBuffer;
+            reader.onload = function (e) {
+                arrayBuffer = reader.result;
+                url = String.format(
+                "{0}/_api/web/GetFolderByServerRelativeUrl('/sites/PPMUAT/BconeBillAttachment/" + NewItemID + "')/Files/Add(url='{1}', overwrite=true)",
+              _spPageContextInfo.webAbsoluteUrl, file.name);
+                //url = webUrl + "/_api/web/lists/getByTitle(@TargetLibrary)/RootFolder/files/add(url=@TargetFileName,overwrite='true')?" +
+                //  "@TargetLibrary='" + libraryName + "'" +
+                //  "&@TargetFileName='" + file.name + "'";
+                // url: _spPageContextInfo.webServerRelativeUrl + "/_api/web/lists/GetByTitle('" + libraryName + "')/items(" + id + ")/AttachmentFiles/add(FileName='" + file.name + "')",
+
+                //JQuery Ajax call here
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    async:false,
+                    data: arrayBuffer,
+                    headers: {
+                        "Accept": "application/json; odata=verbose",
+                        "X-RequestDigest": digest
+                    },
+                    contentType: "application/json;odata=verbose",
+                    processData: false,
+                    success: function (data, status) {
+                        console.log(data);
+                        // alert('file uploaded successfully.');
+                        getItem(data.d, ExpenseItemId);
+
+                    },
+                    error: function (arr, error) {
+                        alert('Error in uploading.');
+                    }
+                });
+            };
+            reader.readAsArrayBuffer(file);
+
+        }
+        function getItem(file, ExpenseItemId) {
+            var call = jQuery.ajax({
+                url: file.ListItemAllFields.__deferred.uri,
+                type: "GET",
+                async:false,
+                dataType: "json",
+                headers: {
+                    Accept: "application/json;odata=verbose"
+                },
+                success: function (data, status) {
+                    console.log(data);
+
+                    updateItemFields(data.d, ExpenseItemId);
+
+                },
+                error: function (arr, error) {
+                    alert('Error in uploading.');
+
+                }
+            });
+
+            return call;
+        }
+        function updateItemFields(item, ExpenseItemId) {
+		
+			hit_count++;
+
+            var call = jQuery.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl +
+                    "/_api/Web/Lists/getByTitle('BconeBillAttachment')/Items(" +
+                    item.Id + ")",
+                type: "POST",
+                async:false,
+                data: JSON.stringify({
+                    "__metadata": { type: "SP.Data.BconeBillAttachmentItem" },
+                    ExpenseItemId: ExpenseItemId,
+                    
+
+                }),
+                headers: {
+                    Accept: "application/json;odata=verbose",
+                    "Content-Type": "application/json;odata=verbose",
+                    "X-RequestDigest": jQuery("#__REQUESTDIGEST").val(),
+                    "IF-MATCH": item.__metadata.etag,
+                    "X-Http-Method": "MERGE"
+                },
+                success: function (data, status) {
+                    //console.log(data);
+                    
+                    // alert('Id updated.......');
+					
+					console.log('hit_count :' +hit_count);
+					console.log('total_numberoffile :' +total_numberoffile);
+					if(hit_count==total_numberoffile)
+					{
+					console.log('uploaded all files success....');
+					total_numberoffile= getUploadedFiles_Count(ExpenseItemId);
+					updateFileCount('BconeExpenceLogDetail',web_url,ExpenseItemId,total_numberoffile);
+					}
+                },
+                error: function (arr, error) {
+                    alert('Error in updating id..!!');
+                }
+            });
+
+        }
+		
+		
+		
+ 
+      
+	
+      
+        function clearContainer(){
+            $("#attachFilesContainer input:file").each(function () {
+
+                if ($(this)[0].files[0]) {
+                    $(this)[0].files[0].remove();
+
+                }
+            });
+        }							
+        function openouterfileattach(reff_no){
+            $('#reff_no').text('Ref No. '+reff_no);
+            event.stopPropagation();
+            $('#openouterfileattach').show({ width: 'toggle'});
+        }
+        $(document).click(function (event) {
+            if (!$(event.target).is('#openouterfileattach, #openouterfileattach *')) {
+                $('#openouterfileattach').hide({ width: 'toggle'});
+            }
+        });
+        function closeouterfileattach(){
+            $('#openouterfileattach').hide({ width: 'toggle'});
+        }
+ 		
+        var To = "";
+        var Cc = "";
+        var Subject = "";
+        var Body = "";
+        var Filepath = "";
+        var result = "";
+        var subjectcontents = "";
+		
+        function GetEmailData(Trackingid,emailEventId,finalTo,finalCc,My_url) {
+		
+        
+            finalTo=finalTo;
+            finalCc=finalCc;
+
+            $().SPServices({
+                operation: "GetListItems",
+                async: false,
+                listName: "BconeEmailConfiguration",
+                CAMLQuery: "<Query><Where><Eq><FieldRef Name='EventID'/><Value Type='Text'>" + emailEventId + "</Value></Eq></Where></Query>",
+                completefunc: function (xData, Status) {
+                    raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                    $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                        Subject = $(this).attr("ows_Subject");
+                        Body = $(this).attr("ows_Body");
+                        formatSubject(Subject,Trackingid);
+                        formatBodyValues(Body,Trackingid);
+                    });
+                }
+            });
+            function formatSubject(Subject,ListID) {
+                var startString = "{";
+                var endString = "}";
+                var count = 0;
+                var indexStart = 0, indexEnd = 0;
+                var exit = false;
+                while (!exit) {
+                    indexStart = Subject.indexOf(startString);
+                    indexEnd = Subject.indexOf(endString);
+                    if (indexStart != -1 && indexEnd != -1) {
+
+                        matchedstring = Subject.substring(Subject.indexOf('{') + 1, Subject.indexOf('}'));
+
+                        $().SPServices({
+                            operation: "GetListItems",
+                            async: false,
+                            listName: "BconeEmailvariablemapping",
+                            CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                            completefunc: function (xData, Status) {
+                                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                    var fieldvalue = $(this).attr("ows_FieldValue");
+                                    var str_ows = "ows_" + fieldvalue;
+                                    $().SPServices({
+                                        operation: "GetListItems",
+                                        async: false,
+                                        listName: "BconeExpenceMaster",
+                                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                        completefunc: function (xData, Status) {
+                                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                            $(xData.responseXML).SPFilterNode("z:row").each(function () {
+
+                                                var element = $(this).attr(str_ows);
+                                                if (element.indexOf('#') >= 0) {
+                                                    element = $(this).attr(str_ows).split('#')[1];
+                                                } else {
+                                                    element = $(this).attr(str_ows);
+
+                                                }
+
+                                                // alert(ccID);
+                                                if (element != "" && element != undefined && element != "0") {
+                                                    if (count == 0) {
+                                                        subjectcontents = element;
+                                                    } else {
+                                                        subjectcontents = subjectcontents + (";" + element);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
+                        Subject = Subject.substring(indexEnd + endString.length);
+                        count++;
+                    }
+                    else
+                        exit = true;
+                }
+                // var result = Body.substring(Body.indexOf('{') + 1, Body.indexOf('}'))
+                //alert(subjectcontents);
+            }
+
+
+            function formatBodyValues(Body,ListID) {
+                var startString = "&#123;";
+                var endString = "&#125;";
+                var count = 0;
+                var indexStart = 0, indexEnd = 0;
+                var exit = false;
+                while (!exit) {
+                    indexStart = Body.indexOf(startString);
+                    indexEnd = Body.indexOf(endString);
+                    if (indexStart != -1 && indexEnd != -1) {
+
+                        matchedstring = Body.substring(Body.indexOf('&#123;') + 6, Body.indexOf('&#125;'));
+                        //if (count == 0) {
+                        //    result = matchedstring;
+                        //} else {
+                        //    result = result + (";" + matchedstring);
+                        //}
+                        $().SPServices({
+                            operation: "GetListItems",
+                            async: false,
+                            listName: "BconeEmailvariablemapping",
+                     
+                            CAMLQuery: "<Query><Where><Eq><FieldRef Name='VariableName' /><Value Type='Text'>" + matchedstring + "</Value></Eq></Where></Query>",
+                            completefunc: function (xData, Status) {
+                                raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                    var fieldvalue = $(this).attr("ows_FieldValue");
+                                    var str_ows = "ows_" + fieldvalue;
+                                    $().SPServices({
+                                        operation: "GetListItems",
+                                        async: false,
+                                        listName: "BconeExpenceMaster",
+                                        CAMLQuery: "<Query><Where><Eq><FieldRef Name='ID' /><Value Type='Counter'>" + ListID + "</Value></Eq></Where></Query>",
+                                        completefunc: function (xData, Status) {
+                                            raisedDocument = $(xData.responseXML).SPFilterNode("rs:data").attr("ItemCount");
+                                            $(xData.responseXML).SPFilterNode("z:row").each(function () {
+                                                var element = $(this).attr(str_ows);
+                                                //if(str_ows == "ows_Comment" && element == undefined)
+											
+                                                if (fieldvalue == "Editor" || fieldvalue == "Author") 
+                                                {
+                                                    element = $(this).attr(str_ows).split('#')[1];
+                                                }
+                                                else {
+                                                    element = $(this).attr(str_ows);
+                                                    if(str_ows == "ows_Comment" && element == undefined)
+                                                    {
+                                                        element="Recalled from submit status";
+                                                    }
+                                                }
+                                                // alert(ccID);
+                                                if (element != "" && element != undefined && element != "0") {
+                                                    if (count == 0) {
+                                                        result = element;
+                                                    } else {
+                                                        result = result + (";" + element);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
+                        Body = Body.substring(indexEnd + endString.length);
+                        count++;
+                    }
+                    else
+                        exit = true;
+                }
+
+                // var result = Body.substring(Body.indexOf('&#123;') + 1, Body.indexOf('&#125;'))
+                //alert(result);
+            }
+
+            //PathUrl = "https://bristleconeonline.sharepoint.com/sites/PPMUAT/SitePages/ExpenseApproval.aspx";
+            PathUrl=My_url;
+            sendEmail(finalTo, finalCc, Subject, Body, Filepath, result, subjectcontents, PathUrl);
+
+        }
+        function sendEmail(To, Cc, Subject, Body, Filepath, bodyFormat, subjectcontents, PathUrl) {
+	
+            //alert(To);
+            //alert(Cc);
+            //console.log(Subject);
+            //console.log(Body);
+            //console.log(Filepath);
+            //console.log(bodyFormat);
+            //console.log(subjectcontents);
+            //console.log(PathUrl); 
+            var url = "https://ppmdev.bcone.com/api/BCONE/SendEmail"
+            var EmailRequestData = {
+                "To": To, "Subject": Subject, "Body": Body, "cc": Cc, "BodyFormat": bodyFormat, "SubjectContent": subjectcontents, "URL": PathUrl
+            };
+            $.ajax({
+                url: url,
+                async:false,
+                data: EmailRequestData,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    // alert("EmailSend");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //alert(errorThrown);
+                }
+            });
+
+        }
+        function GetApprovalFinaceDetail(id) {
+            ////alert("loaddata1");
+		      
+          
+              var query_cml = '<View><Query><Where><Eq><FieldRef Name="ID"/><Value Type="Counter">'+id+'</Value></Eq></Where></Query></View>';
+
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl +"/_api/web/lists/getbytitle('BconeExpenceMaster')/GetItems",
+                type: "POST",
+                async:false,
+                headers: {
+                    "accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                    "content-Type": "application/json;odata=verbose"
+                },
+                data: JSON.stringify({
+                    query: {
+                        __metadata: {
+                            type: "SP.CamlQuery"
+                        },
+                        ViewXml: query_cml
+                    }
+                }),
+
+				
+                success: function (data) {
+                    var table_tr = "";
+
+                   
+                   
+				   
+				   
+                    //alert(data.d.results.length);
+                     if (data.d.results.length > 0) {
+                         expense_creater_id=data.d.results[0].EmployeeId;
+                         pending_with_id=data.d.results[0].PendingWithId;
+						
+                     }
+                else {
+				
+                    }
+ 
+
+            },
+                error: function (data) {
+                    alert(data.responseJSON.error.message.value);
+                    failure(data);
+                }
+        });
+			
+			
+        }
+		
+		
+        function delete_fileByExpenseId(ExpenseItemId){
+            //alert("deleteexpense");
+           
+
+            var listname = "BconeBillAttachment";
+            //alert(listname);
+            var requestUri = _spPageContextInfo.siteAbsoluteUrl;
+            // alert(requestUri);
+
+            getListItemForDelete(requestUri, listname, ExpenseItemId, function (data) {
+
+                //alert('getListItem1 function Returning');
+
+                $.ajax({
+                    url: data.d.__metadata.uri,
+                    type: "POST",
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-Http-Method": "DELETE",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "If-Match": data.d.__metadata.etag
+                    },
+                    success: function (data) {
+                        // alert("Expence Item Deleted Successfully");
+        
+                       
+      
+                       
+
+                    },
+                    error: function (data) {
+
+
+                    }
+                });
+            });
+
+
+
+
+
+
+           
+          
+        }
+      
+        function show_fileduplicate_alert(msg)
+        {
+		
+            //alert(msg);
+		
+            $("#alertmain").show();
+            document.getElementById("Alert_msg").innerHTML=msg;
+	  
+        
+        }
+		
+		
+        $(function(){
+  
+            // 2 jpgs under 100kb only
+
+            $('.multi1').MultiFile({
+   
+                onFileDuplicate: function(element, value, master_element) {
+                    //alert('onFileDuplicate: '+ value);
+                    show_fileduplicate_alert('This file already selected.');
+                    //$('#F9-Log').append('<li>onFileDuplicate - ' + value + '</li>')
+                }
+            });
+        });
+
+
+        function Convert_Currency(forDate,fromCurrency,ToCurrency,expensereportnote, ExpenseItem, currencyval, PaymentType, currencyval, date, amount, Justification, BliableToClient, MissingPeparReciept,status,TaskId,TaskName,submit_type,PaymentTypeText ,ExpenceItemText ,ExpenceCurrencyText)
+        {
+            var converted_value='';
+            jQuery.ajax({
+                url: "https://apilayer.net/api/convert?access_key=0fa27d4f905c308302afee6da2103f30&from="+ToCurrency+"&to="+fromCurrency+"&amount=1&date="+forDate+"",
+                type: "GET",
+                dataType: 'jsonp',
+                async:false,
+                headers: { "Accept": "application/json;odata=verbose" },
+                success: function (data) {
+                    converted_value=data.result;
+                },
+                complete: function () {
+                    AddExpenseLog(web_url, TrackingNo, 'BconeExpenceLogDetail', expensereportnote, ExpenseItem, currencyval, PaymentType, currencyval, date, amount, Justification, '', BliableToClient, MissingPeparReciept,submit_type,status,TaskId,TaskName,converted_value,PaymentTypeText ,ExpenceItemText ,ExpenceCurrencyText);		
+                   
+                },
+            });
+        } 
+
+        function convert_date_YYYYMMDD(date_to_convert){
+            // var arr_dateandtime = date_to_convert.split('T');
+            var arr_dateonly = date_to_convert.split('-');
+            //  var arr_timeonly = arr_dateandtime[1].split(':');
+            var MonthNo=''; 
+            var MonthName=arr_dateonly[1];
+			
+			
+            if(MonthName=='Jan')
+            {
+                MonthNo='01';
+			
+            }
+            else if(MonthName=='Feb')
+            {
+                MonthNo='02';
+            }
+            else if(MonthName=='Mar')
+            {
+                MonthNo='03';
+            }
+            else if(MonthName=='Apr')
+            {
+                MonthNo='04';
+            }
+            else if(MonthName=='May')
+            {
+                MonthNo='05';
+            }
+            else if(MonthName=='Jun')
+            {
+                MonthNo='06';
+            }
+            else if(MonthName=='Jul')
+            {
+                MonthNo='07';
+            }
+            else if(MonthName=='Aug')
+            {
+                MonthNo='08';
+            }
+            else if(MonthName=='Sep')
+            {
+                MonthNo='09';
+            }
+            else if(MonthName=='Oct')
+            {
+                MonthNo='10';
+            }
+            else if(MonthName=='Nov')
+            {
+                MonthNo='11';
+            }
+            else if(MonthName=='Dec')
+            {
+                MonthNo='12';
+            }
+			
+            
+				
+            converted_date=arr_dateonly[2]+"-"+MonthNo+"-"+arr_dateonly[0];
+            return converted_date;
+            //alert(converted_date);
+				
+			
+		
+        }
+		
+        function InsertIntoMailLog(listname,too,ccc,PathURL,EventId,TrackingId)
+        {
+ 
+            var item = "";
+            var item_collections = getListprotocol(listname);
+	       
+            item = {
+                "__metadata": { "type": item_collections},
+                "To":too,
+                "Cc":ccc,
+                "PathURL":PathURL,
+                "EventId":EventId,
+                "Flag":"1",
+                "TrackingId":	TrackingId			
+            };
+            
+      
+            $.ajax({
+                url: _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists/getbytitle('" +encodeURIComponent(listname)  + "')/items",
+
+                type: "POST",
+                async:false,
+                contentType: "application/json;odata=verbose",
+                // contenType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: JSON.stringify(item),
+                headers: {
+                    "Accept": "application/json;odata=verbose",
+                    "X-RequestDigest": $("#__REQUESTDIGEST").val()
+                },
+                success: function (data) {
+				
+                    // alert("log added Successfully");
+
+                },
+                complete: function () {
+
+                },
+                error: function (data) {
+                   
+                    alert(data.responseJSON.error.message.value);
+                    
+
+                }
+            });
+ 
+        }
+		
+        function updateFileCount(listName, siteUrl,ID,FileUploadedCount) {
+            var itemType = getListprotocol(listName);
+            var item  = {
+                "__metadata": { "type": itemType }
+            };
+            $.extend(item, { FileUploadedCount: FileUploadedCount });
+            getListItemForUpdate(siteUrl, listName, ID, function (data) {
+                $.ajax({
+                    url: data.d.__metadata.uri,
+                    type: "POST",
+                    async:false,
+                    contentType: "application/json;odata=verbose",
+                    data: JSON.stringify(item),
+                    headers: {
+                        "Accept": "application/json;odata=verbose",
+                        "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+                        "X-HTTP-Method": "MERGE",
+                        "If-Match": data.d.__metadata.etag
+                    },
+                    success: function (data) {
+                    },
+                    error: function (data) {
+                        alert(data.responseJSON.error.message.value);
+                    },
+                    complete: function(data){
+					
+					
+					
+						getDataByListName(web_url, 'BconeExpenceLogDetail',TrackingNo,$('#load_type_span').text(),$('#save_type_span').text());
+					
+					 
+                    }
+                });
+
+
+            }, function (data) {
+                failure(data);
+            });
+        }
+   
+   
+   
+        function openallfileattach(type,ref_no){
+            if(type=='inner')
+            {
+                var r='Ref No.'+ref_no;
+                $('#ref_no').show();
+                $('#ref_no').text(r);
+                //$('#openallfileattach').removeClass('outer-popup').addClass('inner-popup');
+            }
+            else if(type=='outer'){
+                //$('#openallfileattach').removeClass('inner-popup').addClass('outer-popup');
+                $('#ref_no').hide();
+            }
+            event.stopPropagation();
+            $('#openallfileattach').show({ width: 'toggle'});
+        }
+        $(document).click(function (event) {
+            if (!$(event.target).is('#openallfileattach, #openallfileattach *')) {
+                $('#openallfileattach').hide({ width: 'toggle'});
+            }
+        });
+        function closeallfileattach(){
+            $('#openallfileattach').hide({ width: 'toggle'});
+        }
+ 
+    </script>
+</body>
+
+
+</html>
